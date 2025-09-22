@@ -6,6 +6,8 @@ The notes are **not in any way official** and **do not represent the content of 
 These notes are for personal study purposes so be mindful for any mistakes/omissions if using these notes for self-study or revision.
 Furthermore, **any and all errors are my own**.
 
+I created these notes using neovim with VimTeX and LuaSnip. My config can be found [here](https://github.com/ras257/nvf-tex-config).
+
 ## Errors & Suggestions
 If you spot any errors or have suggestions, I’d greatly appreciate it if you sent them to [ras257@srcf.net](mailto:ras257@srcf.net).
 
