@@ -13,3 +13,6 @@ If you spot any errors or have suggestions, I’d greatly appreciate it if you s
 - [sgj236](https://github.com/ostephagus/lecture-notes]): Inpsiration for document (see [lecturenotes.sty](https://github.com/ostephagus/lecturenotes)) and repository structure.
 The contents of their notes also provided useful material for testing my LaTeX environments. 
 - [dec41](https://github.com/dalcde/cam-notes]): Their notes originally inspired me to typeset lecture notes using LaTeX.
+
+## PDFs
+Compiled versions of the notes are available as PDFs at [https://ras257.user.srcf.net/](https://ras257.user.srcf.net/). They are automatically compiled and deployed within a [GitHub Action](https://github.com/ras257/cam-notes/actions).
