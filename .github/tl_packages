@@ -1,0 +1,14 @@
+scheme-basic
+latexmk
+lipsum
+cancel
+subfiles
+pdfpages
+pdflscape
+transparent
+cleveref
+thmtools
+changepage
+parskip
+enumitem
+framed

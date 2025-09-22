@@ -1,0 +1,302 @@
+%%%% Packages
+\usepackage{amsmath} % Additional math environments and commands
+\usepackage{amssymb} % Lots of extra symbols
+\usepackage{fancyhdr} % Header & footer styling
+\usepackage{lipsum} % Generates lorem ipsum text for testing
+\usepackage{cancel} % Provides \cancel and \cancelto{value}{expr}
+\usepackage{subfiles} % Allows for multiple files to be combined
+\usepackage{import} % Needed for importing figures from inkscape
+\usepackage{pdfpages} % Needed for importing figures from inkscape
+\usepackage{transparent} % Needed for importing figures from inkscape
+\usepackage[hidelinks]{hyperref} % Allows for customising hyperlink style
+\usepackage[nameinlink,noabbrev]{cleveref} % Customising reference labels
+\usepackage{pifont} % Used for dingbats font
+\usepackage{lmodern} % Latin modern fonts
+\usepackage{centernot} % Provides \centernot
+\usepackage[british]{babel} % Set language to British English
+\usepackage{etoolbox} % Useful tools for conditional expressions
+\usepackage{changepage} % Needed for indented environments
+\usepackage{enumitem} % Used to customise lists
+\usepackage{framed} % Used for creating boxes
+\usepackage[skip=5pt, indent=0em]{parskip} % Removes first line indentation
+\usepackage[a4paper, top=1in, bottom=1in, left=1.4in, right=1.4in]{geometry} % Page geometry
+
+
+%%% MISC DEFINITIONS/OPTIONS
+\definecolor{shadecolor}{gray}{0.92}
+\setlist[enumerate]{label=\textbf{\roman*.}} % Use roman numerals for enumerate
+
+%%% HYPERLINK CUSTOMISATION
+%\hypersetup {
+%  % Make box underline
+%  % pdfborderstyle = {/S/U/W 1},
+%
+%  % Make border a light blue
+%  % linkbordercolor = {0.55 0.67 0.93},
+%  
+%  % Disable box around link
+%  % pdfborder = {0 0 0}
+%
+%  % Use smallcaps for links
+%  % frenchlinks = true,
+%}
+
+
+%%% COUNTERS
+\newcounter{theorem}\counterwithin{theorem}{chapter}
+\newcounter{corollary}\counterwithin{corollary}{theorem}
+\newcounter{example}\counterwithin{example}{chapter}
+\newcounter{subexample}\counterwithin{subexample}{example}
+\newcounter{subtheorem}\counterwithin{subtheorem}{theorem}
+\newcounter{definition}\counterwithin{definition}{chapter}
+\newcounter{proofdirection} % Used for automating proof-direction arrows
+
+
+
+%%% ENVIRONMENTS
+\newenvironment{theoremlike}[2][] {
+  \refstepcounter{theorem}
+  \par\smallskip
+  \noindent
+  \textbf{#2 \thetheorem}\ifstrempty{#1}{}{ (#1)}:
+  \nopagebreak
+  \begin{shaded*}
+  \ignorespaces
+}{
+  \end{shaded*}
+}
+
+\crefname{theorem}{theorem}{theorems}
+\newenvironment{theorem}[1][] {
+  \crefalias{theorem}{theorem}
+  \begin{theoremlike}[#1]{Theorem}
+}{
+  \end{theoremlike}
+}
+
+\crefname{proposition}{proposition}{propositions}
+\newenvironment{proposition}[1][] {
+  \crefalias{theorem}{proposition}
+  \begin{theoremlike}[#1]{Proposition}
+}{
+  \end{theoremlike}
+}
+
+\crefname{lemma}{lemma}{lemmas}
+\newenvironment{lemma}[1][] {
+  \crefalias{theorem}{lemma}
+  \begin{theoremlike}[#1]{Lemma}
+}{
+  \end{theoremlike}
+}
+
+\crefname{corollary}{corollary}{corollaries}
+\newenvironment{corollary}[1][] {
+  \refstepcounter{corollary}
+  \par\smallskip
+  \textbf{Corollary \thecorollary}\ifstrempty{#1}{}{ (#1)}:
+  \nopagebreak
+  \begin{shaded*}
+  \ignorespaces
+}{
+  \end{shaded*}
+}
+
+\newenvironment{proof}[1][] {
+  \setcounter{proofdirection}{0}
+  \begin{oframed}
+  \textit{Proof}\ifstrempty{#1}{}{ (#1)}.
+  \ignorespaces
+}{
+  \hfill\qed
+  \end{oframed}
+}
+
+\newenvironment{proofdirection}[1]{
+  \stepcounter{proofdirection}
+  \par
+  % Add arrow depending on if this is the first or second proofdirection
+  \textbf{#1}~(\ifnumequal{\value{proofdirection}}{1}{$\Rightarrow$}{$\Leftarrow$})
+  \begin{indentenvironment}
+  \ignorespaces
+}{
+  \end{indentenvironment}
+  % Add extra line if this is the second direction so that the qed symbol isn't on a blank line
+  \ifnumequal{\value{proofdirection}}{1}{}{Shown in both directions, as required.}
+}
+
+\crefname{example}{example}{examples}
+\newenvironment{example}[1][] {
+  \refstepcounter{example}
+  \par\smallskip
+  \noindent
+  \textbf{Example \theexample}\ifstrempty{#1}{}{ (#1)}:
+  \begin{indentenvironment}
+  \ignorespaces
+}{
+  \end{indentenvironment}
+}
+
+\crefname{defintion}{definition}{definitions}
+\newenvironment{definition}[1][] {
+  \refstepcounter{definition}
+  \par\smallskip
+  \noindent
+  \textbf{Definition \thedefinition}\ifstrempty{#1}{}{ (#1)}:
+  \begin{shaded*}
+  \ignorespaces
+}{
+  \end{shaded*} 
+}
+
+\newenvironment{indentenvironment}[1][1em]{
+  \begin{adjustwidth}{#1}{}
+  \setlength{\parindent}{0pt} % Don't indent at start of new paragraphs for this env
+}{
+  \end{adjustwidth}
+}
+
+\crefname{case}{case}{cases}
+\newcounter{casesdepth}
+\newcounter{parentcase}
+\newcounter{case}
+
+\newenvironment{proofcases}{
+  \stepcounter{casesdepth}
+  \ifnumequal{\value{casesdepth}}{2}{
+    \setcounter{parentcase}{\value{case}}
+  }{
+    \setcounter{parentcase}{0}
+  }
+  \setcounter{case}{0}
+}{
+  \addtocounter{casesdepth}{-1}
+  \setcounter{case}{\value{parentcase}}
+}
+
+\newenvironment{case}[1] {
+  \refstepcounter{case}
+  \par\noindent
+  \ifnumequal{\value{casesdepth}}{1}{
+    \textbf{Case \arabic{case}:} (#1)
+  }{
+    \textbf{Case \arabic{parentcase}.\roman{case}:}  (#1)
+  }
+  \begin{indentenvironment}
+  \ignorespaces
+}{
+  \end{indentenvironment}
+}
+
+\newenvironment{remark}[1][Remark]{
+  \par\smallskip
+  \begin{leftbar}
+  \textbf{#1}:
+  \ignorespaces
+}{
+  \end{leftbar}
+  \par
+}
+
+
+
+%%% DIAGRAMS AND FIGURES
+\newcommand{\incfig}[1]{
+  \def\svgwidth{\columnwidth}
+  \import{../figures/}{#1.pdf_tex}
+}
+
+
+
+%%% NEW COMMANDS
+\newcommand{\induction}[6]{
+  Proceed via induction.\par\noindent
+  \textbf{Base case} (#1):\nopagebreak[4]
+  \begin{indentenvironment}#2\end{indentenvironment}
+  \textbf{Assume} true for #3\ifstrempty{#4}{.}{:}
+  \ifstrempty{#4}{\par\noindent\nopagebreak}{\begin{indentenvironment}#4\end{indentenvironment}}
+  \textbf{RTP} true for #5:
+  \begin{indentenvironment}#6\end{indentenvironment} 
+  Thus proven by by mathematical induction.
+}
+
+\newcommand{\nonexaminable}{
+  \begin{remark}[Note]
+    The content of this section is \textbf{non-examinable}.
+  \end{remark}
+}
+
+% Roman d for integrals
+\renewcommand{\d}[1]{\,\mathrm{d} #1}
+% Derivative, optional order argument
+\newcommand{\deriv}[3][\relax]{
+  \ifstrempty{#1}{
+    \frac{\mathrm{d} #2}{\mathrm{d} #3}
+  }{
+    \frac{\mathrm{d}^{#1} #2}{\mathrm{d} #3^{#1}}
+  }
+}
+% Partial Derivative, optional order argument
+\newcommand{\pderiv}[3][]{
+  \ifstrempty{#1}{
+    \frac{\partial #2}{\partial #3}
+  }{
+    \frac{\partial^{#1} #2}{\partial #3^{#1}}
+  }
+}
+
+\newcommand{\at}[2]{\left. #1 \right|_{#2}} % Evaluate derivative at
+\newcommand{\eval}[3]{\left[#1\right]_{#2}^{#3}} % Evaluate anti-derivative over
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert} % absolute value
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor} % absolute value
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil} % absolute value
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert} % norm
+% boldsymbol and mathbf used so that non-latin characters are also displayed in bold
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}} % vector (bold notation)
+\newcommand{\uvec}[1]{\hat{\mathbf{#1}}} % unit vector
+\newcommand{\rel}{\mathrel{R}} % generic relational operator
+\newcommand{\powerset}[1]{\mathcal{P}(#1)} % power set
+
+% Important Sets
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+
+% Groups
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SU}{\mathrm{SU}}
+
+% Use fraktur for imaginary and real parts
+\renewcommand{\Im}{\mathfrak{I}}
+\renewcommand{\Re}{\mathfrak{R}}
+
+% Extra Operators
+\DeclareMathOperator{\area}{area}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\arcosh}{arcosh}
+\DeclareMathOperator{\Isom}{Isom}
+\DeclareMathOperator{\hcf}{hcf}
+\DeclareMathOperator{\Sym}{Sym}
+
+% Probability
+\DeclareMathOperator{\poisson}{Po}
+\DeclareMathOperator{\binomial}{B}
+\DeclareMathOperator{\var}{Var}
+\newcommand{\E}{\mathrm{E}}
+\renewcommand{\P}{\mathrm{P}}
+
+% Extra Symbols
+\newcommand{\qed}{$\square$} % Symbol to end proof
+\renewcommand{\emptyset}{\varnothing} % I prefer the look of \varnothing
+\newcommand{\tick}{\ding{51}} % Handwritten tick symbol
+\newcommand{\cross}{\ding{55}} % Handwritten cross symbol
+\newcommand{\trans}{{\mkern-1.5mu\mathsf{T}}} % Matrix transpose
+

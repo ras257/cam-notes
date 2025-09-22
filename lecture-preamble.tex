@@ -1,0 +1,25 @@
+%%%% DOCUMENT INFO
+\ifx \nauthor\undefined
+  \def\nauthor{Rob Simmons}
+\else
+\fi
+
+\author{Based on lectures by \nlecturer \\ \small Notes taken by \nauthor}
+\date{\nterm\ \nyear}
+
+\title{Part \npart\ --- \ncourse}
+
+% Use AtBeginDocument so that the \n... commands are defined
+\AtBeginDocument{
+  \hypersetup{
+    pdfauthor={\nauthor},
+    pdftitle={\npart\ - \ncourse},
+    pdfkeywords={Cambridge Mathematics Maths Math Notes \npart\ \nterm\ \nyear\ \ncourse}, 
+  }
+}
+
+%%% HEADERS
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\npart~\ncourse}

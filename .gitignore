@@ -1,0 +1,8 @@
+# latexmk aux files
+.build/
+# Synctex files
+*.synctex*
+# nix-direnv
+.direnv/
+# LaTeX PDF outputs
+output/

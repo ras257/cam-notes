@@ -1,0 +1,177 @@
+:root {
+  font-size: calc(15px + 0.45vw);
+  color-scheme: light dark;
+  --text-color-light: #4c4f69;
+  --text-color-dark: #c6d0f5;
+  --bg-color-light: #eff1f5;
+  --bg-color-dark: #303446;
+  --url-color-dark: #7d9fea;
+  --url-color-light: #1e66f5;
+  --bg-alt-light: #e6e9ef;
+  --bg-alt-dark: #292c3c;
+  --warning-light: #e64553;
+  --warning-dark: #ea999c;
+
+  --status-upcoming-light: #e64553;
+  --status-upcoming-dark: #e78284;
+  --status-ongoing-light: #df8e1d;
+  --status-ongoing-dark: #e5c890;
+  --status-complete-light: #40a02b;
+  --status-complete-dark: #a6d189;
+
+  --text-color: var(--text-color-dark);
+  --bg-color: var(--bg-color-dark);
+  --url-color: var(--url-color-dark);
+  --bg-alt: var(--bg-alt-dark);
+  --warning: var(--warning-dark);
+  --status-upcoming: var(--status-upcoming-dark);
+  --status-ongoing: var(--status-ongoing-dark);
+  --status-complete: var(--status-complete-dark);
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+:root.light {
+  color-scheme: light;
+}
+
+@supports (color: light-dark(white, black)) {
+  :root {
+    --text-color: light-dark(var(--text-color-light), var(--text-color-dark));
+    --bg-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
+    --url-color: light-dark(var(--url-color-light), var(--url-color-dark));
+    --bg-alt: light-dark(var(--bg-alt-light), var(--bg-alt-dark));
+    --warning: light-dark(var(--warning-light), var(--warning-dark));
+    --status-upcoming: light-dark(var(--status-upcoming-light), var(--status-upcoming-dark));
+    --status-ongoing: light-dark(var(--status-ongoing-light), var(--status-ongoing-dark));
+    --status-complete: light-dark(var(--status-complete-light), var(--status-complete-dark));
+  }
+}
+
+body {
+  max-width: 900px;
+  padding: 10px;
+  margin: auto;
+  font-family: monospace;
+  color: var(--text-color);
+  background-color: var(--bg-color)
+}
+
+.blurb {
+  font-size: 0.8rem;
+}
+
+.theme-toggle {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 0.6rem;
+  user-select: none;
+}
+
+h1 {
+  font-size: 1.9rem;
+  margin: 2vh 0;
+}
+
+h2,
+h3 {
+  margin: 10px 0px;
+}
+
+em {
+  font-weight: bold;
+  color: var(--warning);
+}
+
+a:link,
+a:visited {
+  color: var(--url-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.disabled {
+  cursor: not-allowed;
+  text-decoration: line-through !important;
+  pointer-events: none;
+}
+
+.course-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.course {
+  width: 100%;
+  background-color: var(--bg-alt);
+  padding: 10px;
+  border-radius: 7px;
+  margin: .5vh 0px;
+}
+
+.course-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0px 5px 0px;
+}
+
+.course-title>h4 {
+  font-size: 1rem;
+  display: inline;
+  margin: 0;
+}
+
+.course-title>span {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .course-title>span {
+    max-width: min-content;
+    text-align: right;
+  }
+}
+
+.course-info {
+  font-size: 0.7rem;
+  margin: 3px 3px;
+}
+
+@media (max-width: 450px) {
+  .course-info>span {
+    min-width: 100%;
+  }
+}
+
+.course-info>* {
+  display: inline-block;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.course-info>*:last-child {
+  margin-right: 0;
+}
+
+.status-upcoming {
+  color: var(--status-upcoming);
+}
+
+.status-ongoing {
+  color: var(--status-ongoing);
+}
+
+.status-complete {
+  color: var(--status-complete);
+}
