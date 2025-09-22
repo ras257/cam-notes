@@ -15,4 +15,6 @@ The contents of their notes also provided useful material for testing my LaTeX e
 - [dec41](https://github.com/dalcde/cam-notes]): Their notes originally inspired me to typeset lecture notes using LaTeX.
 
 ## PDFs
+[![latex-deploy](https://github.com/ras257/cam-notes/actions/workflows/latex-deploy.yml/badge.svg)](https://github.com/ras257/cam-notes/actions/workflows/latex-deploy.yml)
+
 Compiled versions of the notes are available as PDFs at [https://ras257.user.srcf.net/](https://ras257.user.srcf.net/). They are automatically compiled and deployed within a [GitHub Action](https://github.com/ras257/cam-notes/actions).
