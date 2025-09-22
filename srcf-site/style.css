@@ -54,7 +54,7 @@ body {
   max-width: 900px;
   padding: 10px;
   margin: auto;
-  font-family: monospace;
+  font-family: "JetBrains Mono", "Courier New", monospace;
   color: var(--text-color);
   background-color: var(--bg-color)
 }
@@ -64,7 +64,7 @@ body {
 }
 
 .theme-toggle {
-  position: fixed;
+  position: absolute;
   right: 10px;
   top: 10px;
   cursor: pointer;
