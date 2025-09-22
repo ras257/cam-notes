@@ -1,4 +1,4 @@
-name: LaTeX-deploy
+name: latex-deploy
 
 on:
   workflow_dispatch
