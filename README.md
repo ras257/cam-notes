@@ -12,9 +12,9 @@ I created these notes using neovim with VimTeX and LuaSnip. My config can be fou
 If you spot any errors or have suggestions, I’d greatly appreciate it if you sent them to [ras257@srcf.net](mailto:ras257@srcf.net).
 
 ## Acknowledgements
-- [sgj236](https://github.com/ostephagus/lecture-notes]): Inpsiration for document (see [lecturenotes.sty](https://github.com/ostephagus/lecturenotes)) and repository structure.
+- [sgj236](https://github.com/ostephagus/lecture-notes): Inpsiration for document (see [lecturenotes.sty](https://github.com/ostephagus/lecturenotes)) and repository structure.
 The contents of their notes also provided useful material for testing my LaTeX environments. 
-- [dec41](https://github.com/dalcde/cam-notes]): Their notes originally inspired me to typeset lecture notes using LaTeX.
+- [dec41](https://github.com/dalcde/cam-notes): Their notes originally inspired me to typeset lecture notes using LaTeX.
 
 ## PDFs
 [![latex-deploy](https://github.com/ras257/cam-notes/actions/workflows/latex-deploy.yml/badge.svg)](https://github.com/ras257/cam-notes/actions/workflows/latex-deploy.yml)
