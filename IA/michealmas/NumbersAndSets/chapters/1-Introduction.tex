@@ -1,0 +1,82 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Introduction}
+\section{Foundations of Proof}
+To introduce university style maths, we will look at:
+\begin{itemize}
+  \item Precise definitions
+  \item Rigorous proofs
+  \item Foundational questions
+\end{itemize}
+\begin{definition}[Mathematical Statement]
+  A sentence that can have a true or false value. 
+\end{definition}
+\begin{definition}[Proof]
+  A sequence of true statements without logical gaps establishing some conclusion.
+\end{definition}
+We want to prove things because:
+\begin{itemize}
+  \item We want to know they are true
+  \item We want to gain insight into why something is true
+  \item The proof might be elegant/cool
+\end{itemize}
+We usually denote the end of a proof with the symbol \qed\;or ``Q.E.D.''
+
+Here is an example proof:
+\begin{proposition}
+  For all positive integers $n$, $n^3 - n$ is always a multiple of 3.
+\end{proposition}
+\begin{proof}
+  $\forall n \in \N, n^3 - n = n(n + 1)(n - 1) = (n - 1)n(n + 1)$.
+  
+  Notice that this is a product of three consecutive integers so one must be a multiple of three and thus their product must be a multiple of three.
+\end{proof}
+Here is an example non-proof:
+\begin{proposition}
+  For any positive integer $n$, if $n^2$ is even then so is $n$.
+  \label{nEven}
+\end{proposition}
+\begin{proof}
+  Given an positive integer $n$ which is even, we can write $n = 2k$.
+  Hence $n^2 = (2k)^2 = 2(2k^2)$, which is even.
+\end{proof}
+This is incorrect as we have instead proved the converse of the statement.
+$A \implies B$ is not sufficient to conclude that $B \implies A$.
+\subsection{Proof by contradiction}
+To show $A \implies B$ we can show that there is no case where $A$ is true and $B$ is false. i.e:
+\[
+  (A \implies B) \iff (\lnot B \implies \lnot A)
+\]
+For example, here is the correct proof for \cref{nEven}.
+\begin{proof}
+  Assume on the contrary that $n^2$ is even but $n$ is odd.
+
+  Thus we have $n = 2k + 1$ so $n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$ which is odd.
+
+  Thus we have arrived at a contradiction.
+\end{proof}
+\subsection{Disproof by counter example}
+In general, to show that $A \centernot\implies B$ it is enough to show that there is a case where $A$ is true and $B$ is false.
+This is the idea that one counter-example is enough to disprove a statement.
+For example:
+\begin{proposition}
+  For any positive integer $n$, if $n^2$ is a multiple of 9, then so is $n$.
+\end{proposition}
+This is clearly not true. If we consider $n = 3$ then $n^2 = 9$ which is a multiple of 9 but $n$ is not.
+\section{Number Systems}
+\begin{definition}[Natural Numbers]
+  We denote the set of \textit{natural numbers} $\N$. It is the set of numbers $\{1, 2, 3, \cdots\}$
+\end{definition}
+\begin{definition}[Integers]
+  We denote the set of \textit{integers} $\Z$. It is the set of numbers $\{\,\cdots, -3, -2, -1 , 0, 1, 2, 3, \cdots\,\}$
+\end{definition}
+\begin{definition}[Rational Numbers]
+  We denote the set of all \textit{rational} numbers $\Q$. It is the set of all numbers of the form $a/b$ where $a, b \in \Z$ and $b \neq 0$.
+\end{definition}
+\begin{definition}[Algebraic Numbers]
+  A real number is \textit{algebraic} if it is the root some polynomial with integer coefficients.
+\end{definition}
+\begin{definition}[Transcendental Numbers]
+  A real number is \textit{transcendental} if it is not algebraic. 
+\end{definition}
+\end{document}
