@@ -23,16 +23,16 @@ and noting that $i^2 = -1$, we can carry out multiplication:
 \end{equation}
 Both addition and multiplication of complex numbers are associative and commutative.
 
-The identity for the operation $+$ in $\C$ is 0 and note that $(\C, +, 0)$ forms and abelian group. 
+The identity for the operation $+$ in $\C$ is 0 and note that $(\C, +, 0)$ forms an abelian group.
 
 For $z \neq 0$ the inverse of $z$ is given by:
 \begin{equation}
   z^{-1} = \frac{x - iy}{x^2 + y^2}
   \label{inverse}
 \end{equation}
-Note that $(\C \setminus \{0\}, \cdot, 1)$ forms and abelian group.
+Note that $(\C \setminus \{0\}, \cdot, 1)$ forms an abelian group.
 
-Moreover, the distributive property is satisfied. i.e. for $z_1, z_2, z_3 \in \C$ then:
+Moreover, the distributive property is satisfied. i.e. for $z_1, z_2, z_3 \in \C$:
 \[
   (z_1 + z_2)z_3 = z_1 z_2 + z_2 z_3
 \]
@@ -87,10 +87,22 @@ To make the argument of $z$ unique, we restrict the range of $\theta$ to $-\pi <
   \begin{itemize}
     \item $\R \subset \C$, since if we take $a \in \R$ then we can construct $a + i \cdot 0 \in \C$.
     \item A complex number in the form $0 + i \cdot b$ (i.e. $\Re(z) = 0$) is called ``purely imaginary''.
-    \item The representation of a complex number in terms of its real and imaginary part is unique.
     \item $(\C, +, \cdot)$ is a field.
   \end{itemize}
 \end{remark}
+\begin{proposition}
+  The representation of a complex number in terms of its real and imaginary part is unique.
+\end{proposition}
+\begin{proof}
+  Assume that there is two different representations of a complex number $z$, that is, $z = x_1 + iy_1 = x_2 + iy_2$.
+  \begin{align*}
+    x_1 + iy_1 &= x_2 + iy_2 \\
+    x_1 - x_2 &= i(y_2 - y_1) \\
+    (x_1 - x_2)^2 &= -(y_1 - y_2)^2
+  \end{align*}
+  The left hand side is $\geq 0$ but the right hand side is $\leq 0$ so both sides must be equal to 0 and thus $x_1 = x_2$ and $y_1 = y_2$.
+  So any two representations are the same.
+\end{proof}
 \begin{theorem}[Fundemental Theorem of Algebra]
   A polynomial of degree $n$ with coefficients $c_i \in \C$ can be written as a product of $n$ linear factors. i.e.:
   \[
