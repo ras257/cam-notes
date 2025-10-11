@@ -1,0 +1,68 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Sets, Functions and Relations}
+
+\begin{definition}[Set]
+  A \textit{set} is a collection of mathematical objects. The order of the elements in the set is immaterial and elements are counted only once.
+\end{definition}
+\begin{example}
+  $\R, \N, \{1, 5, 9\}, (-2, 3]$ are all examples of sets.
+\end{example}
+\begin{example}
+  $\{1, 3, 7\} = \{1, 7, 3\}$ (as order is immaterial) and $\{3, 4, 4, 8\} = \{3, 4, 8\}$ (as elements are counted only once)
+\end{example}
+\begin{remark}[Notation]
+  We write $x \in S$ if $x$ is in the set $S$ and $x \notin S$ if $x$ is not in the set $S$.
+\end{remark}
+Two sets are equal if they have the same elements.
+That is $A = B$ if and only if:
+\[
+  \forall x, x \in A \iff x \in B
+\]
+\begin{definition}[Empty Set]
+  The \textit{empty} set, denoted $\emptyset$ is the only set with no elements.
+\end{definition}
+\begin{definition}[Subset]
+A set $B$ is a subset of a set $A$, written $B \subseteq A$, if every element of $B$ is an element of A.
+
+$B$ is said to be a ``proper subset'' of $A$, written $B \subset A$, if $B \subseteq A$ and $B \neq A$.
+\end{definition}
+We can now say that $A = B$ if and only if:
+\[
+  A \subseteq B \land B \subseteq A
+\]
+If $A$ is a set and $P$ is a property of (some) elements of $A$, then we can write $\{x \in A: P(x)\}$ to mean the subset of $A$ comprising of those elements for which $P(x)$ holds.
+\begin{example}
+  $\{n \in \N : n \text{ is prime}\} = \{2, 3, 5, 7, 11, \ldots\}$
+\end{example}
+\begin{definition}[Union]
+  If $A$ and $B$ are sets then their \textit{union}, $A \cup B = \{x: x \in A \text{ or } x \in B\}$.
+\end{definition}
+\begin{definition}[Intersection]
+  If $A$ and $B$ are sets then their \textit{intersection}, $A \cap B = \{x: x \in A \text{ and } x \in B\}$.
+\end{definition}
+\begin{definition}[Disjoint]
+  If $A$ and $B$ are sets then they are \textit{disjoint} when $A \cap B = \emptyset$.
+\end{definition}
+\begin{remark}[Remark]
+  We can view intersection as a special case of subset selection:
+  \[
+    A \cap B = \{x \in A : x \in B\}
+  \]
+\end{remark}
+\begin{definition}[Set Difference]
+  If $A$ and $B$ are sets then the set difference of $A$ take $B$, $A \setminus B = \{x \in A: x \notin B\}$. 
+\end{definition}
+\begin{remark}[Note]
+  Both the union and intersection are commutative and associative.
+
+  The union is also distributive over the intersection:
+  \[
+    A \cup (B \cap C) = (A \cup B) \cap (A \cup C)
+  \]
+  and the intersection is distributive over the union:
+  \[
+    A \cap (B \cup C) = (A \cap B) \cup (A \cap C)
+  \]
+\end{remark}
+\end{document}

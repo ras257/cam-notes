@@ -22,6 +22,7 @@ We want to prove things because:
 \end{itemize}
 We usually denote the end of a proof with the symbol \qed\;or ``Q.E.D.''
 
+\subsection{Examples}
 Here is an example proof:
 \begin{proposition}
   For all positive integers $n$, $n^3 - n$ is always a multiple of 3.
@@ -42,6 +43,61 @@ Here is an example non-proof:
 \end{proof}
 This is incorrect as we have instead proved the converse of the statement.
 $A \implies B$ is not sufficient to conclude that $B \implies A$.
+
+Statements may contain more assertions than immediately obvious:
+\begin{proposition}
+  The solution to $x^2 - 5x + 6 = 0$ is $x = 2$ or $x = 3$.
+\end{proposition}
+This is in fact 2 assertions:
+\begin{enumerate}
+  \item $x = 2$ and $x = 3$ are solutions
+  \item There are no other solutions
+\end{enumerate}
+We could prove this by individually proving both assertions:
+\begin{proof}
+  \begin{enumerate}
+    \item Suppose $x = 2$ or $x = 3$ then $x - 2 = 0$ or $x - 3 = 0$ so:
+      \begin{align*}
+        (x-2)(x-3) &= 0 \\
+        x^2 - 5x + 6 &= 0
+      \end{align*}
+    \item Suppose $x^2 - 5x + 6 = 0$ 
+      \begin{align*}
+        x^2 - 5x + 6 &= 0 \\
+        (x - 2)(x - 3) &= 0 \\
+        \text{ so } x = 2 \text{ or } x &= 3
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+Doing it as above is tedious so we can instead use ``if and only if logic'':
+\begin{proof}
+  \begin{align*}
+    x = 2 \text{ or } x &= 3 \\
+    \iff x - 2 = 0 \text{ or } x - 3 &= 0 \\
+    \iff (x - 2)(x - 3) &= 0 \\
+    \iff x^2 - 5x + 6 &= 0
+  \end{align*}
+\end{proof}
+
+We also need to ensure that any assumptions we make are reasonable:
+\begin{proposition}
+  Every positive real is $\geq 1$
+\end{proposition}
+\begin{proof}
+  Let $r$ be the least such positive real.
+  By trichotomy either $r = 1$ or $r < 1$ or $r > 1$.
+  \begin{proofcases}
+    \begin{case}{$r < 1$}
+      If $r < 1$, then $0 < r^2 < r$ which contradicts the assumption that $r$ is the least such positive real
+    \end{case}
+    \begin{case}{$r > 1$}
+      If $r > 1$, then $0 < \sqrt{r} < r$ which contradicts the assumption again
+    \end{case}
+    As both other cases lead to an contradiction $r = 1$ is the only remaining case and so 1 is the least positive real.
+  \end{proofcases}
+\end{proof}
+This is clearly nonsense! We don't know that there is a least positive real.
+To avoid errors like this we need to ensure that \textbf{every} assumption is justified when suitable.
 \subsection{Proof by contradiction}
 To show $A \implies B$ we can show that there is no case where $A$ is true and $B$ is false. i.e:
 \[
@@ -63,7 +119,38 @@ For example:
   For any positive integer $n$, if $n^2$ is a multiple of 9, then so is $n$.
 \end{proposition}
 This is clearly not true. If we consider $n = 3$ then $n^2 = 9$ which is a multiple of 9 but $n$ is not.
+\subsection{Combining Claims}
+If $A$ and $B$ are assertions, we can (but usually don't) write $A \land B$ for the statement ``A AND B'', $A \lor B$ for the statement ``A OR B'', and $\lnot A$ for ``NOT A''.
+
+Here is the truth table for the combinations depending on $A$ and $B$:\par
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c}
+  $A$ & $B$ & $A \land B$ & $A \lor B$ & $\lnot A$ & $A \implies B$ \\
+\hline
+  F & F & F & F & T & T \\
+  F & T & F & T & T & T \\
+  T & F & F & T & F & F \\
+  T & T & T & T & F & F 
+\end{tabular}
+\end{center}\par
+Note that $\lnot (A \land B) \iff (\lnot A) \lor (\lnot B)$ and $\lnot (A \lor B) \iff (\lnot A) \land (\lnot B)$.
+
+$A \implies B$ is equivalent to $(\lnot A) \lor B$, $B \lor (\lnot A)$ and hence also to $\lnot B \implies \lnot A$.
+
+$\lnot B \implies \lnot A$ is called the ``contrapositive'' of the statement $A \implies B$.
+
+\subsection{Quantifiers}
+The quantifier ``for all'' is denoted $\forall$ and the quantifier ``there exists'' is denoted $\exists$.
+Quantifiers can be negated:
+\[
+  \lnot (\forall x A(x)) \iff \exists x\; \lnot A(x) 
+\]
+\[
+  \lnot (\exists x B(x)) \iff \forall x\; \lnot B(x) 
+\]
+
 \section{Number Systems}
+Here are informal definitions of a few number systems covered within this course:
 \begin{definition}[Natural Numbers]
   We denote the set of \textit{natural numbers} $\N$. It is the set of numbers $\{1, 2, 3, \ldots\}$
 \end{definition}

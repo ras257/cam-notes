@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Complex Numbers}
-\section{Definition of Complex Numbers}
+\section{Basic Definitions}
 \begin{definition}[Complex Number]
   We construct $\C$ by adding the element $i$ to $\R$, where $i^2 = -1$.
 
@@ -11,8 +11,8 @@
   \]
 \end{definition}
 We denote the real part of $z$ as $\Re(z) = x$ and the imaginary part as $\Im(z) = y$.
-\section{Properties of Complex Numbers}
-For complex numbers $z_1 = x_1 + i y_1$ and $z_2 = x_2 + i y_2$ then we can carry out addition component-wise:
+
+For complex numbers $z_1 = x_1 + i y_1$ and $z_2 = x_2 + i y_2$, we can carry out addition component-wise:
 \[
   z_1 \pm z_2 = (x_1 \pm x_2) + i(y_ 1 \pm y_2) 
 \]
@@ -22,20 +22,17 @@ and noting that $i^2 = -1$, we can carry out multiplication:
   \label{complexMult}
 \end{equation}
 Both addition and multiplication of complex numbers are associative and commutative.
-
-The identity for the operation $+$ in $\C$ is 0 and note that $(\C, +, 0)$ forms an abelian group.
+Moreover, the distributive property is satisfied. i.e. for $z_1, z_2, z_3 \in \C$:
+\[
+  (z_1 + z_2)z_3 = z_1 z_2 + z_2 z_3
+\]
 
 For $z \neq 0$ the inverse of $z$ is given by:
 \begin{equation}
   z^{-1} = \frac{x - iy}{x^2 + y^2}
   \label{inverse}
 \end{equation}
-Note that $(\C \setminus \{0\}, \cdot, 1)$ forms an abelian group.
-
-Moreover, the distributive property is satisfied. i.e. for $z_1, z_2, z_3 \in \C$:
-\[
-  (z_1 + z_2)z_3 = z_1 z_2 + z_2 z_3
-\]
+which satisfies $zz^{-1} = 1$.
 \begin{definition}[Complex Conjugate]
   For any $z \in \C$ with $z = x + iy$ we define its \textit{complex conjugate} by:
   \[
@@ -43,16 +40,11 @@ Moreover, the distributive property is satisfied. i.e. for $z_1, z_2, z_3 \in \C
   \]
 \end{definition}
 Note that this allows us to write:
-\begin{align*}
-  \Re(z) &= \frac{z + z^{*}}{2} \\
-  \Im(z) &= \frac{z - z^{*}}{2i} \\
-  |z|^2 &= z z^{*}
-\end{align*}
-It also leads to a second form for \cref{inverse}:
 \[
-  z^{-1} = \frac{z^{*}}{|z|^2}
+  \Re(z) = \frac{z + z^{*}}{2} \text{ and }
+  \Im(z) = \frac{z - z^{*}}{2i}
 \]
-Some properties satisfied by the complex conjugate:
+Some properties satisfied by the complex conjugate are:
 \begin{itemize}
   \item $(z^{*})^{*} = z$
   \item $(z_1 + z_2)^{*} = z^{*}_{1} + z^{*}_{2}$
@@ -65,6 +57,11 @@ Some properties satisfied by the complex conjugate:
   \]
   The modulus of $z$ is sometimes denoted by $r$.
 \end{definition}
+Note that $|z|^2 = z z^{*}$.
+We can also use the modulus to write a second form for \cref{inverse}:
+\[
+  z^{-1} = \frac{z^{*}}{|z|^2}
+\]
 \begin{definition}[Argument of a Complex Number]
   For any $z \in \C \setminus \{0\}$ we define its \textit{argument} by a real number denoted $\theta$ or $\arg(z)$ such that:
   \[
@@ -72,7 +69,6 @@ Some properties satisfied by the complex conjugate:
   \]
 \end{definition}
 Writing $z$ as above is called the ``polar form'' of $z$.
-
 From this it follows that (for $z \neq 0$):
 \[
   \cos \theta = \frac{x}{r} = \frac{x}{\sqrt{x^2 + y^2}}\text{ and }\sin \theta = \frac{y}{r} = \frac{y}{\sqrt{x^2 + y^2}}
@@ -83,88 +79,11 @@ and thus:
 \]
 If $\theta$ is the argument of $z$ then any $\theta + 2n\pi, n \in \Z$ is also an argument of $z$.
 To make the argument of $z$ unique, we restrict the range of $\theta$ to $-\pi < \theta \leq \pi$ and call this argument the ``principal argument''.
-\begin{remark}[Other remarks about $\C$]
-  \begin{itemize}
-    \item $\R \subset \C$, since if we take $a \in \R$ then we can construct $a + i \cdot 0 \in \C$.
-    \item A complex number in the form $0 + i \cdot b$ (i.e. $\Re(z) = 0$) is called ``purely imaginary''.
-    \item $(\C, +, \cdot)$ is a field.
-  \end{itemize}
+
+\begin{remark}[Notation]
+  We denote the principle argument $\Arg(z)$ where $-\pi < \Arg(z) \leq \pi$ and the multi-valued argument $\arg(z)$ where $\arg(z) = \{\Arg(z) + 2n\pi\;\forall n \in \Z\}$. 
 \end{remark}
-\begin{proposition}
-  The representation of a complex number in terms of its real and imaginary part is unique.
-\end{proposition}
-\begin{proof}
-  Assume that there is two different representations of a complex number $z$, that is, $z = x_1 + iy_1 = x_2 + iy_2$.
-  \begin{align*}
-    x_1 + iy_1 &= x_2 + iy_2 \\
-    x_1 - x_2 &= i(y_2 - y_1) \\
-    (x_1 - x_2)^2 &= -(y_1 - y_2)^2
-  \end{align*}
-  The left hand side is $\geq 0$ but the right hand side is $\leq 0$ so both sides must be equal to 0 and thus $x_1 = x_2$ and $y_1 = y_2$.
-  So any two representations are the same.
-\end{proof}
-\begin{theorem}[Fundemental Theorem of Algebra]
-  A polynomial of degree $n$ with coefficients $c_i \in \C$ can be written as a product of $n$ linear factors. i.e.:
-  \[
-    p(z) = c_n z^n + \cdots + c_0 = c_n(z - \alpha_n) \cdots (z - \alpha_0)
-  \]
-\end{theorem}
-Hence $p(z) = 0$ has at least one root in $\C$ and $n$ roots $\alpha_i$ counted with multiplicity.
-\begin{proposition}
-  The modulus satisfies the following properties:
-  \begin{enumerate}
-    \item $|z_1 z_2| = |z_1||z_2|$
-    \item $|z_1 + z_2| \leq |z_1| + |z_2|$ (Triangle Inequality)
-    \item $|z_1 - z_2| \geq ||z_1| - |z_2||$
-  \end{enumerate}
-\end{proposition}
-\begin{proof}[\textbf{i}]
-  \begin{align*}
-      |z_1 z_2| &= \sqrt{(x_1 x_2 - y_1 y_2)^2 + (x_1 y_2 + x_2 y_1)^2}\\
-                &= \sqrt{x^{2}_{1} x^{2}_{2} -2x_1x_2y_1y_2 + y^{2}_{1}y^{2}_{2} + x^{2}_{1}y^{2}_{2} + 2x_1x_2y_1y_2 + x^{2}_{2}y^{2}_{1}} \\
-                &= \sqrt{x^{2}_{1} x^{2}_{2} + y^{2}_{1} y^{2}_{2} + x^{2}_{1} y^{2}_{2} + x^{2}_{2} y^{2}_{1}} \\
-                &= \sqrt{\left(x^{2}_{1} + y^{2}_{1}\right)\left(x^{2}_{2} + y^{2}_{2}\right)} \\
-                &= \sqrt{x^{2}_{1} + y^{2}_{1}}\sqrt{x^{2}_{2} + y^{2}_{2}} \\
-                &= |z_1||z_2|
-  \end{align*}
-\end{proof}
-\begin{proof}[\textbf{ii}]
-  Since both sides of the inequality are non-negative, $|z_1 + z_2| \leq |z_1| + |z_2| \iff |z_1 + z_2|^2 \leq (|z_1| + |z_2|)^2$.
 
-  Consider:
-  \begin{align*}
-      (|z_1| + |z_2|)^2 - |z_1 + z_2|^2 &= x^{2}_{1} + y^{2}_{1} + 2|z_1|| z_2| + x^{2}_{2} + y^{2}_{2} \\
-                                        & \quad - (x^{2}_{1} + 2x_1x_2 + x^{2}_{2} + y^{2}_{1} + 2y_1y_2 + y^{2}_{2})\\
-                                        &= 2(|z_1||z_2| - x_1 x_2 - y_1 y_2)
-  \end{align*}
-  We want to prove that the above is positive:
-  \begin{align*}
-    |z_1||z_2| - x_1 x_2 - y_1 y_2 &\geq 0 \\
-    |z_1 z_2| &\geq x_1 x_2 + y_1 y_2
-  \end{align*}
-  Either $x_1 x_2 + y_1 y_2 \leq 0$ and we are done or:
-  \begin{align*}
-    (x^{2}_{1} + y^{2}_{1})(x^{2}_{2} + y^{2}_{2}) &\geq (x_1 x_2 + y_1 y_2)^2 \\
-    x^{2}_{1} x^{2}_{2} + x^{2}_{1} y^{2}_{2} + x^{2}_{2} y^{2}_{1} + y^{2}_{1} y^{2}_{2}&\geq x^{2}_{1} x^{2}_{2} + 2x_1 x_2 y_1 y_2 + y^{2}_{1} y^{2}_{2} \\
-    x^{2}_{1} y^{2}_{2} - 2x_1 x_2 y_1 y_2 + x^{2}_{2} y^{2}_{1} &\geq 0 \\
-    (x_1 y_2 - x_2 y_1)^2 &\geq 0
-  \end{align*}
-  Thus $(|z_1| + |z_2|)^2 \geq |z_1 + z_2|^2$ and therefore $|z_1 + z_2| \leq |z_1| + |z_2|$.
-\end{proof}
-\begin{proof}[\textbf{iii}]
-  In the triangle inequality, set $z_2 \to z_3 - z_1$.
-  This leads to:
-  \begin{align*}
-    |z_1 + z_3 - z_1| &\leq |z_1| + |z_3 - z_1|\\
-    |z_3| - |z_1| &\leq |z_3 - z_1|
-  \end{align*}
-  Now we have that $|z_1 - z_2| \leq |z_1| - |z_2|$.
-
-  Notice that if we swap $z_1$ and $z_2$ we have that $|z_2 - z_1| \leq |z_2| - |z_1|$.
-  But $|z_1 - z_2| = |z_2 - z_1|$ so $|z_1 - z_2|$ is greater than or equal to both $|z_1| - |z_2|$ and $-(|z_1| - |z_2|)$.
-
-  This means it must be greater than the absolute value of $|z_1| - |z_2|$ so we have the required result $|z_1 - z_2| \geq ||z_1| - |z_2||$.
-\end{proof}
 \section{The Argand Diagram}
 The Argand diagram is sometimes called the ``Complex plane''.
 
@@ -225,6 +144,93 @@ This makes it easier to visually derive the following properties:
   \item $(z_1 z_2)^{*} = z^{*}_{1} z^{*}_{2}$
   \item $|z^{*}| = |z|$
 \end{itemize}
+
+\section{Properties and Consequences}
+\begin{remark}[Other remarks about $\C$]
+  \begin{itemize}
+    \item $\R \subset \C$, since if we take $a \in \R$ then we can construct $a + i \cdot 0 \in \C$.
+    \item A complex number in the form $0 + i \cdot b$ (i.e. $\Re(z) = 0$) is called ``purely imaginary''.
+    \item The identity for the operation $+$ in $\C$ is 0 and for $\cdot$ it is 1.
+    \item $(\C, +, 0)$ is an abelian group.
+    \item $(\C \setminus \{0\}, \cdot, 1)$ is an abelian group.
+    \item $(\C, +, \cdot)$ is a field.
+  \end{itemize}
+\end{remark}
+\begin{proposition}
+  The representation of a complex number in terms of its real and imaginary part is unique.
+\end{proposition}
+\begin{proof}
+  Assume that there is two different representations of a complex number $z$, that is, $z = x_1 + iy_1 = x_2 + iy_2$.
+  \begin{align*}
+    x_1 + iy_1 &= x_2 + iy_2 \\
+    x_1 - x_2 &= i(y_2 - y_1) \\
+    (x_1 - x_2)^2 &= -(y_1 - y_2)^2
+  \end{align*}
+  The left hand side is $\geq 0$ but the right hand side is $\leq 0$ so both sides must be equal to 0 and thus $x_1 = x_2$ and $y_1 = y_2$.
+  So any two representations are the same.
+\end{proof}
+\begin{theorem}[Fundemental Theorem of Algebra]
+  A polynomial of degree $n$ with coefficients $c_i \in \C, c_n \neq 0$ can be written as a product of $n$ linear factors. i.e.:
+  \[
+    p(z) = c_n z^n + \cdots + c_0 = c_n(z - \alpha_n) \cdots (z - \alpha_0)
+  \]
+\end{theorem}
+Hence $p(z) = 0$ has at least one root in $\C$ and $n$ roots $\alpha_i \in \C$ counted with multiplicity.
+\begin{proposition}
+  The modulus satisfies the following properties:
+  \begin{enumerate}
+    \item $|z_1 z_2| = |z_1||z_2|$
+    \item $|z_1 + z_2| \leq |z_1| + |z_2|$ (Triangle Inequality)
+    \item $|z_1 - z_2| \geq ||z_1| - |z_2||$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  \begin{align*}
+      |z_1 z_2| &= \sqrt{(x_1 x_2 - y_1 y_2)^2 + (x_1 y_2 + x_2 y_1)^2}\\
+                &= \sqrt{x^{2}_{1} x^{2}_{2} -2x_1x_2y_1y_2 + y^{2}_{1}y^{2}_{2} + x^{2}_{1}y^{2}_{2} + 2x_1x_2y_1y_2 + x^{2}_{2}y^{2}_{1}} \\
+                &= \sqrt{x^{2}_{1} x^{2}_{2} + y^{2}_{1} y^{2}_{2} + x^{2}_{1} y^{2}_{2} + x^{2}_{2} y^{2}_{1}} \\
+                &= \sqrt{\left(x^{2}_{1} + y^{2}_{1}\right)\left(x^{2}_{2} + y^{2}_{2}\right)} \\
+                &= \sqrt{x^{2}_{1} + y^{2}_{1}}\sqrt{x^{2}_{2} + y^{2}_{2}} \\
+                &= |z_1||z_2|
+  \end{align*}
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since both sides of the inequality are non-negative, $|z_1 + z_2| \leq |z_1| + |z_2| \iff |z_1 + z_2|^2 \leq (|z_1| + |z_2|)^2$.
+
+  Consider:
+  \begin{align*}
+      (|z_1| + |z_2|)^2 - |z_1 + z_2|^2 &= x^{2}_{1} + y^{2}_{1} + 2|z_1|| z_2| + x^{2}_{2} + y^{2}_{2} \\
+                                        & \quad - (x^{2}_{1} + 2x_1x_2 + x^{2}_{2} + y^{2}_{1} + 2y_1y_2 + y^{2}_{2})\\
+                                        &= 2(|z_1||z_2| - x_1 x_2 - y_1 y_2)
+  \end{align*}
+  We want to prove that the above is positive:
+  \begin{align*}
+    |z_1||z_2| - x_1 x_2 - y_1 y_2 &\geq 0 \\
+    |z_1 z_2| &\geq x_1 x_2 + y_1 y_2
+  \end{align*}
+  Either $x_1 x_2 + y_1 y_2 \leq 0$ and we are done or:
+  \begin{align*}
+    (x^{2}_{1} + y^{2}_{1})(x^{2}_{2} + y^{2}_{2}) &\geq (x_1 x_2 + y_1 y_2)^2 \\
+    x^{2}_{1} x^{2}_{2} + x^{2}_{1} y^{2}_{2} + x^{2}_{2} y^{2}_{1} + y^{2}_{1} y^{2}_{2}&\geq x^{2}_{1} x^{2}_{2} + 2x_1 x_2 y_1 y_2 + y^{2}_{1} y^{2}_{2} \\
+    x^{2}_{1} y^{2}_{2} - 2x_1 x_2 y_1 y_2 + x^{2}_{2} y^{2}_{1} &\geq 0 \\
+    (x_1 y_2 - x_2 y_1)^2 &\geq 0
+  \end{align*}
+  Thus $(|z_1| + |z_2|)^2 \geq |z_1 + z_2|^2$ and therefore $|z_1 + z_2| \leq |z_1| + |z_2|$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  In the triangle inequality, set $z_2 \to z_3 - z_1$.
+  This leads to:
+  \begin{align*}
+    |z_1 + z_3 - z_1| &\leq |z_1| + |z_3 - z_1|\\
+    |z_3| - |z_1| &\leq |z_3 - z_1|
+  \end{align*}
+  Now we have that $|z_1 - z_2| \leq |z_1| - |z_2|$.
+
+  Notice that if we swap $z_1$ and $z_2$ we have that $|z_2 - z_1| \leq |z_2| - |z_1|$.
+  But $|z_1 - z_2| = |z_2 - z_1|$ so $|z_1 - z_2|$ is greater than or equal to both $|z_1| - |z_2|$ and $-(|z_1| - |z_2|)$.
+
+  This means it must be greater than the absolute value of $|z_1| - |z_2|$ so we have the required result $|z_1 - z_2| \geq ||z_1| - |z_2||$.
+\end{proof}
 \begin{theorem}[De Moivre's Theorem]
   For $n \in \Z$ then:
   \[
@@ -237,6 +243,7 @@ We first need to prove the following lemma:
   \[
     z_1 z_2 = r_1 r_2 (\cos (\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2))
   \]
+  \label{multLemma}
 \end{lemma}
 \begin{proof}
   Using \cref{complexMult} we have that:
@@ -245,7 +252,185 @@ We first need to prove the following lemma:
             &= r_1 r_2 (\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2))
   \end{align*} 
 \end{proof}
-\section{Exponential and Trigonometric Form}
+Now we can move onto the final proof:
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$n \geq 0$}
+      \induction
+      {$n = 0$}{
+        $z^0 = 1 = \cos 0 + i \sin 0$ \tick
+      }
+      {$n = k$}{}
+      {$n = k + 1$}{
+        \begin{align*}
+          z^{(k+1)} &= z^k z \\
+                    &= (\cos(k\theta) + i\sin(k\theta))(\cos \theta + i\sin \theta) \text{ by induction hypothesis}\\
+                    &= (\cos(k\theta + \theta) + i\sin(k\theta + \theta)) \text{ by \cref{multLemma}}\\
+                    &= \cos(k + 1)\theta + i \sin(k + 1)\theta
+        \end{align*} 
+      }
+    \end{case}
+    \begin{case}{$n < 0$}
+      We now write $n = -m$ with $m > 0$ then:
+      \begin{align*}
+        (\cos \theta + i \sin \theta)^n &= \frac{1}{(\cos \theta + i \sin \theta)^m} \\
+                                        &= \frac{1}{\cos(m\theta) + i\sin(m\theta)} \text{ by Case 1}\\
+                                        &= \frac{\cos(m\theta) - i\sin(m\theta)}{\cos^2(m\theta) + \sin^2(m\theta)} \text{ by \cref{inverse}}\\
+                                        &= \cos(m\theta) - i\sin(m\theta) \\
+                                        &= \cos(-m\theta) + i\sin(-m\theta) \\
+                                        &= \cos(n\theta) + i\sin(n\theta)
+      \end{align*}
+    \end{case} 
+  \end{proofcases}
+  Shown to be true for $n \geq 0$ and $n < 0$ so true $\forall n \in \Z$.
+\end{proof}
+\section{Exponential and Trigonometric Functions}
+\subsection{Definitions and Properties}
+We define the exponential of a complex number $z$, $\exp(z) = e^z$ as:
+\[
+  \exp(z) = \sum_{n=0}^{\infty} \frac{1}{n!} z^n
+\]
+This converges $\forall z \in \C$ and has the following properties:
+\begin{enumerate}
+  \item $\exp(z)\exp(w) = \exp(z + w)$
+  \item if $z \in \R$ then $e^z$ reduces to the usual exponential
+  \item $e^0 = 1$
+  \item $(e^z)^n = e^{nz}$
+\end{enumerate}
+We define cosine as:
+\begin{align*}
+  \cos(z) &= \frac{1}{2}(e^{iz} + e^{-iz}) \\
+          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} + \sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n}\right) \\
+          &= \frac{1}{2} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n)!} z^{2n} (-1)^{n}\right) \text{ as odd terms cancel}\\
+          &= \sum_{n=0}^{\infty} \frac{1}{(2n)!} z^{2n} (-1)^{n}
+\end{align*}
+We define sine as:
+\begin{align*}
+  \sin(z) &= \frac{1}{2}(e^{iz} - e^{-iz}) \\
+          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} - \sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n}\right) \\
+          &= \frac{1}{2} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n + 1)!} z^{2n + 1} (-1)^{n}\right) \text{ as even terms cancel}\\
+          &= \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!} z^{2n + 1} (-1)^{n}
+\end{align*}
+Similarly to the exponential, if $z \in \R$ these definitions reduce to the analogous ones for real numbers.
+
+From these definitions it follows immediately that $e^{iz} = \cos z + i\sin z$.
+We also get that for $x \in \R$:
+\[
+  \Re(e^{ix}) = \cos x \text{ and } \Im(e^{ix}) = \sin x
+\]
+We can now express any $z \in \C$ as:
+\[
+  z = r(\cos \theta + i\sin\theta) = re^{i\theta}\quad r \geq 0, \theta \in \R
+\]
+De Moivre's theorem now follows immediately from this:
+\[
+  z^{n} = r^{n}e^{i n \theta}
+\]
+The complex exponential also has the following property that will be useful later:
+\begin{lemma}
+  $e^{z} = 1 \iff z = 2n \pi i, \forall n \in \Z$
+  \label{exp1}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $e^{z} = 1$}
+    Write $z = x + iy$ then $e^{z} = e^{x} e^{iy} = e^{x} (\cos y + i \sin y) = 1$.
+
+    Equating real parts gives $e^{x} \sin y = 0 \implies \sin y = 0$.
+
+    Equating imaginary parts gives $e^{x} \cos y = 1$ and we know that the modulus is $e^{x} = 1$ so $\cos y = 1$.
+
+    $\cos y = 1 \text{ and } \sin y = 0 \implies y = 2n\pi$ and $e^{x} = 1 \implies x = 0$ so $z = 2n\pi i$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $z = 2n \pi i$}
+    $e^{z} = e^{2 \pi n i} = \cos 2 \pi n + i \sin 2 \pi n = 1$
+  \end{proofdirection}
+\end{proof}
+\subsection{Roots of Unity}
+If $z^{N} = 1$ then $z$ is an ``$N$-th root of unity''.
+If we let $z = re^{i\theta}$.
+Then we have that $r^{N}e^{i \theta N} = 1$.
+$r^{N}$ is the modulus so $r^{N} = 1$ and so $r = 1$.
+
+So we require $\cos \theta N + i \sin \theta N = 1$ and so $e^{i \theta N} = 1$ and we know from \cref{exp1} that $\theta N = 2 \pi n$ and so $\theta = \frac{2n \pi}{N}$.
+
+This means that we have $N$ distinct solutions given by $z = e^{\frac{2 n \pi i}{N}}$ for $n = 0, \ldots, N - 1$.
+If we let $\omega = e^{\frac{2 \pi i}{n}}$ then we can rewrite this as $z = (e^{\frac{2 \pi i}{N}})^{n} = \omega^{n}$.
+We call $\omega^{n}$ the $N$-th roots of unity.
 \section{Logarithm and Complex Powers}
+\subsection{Complex Logarithm}
+\begin{definition}[Complex Logarithm]
+  For $z \in \C, z \neq 0$, we define $w = \log z$ by all $w$ such that $e^{w} = z$.
+\end{definition}
+This means that log is the inverse of exp.
+Note that because $e^{z} = e^{z + 2n\pi i}$, $\exp$ is a many-to-one correspondence and so log is \textbf{multi-valued}.
+We can write:
+\[
+  z = re^{i\theta} = e^{\log r} e^{i \theta} = e^{\log r + i\theta}
+\]
+so
+\[
+  \log z = \log r + i\theta = \log r + i(\Arg(z) + 2n\pi)\quad\forall \theta \in \arg(z)
+\]
+\begin{remark}
+  If we take $\theta \mapsto \theta + 2n\pi \text{ for } n \in \Z$ then $\log z \mapsto \log z + 2n\pi i$
+
+  To make it unique we restrict it to $-\pi < \theta \leq \pi$ and call this the ``principle logarithm''.
+\end{remark}
+\begin{example}
+  To determine $\log i$ we know that $|i| = 1$ and $i = e^{i\pi/2}$ so $\Arg(i) = \pi/2$ and $\arg(i) = \{\pi/2 + 2n\pi\;\forall n \in \Z\}$. So:
+  \[
+    \log i = i\left(\frac{\pi}{2} + 2n\pi\right)
+  \]
+\end{example}
+\subsection{Complex Powers}
+\begin{definition}[Complex Powers]
+  For $z, \alpha \in \C, z\neq0$, we define $z^{\alpha} = e^{\alpha \log z}$.
+  \label{cPower}
+\end{definition}
+This is multi-valued in general.
+If we take $\theta \mapsto \theta + 2n\pi$ then $z^{\alpha} \mapsto z^{\alpha}e^{2n\pi i \alpha}$.
+\begin{example}
+  To determine $(1 + i)^{1/2}$ we can write $1 + i = \sqrt{2}e^{i\pi/4}$ so:
+  \[
+    \log(1 + i) = \log \sqrt{2} + i(\pi/4 + 2\pi n)
+  \]
+  Now using \cref{cPower} we get:
+  \begin{align*}
+    (1 + i)^{1/2} &= \exp\left[\frac{1}{2}\left(\log \sqrt{2} + i(\pi/4 + 2n\pi)\right)\right] \\
+                  &= 2^{\frac{1}{4}} e^{i(\pi/8 + n\pi)} \\
+                  &= 2^{\frac{1}{4}} e^{i\pi/8} (-1)^{n}
+  \end{align*}
+  So $(1 + i)^{1/2}$ has two distinct values.
+\end{example}
 \section{Lines and Circles}
+\subsection{Lines}
+In the complex plane we can use a point $z_0 \in \C$ and a direction $\omega \in \C$ to describe a line:
+\[
+  z = z_0 + \lambda \omega \quad \lambda \in \R
+\]
+We can eliminate $\lambda$ by taking conjugates:
+\[
+  z^{*} = z^{*}_{0} + \lambda \omega^{*}
+\]
+Now we can equate two expressions for $\lambda \omega \omega^{*}$:
+\[
+  \lambda \omega \omega^{*} = w^{*}z - \omega^{*}z_0 = \omega z^{*} - \omega z^{*}_{0}
+\]
+so for all points on the line we also have:
+\[
+  \omega^{*}z - \omega z^{*} = \omega^{*} z_0 - \omega z^{*}_{0}
+\]
+\subsection{Circles}
+To construct a circle centered at $c \in \C$ and radius $\rho > 0$:
+\[
+  z = c + \rho e^{i\theta} \quad \theta \in \R
+\]
+Which is equivalent to:
+\[
+  |z - c| = \rho |e^{i\theta}| = \rho
+\]
+and if we then square both sides and use $|z-c|^2 = (z - c)^{*}(z - c)$ then:
+\[
+  |z|^2 - cz^{*}  - c^{*} z = \rho^2 - |c|^2
+\]
 \end{document}

@@ -1,0 +1,130 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Introduction To Groups}
+\section{Examples and Definitions}
+You can think about groups in two ways:
+\begin{itemize}
+  \item Algebra
+  \item Symmetries
+\end{itemize}
+\subsection{A Symmetries Viewpoint}
+Consider the symmetries of an equilateral triangle:
+\begin{itemize}
+  \item The ``do-nothing'' symmetry (identity)
+  \item Rotational symmetry of order 3. (Rotate $120^\circ$ clockwise or anti-clockwise)
+  \item Reflective symmetry across three different axes
+\end{itemize}
+This gives a total of 6 symmetries.
+Informally a symmetry is an action that does not change the overall shape.
+\begin{remark}
+  A regular $n$-gon has $2n$ symmetries.
+\end{remark}
+We can compose multiple symmetries to get composite symmetries.
+If we label the vertices of the triangle we can identify which of the original symmetries the composite symmetry is equivalent to.
+
+To invert a reflection you can just repeat the same reflection, they are ``self-inverse''.
+\begin{remark}[Important Features]
+  \begin{itemize}
+    \item Symmetries can be \textbf{composed} to get another symmetry (\textbf{closed})
+    \item There is an \textbf{identity} ``do-nothing'' symmetry
+    \item Every symmetry has an \textbf{inverse}
+    \item Composition of symmetries is \textbf{associative} ($a \circ (b \circ c) = (a \circ b) \circ c$)
+  \end{itemize}
+\end{remark}
+\begin{remark}[Warning]
+  Composition of symmetries is \textbf{not} always \textbf{commutative}.
+  
+  For example, if we rotate and then reflect it is not the same as if we reflect and then rotate.
+\end{remark}
+\subsection{An Algebraic Viewpoint}
+\begin{definition}[Binary Operation]
+  A \textit{binary operation} on a set $X$ is a function $\cdot: X \times X \to X$.
+  This means for $x, y \in X$, $(x, y) \mapsto x \cdot y$
+\end{definition}
+\begin{definition}[Group]
+  A \textit{group} is a triple $(G, \cdot, e)$ where:
+  \begin{itemize}
+    \item $G$ is a set
+    \item $\cdot$ is a binary operation on $G$
+    \item $e \in G$
+  \end{itemize}
+  such that the following 4 group axioms are satisfied:
+  \begin{enumerate}
+    \item \textbf{Closure -} For all $a, b \in G$, $a \cdot b \in G$
+    \item \textbf{Associativity -} For all $a, b, c \in G$, $(a \cdot b) \cdot c = a \cdot (b \cdot c)$
+    \item \textbf{(Right) Identity -} There exists an $e \in G$ such that for all $a \in G$, $a \cdot e = a$
+    \item \textbf{(Right) Inverses -} For all $a \in G$ there exists $b \in G$ such that $a \cdot b = e$
+  \end{enumerate}
+\end{definition}
+We noticed earlier that the symmetries of the equilateral triangle form a group.
+We can also think about this definition as encompassing algebra with a single operation.
+\begin{example}
+  $(\Z, +, 0)$ forms a group.
+  \begin{enumerate}
+    \item \textbf{Closure -} For all $a, b \in \Z$, $a + b \in \Z$ \tick
+    \item \textbf{Associativity -} We know that addition is associative \tick
+    \item \textbf{Identity -} 0 is the identity as for all $a \in \Z$, $a + 0 = a$ \tick
+    \item \textbf{Inverses -} The inverse of an element $a \in \Z$ is $-a$ (which is also in $\Z$) as $a + (-a) = 0$ \tick
+  \end{enumerate}
+\end{example}
+The definition of a group has some important consequences:
+\begin{proposition}
+  Let $(G, \cdot, e)$ be a group and let $a, b, b', e' \in G$.
+  \begin{enumerate}
+    \item if $a \cdot b = e$ then $b \cdot a = e$. (Right inverses are left inverses)
+    \item $e \cdot a = a$ (The right identity is also left identity)
+    \item If $a, b, b'$ are such that $a \cdot b = e = a \cdot b'$ then $b = b'$ (Inverses are unique)
+    \item If $a \cdot e' = a$ then $e' = e$ (The identity is unique)
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Working from the assumption that $a \cdot b = e$:
+  \begin{align*}
+    a \cdot b &= e \\
+    b \cdot (a \cdot b) &= b \cdot e \\
+    b \cdot (a \cdot b) &= b \text{ by right identity} \\
+    (b \cdot a) \cdot b &= b \text{ by associativity}
+  \end{align*} 
+  Now because of inverses $\exists c \in G$ such that $b \cdot c = e$:
+  \begin{align*}
+    ((b \cdot a) \cdot b) \cdot c &= b \cdot c \\
+    (b \cdot a) \cdot (b \cdot c) & = b \cdot c \text{ by associativity}\\
+    (b \cdot a) \cdot e &= e \text{ by right inverses}\\
+    b \cdot a &= e
+  \end{align*}
+  So we have that $a \cdot b = e = b \cdot a$ and therefore right inverses are also left inverses.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  From \textbf{i} we have that $a \cdot b = e = b \cdot a$:
+  \begin{align*}
+    a \cdot b &= b \cdot a \\
+    a \cdot (a \cdot b) &= a \cdot (b \cdot a) \\
+    a \cdot (a \cdot b) &= (a \cdot b) \cdot a \text{ by associativity}\\
+    a \cdot e &= e \cdot a \text{ by inverses}\\
+    a &= e \cdot a \text{ by right identity}
+  \end{align*}
+  So we have that $e \cdot a = a$ and therefore the identity is both a right and left identity.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Working from the assumption that $a \cdot b = e = a \cdot b'$:
+  \begin{align*}
+    a \cdot b &= a \cdot b' \\
+    b \cdot (a\cdot b) &= b \cdot (a \cdot b') \\
+    (b \cdot a) \cdot b &= (b \cdot a) \cdot b' \text{ by associativity}\\
+    e \cdot b &= e \cdot b' \text{ by \textbf{i}} \\
+    b &= b' \text{ by \textbf{ii}} 
+  \end{align*} 
+  So $b = b'$ and therefore inverses are unique.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  Let $b$ be the inverse of $a$, working from the assumption that $a \cdot e' = a$:
+  \begin{align*}
+    a \cdot e' &= a \\
+    b \cdot (a \cdot e') &= b \cdot a\\
+    (b \cdot a) \cdot e' &= b \cdot a \text{ by associativity} \\
+    e \cdot e' &= e \text{ by \textbf{i}} \\
+    e' &= e
+  \end{align*} 
+  So $e = e'$ and therefore the identity is unique.
+\end{proof}
+\end{document}
