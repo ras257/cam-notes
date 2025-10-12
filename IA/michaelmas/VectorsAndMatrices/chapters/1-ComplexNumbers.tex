@@ -300,16 +300,18 @@ This converges $\forall z \in \C$ and has the following properties:
 We define cosine as:
 \begin{align*}
   \cos(z) &= \frac{1}{2}(e^{iz} + e^{-iz}) \\
-          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} + \sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n}\right) \\
-          &= \frac{1}{2} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n)!} z^{2n} (-1)^{n}\right) \text{ as odd terms cancel}\\
-          &= \sum_{n=0}^{\infty} \frac{1}{(2n)!} z^{2n} (-1)^{n}
+          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} + \sum_{n=0}^{\infty} \frac{1}{n!} (-iz)^{n}\right) \\
+          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{(2n)!}(iz)^{2n} + \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!}(iz)^{2n + 1} + \sum_{n=0}^{\infty} \frac{1}{(2n)!}(-iz)^{2n} + \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!}(-iz)^{2n + 1}\right) \\
+          &= \frac{1}{2} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n)!} (iz)^{2n}\right) \text{ as odd terms cancel}\\
+          &= \sum_{n=0}^{\infty} \frac{z^{2n}}{(2n)!} (-1)^{n}
 \end{align*}
 We define sine as:
 \begin{align*}
-  \sin(z) &= \frac{1}{2}(e^{iz} - e^{-iz}) \\
-          &= \frac{1}{2}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} - \sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n}\right) \\
-          &= \frac{1}{2} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n + 1)!} z^{2n + 1} (-1)^{n}\right) \text{ as even terms cancel}\\
-          &= \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!} z^{2n + 1} (-1)^{n}
+  \sin(z) &= \frac{1}{2i}(e^{iz} - e^{-iz}) \\
+          &= \frac{1}{2i}\left(\sum_{n=0}^{\infty} \frac{1}{n!} (iz)^{n} - \sum_{n=0}^{\infty} \frac{1}{n!} (-iz)^{n}\right) \\
+          &= \frac{1}{2i}\left(\sum_{n=0}^{\infty} \frac{1}{(2n)!}(iz)^{2n} + \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!}(iz)^{2n + 1} - \sum_{n=0}^{\infty} \frac{1}{(2n)!}(-iz)^{2n} - \sum_{n=0}^{\infty} \frac{1}{(2n + 1)!}(-iz)^{2n + 1}\right) \\
+          &= \frac{1}{2i} \left(2\sum_{n=0}^{\infty} \frac{1}{(2n + 1)!} (iz)^{2n + 1}\right) \text{ as even terms cancel}\\
+          &= \sum_{n=0}^{\infty} \frac{z^{2n + 1}}{(2n + 1)!} (-1)^{n} \text{ as $i^{2n + 1} = i(-1)^{n}$}
 \end{align*}
 Similarly to the exponential, if $z \in \R$ these definitions reduce to the analogous ones for real numbers.
 
