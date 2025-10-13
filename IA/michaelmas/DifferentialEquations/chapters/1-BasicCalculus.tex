@@ -57,7 +57,7 @@ Order parameters allow us to compare the behaviour of functions close to a limit
       $f(x)$ is $O(g(x))$ as $x \to x_0$ if $\exists \delta > 0 \text{ and } M > 0$ such that $\forall x$ with $0 < |x - x_0| < \delta$, then $|f(x)| \leq M |g(x)|$.
     \end{case}
     \begin{case}{$x_0$ infinite}
-      $f(x)$ is $O(g(x))$ as $x \to \infty$ if $\exists x_1 > 0 \text{ and } M > 0 \text{ such that } \forall x > x_1$, then $|f(x)| \leq M|g(x)|$.
+      $f(x)$ is $O(g(x))$ as $x \to \infty$ if $\exists x_1 \text{ and } M > 0 \text{ such that } \forall x > x_1$, then $|f(x)| \leq M|g(x)|$.
     \end{case}
   \end{proofcases}
 \end{definition}
@@ -116,6 +116,7 @@ Order parameters are useful to classify remainder terms before taking limits.
 \begin{proposition}
   \[
     f(x_0 + h) = f(x_0) + hf'(x_0) + o(h) \text{ as } h\to0
+    \label{derivLittle}
   \]
 \end{proposition}
 \begin{proof}
@@ -129,5 +130,142 @@ Order parameters are useful to classify remainder terms before taking limits.
   \[
     f(x_0 + h) = f(x_0) + hf'(x_0) + o(h) \text{ as } h\to0
   \]
+\end{proof}
+\subsection{Rules for Differentiation}
+We can introduce some rules of differentiation to make it easier to differentiate composite functions.
+\begin{theorem}[Chain Rule]
+ If $f(x) = F(g(x))$, then:
+ \[
+   \deriv{f}{x} = F'(g(x))\deriv{g}{x} = \at{\deriv{F}{g}}{g(x)} \at{\deriv{g}{x}}{x}
+ \]
+\end{theorem}
+\begin{proof}
+  \begin{align*}
+    \deriv{f}{x} &= \lim_{h \to 0} \frac{1}{h} [F(g(x + h)) - F(g(x))] \\
+                 &= \lim_{h \to 0} \frac{1}{h} [F(g(x) + hg'(x) + o(h)) - F(g(x))] \\
+                 &= \lim_{h \to 0} \frac{1}{h} [\cancel{F(g(x))} + (hg'(x) + o(h))F'(g(x)) + o(hg'(x) + o(h)) - \cancel{F(g(x))}] \\
+                 &= \lim_{h \to 0} \frac{1}{h} [hF'(g(x))g'(x) + o(h)F'(g(x)) + o(hg'(x) + o(h))]
+  \end{align*}
+  For a given $x$, $F'(g(x))$ is constant so $o(h)F'(g(x)) = o(h)$ and similarly $o(hg'(x) + o(h)) = o(h)$. So:
+  \begin{align*}
+    \deriv{f}{x} &= F'(g(x))g'(x) + \lim_{h \to 0} \frac{o(h)}{h} \\
+                 &= F'(g(x))g'(x)
+  \end{align*}
+\end{proof}
+\begin{example}
+  $\deriv{}{x} \sin(x^2 - x + 2) = \cos(x^2 - x + 2) \cdot (2x - 1)$
+\end{example}
+\begin{theorem}[Product Rule]
+  If $f(x) = u(x)v(x)$, then:
+  \[
+    \deriv{f}{x} = v \deriv{u}{x} + u \deriv{v}{x}
+\]
+\end{theorem}
+If we replace $v \mapsto v^{-1}$ and also apply the chain rule then we get the quotient rule:
+\[
+  \deriv{}{x}\left(\frac{u}{v}\right) = \frac{vu' - uv'}{v^2}
+\]
+We can also generalise the product rule to the $n$-th derivative using Leibniz's rule:
+\begin{theorem}[Leibniz's Rule]
+  If $f(x) = u(x)v(x)$, then:
+  \[
+    \deriv[n]{f}{x} = \sum_{r=0}^{n} \binom{n}{r}\deriv[r]{u}{x}\deriv[n-r]{v}{x}
+  \]
+\end{theorem}
+\begin{proof}
+  By induction
+\end{proof}
+\section{Taylor Series}
+\begin{definition}[Taylor Series]
+ For $f(x)$ infinitely differentiable at $x = x_0$, the \textit{Taylor series} of the function about $x_0$ is:
+ \begin{align*}
+   T_f(x) &= f(x_0) + (x - x_0)f'(x_0) + \frac{1}{2!}(x - x_0)^2 f''(x_0) + \cdots \\
+          &= \sum_{n=0}^{\infty} \frac{1}{n!} (x-x_0)^{n} f^{(n)}(x_0)
+ \end{align*}
+\end{definition}
+\begin{definition}[Taylor Polynomial]
+  For $f(x)$ $n$-times differentiable at $x = x_0$, the \textit{taylor polynomial} of degree $n$ of the function about $x_0$ is:
+  \begin{align*}
+    P_n(x) &= f(x_0) + (x - x_0)f'(x_0) + \cdots + \frac{1}{n!} (x - x_0)^{n} f^{(n)}(x_0) \\
+           &= \sum_{r=0}^{n} \frac{1}{r!} (x-x_0)^{r} f^{(r)}(x_0)
+  \end{align*}
+\end{definition}
+To figure out how well $P_n(x)$ approximates $f(x)$, we can extend \cref{derivLittle} to Taylor's Theorem.
+\begin{theorem}[Taylor's Theorem]
+  For $f(x)$ $n$ times differentiable at $x_0$ we have:
+  \[
+    f(x_0 + h) = f(x_0) + hf'(x_0) + \frac{h^2}{2!}f''(x_0) + \cdots + \frac{h^{n}}{n!} f^{(n)} (x_0) + E_n
+  \]
+  Where $E_n$ is an ``error/remainder'' and $E_n = o(h^{n})$ as $h \to 0$.
+
+  If $f^{(n+1)}(x)$ exists and is continuous $\forall x \in (x_0, x_0 + h)$ then $E_n = O(h^{n+1})$ as $h \to 0$.
+  \label{taylorsThm}
+\end{theorem}
+\begin{remark}
+  $E_n = O(h^{n + 1})$ is  a stronger statement than $o(h^{n})$.
+
+  E.g. $h^{n + \frac{1}{2}}$ is $o(h^{n})$ but it is not $O(h^{n + 1})$.
+\end{remark}
+We can set $x = x_0 + h$ which allows us to rewrite \cref{taylorsThm}:
+\begin{align*}
+  f(x) &= f(x_0) + (x - x_0)f'(x_0) + \frac{1}{2!}(x - x_0)^2f''(x_0) + \cdots + \frac{1}{n!}(x - x_0)^{n} f^{(n)}(x_0) + E_n \\
+       &= P_n(x) + E_n
+\end{align*}
+This means that $P_n(x)$ provides a \textbf{local approximation} to $f(x)$ in the vicinity of $x_0$ with error $o(h^{n})$ or $O(h^{n + 1})$ depending on the conditions.
+
+If $\lim_{n \to \infty} E_n = 0$ then the Taylor series $T_f(x)$ converges to $f(x)$.
+
+\begin{theorem}[Mean-value form of the remainder]
+If $f^{(n+1)}(x)$ exists and is continuous $\forall x \in (x_0, x_0 + h)$ then:
+\[
+  E_n = f^{(n+1)}(x_n) \frac{h^{n+1}}{(n+1)!} = f^{(n + 1)}(x_n)\frac{(x - x_0)^{n + 1}}{(n + 1)!}
+\]
+for some $x_n \in (x_0, x_0 + h)$.
+\end{theorem}
+\begin{proof}
+  See Analysis I
+\end{proof}
+
+This can be used to establish a bound on the error of a taylor polynomial approximation when $x = x_0 + h$.
+\begin{example}
+  Let $f(x)$ be the $n$-th degree Taylor polynomial of $\exp(x)$ about $x_0 = 0$.
+  This is differentiable infinitely many times so we can use the stronger case:
+  \[
+    E_n = \frac{h^{n + 1}}{(n + 1)!}\exp(x_n)\quad 0 \leq x_n \leq h
+  \]
+  So the fractional error of the approximation when $x = 0 + h$ is:
+  \begin{align*}
+    \text{fractional error} &= \frac{E_n}{\exp(h)} = \frac{h^{n+1}}{(n+1)!}\underbrace{\exp(x_n - h)}_{0 < \cdot \leq 1} \\
+                            &\leq \frac{h^{n + 1}}{(n + 1)!}
+  \end{align*}
+  This specifies how large $n$ must be if we want a given target accuracy at $x = x_0 + h$.
+\end{example}
+\section{L' H\^opital's Rule}
+L'H\^opital's rule allows us to deal with limits of indeterminate forms.
+\begin{theorem}[L'H\^opital's Rule]
+  Let $f(x)$ and $g(x)$ be differentiable at $x_0$, and:
+  \begin{align*}
+    \lim_{x \to x_0} f(x) &= f(x_0) = 0 \\
+    \lim_{x \to x_0} g(x) &= g(x_0) = 0
+  \end{align*}
+  Then if $g'(x_0) \neq 0$ we have that:
+  \[
+    \lim_{x \to x_0} \frac{f(x)}{g(x)} = \lim_{x \to x_0} \frac{f'(x)}{g'(x)}
+  \]
+  provided the limit on the RHS exists.
+\end{theorem}
+\begin{proof}[of a specific case]
+  From \cref{taylorsThm}, as $x \to x_0$:
+  \[
+    f(x) = \underbrace{f(x_0)}_{=0} + (x - x_0)f'(x_0) + o(x - x_0)
+  \]
+  \[
+    g(x) = \underbrace{g(x_0)}_{=0} + (x - x_0)g'(x_0) + o(x - x_0)
+  \]
+  Thus we have:
+  \begin{align*}
+    \lim_{x \to x_0} \frac{f(x)}{g(x)} &= \lim_{x \to x_0} \left[\frac{f'(x_0) + \frac{o(x-x_0)}{x-x_0}}{g'(x_0) + \frac{o(x-x_0)}{x-x_0}}\right] \\
+                                       &= \lim_{x \to x_0} \frac{f'(x)}{g'(x)} \text{ by continuity of first derivatives}
+  \end{align*}
 \end{proof}
 \end{document}

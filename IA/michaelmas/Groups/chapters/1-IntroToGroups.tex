@@ -76,55 +76,162 @@ The definition of a group has some important consequences:
     \item If $a, b, b'$ are such that $a \cdot b = e = a \cdot b'$ then $b = b'$ (Inverses are unique)
     \item If $a \cdot e' = a$ then $e' = e$ (The identity is unique)
   \end{enumerate}
+  \label{groupProp}
 \end{proposition}
 \begin{proof}[\textbf{i}]
-  Working from the assumption that $a \cdot b = e$:
-  \begin{align*}
-    a \cdot b &= e \\
-    b \cdot (a \cdot b) &= b \cdot e \\
-    b \cdot (a \cdot b) &= b \text{ by right identity} \\
-    (b \cdot a) \cdot b &= b \text{ by associativity}
-  \end{align*} 
-  Now because of inverses $\exists c \in G$ such that $b \cdot c = e$:
-  \begin{align*}
-    ((b \cdot a) \cdot b) \cdot c &= b \cdot c \\
-    (b \cdot a) \cdot (b \cdot c) & = b \cdot c \text{ by associativity}\\
-    (b \cdot a) \cdot e &= e \text{ by right inverses}\\
-    b \cdot a &= e
-  \end{align*}
-  So we have that $a \cdot b = e = b \cdot a$ and therefore right inverses are also left inverses.
+ \begin{align*}
+   b &= b \cdot e \text{ by identity axiom} \\
+     &= b \cdot (a \cdot b) \text{ by assumption} \\
+     &= (b \cdot a) \cdot b \text{ by associativity}
+ \end{align*}
+ By the inverse axiom, $\exists c \in G$ such that $b \cdot c = e$.
+ We can now right multiply by $c$.
+ \begin{align*}
+  b \cdot c &= ((b \cdot a) \cdot b) \cdot c \\
+            &= (b \cdot a) \cdot (b \cdot c) \text{ by associativity} \\
+          e &= (b \cdot a) \cdot e \text{ by definition of $c$} \\
+            &= b \cdot a \text{ by identity axiom}
+ \end{align*}
+ So $b \cdot a = e$ as rquired.
 \end{proof}
 \begin{proof}[\textbf{ii}]
-  From \textbf{i} we have that $a \cdot b = e = b \cdot a$:
+  By inverses and \textbf{i} there is a $b \in G$ such that $a \cdot b = e = b \cdot a$ so:
   \begin{align*}
-    a \cdot b &= b \cdot a \\
-    a \cdot (a \cdot b) &= a \cdot (b \cdot a) \\
-    a \cdot (a \cdot b) &= (a \cdot b) \cdot a \text{ by associativity}\\
-    a \cdot e &= e \cdot a \text{ by inverses}\\
-    a &= e \cdot a \text{ by right identity}
+    e \cdot a &= (a \cdot b) \cdot a \\
+              &= a \cdot (b \cdot a) \text{ by associativity} \\
+              &= a \cdot e \text{ as above} \\
+              &= a \text{ by identity axiom} \\
   \end{align*}
-  So we have that $e \cdot a = a$ and therefore the identity is both a right and left identity.
+  So $e \cdot a = a$ as required and therefore the identity is both a right and left identity.
 \end{proof}
 \begin{proof}[\textbf{iii}]
-  Working from the assumption that $a \cdot b = e = a \cdot b'$:
   \begin{align*}
-    a \cdot b &= a \cdot b' \\
-    b \cdot (a\cdot b) &= b \cdot (a \cdot b') \\
-    (b \cdot a) \cdot b &= (b \cdot a) \cdot b' \text{ by associativity}\\
-    e \cdot b &= e \cdot b' \text{ by \textbf{i}} \\
-    b &= b' \text{ by \textbf{ii}} 
+    b' &= e \cdot b' \text{ by \textbf{ii}} \\
+       &= (b \cdot a) \cdot b' \text{ by \textbf{i}} \\
+       &= b \cdot (a \cdot b') \text{ by associativity} \\
+       &= b \cdot e \text{ by assumption} \\
+       &= b \text{ by identity axiom}
   \end{align*} 
-  So $b = b'$ and therefore inverses are unique.
+  So $b  = b'$ as required and therefore inverses are unique.
 \end{proof}
 \begin{proof}[\textbf{iv}]
-  Let $b$ be the inverse of $a$, working from the assumption that $a \cdot e' = a$:
+  By the inverse axiom and \textbf{i}, $\exists b \in G$ such that $b \cdot a = e$.
+  Working from $a \cdot e' = a$:
   \begin{align*}
-    a \cdot e' &= a \\
-    b \cdot (a \cdot e') &= b \cdot a\\
-    (b \cdot a) \cdot e' &= b \cdot a \text{ by associativity} \\
-    e \cdot e' &= e \text{ by \textbf{i}} \\
-    e' &= e
-  \end{align*} 
-  So $e = e'$ and therefore the identity is unique.
+    a &= a \cdot e'\\
+    b \cdot a &= b \cdot (a \cdot e') \\
+              &= (b \cdot a) \cdot e' \text{ by associativity} \\
+              &= e \cdot e' \text{ as above} \\
+              &= e' \text{ by part \textbf{ii}}
+  \end{align*}
+  Since $b \cdot a = e$ also, it follows that $e = e'$ as required and so the identity is unique.
 \end{proof}
+\begin{remark}[Notation]
+  Part \textbf{iii} of \cref{groupProp} states that inverses are unique.
+  Therefore if $a \cdot b = e$ we may write $b = a^{-1}$.
+\end{remark}
+So from part \textbf{i} we have that:
+\[
+  a \cdot a^{-1} = e = a^{-1} \cdot a
+\]
+which means that:
+\[
+  (a^{-1})^{-1} = a
+\]
+It makes sense to extend this further to more familiar notation:
+\begin{remark}[Notation]
+  For any $a \in G$ define:
+  \begin{itemize}
+    \item $a^{0} = e$
+    \item $a^{n} = a^{n - 1} \cdot a$ for any $n \in \N$
+    \item $a^{-n} = (a^{-1})^{n}$ for any $n \in \N$
+  \end{itemize}
+\end{remark}
+\begin{proposition}
+  For $a \in G$, $m, b \in \Z$:
+  \begin{enumerate}
+    \item $a^{m} \cdot a^{n} = a^{m + n}$
+    \item $(a^{m})^{n} = a^{mn}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  \begin{align*}
+    a^{m} \cdot a^{n} &= (a^{m - 1} \cdot a) \cdot (a^{n - 1} \cdot a) \\
+                      &= ((a^{m - 2} \cdot a) \cdot a) \cdot ((a^{n - 2} \cdot a) \cdot a) \\
+                      &\;\; \vdots \quad\text{repeating and dropping brackets because of associativity} \\
+                      &= \underbrace{(a \cdot a \cdot \cdots \cdot a)}_{\text{$a$ applied $m$ times}} \cdot \underbrace{(a \cdot a \cdot \cdots \cdot a)}_{\text{$a$ applied $n$ times}} \\
+                      &= \underbrace{a \cdot a \cdot \cdots \cdot a}_{\text{$a$ applied $m + n$ times}} \\
+                      &\; \; \vdots \quad\text{regrouping and reintroducing brackets} \\
+                      &= (a^{m + n - 2} \cdot a) \cdot a \\
+                      &= a^{m + n - 1} \cdot a \\
+                      &= a^{m + n}
+  \end{align*} 
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{align*}
+    (a^{m})^{n} &= (a^{m - 1} \cdot a)^{n} \\
+                &\; \; \vdots \quad\text{repeating and dropping brackets because of associativity}\\
+                &= {\underbrace{(a \cdot a \cdot \cdots \cdot a)}_{\text{$a$ applied $m$ times}}}^{n} \\
+                &= {\underbrace{(a \cdot a \cdot \cdots \cdot a)}_{\text{$a$ applied $m$ times}}}^{n - 1} \cdot \underbrace{(a \cdot a \cdot \cdots \cdot a)}_{\text{$a$ applied $m$ times}} \\
+                &\; \; \vdots \quad\text{repeating and dropping brackets because of associativity}\\
+                &= \underbrace{a \cdot a \cdot \cdots \cdot a}_{\text{$a$ applied $mn$ times}} \\
+                &\; \; \vdots \quad\text{regrouping and reintroducing brackets} \\
+                &= a^{mn}
+  \end{align*}
+\end{proof}
+\begin{remark}[Warning]
+Recall that it is \textbf{not necessarily} true that $a \cdot b = b \cdot a$.
+Because of this it is \textbf{not necessarily} true that $(a \cdot b)^{-1} = a^{-1} \cdot b^{-1}$.
+\end{remark}
+However we can still find the inverse of $a \cdot b$.
+Consider:
+\begin{align*}
+  (a \cdot b) \cdot (b^{-1} \cdot a^{-1}) &= \left((a \cdot b) \cdot b^{-1}\right) \cdot a^{-1} \\
+                                          &= \left(a \cdot (b \cdot b^{-1})\right) \cdot a^{-1} \\
+                                          &= (a \cdot e) \cdot a^{-1} \\
+                                          &= a \cdot a^{-1} \\
+                                          &= e
+\end{align*}
+So $(a \cdot b)^{-1} = b^{-1} \cdot a^{-1}$.
+\begin{definition}[Abelian Group]
+  If $(G, \cdot, e)$ is a group and its binary operation is commutative, i.e.
+  \[
+    a \cdot b = b \cdot a \quad \forall a, b \in G
+  \]
+  then $G$ is and \textit{abelian group}.
+\end{definition}
+\begin{example}[Trivial Group]
+  If $G = \{ e \}$ and $e \cdot e = e$, then $(G, \cdot, e)$ is called the \textit{trivial group}.
+\end{example}
+
+\subsection{Familiar Examples}
+To help us categorise groups we must first define the order of a group:
+\begin{definition}[Group Order]
+  The \textit{order} of a group $(G, \cdot, e)$  is the number of elements of $G$.
+  We denote this $|G|$ or $\#G$.
+\end{definition}
+\begin{definition}[Finite/Infinite Group]
+  If $|G| < \infty$ then $(G, \cdot, e)$ is a \textit{finite group}.
+  Otherwise $(G, \cdot, e)$ is an \textit{infinite group}.
+\end{definition}
+Here are some examples/non-examples of groups:
+\subsubsection{Infinite Groups}
+\begin{enumerate}
+  \item $(\Z,  +, 0)$, $(\Q, +, 0)$, $(\R, +, 0)$, $(\C, +, 0)$ are all abelian groups.
+    In each case, the inverse of $x$ is $-x$.
+  \item $(\N, +, 0)$ is \textbf{not} a group as inverses do not exist for elements other than $0$.
+  \item $(\Q, \times, 1)$ is \textbf{not} a group as $0$ has no inverse.
+    However if we just remove 0, $(\Q \setminus \{0\}, \times, 1)$ is a abelian group!
+
+    Similarly, $(\R \setminus \{0\}, \times, 1)$ and $(\C \setminus \{0\}, \times, 1)$ are abelian groups.
+\end{enumerate}
+\subsubsection{Finite Groups}
+\begin{enumerate}
+  \item For any $n \in \N$ let $C_n = \{z \in \C : z^{n} = 1\}$ then $(C_n, \times, 1)$ is an abelian group.
+  \item Let $\Z_n = \{0, 1, 2, \ldots, n - 1\}$ and let $a +_n b$ be the remainder when $a + b$ is divided by $n$ (i.e. the value of $a + b$ under mod $n$).
+    Then $(\Z_n, +_n, 0)$ is an abelian group.
+
+    Closure holds as the remainder $r$ when dividing by $n$ is in the range $0 \leq r \leq n - 1$.
+    The inverse of a general element $a$ is given by $n - a$ so that $a + (n - a) \equiv 0 \pmod{n}$.
+\end{enumerate}
 \end{document}
