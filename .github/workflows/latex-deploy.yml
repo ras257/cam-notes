@@ -1,7 +1,10 @@
 name: latex-deploy
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.tex"
 
 jobs:
   deploy:
