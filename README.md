@@ -1,4 +1,6 @@
 # Cambridge Mathematics Lecture Notes
+[![](https://tokei.rs/b1/github/ras257/cam-notes)](https://github.com/XAMPPRocky/tokei)
+
 These are my personal notes taken whilst studying the undergraduate [Cambridge Maths Tripos](https://www.maths.cam.ac.uk/undergrad/undergrad).
 
 The notes are **not in any way official** and **do not represent the content of lectures or supervision material**.
