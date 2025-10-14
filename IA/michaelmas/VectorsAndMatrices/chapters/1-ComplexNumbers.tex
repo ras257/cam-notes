@@ -101,7 +101,7 @@ To plot a complex number $z = x + iy$ on the Argand diagram, we plot the real pa
 
 By representing complex numbers in the Argand diagram then the addition of complex numbers can be treated as vector addition (tip-to-tail):
 \begin{center}
-\begin{tikzpicture}[scale=0.8]
+\begin{tikzpicture}[scale=0.8,>=stealth]
   \draw (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
   \draw (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
 
@@ -295,8 +295,11 @@ This converges $\forall z \in \C$ and has the following properties:
   \item $\exp(z)\exp(w) = \exp(z + w)$
   \item if $z \in \R$ then $e^z$ reduces to the usual exponential
   \item $e^0 = 1$
-  \item $(e^z)^n = e^{nz}$
+  \item $(e^z)^n = e^{nz}, \forall n \in \Z$
 \end{enumerate}
+\begin{remark}[Warning]
+  In general $(e^{a})^{b} \neq e^{ab}$ for $a, b \in \C$.
+\end{remark}
 We define cosine as:
 \begin{align*}
   \cos(z) &= \frac{1}{2}(e^{iz} + e^{-iz}) \\
@@ -323,10 +326,6 @@ We also get that for $x \in \R$:
 We can now express any $z \in \C$ as:
 \[
   z = r(\cos \theta + i\sin\theta) = re^{i\theta}\quad r \geq 0, \theta \in \R
-\]
-De Moivre's theorem now follows immediately from this:
-\[
-  z^{n} = r^{n}e^{i n \theta}
 \]
 The complex exponential also has the following property that will be useful later:
 \begin{lemma}
@@ -391,6 +390,9 @@ so
 \end{definition}
 This is multi-valued in general.
 If we take $\theta \mapsto \theta + 2n\pi$ then $z^{\alpha} \mapsto z^{\alpha}e^{2n\pi i \alpha}$.
+\begin{remark}
+  If $\alpha \in \Q$ then $z^{\alpha}$ has finitely many values, otherwise it has infinitely many values.
+\end{remark}
 \begin{example}
   To determine $(1 + i)^{1/2}$ we can write $1 + i = \sqrt{2}e^{i\pi/4}$ so:
   \[

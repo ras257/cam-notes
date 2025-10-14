@@ -19,7 +19,7 @@
 \usepackage{enumitem} % Used to customise lists
 \usepackage{framed} % Used for creating boxes
 \usepackage{tikz} % Used for making diagrams
-\usetikzlibrary{arrows.meta} % TikZ packages
+\usetikzlibrary{arrows.meta, calc} % TikZ packages
 \usepackage[skip=5pt, indent=0em]{parskip} % Removes first line indentation
 \usepackage[a4paper, top=1in, bottom=1in, left=1.4in, right=1.4in]{geometry} % Page geometry
 
@@ -256,6 +256,8 @@
 % boldsymbol and mathbf used so that non-latin characters are also displayed in bold
 \renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}} % vector (bold notation)
 \newcommand{\uvec}[1]{\hat{\mathbf{#1}}} % unit vector
+\newcommand{\avec}[1]{\overrightarrow{#1}} % vector from A to B
+\newcommand{\inner}[2]{\langle #1 \mid #2 \rangle}
 \newcommand{\rel}{\mathrel{R}} % generic relational operator
 \newcommand{\powerset}[1]{\mathcal{P}(#1)} % power set
 
@@ -280,6 +282,7 @@
 \DeclareMathOperator{\area}{area}
 \DeclareMathOperator{\Res}{Res}
 \DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Span}{span}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\erf}{erf}
 \DeclareMathOperator{\arsinh}{arsinh}
