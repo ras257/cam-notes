@@ -234,4 +234,132 @@ Here are some examples/non-examples of groups:
     Closure holds as the remainder $r$ when dividing by $n$ is in the range $0 \leq r \leq n - 1$.
     The inverse of a general element $a$ is given by $n - a$ so that $a + (n - a) \equiv 0 \pmod{n}$.
 \end{enumerate}
+\section{Symmetric Groups}
+\begin{definition}[Bijection]
+  Let $X, Y$ be sets, a \textit{bijection} is a map $f: X \to Y$ that has an inverse $g: Y \to X$ such that $f \circ g = 1=\id_Y$ (i.e. $(f \circ g)(y) = y$ for all $y \in Y$) and $g \circ f = \id_X$ (i.e. $(f \circ g)(y) = y$ for all $y \in Y$).
+\end{definition}
+\begin{remark}[Notation]
+  $(f \circ g)(y) = f(g(y))$ by definition.
+\end{remark}
+\begin{definition}[Permutation]
+  A \textit{permutation} is a bijection $X \to X$ (i.e. from $X$ to itself).
+\end{definition}
+\begin{definition}[Symmetry Group]
+  $\Sym(X)$ is defined to to be the set of permutations of a set $X$.
+\end{definition}
+\begin{lemma}
+  Composition of functions is associative.
+
+  That is, for maps of sets:
+  \[
+    W \xrightarrow{f} X \xrightarrow{g} Y \xrightarrow{h} Z
+  \]
+  Then $(h \circ g) \circ g = h \circ (g \circ f)$
+  \label{assocLemma}
+\end{lemma}
+\begin{proof}
+For any $w \in W$,
+  \[
+    ((h \circ g) \circ f)(w) = (h \circ g)(f(w)) = h(g(f(w))) = h((g \circ f)(w)) = (h \circ (g \circ f))(w)
+  \]
+  as required.
+\end{proof}
+This makes it easy to see that $\Sym(X)$ is a group.
+\begin{proposition}
+  For any set $X$, $(\Sym(X), \circ, \id_X)$ is a group.
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item \textbf{Closure -} Automatic, note that $(f \circ g)^{-1} = g^{-1} \circ f^{-1}$.
+    \item \textbf{Associativity -} Follows from \cref{assocLemma}.
+    \item \textbf{Identity -} $\id_X: X \to X$, $x \mapsto x$ is an identity.
+    \item \textbf{Inverses -} Inverses exist by definition of bijectivity.
+  \end{enumerate}
+\end{proof}
+\begin{definition}
+  If $X = \{1, 2, \ldots, n\}$ then we write $S_n = \Sym(X)$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $S_3$ is the group of ways permuting three objects.
+    \item $S_{52}$ is the group of ways of shuffling a deck of cards.
+  \end{enumerate}
+\end{example}
+\begin{remark}
+  $|S_n| = n!$
+\end{remark}
+\begin{remark}[Notation]
+  Writing  $(G, \cdot, e)$ for a group is cumbersome.
+  Henceforth we will usually just write $G$.
+
+  If we want to emphasise that $e$ is the identity element of $G$, we will write $e_G$.
+  Similarly we can also write $\cdot_G$ for the operation on $G$.
+\end{remark}
+
+\section{Subgroups}
+Sometimes, we want to restrict our attention to smaller groups. For example, $\Z$ inside $\R$ or just the rotations of a triangle instead of all symmetries.
+\begin{definition}[Subgroup]
+  Let $G$ be a group and $H \subseteq G$. If the following hold:
+  \begin{enumerate}
+    \item $e \in H$
+    \item $a \cdot b \in H$ for all $a, b \in H$
+    \item $a^{-1} \in H$ for all $a \in H$
+  \end{enumerate}
+  Then we say that $H$ is a \textit{subgroup} of $G$ and we write $H \leq G$.
+\end{definition}
+\begin{remark}
+  If $G$ is a group and $H \leq G$ then $H$ is a group.
+\end{remark}
+\begin{example}
+  There are two easy examples of subgroups:
+  \begin{enumerate}
+    \item Every group $G$ is a subgroup of itself
+    \item For any group $G$, $1_G = \{e_G\}$ is the trivial subgroup of $G$.
+  \end{enumerate}
+\end{example}
+\begin{definition}[Proper Subgroup]
+  $H$ is a \textit{proper subgroup} of $G$ if $H \leq G$, but $H$ is not $G$ itself or the trivial subgroup.
+  We denote this $H < G$.
+\end{definition}
+\begin{example}
+  For $n \in \N_0$ define:
+  \[
+    n\Z = \{nk : k \in \Z\} = \{\ldots, -2n, n, 0, n, 2n, \ldots\}
+  \]
+  Now:
+  \begin{enumerate}
+    \item \textbf{Identity -} $0 \in n\Z$.
+    \item \textbf{Closure -} Let $x = nk$, $y = nl \in n\Z$ then $x + y = n(k + l) \in n\Z$
+    \item \textbf{Inverses -} Let $x = nk \in n\Z$ then $-x = -nk = n(-k) \in n\Z$
+  \end{enumerate}
+  Therefore $n\Z < \Z$.
+  In fact, these are \textbf{all} of the subgroups of $\Z$.
+\end{example}
+\begin{proposition}
+  If $H$ is a subgroup of $\Z$ then $H = n\Z$ for some $n \in \N_0$.
+\end{proposition}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$H = \{0\}$}
+      If $H = \{0\}$ then $H = 0\Z$ and we are done.
+    \end{case}
+    \begin{case}{Otherwise}
+      We may choose $n \in H \setminus \{0\}$ to be the smallest positive $n \in H$.
+
+      (Note that if $x \in H$ and $x < 0$ then $-x \in H$ and $-x > 0$. So unless $H = \{0\}$, H must contain a positive number)
+
+      By induction, we see that $nk \in H$ for all $k \in \Z^{+}$.
+      By inverses, $-n$ is also in $H$, so by induction again we see that $-nk \in H$ for all $k \in \Z^{+}$.
+      So $n\Z \subseteq H$.
+
+      We can now proceed by contradiction.
+      Suppose $n\Z \neq H$, so there is some $x \in H$ such that $x \notin n\Z$.
+      That is, $x$ is not a multiple of $n$.
+      Using the division algorithm, we get that $x = nq + r$ for some $q \in \Z$ and $0 < r < n$.
+      But now $r = x - nq$ and both $x \in H$ and $nq \in n\Z \subseteq H$ so $r \in H$.
+      But $0 < r < n$ so this contradicts the assumption that $n$ was the smallest non-zero element of $H$.
+      Thus $H = n\Z$.
+    \end{case}
+  \end{proofcases}
+\end{proof}
 \end{document}
