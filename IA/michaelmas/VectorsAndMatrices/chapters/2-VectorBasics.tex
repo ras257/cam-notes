@@ -210,4 +210,184 @@ This definition generalises to any other vector space, keeping the same axioms.
   The norm of a vector $\vec{a}$ is given by $\sqrt{\vec{a} \cdot \vec{a}}$.
   We denote this as either $|\vec{a}|$ or $\norm{\vec{a}}$.
 \end{definition}
+\begin{theorem}[Cauchy-Schwarz Inequality]
+  For all $\vec{x}, \vec{y} \in \R^{n}$,
+  \[
+    |\vec{x} \cdot \vec{y}| \leq |\vec{x}||\vec{y}|
+  \]
+\end{theorem}
+\begin{proof}
+  Consider the expression $|x - \lambda y|^2$, $\lambda \in \R$.
+  Then,
+  \begin{align*}
+    |\vec{x} - \lambda\vec{y}|^2 &\geq 0 \\
+    (\vec{x} - \lambda \vec{y}) \cdot (\vec{x} - \lambda \vec{y}) &\geq 0 \\
+    \abs{\vec{x}}^2 + \lambda^2 \abs{\vec{y}}^2 - 2\lambda \vec{x} \cdot \vec{y} &\geq 0 \\
+    (\lambda^2 \abs{\vec{y}}^2 - 2 \vec{x} \cdot \vec{y} \lambda + \abs{\vec{x}}^2) &\geq 0
+  \end{align*}
+  This quadratic always needs to be non-negative so we require the discriminant to be less than or equal to zero.
+  \begin{align*}
+    4(\vec{x} \cdot \vec{y})^2 - 4 \abs{\vec{x}}^2 \abs{\vec{y}}^2 &\leq 0 \\
+    \abs{\vec{x} \cdot \vec{y}} &\leq \abs{\vec{x}} \abs{\vec{y}}
+  \end{align*}
+\end{proof}
+Notice that this proof holds for all possible scalar products on any real vector space as we only used the axioms of the scalar product.
+\begin{remark}
+  Equality ($\abs{\vec{x} \cdot \vec{y}} = \abs{\vec{x}}\abs{\vec{y}}$) holds if and only if $\vec{x} = \lambda \vec{y}$ or $\vec{y} = \lambda \vec{x}$ for some $\lambda \in \R$ (i.e. $\vec{x}$ and $\vec{y}$ are parallel).
+\end{remark}
+We can now set:
+\[
+  \vec{x} \cdot \vec{y} = |\vec{x}||\vec{y}|\cos\theta
+\]
+to define the angle between $\vec{x}$ and $\vec{y}$ in $\R^{n}$ since Cauchy-Schwarz ensures that $-1 \leq \cos \theta \leq 1$.
+\begin{corollary}[Triangle Inequality]
+  For two vectors $\vec{x}, \vec{y}$
+  \[
+    \abs{\vec{x} + \vec{y}} \leq \abs{\vec{x}} + \abs{\vec{y}}
+  \]
+\end{corollary}
+\begin{proof}
+  \begin{align*}
+    \abs{\vec{x} + \vec{y}}^2 &= (\vec{x} + \vec{y}) \cdot (\vec{x} + \vec{y}) \\
+                              &= \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \vec{x} \cdot \vec{y} \\
+                              &\leq \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \abs{\vec{x}}\abs{\vec{y}} \\
+                              &= (\abs{\vec{x}} + \abs{\vec{y}})^2
+  \end{align*}
+  Therefore $\abs{\vec{x} + \vec{y}} \leq \abs{\vec{x}} + \abs{\vec{y}}$.
+\end{proof}
+
+\section{Orthonormal Bases}
+\begin{remark}[Note]
+For this section, consider vectors in $\R^{3}$ only.
+\end{remark}
+Consider vectors $\vec{e}_1, \vec{e}_2, \vec{e}_3$ that are orthonormal:
+\[
+  \abs{\vec{e}_1} = \abs{\vec{e}_2} = \abs{\vec{e}_3} = 1 \text{ and } \vec{e}_i \cdot \vec{e}_j = \begin{cases}
+  1 & i=j \\
+  0 & i\neq j
+  \end{cases}
+\]
+That is, they are all length 1 and are mutually orthogonal.
+This is called an \textit{orthonormal basis} and is equivalent to choosing Cartesian axes along these directions.
+There are infinitely many choices for an orthonormal basis in $\R^{3}$.
+
+Any vector in $\R^{3}$ can be written as a combination of these:
+\[
+  \vec{a} = \sum_{i}^{} a_i \vec{e}_i = a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3
+\]
+Each component of $\vec{a}$ is uniquely determined by $a_i = \vec{e}_i \cdot \vec{a}$
+
+We will denote $\vec{a}$ as either a row vector or a column vector:
+\[
+  \vec{a} = (a_1, a_2, a_3) \text{ or } \vec{a} =
+  \begin{pmatrix}
+  a_1 \\
+  a_2 \\
+  a_3 \\
+  \end{pmatrix}
+\]
+Now for $\vec{a}, \vec{b} \in \R^{3}$:
+\begin{align*}
+  \vec{a} \cdot \vec{b} &= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) \cdot (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
+                        &= a_1 b_1 + a_2 b_2 + a_3 b_3
+\end{align*}
+In particular:
+\[
+  \vec{a} \cdot \vec{a} = \abs{\vec{a}}^2 = a^{2}_{1} + a^{2}_{2} + a^{2}_{3}
+\]
+
+The \textit{canonical basis} of $\R^{3}$, the one we use for the representation in terms of row or column vectors is:
+\[
+  \vec{e}_1 = (1, 0, 0),\; \vec{e}_2 = (0, 1, 0),\; \vec{e}_3 = (0, 0, 1)
+\]
+\begin{remark}[Notation]
+The canonical orthonormal basis vectors for $\R^{3}$ are usually denoted $\uvec{i}$, $\uvec{j}$, $\uvec{k}$.
+\end{remark}
+
+\section{Vector Product}
+\begin{remark}[Note]
+For this section, consider vectors in $\R^{3}$ only.
+\end{remark}
+\subsection{Definition}
+\begin{definition}[Vector Product]
+  Consider $\vec{a}, \vec{b} \in \R^{3}$. The \textit{vector product} is defined by:
+  \[
+    \vec{a} \times \vec{b} = \abs{\vec{a}} \abs{\vec{b}}(\sin\theta)\uvec{n}
+  \]
+  Where $\uvec{n}$ is a unit vector that is orthogonal to both $\vec{a}$ and $\vec{b}$ and $\theta$ is the angle between $\vec{a}$ and $\vec{b}$.
+  It is sometimes denoted $\vec{a} \wedge \vec{b}$.
+\end{definition}
+\begin{remark}[Right-Hand Rule]
+  If $\vec{a}$ is on your first finger and $\vec{b}$ is on your second finger then $\vec{a} \times \vec{b}$ points in the direction of your thumb.
+\end{remark}
+
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+\draw[thick,->] (0,0) -- (3,0) node[midway,below] {$\vec{a}$};
+\draw[thick,->] (0,0) -- (1,1) node[midway,above] {$\vec{b}$};
+\draw[thick,->] (0,0) -- (0,3) node[near end,right] {$\vec{a}\times \vec{b}$};
+\draw (0.6,0) arc [start angle=0,end angle=45,radius=0.6] node[pos=0.7,right] {$\theta$};
+\end{tikzpicture}
+\end{center}
+\begin{remark}
+  $\uvec{n}$ is not defined if $\vec{a}$ and $\vec{b}$ are parallel but $\theta = 0 \text{ or } \pi$ so $\vec{a} \times \vec{b} = \vec{0}$.
+
+  $\theta$ is not defined if $\abs{\vec{a}} = 0$ or $\abs{\vec{b}} = 0$ but then $\vec{a} \times \vec{b} = \vec{0}$ regardless.
+\end{remark}
+Some properties of the vector product are:
+\begin{enumerate}
+  \item $\vec{a} \times \vec{b} = - \vec{b} \times \vec{a}$ (Anti-symmetric)
+  \item $\vec{a} \times \vec{a} = \vec{0}$
+  \item $\vec{a} \times \vec{b} = 0 \iff \vec{a} = \lambda \vec{b}$ for some $\lambda \in \R$
+  \item $(\lambda \vec{a}) \times \vec{b} = \lambda (\vec{a} \times \vec{b}) = \vec{a} \times (\lambda \vec{b})$
+  \item $\vec{a} \times (\vec{b} + \vec{c}) = \vec{a} \times \vec{b} + \vec{a} \times \vec{c}$
+  \item $\vec{a} \cdot (\vec{a} \times \vec{b}) = \vec{b} \cdot (\vec{a} \times \vec{b}) = 0$
+\end{enumerate}
+\subsection{Geometric Uses}
+For vectors $\vec{a}, \vec{b}$ then $\vec{a} \times \vec{b}$ is the vector area of the parallelogram.
+For example with $\sin \theta \geq 0$ we have:
+\[
+  \abs{\vec{a} \times \vec{b}} = \abs{\vec{a}} \abs{\vec{b}} \sin \theta = \text{base} \times \text{perpendicular height} = \text{area}
+\]
+\begin{center}
+\begin{tikzpicture}[scale=3,>=stealth]
+\coordinate (O) at (0,0);
+\coordinate (A) at (2,0);
+\coordinate (B) at (1.2,1.2);
+\coordinate (H) at (1.2,0);
+
+\fill[gray!20] (O) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+
+\draw[<->, dashed] (B) -- (H) node[midway,right] {$\abs{\vec{b}}\sin\theta$};
+
+\draw (0.3,0) arc (0:45:0.3);
+\node at (0.4,0.15) {$\theta$};
+
+\node at (2.3,0.9) {$\abs{\vec{a} \times \vec{b}}$};
+\draw[->, thick] (O) -- (A) node[midway, below] {$\vec{a}$};
+\draw[->, thick] (O) -- (B) node[midway, above left] {$\vec{b}$};
+
+\draw[dashed] (A) -- ($(A)+(B)$);
+\draw[dashed] (B) -- ($(A)+(B)$);
+\end{tikzpicture}
+\end{center}
+This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{a} \times \vec{b}}$.
+\begin{center}
+\begin{tikzpicture}[scale=3,>=stealth]
+\coordinate (O) at (0,0);
+\coordinate (A) at (2,0);
+\coordinate (B) at (1.2,1.2);
+\coordinate (H) at (1.2,0);
+
+\fill[gray!20] (O) -- (A) -- (B) -- cycle;
+
+\draw (0.3,0) arc (0:45:0.3);
+\node at (0.4,0.15) {$\theta$};
+
+\node at (1.1,0.4) {$\frac{1}{2}\abs{\vec{a} \times \vec{b}}$};
+\draw[->, thick] (O) -- (A) node[midway, below] {$\vec{a}$};
+\draw[->, thick] (O) -- (B) node[midway, above left] {$\vec{b}$};
+\draw[dashed] (A) -- (B);
+\end{tikzpicture}
+\end{center}
 \end{document}

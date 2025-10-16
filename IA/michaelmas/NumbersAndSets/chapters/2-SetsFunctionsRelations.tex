@@ -96,7 +96,7 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
   \end{proofcases}
   In either case $x \in A \cap (B \cup C)$
 
-  So $\text{LHS} \subseteq \text{RHS}$ and $\text{RHS} \subseteq \text{LHS}$, so $\text{LHS} = \text{RHS}$.
+  So $\text{LHS} \subseteq \text{RHS}$ and $\text{RHS} \subseteq \text{LHS}$, so $\text{LHS} = \text{R'S}$.
 \end{proof}
 
 \begin{remark}[Notation]
@@ -114,10 +114,10 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
 
   More generally, given an index set $I$ and a collection of sets $A_i$ indexed by $i \in I$, we write:
   \[
-    \bigcap_{i \in I}^{} = \{x: x \in A_i\;\forall i \in I\}
+    \bigcap_{i \in I}^{} A_i = \{x: x \in A_i\;\forall i \in I\}
   \]
   \[
-    \bigcup_{i \in I}^{} = \{x: x \in A_i \text{ for some } i \in I\}
+    \bigcup_{i \in I}^{} A_i = \{x: x \in A_i \text{ for some } i \in I\}
   \]
 \end{remark}
 \begin{definition}[Cartesian Product]
@@ -128,7 +128,8 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
 \end{definition}
 The Cartesian product is the set of \textit{ordered pairs} $(a, b)$ with $a \in A, b \in B$.
 \begin{remark}
-From a set-theoretic perspective we could define $(a, b) = \{\{a, b\}, a\}$ where the non-set element indicates the first element of the set element.
+From a set-theoretic perspective we could define $(a, b) = \{\{a, b\}, \{a\}\}$ where the singleton element indicates the first element of the ordered pair.
+Ordered triples can then be defined recursively $(a, b, c) = ((a, b), c)$ and so on.
 \end{remark}
 
 We can extend the Cartesian product to ordered triples and so on.
@@ -211,4 +212,145 @@ If $X \subset A$ then the \textit{image} of the set $X$ under $f$ is:
   f(X) &= \{f(x): x \in X\} \\
        &= \{b \in B: f(x) = b \text{ for some } x \in X\}
 \end{align*}
+also $f(A)$, often denoted $\image(f)$, is called he \textit{image} of $f$.
+If $Y \subset B$ then the \textit{preimage} of $Y$ under $f$ is:
+\[
+  f^{-1}(Y) = \{a \in A: f(a) \in Y\}
+\]
+\begin{example}
+  Consider the function $f: \R \to \R$, $x \mapsto x^2$.
+  \begin{align*}
+    \image(f) &= \{y \in \R: y\geq0\} \\
+    \image(\{x \in \R: -1 \leq x < 4\}) &= \{y \in \R: 0 \leq y < 16\} \\
+    f^{-1}(\{y \in \R: -1 \leq y \leq 4\}) &= \{x \in \R: -2 \leq x \leq 2\}
+  \end{align*}
+\end{example}
+\begin{definition}[Injective]
+  $f:A \to B$ is \textit{injective} if $\forall a, a' \in A$, $f(a) = f(a') \implies a = a'$.
+\end{definition}
+\begin{definition}[Surjective]
+  $f: A \to B$ is \textit{surjective} if $\forall b \in B, \exists a \in A$ s.t. $f(a) = b$.
+\end{definition}
+\begin{definition}[Bijective]
+  $f: A \to B$ is \textit{bijective} if it is both injective and surjective.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $f: \{1, 2, 3, 4, 5\} \to \{1, 2, 3, 4\}$ given by:\par
+    \begin{tabular}{c|c c c c c}
+    $x$ & 1 & 2 & 3 & 4 & 5 \\
+    \hline
+    $f(x)$ & 1 & 3 & 1 & 3 & 4
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c}
+    Injective & \cross \\
+    Surjective & \cross \\
+    Bijective & \cross
+    \end{tabular}
+
+    \item $f: \{1, 2, 3\} \to \{1, 2, 3\}$ given by:\par
+    \begin{tabular}{c|c c c}
+    $x$ & 1 & 2 & 3 \\
+    \hline
+    $f(x)$ & 1 & 3 & 2
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c}
+    Injective & \tick \\
+    Surjective & \tick \\
+    Bijective & \tick
+    \end{tabular}
+
+    \item $f: \{1, 2, 3\} \to \{1, 2, 3, 4\}$ given by:\par
+    \begin{tabular}{c|c c c}
+    $x$ & 1 & 2 & 3 \\
+    \hline
+    $f(x)$ & 1 & 4 & 2
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c}
+    Injective & \tick \\
+    Surjective & \cross \\
+    Bijective & \cross
+    \end{tabular}
+
+    \item $f: \{1, 2, 3, 4\} \to \{1, 2, 3\}$ given by:\par
+    \begin{tabular}{c|c c c c}
+    $x$ & 1 & 2 & 3 & 4\\
+    \hline
+    $f(x)$ & 1 & 3 & 2 & 3
+    \end{tabular}
+    \quad
+    \begin{tabular}{c c}
+    Injective & \cross \\
+    Surjective & \tick \\
+    Bijective & \cross
+    \end{tabular}
+  \end{enumerate}
+\end{example}
+If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once. That is, $f$ pairs up the elements of $A$ and $B$.
+\begin{definition}[Permutation]
+ A \textit{permutation} of a set $A$ is a bijection $A \to A$.
+\end{definition}
+\begin{remark}[Warning]
+  When specifying a function we must specify its domain and range.
+  For example, the question ``Is the function $f(x) = x^2$ injective?'' is meaningless on its own as $f: \N \to \N$ is injective but $f: \Z \to \Z$ is not.
+\end{remark}
+\begin{remark}
+  $f$ is surjective if and only if $f(A) = B$.
+\end{remark}
+\begin{remark}[Remarks]
+  For finite sets:
+  \begin{enumerate}
+    \item If $|B| > |A|$ then there cannot be a surjective $f: A \to B$.
+    \item If $|A| > |B|$ then there cannot be an injective $f: A \to B$.
+    \item If $f: A \to A$, then $f$ is injective if and only if $f$ is surjective.
+    \item There is no bijection from $A$ to any proper subset of $A$.
+  \end{enumerate}
+\end{remark}
+\begin{remark}[Warning]
+  The last two cases do not hold for infinite sets:
+  \begin{itemize}
+    \item $f: \N \to \N$, $x \mapsto x + 1$ is injective but not surjective.
+    \item $g: \N \to \N$, $x \mapsto \begin{cases}
+    x-1 & \text{if }x\neq1 \\
+    1 & \text{if }x=1
+    \end{cases}$ is surjective but not injective.
+  \item $h: \N \to \N \setminus \{1\}$, $x \mapsto x + 1$ is a bijection from $\N$ a proper subset of $\N$.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  Here are some useful examples of function:
+  \begin{enumerate}
+    \item For any set $X$ we can introduce the identity function $\id_X: X \to X$, $x \mapsto x$.
+    \item A sequence of reals $x_1, x_2, \ldots$ can be viewed as a function $\N \to \R$, $n \mapsto x_n$.
+    \item The operation $+$ on $\N$ can be view as a function $\N \times \N \to \N$, $(a, b) \mapsto a + b$.
+    \item A set $X$ has size $n$ if and only if there is a bijection from the set $\{1, 2, 3, \ldots, n\}$ to the set $X$.
+    \item Given a set $X$ and $A \subseteq X$, we have the \textit{indicator function} of $A$, $i_A: X \to \{0, 1\}$, $x \mapsto \begin{cases}
+    1 & \text{if } x\in A \\
+    0 & \text{if } x\notin A
+    \end{cases}$. This has the following properties:
+    \begin{itemize}
+      \item $i_A = i_B \iff A = B$
+      \item $i_{A \cap B} = i_A i_B$
+      \item $i_{X \setminus A} = 1 - i_A$
+      \item $i_{A \cup B} = i_A + i_B - i_{A \cap B}$
+    \end{itemize}
+  \end{enumerate}
+\end{example}
+\begin{proposition}
+  \[
+    i_{A \cup B} = i_A + i_B - i_{A \cap B}
+  \]
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    i_{A \cup B} &= 1 - i_{X \setminus A \cup B} \\
+                 &= 1 - i_{(X \setminus A) \cap (X \setminus B)} \\
+                 &= 1 - i_{X \setminus A} i_{X \setminus B} \\
+                 &= 1 - (1 - i_A)(1 - i_B) \\
+                 &= i_A + i_B - i_{A \cap B}
+  \end{align*}
+\end{proof}
 \end{document}
