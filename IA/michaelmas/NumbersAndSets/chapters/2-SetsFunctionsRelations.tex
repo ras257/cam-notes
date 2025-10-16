@@ -327,10 +327,16 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
     \item A sequence of reals $x_1, x_2, \ldots$ can be viewed as a function $\N \to \R$, $n \mapsto x_n$.
     \item The operation $+$ on $\N$ can be view as a function $\N \times \N \to \N$, $(a, b) \mapsto a + b$.
     \item A set $X$ has size $n$ if and only if there is a bijection from the set $\{1, 2, 3, \ldots, n\}$ to the set $X$.
-    \item Given a set $X$ and $A \subseteq X$, we have the \textit{indicator function} of $A$, $i_A: X \to \{0, 1\}$, $x \mapsto \begin{cases}
-    1 & \text{if } x\in A \\
-    0 & \text{if } x\notin A
-    \end{cases}$. This has the following properties:
+    \item Given a set $X$ and $A \subseteq X$, we have the \textit{indicator function} of $A$:
+      \[
+        i_A: X \to \{0, 1\},\;
+        x \mapsto \begin{cases}
+          1 & \text{if } x\in A \\
+          0 & \text{if } x\notin A
+        \end{cases}
+      \]
+
+    This has the following properties:
     \begin{itemize}
       \item $i_A = i_B \iff A = B$
       \item $i_{A \cap B} = i_A i_B$
