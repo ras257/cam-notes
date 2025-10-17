@@ -1,0 +1,132 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Partial Differentiation}
+\section{Functions of Several Variables}
+Our goal is to generalise differentiation to functions of more than one independent variables, that is, \textit{multivariate functions}.
+\begin{example}
+  Examples of when we might need a multivariate function:
+  \begin{itemize}
+    \item Height of terrain, $h(x, y)$
+    \item Temperature in room, $T(x, y, z, t)$
+    \item Pressure of a gas as a function of volume and temperature
+  \end{itemize}
+\end{example}
+To draw a contour plot you draw contours where $f(x, y) = \text{constant}$, like a topographic map:
+
+\begin{center}
+\begin{tikzpicture}[scale=2]
+  \draw[->] (0,0) -- (2.5,0) node[right] {$x$};
+  \draw[->] (0,0) -- (0,2.5) node[above] {$y$};
+
+  \foreach \r/\label in {0.5/0.25, 1/1, 1.5/2.25, 2/4} {
+    \draw (0,\r) arc[start angle=90, end angle=0, radius=\r];
+    \node at ({\r/sqrt(2) + 0.1}, {\r/sqrt(2) + 0.1}) {\small $\label$};
+  }
+
+  \filldraw[black] (0.7, 1.5) circle (0.03) node[above right] {$A$};
+  \node[below left] at (0,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+The slope at the point $A$ depends on the direction.
+\section{Partial Derivatives}
+Generally speaking, partial derivatives are the derivatives of a multivariate function with respect to a single variable whilst holding other variables fixed.
+\begin{definition}[Partial Derivative]
+  Given a function of several variables, e.g. $f(x, y)$, the \textit{partial derivative} of $f$ with respect to $x$ at fixed $y$ is:
+  \[
+    \at{\pderiv{f}{x}}{y} = \lim_{\delta x \to 0} \frac{f(x + \delta x, y) - f(x, y)}{\delta x}
+  \]
+  This is the slope of $f$ when moving in the positive $x$ direction whilst keeping $y$ fixed.
+\end{definition}
+\begin{example}
+  \begin{align*}
+    f(x, y) &= x^2 + y^3 + e^{xy^2} \\
+    \at{\pderiv{f}{x}}{y} &= 2x+0+y^2e^{xy^2} \\
+    \at{\pderiv{f}{y}}{x} &= 0 + 3y^2 + 2xye^{xy^2}\\
+  \end{align*}
+  We can also take higher order derivatives similarly to normal derivatives.
+  \[
+    \at{\pderiv[2]{f}{x}}{y} = 2 +y^4e^{xy^2}
+  \]
+  We can also take mixed derivatives:
+  \begin{align*}
+    \at{\pderiv{}{x}\left(\at{\pderiv{f}{y}}{x}\right)}{y} &= \frac{\partial^2 f}{\partial x \partial y} =2ye^{xy^2} + 2xy^3 e^{xy^2} \\
+    \at{\pderiv{}{y}\left(\at{\pderiv{f}{x}}{y}\right)}{x} &= \frac{\partial^2 f}{\partial y \partial x} =2ye^{xy^2} + 2xy^3 e^{xy^2}
+  \end{align*}
+\end{example}
+\begin{remark}[Notation]
+  We usually omit the evaluated at bar $\at{}{x}$ and implicitly assume that all other variables are being held fixed.
+\end{remark}
+\begin{remark}[Alternative Notation]
+  \[
+    f_x \equiv \pderiv{f}{x}, f_{xy} \equiv \frac{\partial^2 f}{\partial y \partial x}
+  \]
+  In the second case the derivative with respect to $x$ is carried out \textbf{first}.
+\end{remark}
+\begin{theorem}[Schwarz's Theorem]
+  If $f$ has continuous mixed 2nd derivatives then:
+  \[
+    \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial^2 f}{\partial x \partial y}
+  \]
+  That is, partial derivatives commute.
+\end{theorem}
+\begin{remark}
+  If we have $f(x, y, z)$ then:
+  \[
+    \pderiv{f}{x} \equiv \at{\pderiv{f}{x}}{y, z} \neq \at{\pderiv{f}{x}}{y} \text{(in general)}
+  \]
+\end{remark}
+\section{Multivariate Chain Rule}
+Given a path $x(t), y(t)$ and $f(x, y)$ what is $\deriv{f}{t}$ along the path?
+Consider the change in $f$ under a small change in $(x, y)$, that is $(x, y) \mapsto (x + \delta x, y + \delta y)$.
+\begin{align*}
+  \delta f &= f(x + \delta x, y + \delta y) - f(x, y) \\
+           &= [f(x + \delta x, y + \delta y) - f(x + \delta x, y)] + [f(x + \delta x, y) - f(x, y)]
+\end{align*}
+Using \cref{taylorsThm} (Taylor's Theorem) as $\delta x \to 0$:
+\[
+  f(x + \delta x, y) - f(x, y) = f_x(x, y) \delta x + o(\delta x)
+\]
+Again using \cref{taylorsThm} first as $\delta y \to 0$ then again as $\delta x \to 0$:
+\begin{align*}
+  f(x + \delta x, y + \delta y) - f(x + \delta x, y) &= f_y(x + \delta x, y)\delta y + o(\delta y) \\
+                                                     &= [f_y(x, y) + f_{yx}(x, y)\delta x + o(\delta x)] \delta y + o(\delta y)
+\end{align*}
+Substituting back into the original expression for $\delta f$:
+\begin{align*}
+  \delta f &= [f_y(x, y) + f_{yx}(x,y)\delta x + o(\delta x)]\delta y + f_x(x, y)\delta x + o(\delta y) + o(\delta x) \\
+           &= f_x(x, y)\delta x + f_y(x, y)\delta y + f_{yx}(x, y)(\delta x)(\delta y) + o(\delta x)\delta y + o(\delta y) + o(\delta x) \\
+           &= f_x(x, y)\delta x + f_y(x, y)\delta y + o(\delta x, \delta y)
+\end{align*}
+Taking the limit as $\delta x, \delta y \to 0$ yields:
+\begin{theorem}[Differential Form of the Chain Rule for Partial Derivatives]
+  The differential $\d{f}$ of $f(x, y)$ is:
+  \[
+    \d{f} = \pderiv{f}{x}\d{x} + \pderiv{f}{y}\d{y}
+  \]
+\end{theorem}
+So for the path $x(t), y(t)$:
+\begin{align*}
+  \deriv{}{t}(f(x(t), y(t))) &= \lim_{\delta x, \delta y, \delta t \to 0} \left[\pderiv{f}{x} \frac{\delta x}{\delta t} + \pderiv{f}{y} \frac{\delta y}{\delta t}\right] \\
+  &= \pderiv{f}{x} \deriv{x}{t} + \pderiv{f}{y} \deriv{y}{t}
+\end{align*}
+If we instead parametrise the path by the $x$ coordinate then:
+\[
+  \deriv{}{x}f(x, y(x)) = \pderiv{f}{x} \underbrace{\deriv{}{x}(x)}_{=1} + \pderiv{f}{y} \deriv{y}{x} = \pderiv{f}{x} + \pderiv{f}{y}\deriv{y}{x}
+\]
+\begin{theorem}[Integral Form of the Multivariate Chain Rule]
+  \[
+    \Delta f = \int  \d{f} = \int \deriv{f}{x} \d{x} + \int \pderiv{f}{y} \d{y}
+  \]
+  Where $\Delta f$ is the change in $f$ between the endpoints of the path.
+\end{theorem}
+For $f(x(t), y(t))$:
+\[
+  \Delta f = \int \left(\pderiv{f}{x}\deriv{x}{t} + \pderiv{f}{y}\deriv{y}{t}\right) \d{t} = \int \deriv{f}{t} \d{t}
+\]
+This means that we will just get the difference between the values of $f$ at the endpoints and thus the result does not depend on the particular path for a given pair of endpoints.
+\section{Applications of the Multivariate Chain Rule}
+\subsection{Change in Variables}
+It is often useful to write a differential equation in a different coordinate system.
+
+\end{document}
