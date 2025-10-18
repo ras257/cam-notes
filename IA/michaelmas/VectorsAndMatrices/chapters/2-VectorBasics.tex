@@ -390,4 +390,137 @@ This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{
 \draw[dashed] (A) -- (B);
 \end{tikzpicture}
 \end{center}
+We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by the $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
+
+\subsection{Component Expressions}
+For any right-handed orthonormal basis we have that:
+\begin{align*}
+  \vec{e}_1 \times \vec{e}_2 &= \vec{e}_3 = -\vec{e}_2 \times \vec{e}_1 \\
+  \vec{e}_2 \times \vec{e}_3 &= \vec{e}_1 = -\vec{e}_3 \times \vec{e}_2 \\
+  \vec{e}_3 \times \vec{e}_1 &= \vec{e}_2 = -\vec{e}_3 \times \vec{e}_1
+\end{align*}
+Consider $\vec{a} = (a_1, a_2, a_3)$ and $\vec{b} = (b_1, b_2, b_3)$ then:
+\begin{align*}
+  \vec{a} \times \vec{b} &= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) \times (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
+                         &= (a_1 b_2 \vec{e}_3 - a_1 b_3 \vec{e}_2 - a_2 b_1 \vec{e}_3 + a_2 b_3 \vec{e}_1 + a_3 b_1 \vec{e}_2 - a_3 b_2 \vec{e}_1) \\
+                         &= (a_2 b_3 - a_3 b_2) \vec{e}_1 + (a_3 b_1 - a_1 b_3) \vec{e}_2 + (a_1 b_2 - a_2 b_1) \vec{e}_3
+\end{align*}
+We can also write this as a matrix determinant:
+\[
+  \vec{a} \times \vec{b} =\begin{vmatrix}
+  \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+  a_1 & a_2 & a_3 \\
+  b_1 & b_2 & b_3 \\
+  \end{vmatrix}
+\]
+\section{Triple Products}
+\begin{remark}[Note]
+For this section, consider vectors in $\R^{3}$ only.
+\end{remark}
+\subsection{Scalar Triple Product}
+\begin{definition}
+  Consider $\vec{a}, \vec{b}, \vec{c}$ then the \textit{scalar triple product} is:
+  \[
+    [\vec{a}, \vec{b}, \vec{c}] = \vec{a} \cdot (\vec{b} \times \vec{c})
+  \]
+\end{definition}
+Cyclic permutations of $\vec{a}, \vec{b}, \vec{c}$ retain the value of the scalar triple product and then swapping any two elements otherwise introduces a minus sign:
+\begin{align*}
+  &\vec{a} \cdot (\vec{b} \times \vec{c}) = \vec{b} \cdot (\vec{c} \times \vec{a}) = \vec{c} \cdot (\vec{a} \times \vec{b}) \\
+  &= -\vec{a} \cdot (\vec{c} \times \vec{b}) = -\vec{b} \cdot (\vec{a} \times \vec{c}) = -\vec{c} \cdot (\vec{b} \times \vec{a})
+\end{align*}
+Geometrically, $|\vec{a} \cdot (\vec{b} \times \vec{c})|$ is the volume of the parallelepiped with sides $\vec{a}$, $\vec{b}$, $\vec{c}$.
+\[
+  |\vec{a} \cdot (\vec{b} \times \vec{c})| = (\text{area of base}) \times(\text{perpendicular height}) = \text{volume}
+\]
+If this is taken without the modulus then $\vec{a} \cdot (\vec{b} \times \vec{c})$ is a signed volume.
+\begin{itemize}
+  \item $\vec{a} \cdot (\vec{b} \times \vec{c}) > 0$ then $\vec{a}, \vec{b}, \vec{c}$ constitute a right handed set.
+  \item $\vec{a} \cdot (\vec{b} \times \vec{c}) < 0$ then $\vec{a}, \vec{b}, \vec{c}$ constitute a left handed set.
+  \item $\vec{a} \cdot (\vec{b} \times \vec{c}) = 0$ if and only if $\vec{a}, \vec{b}, \vec{c}$ are coplanar. That is, one of them is a linear combination of the other two.
+\end{itemize}
+\subsection{Vector Triple Product}
+\begin{definition}[Vector Triple Product]
+  $\vec{a}, \vec{b}, \vec{c} \in \R^{3}$ then the \textit{vector triple product} is:
+  \[
+    \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c}
+  \]
+\end{definition}
+\begin{remark}[Warning]
+  In general the vector triple product is not associative:
+  \begin{align*}
+    \vec{a} \times (\vec{b} \times \vec{c}) &= (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b})\vec{c} \\
+    (\vec{a} \times \vec{b}) \times \vec{c} &= (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{b} \cdot \vec{c})\vec{a}
+  \end{align*}
+\end{remark}
+\section{Lines, Planes, and Vector Equations}
+\subsection{Lines}
+Any point on the line through a point $\vec{a}$ with direction $\vec{u}$ ($\vec{u} \neq 0$) has position vector given by:
+\[
+  \vec{r} = \vec{a} + \lambda \vec{u} \quad \lambda \in \R
+\]
+
+\begin{center}
+\begin{tikzpicture}[scale=2,>=stealth]
+  \coordinate (O) at (0.6,-0.5);
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (2.4,1.2);
+  \coordinate (C) at (1.2,0.6);
+
+  \draw[dashed, gray] (-1.6,-0.8) -- (3,1.5);
+
+  \draw[->, thick, black] (A) -- (C) node[midway, above left] {$\vec{u}$};
+  \draw[->, thick, black] (O) -- (A) node[midway, above right] {$\vec{a}$};
+  \draw[->, thick, black] (O) -- (B) node[midway, below right] {$\vec{r}$};
+  \draw[->, black] (A) -- (B) node[near end, above left] {$\lambda \vec{u}$};
+
+
+  \fill (O) circle (0.03);
+  \node[below right] at (O) {$O$};
+  \node[above left] at (A) {$A$};
+\end{tikzpicture}
+\end{center}
+We can rearrange this to get:
+\begin{align*}
+  (\vec{r} - \vec{a}) &= \lambda \vec{u} \\
+  (\vec{r} - \vec{a}) \times \vec{u} &= \vec{0}
+\end{align*}
+or equivalently $\vec{r} \times \vec{u} = \vec{b}$.
+\subsection{Planes}
+Any point on a plane though $\vec{a}$ with two direction vectors $\vec{u}$, $\vec{v}$ ($\vec{u} \centernot\parallel \vec{v}$) has position vector given by:
+\[
+  \vec{r} = \vec{a} + \lambda \vec{u} + \mu \vec{v} \quad \lambda, \mu \in \R
+\]
+A vector normal to the plane is given by $\vec{n} = \vec{u} \times \vec{v}$. Then we can write:
+\[
+  \vec{r} \cdot \vec{n} = \vec{a} \cdot \vec{n} \text{ or } (\vec{r} - \vec{a}) \cdot \vec{n} = 0
+\]
+The component of $\vec{r}$ along $\vec{n}$ is
+\[
+  \uvec{n} \cdot \vec{r} = \frac{\vec{n} \cdot \vec{r}}{|\vec{n}|} = \frac{k}{|\vec{n}|}
+\]
+which is also the perpendicular distance from the origin to the plane.
+
+If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane containing them as:
+\[
+  (\vec{r} - \vec{a}) \cdot [(\vec{b} - \vec{a}) \times (\vec{c} - \vec{a})] = 0
+\]
+\begin{example}[Finding the Intersection Between a Line and a Plane]
+  Consider a line given by $\vec{u} \times \vec{r} = \vec{u} \times \vec{a}$ and a plane given by $\vec{n} \cdot \vec{r} = \vec{n} \cdot \vec{b}$.
+
+  The line can also be written as $\vec{r} \times \vec{u} = \vec{a} \times \vec{u}$.
+  Taking the vector product of this with $\vec{n}$ yields:
+  \begin{align*}
+    (\vec{a} \times \vec{u}) \times \vec{n} &= (\vec{r} \times \vec{u}) \times \vec{n}\\
+                                            &= (\vec{r} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by vector triple product}\\
+                                            &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by definition of plane}\\
+    (\vec{u} \cdot \vec{n})\vec{r} &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{a} \times \vec{u}) \times \vec{n}\\
+    \vec{r} &= \frac{(\vec{b} \cdot\vec{n})\vec{u} - (\vec{a} \times \vec{u})\times\vec{n}}{\vec{u} \cdot\vec{n}} \text{ provided $\vec{u} \cdot \vec{n} = 0$}
+  \end{align*}
+  In the case that $\vec{u} \cdot \vec{n} = 0$ then $\vec{u}$ is orthogonal to $\vec{n}$ so either:
+  \begin{itemize}
+    \item The line and plane are parallel so never intersect
+    \item The line is contained entirely within the plane so the intersection is just the line itself.
+  \end{itemize}
+\end{example}
 \end{document}

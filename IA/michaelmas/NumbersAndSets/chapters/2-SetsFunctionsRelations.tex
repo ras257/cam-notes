@@ -170,6 +170,7 @@ A set $A$ has size $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all 
   A set $A$ is \textit{finite} if $\exists n \in \N_0$ such that $|A| = n$ and $A$ is \textit{infinite} otherwise.
 \end{definition}
 \section{Functions}
+\subsection{Function Definition}
   Given sets $A$ and $B$ a \textit{function} $f$ from $A$ to $B$ is, informally, a ``rule'' that assigns to every $x \in A$ to a unique $f(x) \in B$.
 \begin{definition}[Function]
   A \textit{function} from $A$ to $B$ is a subset $f \subseteq A \times B$ such that for all $x \in A$, there is a unique $y \in B$ such that $(x, y) \in f$
@@ -225,6 +226,7 @@ If $Y \subset B$ then the \textit{preimage} of $Y$ under $f$ is:
     f^{-1}(\{y \in \R: -1 \leq y \leq 4\}) &= \{x \in \R: -2 \leq x \leq 2\}
   \end{align*}
 \end{example}
+\subsection{Function Properties}
 \begin{definition}[Injective]
   $f:A \to B$ is \textit{injective} if $\forall a, a' \in A$, $f(a) = f(a') \implies a = a'$.
 \end{definition}
@@ -359,4 +361,156 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
                  &= i_A + i_B - i_{A \cap B}
   \end{align*}
 \end{proof}
+\subsection{Function Composition}
+\begin{definition}[Function Composition]
+  Give $f: A \to B$ and $g: B \to C$, $g$ \textit{composed} with $f$ is $g \circ f: A \to C$, $a \mapsto g(f(a))$.
+\end{definition}
+\begin{remark}[Warning]
+  In general function composition is not commutative.
+\end{remark}
+\begin{example}
+  If $f: \R \to \R, x \mapsto 2x$ and $g: \R \to \R, x \mapsto x + 1$ then:
+  \begin{align*}
+    g \circ f &= g(f(x)) = g(2x) = 2x + 1 \\
+    f \circ g &= f(g(x)) = f(x + 1) = 2(x+1)
+  \end{align*}
+\end{example}
+\begin{proposition}[Associativity of Function Composition]
+Function composition is associative, that is for $f: A \to B$, $g: B \to C$, $h: C \to D$:
+\[
+  h \circ (g \circ f) = (h \circ g) \circ f
+\]
+\end{proposition}
+\begin{proof}
+  For every $x \in A$,
+  \[
+    (h \circ (g \circ f))(x) = h((g \circ f)(x)) = h(g(f(x))) = (h \circ g)(f(x)) = ((h \circ g) \circ f)(x)
+  \]
+  Thus we have $h \circ (g \circ f) = (h \circ g) \circ f$.
+\end{proof}
+We may therefore write composition expressions without brackets, for example, $h \circ g \circ f$, without ambiguity.
+\subsection{Function Inverses}
+\begin{definition}[Invertible]
+  $f: A \to B$ is \textit{invertible} if there exists $g: B \to A$ such that $g \circ f =\id_A$ and $f \circ g = \id_B$.
+\end{definition}
+\begin{example}
+  If $f: \R \to \R, x\mapsto 2x + 1$ and $g: \R \to \R, x\mapsto \frac{x-1}{2}$.
+  \[
+    (g \circ f)(x) = g(2x + 1) = \frac{2x + 1 - 1}{2} = x
+  \]
+  So $g \circ f = \id_{\R}$.
+  \[
+    (f \circ g)(x) = f\left(\frac{x-1}{2}\right) = 2\left(\frac{x-1}{2}\right) + 1 = x
+  \]
+  So $f \circ g = \id_{\R}$.
+  Hence $f$ is invertible with inverse $g$.
+\end{example}
+\begin{remark}[Warning]
+  A function can have an inverse on one side but not the other. For example:
+
+  $f: \N \to \N$, $x \mapsto x + 1$ and $g: \N \to \N$, $x \mapsto
+  \begin{cases}
+  x-1 & x \neq 1 \\
+  1 & x =1
+  \end{cases}$
+
+  So:
+  \[
+    (g \circ f)(x) = \begin{cases}
+      x & x \neq 0 \\
+      1 & x = 0
+    \end{cases}
+    \text{ and }
+    (f \circ g)(x) = \begin{cases}
+      x & x \neq 1 \\
+      2 & x = 1
+    \end{cases}
+  \]
+  Hence $g \circ f = \id_{\N}$ but $f \circ g \neq \id_{\N}$ since $(f \circ g)(1) = 2 \neq 1$
+\end{remark}
+We can also establish conditions on when an inverse exists:
+\begin{proposition}
+  Given a function $f: A \to B$ there exists a left inverse $g$ such that $g \circ f = \id_A$ if and only if $f$ is injective.
+  \label{invInjective}
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume such a $g$ exists}
+    So we have $\forall a \in A$, $g(f(a)) = a$.
+    Consider two elements $a, a' \in A$ such that $f(a) = f(a')$ then $g(f(a)) = g(f(a'))$ and so $a = a'$.
+
+    Thus we have $f(a) = f(a') \implies a = a'$ so $f$ is injective.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f$ is injective}
+    If $b \in f(A)$ let $g(b) = a$ where $a$ is the unique element (by assumption) of $A$ with $f(a) = b$, so that $g(f(a)) = a$.
+    If $b \notin f(A)$ let $g(b)$ be any element in $A$.
+
+    Thus $\forall a \in A,\; g(f(a)) = a$ so $g \circ f = \id_A$.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}
+  Given a function $f: A \to B$ there exists a right inverse $g$ such that $f \circ g = \id_B$ if and only if $f$ is surjective.
+  \label{invSurjective}
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume such a $g$ exists}
+    So we have $\forall b \in B$, $f(g(b)) = b$.
+    That is, each $b \in B$ must have a corresponding $a \in A$ with $g(b) = a$ such that $f(a) = b$.
+    Therefore $f$ must be surjective.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f$ is surjective}
+    For each $b \in B$ pick some $a \in A$ with $f(a) = b$ which will always exist as $f$ is surjective.
+    Then we can just put $g(b) = a$ and so $f \circ g = \id_B$
+  \end{proofdirection}
+\end{proof}
+
+We can combine \cref{invInjective,invSurjective} to arrive at:
+\begin{proposition}
+  $f: A \to B$ is invertible if and only if it is bijective.
+  We write $f^{-1}: B \to A$ for the inverse of $f$ when it exists.
+\end{proposition}
+\begin{remark}[Warning]
+  The \textbf{preimage of a function always exists} but the \textbf{inverse may not}
+\end{remark}
+\section{Relations}
+\begin{definition}[Relation]
+  A \textit{relation} on a set $X$ is a subset $R \subseteq X \times X$.
+  We write $a \rel b$ for $(a, b) \in R$ and say ``$a$ is related to $b$''.
+\end{definition}
+\begin{example}
+  Examples of relations on $\N$:
+  \begin{enumerate}
+    \item $a \rel b$ if $a$ and $b$ share the same final digit
+    \item $a \rel b$ if $a < b$
+    \item $a \rel b$ if $a \neq n$
+    \item $a \rel b$ if $a = b = 1$
+    \item $a \rel b$ if $|a - b| \leq 3$
+  \end{enumerate}
+  \label{relExamples}
+\end{example}
+There are three properties of a relation that are of special interest.
+\begin{definition}[Reflexive]
+  A relation $\rel$ is \textit{reflexive} if $\forall x \in X,\; x \rel x$.
+\end{definition}
+\begin{definition}[Symmetric]
+  A relation $\rel$ is \textit{symmetric} if $\forall x, y \in X,\; x \rel y \iff y \rel x$.
+\end{definition}
+\begin{definition}[Transitive]
+  A relation $\rel$ is \textit{transitive} if $\forall x, y, z \in X,\; (x \rel y \text{ and } y \rel z) \implies x \rel z$.
+\end{definition}
+Here are the properties for the relationships in \cref{relExamples}:\par
+\begin{center}
+\begin{tabular}{c|c c c c c}
+Example & \textbf{i} & \textbf{ii} & \textbf{iii} & \textbf{iv} & \textbf{v} \\
+\hline
+Reflexive & \tick & \cross & \cross & \cross & \tick \\
+Symmetric & \tick & \cross & \tick & \tick &  \tick \\
+Transitive & \tick & \tick & \cross & \tick & \cross
+\end{tabular}
+\end{center}
+\subsection{Equivalence Relations}
+\begin{definition}[Equivalence Relation]
+  A relation $\rel$ is an \textit{equivalence relation} if it is reflexive, symmetric, and transitive.
+  We then write $a \sim b$ for $a \rel b$.
+\end{definition}
+Only example \textbf{i} above is an equivalence relation.
 \end{document}
