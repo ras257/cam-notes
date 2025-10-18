@@ -391,7 +391,16 @@ This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{
 \draw[dashed] (A) -- (B);
 \end{tikzpicture}
 \end{center}
-We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by the $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
+We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+\draw[gray, dashed] (-1,-0.5) -- (3.5, -0.5) -- (4.5, 1.2) -- (0.7, 1.2) -- cycle;
+\draw[thick,->] (0,0) -- (3,0) node[midway,below] {$\vec{x}$};
+\draw[thick,->] (0,0) -- (1,1) node[near end,right] {$\vec{a \times \vec{x}}$};
+\draw[thick,->] (0,0) -- (0,3) node[near end,right] {$\vec{a}$};
+\draw[->] (0.6,0) arc [start angle=0,end angle=45,radius=0.6] node[pos=0.7,right] {$\pi/2$};
+\end{tikzpicture}
+\end{center}
 
 \subsection{Component Expressions}
 Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
