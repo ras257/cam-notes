@@ -19,10 +19,61 @@ jobs:
       with:
         package_file: ${{ github.workspace }}/.github/tl_packages
 
-    - name: Compile all main.tex files
+    - name: Determine changed .tex files
+      id: changes
+      run: |
+        # Fetch list of changed TeX files between the pushed commits
+        git diff --name-only "${{ github.event.before }}" "${{ github.event.after }}" | grep '\.tex$' > changed_tex.txt || true
+
+        echo "Changed .tex files:"
+        cat changed_tex.txt || echo "None"
+
+        # Exclude root-level preamble.tex and lecture-preamble.tex and anything in the templates folder
+        grep -v -E '^(preamble\.tex|lecture-preamble\.tex|templates/.*\.tex)$' changed_tex.txt > texfiles.txt || true
+
+        # Find which main.tex files need recompiling
+        echo "" > main_files.txt
+        while IFS= read -r file; do
+          [ -z "$file" ] && continue  # skip empty lines
+
+          if [[ "$file" == *"main.tex" ]]; then
+            echo "$file" >> main_files.txt
+          elif [[ "$file" == *"/chapters/"* ]]; then
+            main_dir=$(dirname "$(dirname "$file")")
+            main_file="$main_dir/main.tex"
+            if [ -f "$main_file" ]; then
+              echo "$main_file" >> main_files.txt
+            fi
+          fi
+        done < texfiles.txt
+
+        # Remove duplicates and blank lines
+        grep -v '^[[:space:]]*$' main_files.txt | sort -u > tmp_main_files.txt
+        mv tmp_main_files.txt main_files.txt
+
+        echo "Main.tex files to compile:"
+        cat main_files.txt || echo "None"
+
+        # Build comma-separated list for GitHub output
+        if [ -s main_files.txt ]; then
+          files=$(paste -sd "," main_files.txt)
+          echo "main_files=$files" >> $GITHUB_OUTPUT
+        else
+          echo "main_files=" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Compile changed Main.tex files
+      if: steps.changes.outputs.main_files != ''
       run: |
         mkdir output
-        find . -type f -name 'main.tex' -not -path "./templates/*" | while read file; do
+        IFS=',' read -ra files <<< "${{ steps.changes.outputs.main_files }}"
+        for file in "${files[@]}"; do
+          [ -z "$file" ] && continue
+          if [ ! -f "$file" ]; then
+            echo "File not found: $file"
+            continue
+          fi
+
           dir=$(dirname "$file")
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
@@ -33,7 +84,7 @@ jobs:
           cd - > /dev/null
           echo "::endgroup::"
         done
-        
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
