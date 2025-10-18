@@ -1,7 +1,6 @@
 name: latex-deploy
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - "**.tex"
@@ -13,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v5.0.0
+      with:
+        fetch-depth: 0
 
     - name: Install TeX Live
       uses: zauguin/install-texlive@v4
