@@ -15,7 +15,7 @@ If you spot any errors or have suggestions, I’d greatly appreciate it if you s
 
 ## Acknowledgements
 - [sgj236](https://github.com/ostephagus/lecture-notes): Inpsiration for document (see [lecturenotes.sty](https://github.com/ostephagus/lecturenotes)) and repository structure.
-The contents of their notes also provided useful material for testing my LaTeX environments. 
+The contents of their notes also provided useful material for testing my LaTeX environments. Also improved my original LaTeX deploy GitHub Action to only recompile changed TeX files.
 - [dec41](https://github.com/dalcde/cam-notes): Their notes originally inspired me to typeset lecture notes using LaTeX.
 
 ## PDFs
