@@ -257,6 +257,7 @@ to define the angle between $\vec{x}$ and $\vec{y}$ in $\R^{n}$ since Cauchy-Sch
 \end{proof}
 
 \section{Orthonormal Bases}
+\label{orthonormalBasis}
 \begin{remark}[Note]
 For this section, consider vectors in $\R^{3}$ only.
 \end{remark}
@@ -393,13 +394,15 @@ This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{
 We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by the $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
 
 \subsection{Component Expressions}
-For any right-handed orthonormal basis we have that:
+Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
+If we impose the further restriction that:
 \begin{align*}
   \vec{e}_1 \times \vec{e}_2 &= \vec{e}_3 = -\vec{e}_2 \times \vec{e}_1 \\
   \vec{e}_2 \times \vec{e}_3 &= \vec{e}_1 = -\vec{e}_3 \times \vec{e}_2 \\
   \vec{e}_3 \times \vec{e}_1 &= \vec{e}_2 = -\vec{e}_3 \times \vec{e}_1
 \end{align*}
-Consider $\vec{a} = (a_1, a_2, a_3)$ and $\vec{b} = (b_1, b_2, b_3)$ then:
+Then this is a \textit{right-handed} orthonormal basis.
+Now consider $\vec{a} = (a_1, a_2, a_3)$ and $\vec{b} = (b_1, b_2, b_3)$ then:
 \begin{align*}
   \vec{a} \times \vec{b} &= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) \times (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
                          &= (a_1 b_2 \vec{e}_3 - a_1 b_3 \vec{e}_2 - a_2 b_1 \vec{e}_3 + a_2 b_3 \vec{e}_1 + a_3 b_1 \vec{e}_2 - a_3 b_2 \vec{e}_1) \\
@@ -499,7 +502,7 @@ The component of $\vec{r}$ along $\vec{n}$ is
 \[
   \uvec{n} \cdot \vec{r} = \frac{\vec{n} \cdot \vec{r}}{|\vec{n}|} = \frac{k}{|\vec{n}|}
 \]
-which is also the perpendicular distance from the origin to the plane.
+The perpendicular distance from the origin to the plane is $\frac{|k|}{|n|}$.
 
 If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane containing them as:
 \[
