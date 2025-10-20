@@ -117,6 +117,7 @@ If we instead parametrise the path by the $x$ coordinate then:
 \begin{theorem}[Integral Form of the Multivariate Chain Rule]
   \[
     \Delta f = \int  \d{f} = \int \deriv{f}{x} \d{x} + \int \pderiv{f}{y} \d{y}
+    \label{multiChainRule}
   \]
   Where $\Delta f$ is the change in $f$ between the endpoints of the path.
 \end{theorem}
@@ -128,5 +129,150 @@ This means that we will just get the difference between the values of $f$ at the
 \section{Applications of the Multivariate Chain Rule}
 \subsection{Change in Variables}
 It is often useful to write a differential equation in a different coordinate system.
+For example, it might be useful to convert from Cartesian $(x, y)$ to polar $(r, \theta)$.
 
+We can do this by thinking of a function $f(x, y)$ as $f(x(r, \theta), y(r, \theta))$.
+Then from the multi-variate chain rule (\cref{multiChainRule}):
+\begin{align*}
+  \at{\pderiv{f}{r}}{\theta} &= \at{\pderiv{f}{x}}{y} \at{\pderiv{x}{r}}{\theta} + \at{\pderiv{f}{y}}{x} \at{\pderiv{y}{r}}{\theta} \\
+  \at{\pderiv{f}{\theta}}{r} &= \at{\pderiv{f}{x}}{y} \at{\pderiv{x}{\theta}}{r} + \at{\pderiv{f}{y}}{x} \at{\pderiv{y}{\theta}}{r}
+\end{align*}
+\subsection{Implicit Differentiation}
+Consider the surface in 3D space given by $f(x, y, z) = \text{constant}$.
+This implicitly defines $z = z(x, y)$, $y = y(x, z)$, $x = x(y, z)$ but we may not be able to find these forms explicitly.
+\begin{example}
+\begin{equation}
+  xy + y^2 z + z^5 = 1
+  \label{implicitEx}
+\end{equation}
+We cannot find $z$ as a function of $x$ and $y$.
+But we can still evaluate partial derivatives.
+If we take the derivative of \cref{implicitEx} with respect to $x$ holding $y$ fixed we get:
+\[
+  y + y^2 \at{\pderiv{z}{x}}{y} + 5z^4 \at{\pderiv{z}{x}}{y} = 0
+\]
+and so:
+\[
+  \at{\pderiv{z}{x}}{y} = -\frac{y}{y^2 + 5z^4}
+\]
+\end{example}
+\begin{remark}[Warning]
+  In cases like these we need to be clear on what variables are being held fixed.
+\end{remark}
+In general, if $f(x, y, z) = \text{constant}$ then the multi-variate chain rule gives:
+\[
+  0 = \d{f} = \at{\pderiv{f}{x}}{y, z} \d{x} = \at{\pderiv{f}{y}}{x, z} \d{y} + \at{\pderiv{f}{z}}{x, y} \d{z}
+\]
+\begin{remark}[Warning]
+We can't vary $x$, $y$, and $z$ independently and stay on the surface.
+\end{remark}
+If we want to find $\at{(\partial x/\partial z)}{y}$ we first start by differentiating both sides with respect to $x$ holding $y$ fixed:
+\begin{align*}
+  0 = \at{\pderiv{f}{x}}{y} &= \at{\pderiv{f}{x}}{y,z} \underbrace{\at{\pderiv{x}{x}}{y}}_{=1} + \at{\pderiv{f}{y}}{x,z} \underbrace{\at{\pderiv{y}{x}}{y}}_{=0} + \at{\pderiv{f}{z}}{x, y} \at{\pderiv{z}{x}}{y} \\
+                            &=\at{\pderiv{f}{x}}{y,z} + \at{\pderiv{f}{z}}{x, y} \at{\pderiv{z}{x}}{y} \\
+\end{align*}
+We can now rearrange to get:
+\[
+  \at{\pderiv{z}{x}}{y} = -\frac{\at{(\partial f/\partial x)}{y, z}}{\at{(\partial f/\partial z)}{x, y}}
+\]
+We can carry out a similar process to get:
+\[
+  \at{\pderiv{x}{y}}{z} = -\frac{\at{(\partial f/\partial y)}{x, z}}{\at{(\partial f/\partial x)}{y, z}}
+\]
+and:
+\[
+  \at{\pderiv{y}{z}}{x} = -\frac{\at{(\partial f/\partial z)}{x, y}}{\at{(\partial f/\partial y)}{x, z}}
+\]
+From this it follows that for any arbitrary surface with $f(x, y, z) = c$ that:
+\[
+  \at{\pderiv{x}{y}}{z} \at{\pderiv{y}{z}}{x} \at{\pderiv{z}{x}}{y} = -1
+\]
+\begin{proposition}[Reciprocal Rule]
+The reciprocal rule for derivatives applies if same variables are being held fixed:
+\[
+  \at{\pderiv{x}{z}}{y} = -\frac{\at{(\partial f/\partial z)}{x, y}}{\at{(\partial f/\partial x)}{y, z}} = \frac{1}{\at{(\partial x/\partial z)}{y}}
+\]
+\end{proposition}
+\begin{remark}[Warning]
+  To apply the reciprocal rule you need to ensure that the same variables are being held fixed.
+  For example, in general:
+  \[
+    \at{\pderiv{r}{x}}{y} \neq \frac{1}{\at{(\partial x/\partial r)}{\theta}}
+  \]
+\end{remark}
+\section{Differentiation Under the Integral Sign}
+Consider a family of functions $f(x, c)$ where $c$ is a parameter.
+Define:
+\[
+  I(c) = \int_{a(c)}^{b(c)} f(x, c) \d{x}
+\]
+\begin{theorem}[Differentiation Under The Integral Sign - D.U.T.I.S]
+  \[
+    \deriv{I}{c} = \int_{a(c)}^{b(c)} \pderiv{f}{c} \d{x} + f(b(c), c) \deriv{b}{c} - f(a(c), c) \deriv{a}{c}
+    \label{dutis}
+  \]
+\end{theorem}
+\begin{proof}
+  From the definition of the derivative we have that:
+  \begin{align*}
+    \deriv{I}{c} &= \lim_{\delta c \to 0} \frac{1}{\delta c} \left[\int_{a(c + \delta c)}^{b(c + \delta c)} f(x, c + \delta c) \d{x} - \int_{a(c)}^{b(c)} f(x, c) \d{x}\right] \\
+  \end{align*}
+  The first integral can be split up into three integrals:
+  \[
+    \int_{a(c + \delta c)}^{b(c + \delta c)} = \int_{a(c)}^{b(c)} + \int_{b(c)}^{b(c + \delta c)} - \int_{a(c)}^{a(c + \delta c)}
+  \]
+We can first handle the integrals with matching bounds:
+\begin{align*}
+  &\lim_{\delta c \to 0} \frac{1}{\delta c} \left[\int_{a(c)}^{b(c)} f(x, c + \delta c) \d{x} - \int_{a(c)}^{b(c)} f(x, c) \d{x}\right] \\
+  &= \lim_{\delta \to 0} \frac{1}{\delta c} \int_{a(c)}^{b(c)} (f(x, c + \delta c) - f(x, c)) \d{x} \\
+  &= \int_{a(c)}^{n(c)} \lim_{\delta c \to 0} \frac{f(x, c + \delta c) - f(x, c)}{\delta c} \d{x} \\
+  &= \int_{a(c)}^{b(c)} \pderiv{f}{c} \d{x}
+\end{align*}
+Now for the integral from $b(c)$ to $b(c + \delta c)$, by the Mean Value Theorem (\cref{meanValue}) we have that for some $b(c) \leq \bar{x} \leq b(c + \delta c)$:
+\[
+  \int_{b(c)}^{b(c + \delta c)} f(x, c + \delta c) \d{x} = (b(c + \delta c) - b(c))f(\bar{x}, c + \delta c)
+\]
+so:
+\begin{align*}
+  \lim_{\delta c \to 0} \frac{1}{\delta c} \left[\int_{b(c)}^{b(c + \delta c)} f(x, c + \delta c) \d{x}\right] &= \lim_{\delta c \to 0} \frac{1}{\delta c} \left[(b(c + \delta c) - b(c))f(\bar{x}, c + \delta c)\right] \\
+  &= \left(\lim_{\delta c \to 0} \frac{b(c + \delta c) - b(c)}{\delta c} \right)\left(\lim_{\delta c \to 0} f(\bar{x}, c + \delta c)\right) \\
+  &= \deriv{b}{c} f(b(c), c)
+\end{align*}
+We can apply a similar process for the other remaining integral yielding:
+\[
+  \lim_{\delta c \to 0} \frac{1}{\delta c} \left[\int_{a(c)}^{a(c + \delta c)} f(x, c + \delta c) \d{x}\right] = \deriv{a}{c} f(a(c), c)
+\]
+Combining all of the above integrals gives the desired result.
+\end{proof}
+
+\begin{example}
+  Consider the integral:
+  \[
+    I(\lambda) = \int_{0}^{\lambda} e^{-\lambda x^2} \d{x}
+  \]
+  We can now apply \cref{dutis}:
+  \begin{align*}
+    \deriv{I}{\lambda} &= \int_{0}^{\lambda} \pderiv{}{\lambda}\left(e^{-\lambda x^2}\right) \d{x} + e^{-\lambda \cdot (\lambda)^2} \deriv{}{\lambda}(\lambda) \\
+                       &= \int_{0}^{\lambda} x^2 e^{-\lambda x^2} \d{x} + e^{-\lambda^3}
+  \end{align*}
+\end{example}
+\begin{example}
+  Suppose we want to evaluate:
+  \[
+    J_n = \int_{0}^{\infty} x^{n}e^{-x} \d{x}
+  \]
+  For $\lambda > 0$, let
+  \[
+    I(\lambda) = \int_{0}^{\infty} e^{-\lambda x} \d{x} = \frac{1}{\lambda}
+  \]
+  Differentiating both forms of $I(\lambda)$ $n$ times gives:
+  \[
+    \deriv[n]{I}{\lambda} = \int_{0}^{\infty} (-x)^{n} e^{-\lambda x} \d{x} = (-1)^{n}\frac{n!}{\lambda^{n+1}}
+  \]
+  Now we an set $\lambda = 1$ to get $J_n$:
+  \begin{align*}
+    (-1)^{n} J_n &= (-1)^{n} n! \\
+    J_n &= n! \\
+  \end{align*}
+\end{example}
 \end{document}

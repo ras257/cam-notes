@@ -390,7 +390,7 @@ Note that when $n=0$ the empty product is interpreted as the identity element. (
 \section{Isometries}
 Let $\C$ be the plane, equipped with with the usual notion of Euclidean distance:
 \[
-   |z-w| = \sqrt{(z_1 - w_1)^2 + (z_2 - w_2)^2}
+   |z-w| = \sqrt{(z_1 - w_1)^2 + (z_2 - w_2)^2}, \quad z = z_1 + i z_2, w = w_1 + i w_2
 \]
 \begin{definition}[Isometry]
   For any subset $X \subseteq \C$, an \textit{isometry} of $X$ is a bijection $f: X \to X$ that preserves distance:
@@ -425,7 +425,8 @@ Let $\C$ be the plane, equipped with with the usual notion of Euclidean distance
       and therefore $f^{-1} \in \Isom(X)$.
   \end{enumerate}
 \end{proof}
-\subsection{Dihedral Groups}
+\section{Dihedral Groups}
+\subsection{Definition}
 \begin{definition}[Dihedral Groups]
   Let $X_n \subseteq \C$ be the $n$-gon with vertices at:
   \[
@@ -436,13 +437,11 @@ Let $\C$ be the plane, equipped with with the usual notion of Euclidean distance
 \begin{example}
   $D_6$ is the symmetry group of an equilateral triangle that we studied earlier.
 \end{example}
-\begin{theorem}[Size of Dihedral Groups]
-  \[
-    |D_{2n}| = 2n
-  \]
-\end{theorem}
+We would like to show that $|D_{2n}| = 2n$.
 The proof of this will also give us a good description of all the elements of $D_{2n}$.
-But first, we need some geometric lemmas.
+
+\subsection{Geometric Lemmas}
+To do this, we first need some geometric lemmas.
 The first of which is a basic fact from Euclidean geometry.
 \begin{lemma}[Kite Lemma]
   Let $x_1, x_2, y_1, y_2 \in \C$. If:
@@ -479,6 +478,7 @@ The first of which is a basic fact from Euclidean geometry.
 \end{proof}
 \begin{lemma}[Three Point Lemma]
   Let $X \subseteq \C$ and $f \in \Isom(X)$ if there are $x_1, x_2, x_3 \in X$ that are \textbf{not collinear}, such that $f(x_i) = x_i$ for $i = 1, 2, 3$, then $f = \id_X$
+  \label{threePoint}
 \end{lemma}
 \begin{proof}
   Proceed by contradiction.
@@ -498,4 +498,121 @@ The first of which is a basic fact from Euclidean geometry.
 \begin{remark}
   There is equally an $n + 1$ point lemma which is valid in $\R^{n}$.
 \end{remark}
+\subsection{Elements of \texorpdfstring{$D_{2n}$}{Dihedral Groups}}
+To prove the theorem we need to define two elements of $D_{2n}$:
+\begin{enumerate}
+ \item Rotation by $2\pi/n$, $r(z) = e^{\frac{2\pi i}{n}}z$.
+ \item Reflection in the real axis, $s(z) = z^{*}$.
+\end{enumerate}
+We can now tackle the theorem which classifies the elements of $D_{2n}$:
+\begin{theorem}
+  For $n \geq 3$, $|D_{2n}| = 2n$ and:
+  \[
+    D_{2n} = \{e, r, \ldots, r^{n-1}, s, rs, \ldots, r^{n-1}s\}
+  \]
+  In particular, the set $\{r, s\}$ generates $D_{2n}$.
+\end{theorem}
+\begin{proof}
+  First, we need to show that $r, s \in D_{2n}$.
+  Take $x, y \in \C$.
+  \begin{align*}
+    |r(x) - r(y)| &= \abs{e^{\frac{2\pi i}{n}}x - e^{\frac{2\pi i}{n}}y} \\
+                  &= \abs{e^{\frac{2\pi i}{n}}}|x - y| \\
+                  &= |x - y|
+  \end{align*}
+  So $r$ is indeed an isometry.
+  Furthermore:
+  \[
+    r\left(e^{\frac{2 \pi i k}{n}}\right) = e^{\frac{2\pi i(k+1)}{n}}
+  \]
+  So $r$ sends vertices of $X_n$ to other vertices of $X_n$.
+
+  Similarly for $s$:
+  \begin{align*}
+    |s(x) - s(y)| &= |x^{*} - y^{*}| \\
+                  &= |(x - y)^{*}| \\
+                  &= |x-y|
+  \end{align*}
+  So $s$ is also an isometry.
+  Furthermore:
+  \[
+    s\left(e^{\frac{2\pi i k}{n}}\right) = e^{-\frac{2\pi ik}{n}} = e^{\frac{2\pi i (n-k)}{n}}
+  \]
+  So $s$ also preserves the vertices of $X_n$.
+
+  We have shown that $r, s \in D_{2n}$ and thus by induction $\{e, r, \ldots, r^{n-1}, s, rs, \ldots, r^{n-1}s\} \subseteq D_{2n}$.
+
+  To see that this is \textbf{all} the elements of $D_{2n}$, let $f \in D_{2n}$.
+  We now aim to prove that $f \in \{e, r, \ldots, r^{n-1}, s, rs, \ldots, r^{n-1}s\}$.
+
+  Consider what $f$ does the three adjacent vertices: $x = 1$, $y = e^{\frac{2\pi i}{n}}$ and $z =e^{-\frac{2\pi i}{n}}$.
+  Since $f \in D_{2n}$, $f(x)$ is also a vertex of $X_n$ so $f(x) = e^{\frac{2\pi i k}{n}}$ for some $k \in \{0, 1, \ldots, n-1\}$.
+  Therefore:
+  \[
+    (r^{-k} \circ f)(x) = r^{-k}(e^{\frac{2 \pi i k}{n}}) = e^{-\frac{2\pi i k}{n}} e^{\frac{2 \pi i k}{n}} = 1 = x
+  \]
+  Now $r^{-k} \circ f \in D_{2n}$ so:
+  \begin{align*}
+    |(r^{-k} \circ f)(y) - x| &= |(r^{-k} \circ f)(y) - (r^{-k} \circ f)(x)| \\
+                              &= |y - x| \text{ as it must be an isometry}
+  \end{align*}
+  So $(r^{-k} \circ f)(y)$ and $y$ must be the same distance from $x$ so $(r^{-k} \circ f)(y)$ must be an adjacent vertex to $x$.
+  That is, $(r^{-k} \circ f)(y) = y \text{ or } z$.
+  By the same reasoning but with $z$, $(r^{-k} \circ f)(z) = y \text{ or }z$.
+
+  Therefore there are two cases:
+  \begin{proofcases}
+    \begin{case}{$(r^{-k} \circ f)(y) = y$ and $(r^{-k} \circ f)(z) = z$}
+      This means that $r^{-k} \circ f$ fixes $x, y, z$ and since they are not collinear, by \cref{threePoint} (Three Point Lemma), $r^{-k} \circ f = \id_{X_n}$ so $f = r^{k}$.
+    \end{case}
+    \begin{case}{$(r^{-k} \circ f)(y) = z$ and $(r^{-k} \circ f)(z) = y$}
+      This means that $r^{-k} \circ f$ fixes $x$ and swaps $y$ and $z$ which is exactly what $s(z)$ does and thus:
+      \begin{align*}
+        s^{-1} \circ r^{-k} \circ f(x) &= s^{-1} \circ s(x) = x \\
+        s^{-1} \circ r^{-k} \circ f(y) &= s^{-1} \circ s(y) = y \\
+        s^{-1} \circ r^{-k} \circ f(z) &= s^{-1} \circ s(z) = z
+      \end{align*}
+      Applying \cref{threePoint} again we have that $s^{-1} \circ r^{-k} \circ f = \id_{X_n}$ and so $f = r^{k} s$.
+    \end{case}
+  \end{proofcases}
+  Thus $D_{2n} = \{e, r, \ldots, r^{n-1}, s, rs, \ldots, r^{n-1}s\}$.
+
+  We now must check that all of these elements is distinct from each other.
+  There are four cases.
+  Considering $0 \leq k, l < n$
+  \begin{proofcases}
+    \begin{case}{$r^{k} = r^{l}$}
+      So $e^{\frac{2 \pi i k}{n}} \cdot 1 = r^{k}(1) = r^{l}(1) = e^{\frac{2\pi i l}{n}} \cdot 1$.
+      Thus $r \equiv k \pmod{n}$ but $0 \leq k, k < n$ so $k = l$ so they must be the same element.
+    \end{case}
+    \begin{case}{$r^{k} = s$}
+      So $e^{\frac{2 \pi i k}{n}} = r^{k}(1) = s(1) = 1$ and therefore $k = 0$.
+      This means that $s = r^{0} = \id_{X_n}$ but then $z = s(y) = \id_{X_n}(y) = y$ which is a contradiction.
+      Thus $s \neq r^{k}$ for any $k$.
+    \end{case}
+    \begin{case}{$r^{k} = r^{l}s$}
+      So $s = r^{k - l}$ which we know is not possible by case 2.
+    \end{case}
+    \begin{case}{$r^{k}s = r^{l}s$}
+      We can right multiply by $s^{-1}$ to get $r^{k} = r^{l}$ and thus $k = l$ as in case 1 so they are the same element.
+    \end{case}
+  \end{proofcases}
+  So we have shown all elements are distinct from each other and thus $|D_{2n}| = 2n$.
+\end{proof}
+To better understand the group operations on $D_{2n}$ we need to understand all the different ways to compose $r$ and $s$.
+\begin{lemma}[Dihedral Relation]
+  For $r, s \in D_{2n}$ as above:
+  \[
+    sr = r^{-1}s
+  \]
+\end{lemma}
+\begin{proof}
+  By the \cref{threePoint} (Three Point Lemma), it suffices to check that the two expressions do the same thing to $x, y \text{ and }z$.
+  Similarly to above take $x = 1, y = e^{\frac{2\pi i}{n}}, z = e^{-\frac{2\pi i}{n}}$, then:
+  \begin{align*}
+    sr(x) &= s\left(e^{\frac{2\pi i}{n}}\right) = \left(e^{\frac{2\pi i }{n}}\right)^{*} = e^{-\frac{2\pi i}{n}} = r^{-1}(x) = r^{-1}s(x) \\
+    sr(y) &= s\left(e^{\frac{4\pi i}{n}}\right) = \left(e^{\frac{4\pi i }{n}}\right)^{*} = e^{-\frac{4\pi i}{n}} = r^{-1}(z) = r^{-1}s(y) \\
+    sr(z) &= s(1) = 1 =  r^{-1}(y) = r^{-1}s(z)
+  \end{align*}
+\end{proof}
 \end{document}
