@@ -535,4 +535,179 @@ If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane contain
     \item The line is contained entirely within the plane so the intersection is just the line itself.
   \end{itemize}
 \end{example}
+\begin{example}[Shortest Distance Between Two Lines]
+ Consider two lines:
+ \begin{align*}
+    l_1&: \vec{u}_1 \times (\vec{r}_1 - \vec{a}_1) = \vec{0} \\
+    l_2&: \vec{u}_2 \times (\vec{r}_2 - \vec{a}_2) = \vec{0}
+ \end{align*}
+ The shortest distance between $l_1$ and $l_2$ is attained at a line that is perpendicular to both $l_1$ and $l_2$.
+ That is, it is parallel to $\vec{u}_1 \times \vec{u}_2$.
+ The shortest distance is then computed by projecting $(\vec{a}_1 - \vec{a}_2)$ onto $(\vec{u}_1 \times \vec{u}_2)$, namely:
+ \[
+   d = \frac{|(\vec{a}_1 - \vec{a}_2) \cdot (\vec{u}_1 \times \vec{u}_2)|}{|\vec{u}_1 \times \vec{u}_2|}
+ \]
+\end{example}
+\subsection{Vector Equations}
+Our goal is to solve equations of the form:
+\[
+  \vec{r} + \vec{a} \times (\vec{b} \times \vec{r}) = \vec{c}
+\]
+Using the identity $\vec{a} \times (\vec{b} \times \vec{r}) = (\vec{a} \cdot \vec{r}) \vec{b} + (\vec{a} \cdot \vec{b})\vec{r}$ yields:
+\[
+  \vec{r} + (\vec{a} \cdot \vec{r})\vec{b} - (\vec{a} \cdot \vec{b})\vec{r} = \vec{c}
+\]
+We then take the dot product of both sides with $\vec{a}$:
+\begin{align*}
+  \vec{a} \cdot \vec{r} + \cancel{(\vec{a} \cdot \vec{r})(\vec{a} \cdot \vec{b})} - \cancel{(\vec{a} \cdot \vec{b})(\vec{a} \cdot \vec{r})} &= \vec{a} \cdot \vec{c} \\
+  \vec{a} \cdot \vec{r} &= \vec{a} \cdot \vec{c}
+\end{align*}
+Thus:
+\begin{align*}
+  \vec{r} + (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{r} &= \vec{c} \\
+  \vec{r}(1 - \vec{a} \cdot \vec{b}) &= \vec{c} - (\vec{a} \cdot \vec{c}) \vec{b}
+\end{align*}
+\begin{proofcases}
+  \begin{case}{$\vec{a} \cdot \vec{b} \neq 1$}
+    Then there is a unique solution (i.e. a point) given by:
+    \[
+      \vec{r} = \frac{\vec{c} - (\vec{a} \cdot \vec{c})\vec{b}}{1 - \vec{a} \cdot \vec{b}}
+    \]
+  \end{case}
+  \begin{case}{$\vec{a} \cdot \vec{b} = 1$}
+    \begin{proofcases}
+      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c}) \neq 0$}
+        Then there are no solutions.
+      \end{case}
+      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c}) = 0$}
+        The set of solutions for $\vec{r}$ is $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$, that is a plane with normal vector $\vec{a}$ passing through $\vec{c}$.
+      \end{case}
+    \end{proofcases}
+  \end{case}
+\end{proofcases}
+
+\section{Suffix Notation and Summation Convention}
+\begin{remark}[Note]
+  For this section the indices $i, j, k$ will take values in $\{1, 2, 3\}$.
+  However this usually generalises to higher dimensions provided the vector product is not involved.
+\end{remark}
+\subsection{Kronecker Delta}
+We write vectors $\vec{a}, \vec{b}, \ldots$ in terms of their components $a_i, b_i, \ldots$, with respect to an orthonormal right-handed basis given by $\vec{e}_1, \vec{e}_2, \vec{e}_3$.
+\begin{definition}[Kronecker Delta]
+  \[
+    \delta_{i j} = \begin{cases}
+    0 & \text{ if } i = j \\
+    1 & \text{ if } i \neq j
+    \end{cases}
+  \]
+\end{definition}
+This is symmetric, that is, $\delta_{i j} = \delta_{j i}$.
+We can now write:
+\[
+  \vec{e}_i \cdot \vec{e}_j = \delta_{i j}
+\]
+For vectors $\vec{a}, \vec{b}$ we can write the scalar product as:
+\[
+  \vec{a} \cdot \vec{b} = \sum_{i=1}^{3} a_i b_i
+\]
+\begin{proof}
+  \begin{align*}
+    \vec{a} \cdot \vec{b} &= \left(\sum_i a_i \vec{e}_i\right) \cdot \left(\sum_j b_j \vec{e}_j\right) \\
+                          &= \sum_{i,j} a_i b_j (\vec{e}_i \cdot \vec{e}_j) \\
+                          &= \sum_{i,j} a_i b_j \delta_{i j} \\
+                          &= \sum_i a_i b_i
+  \end{align*}
+\end{proof}
+\subsection{Levi-Civita Epsilon}
+\begin{definition}[Levi-Civita Epsilon]
+  \[
+    \levi_{i j k} = \begin{cases}
+    1 & (i,j,k) \text{ is an even permutation of }(1, 2, 3) \\
+    -1 & (i, j, k) \text{ is an odd permutation of }(1, 2, 3) \\
+    0 & \text{otherwise (if any two index values are equal)}
+    \end{cases}
+  \]
+\end{definition}
+That is:
+\[
+ \levi_{123} = \levi_{231} = \levi_{312} = 1,\; \levi_{132} = \levi_{213} = \levi_{321} = -1,\; \levi_{111} = \levi_{122} = \cdots = 0
+\]
+It is anti-symmetric, that is, if we exchange any two of the indices then the sign changes.
+
+We can write:
+\[
+  \vec{e}_i \times \vec{e}_j = \sum_{k=1}^{3} \levi_{ijk} \vec{e}_k
+\]
+For two vectors $\vec{a}, \vec{b}$:
+\[
+  \vec{a} \times \vec{b} = \sum_{i,j,k = 1}^{3} \levi_{ijk} a_i b_j \vec{e}_k
+\]
+\begin{proof}
+  \begin{align*}
+    \vec{a} \times \vec{b} &= \left(\sum_i a_i \vec{e}_i\right) \times \left(\sum_j b_j \vec{e}_j\right) \\
+                           &= \sum_{i,j} a_i b_j (\vec{e}_i \times \vec{e}_j) \\
+                           &= \sum_{i,j} a_i b_j \sum_k \levi_{i j k} \vec{e}_k \\
+                           &= \sum_{i,j,k} \levi_{i j k} a_i b_j \vec{e}_k
+  \end{align*}
+\end{proof}
+We can use this to get a particular element of $\vec{a} \times \vec{b}$, for example:
+\begin{equation}
+  \label{crossComponent}
+  (\vec{a} \times \vec{b})_k = \sum_{i, j} \levi_{i j k} a_i b_j \text{ so }
+  (\vec{a} \times \vec{b})_1 = \sum_{i, j} \levi_{i j 1} a_i b_j = a_2 b_3 - a_3 b_2
+\end{equation}
+
+As $\levi_{i j 1} = 1 \iff i = 2, j = 3$ and by anti-symmetry, $\levi_{i j 1} = -1 \iff i = 3, j = 2$.
+\subsection{Einstein's Summation Convention}
+Indices that appear twice in an expression are normally summed.
+To simplify notation, we omit the symbol ``$\sum$'' for repeated indices and sum over them.
+\subsubsection{Rules}
+\begin{enumerate}
+  \item If an index appears only once in any term, then it is a ``free index'', so it must appear in every term of the equation, and it can take any value.
+  \item If an index appears twice in a given term, then it is summed over. It is then a ``contracted'', ``repeated'' or ``dummy'' index.
+  \item No index can appear more than twice in any term.
+\end{enumerate}
+\begin{example}
+  \begin{enumerate}
+    \item $a_i \delta_{i j} = a_j$ is shorthand for $\sum_{i}$.
+    \item $\vec{a} \cdot \vec{b} = \delta_{i j} a_i b_j = a_i b_i$ is first shorthand for $\sum_{i,j}$ and then $\sum_{i}$
+    \item $(\vec{a} \times \vec{b})_i = \levi_{ijk} a_j b_k$ is shorthand for $\sum_{j,k}$.
+    \item $\vec{a} \cdot (\vec{b} \times \vec{c}) = \levi_{ijk} a_i b_j c_k$ is shorthand for $\sum_{i,j,k}$
+    \item $\delta_{i i} = 3$ is shorthand for $\sum_{i}$
+  \end{enumerate}
+\end{example}
+\subsection{Useful Identities}
+\begin{enumerate}
+  \item $\levi_{ijk} \levi_{pqr} =
+      \begin{vmatrix}
+      \delta_{i p} & \delta_{i q} & \delta_{i r} \\
+      \delta_{j p} & \delta_{j q} & \delta_{j r} \\
+      \delta_{k p} & \delta_{k q} & \delta_{k r} \\
+      \end{vmatrix}$
+  \item $\levi_{ijk} \levi_{pqk} = \delta_{i p} \delta_{j q} - \delta_{i q} \delta_{j p}$ (Note that we are summing over $k$ on the LHS)
+  \item $\levi_{ijk} \levi_{pjk} = 2\delta_{i p}$ (Note that we are summing over $j, k$ on the RHS)\par
+      This can be derived by setting $q \mapsto j$ in \textbf{ii} and then summing over $j$:
+      \begin{align*}
+        \levi_{i j k}\levi_{p j k} &= \delta_{i p}\delta_{j j} - \delta_{i j}\delta_{j p} \text{ (Summing over $j$)}\\
+                                   &= 3\delta_{i p} - \delta_{i p} \text{ ($\delta_{j j} = 3$ as we are summing)}\\
+                                   &= 2\delta_{i p}
+      \end{align*}
+  \item $\levi_{ijk} \levi_{ijk} = 6$ (as $(1)^2 = (-1)^2$ and there are 6 permutations of three objects)
+\end{enumerate}
+We can use this to show the relation:
+\[
+  \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{c}
+\]
+\begin{proof}
+  \begin{align*}
+    [\vec{a} \times (\vec{b} \times \vec{c})]_i &= \levi_{ijk} a_j (\vec{b} \times \vec{c})_k \text{ (Applying \cref{crossComponent})} \\
+                                                &= \levi_{ijk} a_j \levi_{kpq} b_p c_q \text{ (Applying \cref{crossComponent} again)}\\
+                                                &= \levi_{ijk} \levi_{kpq} a_j b_p c_q \\
+                                                &= (\delta_{i p} \delta_{j q} - \delta_{i q} \delta_{j p}) a_j b_p c_q \text{ (Summing over $j, p, q$)} \\
+                                                &= a_j b_i c_j - a_j b_j c_i \text{ ($\delta_{i p} \delta_{j q} = 1$ iff $p = i, q = j$, $\delta_{i q}\delta_{j p} = 1$ iff $q = i, p = j$)}\\
+                                                &= a_j c_j b_i - a_j b_j c_i \text{ (Summing over $j$)}\\
+                                                &= (\vec{a} \cdot \vec{c})b_i - (\vec{a} \cdot \vec{b})c_i
+  \end{align*}
+  This holds for $i \in \{1, 2, 3\}$ so the result follows.
+\end{proof}
 \end{document}

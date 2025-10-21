@@ -471,12 +471,44 @@ We can combine \cref{invInjective,invSurjective} to arrive at:
 \begin{remark}[Warning]
   The \textbf{preimage of a function always exists} but the \textbf{inverse may not}
 \end{remark}
+\subsection{Binary Operations}
+\begin{definition}[Binary Operation]
+  A \textit{binary operation} $*$ on a set $A$ is a function $A \times A \to A$
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $+$ and $\times$ on $\N, \Z, \ldots$
+    \item $-$ on $\Z, \R, \ldots$
+    \item $\div$ on $\Q \setminus \{0\}, \R \setminus \{0\}$
+  \end{enumerate}
+\end{example}
+\begin{definition}[Commutative]
+  We say $*$ is \textit{commutative} if $\forall x, y \in A$:
+  \[
+    x * y = y * x
+  \]
+\end{definition}
+\begin{definition}[Associative]
+  We say $*$ is \textit{associative} if $\forall x, y \in A$:
+  \[
+    x * (y * z) = (x * y) * z
+  \]
+\end{definition}
+\begin{definition}[Distributive]
+  If we have two binary operations $*$ and $\circ$ then $*$ is distributive over $\circ$ if:
+  \begin{align*}
+    x * (y \circ z) &= (x * y) \circ (x * z) \\
+    (y \circ z) * x &= (y * x) \circ (z * x)
+  \end{align*}
+\end{definition}
+
 \section{Relations}
 \begin{definition}[Relation]
   A \textit{relation} on a set $X$ is a subset $R \subseteq X \times X$.
   We write $a \rel b$ for $(a, b) \in R$ and say ``$a$ is related to $b$''.
 \end{definition}
 \begin{example}
+  \label{relExamples}
   Examples of relations on $\N$:
   \begin{enumerate}
     \item $a \rel b$ if $a$ and $b$ share the same final digit
@@ -485,7 +517,6 @@ We can combine \cref{invInjective,invSurjective} to arrive at:
     \item $a \rel b$ if $a = b = 1$
     \item $a \rel b$ if $|a - b| \leq 3$
   \end{enumerate}
-  \label{relExamples}
 \end{example}
 There are three properties of a relation that are of special interest.
 \begin{definition}[Reflexive]
@@ -513,4 +544,75 @@ Transitive & \tick & \tick & \cross & \tick & \cross
   We then write $a \sim b$ for $a \rel b$.
 \end{definition}
 Only example \textbf{i} above is an equivalence relation.
+\begin{definition}[Equivalence Class]
+  If $\sim$ is an equivalence relation on $X$ then, the \textit{equivalence class} of $x \in X$ is defined as:
+  \[
+    [x] = \{y \in X: y \sim x\}
+  \]
+  That is, the set of all elements related to $x$.
+\end{definition}
+\begin{example}
+  For example, in \cref{relExamples} \textbf{i}:
+  \[
+    [35] = \{y \in \N : y \text{ ends in 5}\} = [15] = [5]
+  \]
+\end{example}
+\begin{definition}[Partition]
+  Given a set $X$ a \textit{partition} of $X$ is a collection of pairwise disjoint subsets whose union is $X$.
+\end{definition}
+\begin{definition}[Pairwise Disjoint]
+  A collection of sets is \textit{pairwise} disjoint if the intersection of any two distinct sets is the empty set.
+\end{definition}
+\begin{theorem}
+  Let $\sim$ be an equivalence relation on $X$. Then the equivalence classes form a partition of $X$.
+\end{theorem}
+\begin{proof}
+  Since $\sim$ is reflexive, we have that $x \in [x]\;\forall x \in X$. Thus:
+  \[
+    \bigcup_{x \in X}^{} [x] = X
+  \]
+  We still need to show that for any two elements $x$ and $y$ either $[x] \cap [y] = \emptyset$ or $[x] = [y]$.
+  Suppose $[x] \cap [y] \neq \emptyset$.
+  Let $z \in [x] \cap [y]$.
+  $z \in [x]$ so $z \sim x$ and so by symmetry $x \sim z$.
+  Similarly, $z \in [y]$ so $z \sim y$.
+  Thus by transitivity $x \sim y$.
+
+  Now let $w \in [y]$, so $y \sim w$.
+  Since $x \sim y$, by transitivity, $x \sim w$.
+  Thus $w \in [x]$.
+  Hence if $[x] \cap [y] \neq \emptyset$, then $[y] \subseteq [x]$.
+  By a similar argument $[x] \subseteq [y]$.
+  So $[x] = [y]$.
+
+  Therefore if $[x]$ and $[y]$ are not disjoint, they must be equal so equivalence classes partition $X$.
+\end{proof}
+Conversely, given any partition of $X$, there is an equivalence relation $\rel$ whose equivalence classes are precisely the subsets of the partition.
+We can just define $a \rel b$, if $a$ and $b$ are both in the same subset.
+
+\subsection{Quotients}
+\begin{definition}[Quotient]
+  Given an equivalence relation $\rel$ on a set $X$, the \textit{quotient} of $X$ by $R$ is:
+  \[
+    X/R = \{[x]: x \in X\}
+  \]
+\end{definition}
+\begin{example}
+  For example, in \cref{relExamples} \textbf{i}:
+  \[
+    X/R = \{[0], [1], [2], \ldots, [9]\}
+  \]
+\end{example}
+\begin{definition}[Quotient Map]
+  The map $q: X \to X/R$, $x \mapsto [x]$ is the \textit{quotient map}.
+\end{definition}
+\begin{example}
+  On $\Z\times\N$ define $(a, b) \rel (c, d)$ if $ad = bc$.
+  Under this equivalence relation:
+  \[
+    [(1, 2)] = \{(1, 2), (2, 4), (3, 6), \ldots\}
+  \]
+  So we could regard $\Z \times \N / R$ as a copy of $\Q$ by identifying $[(a, b)]$ with $a/b \in \Q$.
+  The quotient map is $q: \Z\times\N \to \Z\times\N/R$, $(a, b) \mapsto a/b$.
+\end{example}
 \end{document}

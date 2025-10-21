@@ -1,0 +1,52 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Naturals, Integers, and Rationals}
+\section{Natural Numbers}
+\begin{definition}[Natural Numbers]
+  The natural numbers $\N$ is a set containing the special element ``1'', together with a map $S: \N \to \N$ called the ``successor function'' that maps $n \in \N$ to its successor such that the following properties hold:
+  \begin{enumerate}
+    \item $\forall n \in \N, S(n) \neq 1$ (1 is not the successor of anything)
+    \item $\forall m, n \in \N, S(m) = S(n) \implies m = n$ ($S$ is injective)
+    \item Let $A$ be a subset of $\N$ such that $1 \in A$ and $n \in A \implies S(n) \in A$. Then $A = \N$.
+  \end{enumerate}
+\end{definition}
+These are called the ``Peano Axioms''.
+We also define the usual Arabic numeral system:
+\[
+  2 = S(1), 3 = S(2), 4 = S(3) \ldots
+\]
+
+We can also define addition recursively by:
+\begin{itemize}
+  \item $n + 1 = S(n)$
+  \item $n + S(m) = S(n + m)$
+\end{itemize}
+Similarly for multiplication:
+\begin{itemize}
+  \item $n \times 1 = n$
+  \item $n \times S(m) = n \times m + n$
+\end{itemize}
+For comparison we define $a < b$ if $\exists c$ such that $a + c = b$.
+
+We can show that these operations satisfy the usual rules of arithmetic:
+\begin{proposition}[Properties of Natural Numbers]
+For all natural numbers:
+  \begin{itemize}
+    \item Addition and multiplication are commutative and associative
+    \item Multiplication is distributive over addition
+    \item $a < b \implies a + c < b + c$
+    \item $a < b \implies a \times c < b \times c$
+    \item if $a < b$ and $b < c$ then $a < c$
+    \item $a < a$ is never true
+  \end{itemize}
+\end{proposition}
+\begin{example}
+  For example, to show that $1 + 2 = 2 + 1$ using the Peano axioms:
+  \[
+    1 + 2 = 1 + S(1) = S(1 + 1) = S(S(1)) = S(1) + 1 = 2 + 1
+  \]
+\end{example}
+\begin{example}
+  To show $n + m = m + n$ we would have to carry out induction both on $m$ and $n$.
+\end{example}
+\end{document}
