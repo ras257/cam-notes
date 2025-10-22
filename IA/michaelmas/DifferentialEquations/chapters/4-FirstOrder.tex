@@ -1,0 +1,179 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{First-Order Differential Equations}
+\begin{remark}[Terminology]
+  \begin{itemize}
+    \item \textbf{n-th order - } Differential equation where the \textbf{highest} order derivative is $n$.
+    \item \textbf{Linear -} Dependant variable and its derivatives only appear linearly.
+    \item \textbf{Ordinary (ODE) -} Involves a function of one variable.
+  \end{itemize}
+  \begin{example}
+    For example, $x^2y + y' = 0$ is a first order linear ODE.
+  \end{example}
+\end{remark}
+\section{Exponential Function}
+\begin{definition}[Exponential Function]
+  The \textit{exponential function} is defined by the infinite series:
+  \[
+    \exp(x) = \sum_{n=0}^{\infty} \frac{x^{n}}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+  \]
+\end{definition}
+This can also be written as a limit:
+\begin{align*}
+  \exp(x) &= \lim_{k \to \infty} \left(1 + \frac{x}{k}\right)^{k} \\
+          &= \lim_{k \to \infty} \left[1 + k\left(\frac{x}{k}\right) + \frac{k(k-1)}{2!}\left(\frac{x}{k}\right)^2 + \cdots\right] \text{ (Using binomial theorem)}\\
+          &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\end{align*}
+If we differentiate the series we get:
+\begin{align*}
+  \deriv{}{x}\exp(x) &= 1 + \frac{2}{2!} x + \frac{3}{3!} x^2 + \cdots \\
+                     &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots \\
+                     &= \exp(x)
+\end{align*}
+We can also define the exponential function to be the solution of the ODE:
+\[
+  \deriv{f}{x} = f \text{ with }f(0) = 1
+\]
+The exponential function also has the following key property:
+\[
+  \exp(x_1)\exp(x_2) = \exp(x_1 + x_2)
+\]
+This means acts similarly to exponentiation so we write $\exp(x) = e^{x}$ where:
+\[
+  e = \exp(1) = \lim_{k \to \infty} \left(1 + \frac{1}{k}\right)^{k}
+\]
+The inverse function of the exponential function is the natural logarithm, $\ln x$ or $\log_{e} x$, where $\exp(\ln x) = x$.
+It follows that $a^{x} = (e^{\ln a})^{x} = e^{x \ln a}$ and thus $\deriv{}{x}a^{x} = \ln a e^{x \ln a} = a^{x} \ln a$.
+\begin{definition}[Eigenfunction]
+  An \textit{eigenfunction} of the derivative operator is is a function that is unchanged up to multiplicative scaling by the \textit{eigenvalue}, under the action of the operator.
+  That is:
+  \[
+    \deriv{}{x}f(x) = \lambda f(x)
+  \]
+  where $\lambda$ is the \textit{eigenvalue}.
+\end{definition}
+From the properties we discussed earlier we can see that $e^{\lambda x}$ is an eigenfunction of the derivative operator.
+\section{First Order Linear ODEs}
+\begin{remark}
+  Any $n$-th order linear ODE has $n$ independent solutions.
+\end{remark}
+\begin{definition}[Homogeneous]
+  A \textit{homogeneous} ODE is one in which all terms involve the dependant variable or its derivatives.
+\end{definition}
+This means that $y = 0$ is always a solution of a homogeneous ODE.
+This is called the ``trivial solution''.
+\begin{remark}
+  For any linear homogeneous ODE, any constant multiple of a solution is also a solution.
+\end{remark}
+\subsection{Homogeneous Linear ODEs with Constant Coefficients}
+\begin{definition}[Constant Coefficients]
+  A differential equation has \textit{constant coefficients} if the independent variable does not appear explicitly.
+\end{definition}
+
+Solutions of linear homogeneous ODEs with constant coefficients (for any order) are of the form $e^{\lambda x}$.
+\begin{example}
+  \[
+    5\deriv{y}{x} - 3y = 0
+  \]
+  Try a solution of the form $y = Ae^{\lambda x}$.
+  \begin{align*}
+    5\lambda Ae^{\lambda x} - 3Ae^{\lambda x} &= 0 \\
+    Ae^{\lambda x}(5\lambda - 3) &= 0
+  \end{align*}
+  $A= 0$ gives the trivial solution so for non-trivial solutions we must have $5\lambda - 3 = 0$.
+  This is called the ``characteristic equation''.
+  \[
+    \lambda = \frac{3}{5} \implies y = Ae^{\frac{3x}{5}}
+  \]
+  This is called the ``general solution''.
+  To specify a unique solution requires us to apply suitable boundary condition(s).
+  In general, we need $n$ boundary conditions to get a unique solution for an $n$-th order ODE.
+
+  For example if we had the boundary condition $y(0) = y_0$ then $A = y_0$ so the solution is $y = y_0 e^{3x/5}$.
+\end{example}
+
+\subsection{Discrete Equations}
+It is sometimes useful to consider a function evaluated at discrete points.
+\begin{example}
+  Consider again $5y' - 3y = 0$, $y(0) = y_0$.
+  We can then approximate the equation by a discrete form at some set of points $\{x_n\}$ with $x_n = nh$ with $x_0 = 0$.
+
+  One way we can approximate the derivative is with the ``Forward Euler Scheme'':
+  \[
+    \at{\deriv{y}{x}}{x_n} \approx \frac{y_{n+1} - y_n}{h}
+  \]
+  This is not a great approximation but is sufficient for this example.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (6.5, 0) node[right] {$x$};
+    \draw[->] (0, 0) -- (0, 5.3) node[above] {$y$};
+
+    \def\h{1}
+    \def\yzero{0.26}
+    \def\nsteps{6}
+
+    \coordinate (P0) at (0,\yzero);
+    \fill (P0) circle (1pt);
+    \node[left] at (P0) {\small$y_0$};
+    \node[below] at (0, 0) {$x_0$};
+
+    \pgfmathsetmacro{\x}{0}
+    \pgfmathsetmacro{\y}{\yzero}
+
+    \foreach \i in {1,...,\nsteps} {
+      \pgfmathsetmacro{\f}{0.5*\y}
+      \pgfmathsetmacro{\ynew}{\y + \h*\f}
+      \pgfmathsetmacro{\xnew}{\x + \h}
+
+      \draw (\x,\y) -- (\xnew,\ynew);
+      \draw[dashed] (\xnew, \ynew) -- (\xnew, 0);
+      \node[below] at (\xnew, 0) {$x_\i$};
+      \node[below right] at (\xnew, \ynew) {\small$y_\i$};
+
+      \fill (\xnew,\ynew) circle (1pt);
+
+      \xdef\y{\ynew}
+      \xdef\x{\xnew}
+    }
+
+    \draw[thick, domain=0:6, smooth, samples=100] plot (\x,{\yzero * exp(0.5*\x)});
+  \end{tikzpicture}
+  \end{center}
+  Substituting this back into the original DE yields:
+  \begin{align*}
+    5\left(\frac{y_{n+1}-y_n}{h}\right) - 3y_n &= 0 \\
+    y_{n+1} &= \left(1 + \frac{3}{5}h\right)y_n
+  \end{align*}
+  This is a \textit{recurrence relation} for $y_n$.
+  \begin{align*}
+    y_n &= \left(1 + \frac{3}{5}h\right)y_{n-1} = \left(1 + \frac{3}{5}h\right)^2 y_{n - 2} = \cdots \\
+        &= \left(1 + \frac{3}{5}h\right)^{n}y_0 = \left(1 + \frac{3x_n}{5n}\right)^{n}y_0
+  \end{align*}
+  Now take $x_n = x$ ($n$ steps from $x = 0$ to $x$) as $n \to \infty$:
+  \[
+    y(x) = \lim_{n \to \infty} y_n = \lim_{n \to \infty} y_0 \left(1 + \frac{3x}{5n}\right)^{n} = y_0 \exp\left(\frac{3x}{5}\right)
+  \]
+  which agrees with the continuous case.
+\end{example}
+\subsection{Series Solutions}
+Series solutions are a powerful way to solve ODEs.
+This involves looking for a solution in the form of a power series:
+\[
+  y(x) = \sum_{n=0}^{\infty} a_n x^{n}
+\]
+We can then determine the coefficients $a_n$ by substituting into the ODE.
+\begin{example}
+  Again using $5y' - 3y = 0$.
+  \[
+    \deriv{y}{x} = \sum_{n=0}^{\infty} na_n x^{n-1} = \sum_{n=1}^{\infty} na_nx^{n-1}
+  \]
+  For convenience consider:
+  \[
+    x \deriv{y}{x} = \sum_{n=1}^{\infty} na_n x^{n}
+  \]
+  then:
+  \[
+    xy = \sum_{n=0}^{\infty} a_n x^{n + 1} = \sum_{m = 1}^{\infty} a_{m-1}x^{m} = \sum_{n = 1}^{\infty} a_{n-1}x^{n}
+  \]
+\end{example}
+\end{document}
