@@ -3,6 +3,7 @@
 \chapter{Naturals, Integers, and Rationals}
 \section{Natural Numbers}
 \begin{definition}[Natural Numbers]
+  \label{naturalDef}
   The natural numbers $\N$ is a set containing the special element ``1'', together with a map $S: \N \to \N$ called the ``successor function'' that maps $n \in \N$ to its successor such that the following properties hold:
   \begin{enumerate}
     \item $\forall n \in \N, S(n) \neq 1$ (1 is not the successor of anything)
@@ -27,6 +28,10 @@ Similarly for multiplication:
   \item $n \times S(m) = n \times m + n$
 \end{itemize}
 For comparison we define $a < b$ if $\exists c$ such that $a + c = b$.
+One key feature of $<$ is that for $m \neq n$ exactly one of $m < n$ or $n < m$.
+\begin{example}
+  For example, if we were to suppose $1 < 2$ and $2 < 1$ then  $\exists k, e$ s.t. $1 = 2 + k$ and $2 = 1 + e$ so $1 = 1 + e + k = S(e + k)$ but this contradicts the fact that 1 is not the successor of any number.
+\end{example}
 
 We can show that these operations satisfy the usual rules of arithmetic:
 \begin{proposition}[Properties of Natural Numbers]
@@ -49,4 +54,124 @@ For all natural numbers:
 \begin{example}
   To show $n + m = m + n$ we would have to carry out induction both on $m$ and $n$.
 \end{example}
+
+\subsection{Induction}
+\begin{definition}[Weak Principle of Induction - WPI]
+  If $P(1)$ holds, and $\forall n \in N, P(n) \implies P(n + 1)$, then $P(n)$ holds $\forall n \in \N$.
+\end{definition}
+\begin{remark}[Note]
+  WPI is equivalent to the third Peano Axiom (see \cref{naturalDef})
+\end{remark}
+There is also a different form of induction based on the ordering above:
+\begin{definition}[Strong Principle of Induction - SPI]
+  If $P(1)$ holds, and $\forall n \in N$, if $P(k)$ true $\forall k \leq n \implies P(n + 1)$, then $P(n)$ holds $\forall n \in \N$.
+\end{definition}
+Clearly $\text{SPI} \implies \text{WPI}$ as WPI is a less restrictive statement.
+To see $\text{WPI} \implies \text{SPI}$ apply WPI to the statement $Q(n) =$ ``$P(k) \text{ holds } \forall k \leq n$''.
+
+The above ordering of $\N$ satisfies a special property called the ``Well Ordering Principle'' (WOP).
+\begin{definition}[Well Ordering Principle - WOP]
+  Every non-empty subset of the natural numbers has a minimal element.
+  That is, if $P(n)$ holds $\forall n \in  A \subset \N$ with $A \neq \emptyset$ then there exists a least $m \in A$ such that $P(m)$ holds.
+\end{definition}
+\begin{theorem}
+  $\text{SPI} \implies \text{WPI}$.
+\end{theorem}
+\begin{proof}
+  Suppose $P(n)$ holds for some non-empty subset of the naturals and, for contradiction, that there is in fact no least $n \in \N$ such that $P(n)$ holds.
+
+  Consider $Q(n) = \lnot P(n)$.
+  Certainly $P(1)$ is false else $1$ would be the minimal element, so $Q(1)$ is true.
+
+  Given some $n \in \N$, suppose $Q(k)$ is true $\forall k < n$.
+  Then $P(k)$ is false $\forall k < n$ so $P(n)$ must be false as otherwise $n$ would be the minimal element.
+  But this means that $Q(n)$ is true.
+
+  Both conditions of the SPI are satisfied so $Q(n)$ holds $\forall n \in \N$.
+  So $P(n)$ is false $\forall n \in \N$ which contradicts the fact that $P(n)$ holds for a non-empty subset of the naturals.
+\end{proof}
+\begin{remark}
+  $\text{WOP} \centernot\implies \text{SPI}$.
+  However in any proof using SPI, you can in fact use WOP.
+\end{remark}
+\begin{example}
+  Any natural number $>1$ can be written as a product of primes (Fundamental Theorem of Arithmetic)
+\end{example}
+\begin{proof}[Proof Using WOP]
+  Let $C$ be the set of counter examples, that is:
+  \[
+    C = \{n \in \N: n > 1, n \text{ cannot be written as a product of primes}\}
+  \]
+  For contradiction, we assume that $C \neq \emptyset$.
+  By WOP, $C$ has a least element $m$.
+  Clearly $m$ must be composite, so $m = ab$ with $1 < a, b < m$.
+  So at least one of $a$ or $b$ does not have a prime factorisation, WLOG, suppose $a$ does not have a prime factorisation.
+  This means $a \in C$, but $a < m$ so this contradicts the fact that $m$ is the minimal element of $C$.
+\end{proof}
+\section{Counting}
+\subsection{Power Sets}
+\begin{remark}[Reminder]
+  Recall that a set $A$ has \textit{size} $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with the elements $a_i$ distinct.
+  We write $|A| = n$.
+  We say $A$ is finite if the exists $n \in \N_0$ such that $|A| = n$, and $A$ is infinite otherwise.
+  See \cref{finiteSets}.
+\end{remark}
+\begin{proposition}
+  A set of size $n$ has exactly $2^{n}$ subsets.
+\end{proposition}
+\begin{proof}
+  \induction
+  {$n = 0$}{
+    Clearly true for $n = 0$ as $\emptyset$ has 1 subset.
+  }
+  {$n = k - 1$}{
+    So a set of size $k - 1$ has $2^{k - 1}$ subsets.
+  }
+  {$n = k$}{
+    Given $n > 0$ and $T \subseteq \{1, 2, \ldots, n - 1\}$, how many subsets $S \subseteq \{1, 2, \ldots, n\}$ are there such that $S \cap \{1, 2, \ldots, n - 1\} = T$.
+    There are exactly 2, namely $T$ and $T \cup \{n\}$.
+    Hence the number of subsets of $\{1, 2, \ldots, n\}$ is twice the number of subsets of $\{1, 2, \ldots, n - 1\}$. Which is $2 \times 2^{n - 1} = 2^{n}$ by the inductive hypothesis.
+  }
+\end{proof}
+\begin{corollary}
+  $|\powerset{A}| = 2^{|A|}$.
+\end{corollary}
+\begin{proof}
+  $\powerset{A}$ is the set of all subsets of $A$ so must have size $2^{|A|}$.
+\end{proof}
+
+\subsection{Binomial Coefficients}
+\begin{definition}[Binomial Coefficient]
+  Given $n \in \N_0$ and $0 \leq k \leq n$ we write $\binom{n}{k}$ for the number of subsets of an $n$-element set that are of size k.
+  That is:
+  \[
+    \binom{n}{k} = \abs{\{S \subseteq \{1, 2, \ldots, n\} : |S| = k\}}
+  \]
+  This is often called the \textit{choose function} and said ``$n$ choose $k$''.
+\end{definition}
+\begin{example}
+  The subsets of size 2 of $\{1, 2, 3, 4\}$ are:
+  \[
+    \{1, 2\}, \{1, 3\}, \{1, 4\}, \{2, 3\}, \{2, 4\}. \{3, 4\}
+  \]
+  So $\binom{4}{2} = 6$
+\end{example}
+By definition $\binom{n}{0} = 1$, $\binom{n}{n} = 1$ , $\binom{n}{1}$ for $n > 0$.
+
+As the total number of subsets is $2^{n}$ we have that:
+\[
+  \binom{n}{0} + \binom{n}{1} + \binom{n}{2} + \cdots + \binom{n}{n-1} + \binom{n}{n} = 2^{n}
+\]
+
+We also have:
+\[
+  \binom{n}{k} = \binom{n}{n - k} \quad \forall n, k \in \N_0,\ 0 \leq k \leq n
+\]
+This is because specifying which $k$ elements to pick is the same as specifying which $n - k$ elements \textit{not} to pick.
+
+Moreover:
+\[
+  \binom{n}{k} = \binom{n - 1}{k - 1} + \binom{n - 1}{k} \quad \forall n, k  \in \N,\ 0 < k < n
+\]
+This is the same as saying we either include some special element and have $k - 1$ elements left to pick from $n - 1$ or we exclude the special element and have $k$ elements left to pick from $n - 1$.
 \end{document}
