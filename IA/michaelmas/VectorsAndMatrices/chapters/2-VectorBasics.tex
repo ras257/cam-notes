@@ -702,7 +702,7 @@ We can use this to show the relation:
   \begin{align*}
     [\vec{a} \times (\vec{b} \times \vec{c})]_i &= \levi_{ijk} a_j (\vec{b} \times \vec{c})_k \text{ (Applying \cref{crossComponent})} \\
                                                 &= \levi_{ijk} a_j \levi_{kpq} b_p c_q \text{ (Applying \cref{crossComponent} again)}\\
-                                                &= \levi_{ijk} \levi_{kpq} a_j b_p c_q \\
+                                                &- \levi_{ijk} \levi_{pqk} a_j b_p c_q \text{ ($\levi_{k p q} = \levi_{p q k}$)}\\
                                                 &= (\delta_{i p} \delta_{j q} - \delta_{i q} \delta_{j p}) a_j b_p c_q \text{ (Summing over $j, p, q$)} \\
                                                 &= a_j b_i c_j - a_j b_j c_i \text{ ($\delta_{i p} \delta_{j q} = 1$ iff $p = i, q = j$, $\delta_{i q}\delta_{j p} = 1$ iff $q = i, p = j$)}\\
                                                 &= a_j c_j b_i - a_j b_j c_i \text{ (Summing over $j$)}\\
@@ -710,4 +710,260 @@ We can use this to show the relation:
   \end{align*}
   This holds for $i \in \{1, 2, 3\}$ so the result follows.
 \end{proof}
+We can also use it to prove:
+\[
+  (\vec{a} \times \vec{b}) \cdot (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{b})(\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c})|\vec{b}|^2
+\]
+\begin{proof}
+  \begin{align*}
+    (\vec{a} \times \vec{b}) \cdot (\vec{b} \times \vec{c}) &= (\vec{a} \times \vec{b})_i (\vec{b} \times \vec{c})_i \\
+     &= \levi_{i j k} a_j b_k \levi_{i p q} b_p c_q \\
+     &= \levi_{j k i} \levi_{p q i} a_j b_k b_p c_q \\
+     &= (\delta_{j p}\delta_{k q} - \delta_{j q}\delta_{k p}) a_j b_k b_p c_q \\
+     &= a_j b_k b_j c_k - a_j b_k b_k c_j \\
+     &= a_j b_j b_k c_j - a_j c_j b_k b_k \\
+     &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) (\vec{b} \cdot \vec{b}) \\
+     &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) |\vec{b}|^2
+  \end{align*}
+\end{proof}
+\subsection{Application to Spherical Trigonometry*}
+\nonexaminable
+\subsubsection{Spherical Cosine Rule}
+Consider a unit sphere with center $O$ and points $A, B, C$ on the surface of the sphere with position vectors $\vec{a}, \vec{b}, \vec{c}$.
+\begin{center}
+\begin{tikzpicture}[scale=3,>=stealth]
+\draw (0,0) circle (1);
+
+\coordinate (O) at (0, 0);
+\coordinate (A) at (0,0.8);
+\coordinate (B) at (-0.6,-0.2);
+\coordinate (C) at (0.6,-0.2);
+
+\draw (B) to[bend left=15] node[above left] {\small$\delta(A, B)$} (A) ;
+\draw (A) to[bend left=15] (C);
+\draw (B) to[bend right=20] (C);
+
+\draw[dashed] (O) -- (A) node[midway, right] {$1$};
+\draw[dashed] (O) -- (B) node[midway, above left] {$1$};
+\draw[dashed] (O) -- (C) node[midway, above right] {$1$};
+
+\fill (O) circle (0.02) node[above right] {$O$};
+\fill (A) circle (0.02) node[above] {$A$};
+\fill (B) circle (0.02) node[below left] {$B$};
+\fill (C) circle (0.02) node[below right] {$C$};
+
+\draw ($(A) + (-0.194, -0.2)$) to[bend right=20] ($(A) + (0.194, -0.2)$);
+\node at ($(A)+(0,-0.18)$) {$\alpha$};
+\end{tikzpicture}
+\end{center}
+We define $\delta(A, B)$ to be the arc from $A$ to $B$ along the surface of the sphere.
+\begin{center}
+\begin{tikzpicture}[scale=2,>=stealth]
+\coordinate (O) at (0,0);
+\coordinate (A) at (1.414, 1.414);
+\coordinate (B) at (2,0);
+\fill (O) circle (0.02) node[left] {$O$};
+\fill (A) circle (0.02) node[above] {$A$};
+\fill (B) circle (0.02) node[below] {$B$};
+\draw[thick] (B) arc (0:45:2);
+\node at (2.2, 0.8) {$\delta(A, B)$};
+
+\draw (0.3,0) arc (0:45:0.3);
+\node at (0.4,0.15) {$\theta$};
+
+\draw[thick, ->] (O) -- (A) node[midway, above left] {$\vec{a}$};
+\draw[thick, ->] (O) -- (B) node[midway, below] {$\vec{b}$};
+\end{tikzpicture}
+\end{center}
+We denote $\angle AOB = \delta(A, B)$.
+The following properties then hold:
+\begin{align*}
+  \vec{a} \cdot \vec{b} &= \cos (\angle AOB) = \cos \delta(A, B) \\
+  |\vec{a} \times \vec{b}| &= \sin \delta(A, B)
+\end{align*}
+
+Then:
+\begin{align*}
+  \cos \alpha &= \frac{(\vec{a} \times \vec{b}) \cdot (\vec{a} \times \vec{c})}{|\vec{a} \times \vec{b}| |\vec{a} \times \vec{c}|} \\
+               &= - \frac{(\vec{b} \times \vec{a})(\vec{a} \times \vec{c})}{|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|} \\
+               &= \frac{(\vec{b} \cdot \vec{c})|\vec{a}|^2 - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c})}{|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|} \\
+  (\cos \alpha)|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}| &= (\vec{b} \cdot \vec{c}) - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c}) \text{ as $|\vec{a}| = 1$} \\
+  \cos \alpha \sin \delta(A, B) \sin \delta(A, C) &= \cos \delta(B, C) - \cos \delta(B, A) \cos \delta(A, C)
+\end{align*}
+This is an analogue of the cosine rule for spherical triangles.
+
+\subsubsection{Vector Definition of Spheres}
+A sphere in $\R^3$ with centre $\vec{a}$ and radius $r \in \R$, $r > 0$ is given by:
+\[
+  \Sigma=\{\vec{x} \in \R^3 : |\vec{x} - \vec{a}| = r > 0,\ r \in \R\}
+\]
+This also generalises to $\R^{n}$.
+A hypersphere with centre $\vec{a} \in \R^{n}$ and radius $r \in \R$ is given by:
+\[
+  \Sigma =\{\vec{x} \in \R^{n} : |\vec{x} - \vec{a}| = r > 0,\ r \in \R,\ \vec{a} \in \R^{n}\}
+\]
+\section{Generalised Real Vectors\texorpdfstring{ -- $\R^{n}$}{}}
+\label{generalisedReal}
+Thinking of vectors component-wise makes it easier to generalise from 3 to $n$ dimensions.
+
+Define $\R^{n}$ as:
+\[
+  \R^{n} = \{\vec{x} = (x_1, x_2, \ldots, x_n),\ x_i \in \R\}
+\]
+We write vectors $\vec{x}, \vec{y} \in \R^{n}$ as:
+\[
+  \vec{x} = (x_1, x_2, \ldots, x_n),\ \vec{y} = (y_1, y_2, \ldots, y_n)
+\]
+\subsubsection{Addition}
+We define addition as:
+\[
+  \vec{x} + \vec{y} = (x_1 + y_1, x_2 + y_2, \ldots, x_n + y_n)
+\]
+\subsubsection{Scalar Multiplication}
+We define scalar multiplication, for $\lambda \in \R$ as:
+\[
+  \lambda \vec{x} = (\lambda x_1, \lambda x_2, \ldots, \lambda x_n)
+\]
+\subsubsection{Inner Product}
+We define the inner product between $\vec{x}$ and $\vec{y}$ as:
+\[
+  \vec{x} \cdot \vec{y} = \sum_{i}^{} x_i y_i = x_1 y_1 + \cdots + x_n y_n
+\]
+We can also write:
+\[
+  \vec{x} \cdot \vec{y} = \delta_{i j} x_i y_j
+\]
+\begin{remark}[Note]
+  If we write vectors in $\R^{n}$ as column vectors, if $\vec{x}, \vec{y} \in \R^{n}$, $\vec{x}^{\trans}$ and $\vec{y}^{\trans}$ will be row vectors and their inner product can be represented as:
+  \[
+    \vec{x} \cdot \vec{y} = \vec{x}^{\trans} \vec{y} =
+    \begin{pmatrix}
+    x_1 & \cdots & x_n \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    y_1 \\
+    \vdots \\
+    y_n \\
+    \end{pmatrix}
+    = \sum_{i}^{} x_i y_i
+  \]
+\end{remark}
+\subsubsection{Canonical Basis}
+The \textit{canonical basis} of $\R^{n}$ is $\{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n\}$ where:
+\[
+  \vec{e}_1 = (1, 0, \ldots, 0),\ \vec{e}_2 = (0, 1, \ldots, 0),\ \cdots,\ \vec{e}_n = (0, 0, \ldots, 1)
+\]
+This is an orthonormal basis so:
+\[
+  \vec{e}_i \cdot \vec{e}_j = \delta_{i j}
+\]
+Any $x \in \R^{n}$ can be written as:
+\[
+  \vec{x} = \sum_{i}^{} x_i \vec{e}_i
+\]
+
+Components of $\vec{x} = (x_1, x_2, \ldots, x_n)$ can be determined from:
+\[
+  x_i = \vec{e}_i \cdot \vec{x}
+\]
+\subsubsection{Generalised Levi-Civita Epsilon}
+Define $\levi_{a_1 a_2 \ldots}$ (with $n$ indices) as an extension to the Levi-Civita epsilon.
+\[
+  \levi_{a_1 a_2 \ldots a_n} = \begin{cases}
+  1 & (a_1, a_2, \ldots, a_n) \text{ is an even permutation of }(1, 2, \ldots, n) \\
+  -1 & (a_1, a_2, \ldots, a_n) \text{ is an odd permutation of }(1, 2, \ldots, n) \\
+  0 & \text{ otherwise}
+  \end{cases}
+\]
+\begin{remark}[Note]
+  In $\R^{2}$ we can use this to define an additional scalar product:
+  \[
+    [\vec{a}, \vec{b}] = \levi_{i j}a_i b_j = a_1 b_2 - a_2 b_1
+  \]
+  as $\levi_{1 2} = 1$ and $\levi_{2 1} = -1$.
+
+  Geometrically this represents the signed area of a parallelogram:
+  \[
+    [\vec{a}, \vec{b}] = |\vec{a}||\vec{b}|\sin\theta
+  \]
+  \begin{center}
+  \begin{tikzpicture}[scale=2,>=stealth]
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (2,0);
+  \coordinate (B) at (1.2,1.2);
+
+  \fill[gray!20] (O) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+
+  \draw (0.3,0) arc (0:45:0.3);
+  \node at (0.4,0.15) {$\theta$};
+
+\node at (2.3,0.9) {$[\vec{a}, \vec{b}]$};
+  \draw[->, thick] (O) -- (A) node[midway, below] {$\vec{a}$};
+  \draw[->, thick] (O) -- (B) node[midway, above left] {$\vec{b}$};
+
+  \draw[dashed] (A) -- ($(A)+(B)$);
+  \draw[dashed] (B) -- ($(A)+(B)$);
+  \end{tikzpicture}
+  \end{center}
+  This is similar to the vector triple product in  $\R^{3}$ which represents the signed volume of a parallelepiped.
+\end{remark}
+\section{Generalised Complex Vectors\texorpdfstring{ -- $\C^{n}$}{}}
+Similarly to in $\R^{n}$ we define $C^{n}$ as:
+\[
+  \C^{n} = \{\vec{z} = (z_1, z_2, \ldots, z_n): z_i \in \C\}
+\]
+We write vectors $\vec{z}, \vec{w} \in \C^{n}$ as:
+\[
+  \vec{z} = (z_1, \ldots, z_n),\ \vec{w} = (w_1, \ldots, w_n)
+\]
+\subsubsection{Addition}
+Exactly as in $\R^{n}$, we define addition as:
+\[
+  \vec{z} + \vec{w} = (z_1 + w_1, \ldots, z_n + w_n)
+\]
+\subsubsection{Scalar Multiplication}
+We also define scalar multiplication similarly:
+\[
+  \lambda \vec{z} = (\lambda z_1, \ldots, \lambda z_n)
+\]
+However, there is important differences depending on if we use real or complex scalars.
+\subsubsection{Real Scalars}
+If $\lambda \in \R$, $\C^{n}$ is a \textit{real} vector space.
+For any $z \in \C^{n}$, $z_j = x_j + iy_j$ so:
+\[
+  \vec{z} = \sum_{j}^{} x_j \vec{e}_j + \sum_{j}^{} y_j \vec{f}_j
+\]
+Where:
+\[
+  \vec{e}_j = \underbrace{(0, 0, \ldots, 1, \ldots, 0)}_{\text{1 in $j$-th position}} \text{ and }
+  \vec{f}_j = \underbrace{(0, 0, \ldots, i, \ldots, 0)}_{\text{$i$ in $j$-th position}}
+\]
+Writing $\vec{z}$ like this is a \textit{real linear combination}.
+So the canonical basis for $\C^{n}$ when it is a \textit{real} vector space is:
+\[
+  \{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n, \vec{f}_1, \vec{f}_2, \ldots, \vec{f}_n\}
+\]
+This means that it has real dimension $2n$.
+\subsubsection{Complex Scalars}
+If $\lambda \in \C$, $\C^{n}$ is a \textit{complex} vector space.
+Since we are allowing complex scalars we can write:
+\[
+  \vec{f}_j = i \vec{e}_j
+\]
+and thus:
+\[
+  \vec{z} = \sum_{j}^{} z_j \vec{e}_j
+\]
+which is a complex linear combination.
+So the canonical basis for $\C^{n}$ as a \textit{complex} vector space is:
+\[
+  \{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n\}
+\]
+This means that is has dimension $n$ over $\C$.
+\subsubsection{Inner Product}
+The inner product on $\C^{n}$ is defined by:
+\[
+  (\vec{z}, \vec{w}) = \sum_{j}^{} z^{*}_{j} w_j
+\]
+It is \textit{hermitian} so exchanging $z$ and $w$ takes the conjugate of the output. That is: $(w, z) = (z, w)^{*}$
 \end{document}
