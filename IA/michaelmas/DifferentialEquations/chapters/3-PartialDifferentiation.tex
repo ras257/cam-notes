@@ -161,12 +161,12 @@ and so:
 \end{remark}
 In general, if $f(x, y, z) = \text{constant}$ then the multi-variate chain rule gives:
 \[
-  0 = \d{f} = \at{\pderiv{f}{x}}{y, z} \d{x} = \at{\pderiv{f}{y}}{x, z} \d{y} + \at{\pderiv{f}{z}}{x, y} \d{z}
+  0 = \d{f} = \at{\pderiv{f}{x}}{y, z} \d{x} + \at{\pderiv{f}{y}}{x, z} \d{y} + \at{\pderiv{f}{z}}{x, y} \d{z}
 \]
 \begin{remark}[Warning]
 We can't vary $x$, $y$, and $z$ independently and stay on the surface.
 \end{remark}
-If we want to find $\at{(\partial x/\partial z)}{y}$ we first start by differentiating both sides with respect to $x$ holding $y$ fixed:
+If we want to find $\at{(\partial z/\partial x)}{y}$ we first start by differentiating both sides with respect to $x$ holding $y$ fixed:
 \begin{align*}
   0 = \at{\pderiv{f}{x}}{y} &= \at{\pderiv{f}{x}}{y,z} \underbrace{\at{\pderiv{x}{x}}{y}}_{=1} + \at{\pderiv{f}{y}}{x,z} \underbrace{\at{\pderiv{y}{x}}{y}}_{=0} + \at{\pderiv{f}{z}}{x, y} \at{\pderiv{z}{x}}{y} \\
                             &=\at{\pderiv{f}{x}}{y,z} + \at{\pderiv{f}{z}}{x, y} \at{\pderiv{z}{x}}{y} \\
