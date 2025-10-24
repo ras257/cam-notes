@@ -210,11 +210,218 @@ That is, homomorphisms lead to subgroups.
   \end{itemize}
   As $\ker \phi \subseteq G$ and all axioms are satisfied, $\ker \phi \leq G$.
 \end{proof}
-\begin{remark}
+\begin{proposition}
+  \label{surjectiveInjectiveProp}
   Let $\phi: G \to H$ be a homomorphism.
   \begin{enumerate}
     \item $\phi$ is \textit{surjective} if and only if $\im \phi = H$.
     \item $\phi$ is \textit{injective} if and only if $\ker \phi = 1_G = \{e_G\}$
   \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  By definition of surjectivity.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume $\phi$ is injective}
+    Then $\ker \phi = \phi^{-1}(\{e_H\})$ has 0 or 1 elements but must include $e_G$ so, $\ker \phi = 1_G$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\ker \phi = 1_G$}
+    If $\phi(g_1) = \phi(g_2)$ then $\phi(g_1 g^{-1}_{2}) = \phi(g_1)\phi(g_2)^{-1} = e_H$.
+    So $g_1 g^{-1}_{2} \in \ker \phi$ so $g_1 g^{-1}_{2} = e_G$.
+    Thus $g_1 = g_2$.
+    Therefore $\phi(g_1) = \phi(g_2) \implies g_1 = g_2$ so $\phi$ is injective.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}
+  A homomorphism $\phi: G \to H$ is an isomorphism if and only if $\im \phi = H$ and $\ker \phi = 1_G$
+\end{proposition}
+\begin{proof}
+  Combine \textbf{i} and \textbf{ii} in \cref{surjectiveInjectiveProp} above.
+\end{proof}
+\section{Cyclic Groups}
+The groups $C_n \cong \Z_n$ that we described above have a special property:
+\begin{definition}[Cylic Group]
+  A group $G$ is \textit{cyclic} if there exists an element $g \in G$ such that:
+  \[
+    G = \{g^{k} : k \in \Z\}
+  \]
+  That is $G = \langle g \rangle$ where $g$ is called a \textit{generator} of $G$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $C_n \{z \in \C: z^{n} = 1\}$ is cyclic with generator $e^{\frac{2\pi i}{n}}$.
+    \item $\Z$ is cyclic with generator 1.
+    \item $\Z_n$ is cyclic, since $\Z_n \cong C_n$.
+  \end{enumerate}
+\end{example}
+\begin{theorem}
+  If $G$ is cyclic then either:
+  \begin{itemize}
+    \item $G \cong C_n$ for some $n$
+    \item $G \cong \Z$
+  \end{itemize}
+\end{theorem}
+\begin{proof}
+  Let $G$ be a cyclic group with generator $g$.
+  Let
+  \[
+    S = \{k \in \N_0 : g^{k} = e\}\text{ and }
+    n = \begin{cases}
+    \min S & \text{ if } S \neq \emptyset \\
+    \infty & \text{ if } S = \emptyset
+    \end{cases}
+  \]
+  \begin{proofcases}
+    \begin{case}{$n = \infty,\ S = \emptyset$}
+      Define $\phi: \Z \to G$, $k \to g^{k}$.
+      We now need to show that $\phi$ is an isomorphism.
+
+      Since:
+      \[
+        \phi(k + l) = g^{k + l} = g^{k}g^{l} = \phi(k)\phi(l)
+      \]
+      so $\phi$ is a homomorphism.
+
+      We know that $\phi$ is surjective since $G$ is cyclic so by definition $g^{k}$ $k \in \Z$ are the elements of $G$.
+
+      To prove that $\phi$ is injective we need to show that $\ker \phi = \{0\}$.
+      Suppose we have $k \in \ker \phi$ but $k \neq 0$.
+      Since $\ker \phi \leq \Z$ we may replace $k$ by $-k$ if necessary and assume $k > 0$.
+      $k \in \ker \phi$ so $\phi(k) = g^{k} = e$ and so $k \in S$.
+      But then $S \neq \emptyset$ which is a contradiction.
+      So we cannot have any elements in $\ker \phi$ that are not 0 and $0 \in \ker \phi$ since it is a homomorphism.
+      Thus $\ker(\phi) = \{0\}$ so $\phi$ is an isomorphism.
+    \end{case}
+    \begin{case}{$n < \infty,\ S \neq \emptyset$}
+      Define $\phi: \Z_n \to G$, $k \to g^{k}$.
+      Since $k + l = qn + (k +_n l)$ and $g^{n} = e$ as $n \in S$:
+      \[
+        \phi(k)\phi(l) = g^{k}g^{l} = g^{k + l} = g^{qn + (k +_n l)} = (g^{n})^{q} g^{k +_n l} = g^{k +_n l} = \phi(k +_n l)
+      \]
+      so $\phi$ is a homomorphism.
+
+      To prove surjectivity, since $G$ is cyclic, every element can be written as $g^{k}$ for some $k \in \Z$.
+      Applying the division algorithm gives $k = nq + r$ for some $q \in \Z$ and $r \in \Z_n$
+      Therefore:
+      \[
+        g^{k} = g^{nq + r} = (g^{n})^{q}g^{r} = g^{r} = \phi(r)
+      \]
+      so $\phi$ is surjective.
+
+      To prove injectivity, suppose $k \in \ker \phi$, that is, $\phi(k) = g^{k} = e$ for some $k \in \Z_n$.
+      So $k \in S$ and $0 \leq k < n$.
+      Since $n$ was minimal in $S$ and we required that elements of $S$ are positive, it follows that $k = 0$.
+      Thus $\ker \phi = \{0\}$ so $\phi$ is injective.
+      Therefore $\phi$ is an isomorphism so $G \cong \Z_n \cong C_n$.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\begin{remark}[Notation]
+  Because of this theorem we will write $C_n$ for \textbf{any} cyclic group of order $n$ (as all cyclic groups of equal order are isomorphic), and also $C_{\infty} \cong \Z$.
 \end{remark}
+\subsection{Element Order}
+We can now define the order of an element in a group:
+\begin{definition}[Element Order]
+  For any group $G$, and element $g \in G$, let:
+  \[
+    \langle g \rangle = \{g^{k} : k \in \Z\} \leq G
+  \]
+  Note that $\langle g \rangle$ is cyclic so $\langle g \rangle \cong C_n$ for some $n \in \N_0 \cup \{\infty\}$.
+  Then $n$ is the \textit{order} of $g$ and is denoted by $o(g)$ or $|g|$.
+\end{definition}
+Intuitively this is the smallest $n \in \N$ such that $g^{n} = e$ and if no such $n$ exists then the order of $g$ is infinite.
+\section{Dihedral Groups Revisited}
+Whenever $x, y \in G$ satisfy the dihedral relation $xy = yx^{-1}$, then for any $l > 0$:
+\begin{align*}
+  yx^{-l} &= (yx^{-1}) x^{1-l} \\
+          &= xyx^{1-l} \\
+          &= x(yx^{-1})x^{2-l} \\
+          &= x^2yx^{2-l} \\
+          &\;\; \vdots \text{ by induction}\\
+          &= x^{l}y
+\end{align*}
+
+If $y^2 = e$, we also have:
+\[
+  yx^{l} = y(x^{l}y)y = y(yx^{-l})y=x^{-l}y
+\]
+In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y^2 = e$.
+\begin{remark}[Memorisation]
+  This is almost like we can ``push'' the $x$ across the $y$ provided we swap the sign of the power.
+\end{remark}
+\begin{lemma}
+  \label{dihedralLemma}
+  Let $G$ be a group and $a, b \in G$, such that:
+  \begin{itemize}
+    \item $a^{n} = e$ for some $n \geq 3$
+    \item $b^2 = e$
+    \item $ab = ba^{-1}$
+  \end{itemize}
+  Then $\phi(r^{k}) = a^{k}$, $\phi(r^{k}s) = a^{k}b$ defines a homomorphism $\phi: D_{2n} \to G$ sending $r \mapsto a$ and $s \mapsto b$.
+\end{lemma}
+\begin{proof}
+  There are two different forms of elements in $D_{2n}$, $r^{k}$ and $r^{k}s$, so there is a total of four cases to check each of the combinations:
+  \begin{proofcases}
+    \begin{case}{$r^{k},\ r^{l}$}
+      \vspace{-2em}
+      \begin{align*}
+        \phi(r^{k})\phi(r^{l}) &= a^{k}a^{l} \\
+                               &= a^{k + l} \\
+                               &= a^{k +_n l} \text{ (as $a^{n} = e$)}\\
+                               &= \phi(r^{k + l})
+      \end{align*}
+    \end{case}
+    \begin{case}{$r^{k},\ r^{l}s$}
+      \vspace{-2em}
+      \begin{align*}
+        \phi(r^{k})\phi(r^{l}s) &= a^{k} a^{l} b \\
+                                &= a^{k + l} b \\
+                                &= a^{k +_n l} b \\
+                                &= \phi(r^{k + l}s) \\
+                                &= \phi(r^{k} r^{l} s)
+      \end{align*}
+    \end{case}
+    \begin{case}{$r^{k}s,\ r^{l}$}
+      \vspace{-2em}
+      \begin{align*}
+        \phi(r^{k}s)\phi(r^{l}) &= a^{k} b a^{l} \\
+                                &= a^{k - l} b \text{ (as $ba^{l} = a^{-l}b$)}\\
+                                &= \phi(r^{k - l} s) \\
+                                &= \phi(r^{k}s r^{l}) \text{ (as $r^{-l}s = sr^{l}$)}
+      \end{align*}
+    \end{case}
+    \begin{case}{$r^{k}s,\ r^{l}s$}
+      \vspace{-2em}
+      \begin{align*}
+        \phi(r^{k}s)\phi(r^{l}s) &= a^{k} b a^{l}b \\
+                                 &= a^{k - l} b^2 \text{ (as $ba^{l} = a^{-l}b$)}\\
+                                 &= a^{k - l} \text{ (as $b^2 = e$)}\\
+                                 &= \phi(r^{k - l}) \\
+                                 &= \phi(r^{k - l} s s) \text{ (as $s^2 = e$)}\\
+                                 &= \phi(r^{k} s r^{l} s) \text{ (as $r^{-l}s = sr^{l}$)}
+      \end{align*}
+    \end{case}
+  \end{proofcases}
+  So in all possible cases $\phi$ is a homomorphism.
+\end{proof}
+\begin{proposition}
+  Suppose $G$ has generating set $\{a, b\}$ such that:
+  \begin{itemize}
+    \item $a^{n} = e$
+    \item $b^{2} = e$
+    \item $ab = ba^{-1}$ (Dihedral relation)
+    \item $|G| = 2n$
+  \end{itemize}
+  Then $G \cong D_{2n}$
+\end{proposition}
+\begin{proof}
+  By \cref{dihedralLemma} there is a homomorphism $\phi: D_{2n} \to G$, $r \mapsto a$, $s \mapsto b$.
+
+  Since $a$ and $b$ generate $G$, $\phi$ is surjective.
+
+  We also have that $|D_{2n}| = 2n = |G|$.
+  So $\phi$ is a surjection between two finite sets of equal size so must be bijective.
+
+  Therefore $\phi$ is an isomorphism, thus $G \cong D_{2n}$.
+\end{proof}
 \end{document}

@@ -70,7 +70,7 @@ This is called the ``trivial solution''.
   A differential equation has \textit{constant coefficients} if the independent variable does not appear explicitly.
 \end{definition}
 
-Solutions of linear homogeneous ODEs with constant coefficients (for any order) are of the form $e^{\lambda x}$.
+Solutions of linear homogeneous ODEs with constant coefficients (for any order) are of the form $e^{\lambda x}$ (i.e. $x^{n}e^{\lambda x}$ and linear combinations of these).
 \begin{example}
   \[
     5\deriv{y}{x} - 3y = 0
@@ -171,9 +171,219 @@ We can then determine the coefficients $a_n$ by substituting into the ODE.
   \[
     x \deriv{y}{x} = \sum_{n=1}^{\infty} na_n x^{n}
   \]
-  then:
+  Moreover:
   \[
     xy = \sum_{n=0}^{\infty} a_n x^{n + 1} = \sum_{m = 1}^{\infty} a_{m-1}x^{m} = \sum_{n = 1}^{\infty} a_{n-1}x^{n}
   \]
+  We can then substitute into the ODE multiplied by $x$:
+  \begin{align*}
+    5xy' - 3xy &= 0 \\
+    \sum_{n=1}^{\infty} (5na_n - 3a_{n-1})x^{n} &= 0 \\
+  \end{align*}
+  This is true for all $x$ so $5na_n -3a_{n-1}$ must be zero for all $n\geq1$.
+  Thus:
+  \begin{align*}
+    a_n &= \frac{5}{3n}a_{n-1},\ n\geq1 \\
+        &= \frac{5}{3n}\frac{5}{3(n-1)}a_{n-2} \\
+        &\;\;\vdots \\
+        &= \left(\frac{3}{5}\right)^{n} \frac{1}{n!}a_0
+  \end{align*}
+  so:
+  \[
+    y(x) = a_0 \sum_{n=0}^{\infty} \frac{1}{n!}\left(\frac{3x}{5}\right)^{n} = a_0 \exp\left(\frac{3x}{5}\right)
+  \]
+  which agrees with the other methods.
+\end{example}
+\section{Forced ODEs}
+\begin{definition}[Forced]
+  A \textit{forced} ODE is one which includes terms that \textbf{do not} include the dependant variable or its derivatives.
+  This is the same as it being \textit{non-homogeneous} or \textit{inhomogeneous}.
+\end{definition}
+\begin{remark}
+  In general, $y = 0$ is \textbf{not} a solution to forced ODEs.
+\end{remark}
+\subsubsection{Method To Solved Forced ODEs}
+\begin{enumerate}
+  \item Find \textbf{any} solution of the forced equation.
+        This gives you a particular integral (P.I.), $y_p(x)$.
+  \item Write general solution as $y(x) = y_p(x) + y_c(x)$ and find complimentary function (C.F.), $y_c(x)$, that satisfies the corresponding homogeneous equation.
+  \item Combine $y_p$ and $y_c$ to get general solution.
+\end{enumerate}
+\begin{remark}[Warning]
+  This only works for \textbf{linear} forced ODEs otherwise the superposition of two solutions is not always a solution.
+\end{remark}
+\subsection{Constant Forcing}
+\begin{example}
+  Consider $5y' - 3y = 10$.
+  10 is called the ``constant forcing term''.
+
+  We first guess that $y_p(x)$ is a constant, thus $y_p(x) = - \frac{10}{3}$.
+  $y_c(x) = Ae^{\frac{3x}{5}}$ is the solution of the homogeneous equation ($5y' - 3y = 0$).
+  So the general solution is:
+  \[
+    y(x) = Ae^{\frac{3x}{5}} - \frac{10}{3}
+  \]
+\end{example}
+\subsection{Eigenfunctfion Forcing}
+In eigenfunction forcing, the forcing term is an eigenfunction of the differential operator.
+\begin{example}[Radioactive Decay]
+  Suppose we have three isotopes $A$, $B$, $C$ where:
+  \[
+    \underbrace{A}_{a(t)} \xrightarrow{k_a a} \underbrace{B}_{b(t)} \xrightarrow{k_b b} \underbrace{C}_{c(t)}
+  \]
+  Isotope only decays out of A so:
+  \[
+    \deriv{a}{t} = -k_a a \implies a = a_0 e^{-k_a t}
+  \]
+  We can now form a differential equation for $b$:
+  \begin{align*}
+    \deriv{b}{t} &= k_a a -k_b b \\
+    \deriv{b}{t} + k_b b &= \underbrace{k_a a_0 e^{-k_a t}}_{\text{forcing}} \\
+    \label{radioactive}
+  \end{align*}
+  Try a P.I., $b_p(t) = \beta e^{-k_a t}$:
+  \begin{align*}
+    (k_b - k_a)\beta e^{-k_a t} &= k_a a_0e^{-k_a t} \\
+    \implies \beta &= \frac{k_a a_0}{k_b - k_a}\quad(k_a \neq k_b)
+  \end{align*}
+  $b_c(t)$ solves $b_c' + k_b b_c = 0$ so $b_c(t) = De^{-k_b t}$.
+  So the general solution is:
+  \[
+    b(t) = De^{-k_b t} + \frac{k_a}{k_b - k_a}a_0 e^{-k_a t}
+  \]
+  Now suppose we have $b(0) = 0$ so:
+  \[
+    b(t) = \frac{k_a a_0}{k_b - k_a}(e^{-k_a t} - e^{-k_b t})
+  \]
+  \begin{center}
+  \begin{tikzpicture}[scale=1.15]
+    \draw[->] (0, 0) -- (5, 0) node[right] {$t$};
+    \draw[->] (0, 0) -- (0, 4);
+
+    \def\ka{0.5}
+    \def\azero{3}
+    \def\kb{2}
+    \node[left] at (0, \azero) {$a_0$};
+
+    \node at (1.7, 1.7) {$a(t)$};
+    \node at (0.9, 0.7) {$b(t)$};
+    \node at (3.5, 3.5) {$k_b > k_a$};
+
+    \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{\azero * exp(-\ka*\x)});
+    \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{((\ka * \azero)/(\kb - \ka)) * (exp(-\ka*\x) - exp(-\kb*\x)});
+  \end{tikzpicture}
+  \begin{tikzpicture}[scale=1.15]
+    \draw[->] (0, 0) -- (5, 0) node[right] {$t$};
+    \draw[->] (0, 0) -- (0, 4);
+
+    \def\ka{2}
+    \def\azero{3}
+    \def\kb{0.5}
+    \node[left] at (0, \azero) {$a_0$};
+
+    \node at (1.7, 1.9) {$b(t)$};
+    \node at (1.1, 0.7) {$a(t)$};
+    \node at (3.5, 3.5) {$k_a > k_b$};
+
+    \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{\azero * exp(-\ka*\x)});
+    \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{((\ka * \azero)/(\kb - \ka)) * (exp(-\ka*\x) - exp(-\kb*\x)});
+  \end{tikzpicture}
+  \end{center}
+  If $k_a = k_b$, we need a different P.I., this will be discussed later in \cref{differentPI}.
+\end{example}
+\section{Non-Constant Coefficients}
+The general form of a first order linear ODE with \textit{non-constant coefficients}, that is, the independent variable appears explicitly, is:
+\[
+  a(x)\deriv{y}{x} + b(x)y = c(x)
+\]
+or the ``standard-form'':
+\[
+  \deriv{y}{x} + p(x)y = f(x)
+\]
+We can solve these using an \textit{integrating factor} (I.F.), $\mu(x)$.
+
+Start by multiplying the ODE by $\mu$:
+\[
+  \mu y' + \mu py = \mu f
+\]
+We want the left hand side to be equal to $(\mu y)' = \mu y' + \mu' y$.
+This is true if $\mu' = \mu p$.
+So we require that
+\[
+  \frac{\mu'}{\mu} = p \implies \int p \d{x} = \int \frac{\mu'}{\mu} \d{x} = \ln \mu \quad\text{(Up to a constant)}
+\]
+Thus:
+\[
+  \mu(x) = \exp\left[\int^x P(u) \d{u}\right]
+\]
+which is unique up to an irrelevant constant factor as this multiple would just cancel out on either side of the DE as it is linear.
+\[
+  \deriv{}{x}(\mu y) = \mu f \implies \mu y = \int^x \mu(u)f(u) \d{u}
+\]
+\begin{example}
+  Consider $xy' + (1-x)y = 1$.
+  First convert to standard form:
+  \[
+    y' + \underbrace{\frac{1-x}{x}}_{p(x)}y = \underbrace{\frac{1}{x}}_{f(x)}
+  \]
+  So the I.F. is:
+  \begin{align*}
+    \ln \mu &= \int_{}^{x} \left(\frac{1}{u} - 1\right) \d{u} \\
+            &= \ln x - x \\
+            &= \ln(xe^{-x}) \\
+    \mu &= xe^{-x}
+  \end{align*}
+  Therefore:
+  \begin{align*}
+    \deriv{}{x}(xe^{-x}y) &= \frac{x}{x}e^{-x} = e^{-x}\\
+    xe^{-x}y &=-e^{-x} + C \\
+    y &= -\frac{1}{x} + \frac{C}{x}e^{x}
+  \end{align*}
+  Note that we could set $C=1$ if we want finite $y$ as $x \to 0$.
+\end{example}
+\begin{example}[Radioactive Decay Revisited]
+  Recall from \cref{radioactive} we had:
+  \[
+    \deriv{b}{t} + \underbrace{k_b}_{p(t)}b = \underbrace{k_a a_0 e^{-k_a t}}_{f(t)}
+  \]
+  So the I.F. is $\mu = \exp(\int k_b \d{t}) = e^{k_b t}$ and so:
+  \[
+    \deriv{}{t}(e^{k_b t}b) = k_a a_0 e^{(k_b - k_a)t}
+  \]
+  \begin{proofcases}
+    \begin{case}{$k_b \neq k_a$}
+      \begin{align*}
+        e^{k_b t}b &= \frac{k_0 a_0}{k_b - k_a}e^{(k_b - k_a)t} +C \\
+              b(t) &= \underbrace{\frac{k_0 a_0}{k_b - k_a}e^{-k_a t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
+      \end{align*}
+      Which agrees with what we had earlier.
+    \end{case}
+    \label{differentPI}
+    \begin{case}{$k_a = k_b$}
+      So the right hand side is just $k_a a_0$ which is independent of $t$ so:
+      \begin{align*}
+        e^{k_b t}b &= k_a a_0 t + C \\
+        b(t) &= \underbrace{k_a a_0 t e^{-k_b t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
+      \end{align*}
+      So $\text{P.I.} \propto t e^{-k_b t}$ not just $e^{-k_b t}$, so if we tried $\beta t e^{-k_b t}$ earlier we would have gotten this result.
+      \begin{center}
+      \begin{tikzpicture}[scale=1.13]
+        \draw[->] (0, 0) -- (5, 0) node[right] {$t$};
+        \draw[->] (0, 0) -- (0, 4);
+
+        \def\kab{2}
+        \def\azero{3}
+        \node[left] at (0, \azero) {$a_0$};
+
+        \node at (1.3, 1.4) {$b(t)$};
+        \node at (0.4, 0.7) {$a(t)$};
+        \node at (3.5, 3.5) {$k_a = k_b$};
+
+        \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{\azero * exp(-\kab*\x)});
+        \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{(\kab * \azero * \x + 2)* exp(-\kab * \x))});
+      \end{tikzpicture}
+      \end{center}
+    \end{case}
+  \end{proofcases}
 \end{example}
 \end{document}
