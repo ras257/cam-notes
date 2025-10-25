@@ -7,6 +7,7 @@ A vector is specified by a (positive) magnitude and a direction in space.
 We can represent a vector as line segment between two points $A$ and $B$, $\vec{v} = \avec{AB}$.
 $\vec{v}$ has length $|\vec{v}|$ and direction from $A$ to $B$.
 If we chose an origin $O$ then considering a point $A$ it has position vector denoted $\vec{a} = \avec{OA}$.
+\label{vectorSpaceDef}
 \begin{definition}[Vector Space]
   A \textit{vector space}, $V$, over $\R$ or $\C$ is a collection of vectors $\vec{v} \in V$, together with two operations:
   \begin{enumerate}
@@ -702,7 +703,7 @@ We can use this to show the relation:
   \begin{align*}
     [\vec{a} \times (\vec{b} \times \vec{c})]_i &= \levi_{ijk} a_j (\vec{b} \times \vec{c})_k \text{ (Applying \cref{crossComponent})} \\
                                                 &= \levi_{ijk} a_j \levi_{kpq} b_p c_q \text{ (Applying \cref{crossComponent} again)}\\
-                                                &- \levi_{ijk} \levi_{pqk} a_j b_p c_q \text{ ($\levi_{k p q} = \levi_{p q k}$)}\\
+                                                &= \levi_{ijk} \levi_{pqk} a_j b_p c_q \text{ ($\levi_{k p q} = \levi_{p q k}$)}\\
                                                 &= (\delta_{i p} \delta_{j q} - \delta_{i q} \delta_{j p}) a_j b_p c_q \text{ (Summing over $j, p, q$)} \\
                                                 &= a_j b_i c_j - a_j b_j c_i \text{ ($\delta_{i p} \delta_{j q} = 1$ iff $p = i, q = j$, $\delta_{i q}\delta_{j p} = 1$ iff $q = i, p = j$)}\\
                                                 &= a_j c_j b_i - a_j b_j c_i \text{ (Summing over $j$)}\\
@@ -804,6 +805,7 @@ A hypersphere with centre $\vec{a} \in \R^{n}$ and radius $r \in \R$ is given by
 \]
 \section{Generalised Real Vectors\texorpdfstring{ -- $\R^{n}$}{}}
 \label{generalisedReal}
+\subsection{Definitions for Real Vectors}
 Thinking of vectors component-wise makes it easier to generalise from 3 to $n$ dimensions.
 
 Define $\R^{n}$ as:
@@ -875,39 +877,40 @@ Define $\levi_{a_1 a_2 \ldots}$ (with $n$ indices) as an extension to the Levi-C
   0 & \text{ otherwise}
   \end{cases}
 \]
-\begin{remark}[Note]
-  In $\R^{2}$ we can use this to define an additional scalar product:
-  \[
-    [\vec{a}, \vec{b}] = \levi_{i j}a_i b_j = a_1 b_2 - a_2 b_1
-  \]
-  as $\levi_{1 2} = 1$ and $\levi_{2 1} = -1$.
+\subsection{Scalar Cross Product}
+\label{scalarCrossProduct}
+In $\R^{2}$ we can use this to define an additional scalar product:
+\[
+  [\vec{a}, \vec{b}] = \levi_{i j}a_i b_j = a_1 b_2 - a_2 b_1
+\]
+as $\levi_{1 2} = 1$ and $\levi_{2 1} = -1$.
 
-  Geometrically this represents the signed area of a parallelogram:
-  \[
-    [\vec{a}, \vec{b}] = |\vec{a}||\vec{b}|\sin\theta
-  \]
-  \begin{center}
-  \begin{tikzpicture}[scale=2,>=stealth]
-  \coordinate (O) at (0,0);
-  \coordinate (A) at (2,0);
-  \coordinate (B) at (1.2,1.2);
+Geometrically this represents the signed area of a parallelogram:
+\[
+  [\vec{a}, \vec{b}] = |\vec{a}||\vec{b}|\sin\theta
+\]
+\begin{center}
+\begin{tikzpicture}[scale=2,>=stealth]
+\coordinate (O) at (0,0);
+\coordinate (A) at (2,0);
+\coordinate (B) at (1.2,1.2);
 
-  \fill[gray!20] (O) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+\fill[gray!20] (O) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
 
-  \draw (0.3,0) arc (0:45:0.3);
-  \node at (0.4,0.15) {$\theta$};
+\draw (0.3,0) arc (0:45:0.3);
+\node at (0.4,0.15) {$\theta$};
 
 \node at (2.3,0.9) {$[\vec{a}, \vec{b}]$};
-  \draw[->, thick] (O) -- (A) node[midway, below] {$\vec{a}$};
-  \draw[->, thick] (O) -- (B) node[midway, above left] {$\vec{b}$};
+\draw[->, thick] (O) -- (A) node[midway, below] {$\vec{a}$};
+\draw[->, thick] (O) -- (B) node[midway, above left] {$\vec{b}$};
 
-  \draw[dashed] (A) -- ($(A)+(B)$);
-  \draw[dashed] (B) -- ($(A)+(B)$);
-  \end{tikzpicture}
-  \end{center}
-  This is similar to the vector triple product in  $\R^{3}$ which represents the signed volume of a parallelepiped.
-\end{remark}
+\draw[dashed] (A) -- ($(A)+(B)$);
+\draw[dashed] (B) -- ($(A)+(B)$);
+\end{tikzpicture}
+\end{center}
+This is similar to the vector triple product in  $\R^{3}$ which represents the signed volume of a parallelepiped.
 \section{Generalised Complex Vectors\texorpdfstring{ -- $\C^{n}$}{}}
+\subsection{Definitions for Complex Vectors}
 Similarly to in $\R^{n}$ we define $C^{n}$ as:
 \[
   \C^{n} = \{\vec{z} = (z_1, z_2, \ldots, z_n): z_i \in \C\}
@@ -965,5 +968,165 @@ The inner product on $\C^{n}$ is defined by:
 \[
   (\vec{z}, \vec{w}) = \sum_{j}^{} z^{*}_{j} w_j
 \]
-It is \textit{hermitian} so exchanging $z$ and $w$ takes the conjugate of the output. That is: $(w, z) = (z, w)^{*}$
+This has the following properties:
+\begin{enumerate}
+  \item \textbf{Hermitian -} Exchanging $z$ and $w$ takes the conjugate of the output. That is:
+    \[
+      (w, z) = (z, w)^{*}
+    \]
+  \item \textbf{Linear/Anti-linear -} It is linear in the second argument and anti-linear in the first argument:
+    \begin{align*}
+      (\vec{z}, \lambda \vec{w} + \lambda' \vec{w}') &= \lambda(\vec{z}, \vec{w}) + \lambda'(\vec{z}, \vec{w}') \\
+      (\mu \vec{z} + \mu' \vec{z}', \vec{w}) &= \mu^{*}(\vec{z}, \vec{w}) + {\mu'}^{*}(\vec{z}', \vec{w})
+    \end{align*}
+  \item \textbf{Positive Definite}
+    \[
+      (\vec{z}, \vec{z}) = \sum_{j} |z_j|^2 \geq 0
+    \]
+    Moreover, $(\vec{z}, \vec{z}) = 0$ if and only if $\vec{z} = \vec{0}$.
+\end{enumerate}
+\subsubsection{Norm}
+We define the norm on $\C^{n}$ as:
+\[
+  |\vec{z}|^2 = (\vec{z}, \vec{z})
+\]
+\subsubsection{Orthogonality}
+We say that $\vec{z}, \vec{w} \in \C^{n}$  are \textit{orthogonal} if $(\vec{z}, \vec{w}) = 0$.
+
+The standard basis for $\C^{n}$ as a complex vector space is \textit{orthonormal}, that is:
+\[
+  (\vec{e}_i, \vec{e}_j) = \delta_{i j}\quad\forall 1 \leq i, j \leq n
+\]
+\subsection{From Complex to Real Inner Products}
+For $n = 1$, take $z, w \in \C$, then:
+\[
+  (z, w) = z^{*}w
+\]
+Now write $z = a_1 + ia_2, w = b_1 + ib_2$, now associate $z$ and $w$ with the vectors $(a_1, a_2)$ and $(b_1, b_2)$ in $\R^2$.
+Then:
+\begin{align*}
+  z^{*}w &= (a_1 - i a_2)(b_1 + i b_2) \\
+         &= (a_1 b_1 + a_2 b_2) + i(a_1 b_2 - a_2 b_1) \\
+         &= \vec{a} \cdot \vec{b} + i[\vec{a}, \vec{b}]
+\end{align*}
+so we can recover both scalar products in $\R^{2}$ from the real and imaginary components.
+See \cref{scalarCrossProduct} for a definition of $[\vec{a}, \vec{b}]$.
+\section{General Vector Spaces}
+\begin{remark}[Recap]\par
+Recall the definition and properties of a vector space from \cref{vectorSpaceDef}.
+
+If the scalar multiplication is done by scalars in $\R$ then we have a \textit{real vector space}.
+If the scalar multiplication is done by scalars in $\C$ then we have a \textit{complex vector space}.
+
+If we take a real vector space $V$, and consider elements $\vec{v}_1, \ldots, \vec{v}_r \in V$ we can write a \textit{linear combination} of those elements:
+\[
+  \lambda_1 \vec{v}_1 + \lambda_2 \vec{v}_2 + \cdots + \lambda_r \vec{v}_r \in V \quad \lambda_i \in \R
+\]
+The \textit{span} of $\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\}$ is:
+\[
+  \Span\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\} = \left\{\sum_{i}^{} \lambda_i \vec{v}_i : \lambda_i \in \R\right\}
+\]
+\end{remark}
+\subsection{Subspaces}
+\begin{definition}[Subspace]
+  A \textit{subspace} of $V$ is a subset of $V$ that is itself a vector space.
+
+  Equivalently, a non-empty subset $U \subseteq V$ is a subspace if it satisfies that for every pair of vectors $\vec{v}, \vec{w} \in U$ and for any pair of scalars $\lambda, \mu \in \R$ then, $\lambda \vec{v} + \mu \vec{w} \in U$.
+\end{definition}
+In particular, for any $\vec{v}_1, \ldots, \vec{v}_r$, their span, $\Span\{\vec{v}_1, \ldots, \vec{v}_2\}$, is a subspace of $V$.
+The two trivial subspaces of any vector space $V$ are $V$ itself and $\{\vec{0}\}$.
+
+\subsection{Linear Independence and Dependence}
+\begin{definition}[Linearly Independant]
+  Consider a vector space $V$ and vectors $\vec{v}_1, \ldots, \vec{v}_n \in V$.
+  Take a linear combination of these vectors and set it to $\vec{0}$:
+  \[
+    \lambda_1 \vec{v}_1 + \cdots + \lambda_n \vec{v}_n = \vec{0} \quad \lambda_i \in \R \text{ or } \C
+  \]
+  If this implies that $\lambda_i = 0$ for all $i$ then the vectors that we are considering are said to be \textit{linearly independent}.
+  Otherwise if $\lambda_1 \vec{v}_1 + \cdots + \lambda_n \vec{v}_n = \vec{0}$ with at least one $\lambda_i \neq 0$ then the vectors are \textit{linearly dependant}.
+\end{definition}
+
+If a set of vectors are linearly independent then we cannot construct one of the vectors as a linear combination of the others.
+\begin{example}
+  \begin{enumerate}
+    \item $\{\underbrace{(1, 0)}_{\vec{v}_1}, \underbrace{(0, 1)}_{\vec{v}_2}, \underbrace{(0, 2)}_{\vec{v}_3}\} \subseteq \R^2$ is linearly dependant as $\vec{v}_3 = 2\vec{v}_2$ so $0\vec{v}_1 - 2\vec{v}_2 + \vec{v}_3 = \vec{0}$.
+    \item $\{\underbrace{(1, 0)}_{\vec{v}_1}, \underbrace{(0, 1)}_{\vec{v}_2}\} \subseteq \R^2$ is linearly independent as $\lambda_1 \vec{v}_1 + \lambda_2 \vec{v}_2 = \vec{0} \implies \lambda_1 = \lambda_2 = 0$
+    \item Any set containing $\vec{0}$ is \textit{linearly dependant} as we can set the scalar for $\vec{0}$ to anything non-zero and then all other scalars to 0.
+    \item In $\R^3$, $\vec{a}, \vec{b}, \vec{c}$ are linearly independent if and only if $\vec{a} \cdot (\vec{b} \times \vec{c}) \neq 0$.
+      This can be seen by considering the volume of the parallelepiped spanned by the three vectors.
+ \end{enumerate}
+\end{example}
+\subsection{Inner Products}
+For $\vec{v}, \vec{w} \in V$, denote their inner product by $\vec{v} \cdot \vec{w}$ or $(\vec{v} \cdot \vec{w})$.
+This has the following properties:
+\begin{enumerate}
+  \item $(\vec{v}, \vec{w}) \in \R \text{ or } \C$ depending on if we are in a real or complex vector space.
+  \item \textbf{Hermitian -} $(\vec{v}, \vec{w}) = (\vec{w}, \vec{v})^{*}$.
+    If it is a real vector space $(\vec{w}, \vec{v})^{*} = (\vec{w}, \vec{v})$ so this reduces to symmetry.
+  \item \textbf{Linear/Anti-linear -} It is linear in the second argument and anti-linear in the first argument:
+    \begin{align*}
+      (\vec{v}, \lambda \vec{w} + \lambda' \vec{w}') &= \lambda(\vec{v}, \vec{w}) + \lambda' (\vec{v}, \vec{w}') \\
+      (\mu \vec{v} + \mu \vec{v}', \vec{w}) &= \mu(\vec{v}, \vec{w}) + {\mu'}^{*}(\vec{v}', \vec{w})
+    \end{align*}
+    If this is a real vector space then this reduces to linearity in both arguments.
+  \item \textbf{Positive Definite}
+    \[
+      (\vec{v}, \vec{v}) \geq 0 \text{ and } ((\vec{v}, \vec{v}) = 0 \iff \vec{v} = \vec{0})
+    \]
+\end{enumerate}
+\begin{proposition}
+  If $\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_n$ are non-zero and orthogonal then they are linearly independent.
+\end{proposition}
+\begin{proof}
+  Consider the linear combination:
+  \[
+    \sum_{i}^{} \alpha_i \vec{v}_i = \vec{0}
+  \]
+  Then,
+  \begin{align*}
+    \left(\vec{v}_j, \sum_{i}^{} \alpha_i \vec{v}_i\right) &= \sum_{i}^{} \alpha_i (\vec{v}_j, \vec{v}_i) \text{ (By linearity of second argument)}\\
+                                                           &= \alpha_j (\vec{v}_j, \vec{v}_j) \text{ (Because of orthogonality $(\vec{v}_j, \vec{v}_i) = 0$ for $i \neq j$)}\\
+                                                           &= \alpha_j |\vec{v}_j|^2
+  \end{align*}
+  So $\alpha_j|\vec{v}_j|^2 = 0$.
+  From positive definiteness we have that $\alpha_j\vec{v}_j = \vec{0}$ but $\vec{v}_j \neq \vec{0}$ so $\alpha_j = 0$.
+  This argument holds for all $j$ so $\alpha_j = 0$ for all $j$ so they must be linearly independent by definition.
+\end{proof}
+\subsection{Bases and Dimension}
+\begin{definition}[Basis]
+  For a vector space $V$, a \textit{basis} is a set $B = \{\vec{e}_1, \ldots, \vec{e}_n\}$ such that:
+  \begin{enumerate}
+    \item $B$ \textit{spans} $V$, that is, any $\vec{v} \in V$ can be written as a linear combination of vectors in $B$:
+      \[
+        \vec{v} = \sum_{i=1}^{n} v_i \vec{e}_i
+      \]
+    \item $B$ is linearly independent.
+      This implies that the coefficients of the linear combination in \textbf{i} are always \textbf{unique}.
+      That is, there is only one way to express a particular vector as a linear combination of basis vectors.
+      We then call these coefficients, $v_i$, the \textit{components} of $\vec{v}$ with respect to the basis $B$.
+  \end{enumerate}
+\end{definition}
+\begin{theorem}
+  If $B_1$ and $B_2$ are both bases for a vector space $V$, then $|B_1| = |B_2|$.
+  \label{basesSize}
+\end{theorem}
+\begin{definition}[Dimension]
+  The number of elements in any basis for $V$ is called the \textit{dimension} of $V$.
+\end{definition}
+\begin{remark}[Note]
+  We can use any basis of $V$ to determine its dimension as by \cref{basesSize} the size of all bases for a particular vector space must be equal.
+\end{remark}
+\begin{proposition}
+  Consider a vector space $V$ of dimension $n$,
+  \begin{enumerate}
+    \item If $Y = \{\vec{w}_1, \ldots, \vec{w}_m\}$ spans $V$ with $m \geq n$ then if $m = n$, $Y$ is a basis for $V$.
+      Otherwise, if $m > n$, then we can remove vectors from $Y$ until we have $n$ elements to get a basis for $V$.
+    \item If $X = \{\vec{u}_1, \ldots, \vec{u}_k\}$ is linearly independent with $k \leq n$ then if $k = n$, $X$ is a basis for $V$.
+      Otherwise, if $k < n$ then it cannot be a basis but we can add more linearly independent vectors until we have $n$ elements to get a basis for $V$.
+  \end{enumerate}
+\end{proposition}
+\begin{remark}
+  There will always exists a basis for any vector space, regardless of if it has finite or infinite dimension.
+\end{remark}
 \end{document}
