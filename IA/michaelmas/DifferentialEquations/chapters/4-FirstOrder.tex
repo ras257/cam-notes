@@ -386,4 +386,254 @@ which is unique up to an irrelevant constant factor as this multiple would just 
     \end{case}
   \end{proofcases}
 \end{example}
+
+\section{Non-Linear First-Order ODEs}
+Non-linear first-order ODEs have the general form:
+\begin{equation}
+  \label{nonLinearGeneral}
+  Q(x, y)\deriv{y}{x} + P(x, y) = 0
+\end{equation}
+\begin{remark}
+  These could be non-linear in $\deriv{y}{x}$ too but we are not considering those within this course.
+\end{remark}
+\subsection{Separable Equations}
+A first order ODE is \textit{separable} if it can be written as:
+\[
+  Q(y) \d{y} = P(x) \d{x}
+\]
+We can solve these by direct integration:
+\[
+  \int Q(y) \d{y} = \int P(x) \d{x}
+\]
+\begin{example}
+  Consider the differential equation:
+  \begin{align*}
+    (x^2y - 3y)\deriv{y}{x} - 2xy^2 &= 4x \\
+    y(x^2 - 3)\deriv{y}{x} &= 2x(2 + y^2) \\
+    \frac{y}{2 + y^2} \d{y} &= \frac{2x}{x^2 -3} \d{x} \\
+    \int \frac{y}{2 + y^2} \d{y} &= \int \frac{2x}{x^2 - 3} \d{x} \\
+    \frac{1}{2}\ln(2 + y^2) &= \ln|x^2 - 3| + C \\
+    \sqrt{y^2 + 2} &= A|x^2 - 3|
+  \end{align*}
+\end{example}
+\subsection{Exact Equations}
+\begin{definition}[Exact]
+  A non-linear first order ODE is \textit{exact} if:
+  \[
+    P(x, y)\d{x} + Q(x, y)\d{y}
+  \]
+  is an \textit{exact differential}.
+  That is, there exists a function, $f(x, y)$, such that:
+  \[
+    \d{f} = P(x, y)\d{x} + Q(x, y)\d{y}
+  \]
+\end{definition}
+If \cref{nonLinearGeneral} is exact then $\d{f} = 0$ so $f(x, y) = \text{constant}$ is a solution.
+We can use the multivariate chain rule (\cref{multiChainRule}) to get:
+\[
+  \d{f} = \underbrace{\pderiv{f}{x}}_{P(x, y)} \d{x} + \underbrace{\pderiv{f}{y}}_{Q(x, y)} \d{y}
+\]
+So we need to solve $\pderiv{f}{x} = P$ and $\pderiv{f}{y} = Q$.
+We know that partial derivatives commute so:
+\[
+  \pderiv{P}{y} = \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial^2 f}{\partial x \partial y} = \pderiv{Q}{x}
+\]
+Therefore, a \textit{necessary} but not sufficient condition for the ODE to be exact is:
+\[
+  \pderiv{P}{y} = \pderiv{Q}{x}
+\]
+\begin{theorem}
+  If $\pderiv{P}{y} = \pderiv{Q}{x}$ throughout a simply connected domain $\mathcal{D}$, $P\d{x} + Q\d{y}$ is an exact differential of a single-valued function $f(x, y)$ in $\mathcal{D}$.
+\end{theorem}
+\begin{definition}[Simply Connected]
+  A domain $\mathcal{D}$ is \textit{simply connected} if it is path connected and any closed curve in $\mathcal{D}$ can be continuously shrunk to a point in $\mathcal{D}$ without leaving $\mathcal{D}$.
+\end{definition}
+\begin{definition}[Path Connected]
+  A domain $\mathcal{D}$  is \textit{path connected} if every pair of points in $\mathcal{D}$ can be connected by a path in $\mathcal{D}$.
+\end{definition}
+\begin{example}
+Here are some examples of some path connected and simply connected domains:
+\begin{center}
+\begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+  \def\xshiftleft{-2cm}
+  \def\xshiftright{2cm}
+  \def\yshiftbottom{-3.5cm}
+
+  \begin{scope}[xshift=\xshiftleft]
+    \filldraw[fill=gray!20, draw=black, thick] (0,0) circle (1);
+    \fill (-0.4,0.4) circle (1pt) node[above left] {$A$};
+    \fill (0.4,-0.2) circle (1pt) node[below right] {$B$};
+    \draw[thick] (0.4,-0.2) -- (-0.4,0.4);
+    \node[below,yshift=-0.2cm] at (0,-1.3) {Path connected};
+  \end{scope}
+
+  \begin{scope}[xshift=\xshiftright]
+    \filldraw[fill=gray!20, draw=black, thick] (-1,0) circle (0.9);
+    \filldraw[fill=gray!20, draw=black, thick] (1,0) circle (0.9);
+    \fill (-1,0.3) circle (1pt) node[above left] {$A$};
+    \fill (1,-0.3) circle (1pt) node[below right] {$B$};
+    \node[below,yshift=-0.2cm] at (0,-1.3) {Not path connected};
+  \end{scope}
+
+  \begin{scope}[yshift=\yshiftbottom, xshift=\xshiftleft]
+    \filldraw[fill=gray!20, draw=black, thick] (0,0) circle (1);
+    \node[below,yshift=-0.2cm] at (0,-1.2) {Simply connected};
+  \end{scope}
+
+  \begin{scope}[yshift=\yshiftbottom, xshift=\xshiftright]
+    \filldraw[fill=gray!20, draw=black, thick] (0,0) circle (1);
+    \filldraw[fill=white, draw=black, thick] (0,0) circle (0.4);
+    \node[below,yshift=-0.2cm] at (0,-1.2) {Not simply connected};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+\end{example}
+
+\begin{example}
+  Consider the first order non-linear ODE:
+  \begin{align*}
+    6y(y-x)\deriv{y}{x} + 2x - 3y^2 &= 0 \\
+    \underbrace{(2x - 3y^2)}_{P}\d{x} + \underbrace{6y(y - x)}_{Q}\d{y} &= 0
+  \end{align*}
+  Therefore we have:
+  \[
+    \pderiv{P}{y} = -6y \text{ and } \pderiv{Q}{x} = -6y \implies \pderiv{P}{y} = \pderiv{Q}{x}
+  \]
+  So this is exact in any simply connected domain.
+  \begin{align*}
+    P = \at{\pderiv{f}{x}}{y} &= 2x - 3y^2 \\
+    \implies f(x, y) &= \int 2x - 3y^2 \d{x} \\
+                     &= x^2 - 3xy^2 + h(y)
+  \end{align*}
+  Note we have a constant of integration that is a function of $y$ as $\pderiv{}{x}h(y) = 0$.
+  \[
+    Q = \at{\pderiv{f}{y}}{x} = 6y^2 - 6xy
+  \]
+  But we can also get $\at{(\partial f)/(\partial y)}{x}$ by differentiating our current expression for $f(x, y)$ with respect to $y$:
+  \begin{align*}
+    \at{\pderiv{f}{y}}{x} &= \pderiv{}{y}(x^2 - 3xy^2 + h(y)) \\
+                          &= -6xy + \deriv{h}{y}\\
+  \end{align*}
+  Equating the two expressions for $\at{(\partial f)/(\partial y)}{x}$ yields:
+  \begin{align*}
+    \deriv{h}{y} - 6xy &= 6y^2 - 6xy \\
+    \deriv{h}{y} &= 6y^2 \\
+    \implies h(y) &= 2y^3 + C
+  \end{align*}
+  Thus:
+  \[
+    f(x, y) = x^2 - 3xy^2 + 2y^3 + C
+  \]
+  Since $f(x, y)$ is a constant, the general solution of ODE is:
+  \[
+    x^2 - 3xy^2 + 2y^3 = A
+  \]
+\end{example}
+\section{Solution Curves and Isoclines}
+Non-linear ODEs are often impossible to solve in a simple closed form.
+However we can analyse the behaviour of solutions with graphical methods.
+\subsubsection{Solution Curves}
+Consider $\deriv{y}{t} = f(t, y)$.
+Each initial condition (e.g. $y(0) = y_0$) generates a distinct \textit{solution curve} or \textit{trajectory}.
+
+For example with $y = y_0 e^{x}$:
+\begin{center}
+\begin{tikzpicture}[scale=1.13]
+  \draw[->] (0, 0) -- (4, 0) node[right] {$t$};
+  \draw[->] (0, 0) -- (0, 4) node[right] {$y$};
+
+
+  \node[left] at (0, 1.45) {\underline{$y_0$}};
+  \foreach \yzero in {0.2, 0.4, 0.6, 0.8, 1.0, 1.2}{
+    \node[left] at (0, \yzero) {$\scriptstyle\yzero$};
+    \begin{scope}
+      \clip (0,0) rectangle (4, 4);
+      \draw[thick, smooth, samples=100, domain=0:4] plot ({\x}, {\yzero * exp(0.6 * \x)});
+    \end{scope}
+  }
+\end{tikzpicture}
+\end{center}
+
+This is useful as we can sketch the solution curve without needing to solve the ODE.
+\begin{example}
+  Consider the ODE:
+  \[
+    \deriv{y}{t} = t(1 - y^2)
+  \]
+  Note that this is separable so we can solve by direct integration:
+  \begin{align*}
+    \frac{\d{y}}{1 - y^2} &= t \d{t} \\
+    \frac{1}{2}\left(\frac{1}{1+y} + \frac{1}{1-y}\right)\d{y} &= t\d{t} \\
+    \frac{1}{2} \int \left(\frac{1}{1+y} + \frac{1}{1-y}\right) \d{y} &= \int t \d{t} \\
+    \frac{1}{2}\ln \abs{\frac{1 + y}{1-y}} &= \frac{1}{2}t^2 + C \\
+    \abs{\frac{1 + y}{1 - y}} &= e^{t^2} e^{2C}
+  \end{align*}
+  We now need to split into two cases depending on the value of $y$:
+  \begin{proofcases}
+    \begin{case}{$|y| < 1$}
+      \vspace{-2em}
+      \begin{align*}
+        \frac{1 + y}{1 - y} &= e^{t^2} e^{2C} \\
+        1 + y &= e^{t^2} e^{2C} - ye^{t^2} e^{2C} \\
+        y(1 + e^{t^2}e^{2C}) &= e^{t^2} e^{2C} - 1 \\
+        y(e^{-t^2} + e^{2C}) &= e^{2C} - e^{-t^2} \\
+        y &= \frac{e^{2C} + e^{-t^2}}{e^{2C} - e^{-t^2}}
+      \end{align*}
+    \end{case}
+    \begin{case}{$|y| > 1$}
+      \vspace{-2em}
+      \begin{align*}
+        \frac{1 + y}{1 - y} &= - e^{t^2} e^{2C} \\
+        1 + y &= ye^{t^2} e^{2C} - e^{t^2}e^{2C} \\
+        y(e^{t^2}e^{2C} - 1) &= e^{t^2} e^{2C} + 1 \\
+        y(-e^{2C} + e^{-t^2}) &= -e^{2C} - e^{-t^2} \\
+        y &= \frac{-e^{2C} + e^{-t^2}}{-e^{2C} - e^{-t^2}}
+      \end{align*}
+    \end{case}
+  \end{proofcases}
+  So the general solution is:
+  \[
+    y = \frac{A - e^{-t^2}}{A + e^{-t^2}},\quad A = \begin{cases}
+    e^{2C} & \text{ if } |y| < 1 \\
+    -e^{-2C} & \text{ if } |y| > 1
+    \end{cases}
+  \]
+  This means we have a family of solution curves parameterised by $A$.
+  If $y(0) = y_0$ then $A = \frac{1 + y_0}{1 - y_0}$.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13]
+    \draw[->] (0, 0) -- (9, 0) node[right] {$t$};
+    \draw[<->] (0, -2) -- (0, 2) node[right] {$y$};
+
+    \draw[dashed] (9,1) -- (0, 1) node[left] {$1$};
+    \draw[dashed] (9,-1) -- (0, -1) node[left] {$-1$};
+
+
+    \clip (0,-2) rectangle (9,2);
+    \foreach \yzero in {-0.8, -0.4, 0, 0.4, 0.8, 1.2, 1.6}{
+      \pgfmathsetmacro{\Aconst}{(1+\yzero)/(1-\yzero)}
+      \draw[thick, smooth, samples=100, domain=0:9] plot ({\x}, {(\Aconst - exp(-(0.4 * \x)^2))/(\Aconst + exp(-(0.4 * \x)^2))});
+    }
+
+    \draw[thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.1 - exp(-(0.4 * \x)^2))/(-0.1 + exp(-(0.4 * \x)^2))});
+    \draw[thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.23 - exp(-(0.4 * \x)^2))/(-0.23 + exp(-(0.4 * \x)^2))});
+  \end{tikzpicture}
+  \end{center}
+  Some properties of this are:
+  \begin{itemize}
+    \item For $-1 \leq A < 0$ we have a vertical asymptote.
+    \item As $A \to -1$, $y_0 \to \infty$.
+    \item As $A \to - \infty$, $y_0 \to 1^{+}$
+    \item As $A \to \infty$, $y_0 \to 1^{-}$
+    \item At $A = 0$ we have the constant solution $-1$.
+    \item $y \to \pm 1$ as $t \to \infty$ for $A \neq 0$
+  \end{itemize}
+
+  We can also get some general behaviour directly from the ODE without needing to solve it:
+  \begin{itemize}
+    \item $\deriv{y}{t} = 0\ \forall t \text{ if } |y| = 1$.
+      This means that we must have two constant solutions given by $y = \pm 1$.
+    \item $\deriv{y}{t} = 0$ at $t = 0$ for all solutions.
+  \end{itemize}
+\end{example}
 \end{document}
