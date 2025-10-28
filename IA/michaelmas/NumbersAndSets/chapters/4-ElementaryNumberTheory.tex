@@ -13,4 +13,155 @@ All other factors of $b$ are called \textit{proper factors} (or \textit{non-triv
   A natural number $n \geq 2$ is \textit{prime} if it has no proper factors, that is, its only factors are $\pm 1$ and $\pm n$.
   If $n \geq 2$ is not prime then it is \textit{composite}.
 \end{definition}
+\begin{proposition}
+  Every natural number $n \geq 2$ can be written as a product of primes.
+  \label{prodPrimes}
+\end{proposition}
+\begin{proof}
+  \induction
+  {$n = 2$}{
+    Clearly true for $2$ as $2$ is prime.
+  }
+  {$n < k$}{}
+  {$n = k$}{
+     If $k$ itself is prime then we are done.
+
+     Otherwise, if $k$ is composite we can write $k = ab$ with $1 < a, b < k$.
+     Then by the hypothesis, $a$ and $b$ can be written as a product of primes.
+     Thus since $k$ is a product of $a$ and $b$, it can also be written as a product of primes.
+  }
+\end{proof}
+\begin{theorem}[Infinity of Primes]
+  There are infinitely many primes.
+\end{theorem}
+\begin{proof}[Euclid]
+  Suppose there are finitely many primes, say: $p_1, p_2, \ldots, p_n$. Consider:
+  \[
+    N = p_1 p_2 \cdots p_n + 1
+  \]
+  Then we see that $p_1 \nmid N$ else $p_1 \mid (N - p_1 p_2 \cdots p_n) = 1$.
+  By the same argument none of the other primes divide $N$.
+  This contradicts the fact that $N$ can be written as a product of primes (See \cref{prodPrimes}).
+\end{proof}
+\begin{remark}[Note]
+  We are not claiming that $N$ is prime here, just that it cannot be written as a product of primes.
+\end{remark}
+We do not currently know if a number's prime factorisation is unique.
+To prove that a number's prime factorisation is unique, we need to introduce a few other things.
+\begin{proposition}[Euclid's Lemma]
+  If $p$ is a prime and $p \mid ab$ then $p \mid a$ or $p \mid b$.
+\end{proposition}
+We first need to introduce the highest common factor.
+\begin{definition}[Highest Common Factor]
+  Given $a, b \in \N$, we say that $c \in \N$ is the \textit{highest common factor} ($\hcf$) or \textit{greatest common divisor} ($\gcd$) of $a$ and $b$ if:
+  \begin{enumerate}
+    \item $c \mid a$ and $c \mid b$ ($c$ is a common divisor of $a$ and $b$).
+    \item $d \mid a$ and $d \mid b$ then $d \mid c$ (Every common divisor of $a$ and $b$ divides $c$).
+  \end{enumerate}
+  We denote this $c = \hcf(a, b) = \gcd(a, b)$.
+\end{definition}
+\begin{example}
+  The factors of $12$ are $1, 2, 3, 4, 6, 12$. The factors of $18$ are $1, 2, 3, 6, 9, 18$.
+  So the common factors are $1, 2, 3, 6$.
+  Hence $\hcf(12, 18) = 6$.
+\end{example}
+We now need to show that that $\hcf(a, b)$ always exists.
+\section{Euclid's Algorithm}
+\begin{proposition}[Division Algorithm]
+  Let $n, k \in \N$.
+  Then we can write $n = qk + r$ for some $q, r \in \Z$ and $0 \leq r \leq k - 1$.
+\end{proposition}
+\begin{remark}[Notation]
+  We use ``$q$'' to mean \textit{quotient} and ``$r$'' to mean \textit{remainder}.
+\end{remark}
+\begin{proof}
+  \induction
+  {$n = 1$}{
+    If $k = 1$ then $q = 1$ and $r = 0$, if $k > 1$ then $q = 0$ and $r = 1$
+  }
+  {$n = p - 1$}{
+    So $p - 1= qk + r$ with $0 \leq r \leq k-1$.
+  }
+  {$n = p$}{
+    \begin{proofcases}
+      \begin{case}{$r < k - 1$}
+        Then $p = qk + (r + 1)$ and $0 < r + 1 < k$ which is in the correct form.
+      \end{case}
+      \begin{case}{$r = k - 1$}
+        Then $p = qk + k = k(q + 1) + 0$ which is in the correct form.
+      \end{case}
+    \end{proofcases}
+  }
+\end{proof}
+\begin{remark}
+  The quotient and remainder obtained for each $n$ are unique.
+\end{remark}
+\begin{proof}
+  Suppose we have $n = qk + r = q' k + r'$, then $(q - q')k = r' - r$.
+  Since $0 \leq r, r' \leq k -1$, we have $-k < r' - r < k$.
+  The LHS is a multiple of $k$ so we must have $r - r' = 0$ and $q - q' = 0$.
+  Thus $r = r'$ and $q = q'$ so the quotient and remainder are unique.
+\end{proof}
+Euclid's algorithm is a method to find the highest common factor of a number.
+We repeatedly apply the division algorithm until we get a remainder of 0.
+\begin{center}
+\begin{tabular}{c|c|c|c}
+  Step & Generic form (a,b) & Bound on $r_{i}$ & Example (534, 372) \\
+\hline
+1 & $a = q_1 b + r_1$ & $0 \leq r_1 \leq b-1$ & $534 = 1(372) + 162$ \\
+2 & $b = q_2 r_1 + r_2$ & $0 \leq r_2 \leq r_1 - 1$ & $372 = 2(162) + 48$ \\
+3 & $r_1 = q_3 r_2 + r_3$ & $0 \leq r_3 \leq r_2 - 1$ &$162 = 3(48) + 18$ \\
+$\cdots$ & $\cdots$ & $\cdots$ &$48 = 2(18) + 12$ \\
+$n$ & $r_{n-2} = q_n r_{n-1} + r_n$ & $0 \leq r_n \leq r_{n-1} - 1$&$18 = 1(12) + 6$ \\
+n + 1 & $r_{n-1} = q_{n+1} r_n + 0$ & $r_{n + 1} = 0$ &$12 = 2(6) + 0$ \\
+\hline
+Output & $r_n$& -- & 6 \\
+\end{tabular}
+\end{center}
+\begin{remark}[Note]
+  The algorithm terminates in $n < b$ steps since $b > r_1 > r_2 > \cdots > r_n > 0$.
+\end{remark}
+\begin{theorem}
+  The output of Euclid's algorithm with input $a, b$ is $\hcf(a, b)$.
+\end{theorem}
+\begin{proof}
+  We need to show that $r_n$ satisfies both conditions to be $\hcf(a, b)$.
+  \begin{enumerate}
+    \item We have $r_n \mid r_{n - 1}$ (as $r_{n + 1} = 0$).
+      So by induction:
+      \begin{center}
+      \begin{tabular}{c|c|c|c|c|c|c}
+        Step & $n + 1$ & $n$ & $\cdots$ & 3 & 2 & 1 \\
+        \hline
+        Conclusion & $r_n \mid r_{n - 1}$ & $r_n \mid r_{n-2}$ & $\cdots$ & $r_n \mid r_1$ & $r_n \mid b$ & $r_n \mid a$
+      \end{tabular}
+      \end{center}
+      Hence $r_n \mid b$ and $r_n \mid a$.
+    \item Given $d$ such that $d \mid a$ and $d \mid b$.
+      So $d \mid r_1$ and therefore, by induction:
+      \begin{center}
+      \begin{tabular}{c|c|c|c|c|c|c}
+        Step & 1 & 2 & 3 & $\cdots$ & $n - 1$ & $n$ \\
+        \hline
+        Conclusion & $d \mid r_1$ & $d \mid r_2$ & $d \mid r_3$ & $\cdots$ & $d \mid r_{n - 1}$ & $d \mid r_n$
+      \end{tabular}
+      \end{center}
+      Hence $d \mid r_n$.
+  \end{enumerate}
+  Therefore $r_n$ satisfies both conditions to be $\hcf(a, b)$.
+\end{proof}
+\begin{example}
+  Suppose we want $\hcf(87, 52)$, we use Euclid's algorithm:
+  \begin{center}
+  \begin{tabular}{c|c}
+  Step & Calculation \\
+  \hline
+  1 & $87 = 1 \cdot 52 + 35$ \\
+  2 & $52 = 1 \cdot 35 + 17$ \\
+  3 & $35 = 2 \cdot 17 + 1$ \\
+  4 & $17 = 17 \cdot 1 + 0$
+  \end{tabular}
+  \end{center}
+  As $1$ is the last non-zero remainder, $\hcf(87, 52) = 1$.
+\end{example}
 \end{document}

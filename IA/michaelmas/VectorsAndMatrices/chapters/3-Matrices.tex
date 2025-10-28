@@ -1,0 +1,270 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Matrices}
+\section{Linear Maps}
+\begin{definition}[Linear Map]
+  Consider two vector spaces $V$ and $W$.
+  A \textit{linear map} is a function $T: V \to W$ such that:
+  \[
+    T(\lambda\vec{x} + \mu\vec{y}) = \lambda T(\vec{x}) + \mu T(\vec{y})
+  \]
+  for all $\vec{x}, \vec{y} \in V$ and all scalars $\lambda, \mu \in \R \text{ or }\C$ depending on if $V$ and $W$ are real or complex vector spaces.
+\end{definition}
+\begin{definition}[Domain and Codomain]
+  For a linear map $T: V \to W$, $V$ is called the \textit{domain} and $W$ is called the \textit{codomain}.
+\end{definition}
+\begin{definition}[Image]
+  The \textit{image} of a linear map $T$ is:
+  \[
+    \im T = \{\vec{x}' \in W : \vec{x}' = T(\vec{x}) \text{ for some } \vec{x} \in V\}
+  \]
+  If $\vec{x}' = T(\vec{x})$ then $\vec{x}'$ is the \textit{image} of $\vec{x}$ under $T$.
+\end{definition}
+\begin{definition}[Kernel]
+  The \textit{kernel} of a linear map $T$ is:
+  \[
+    \ker T = \{ \vec{x} \in V : T(\vec{x}) = \vec{0}\}
+  \]
+  If $\vec{x} \in V$ is such that $T(\vec{x}) = \vec{0}$ then we say that $\vec{x}$ belongs to the \textit{kernel} of $T$.
+\end{definition}
+\begin{proposition}
+  For a linear map $T: V \to W$:
+  \begin{enumerate}
+    \item $\im T$ is a subspace of $W$
+    \item $\ker T$ is a subspace of $V$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{enumerate}
+  \item Let $\vec{u}', \vec{v}' \in \im T$.
+    Therefore there exists, $\vec{u}, \vec{v} \in V$ such that $T(\vec{u}) = \vec{u}'$ and $T(\vec{v}) = \vec{v}'$.
+    For any scalars $\lambda, \mu$ we have that $\lambda \vec{u} + \mu \vec{v} \in V$ so $T(\lambda \vec{u} + \mu \vec{v}) \in \im T$.
+    By linearity, $T(\lambda \vec{u} + \mu \vec{v}) = \lambda \vec{u}' + \mu \vec{v}'$.
+    Thus $\lambda \vec{u}' + \mu \vec{v}' \in \im T$ and $\im T \subseteq W$ so $\im T$ is a subspace of $W$.
+  \item Let $\vec{u}, \vec{v} \in \ker T$. Therefore $T(\vec{u}) = T(\vec{v}) = \vec{0}$.
+    Consider for any scalars $\lambda, \mu$:
+    \[
+      T(\lambda \vec{u} + \mu \vec{v}) = \lambda T(\vec{u}) + \mu T(\vec{v}) = \vec{0}
+    \]
+    Thus $\lambda \vec{u} + \mu \vec{v} \in \ker T$ and $\ker T \subseteq V$ so $\ker T$ is a subspace of $V$.
+\end{enumerate}
+\end{proof}
+\begin{definition}[Rank]
+  For a linear map $T$ we define the \textit{rank} to be the dimension of the image. That is:
+  \[
+    \rank T = \dim (\im T)
+  \]
+\end{definition}
+\begin{definition}[Nullity]
+  For a linear map $T$ we define the \textit{nullity} to be the dimension of the kernel. That is:
+  \[
+    \nullity T = \dim (\ker T)
+  \]
+\end{definition}
+\begin{remark}
+  If we have a map $T: V \to W$ then $\nullity T = \dim(\ker T) \leq \dim V$ as the kernel is a subspace of $V$ and $\rank T = \dim(\im T) \leq \dim(W)$ as the image is a subspace of $W$.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item \textbf{Zero linear map -} $T: V \to W$ with $\vec{x} \mapsto \vec{0}$.
+      Then we have $\im T = \{\vec{0}\}$ and $\ker T = V$.
+    \item \textbf{Identity map -} $T: V \to V$ with $\vec{x} \mapsto \vec{x}$.
+      Then we have $\im T = V$ and $\ker T = \{\vec{0}\}$.
+    \item Consider $T: \R^2 \to \R^2$ and $\vec{x}' = T(\vec{x})$ with:
+      \[
+        x'_1 = 2x_1 + x_2 \text{ and } x'_2 = x_1 - 3x_2
+      \]
+      Then:
+      \[
+        \begin{pmatrix}
+        x'_1 \\
+        x'_2 \\
+        \end{pmatrix} =
+        x_1 \begin{pmatrix}
+        2 \\
+        1 \\
+        \end{pmatrix} +
+        x_2 \begin{pmatrix}
+        1 \\
+        -3 \\
+        \end{pmatrix}
+      \]
+      Since $(2, 1)$ and $(1, -3)$ are linearly independent:
+      \[
+        \im T = \Span\left\{
+        \begin{pmatrix}
+        2 \\
+        1 \\
+        \end{pmatrix},
+        \begin{pmatrix}
+        1 \\
+        -3 \\
+        \end{pmatrix}
+        \right\} =
+        \left\{
+        \lambda\begin{pmatrix}
+        2 \\
+        1 \\
+        \end{pmatrix} +
+        \mu\begin{pmatrix}
+        1 \\
+        -3 \\
+        \end{pmatrix},\ \lambda, \mu \in \
+        \right\}
+      \]
+      Furthermore, $2x_1 + x_2 = 0$ and $x_1 - 3x_2 = 0 \implies x_1 = x_2 = 0$ so:
+      \[
+        \ker T = \left\{\begin{pmatrix}
+        0 \\
+        0 \\
+        \end{pmatrix}\right\}
+      \]
+  \end{enumerate}
+\end{example}
+\subsubsection{Linear Combinations}
+Consider linear maps $T, S: V \to W$.
+Then $\alpha T + \beta S: V \to W$ is also a linear map defined by:
+\[
+  (\alpha T + \beta S)(\vec{x}) = \alpha T(\vec{x}) + \beta S(\vec{x})
+\]
+for $\alpha, \beta \in \R \text{ or } \C$.
+\subsubsection{Composition}
+Take linear maps $T: V \to W$ and $S: U \to V$.
+Then $U \xrightarrow{S} V \xrightarrow{T} W$ so $T \circ S: U \to W$.
+This composition is also a linear map, defined by:
+\[
+  (T \circ S)(\vec{x}) = T(S(\vec{x}))
+\]
+\begin{theorem}[Rank-nullity Theore]
+  For a linear map $T: V \to W$ then:
+  \[
+    \rank T + \nullity T = \dim V
+  \]
+\end{theorem}
+\begin{proof}
+\nonexaminable
+Let $n$ be $\dim V$ and $m$ be $\nullity T$.
+\[
+  \nullity T = \dim (\ker T) \leq \dim V \iff m \leq n
+\]
+So we only need to consider $m \leq n$.
+\begin{proofcases}
+  \begin{case}{$m = n$}
+    Then $\dim(\ker T) = \dim V$ and since $\ker T$ is a subspace of $V$, we must have $\ker T = V$.
+    Therefore $\im T = \{\vec{0}\}$.
+    So $\rank T + \nullity T = \dim(\im T) + \dim(\ker T) =0 + n = n$.
+  \end{case}
+  \begin{case}{$m < n$}
+    Let $\{\vec{e}_1, \ldots, \vec{e}_m\}$ be a basis of the kernel of T.
+    So $T(\vec{e}_i) = \vec{0}$ for all $i = 1, \ldots, m$.
+    We can now extend $\{\vec{e}_1, \ldots, \vec{e}_m\}$ to form a basis of $V$.
+    Since $\dim V = n$ the basis must have $n$ elements so:
+    \[
+      \{\vec{e}_1, \ldots, \vec{e}_m, \vec{e}_{m+1}, \ldots, \vec{e}_n\}
+    \]
+    We now need to show that $B = \{T(\vec{e}_{m + 1}), \ldots, T(\vec{e}_n)\}$ is a basis of $\im T$.
+    \begin{enumerate}
+      \item
+      To show that $B$ spans $\im T$, take an element $\vec{y} \in \im T$.
+      Then by definition, there exists $\vec{x} \in V$ such that $T(\vec{x}) = \vec{y}$.
+      Since $\vec{x} \in V$, we can write:
+      \[
+        \vec{x} = \alpha_1 \vec{e}_1 + \cdots + \alpha_n \vec{e}_n
+      \]
+      Applying $T$ to this yields:
+      \begin{align*}
+        \vec{y} = T(\vec{x}) &= T(\alpha_1 \vec{e}_1 + \cdots + \alpha_n \vec{e}_n) \\
+                             &= \alpha_1 T(\vec{e}_1) + \cdots \alpha_n T(\vec{e}_n) \\
+                             &= \alpha_{m + 1} T(\vec{e}_{m + 1}) + \cdots + \alpha_n T(\vec{e}_n)
+      \end{align*}
+      Therefore, any element in $\im T$ can be written as a linear combination of vectors from $B$, thus $B$ spans $\im T$.
+      \item
+      To show that $B$ is linearly independent, consider:
+      \[
+        \alpha_{m + 1} T(\vec{e}_{m+1}) + \cdots + \alpha_n T(\vec{e}_n) = \vec{0}
+      \]
+      We now need to show that all of the coefficients are 0.
+      By linearity we can write this as:
+      \[
+        T(\underbrace{\alpha_{m + 1}\vec{e}_{m + 1} + \cdots + \alpha_n \vec{e}_n}_{\vec{x}}) = \vec{0}
+      \]
+      So $\vec{x} \in \ker T$ and the basis of $\ker T$ is $\{\vec{e}_1, \ldots, \vec{e}_n\}$.
+      Therefore there exists $\alpha_1, \cdots \alpha_m$ such that:
+      \[
+        \vec{x} = \alpha_1 \vec{e}_1 + \cdots + \alpha_m \vec{e}_m
+      \]
+      We can now equate our two expressions for $\vec{x}$ to get:
+      \[
+        \alpha_1 \vec{e}_1 + \cdots \alpha_m \vec{e}_m - \alpha_{m + 1}\vec{e}_{m + 1} - \cdots - \alpha_n \vec{e}_n = \vec{0}
+      \]
+      However $\{\vec{e}_1, \ldots, \vec{e}_m, \vec{e}_{m + 1}, \ldots, \vec{e}_n\}$ is a basis of $V$.
+      Since the elements of a basis must be linearly independent, all the coefficients must be 0.
+      Thus:
+      \[
+        \alpha_1 = \cdots = \alpha_m = \alpha_{m + 1} = \cdots = \alpha_n = 0
+      \]
+      So $B$ is linearly independent.
+    \end{enumerate}
+    Therefore $B$ is a basis of $\im T$ and so $\rank T = \dim(\im T) = n - m$ as $B$ has $n - m$ elements.
+    Thus:
+    \[
+      \rank T + \nullity T = n - m + m = n = \dim V
+    \]
+  \end{case}
+\end{proofcases}
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item For the zero map, $\nullity T = \dim V$ and $\rank T = 0$ so $\nullity T + \rank T = \dim V$.
+    \item For the identity map, $\rank T = \dim V$ and $\nullity T = 0$ so $\nullity T + \rank T = \dim V$.
+  \end{enumerate}
+\end{example}
+\section{Matrices as Linear Maps}
+Let $M$ be a matrix with entries $M_{i j} \in \R$, where $i$ labels rows and $j$ labels columns.
+Then the map defined by $T: \R^{n} \to \R^{n}$, $T(\vec{x}) = \vec{x}' = M\vec{x}$ for $\vec{x}, \vec{x}' \in \R^{n}$ with $x'_i = M_{i j}x_j$, is a linear map.
+\begin{example}
+  Given $n = 2$:
+  \[
+    M = \begin{pmatrix}
+    M_{1 1} & M_{1 2} \\
+    M_{2 1} & M_{2 2} \\
+    \end{pmatrix}
+  \]
+  so we have:
+  \[
+    \begin{pmatrix}
+    x'_1 \\
+    x'_2 \\
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+    M_{1 1} & M_{1 2} \\
+    M_{2 1} & M_{2 2} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1 \\
+    x_2 \\
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+    M_{1 1}x_1 + M_{1 2}x_2 \\
+    M_{2 1}x_1 + M_{2 2}x_2 \\
+    \end{pmatrix}
+  \]
+\end{example}
+We can also consider the rows and columns of $M$ as vectors in $\R^{n}$.
+We can denote the rows as $R_i \in \R^{n}$ and the columns as $C_i \in \R^{n}$:
+\[
+  M = \begin{pmatrix}
+  \leftarrow R_1 \rightarrow \\
+  \cdots \\
+  \leftarrow R_n \rightarrow
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  \uparrow & & \uparrow  \\
+  C_1 & \cdots & C_n  \\
+  \downarrow &  & \downarrow \\
+  \end{pmatrix}
+\]
+\end{document}
