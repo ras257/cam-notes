@@ -27,7 +27,7 @@ We write $G \acts X$.
 \end{example}
 \section{Actions and Symmetry}
 \begin{theorem}
-  An action of a group $G$ on a set $X$ is the same as a homomorphism $\phi : G \to \Sym(X)$.
+  An action of a group $G$ on a set $X$ is equivalent to a homomorphism $\phi : G \to \Sym(X)$.
   \label{actionHomTheorem}
 \end{theorem}
 \begin{proof}
@@ -63,13 +63,21 @@ We write $G \acts X$.
     So it satisfies both axioms of \cref{actionDef}.
   \end{proofdirection}
 \end{proof}
+\begin{remark}[Intuition]
+  This means that given a group action of $G$ on $X$ then there is a permutation representation of the action given by $\phi: G \to \Sym(X)$.
+  That is, for any $g \in G$ there is a corresponding permutation of $X$, $\phi(g)$, such that $gx = \phi(g)(x)$.
+
+  Similarly if we have a homomorphism $\phi: G \to \Sym X$, there is a corresponding group action of $G$ on $X$ given by $gx = \phi(g)(x)$.
+
+  This correspondence is one-to-one.
+\end{remark}
 \begin{theorem}[Cayley's Theorem]
   Every group $G$ is isomorphic to a subgroup of some $\Sym(X)$.
   Furthermore, if $G$ is finite then we may choose $X$ to also be finite.
 \end{theorem}
 \begin{proof}
   Let $X = G$.
-  \Cref{actionExamples} \textbf{vi} defines the regular action  of $G$ on $G$.
+  \Cref{actionExamples} \textbf{vi} defines the regular action  of $G$ on $G$, given by $g\gamma = g \cdot \gamma$ for all $g, \gamma \in G$.
   By \cref{actionHomTheorem}, this is equivalent to a homomorphism $\phi: G \to \Sym(G)$.
 
   Let $H = \im \phi$.
@@ -79,10 +87,15 @@ We write $G \acts X$.
   We now need to prove that $\phi$ is injective.
   By \cref{surjectiveInjectiveProp}, we can do this by proving that $\ker \phi  = \{e\}$.
   Take $g \in \ker \phi$ so $\phi(g) = \id_G$.
-  Therefore $g \gamma = \id_G(\gamma) = \gamma$ for all $\gamma \in G$.
+  Therefore:
+  \[
+    g \gamma = \phi(g)(\gamma) = \id_G(\gamma) = \gamma
+  \]
+  for all $\gamma \in G$.
   In particular, we can pick $\gamma = e$ so $ge = e$.
-  By \cref{actionDef} \textbf{i} and uniqueness of the identity, $ge = e \implies g = e$.
-  Thus $\phi$ is injective.
+  But from the definition of the regular action, we also have $g\gamma = g \cdot \gamma$ so $ge = g \cdot e = g$.
+  Thus $g = e$ so $\ker \phi = \{e\}$.
+  Therefore $\phi$ is injective.
 
   Hence $\phi$ is bijective and a homomorphism so $G \cong H \leq \Sym(G) = \Sym(X)$  as required.
   Finally, since $G = X$ it is certainly true that $|G| < \infty \implies |X| < \infty$.
