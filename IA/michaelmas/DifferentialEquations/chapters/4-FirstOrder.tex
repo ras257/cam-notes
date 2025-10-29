@@ -532,7 +532,7 @@ Here are some examples of some path connected and simply connected domains:
 \section{Solution Curves and Isoclines}
 Non-linear ODEs are often impossible to solve in a simple closed form.
 However we can analyse the behaviour of solutions with graphical methods.
-\subsubsection{Solution Curves}
+\subsection{Solution Curves}
 Consider $\deriv{y}{t} = f(t, y)$.
 Each initial condition (e.g. $y(0) = y_0$) generates a distinct \textit{solution curve} or \textit{trajectory}.
 
@@ -553,6 +553,9 @@ For example with $y = y_0 e^{x}$:
   }
 \end{tikzpicture}
 \end{center}
+\begin{remark}
+  Solution curves cannot cross if $f(t, y)$ is single valued.
+\end{remark}
 
 This is useful as we can sketch the solution curve without needing to solve the ODE.
 \begin{example}
@@ -626,7 +629,7 @@ This is useful as we can sketch the solution curve without needing to solve the 
     \item As $A \to - \infty$, $y_0 \to 1^{+}$
     \item As $A \to \infty$, $y_0 \to 1^{-}$
     \item At $A = 0$ we have the constant solution $-1$.
-    \item $y \to \pm 1$ as $t \to \infty$ for $A \neq 0$
+    \item $y \to 1$ as $t \to \infty$ for $A \neq 0$
   \end{itemize}
 
   We can also get some general behaviour directly from the ODE without needing to solve it:
@@ -635,5 +638,248 @@ This is useful as we can sketch the solution curve without needing to solve the 
       This means that we must have two constant solutions given by $y = \pm 1$.
     \item $\deriv{y}{t} = 0$ at $t = 0$ for all solutions.
   \end{itemize}
+\end{example}
+\subsection{Slope Field and Isoclines}
+\[
+  \deriv{y}{t} = f(t, y) \rightarrow \text{gradient of solution through }(t, y)
+\]
+\subsubsection{Slope Field}
+A \textit{slope field} represents the gradient at a particular point by short ``sticks'', one centred on each point.
+It is tangent to the solution curve.
+\begin{example}
+  Consider again $\dot{y} = t(1-y^2)$.
+  For $t > 0$, $\dot{y} > 0$ for $|y| < 1$ and $\dot{y} < 0$ for $|y| > 1$.
+  Here is the slope field:
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13]
+    \def\f(#1,#2){(#1)*(1-(#2)^2)}
+    \def\len{0.25}
+
+    \begin{scope}
+      \clip (0,-2) rectangle (9,2);
+      \foreach \yzero in {-0.8, -0.4, 0, 0.4, 0.8, 1.2, 1.6}{
+        \pgfmathsetmacro{\Aconst}{(1+\yzero)/(1-\yzero)}
+        \draw[gray!20, thick, smooth, samples=100, domain=0:9] plot ({\x}, {(\Aconst - exp(-(0.4 * \x)^2))/(\Aconst + exp(-(0.4 * \x)^2))});
+      }
+      \draw[gray!20, thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.1 - exp(-(0.4 * \x)^2))/(-0.1 + exp(-(0.4 * \x)^2))});
+      \draw[gray!20, thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.23 - exp(-(0.4 * \x)^2))/(-0.23 + exp(-(0.4 * \x)^2))});
+
+      \foreach \t in {0, 0.5,...,9} {
+          \foreach \y in {-2, -1.6, -1.2, -1, -0.8, -0.4, 0, 0.4, 0.8, 1, 1.2, 1.6, 2} {
+              \pgfmathsetmacro{\m}{\f(0.4 * \t,\y)}
+              \pgfmathsetmacro{\dx}{\len/sqrt(1+(\m)^2)}
+              \pgfmathsetmacro{\dy}{\m*\dx}
+              \draw[-{Stealth[length=1.5pt,width=2.3pt]}] (\t-\dx/2,\y-\dy/2)--(\t+\dx/2,\y+\dy/2);
+          }
+      }
+    \end{scope}
+
+    \draw[->] (0, 0) -- (9, 0) node[right] {$t$};
+    \draw[<->] (0, -2) -- (0, 2) node[right] {$y$};
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\subsubsection{Isoclines}
+\textit{Isoclines} are curves along which $\dot{y} = \text{constant}$.
+This can sometimes be useful when sketching solution curves.
+\begin{example}
+  For the same example.
+  Consider a constant $D$ where $t(1-y^2) = D$ thus:
+  \[
+    y^2 = 1 - \frac{D}{t}
+  \]
+  So $D$ parameterises a family of curves which are isoclines for $y(t)$.
+  Here are the isoclines shown on top of the solution curves:
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13]
+    \begin{scope}
+    \clip (0,-2) rectangle (9,2);
+    \foreach \yzero in {-0.8, -0.4, 0, 0.4, 0.8, 1.2, 1.6}{
+      \pgfmathsetmacro{\Aconst}{(1+\yzero)/(1-\yzero)}
+      \draw[gray!20, thick, smooth, samples=100, domain=0:9] plot ({\x}, {(\Aconst - exp(-(0.4 * \x)^2))/(\Aconst + exp(-(0.4 * \x)^2))});
+    }
+
+    \draw[gray!20, thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.1 - exp(-(0.4 * \x)^2))/(-0.1 + exp(-(0.4 * \x)^2))});
+    \draw[gray!20, thick, smooth, samples=100, domain=0:3] plot ({\x}, {(-0.23 - exp(-(0.4 * \x)^2))/(-0.23 + exp(-(0.4 * \x)^2))});
+
+    \foreach \Dconst in {-0.8, -0.4}{
+      \draw[thick, smooth, samples=200, domain=0.01:9] plot ({\x}, {sqrt(1 - (\Dconst/(0.4 * \x)))});
+      \draw[thick, smooth, samples=200, domain=0.01:9] plot ({\x}, {-sqrt(1 - (\Dconst/(0.4 * \x))});
+    }
+
+    \foreach \Dconst in {0.4, 1.0, 1.6, 2.2, 2.8}{
+      \pgfmathsetmacro{\xmin}{\Dconst/0.4 + 0.0001}
+      \draw[thick, smooth, samples=200, domain=\xmin:9] plot ({\x}, {sqrt(1 - (\Dconst/(0.4 * \x)))});
+      \draw[thick, smooth, samples=200, domain=\xmin:9] plot ({\x}, {-sqrt(1 - (\Dconst/(0.4 * \x))});
+    }
+    \end{scope}
+
+    \draw[->] (0, 0) -- (9, 0) node[right] {$t$};
+    \draw[<->] (0, -2) -- (0, 2) node[right] {$y$};
+
+    \draw[dashed] (9,1) -- (0, 1) node[left] {$1$};
+    \draw[dashed] (9,-1) -- (0, -1) node[left] {$-1$};
+  \end{tikzpicture}
+  \end{center}
+  If we plot the slope field only along the isoclines, we see that the slope field is constant along each of the isoclines, as expected.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13]
+    \def\f(#1,#2){(#1)*(1-(#2)^2)}
+    \def\len{0.2}
+
+    \begin{scope}
+    \clip (0,-2) rectangle (9,2);
+
+    \foreach \Dconst in {0.4, 1.0, 1.6, 2.2, 2.8}{
+      \pgfmathsetmacro{\xmin}{\Dconst/0.4 + 0.0001}
+      \draw[gray!20, thick, smooth, samples=200, domain=\xmin:9] plot ({\x}, {sqrt(1 - (\Dconst/(0.4 * \x)))});
+      \draw[gray!20, thick, smooth, samples=200, domain=\xmin:9] plot ({\x}, {-sqrt(1 - (\Dconst/(0.4 * \x))});
+
+      \pgfmathsetmacro{\dx}{\len/sqrt(1+(\Dconst)^2)}
+      \pgfmathsetmacro{\dy}{\Dconst*\dx}
+      \foreach \n in {0, 1, ..., 9} {
+        \pgfmathsetmacro{\t}{\xmin + \n * 0.5}
+        \pgfmathsetmacro{\y}{sqrt(1 - (\Dconst/(0.4 * \t)))}
+        \draw[-{Stealth[length=1.5pt,width=2.3pt]}] (\t-\dx/2,\y-\dy/2)--(\t+\dx/2,\y+\dy/2);
+
+        \ifnum\n > 0
+          \draw[-{Stealth[length=1.5pt,width=2.3pt]}] (\t-\dx/2,-\y-\dy/2)--(\t+\dx/2,-\y+\dy/2);
+        \fi
+      }
+    }
+
+    \foreach \Dconst in {-0.8, -0.4}{
+      \draw[gray!20, thick, smooth, samples=200, domain=0.01:9] plot ({\x}, {sqrt(1 - (\Dconst/(0.4 * \x)))});
+      \draw[gray!20, thick, smooth, samples=200, domain=0.01:9] plot ({\x}, {-sqrt(1 - (\Dconst/(0.4 * \x))});
+      \pgfmathsetmacro{\dx}{\len/sqrt(1+(\Dconst)^2)}
+      \pgfmathsetmacro{\dy}{\Dconst*\dx}
+      \foreach \t in {0.01, 0.5,...,9} {
+        \pgfmathsetmacro{\y}{sqrt(1 - (\Dconst/(0.4 * \t)))}
+        \draw[-{Stealth[length=1.5pt,width=2.3pt]}] (\t-\dx/2,\y-\dy/2)--(\t+\dx/2,\y+\dy/2);
+        \draw[-{Stealth[length=1.5pt,width=2.3pt]}] (\t-\dx/2,-\y-\dy/2)--(\t+\dx/2,-\y+\dy/2);
+      }
+    }
+    \end{scope}
+
+    \draw[->] (0, 0) -- (9, 0) node[right] {$t$};
+    \draw[<->] (0, -2) -- (0, 2) node[right] {$y$};
+
+    \draw[dashed] (9,1) -- (0, 1) node[left] {$1$};
+    \draw[dashed] (9,-1) -- (0, -1) node[left] {$-1$};
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+
+\section{Fixed Points}
+\begin{definition}[Fixed Point]
+  A \textit{fixed point} or \textit{equilibrium} point of an ODE, $\deriv{y}{t} = f(t, y)$, is a constant solution $y = c$.
+  That is $\deriv{y}{t} = 0$ for all $t$.
+\end{definition}
+\begin{definition}[Stable Fixed Point]
+  A fixed point $y = c$ is \textit{stable} if whenever $y$ deviates slightly from $c$, $y$ \textbf{converges} to $y = c$ as $t \to \infty$.
+\end{definition}
+\begin{definition}[Unstable Fixed Point]
+  A fixed point $y = c$ is \textit{unstable} if whenever $y$ deviates slightly from $c$, $y$ \textbf{diverges} from $y = c$ as $t \to \infty$.
+\end{definition}
+\begin{example}
+  Again with $\dot{y} = t(1-y^2)$, we have fixed points at $y = \pm 1$.
+  However they have very different character.
+  Solution curves approach $y = 1$ as $t \to \infty$ so $y = 1$ is a \textit{stable} fixed point but diverge from $y = -1$ as $t \to \infty$ so $y = - 1$ is an \textit{unstable} fixed point.
+\end{example}
+\subsection{Perturbation Analysis and Stability}
+Let $y = c$ be a fixed point of $\deriv{y}{t} = f(y, t)$.
+That is $f(t, c) = 0$ for all $t$.
+
+We then perturb by some small $\varepsilon(t)$ about the fixed point:
+\[
+  y(t) = c + \varepsilon(t)
+\]
+Therefore:
+\begin{align*}
+  \deriv{\varepsilon}{t} &= f(t, t + c\varepsilon) \\
+                         &= \underbrace{f(t, c)}_{=0} + \varepsilon \pderiv{f}{y}(t, c) + O(\varepsilon^2) \text{ (by \cref{taylorsThm}, Taylor's Theorem)}\\
+                         &= \varepsilon \pderiv{f}{y}(t, c) + O(\varepsilon^2)
+\end{align*}
+Since $\varepsilon$ is small we can just consider the linear approximation, thus:
+\[
+  \deriv{\varepsilon}{t} = \varepsilon \pderiv{f}{y}(t, c)
+\]
+This is now a linear ODE which is simpler to solve.
+If $\pderiv{f}{y}(t, c) = 0$ then we need higher order terms in the Taylor series to determine stability.
+As $t \to \infty$, if $\varepsilon \to 0$ then it is a stable fixed point, if $|\varepsilon| \to \infty$ then it is an unstable fixed point.
+\begin{example}
+  Again with $\dot{y} = \underbrace{t(1 - y^2)}_{f(t, y)}$.
+  We already know we have fixed points at $y = \pm 1$.
+  \[
+    \pderiv{f}{y} = -2ty = \begin{cases}
+    -2t & y = 1 \\
+    +2t & y = -1
+    \end{cases}
+  \]
+  Near $y = 1$:
+  \[
+    \deriv{\varepsilon}{t} \approx -2t\varepsilon \implies
+    \varepsilon(t) = \varepsilon_0 e^{-t^2}
+  \]
+  As $t \to \infty$, $\varepsilon \to 0$ so $y = 1$ is a \textit{stable} fixed point.
+
+  Near $y = -1$:
+  \[
+    \deriv{\varepsilon}{t} \approx 2t\varepsilon \implies
+    \varepsilon(t) = \varepsilon_0 e^{t^2}
+  \]
+  Now as $t \to \infty$, $|\varepsilon| \to \infty$ so the solution curve diverges from $y =-1$ so it is an \textit{unstable} fixed point.
+  This analysis is only for small $\varepsilon$, so we really know the behaviour very close to $y = -1$.
+\end{example}
+\section{Autonomous Systems and Phase Portraits}
+An \textit{autonomous} system is a special case where:
+\[
+  \deriv{y}{t} = f(y)\quad\text{(No explicit $t$ dependence)}
+\]
+This is separable so:
+\[
+  \int_{}^{y} \frac{\d{u}}{f(u)} = t - t_0
+\]
+If $y(t)$ is a solution them so is $y(t - t_0)$ $\forall t_0$ as any time shift can just be absorbed into the constant of integration.
+Although it is separable we may not be able to solve it in a closed form.
+
+Near a fixed point $y = c$ (so $f(c) = 0$), we have:
+\[
+  \deriv{\varepsilon}{t} = \varepsilon \underbrace{\deriv{f}{y}(c)}_{\text{constant}} = \varepsilon k \implies
+  \varepsilon(t) = \varepsilon_0 e^{kt}
+\]
+If $k = f'(c) < 0 \implies$ stable fixed point.
+If $k = f'(c) > 0 \implies$ unstable fixed point.
+\begin{example}[Chemical Kinetics]
+  Consider a chemical reaction between $A$ and $B$ that produces $C$ and $D$.
+  \[
+    A + B \longrightarrow C + D
+  \]
+  \begin{center}
+  \begin{tabular}{c|c|c|c|c}
+   & A & B & C & D \\
+  \hline
+  No. Molecules & $a(t)$ & $b(t)$ & $c(t)$ & $d(t)$ \\
+  \hline
+  Initial No. & $a_0$ & $b_0$ & 0 & 0
+  \end{tabular}
+  \end{center}
+  This means that if we react one molecule of A with one of B, we get one of C and one of D.
+  As one $A$ produces one $C$ and one $B$ produced one $C$ we have:
+  \begin{align*}
+    a(t) + c(t) = a_0 \implies a(t) &= a_0 - c(t) \\
+    b(t) + c(t) = b_0 \implies b(t) &= b_0 - c(t)
+  \end{align*}
+  Since whenever a $C$ is produced, a $D$ is also produced, we have $d(t) = c(t)$.
+
+  To model the situation, we assume the rate of reaction $\propto$ $a(t)b(t)$.
+  This is typical of a dilute gas.
+  Therefore:
+  \begin{align*}
+    \deriv{c}{t} &= \lambda a(t)b(t) \\
+                 &= \underbrace{\lambda[a_0 - c(t)][b_0 - c(t)]}_{f(c)}
+  \end{align*}
+  So this is an autonomous non-linear first-order ODE.
+  We require $f(c) = 0$ for a fixed point so there are fixed points at $c = a_0$ and $c = b_0$.
 \end{example}
 \end{document}

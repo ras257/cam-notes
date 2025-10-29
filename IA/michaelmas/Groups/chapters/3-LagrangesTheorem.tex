@@ -123,14 +123,15 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
 \end{proof}
 \subsection{Corollaries of Lagrange's Theorem}
 \begin{corollary}
-  \label{orderDivCorollary}
   If $|G| < \infty$ and $g \in G$ then $|g| \mid |G|$.
+  \label{orderDivCorollary}
 \end{corollary}
 \begin{proof}
   Recall that the order of $g$ is defined to be $|\langle g \rangle|$ and $|\langle g \rangle| \mid |G|$ by Lagrange's Theorem.
 \end{proof}
 \begin{corollary}
   If $|G| < \infty$ and $g \in G$ then $g^{|G|} = e$.
+  \label{groupOrderPower}
 \end{corollary}
 \begin{proof}
   From \cref{orderDivCorollary} we have that $|G| = k |g|$ for some $k \in \Z$, so:
@@ -155,12 +156,35 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
 Lagrange's Theorem implies an important result in Numbers \& Sets.
 \begin{definition}[Euler Totient Function]
   \[
-    \varphi(n) = |\{x \in \Z_n : \gcd(x, n) = 1\}|
+    \varphi(n) = |\{x \in \Z_n : \hcf(x, n) = 1\}|
   \]
   That is, $\varphi(n)$ counts the number of positive integers less than $n$ that are coprime to $n$.
 \end{definition}
 \begin{remark}[Notation]
-  Let $\times_n$ denote multiplication mod $n$.
+  Let $\times_n$ denote multiplication mod $n$ on $\Z_n$.
   This is associative and has identity $1$.
 \end{remark}
+Recall that, by the division algorithm, $x \in \Z_n$ has a multiplicative inverse mod $n$ if and only if there are $y, n \in \Z$ such that $xy + mn = 1$.
+This happens if and only if $\hcf(x, n) = 1$.
+
+Hence
+\[
+  \Z^{\times}_{n} = \{x \in \Z_n : \hcf(x, n) = 1\}
+\]
+is a group with operation $\times_n$.
+
+\begin{theorem}[Fermat-Euler]
+  Let $x, n \in \Z$.
+  If $\hcf(x, n) = 1$ then:
+  \[
+    x^{\varphi(n)} \equiv 1 \pmod{n}
+  \]
+\end{theorem}
+\begin{proof}
+  By \cref{groupOrderPower} we have that:
+  \[
+    x^{|\Z^{\times}_{n}|} = 1
+  \]
+  But $\varphi(n) = |\Z^{\times}_{n}|$, so the result follows.
+\end{proof}
 \end{document}

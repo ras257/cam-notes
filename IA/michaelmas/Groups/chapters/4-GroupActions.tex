@@ -1,0 +1,114 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Group Actions}
+Groups become groups of symmetries when they ``act''.
+\section{Definition and Examples}
+\begin{definition}[Group Action]
+  An \textit{action} of a group $G$ on a set $X$ is a map $G \times X \to X$, $(g, x) \mapsto gx$ such that:
+  \begin{enumerate}
+    \item $ex = x$ for all $x \in X$
+    \item $(g \cdot h)x = g(hx)$ for all $g, h \in G$ and $x \in X$
+  \end{enumerate}
+  \label{actionDef}
+\end{definition}
+We write $G \acts X$.
+\begin{example}
+  \label{actionExamples}
+  \begin{enumerate}
+    \item For any group $G$ and set $X$, then $gx = x$ defines the \textit{trivial action}.
+    \item $\Sym(X) \acts X$ for any set $X$ by $fx = f(x)$.
+    \item If $G \acts X$ and $H \leq G$ then $H \acts X$ by just considering elements in $H$.
+    \item In particular, $\Isom(\C) \leq \Sym(\C)$ acts on $\C$.
+    \item Similarly, $D_{2n}$ acts on $X_n$ (the regular $n$-gon).
+      It also acts on its set of vertices, $\{z \in \C : z^{n} = 1\}$.
+    \item Every group $G$ acts \textit{on itself} by $g \gamma = g \cdot \gamma$.
+      This is called the \textit{left regular action}.
+  \end{enumerate}
+\end{example}
+\section{Actions and Symmetry}
+\begin{theorem}
+  An action of a group $G$ on a set $X$ is the same as a homomorphism $\phi : G \to \Sym(X)$.
+  \label{actionHomTheorem}
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Suppose $G \acts X$}
+    Consider $t_g : X \to X$, $x \mapsto gx$ for any $g \in G$.
+    Now
+    \begin{align*}
+      t_{g^{-1}}(t_g(x)) &= t_{g^{-1}}(gx) \\
+                         &= g^{-1}(gx) \\
+                         &= (g^{-1} \cdot g)x \text{ (by \cref{actionDef}, \textbf{ii})}\\
+                         &= ex \\
+                         &= x \text{ (by \cref{actionDef}, \textbf{i})}
+    \end{align*}
+    So $t_{g^{-1}} \circ t_g  = \id_X$.
+    Similarly $t_g \circ t_{g^{-1}} = \id_X$ so $t_g$ is invertible and therefore a bijection.
+    Thus $t_g$ is a permutation so $t_g \in \Sym(X)$.
+    So we may define $\phi: G \to \Sym(X)$, $g \mapsto t_g$.
+
+    We now need to prove that $\phi$ is a homomorphism for $g, h \in G$, $x \in X$.
+    \[
+      (t_g \circ t_h)(x) = t_g(t_h(x)) = t_g(hx) = g(hx) = (g \cdot h)x = t_{gh}(x)
+    \]
+    So $t_g \circ t_h = t_{gh}$.
+    Therefore $\phi(g \cdot h) = t_{gh} = t_g \circ t_h = \phi(g)\phi(h)$ so $\phi$ is a homomorphism.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose we have a homomorphism $\phi: G \to \Sym(X)$}
+    We may define an action of $G$ on $X$ by $gx = \phi(g)(x)$.
+    We now need to check that this is an action:
+    \begin{enumerate}
+      \item $ex = \phi(e)(x) = \id_X(x) = x$
+      \item $(gh)x = \phi(gh)(x) = (\phi(g) \circ \phi(h))(x) = \phi(g)(\phi(h)(x)) = \phi(g)(hx) = g(hx)$
+    \end{enumerate}
+    So it satisfies both axioms of \cref{actionDef}.
+  \end{proofdirection}
+\end{proof}
+\begin{theorem}[Cayley's Theorem]
+  Every group $G$ is isomorphic to a subgroup of some $\Sym(X)$.
+  Furthermore, if $G$ is finite then we may choose $X$ to also be finite.
+\end{theorem}
+\begin{proof}
+  Let $X = G$.
+  \Cref{actionExamples} \textbf{vi} defines the regular action  of $G$ on $G$.
+  By \cref{actionHomTheorem}, this is equivalent to a homomorphism $\phi: G \to \Sym(G)$.
+
+  Let $H = \im \phi$.
+  From \cref{imKerHom}, $H \leq \Sym G$.
+  So we may think of $\phi$ as a surjective homomorphism $\phi: G \to H$.
+
+  We now need to prove that $\phi$ is injective.
+  By \cref{surjectiveInjectiveProp}, we can do this by proving that $\ker \phi  = \{e\}$.
+  Take $g \in \ker \phi$ so $\phi(g) = \id_G$.
+  Therefore $g \gamma = \id_G(\gamma) = \gamma$ for all $\gamma \in G$.
+  In particular, we can pick $\gamma = e$ so $ge = e$.
+  By \cref{actionDef} \textbf{i} and uniqueness of the identity, $ge = e \implies g = e$.
+  Thus $\phi$ is injective.
+
+  Hence $\phi$ is bijective and a homomorphism so $G \cong H \leq \Sym(G) = \Sym(X)$  as required.
+  Finally, since $G = X$ it is certainly true that $|G| < \infty \implies |X| < \infty$.
+\end{proof}
+\section{Orbits and Stabilisers}
+We can learn a huge amount about groups by thinking about actions.
+Orbits and stabilisers can help us do this.
+\begin{definition}[Orbit]
+  If $G \acts X$ and $x \in X$ then the \textit{orbit} of $x$ is the set:
+  \[
+    Gx = \{y \in X : \exists g \in G \text{ such that } y = gx\}
+  \]
+\end{definition}
+\begin{definition}[Stabiliser]
+  If $G \acts X$ and $x \in X$ then the \textit{stabiliser} of $x$ is the set:
+  \[
+    \Stab_G(x) = \{g \in G : gx = x\}
+  \]
+\end{definition}
+\begin{remark}[Warning]
+  Some sources write $G_x$ instead of $\Stab_G(x)$.
+\end{remark}
+\begin{definition}[Transitive]
+  If $Gx = X$, then we say the action is \textit{transitive}.
+\end{definition}
+\begin{definition}[Faithful]
+  If every element $g \in G$ except $e$ has an $x \in X$ such that $gx \neq x$ then the action is \textit{faithful}.
+\end{definition}
+\end{document}
