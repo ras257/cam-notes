@@ -33,6 +33,7 @@ All other factors of $b$ are called \textit{proper factors} (or \textit{non-triv
 \end{proof}
 \begin{theorem}[Infinity of Primes]
   There are infinitely many primes.
+  \label{infinityPrimes}
 \end{theorem}
 \begin{proof}[Euclid]
   Suppose there are finitely many primes, say: $p_1, p_2, \ldots, p_n$. Consider:
@@ -48,10 +49,6 @@ All other factors of $b$ are called \textit{proper factors} (or \textit{non-triv
 \end{remark}
 We do not currently know if a number's prime factorisation is unique.
 To prove that a number's prime factorisation is unique, we need to introduce a few other things.
-\begin{proposition}[Euclid's Lemma]
-  If $p$ is a prime and $p \mid ab$ then $p \mid a$ or $p \mid b$.
-\end{proposition}
-We first need to introduce the highest common factor.
 \begin{definition}[Highest Common Factor]
   Given $a, b \in \N$, we say that $c \in \N$ is the \textit{highest common factor} ($\hcf$) or \textit{greatest common divisor} ($\gcd$) of $a$ and $b$ if:
   \begin{enumerate}
@@ -164,4 +161,133 @@ Output & $r_n$& -- & 6 \\
   \end{center}
   As $1$ is the last non-zero remainder, $\hcf(87, 52) = 1$.
 \end{example}
+\begin{definition}[Coprime]
+  If $\hcf(a, b) = 1$ then $a$ and $b$ are \textit{coprime} or \textit{relatively prime}.
+\end{definition}
+If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ that equals $\hcf(a, b)$.
+\begin{example}
+  For example:
+  \begin{align*}
+    1 &= 35 - 2 \cdot 17 \\
+      &= 35 - 2(52 - 35) \\
+      &= -2 \cdot 52 + 3 \cdot 35 \\
+      &= -2 \cdot 52 + 3(87 - 52) \\
+      &= -5 \cdot 52 + 3 \cdot 87
+  \end{align*}
+\end{example}
+\begin{theorem}[B\'ezout's Identity]
+  For all $a, b \in \N$, there exists $x, y \in \Z$ such that
+  \[
+    xa + yb = \hcf(a, b)
+    \label{bezoutsIdentity}
+  \]
+\end{theorem}
+\begin{proof}[Using Euclid's Algorithm -- Constructive]
+  We run Euclid's algorithm within inputs $a, b$ to obtain the output $r_n$.
+  At step $n$ we have $r_n = xr_{n-1} + yr_{n-2}$ for some $x, y \in \Z$.
+  But at step $n-1$ we see that $r_{n-1}$ is also expressible as $r_{n-1} = xr_{n-2} + yr_{n-3}$ for some $x, y \in \Z$.
+  We can combine these to get:
+  \[
+    r_{n} = xr_{n-2} + yr_{n-3} \text{ for some }x, y \in \Z
+  \]
+  We can continue this inductively.
+  Therefore for $\forall i = 1, \ldots, n-1$:
+  \[
+    r_n = xr_i + yr_{i-1} \text{ for some }x, y \in \Z
+  \]
+  Thus $r_n = xa + yb$ for some $x, y \in \Z$ by steps 1 and 2.
+\end{proof}
+\begin{remark}
+  Euclid's algorithm not only proves the existence of $x, y \in \Z$ but it gives a quick way to find them.
+  This is an example of a \textit{constructive} proof.
+\end{remark}
+\begin{proof}[Existence Proof]
+  Let $h$ be the least positive linear combination of $a$ and $b$.
+  That is, $h$ is the least positive integer of the form $xa + yb$ for some $x, y \in \Z$.
+
+  We now want to show that $h = \hcf(a, b)$.
+  \begin{enumerate}
+    \item Suppose $h \nmid a$. Then by the division algorithm we can write $a = qh + r$ for $q, r \in \Z$, with $0 < r < h$.
+      Hence $r = a - qh = a - q(xa + yb) = a(1-qx) - qyb$ so $r$ is also a positive linear combination of $a$ and $b$ but $r < h$ which contradicts the definition of $h$.
+      So $h \mid a$.
+      We can then do the same thing with $b$ to get $h \mid b$.
+    \item Given a $d$ such that $d \mid a$ and $d \mid b$, we have $d \mid ax + by,\ \forall x, y \in \Z$.
+      So in particular, $d \mid h$.
+  \end{enumerate}
+  So $h = \hcf(a, b)$.
+\end{proof}
+\begin{remark}
+  This existence proof tells us that such coefficients exists but does not give us a way to find them.
+\end{remark}
+\begin{corollary}[B\'ezout's Identity Continued]
+  For all $a, b \in \N$, the equation:
+  \[
+    ax + by = c
+  \]
+  has a solution for $x, y \in \Z$ if and only if $\hcf(a, b) | c$.
+\end{corollary}
+\begin{proof}
+  Let $h = \hcf(a, b)$.
+  \begin{proofdirection}{Assume there is a solution}
+    So there are $x, y \in \Z$ such that $ax + by = c$.
+    Then since $h \mid a$ and $h \mid b$, $h \mid c$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $h \mid c$}
+    Then by \cref{bezoutsIdentity}, we know that there exists $x, y \in \Z$ such that $h = ax + by$.
+    But then we can rewrite:
+    \[
+      c = \frac{c}{h} \cdot h = a \left(x \cdot \frac{c}{h}\right) + b \left(y \cdot \frac{c}{h}\right)
+    \]
+    $h \mid c$ so $\frac{c}{h} \in \Z$, thus $x' = x \cdot \frac{c}{h}, y' = y \cdot \frac{c}{h}$ is an integer solution.
+  \end{proofdirection}
+\end{proof}
+\section{Fundamental Theorem of Arithmetic}
+\begin{proposition}[Euclid's Lemma]
+  If $p$ is \textbf{prime} and $p \mid ab$ then $p \mid a$ or $p \mid b$.
+\end{proposition}
+\begin{proof}
+  Suppose $p \mid ab$ but $p \nmid a$. We now want to prove that $p \mid b$.
+  Since $p$ is prime and $p \nmid a$ we must have $\hcf(a, p) = 1$.
+  Applying B\'ezout's Identity, $\exists x, y \in \Z$ such that $xp + ya = 1$.
+  We now multiply the equation by $b$ to get $p(xb) + ab(y) = b$.
+  Since $p \mid ab$, $p \mid b$.
+
+  The same argument works if we suppose $p \nmid b$.
+  Therefore we cannot have a case where $p \nmid a$ and $p \nmid b$.
+  Thus $p \mid a$ or $p \mid b$.
+\end{proof}
+\begin{remark}
+  Similarly, by induction, if $p \mid a_1 a_2 \ldots a_n$, then $p \mid a_i$  for some $i = 1, 2, \ldots, n$.
+\end{remark}
+\begin{theorem}[Fundemental Theorem of Arithmetic]
+  Every natural number $n \geq 2$ is expressible as a product of primes, uniquely up to reordering.
+\end{theorem}
+\begin{proof}
+  The existence of such a factorisation follows from \cref{prodPrimes}\par
+  \induction
+  {$n = 2$}{
+    Clearly true as 2 itself is prime.
+  }
+  {$n < k$}{
+    So all $n < k$ have a unique (up to reordering) prime factorisation.
+  }
+  {$n = k$}{
+    Suppose $k = p_1 p_2 \cdots p_m = q_1 q_2 \cdots q_l$ where $p_i, q_i$ are all prime.
+    We have that $p_1 \mid n$ so $p_1 \mid q_1 q_2 \cdots q_l$ so by the previous proposition $p_1 | q_i$ for some $i$.
+    WLOG we can relabel the $q_j$, so we may assume that $p_1 \mid q_1$.
+    But since $p_1$ and $q_1$ are prime, we must have $p_1 = q_1$.
+
+    Therefore:
+    \[
+      \frac{k}{p_1} = p_2 p_3\cdots p_m = q_2 q_3 \cdots q_l
+    \]
+    But because $p_1 \geq 2$, $\frac{k}{p_1} < k$ so by the induction hypothesis, $p_2 p_3 \cdots p_m$ and $q_2 q_3 \cdots q_l$ must be the same prime factorisation.
+    Thus $m=l$ and after reordering $p_2 = q_2, \cdots, p_k = q_k$.
+    So $k$ has a unique prime factorisation.
+  }
+\end{proof}
+We can now use this to provide an alternative proof of \cref{infinityPrimes}.
+\begin{proof}[Erd\H{o}s 1930]
+
+\end{proof}
 \end{document}

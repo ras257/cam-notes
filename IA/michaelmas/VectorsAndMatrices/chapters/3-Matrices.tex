@@ -1,4 +1,6 @@
 \documentclass[../main.tex]{subfiles}
+\DeclareMathOperator{\Rot}{Rot}
+\DeclareMathOperator{\Reflect}{Ref}
 \begin{document}
 \chapter{Matrices}
 \section{Linear Maps}
@@ -138,6 +140,7 @@ This composition is also a linear map, defined by:
 \begin{theorem}[Rank-nullity Theore]
   For a linear map $T: V \to W$ then:
   \[
+    \label{rankNullity}
     \rank T + \nullity T = \dim V
   \]
 \end{theorem}
@@ -253,18 +256,294 @@ Then the map defined by $T: \R^{n} \to \R^{n}$, $T(\vec{x}) = \vec{x}' = M\vec{x
   \]
 \end{example}
 We can also consider the rows and columns of $M$ as vectors in $\R^{n}$.
-We can denote the rows as $R_i \in \R^{n}$ and the columns as $C_i \in \R^{n}$:
+We can denote the rows as $\vec{R}_i \in \R^{n}$ and the columns as $\vec{C}_i \in \R^{n}$:
 \[
   M = \begin{pmatrix}
-  \leftarrow R_1 \rightarrow \\
+  \leftarrow \vec{R}_1 \rightarrow \\
   \cdots \\
-  \leftarrow R_n \rightarrow
+  \leftarrow \vec{R}_n \rightarrow
   \end{pmatrix}
   =
   \begin{pmatrix}
   \uparrow & & \uparrow  \\
-  C_1 & \cdots & C_n  \\
+  \vec{C}_1 & \cdots & \vec{C}_n  \\
   \downarrow &  & \downarrow \\
+  \end{pmatrix}
+\]
+The components are then related in the following form:
+\[
+  M_{i j} = (\vec{C}_j)_i = (\vec{R}_i)_j
+\]
+If $\{\vec{e}_1, \ldots, \vec{e}_n\}$ is the standard basis of $\R^{n}$:
+\[
+  \vec{e}_i \mapsto \vec{e}_i' = T(\vec{e}_i) = M\vec{e}_i = \vec{C}_i
+\]
+That is, multiplying a matrix by the $i$-th element of the standard basis extracts the $i$-th column.
+\[
+  \begin{pmatrix}
+  M_{1 1} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{n 1} & \cdots & M_{m n} \\
+  \end{pmatrix}
+  \vec{e}_i = \vec{C}_i
+\]
+Since $T$ is a linear map for any $\vec{x} \in \R^{n}$:
+\[
+  \vec{x} = \sum_{i} x_i \vec{e}_i \mapsto T\left(\sum_{i} x_i \vec{e}_i \right) = \sum_{i} x_i \vec{C}_i
+\]
+Thus $\vec{x} \mapsto x_i \vec{C}_i$.
+This means the image of $\vec{x}$ under $T$ a linear combination of the columns of the matrix.
+Therefore, $\im T = \im M = \Span\{\vec{C}_1, \ldots, \vec{C}_n\}$.
+
+We can also determine the kernel of $T$ using its matrix representation.
+Consider an element of the image, $\vec{x}'$, of $\vec{x}$ under $T$:
+\[
+  x_i' = M_{i j}x_j = (\vec{R}_i)_j x_j = \vec{R}_i \cdot \vec{x}
+\]
+so
+\[
+  \vec{x}' = \begin{pmatrix}
+  x_i' \\
+  \vdots \\
+  x_n' \\
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  \vec{R}_i \cdot x \\
+  \vdots \\
+  \vec{R}_n \cdot x \\
+  \end{pmatrix}
+\]
+If $\vec{x} \in \ker T$ then $\vec{x}' = \vec{0}$ so $\vec{R}_1 \cdot \vec{x} = \cdots = \vec{R}_n \cdot \vec{x} = 0$.
+Therefore the kernel of $T$ is all vectors that are orthogonal to all rows of the matrix:
+\[
+  \ker T = \ker M = \{\vec{x} \in \R^{n}: \vec{R}_i \cdot \vec{x} = \vec{0},\ \forall i = 1, \ldots n\}
+\]
+This is a subspace of $\R^{n}$ as a linear combination of such vectors would also satisfy the above property and therefore would also be in the subspace.
+\begin{remark}[Summary]
+  \begin{itemize}
+    \item $\im M$ is the span of the columns of $M$.
+    \item $\ker M$ is the subspace orthogonal to all rows of $M$.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item For $T: \R^{n} \to \R^{n}$, the zero map has representation $\vec{x}' = O\vec{x}$ where $O_{ij} = 0\ \forall i, j$.
+      This matrix is called the \textit{zero matrix}.
+    \item For $T: \R^{n} \to \R^{n}$, the identity map has representation $\vec{x}' = I\vec{x}$ where $I_{i j} = \delta_{i j}$.
+      This matrix is called the \textit{identity matrix}.
+    \item For $T: \R^3 \to \R^3$, $\vec{x}' = M \vec{x}$ given by:
+      \begin{align*}
+        x_1' &= 3x_1 + x_2 + 5x_3 \\
+        x_2' &= -x_1 + 2x_3 \\
+        x_3' &= 2x_1 + x_2 + 3x_3
+      \end{align*}
+      This can be converted into matrix form:
+      \[
+        M = \begin{pmatrix}
+        3 & 1 & 5 \\
+        -1 & 0 & -2 \\
+        2 & 1 & 3 \\
+        \end{pmatrix}
+      \]
+      Since $\im(T)$ is the span of the columns:
+      \[
+        \im T = \Span\{\vec{C}_1, \vec{C}_2, \vec{C}_3\} = \Span\{\vec{C}_1, \vec{C}_2\}
+      \]
+      As $\vec{C}_3 = 2\vec{C}_1 - \vec{C}_2$.
+      Since $\vec{C}_1, \vec{C}_2$ are linearly independent, $\rank T = \dim(\im T) = 2$.
+      From \cref{rankNullity} (rank nullity theorem), we expect $\nullity T = 1$.
+
+      To find $\ker T$ we need to find the subspace orthogonal to all rows.
+      \[
+        \vec{R}_2 \times \vec{R}_3 = \begin{vmatrix}
+        \uvec{i} & \uvec{j} & \uvec{k} \\
+        -1 & 0 & -2 \\
+        2 & 1 & 3 \\
+        \end{vmatrix} =
+        \begin{pmatrix}
+        2 \\
+        -1 \\
+        -1 \\
+        \end{pmatrix}
+      \]
+      This is also orthogonal to $\vec{R}_1$ thus:
+      \[
+        \ker T = \ker M = \Span\left\{
+        \begin{pmatrix}
+        2 \\
+        -1 \\
+        -1 \\
+        \end{pmatrix}\right\}
+      \]
+      Since this has dimension 1, $\nullity T = 1$, as expected.
+  \end{enumerate}
+\end{example}
+\section{Geometric Examples\texorpdfstring{ in $\R^2$ and $\R^3$}{}}
+\subsection{Examples in \texorpdfstring{$\R^2$}{2D}}
+\subsubsection{Rotations}
+Consider $\theta$ such that $-\pi < \theta \leq \pi$, then a rotation by angle $\theta$ anticlockwise in $\R^2$ can be represented by:
+\[
+  \Rot(\theta) = \begin{pmatrix}
+  \cos \theta & -\sin \theta \\
+  \sin \theta & \cos \theta \\
+  \end{pmatrix}
+\]
+Note that $\det(\Rot(\theta)) = \cos^2 \theta + \sin^2 \theta = 1$.
+\begin{center}
+\begin{tikzpicture}[scale=2.5,>=latex]
+\draw[->, thick] (-0.2,0) -- (1.5,0) node[right] {$x$};
+\draw[->, thick] (0,-0.2) -- (0,1.2) node[above] {$y$};
+
+\coordinate (A) at (1, 0.5);
+\coordinate (B) at ({cos(30)*1 - sin(30)*0.5}, {sin(30)*1 + cos(30)*0.5});
+
+\draw[->, very thick, gray!70] (0,0) -- (A) node[midway, below right] {$\mathbf{v}$};
+
+\draw[->, very thick, black] (0,0) -- (B) node[midway, above left] {$\mathbf{v}'$};
+
+\draw[-, black] (0.3,0.15) arc[start angle=30, end angle=60, radius=0.33];
+\node at (0.35,0.3) {$\theta$};
+\end{tikzpicture}
+\end{center}
+\subsubsection{Reflections}
+Consider $\theta$ such that $-\pi < \theta \leq \pi$, then reflection in the line with angle $\frac{\theta}{2}$ anticlockwise from the $x$-axis (i.e. $y = x\tan(\theta/2)$) in $\R^2$ is represented by:
+\[
+  \Reflect(\theta) = \begin{pmatrix}
+  \cos \theta & \sin \theta \\
+  \sin \theta & -\cos \theta \\
+  \end{pmatrix}
+\]
+Note that $\det(\Reflect(\theta)) = -\cos^2 \theta - \sin^2 \theta = -1$.
+\begin{center}
+\begin{tikzpicture}[scale=2.5,>=latex]
+\draw[->, thick] (-0.2,0) -- (1.5,0) node[right] {$x$};
+\draw[->, thick] (0,-0.2) -- (0,1.2) node[above] {$y$};
+
+\coordinate (A) at (1, 0.5);
+\coordinate (B) at (0.5, 1);
+
+\draw [black, dashed] (0, 0) -- (1.2, 1.2);
+\draw[->, very thick, gray!70] (0,0) -- (A) node[midway, below right] {$\mathbf{v}$};
+
+\draw[->, very thick, black] (0,0) -- (B) node[midway, above left] {$\mathbf{v}'$};
+
+\draw[-, black] (0.3,0) arc[start angle=0, end angle=45, radius=0.3];
+\node at (0.35,0.18) {$\frac{\theta}{2}$};
+\end{tikzpicture}
+\end{center}
+\subsubsection{Properties}
+\begin{enumerate}
+  \item $\Rot(\theta)\Rot(\phi) = \Rot(\theta + \phi)$
+  \item $\Reflect(\theta)\Reflect(\phi) = \Rot(\theta - \phi)$
+  \item $\Rot(\theta)\Reflect(\phi) = \Reflect(\phi + \theta)$
+  \item $\Reflect(\theta)\Rot(\theta) = \Reflect(\phi - \theta)$
+\end{enumerate}
+\subsection{Examples in \texorpdfstring{$\R^3$}{3D}}
+\subsubsection{Rotation along a basis}
+Rotation of angle $\theta$ with axis $\vec{e}_1, \vec{e}_2, \vec{e}_3$:
+\begin{align*}
+  \Rot_{\vec{e}_1}(\theta) &= \begin{pmatrix}
+  1 & 0 & 0 \\
+  0 & \cos \theta & -\sin \theta \\
+  0 & \sin \theta & \cos \theta \\
+  \end{pmatrix} \\
+  \Rot_{\vec{e}_2}(\theta) &= \begin{pmatrix}
+  \cos \theta & 0 & \sin \theta \\
+  0 & 1 & 0 \\
+  - \sin \theta & 0 & \cos \theta \\
+  \end{pmatrix} \\
+  \Rot_{\vec{e}_3}(\theta) &= \begin{pmatrix}
+  \cos \theta & -\sin \theta & 0 \\
+  \sin \theta & \cos \theta & 0 \\
+  0 & 0 & 1 \\
+  \end{pmatrix}
+\end{align*}
+\begin{remark}[Warning]
+  These look like they all have the same format, however, for $\vec{e}_2$, the negative is on the other $\sin \theta$.
+\end{remark}
+\subsubsection{Rotation about a unit vector}
+Consider a rotation of $\theta$ about a unit vector $\vec{n}$.
+For $x \in \R^{3}$
+\[
+  \vec{x}' = R\vec{x},\ \vec{x}_i' = R_{i j}x_j
+\]
+We can write:
+\[
+  \vec{x}' = (\cos \theta)\vec{x} + (1 - \cos \theta)(\vec{n} \cdot \vec{x})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
+\]
+Or equivalently:
+\[
+  R_{i j} = \delta_{i j}\cos\theta + (1 - \cos \theta)n_in_j - (\sin \theta)\levi_{i j k}n_k
+\]
+We could express this in matrix form, however it would be quite messy.
+
+To show why this is a rotation of $\vec{x}$ about $\vec{n}$, we can first split $\vec{x}$ into a component parallel to $\vec{n}$ and a component perpendicular to $\vec{n}$:
+\[
+  \vec{x} = \vec{x}_{\parallel} + \vec{x}_{\perp}
+\]
+where $\vec{x}_{\parallel} = (\vec{x} \cdot \vec{n})\vec{n}$ and $\vec{x}_{\perp}$ such that $\vec{n} \cdot \vec{x}_{\perp} = 0$.
+
+After applying $R$, $\vec{x}_{\parallel}$ is unchanged as it is parallel to the axis of rotation, so $\vec{x}_{\parallel}' = \vec{x}_{\parallel}$.
+To find the image of $\vec{x}_{\perp}$, consider the plane orthogonal to $\vec{n}$ and vector $\vec{n} \times \vec{x}$:
+\begin{center}
+\begin{tikzpicture}[scale=2.5,>=latex]
+\draw[->, thick] (0,0) -- (1.414,0) node[right] {$\vec{x}_{\perp}$};
+\draw[->, thick] (0,0) -- (0,1.414) node[above] {$\vec{n} \times \vec{x}$};
+
+\draw[->, very thick, gray!70] (1, 0) -- (1, 1) node[midway, right, black] {$(\sin \theta)(\vec{n} \times \vec{x})$};
+\draw[->, very thick, gray!70] (0, 0) -- (1, 0) node[midway, below, black] {$(\cos \theta)\vec{x}_{\perp}$};
+\draw[->, very thick] (0,0) -- (1,1) node[midway, below right] {$\vec{x}_{\perp}'$};
+
+\draw[black] (0.3,0) arc[start angle=0, end angle=45, radius=0.3];
+\node at (0.35,0.15) {$\theta$};
+\end{tikzpicture}
+\end{center}
+We get $(\sin \theta)(\vec{n} \times \vec{x})$ as $|\vec{x}_{\perp}| = |\vec{n} \times \vec{x}|$ (consider the projection of $\vec{x}$ onto the plane orthogonal to $\vec{n}$) and $\vec{n} \times \vec{x}$ is in the correct direction.
+
+Therefore:
+\[
+  \vec{x}_{\perp}' = (\cos \theta)\vec{x}_{\perp} + (\sin \theta)(\vec{n} \times \vec{x})
+\]
+Since $\vec{x} = \vec{x}_{\parallel} + \vec{x}_{\perp} \implies \vec{x}_{\perp} = \vec{x} - (\vec{x} \cdot \vec{n})\vec{n}$.
+So we can write:
+\[
+  \vec{x}_{\perp}' = (\cos \theta)\vec{x} - (\cos \theta)(\vec{x} \cdot \vec{n})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
+\]
+As it is a linear map, the image of $\vec{x}$ is just the sum of the images of its components so:
+\[
+  \vec{x}' = \vec{x}_{\parallel}' + \vec{x}_{\perp}' = (\cos \theta)\vec{x} + (1 - \cos\theta)(\vec{x} \cdot \vec{n})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
+\]
+\subsubsection{Reflections}
+Reflections in a plane passing through the origin with unit normal vector $\vec{n}$ are represented by:
+\[
+  \vec{x}' = H\vec{x} = \vec{x} - 2(\vec{x} \cdot \vec{n})\vec{n}
+\]
+Note that $(\vec{x} \cdot \vec{n})\vec{n}$ is the vector projection of $\vec{x}$ onto $\vec{n}$.
+This can be seen in the following diagram:
+\begin{center}
+\begin{tikzpicture}[scale=2.5,>=latex]
+\draw[thick, dotted] (-1.5,0) -- (1.5,0) node[right] {$\text{Plane}$};
+\draw[->, thick] (0,0) -- (0,1) node[above] {$\vec{n}$};
+
+\draw[dashed, gray!70] (1, 1) -- (1, -1);
+\draw[->, thick] (1, 0) -- (1, 1) node[midway, right] {$(\vec{x} \cdot \vec{n})\vec{n}$};
+\draw[->, very thick] (0,0) -- (1,1) node[midway, below right] {$\vec{x}$};
+\draw[->, very thick] (0,0) -- (1,-1) node[midway, below left] {$\vec{x}'$};
+
+\node[below left] at (0, 0) {$O$};
+\end{tikzpicture}
+\end{center}
+This has matrix representation given by:
+\[
+  \vec{x}_i' = H_{i j}x_j,\ H_{i j} = \delta_{i j} - 2n_in_j
+\]
+So:
+\[
+  H = \begin{pmatrix}
+  1-2n^{2}_{1} & -2n_1n_2 & -2n_1n_3 \\
+  -2n_1n_2 & 1-2n^{2}_{2} & -2n_2n_3 \\
+  -2n_1n_3 & -2n_2n_3 & 1-2n^{2}_{3} \\
   \end{pmatrix}
 \]
 \end{document}
