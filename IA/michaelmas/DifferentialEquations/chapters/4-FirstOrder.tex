@@ -881,5 +881,213 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
   \end{align*}
   So this is an autonomous non-linear first-order ODE.
   We require $f(c) = 0$ for a fixed point so there are fixed points at $c = a_0$ and $c = b_0$.
+  These correspond to when all of A has been consumed and when all of B has been consumed.
+
+  Assume $a_0 < b_0$, so $c = b_0$ is unphysical.
+  \[
+    \deriv{f}{c} = \lambda (2c - a_0 -b_0) \implies \deriv{f}{c} = \begin{cases}
+    \lambda(a_0 - b_0) & \text{ at }c=a_0 \\
+    \lambda(b_0 - a_0) & \text{ at }c=b_0
+    \end{cases}
+  \]
+  For $a_0 < b_0$, $c = a_0$ is a \textit{stable fixed point} and $c = b_0$ is \textit{unstable}.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (4, 0) node[right] {$c$};
+    \draw[->] (0, -1) -- (0, 3) node[right] {$f = \deriv{c}{t}$};
+    \def\lconst{3}
+    \def\yconst{3}
+
+    \clip (0,-1) rectangle (4,3);
+    \draw[thick, smooth, samples=100, domain=0:4] plot ({\x}, {0.9 * (\x - 1)*(\x - 3)});
+    \node[below left] at (1, 0) {$a_0$};
+    \node[below right] at (3, 0) {$b_0$};
+  \end{tikzpicture}
+  \end{center}
+  From this we can see that if we have more than $a_0$, $\deriv{c}{t} < 0$ so less is produced, and if we have less than $a_0$, $\deriv{c}{t} > 0$ so more is produced.
+  On the other hand, if we have more than $b_0$, more is produced and if we have less than $b_0$ then less is produced.
+  In both cases we end up further from $b_0$.
+
+  We can also draw a 1D phase portrait:
+  \begin{center}
+    \begin{tikzpicture}
+      \draw (-3, -0.3) -- (-3, 0.3);
+      \draw (-3, 0) -- (3, 0) node[right] {$c(t)$};
+      \draw[->] (-3, 0) -- (-1.5, 0);
+      \draw[->] (1.5, 0) -- (0.75, 0);
+      \draw[->] (1.5, 0) -- (2.25, 0);
+      \fill (0, 0) circle (0.07) node[below] {$a_0$};
+      \draw (1.5, 0) circle (0.07) node[below] {$b_0$};
+    \end{tikzpicture}
+  \end{center}
+  The arrows show the direction the solution ``flows'' in $t$.
+\end{example}
+\begin{example}[Population Dynamics -- Logistic Equation]
+  \label{populationExample}
+  Suppose we have a population of size $y(t)$ with birth rate $\alpha y$ with $\alpha > 0$ and death rate $\beta y + \gamma y^2$.
+  The $\beta y$ term models deaths that are isolated from external conditions and the $\gamma y^2$ term models deaths due to external factors such as a scarce resource.
+
+  We can form the ODE:
+  \begin{align*}
+    \deriv{y}{t} &= (\alpha - \beta)y - \gamma y^2 \\
+                 &= \underbrace{\lambda y\left(1 - \frac{y}{Y}\right)}_{f(y)}
+  \end{align*}
+  For constants $\lambda, Y$.
+  This is called the differential logistic equation, it is also an autonomous ODE.
+
+  The fixed points are $y= 0$ and $y = Y$.
+  \[
+    \deriv{f}{y} = \lambda\left(1-\frac{2y}{Y}\right) = \begin{cases}
+    \lambda & \text{ at }y=0 \\
+    -\lambda & \text{ at } y=Y
+    \end{cases}
+  \]
+  For $\lambda > 0$ (birth rate > isolated death rate, $\alpha > \beta$), then $y = 0$ is unstable and $y = Y$ is stable.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (6, 0) node[right] {$y$};
+    \draw[->] (0, -1) -- (0, 3) node[right] {$f = \deriv{y}{t}$};
+    \def\lconst{3}
+    \def\yconst{3}
+
+    \clip (0,-1) rectangle (6,3);
+    \draw[thick, smooth, samples=100, domain=0:6] plot ({\x}, {0.3 * \x*(5 - \x)});
+    \node[below left] at (5, 0) {$Y$};
+    \node at (5, 2.5) {$\lambda >0$};
+  \end{tikzpicture}
+  \end{center}
+  We can again draw a phase portrait to illustrate the stability of fixed points:
+  \begin{center}
+    \begin{tikzpicture}
+      \draw (-3, -0.3) -- (-3, 0.3);
+      \draw (-3, 0) -- (3, 0) node[right] {$y(t)$};
+      \draw[->] (-3, 0) -- (-1.5, 0);
+      \draw[->] (3, 0) -- (1.5, 0);
+      \fill (0, 0) circle (0.07) node[below] {$Y$};
+      \draw (-3, 0) circle (0.07) node[below left] {$0$};
+    \end{tikzpicture}
+  \end{center}
+  If we solve the ODE and plot solution curves, we can see that the result agrees with our analysis:
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13]
+    \def\yconst{1.5}
+    \def\lconst{2.5}
+    \draw[->] (0, 0) -- (9, 0) node[right] {$t$} node[near end, above] {\small Unstable Fixed Point};
+    \draw[->] (0, 0) -- (0, 2.5) node[right] {$y$};
+
+    \node[left] at (0, 0) {$0$};
+    \draw[dashed] (9,\yconst) -- (0, \yconst) node[left] {$Y$} node[near start, above] {\small Stable Fixed Point};
+
+    \clip (0, 0) rectangle (9,2.5);
+    \foreach \yzero in {0.2, 0.4, ..., 2.4}{
+      \pgfmathsetmacro{\Aconst}{(\yzero)/(\yconst - \yzero)}
+      \draw[smooth, samples=100, domain=0:9] plot ({\x}, {(\yconst * \Aconst)/(exp((-\yconst/\lconst)*(\x)) + \Aconst)});
+    }
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\section{Fixed Points in Discrete Equations}
+\textit{First order} discrete equation that links $x_n$ and $x_{n + 1}$:
+\[
+  x_{n + 1} = f(x_n)
+\]
+Note that $f(x_n)$ does not explicitly depend on $n$, similarly to autonomous systems.
+\begin{definition}
+  A \textit{fixed point} of a first order discrete equation is a value of $x_n$ such that $x_{n + 1} = x_n$.
+  This means that $f(x_{n}) = x_{n}$.
+\end{definition}
+We can also determine stability using perturbation analysis.
+Let $x_F$ be a fixed point and $\varepsilon_n$ be a small perturbation:
+\[
+  x_n = x_F + \varepsilon_n
+\]
+Therefore:
+\begin{align*}
+  x_{n + 1} = x_F + \varepsilon_{n + 1} &= f(x_F + \varepsilon_n) \\
+  x_F + \varepsilon_{n+1} &= \underbrace{f(x_F)}_{x_F} + \varepsilon_n \deriv{f}{x}(x_F) + O(\varepsilon^{2}_{n}) \\
+  \varepsilon_{n+1} & =\varepsilon_n \deriv{f}{x}(x_F) + O(\varepsilon^{2}_{n})
+\end{align*}
+Since $\varepsilon$ is small we can linearise:
+\[
+  \varepsilon_{n+1} \approx \varepsilon_n \deriv{f}{x}(x_F)
+\]
+Note that if $\deriv{f}{x}(x_F) = 0$, then we would need to use higher order terms in the Taylor expansion.
+
+This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_F$ unstable.
+\begin{example}
+  Consider the discrete equation:
+  \[
+    x_{n+1} = \underbrace{rx_n (1 - x_n)}_{f(x_{n})}
+  \]
+  This is called the \textit{discrete logistic equation} or the \textit{logistic map}.
+  This is similar to the logistic equation from \cref{populationExample}.
+
+  This could be useful for modelling changes in population that happen at fixed times.
+  For this example, we are only interested in $x_n \geq 0$.
+
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (6, 0) node[right] {$x$};
+    \draw[->] (0, 0) -- (0, 3) node[right] {$f(x)$};
+    \node[below] at (5, 0) {$1$};
+    \node[below] at (0, 0) {$0$};
+
+    \def\rconst{10}
+    \draw[dashed] (0, \rconst/4) node[left] {$\frac{r}{4}$}-- (2.5, \rconst/4);
+    \draw[dashed] (2.5, 0) node[below] {$\frac{1}{2}$}-- (2.5, \rconst/4);
+
+    \draw[thick, smooth, samples=100, domain=0:5] plot ({\x}, {\rconst * (0.2*\x)*(1 - (0.2 * \x))});
+  \end{tikzpicture}
+  \end{center}
+  Since we are requiring that $x_n \geq 0$, we need to make sure that every $x_n$ is in the range $0 \leq x_{n} \leq 1$ otherwise $f(x_n) = x_{n+1}$ would be negative.
+  To do this we require $0 \leq r \leq 4$.
+
+  This has fixed points when:
+  \begin{align*}
+    x_n &= f(x_n) = rx_n(1- x_n) \\
+    \implies x_n &= 0 \text{ or } x_n = 1 - \frac{1}{r}
+  \end{align*}
+  Again because we require $x_n \geq 0$, $x_n = 1-\frac{1}{r}$ is only relevant if $r \geq 1$.
+
+  To look at their stability:
+  \[
+    f'(x) = r(1-2x) = \begin{cases}
+    r & \text{ at } x = 0 \\
+    2 - r & \text{ at } x = 1 - \frac{1}{r}
+    \end{cases}
+  \]
+  So $x_n = 0$ is stable for $0 < r < 1$ or unstable for $r > 1$ and $x_n = 1 - \frac{1}{r}$ is stable for $1 < r < 3$ or unstable for $r > 3$ or $r < 1$.
+
+  We can illustrate the behaviour of discrete equations using \textit{cobweb diagrams}.
+  Take $0 < r < 1$ so we expect to only have one fixed point.
+
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (7, 0) node[right] {$x_n$};
+    \draw[->] (0, 0) -- (0, 4) node[right] {$x_{n+1}$};
+    \node[below] at (6.66, 0) {$1$};
+    \node[below] at (0, 0) {$0$};
+    \def\func#1{0.9*#1*(1 - 0.15*#1)}
+
+    \draw (0, 0) -- (4, 4) node[right] {$x_{n + 1} = x_n$};
+
+    \draw[thick, smooth, samples=100, domain=0:6.66] plot ({\x}, {\func{\x}});
+
+    \pgfmathsetmacro{\xcurrent}{5}
+
+    \foreach \i in {1, 2, ..., 25}{
+      \pgfmathsetmacro{\xnext}{\func{\xcurrent}}
+      \draw (\xcurrent, 0) -- (\xcurrent, \xnext) -- (\xnext, \xnext) -- (\xnext, 0);
+      \ifnum \i < 4
+        \node[below] at (\xcurrent, 0) {$\scriptstyle x_\i$};
+      \fi
+      \global\let\xcurrent\xnext
+    }
+    \node[below] at (0.4, 0) {$\scriptstyle \cdots$};
+  \end{tikzpicture}
+  \end{center}
+
+  The fixed points are where the line $x_{n + 1} = x_n$ and $f(x_n)$ intersect.
+  In this case this is only at 0, as expected.
 \end{example}
 \end{document}

@@ -124,4 +124,160 @@ Orbits and stabilisers can help us do this.
 \begin{definition}[Faithful]
   If every element $g \in G$ except $e$ has an $x \in X$ such that $gx \neq x$ then the action is \textit{faithful}.
 \end{definition}
+\begin{remark}
+  If $G$ acting on $X$ is faithful if the associated homomorphism $G \to \Sym(X)$ is injective.
+\end{remark}
+\begin{proposition}
+  Suppose $G \acts X$ then:
+  \begin{enumerate}
+    \item $\Stab_G(x) \leq G$ for any $x \in X$.
+    \item The set of all orbits $\{Gx : x \in X\}$ form a \textit{partition} of $X$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item We need to check that $\Stab_G(x)$ satisfies the definition of a subgroup.
+      \begin{itemize}
+        \item \textbf{Closure - }
+          If $g, h \in \Stab_G(x)$ then:
+          \begin{align*}
+            (g \cdot h)x &= g(hx) \\
+                    &= gx \text{ (Since $h \in \Stab_G(x)$)}\\
+                    &= x \text{ (Since $g \in \Stab_G(x)$)}
+          \end{align*}
+        \item \textbf{Identity - } $ex = x$ by definition of an action so $e \in \Stab_G(x)$.
+        \item \textbf{Inverses - }
+          For $g \in \Stab_G(x)$,
+          \begin{align*}
+            g^{-1}x &= g^{-1}(gx) \\
+                    &= (g^{-1} \cdot g)x \\
+                    &= ex \\
+                    &= x
+          \end{align*}
+          So $g^{-1} \in \Stab_G(x)$.
+      \end{itemize}
+      Thus $\Stab_G(x) \leq G$.
+    \item Similarly to in the proof of \cref{cosetsCover}:
+
+      Notice that $x = ex \in Gx$ so every element is in an orbit, therefore orbits cover $X$.
+
+      If $Gx_1 \cap Gx_2 \neq \emptyset$ then there is some $y = g_1 x_1 = g_2 x_2$ for some $g_1, g_2 \in G$.
+      Hence:
+      \begin{align*}
+        x_1 &= ex_1 \\
+            &=(g^{-1}_{1} \cdot g_1) x_1 \\
+            &= g^{-1}_1 (g_1 x_1) \\
+            &= g^{-1}_1 (g_2 x_2) \text{ (As $g_1 x_1 = g_2 x_2$)} \\
+            &= (g^{-1}_{1} \cdot g_2)x_2 \in Gx_2
+      \end{align*}
+      Now, any $gx_1$ can now be written as $gx_1 = g((g^{-1}_{1} \cdot g_2)x_2) = (g \cdot (g^{-1}_{1} \cdot g_2))x_2 \in Gx_2$.
+      Hence $Gx_1 \subseteq Gx_2$.
+      Likewise, by relabelling, $Gx_2 \subseteq Gx_1$.
+      Thus $Gx_1 = Gx_2$.
+      So every element is contained in exactly one orbit so the orbits partition $X$.
+  \end{enumerate}
+\end{proof}
+\begin{remark}[Note]
+  By \textbf{ii}, an action is transitive ($Gx = X$) if and only if there is only one orbit, so transitivity is independent of the choice of $x$.
+\end{remark}
+\begin{example}
+  \label{dihedralAction}
+  Consider $D_{2n}$ acting on $X_n$, the regular $n$-gon and let $x = 1$.
+  Since $D_{2n}$ is a subset of $\Sym(\C)$, it acts by $fx = f(x)$.
+
+  For any $j$, $r^{j}s(x) = r^{j}(x) = e^{\frac{2 \pi i j}{n}} \cdot 1 = e^{\frac{2\pi i j}{n}}$.
+  So the action of $r^{j}$ or $r^{j}s$ (i.e. all elements of $D_{2n}$) on $x$ gives $e^{\frac{2 \pi i j}{n}}$.
+  Therefore the orbit of $x$, $D_{2n}x = \{e^{\frac{2 \pi i j}{n}} : 0 \leq j < n\}$.
+
+  The above calculation also shows that if $gx = x$ then $j = 0$ so $g$ is either $r^{0} = e$ or $r^{0}s = s$ so $\Stab_{D_{2n}}(x) = \{e, s\}$.
+\end{example}
+\begin{theorem}[Orbit-Stabilser Theorem]
+  Suppose $G \acts X$ and let $x \in X$.
+  The formula:
+  \[
+    g \Stab_G(x) \mapsto gx
+  \]
+  defines a well-defined bijection:
+  \[
+    G / \Stab_G(x) \to Gx
+  \]
+\end{theorem}
+\begin{proof}
+  For brevity, let $S = \Stab_G(x)$ and define $\Phi(gS) = gx$.
+  We have to check several things about $\Phi$.
+
+  Firstly, we need to check that $\Phi$ is \textit{well-defined}.
+  That is, for any $g_1, g_2 \in G$ such that $g_1S = g_2S$ (i.e. they are in the same coset), we need to check that $g_1S$ and $g_2S)$ both get sent to the same thing under the assignment $\Phi$.
+
+  To do this we need to check that $g_1x = g_2x$.
+  Now, since $g_1$ and $g_2$ are in the same coset, there is an $s \in S$ such that $g_1 = g_2 \cdot s$.
+  Since $s$ is in the stabiliser, $sx = x$ and so:
+  \[
+    g_1x = (g_2 \cdot s)(x) = g_2(sx) = g_2 x
+  \]
+  So $\Phi$ is well-defined.
+
+  We now need to check that $\Phi$ is surjective.
+  For any $gx \in Gx$,
+  \[
+    \phi(gS) = gx
+  \]
+  by definition, so $\Phi$ is surjection.
+
+  We now need to check that $\Phi$ is injective.
+  Suppose $\Phi(g_1S) = \Phi(g_2S)$, so $g_1x = g_2x$.
+  Now we need to prove that $g_1S = g_2S$.
+  Let $s = g^{-1}_{2} \cdot g_1$.
+  \begin{align*}
+    sx &= (g^{-1}_{2} \cdot g_1)x \\
+       &= g^{-1}_{2}(g_1 x) \\
+       &= g^{-1}_{2}(g_2 x) \text{ (as $g_1x = g_2x$)}\\
+       &= (g^{-1}_{2} \cdot g_2)x \\
+       &= ex \\
+       &=x
+  \end{align*}
+  So $s \in S$.
+  Therefore:
+  \begin{align*}
+    g_1 &= (g_2 \cdot g^{-1}_{2}) \cdot g_1 \\
+        &= g_2 \cdot (g^{-1}_{2} \cdot g_1) \\
+        &= g_2 \cdot s \in g_2S
+  \end{align*}
+  So $g_1 \in g_2S$ so the cosets $g_1S$ and $g_2S$ overlap but since cosets partition, it follows that $g_1S = g_2S$.
+  So $\Phi$ is a well-defined bijection.
+\end{proof}
+\begin{corollary}
+  If $G \acts X$ and $x \in X$ then:
+  \[
+    |G| = |Gx||\Stab_G(x)|
+  \]
+\end{corollary}
+\begin{proof}
+  Orbit-Stabiliser gives a bijection $G/\Stab_G(x) \to Gx$, therefore:
+  \[
+    |Gx| = |G / \Stab_G(x)|
+  \]
+  and by Lagrange's theorem (\cref{lagrangesTheorem}):
+  \[
+    |G| = |G/\Stab_G(x)||\Stab_G(x)|
+  \]
+  Thus $|G| = |Gx||\Stab_G(x)|$.
+\end{proof}
+\begin{example}
+  Consider again $D_{2n}$ acting on $X_n$ from \cref{dihedralAction}.
+  We saw that, if $x = 1$ then $|D_{2n}x| = n$ and $|\Stab_{D_{2n}}(x)| = 2$.
+  So by Orbit-Stabiliser, $|D_{2n}| = 2n$.
+
+  This proof is a circular at the moment as we used the group structure to determine the orbits and stabilisers but we could do this without knowing the group structure for an easier proof of the size of $D_{2n}$.
+\end{example}
+\begin{example}[Symmetries of a Cube]
+  Let $G$ be the group of isometries of a cube and let $x$ be the centre of a face.
+
+  The centre of a face can be sent to the centre of any of the other $6$ faces so the orbit of $x$ is the centres of all of the faces, so $|Gx| = 6$.
+
+  To find the stabiliser of $x$, we need to think of isometries that fix the centre of the face, so they must send the face to itself.
+  This is just the group of symmetries of a square, $D_{8}$, so $\Stab_G(x) \cong D_8$ and $|\Stab_G(x)| = 8$.
+
+  Therefore $|G| = |Gx||\Stab_G(x)| = 6 \cdot 8 = 48$.
+\end{example}
 \end{document}
