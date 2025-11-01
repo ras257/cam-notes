@@ -1,0 +1,56 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Modular Arithmetic}
+\section{Definition}
+\begin{definition}[Integers Modulo $n$]
+Let $n \geq 2$ be a natural number.
+Then \textit{the integers modulo $n$}, denoted $\Z_n$ or $\Z/n\Z$, consists of the integers, with two integers regarded the same if they differ by a multiple of $n$.
+\end{definition}
+\begin{definition}[Congruent]
+  Integers $x$ and $y$ are said to be \textit{congruent} modulo $n$ if $n \mid x - y$.
+  We write $x \equiv y \pmod{n}$ and say ``$x$ is \textit{congruent} to $y$ under mod $n$''.
+\end{definition}
+\begin{remark}[Note]
+  $x \equiv y \pmod{n} \iff n \mid x - y \iff x = y + kn$ for some $k \in \Z$.
+\end{remark}
+\begin{example}
+  In $\Z_7$, $16 \equiv 2 \pmod{7}$.
+  In $\Z_3$, $-1 \equiv 2 \pmod{3}$.
+  In $\Z_2$, $2k + 1 \equiv 1 \pmod{2}$.
+\end{example}
+\section{Arithmetic}
+We can carry out addition and multiplication as usual in $\Z_n$.
+\begin{proposition}[Arithmetic of mod $n$]
+  If $a \equiv a' \pmod{n}$ and $b \equiv b' \pmod{n}$ then
+  \begin{enumerate}
+    \item $a + b \equiv a' + b' \pmod{n}$
+    \item $ab \equiv a'b' \pmod{n}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  By definition, $a \equiv a' \pmod{n} \iff n \mid (a - a')$ and $b \equiv b' \pmod{n} \iff n \mid (b - b')$.
+  \begin{enumerate}
+    \item So:
+      \[
+        n \mid (a - a') + (b - b') = (a + b) - (a' + b')
+      \]
+      Thus, $a + b \equiv a' + b' \pmod{n}$.
+    \item So:
+      \[
+        n \mid (a - a')\cdot b + a' (b - b') \cdot a = ab - a'b'
+      \]
+      Thus, $ab \equiv a'b' \pmod{n}$
+  \end{enumerate}
+\end{proof}
+\begin{example}
+  Does $2a^2 + 3b^3 = 1$ have a solution with $a, b \in \Z$?
+
+  Suppose it does have a solution, then $2a^2 \equiv 1 \pmod{3}$.
+  We only need to check values of $a$ with $0 \leq a < 3$ as any other values would be congruent to one of these under mod $n$.
+  \[
+    2 \cdot 0^{2} \equiv 0,\ 2 \cdot 1^{2} \equiv 2,\ 2 \cdot 2^{2} \equiv 2 \pmod{n}
+  \]
+  So we can never get a remainder of $1$.
+  Therefore there is no solution.
+\end{example}
+\end{document}

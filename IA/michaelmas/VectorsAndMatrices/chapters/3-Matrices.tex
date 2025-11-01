@@ -461,7 +461,7 @@ Rotation of angle $\theta$ with axis $\vec{e}_1, \vec{e}_2, \vec{e}_3$:
   These look like they all have the same format, however, for $\vec{e}_2$, the negative is on the other $\sin \theta$.
 \end{remark}
 \subsubsection{Rotation about a unit vector}
-Consider a rotation of $\theta$ about a unit vector $\vec{n}$.
+Consider a rotation of $\theta$ anticlockwise about a unit vector $\vec{n}$.
 For $x \in \R^{3}$
 \[
   \vec{x}' = R\vec{x},\ \vec{x}_i' = R_{i j}x_j
@@ -470,11 +470,10 @@ We can write:
 \[
   \vec{x}' = (\cos \theta)\vec{x} + (1 - \cos \theta)(\vec{n} \cdot \vec{x})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
 \]
-Or equivalently:
+This has matrix representation, $\Rot(\theta, \vec{n})$, given by:
 \[
   R_{i j} = \delta_{i j}\cos\theta + (1 - \cos \theta)n_in_j - (\sin \theta)\levi_{i j k}n_k
 \]
-We could express this in matrix form, however it would be quite messy.
 
 To show why this is a rotation of $\vec{x}$ about $\vec{n}$, we can first split $\vec{x}$ into a component parallel to $\vec{n}$ and a component perpendicular to $\vec{n}$:
 \[
@@ -483,7 +482,7 @@ To show why this is a rotation of $\vec{x}$ about $\vec{n}$, we can first split 
 where $\vec{x}_{\parallel} = (\vec{x} \cdot \vec{n})\vec{n}$ and $\vec{x}_{\perp}$ such that $\vec{n} \cdot \vec{x}_{\perp} = 0$.
 
 After applying $R$, $\vec{x}_{\parallel}$ is unchanged as it is parallel to the axis of rotation, so $\vec{x}_{\parallel}' = \vec{x}_{\parallel}$.
-To find the image of $\vec{x}_{\perp}$, consider the plane orthogonal to $\vec{n}$ and vector $\vec{n} \times \vec{x}$:
+To find the image of $\vec{x}_{\perp}$, consider the plane passing through the origin orthogonal to $\vec{n}$ and vector $\vec{n} \times \vec{x}$:
 \begin{center}
 \begin{tikzpicture}[scale=2.5,>=latex]
 \draw[->, thick] (0,0) -- (1.414,0) node[right] {$\vec{x}_{\perp}$};
@@ -497,7 +496,7 @@ To find the image of $\vec{x}_{\perp}$, consider the plane orthogonal to $\vec{n
 \node at (0.35,0.15) {$\theta$};
 \end{tikzpicture}
 \end{center}
-We get $(\sin \theta)(\vec{n} \times \vec{x})$ as $|\vec{x}_{\perp}| = |\vec{n} \times \vec{x}|$ (consider the projection of $\vec{x}$ onto the plane orthogonal to $\vec{n}$) and $\vec{n} \times \vec{x}$ is in the correct direction.
+We get $(\sin \theta)(\vec{n} \times \vec{x})$ as $|\vec{x}_{\perp}| = |\vec{n} \times \vec{x}|$ (consider the projection of $\vec{x}$ onto the plane orthogonal to $\vec{n}$) and $\vec{n} \times \vec{x}$ is orthogonal to $\vec{x}_{\perp}$ and lies in the plane.
 
 Therefore:
 \[
@@ -544,4 +543,232 @@ So:
   -2n_1n_3 & -2n_2n_3 & 1-2n^{2}_{3} \\
   \end{pmatrix}
 \]
+\subsubsection{Dilations}
+A dilation with factors $\alpha, \beta, \gamma$ is such that
+\[
+  \vec{x} = x_1 \vec{e}_1 + x_2 \vec{e}_2 + x_3 \vec{e}_3 \mapsto \vec{x}' = \alpha x_1 \vec{e}_1 + \beta x_2 \vec{e}_2 + \gamma x_3 \vec{e}_m
+\]
+This has matrix representation:
+\[
+  \vec{x} \mapsto \vec{x}' = M\vec{x},\
+  M = \begin{pmatrix}
+  \alpha & 0 & 0 \\
+  0 & \beta & 0 \\
+  0 & 0 & \gamma \\
+  \end{pmatrix}
+\]
+\subsubsection{Shear}
+Given orthogonal unit vectors $\vec{a}$ and $\vec{b}$ ($|\vec{a}| = |\vec{b}| = 1$, $\vec{a} \cdot \vec{b}  = 0$), a shear with parameter $\lambda$ is defined by:
+\[
+  \vec{x}' = S\vec{x} = \vec{x} + \lambda \vec{a} (\vec{x} \cdot \vec{b})
+\]
+\begin{center}
+\begin{tikzpicture}[scale=2,>=Stealth]
+\def\sf{0.5}
+
+\draw[dashed] (0,1) -- (1,1) -- (1, 0);
+\draw[->,thick] (0,0) -- (1,0) node[midway,below] {$\vec{a}$};
+\draw[->,thick] (0,0) -- (0,1) node[midway,left] {$\vec{b}$};
+
+\begin{scope}[xshift=3cm]
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (1,0);
+    \coordinate (C) at (1+\sf,1);
+    \coordinate (D) at (\sf,1);
+
+    \draw[dashed] (B)--(C)--(D);
+    \draw[->,dashed] (A) -- (0,1) node[midway,left] {$\vec{b}$};
+    \draw[->,thick] (A) -- (B) node[midway,below] {$\vec{a}$};
+    \draw[->,thick] (A) -- (D) node[midway,right] {$\vec{b}'$};
+\end{scope}
+
+\draw[->,thick] (1.4,0.5) -- (2.6,0.5) node[midway,above]{Shear, $\lambda = 0.5$};
+\end{tikzpicture}
+\end{center}
+This has matrix representation:
+\[
+  x_i' = S_{i j}x_j,\ S_{i j} = \delta_{i j} + \lambda a_i b_j
+\]
+Note that $S\vec{a} = \vec{a}$, $S\vec{b} = \vec{b} + \lambda \vec{a}$, and $S\vec{v} = \vec{v}$ for all $\vec{v} \parallel \vec{a}$.
+
+\section{Matrices In General}
+\subsection{Definitions}
+\begin{definition}[$m \times n$ Matrix]
+  Consider a linear map $T: V \to W$ where $\dim V = n$ and $\dim W = m$, and bases:
+  \[
+    \{\vec{e}_1, \ldots, \vec{e}_n\} \text{ for $V$ and }
+    \{\vec{f}_1, \ldots, \vec{f}_m\} \text{ for $W$}
+  \]Then $T$ can be represented by the \textit{matrix} $M$, which is an \textit{$m \times n$ array} with entries $M_{i j} \in \R \text{ or }\C$ for rows $i = 1, \ldots, m$ and columns $j = 1, \ldots, n$.
+
+  We define:
+  \[
+    T(\vec{e}_j) = \sum_{i} M_{i j}\vec{f}_i
+  \]
+\end{definition}
+This ensures that for any $\vec{x} \in V$ and its image $\vec{x}' \in W$ where:
+\[
+  \vec{x} = \sum_{j} x_j \vec{e}_j,\ \vec{x}' = \sum_{i} x_i' \vec{f}_i
+\]
+the relation $\vec{x}' = T(\vec{x})$ holds if and only if the components of $\vec{x}'$ are:
+\[
+  x_i'=\sum_{j} M_{i j}x_j
+\]
+or more explicitly:
+\[
+  \begin{pmatrix}
+  x_1' \\
+  \vdots \\
+  x_m' \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+  M_{1 1} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{m 1} & \cdots & M_{m n} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\
+  \vdots \\
+  x_n \\
+  \end{pmatrix}
+\]
+
+This can be seen if we take the image of $\vec{x}$ in terms of the basis for $V$:
+\begin{align*}
+  T(\vec{x}) &= T(x_j \vec{e}_j) \text{ (Using $\Sigma$ convention)} \\
+             &= x_j T(\vec{e}_j) \text{ (As $T$ is a linear map)}\\
+             &= M_{i j}x_j \vec{f}_i
+\end{align*}
+\begin{remark}[Summary]\par
+  To summarise, given real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$,
+  once we fix the bases for $V$ and $W$, then:
+  \begin{enumerate}
+    \item $V$ is identified with either $\R^{n}$ or $\C^{n}$
+    \item $W$ is identified with either $\R^{m}$ or $\C^{m}$
+    \item $T$ is identified with an $m \times n$ matrix $M$
+  \end{enumerate}
+\end{remark}
+\subsubsection{Addition and Scalar Multiplication}
+Consider another linear map $S: V \to W$ represented with a matrix $N$ with respect to the same bases as $T$.
+Then, for scalars $\alpha$ and $\beta$ we can consider the linear map $\alpha T + \beta S$ represented by a matrix $\alpha M + \beta N$ with coefficients:
+\[
+  (\alpha M + \beta N)_{i j} = \alpha M_{i j} + \beta N_{i j}
+\]
+That is, addition and \textbf{scalar} multiplication in matrices takes place entry by entry.
+\begin{example}
+  Consider $V = M_{2\times2}(\R)$ ($2\times2$ matrices with real entries) and $W = \R^{3}$.
+  So $\dim V = 4$ and $\dim W = 3$.
+
+  Consider the linear map:
+  \[
+    T: V \to W,\ \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} \mapsto
+    \begin{pmatrix}
+    a + b \\
+    c \\
+    d \\
+    \end{pmatrix}
+  \]
+  We now want to represent $T$ in terms of a matrix $M$.
+  Take a basis of $V$:
+  \[
+    \left\{
+    \vec{e}_1 = \begin{pmatrix}
+    1 & 0 \\
+    0 & 0 \\
+    \end{pmatrix},\
+    \vec{e}_2 = \begin{pmatrix}
+    0 & 1 \\
+    0 & 0 \\
+    \end{pmatrix},\
+    \vec{e}_3 = \begin{pmatrix}
+    0 & 0 \\
+    1 & 0 \\
+    \end{pmatrix},\
+    \vec{e}_4 = \begin{pmatrix}
+    0 & 0 \\
+    0 & 1 \\
+    \end{pmatrix}
+    \right\}
+  \]
+  And the standard basis for $W$:
+  \[
+    \{\vec{f}_1 = (1, 0, 0), \vec{f}_2 = (0, 1, 0), \vec{f}_3 = (0, 0, 1)\}
+  \]
+  To determine $M$, we find $T(\vec{e}_i)$ for $i = 1, \ldots, 4$.
+  \[
+    T(\vec{e}_1) = \begin{pmatrix}
+    1 \\
+    0 \\
+    0 \\
+    \end{pmatrix},\
+    T(\vec{e}_2) = \begin{pmatrix}
+    1 \\
+    0 \\
+    0 \\
+    \end{pmatrix},\
+    T(\vec{e}_3) = \begin{pmatrix}
+    0 \\
+    1 \\
+    0 \\
+    \end{pmatrix},\
+    T(\vec{e}_4) = \begin{pmatrix}
+    0 \\
+    0 \\
+    1 \\
+    \end{pmatrix}
+  \]
+  Using the basis we just defined, for $a, b, c, d \in \R$:
+  \[
+    \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} =
+    a \begin{pmatrix}
+    1 & 0 \\
+    0 & 0 \\
+    \end{pmatrix} +
+    b \begin{pmatrix}
+    0 & 1 \\
+    0 & 0 \\
+    \end{pmatrix} +
+    c \begin{pmatrix}
+    0 & 0 \\
+    1 & 0 \\
+    \end{pmatrix} +
+    d \begin{pmatrix}
+    0 & 0 \\
+    0 & 1 \\
+    \end{pmatrix}
+  \]
+  Thus:
+  \[
+    T\begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} =
+    \begin{pmatrix}
+    a + b \\
+    c \\
+    d \\
+    \end{pmatrix} =
+    \underbrace{
+    \begin{pmatrix}
+      1 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 \\
+    \end{pmatrix}}_{M}
+    \begin{pmatrix}
+    a \\
+    b \\
+    c \\
+    d\\
+    \end{pmatrix}
+  \]
+  In this example we identified $V$ with $\R^{4}$, $W$ with $\R^{3}$, and represented $T$ as $M\vec{x}$ where $\vec{x} \in \R^4$ and $M$ is a $3\times4$ matrix.
+\end{example}
+\subsection{Matrix Multiplication}
+Consider linear maps $T: V \to U, S: U \to V$ and compose them.
+If $T$ is represented by $M$ and $S$ is represented by $N$ then $T \circ S$ will be represented by $L = MN$.
 \end{document}

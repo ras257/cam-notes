@@ -286,8 +286,73 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
     So $k$ has a unique prime factorisation.
   }
 \end{proof}
-We can now use this to provide an alternative proof of \cref{infinityPrimes}.
-\begin{proof}[Erd\H{o}s 1930]
+\begin{remark}
+  \nonexaminable
+  There are arithmetical systems permitting addition and multiplication in which factorisation is not unique.
 
+  For example, consider $\Z\left[\sqrt{-3}\right]$, this means all complex numbers of the form $x + iy\sqrt{3}$ where $x, y \in \Z$.
+  We can add and multiply two elements and stay within $\Z\left[\sqrt{-3}\right]$.
+  E.g. $(1 + \sqrt{-3}) + (1 - \sqrt{-3}) = 2$, $(1 + \sqrt{-3})(1 - \sqrt{-3}) = 4$.
+  In $\Z\left[\sqrt{-3}\right]$ you can also define what it means to be ``prime'', and both $1 \pm \sqrt{-3}$ happen to be ``prime'' in this sense.
+  But we can also write $2 \cdot 2 = 4$, so in this setting factorisation is not unique.
+\end{remark}
+\subsection{Applications}
+\subsubsection{Finding Factors}
+\begin{enumerate}
+  \item If we know a numbers prime factorisation, we can use this to find all factors of this number.
+
+    For example, $n = 2^{3} \cdot 3^{7} \cdot 11$ has factors $2^{a}3^{b}11^{c}$ where $0 \leq a \leq3, 0 \leq b \leq7, 0 \leq c \leq 1$.
+    We know there are no others.
+    If, for example $7 \mid n$ then we would have a factorisation of $n$ involving 7, contradicting uniqueness.
+
+    More generally, the factors of $n = p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ are the numbers of the form:
+    \[
+      p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k} \text{ with } 0\leq b_i \leq a_i\ \forall i = 1, \ldots, k
+    \]
+  \item The common factors of $2^{2} \cdot 3^{7} \cdot 5 \cdot 11^{3}$ and $2^{4} \cdot 3^{2} \cdot 11 \cdot 13$ are all numbers of the form $2^{a}3^{b}11^{c}$ with $0 \leq a \leq 3, 0\leq b \leq , 0\leq c\leq 1$.
+    So the hcf is then $2^{3} \cdot 3^{2} \cdot 11$.
+
+    In general, the hcf of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i b_i \geq 0$ is:
+    \[
+      p^{\min\{a_1, b_1\}}_{1} \cdots p^{\min\{a_k, b_k\}}_{k}
+    \]
+  \item The common multiples of $2^{2} \cdot 3^{7} \cdot 5 \cdot 11^{3}$ and $2^{4} \cdot 3^{2} \cdot 11 \cdot 13$ are all numbers of the form $2^{a}3^{b}5^{c}11^{d}13^{e} \cdot N$ where $a \geq 4, b \geq 7, c \geq 1, d\geq 3, e\geq 1$ and $N$ is any other integer.
+    Hence the \textit{least common multiple} (lcm) is $2^{4} \cdot 3^{7} \cdot 5 \cdot 11^{3} \cdot 13$ and every other common multiple is a multiple of this.
+
+
+    In general, the lcm of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i b_i \geq 0$ is:
+    \[
+      p^{\max\{a_1, b_1\}}_{1} \cdots p^{\max\{a_k, b_k\}}_{k}
+    \]
+  \item Note that $\min\{a_i, b_i\} + \max\{a_i, b_i\} = a_i + b_i$.
+    Therefore we have:
+    \[
+      \hcf(x, y)\lcm(x, y) = p^{a_1 + b_1}_{1} + \cdots + p^{a_k + b_k}_{k} = x \cdot y
+    \]
+\end{enumerate}
+\subsubsection{Infinity of Primes}
+We can also use the Fundamental Theorem of Arithmetic to provide an alternative proof of \cref{infinityPrimes}.
+\begin{proof}[Erd\H{o}s, 1930]
+  Suppose there are finitely many primes: $p_1, p_2, \ldots p_k$.
+  Since any number is uniquely expressed as a product of primes, any number can be expressed as:
+  \[
+    p^{j_1}_{1} p^{j_2}_{2} \cdots p^{j_k}_{k}
+  \]
+  We can rewrite this as:
+  \[
+    m^2 p^{i_1}_{1} p^{i_2}_{2} \cdots p^{i_k}_{k} \text{ where } i_i = \begin{cases}
+    0 & \text{ if $j_i$ even} \\
+    1 & \text{ if $j_i$ odd}
+    \end{cases}
+  \]
+  Let $N \in \N$.
+  Given an $n \leq N$ of the above form, we must have $m \leq \sqrt{N}$.
+  Then there are at most $\sqrt{N}$ possible values for $m$ and then $2^{k}$ choices for the exponents, therefore there is at most $2^{k}\sqrt{N}$ numbers $n$ in the above form with $n \leq N$.
+  If $N > 2^{k}\sqrt{N}$, that is $N > 4^{k}$, then there must be a number $n \leq N$ that this not of the above form.
+  So this number must have a prime factor that is not in $p_1, \ldots, p_k$.
 \end{proof}
+\begin{remark}
+  Euclid's proof tells us that the $k$-th prime is less than $2^{2^{k}}$, however Erd\H{o}s' proof tells us that the $k$-th prime is less than $4^{k}$.
+  In fact, the $k$-th prime occurs $\sim k \ln k$.
+\end{remark}
 \end{document}
