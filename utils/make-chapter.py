@@ -4,7 +4,7 @@ MAIN_FILE = "main.tex"
 CHAPTER_DIR = "chapters"
 
 def get_dir_files(dir):
-    return [name for name in os.listdir(dir).sort() if os.path.isfile(os.path.join(dir, name))]
+    return [name for name in sorted(os.listdir(dir)) if os.path.isfile(os.path.join(dir, name))]
 
 def main():
     if not os.path.exists(MAIN_FILE):
