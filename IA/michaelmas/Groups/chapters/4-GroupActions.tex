@@ -5,11 +5,11 @@ Groups become groups of symmetries when they ``act''.
 \section{Definition and Examples}
 \begin{definition}[Group Action]
   An \textit{action} of a group $G$ on a set $X$ is a map $G \times X \to X$, $(g, x) \mapsto gx$ such that:
+  \label{actionDef}
   \begin{enumerate}
     \item $ex = x$ for all $x \in X$
     \item $(g \cdot h)x = g(hx)$ for all $g, h \in G$ and $x \in X$
   \end{enumerate}
-  \label{actionDef}
 \end{definition}
 We write $G \acts X$.
 \begin{example}
@@ -103,6 +103,7 @@ We write $G \acts X$.
 \section{Orbits and Stabilisers}
 We can learn a huge amount about groups by thinking about actions.
 Orbits and stabilisers can help us do this.
+\subsection{Definitions}
 \begin{definition}[Orbit]
   If $G \acts X$ and $x \in X$ then the \textit{orbit} of $x$ is the set:
   \[
@@ -191,6 +192,7 @@ Orbits and stabilisers can help us do this.
 
   The above calculation also shows that if $gx = x$ then $j = 0$ so $g$ is either $r^{0} = e$ or $r^{0}s = s$ so $\Stab_{D_{2n}}(x) = \{e, s\}$.
 \end{example}
+\subsection{Orbit-Stabiliser Theorem}
 \begin{theorem}[Orbit-Stabilser Theorem]
   Suppose $G \acts X$ and let $x \in X$.
   The formula:
@@ -280,4 +282,213 @@ Orbits and stabilisers can help us do this.
 
   Therefore $|G| = |Gx||\Stab_G(x)| = 6 \cdot 8 = 48$.
 \end{example}
+\subsection{Cauchy's Theorem}
+The next theorem is a different kind of application of orbit-stabiliser.
+\begin{theorem}[Cauchy's Theorem]
+  If $|G| < \infty$ and $p$ is a prime that divides $|G|$ then there is a $g \in G$ such that $|g| = p$.
+\end{theorem}
+\begin{proof}
+  Consider the set $X$ of $p$-tuples:
+  \[
+    X = \{(g_1, \ldots, g_p) : g_i \in G\ \forall i \text{ and } g_1 g_2 \cdots g_p = e\}
+  \]
+  Define the action of $C_p = \{1, t, t^2, \ldots, t^{p-1}\}$ on $X$ as follows:
+  \[
+    t^{k}(g_1, \ldots g_p) = (g_{k + 1}, \ldots g_p, g_1, \ldots g_k)
+  \]
+  This action cycles the elements of the tuple.
+  It is easy to see that this action satisfies the two axioms for a group action:
+  \begin{itemize}
+    \item  $(t^{k} \cdot t^{l})(g_1, \ldots, g_p) = t^{k +l}(g_1, \ldots, g_p)$
+    \item $e(g_1, \ldots, g_p) = t^0(g_1, \ldots, g_p) = (g_1, \ldots, g_p)$
+  \end{itemize}
+  We also need to check that $(g_{k + 1}, \ldots g_p, g_1, \cdots g_k) \in X$.
+  Suppose therefore that $g_1 g_2 \cdots g_p = e$.
+  For convenience, write:
+  \[
+    a = g_1 \cdots g_k,\ b = g_{k + 1} \ldots g_p
+  \]
+  We then have that $a \cdot b = e$, so $b = a^{-1}$ and thus $b \cdot a = e$, that is:
+  \[
+    g_{k + 1} \cdots g_p g_1 \cdots g_k = e
+  \]
+  Therefore $(g_{k + 1}, \ldots g_p, g_1, \cdots g_k) \in X$.
+  So we have defined a valid action of $C_p$ on $X$.
+
+  We are now going to compute the size of $X$.
+  For any choices of $g_1, \ldots, g_{p-1} \in G$ the choice:
+  \[
+    g_p = g^{-1}_{p-1} \cdots g^{-1}_{1}
+  \]
+  is the unique choice so that $(g_1, \ldots, g_p) \in X$.
+  Hence $|X| = |G|^{p-1}$ as we made a choice between $|G|$ elements $p - 1$ times.
+
+  The action of $C_p$ on $X$ partitions $X$ into orbits:
+  \[
+    X = C_p x_1 \cup C_p x_2 \cup \cdots \cup C_p x_k
+  \]
+  By orbit-stabiliser, for each $j$:
+  \[
+    |C_p x_j| \mid |C_p| = p
+  \]
+  so since $p$ is prime, either $|C_p x_j| = 1$ or $|C_p x_j| = p$.
+
+  Let $l$ be the number of orbits of size $1$.
+  After renumbering, we may assume that:
+  \[
+    |C_p x_j| = \begin{cases}
+    1 & \text{ if } 1 \leq j \leq l \\
+    p & \text{ if } j > l
+    \end{cases}
+  \]
+  Since the orbits partition $X$:
+  \begin{align*}
+    |G|^{p - 1} = |X| &= \sum_{j=1}^{k} |C_p x_j| \\
+                      &= \sum_{j=1}^{l} |C_p x_j| + \sum_{j=l+1}^{k} |C_p x_j| \\
+                      &= l + p(k - l)
+  \end{align*}
+  By hypothesis, $p \mid |G|$, so it follows that $p \mid l$.
+  Now, note that $x = (g_1, \ldots g_p)$ has an orbit of size $1$ if and only if:
+  \[
+    g_1 = g_2 = \ldots = g_p
+  \]
+  as having an orbit of size $1$ means that cycling the elements of the tuple does not affect the tuple.
+  In particular, $(e, \ldots, e)$ has an orbit of size 1 so $l > 0$.
+  But $p \mid l$ so $l \geq p > 1$ so there has to be at least 1 more orbit of size 1.
+  So for some $g \in G$, $g \neq e$:
+  \[
+    (g, \ldots, g) \in X
+  \]
+  Therefore by definition of $X$, $g^{p} = e$ so the order of $g$ divides $p$ but $p$ is prime, thus $|g| = p$.
+\end{proof}
+\section{Conjugation}
+\begin{definition}[Conjugate]
+  Let $G$ be a group and $g \in G$.
+  For any $h \in G$, the element
+  \[
+    hgh^{-1} \in G
+  \]
+  is called the \textit{conjugate} of $g$ by $h$.
+\end{definition}
+\begin{remark}[Intuition]
+  The conjugate of $g$ by $h$ has ``the same shape'' as $g$ and is similar to ``changing the coordinates'' of $g$ to assist with a calculation.
+\end{remark}
+\begin{example}[Conjugate in Abelian Groups]
+  If $G$ is an abelian group, then for any $g, h \in G$:
+  \[
+    h g h^{-1} = g h h^{-1} = g
+  \]
+  so the only conjugate of $g$ is $g$ itself.
+\end{example}
+\begin{definition}[Conjugacy Class]
+  The \textit{conjugacy class} of an element $g \in G$ is:
+  \[
+    \ccl(g) = \{h g h^{-1} : h \in G\}
+  \]
+\end{definition}
+\begin{example}
+  In Sheet 2 Q6, you will prove that $D_{2n}$ has 1 conjugacy class of reflections if $n$ is odd and 2 if $n$ is even.
+
+  For example, if $n = 6$, there are three axes of reflection that pass through vertices (dashed below) and three axes of reflection that do not pass through vertices (dotted below), so there is two conjugacy classes of reflections that ``look the same''.
+
+  If $n = 5$, there are five axes of reflection that pass through one vertex and one edge, so there is only one conjugacy class.
+  \begin{center}
+  \begin{tikzpicture}
+    \node[draw, minimum size=5cm, regular polygon, regular polygon sides=6] (a) {};
+    \foreach \i in {1, 2, 3} {
+      \pgfmathsetmacro{\j}{int(\i + 3)}
+      \draw[dashed] (a.corner \i) -- (a.corner \j);
+    }
+
+    \draw[dotted, thick, gray!70] (a.side 1) -- (a.side 4);
+    \draw[dotted, thick, gray!70] (a.side 2) -- (a.side 5);
+    \draw[dotted, thick, gray!70] (a.side 3) -- (a.side 6);
+
+    \begin{scope}[xshift=6cm]
+      \node[draw, minimum size=5cm, regular polygon, regular polygon sides=5] (b) {};
+      \draw[dashed] (b.corner 1) -- (b.side 3);
+      \draw[dashed] (b.corner 2) -- (b.side 4);
+      \draw[dashed] (b.corner 3) -- (b.side 5);
+      \draw[dashed] (b.corner 4) -- (b.side 1);
+      \draw[dashed] (b.corner 5) -- (b.side 2);
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\begin{proposition}
+  A group $G$ acts on itself by conjugation.
+  That is
+  \[
+    g\gamma = g \cdot \gamma \cdot g^{-1}
+  \]
+  defines an action of $G$ on itself.
+\end{proposition}
+\begin{proof}
+  \begin{itemize}
+    \item For any $g \in G$, $ge = g \cdot e \cdot g^{-1} = g \cdot g^{-1} = e$
+    \item For any $g, h, \gamma \in G$:
+      \begin{align*}
+        (g \cdot h)\gamma &= (g \cdot h) \cdot \gamma \cdot (g \cdot h)^{-1} \\
+                          &= (g \cdot h) \cdot \gamma \cdot (h^{-1} \cdot g^{-1}) \\
+                          &= g \cdot (h \cdot \gamma \cdot h^{-1}) \cdot g^{-1} \\
+                          &= g \cdot (h\gamma) \cdot g^{-1} \\
+                          &= g(h\gamma)
+      \end{align*}
+  \end{itemize}
+  Therefore it satisfies both axioms of group actions from \cref{actionDef}.
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item This is very different to the regular action of $G$ on itself ($g\gamma = g \cdot \gamma$).
+    \item $\ccl(g)$ is the orbit of $g$ under this action.
+  \end{itemize}
+\end{remark}
+\begin{definition}[Centraliser]
+  The \textit{centraliser} of an element $g \in G$ is defined to be:
+  \[
+    C_G(g) = \{h \in G: h g h^{-1} = g\}
+  \]
+\end{definition}
+\begin{remark}
+  The centraliser of $g$ is the stabiliser of $g$ under the conjugation action.
+\end{remark}
+\begin{remark}[Note]
+  $h g h^{-1} = g \iff hg = gh$, so $C_G(g)$ is the set of elements that \textbf{commute} with $g$.
+\end{remark}
+\begin{proposition}
+  The centraliser of any $g \in G$ is a subgroup of $G$, that is $C_G(g) \leq G$.
+  \label{centraliserSubgroup}
+\end{proposition}
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{Identity -} $ege^{-1} = g$ so $e \in C_G(g)$.
+    \item \textbf{Closure -} If $a, b \in C_G(g)$, that is $aga^{-1} = g$ and $bgb^{-1} = g$, then:
+      \begin{align*}
+        (ab)g(ab)^{-1} &= (ab)g(b^{-1}a^{-1}) \\
+                       &= a (bgb^{-1}) a^{-1} \\
+                       &= a g a^{-1} \text{ (As $bgb^{-1} = g$)}\\
+                       &= g \text{ (As $aga^{-1} = g$)}
+      \end{align*}
+      So $ab \in C_G(g)$.
+    \item \textbf{Inverses -} If $a \in C_G(g)$ then:
+      \begin{align*}
+        a^{-1} g (a^{-1})^{-1} &= a^{-1} g a \\
+                               &= a^{-1} (a g a^{-1}) a \\
+                               &= g \text{ (As $aga^{-1} = g$)}
+      \end{align*}
+      So $a^{-1} \in C_G(g)$.
+  \end{itemize}
+  Thus $C_G(g) \leq G$.
+\end{proof}
+\begin{definition}[Centre of a group]
+  The \textit{centre} of a group $G$, $Z(G)$, is defined to be:
+  \begin{align*}
+    Z(G) &= \{h \in G : hg = gh \text{ for all } g \in G\} \\
+         &= \bigcap_{g \in G} C_G(g)
+  \end{align*}
+  This is exactly the elements of $G$ that commute with everything.
+\end{definition}
+\begin{remark}
+  Since the intersection of two subgroups is also a subgroup (see Example Sheet 1, Q2) and by \cref{centraliserSubgroup} the centraliser of each element is a subgroup, the centre of a group is also a subgroup of $G$.
+\end{remark}
 \end{document}

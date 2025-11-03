@@ -1089,5 +1089,32 @@ This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_
 
   The fixed points are where the line $x_{n + 1} = x_n$ and $f(x_n)$ intersect.
   In this case this is only at 0, as expected.
+
+  If we instead take $1 < r < 2$, then we get an unstable fixed point at $0$ and a stable fixed point at $1 - \frac{1}{r}$:
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0, 0) -- (7, 0) node[right] {$x_n$};
+    \draw[->] (0, 0) -- (0, 4) node[right] {$x_{n+1}$};
+    \node[below] at (6.66, 0) {$1$};
+    \node[below] at (0, 0) {$0$};
+    \def\func#1{1.6*#1*(1 - 0.15*#1)}
+
+    \draw (0, 0) -- (4, 4) node[right] {$x_{n + 1} = x_n$};
+
+    \draw[thick, smooth, samples=100, domain=0:6.66] plot ({\x}, {\func{\x}});
+
+    \pgfmathsetmacro{\xcurrent}{6}
+
+    \foreach \i in {1, 2, ..., 25}{
+      \pgfmathsetmacro{\xnext}{\func{\xcurrent}}
+      \draw (\xcurrent, 0) -- (\xcurrent, \xnext) -- (\xnext, \xnext) -- (\xnext, 0);
+      \ifnum \i < 6
+        \node[below] at (\xcurrent, 0) {$\scriptstyle x_\i$};
+      \fi
+      \global\let\xcurrent\xnext
+    }
+    \node[below] at (2.4, 0) {$\scriptstyle \cdots$};
+  \end{tikzpicture}
+  \end{center}
 \end{example}
 \end{document}

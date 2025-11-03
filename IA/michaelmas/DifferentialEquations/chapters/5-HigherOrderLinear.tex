@@ -1,0 +1,147 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Higher Order Linear ODEs}
+We will focus on 2nd order here, but many methods are also applicable to higher orders.
+\section{Constant Coefficients}
+The general form of a 2nd order linear ODE with constant coefficients is:
+\begin{equation}
+  \label{general2ndConst}
+  \underbrace{a \deriv[2]{y}{x} + b \deriv{y}{x} + cy}_{\mathcal{D}y} = f(x)
+\end{equation}
+with $a, b, c$ constants.
+Where $\mathcal{D}y$ is a linear differential operator, defined as:
+\[
+  \mathcal{D} \equiv a \deriv[2]{}{x} + b \deriv{}{x} + c
+\]
+\begin{definition}[Linear Operator]
+  A differential operator, $\mathcal{D}$ is \textit{linear} if for any $y_1(x)$ and $y_2(x)$ and constants $\alpha$ and $\beta$:
+  \[
+    \mathcal{D}(\alpha y_1 + \beta y_2) = \alpha \mathcal{D}y_1 + \beta \mathcal{D}y_2
+  \]
+  This is also known as the \textit{principle of superposition}.
+\end{definition}
+We can exploit this property to solve \cref{general2ndConst}:
+\begin{enumerate}
+  \item Find complimentary functions (C.F.), $y_c$, that satisfy the corresponding homogeneous equation:
+    \[
+      a \deriv[2]{y_c}{x} + b \deriv{y_c}{x} + c y_c = 0
+    \]
+  \item Find \textbf{any} particular integral (P.I.), $y_p$ that satisfies the full equation.
+  \item Then a solution of the full equation is then $y_c + y_p$ as:
+    \[
+      \mathcal{D}(y_c + y_p) = \underbrace{\mathcal{D}y_c}_{=0} + \mathcal{D}y_p = f(x)
+    \]
+    So it satisfies the full equation.
+\end{enumerate}
+A 2nd order ODE has \textbf{two} linearly independent complimentary functions, so the general solution to is:
+\[
+  y(x) = C_1 y_{c_1}(x) + C_2 y_{c_2}(x) + y_p(x)
+\]
+with $C_1, C_2$ constants.
+\begin{definition}[Linear Dependance]
+  A set of $n$ functions $\{f_i(x)\}$ is \textit{linearly dependant} if:
+  \[
+    \sum_{i=1}^{n} C_i f_i(x) = 0\ \forall x
+  \]
+  for $n$ constants, $C_i$, \textbf{not} all of which are $0$.
+  Otherwise they are \textit{linearly independent}.
+\end{definition}
+\begin{remark}
+  This is the same idea as linear dependence for vectors.
+\end{remark}
+Equivalently, if one or more of the functions $f_i(x)$  can be written as a linear combination of the others, they are linearly \textbf{dependant}.
+\subsection{Complimentary Functions}
+Recall that:
+\[
+  \deriv{}{x} e^{\lambda x} = \lambda e^{\lambda x} \text{ (Eigenfunction)}
+\]
+$e^{\lambda x}$ is also an eigenfunction of $\mathcal{D}$ because:
+\begin{align*}
+  \mathcal{D}(e^{\lambda x}) &= a \deriv[2]{}{x} e^{\lambda x} + b \deriv{}{x} e^{\lambda x} + c \\
+                             &= \underbrace{(a\lambda^2 + b\lambda + c)}_{\text{eigenvalue}} e^{\lambda x}
+\end{align*}
+The complimentary functions of \cref{general2ndConst} satisfy $\mathcal{D}y_c = 0$, that is, they are eigenfunctions with eigenvalue $0$.
+Thus:
+\[
+  y_c = A e^{\lambda x} \text{ with } \underbrace{a \lambda^2 + b\lambda + c = 0}_{\text{characteristic equation}}
+\]
+Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it must have two roots $\lambda_1$ and $\lambda_2$.
+\begin{proofcases}
+  \begin{case}{$\lambda_1 \neq \lambda_2$}
+    We then have two linearly independent complimentary functions:
+    \[
+      y_{c_1} \propto e^{\lambda_1 x}, y_{c_2} \propto e^{\lambda_2 x}
+    \]
+    So the most general complimentary function is a linear combination:
+    \[
+      y_c = C_1 y_{c_1}(x) + C_2 y_{c_2}(x)
+    \]
+    So $y_{c_1}$ and $y_{c_2}$ for a \textit{basis} for the space of solutions for the homogeneous equation.
+    Note that if the roots are complex, we get oscillatory behaviour.
+  \end{case}
+  \begin{case}{$\lambda = \lambda_2$ -- Degenerate Case}
+    So now we have only one linearly independent complimentary function of the form $e^{\lambda_1 x}$.
+    See \cref{detuningExample} for how to deal with this case.
+  \end{case}
+\end{proofcases}
+\begin{example}[Real, non-degenerate roots]
+  \[
+    \deriv[2]{y}{x} - 5\deriv{y}{x} + 6y = 0
+  \]
+  The characteristic equation is then:
+  \[
+    \lambda^2 - 5\lambda + 6 = 0 \implies \lambda_1 = 3, \lambda_2 = 2
+  \]
+  So the general complimentary function is:
+  \[
+    y_c(x) = A e^{3x} + B e^{2x}
+  \]
+  with $A, B$ constants.
+\end{example}
+\begin{example}[Complex, non-degenerate roots]
+  \[
+    \deriv[2]{y}{x} + 4y = 0
+  \]
+  The characteristic equation is then:
+  \[
+    \lambda^2 + 4 = 0 \implies \lambda_1 = 2i, \lambda_2 = -2i
+  \]
+  So the general complimentary function is:
+  \[
+    y_c(x) = Ae^{2ix} + Be^{-2ix}
+  \]
+  Note that $e^{\pm2ix} = \cos(2x) \pm i \sin(2x)$ so:
+  \begin{align*}
+    y_c(x) &= (A + B)\cos(2x) + (A - B)i\sin(2x) \\
+           &= \alpha \cos(2x) + \beta \sin(2x)
+  \end{align*}
+  Whether $\alpha, \beta$ are complex depends on the boundary conditions of the problem.
+\end{example}
+\begin{example}[Degenerate roots and ``detuning'']
+  \label{detuningExample}
+  \[
+    \deriv[2]{y}{x} - 4\deriv{y}{x} + 4y = 0
+  \]
+  So the characteristic equation is:
+  \[
+    \lambda^2 - 4y + 4 = 0 \implies \lambda = 2
+  \]
+  Therefore we have degenerate roots and only one linearly independent complimentary function $e^{2x}$.
+
+  \textbf{Detuning - }Remove the degeneracy by considering a slightly modified (\textit{detuned}) equation.
+  \[
+    \deriv[2]{y}{x} - 4 \deriv{y}{x} + (4 - \varepsilon^2)y = 0 \quad (\varepsilon \ll 1)
+  \]
+  So the characteristic equation is now:
+  \[
+    \lambda^2 - 4\lambda + (4 - \varepsilon^2) = 0 \implies \lambda = 2 \pm \varepsilon
+  \]
+  Which gives the complimentary function:
+  \begin{align*}
+    y_c(x) &= Ae^{(2 + \varepsilon)x} + Be^{(2 - \varepsilon)x} \\
+           &=e^{2x}(Ae^{\varepsilon x} + Be^{-\varepsilon x}) \\
+           &=e^{2x}[(A+B) + \varepsilon(A - B)x + O(a\varepsilon^2x^2) + O(b\varepsilon^2x^2)] \text{ (as $\varepsilon \to 0$)} \\
+  \end{align*}
+  Apply the initial conditions $y(0) = C$ and $y'(0) = D$ to the original and detuned equations.
+\end{example}
+\end{document}
