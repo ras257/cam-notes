@@ -654,6 +654,9 @@ Then, for scalars $\alpha$ and $\beta$ we can consider the linear map $\alpha T 
   (\alpha M + \beta N)_{i j} = \alpha M_{i j} + \beta N_{i j}
 \]
 That is, addition and \textbf{scalar} multiplication in matrices takes place entry by entry.
+\begin{remark}
+  Since addition takes place entry by entry, the dimensions of both matrices must be equal otherwise the matrices do not \textit{conform under addition}.
+\end{remark}
 \begin{example}
   Consider $V = M_{2\times2}(\R)$ ($2\times2$ matrices with real entries) and $W = \R^{3}$.
   So $\dim V = 4$ and $\dim W = 3$.
@@ -771,4 +774,234 @@ That is, addition and \textbf{scalar} multiplication in matrices takes place ent
 \subsection{Matrix Multiplication}
 Consider linear maps $T: V \to U, S: U \to V$ and compose them.
 If $T$ is represented by $M$ and $S$ is represented by $N$ then $T \circ S$ will be represented by $L = MN$.
+Let:
+\begin{align*}
+  \{\vec{e}_1, \ldots, \vec{e}_n\}& \text{ be a basis for $V$, $\dim V = n$} \\
+  \{\vec{f}_1, \ldots, \vec{f}_m\}& \text{ be a basis for $W$, $\dim W = m$} \\
+  \{\vec{g}_1, \ldots, \vec{g}_l\}& \text{ be a basis for $U$, $\dim U = l$}
+\end{align*}
+The matrix $L$ has coefficients given by:
+\[
+  L_{i k} = M_{i j}N_{j k}
+\]
+Note that $M$ is an $m \times n$ matrix, $N$ is an $n \times l$ matrix and $L$ is an $m \times l$ matrix.
+\[
+  \begin{pmatrix}
+  V_{1 1} & \cdots & V_{1 l} \\
+  \vdots & \ddots & \vdots \\
+  V_{m 1} & \cdots & V_{m l} \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+  M_{1 1} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{m 1} & \cdots & M_{m n} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  N_{1 1} & \cdots & N_{1 l} \\
+  \vdots & \ddots & \vdots \\
+  N_{n 1} & \cdots & N_{n l} \\
+  \end{pmatrix}
+\]
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item The number of columns of $M$ must match the number of rows of $N$ otherwise the matrices do not \textit{conform under multiplication}.
+    \item $L$ has the same number of rows as $M$ and the same number of columns as $N$.
+  \end{itemize}
+\end{remark}
+We can also define the elements of $L$ using the rows of $M$ and the columns of $N$:
+\[
+  L_{i k} = (MN)_{i k} = [\vec{R}_i(M)]_j [\vec{C}_k(N)]_j = \vec{R}_i(M) \cdot \vec{C}_k(N)
+\]
+If we apply $MN$ to a vector $\vec{x} \in U$ we obtain:
+\[
+  (MN)\vec{x} = M(N\vec{x})
+\]
+with
+\[
+  [M(N\vec{x})]_i = M_{i j}(N\vec{x})_j
+\]
+and thus
+\[
+  (MN)_{i k}x_k = M_{i j}N_{j k}x_k
+\]
+\subsubsection{Properties of Matrix Multiplication}
+For any three matrices $M, N, L$ that have the correct dimensions to conform, and scalars $\lambda, \mu \in \R \text{ or } \C$:
+\begin{enumerate}
+  \item $(\lambda M + \mu N)L = \lambda(ML) + \mu(NL)$
+  \item $L(\lambda M + \mu N) = \lambda(LM) + \mu(LN)$
+  \item $(MN)L = M(NL)$
+\end{enumerate}
+\begin{remark}[Warning]
+  In general, matrix multiplication does \textbf{not commute}!
+\end{remark}
+\subsection{Matrix Inverses}
+Consider three matrices $L\ (n \times m),\ M\ (n \times m)$, and $N\ (m \times n)$.
+
+We say that $L$ is a \textit{left inverse} of $M$ if:
+\[
+  LN = I \text{ (Identity of size $n \times n$)}
+\]
+We say that $M$ is a \textit{right inverse} of $N$ if:
+\[
+  NM = I \text{ (Identity of size $m \times m$)}
+\]
+If $N$ has both a left and right inverse, then it must be square, that is, $m = n$.
+We can also write:
+\[
+  L = L \underbrace{(NM)}_{I} = \underbrace{(LN)}_{I}M = M
+\]
+So the left and right inverses are equal.
+We then denote both $L$ and $M$ as $N^{-1}$ and call this the \textit{inverse} of $N$ where:
+\[
+  N N^{-1} = N^{-1} N = I
+\]
+\begin{remark}
+  If $N$ has an inverse then $N$ is a square matrix.
+  But, $N$ is square $\centernot\implies$ $N$ has an inverse.
+  This is because not all square matrices have inverses, for example, the zero matrix.
+
+  A matrix that has an inverse is called \textit{invertible} or \textit{non-singular}.
+\end{remark}
+\begin{proposition}
+  If $M, N$ are invertible matrices with equal dimensions, then:
+  \[
+    (MN)^{-1} = N^{-1} M^{-1}
+  \]
+\end{proposition}
+\begin{proof}
+  \[
+    (N^{-1} M^{-1})MN = N^{-1} (M^{-1} M) N = N^{-1} N = I
+  \]
+  So $(MN)^{-1} = N^{-1} M^{-1}$.
+\end{proof}
+\begin{remark}
+  $M$ and $N$ must both be square matrices as they are invertible and they must share the same dimensions otherwise we would not be able to take the product $MN$.
+\end{remark}
+\begin{example}[Inverses of Geometric Transforms]
+  \begin{enumerate}
+    \item \textbf{Rotation -} For $\Rot(\theta, \vec{n})$ we have:
+      \[
+        (\Rot(\theta, \vec{n}))^{-1} = \Rot(-\theta, \vec{n})
+      \]
+    \item \textbf{Shear -} If we fix $\vec{a}, \vec{b}$:
+      \[
+        S(\lambda)^{-1} = S(-\lambda)
+      \]
+    \item \textbf{Reflection -} If $H$ is a reflection in a plane with unit normal $\vec{n}$ then:
+      \[
+        H^{-1} = H
+      \]
+      So $H$ is \textit{self-inverse}.
+  \end{enumerate}
+\end{example}
+\subsection{Transpose and Hermitian Conjugate}
+\begin{definition}[]
+  If $M$ is an $m \times n$ matrix, then the \textit{transpose} of $M$, denoted $M^{\trans}$, is an $n \times m$ matrix defined by:
+  \[
+    (M^{\trans})_{i j} = M_{j i}
+  \]
+\end{definition}
+or more explicitly:
+\[
+  \begin{pmatrix}
+  M_{1 1} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{m 1} & \cdots & M_{m n} \\
+  \end{pmatrix}^{\trans} =
+  \begin{pmatrix}
+  M_{1 1} & \cdots & M_{m 1} \\
+  \vdots & \ddots & \vdots \\
+  M_{1 n} & \cdots & M_{m n} \\
+  \end{pmatrix}
+\]
+\subsubsection{Properties of Transpose}
+\begin{enumerate}
+  \item $(M^{\trans})^{\trans} = M$
+  \item If $\vec{x}$ is a column vector, then $\vec{x}^{\trans}$ is a row vector:
+    \[
+      \begin{pmatrix}
+      x_1 \\
+      \vdots \\
+      x_n \\
+      \end{pmatrix}^{\trans} =
+      (x_1, \cdots, x_n)
+    \]
+  \item $(NM)^{\trans} = M^{\trans}N^{\trans}$
+  \item $(\alpha M + \beta N)^{\trans} = \alpha M^{\trans} + \beta N^{\trans}$
+\end{enumerate}
+\begin{definition}[Symmetric and Antisymmetric]
+  If $M$ is a square matrix then $M$ is:
+  \begin{itemize}
+    \item \textbf{Symmetric -} If $M^{\trans} = M$ or equivalently, $M_{i j} = M_{j i}$
+    \item \textbf{Antisymmetric -} If $M^{\trans} = -M$ or equivalently, $M_{i j} = -M_{j i}$
+  \end{itemize}
+\end{definition}
+\begin{definition}[Hermitian Conjugate]
+  The \textit{hermitian conjugate} of a matrix $M$ of size $m \times n$ with complex entries is given by:
+  \[
+    M^{\dag} = \overline{(M^{\trans})}
+  \]
+  This has coefficients:
+  \[
+    (M^{\dag})_{i j} = \overline{M_{j i}}
+  \]
+\end{definition}
+\begin{remark}[Notation]
+  The notation $\overline{M}$ denotes $M$ with complex conjugated entries.
+\end{remark}
+\subsubsection{Properties of Hermitian Conjugate}
+\begin{enumerate}
+  \item $(\alpha M + \beta N)^{\dag} = \overline{\alpha}M^{\dag} + \overline{\beta}N^{\dag}$
+  \item $(MN)^{\dag} = N^{\dag} M^{\dag}$
+\end{enumerate}
+\begin{definition}[Hermitian and Anti-Hermitian]
+  If $M$ is square, then $M$ is:
+  \begin{itemize}
+    \item \textbf{Hermitian -} If $M^{\trans} = M$ or $M_{i j} = \overline{M_{j i}}$
+    \item \textbf{Anti-Hermitian -} If $M^{\trans} = -M$ or $M_{i j} = -\overline{M_{j i}}$
+  \end{itemize}
+  Anti-Hermitian is sometimes called \textit{skew-hermitian}.
+\end{definition}
+\begin{remark}[Note]
+  If the matrices and scalars are all real, the hermitian conjugate just reduces to the regular matrix transpose.
+\end{remark}
+\subsection{Trace}
+\begin{definition}[Trace]
+  For any $n \times n$ matrix, its \textit{trace} is defined by:
+  \[
+    \tr(M) = M_{i i} = M_{1 1} + \cdots M_{n n}
+  \]
+  It is the sum of the diagonal entries of the matrix.
+\end{definition}
+\subsubsection{Properties of Trace}
+\begin{enumerate}
+  \item $\tr(\alpha M + \beta N) = \alpha \tr(M) + \beta \tr(N)$
+  \item $\tr(MN) = \tr(NM)$
+  \item $\tr(M^{\trans}) = \tr(M)$
+  \item $\tr(I) = n$ where $I$ is an $n \times n$ identity matrix.
+\end{enumerate}
+\subsection{Decomposition of a Square Matrix}
+Any real square matrix can be decomposed into a sum of symmetric and antisymmetric parts.
+For a matrix $M$ we can write:
+\[
+  M  = S + A,\ S = \frac{1}{2}(M + M^{\trans}),\ A = \frac{1}{2}(M - M^{\trans})
+\]
+Note that $S^{\trans} = \frac{1}{2}(M^{\trans} + M) = S$, so $S$ is symmetric and $A^{\trans} = \frac{1}{2}(M^{\trans} - M) = -A$, so $A$ is antisymmetric.
+
+The symmetric part can be further decomposed.
+Let:
+\[
+  T = S - \frac{1}{n}\tr(S)I \quad \text{($I$ of size $n \times n$)}
+\]
+Note that this means that $\tr(T) = \tr(S) - \frac{\tr(S)}{n}\tr(I) = 0$, so $T$ is called \textit{traceless}.
+We also have that $\tr(S) = \tr(M)$ and $\tr(A) = 0$.
+Therefore $S$ is decomposed further into:
+\[
+  S = T + \frac{1}{n}\tr(M)I
+\]
+Substituting back into the original decomposition yields:
+\[
+  M = T + A + \frac{1}{n}\tr(M)I
+\]
+Where $T$ is symmetric and traceless, $A$ is antisymmetric, and $\frac{1}{n}\tr(M)I$ is diagonal with all entries equal, this is called the \textit{isotropic} part.
 \end{document}

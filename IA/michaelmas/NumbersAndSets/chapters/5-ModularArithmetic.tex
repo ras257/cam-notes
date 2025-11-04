@@ -53,4 +53,135 @@ We can carry out addition and multiplication as usual in $\Z_n$.
   So we can never get a remainder of $1$.
   Therefore there is no solution.
 \end{example}
+\section{Solving Congruences}
+\begin{example}
+  Solve $7x \equiv 2 \pmod{10}$.
+  We note that $3\cdot 7 \equiv 21 \equiv 1 \pmod{10}$ so $3 \cdot 7x \equiv 6 \pmod{10}$ so $x \equiv 6 \pmod{10}$.
+\end{example}
+\begin{definition}[Unit Modulo $n$]
+  Given $a, b \in \Z$, we say that $b$ is an \textit{inverse of $a$ modulo $n$} or that $a$ is a \textit{unit modulo $n$}, if it has an inverse.
+\end{definition}
+\begin{example}
+  In $\Z_{10}$, 3 is an inverse of 7, and both 3 and 7 are units modulo 10.
+  But 4 is \textbf{not} a unit modulo 10 since $4x \centernot\equiv 1 \pmod{10}$ regardless of $x$.
+\end{example}
+\begin{proposition}
+  If $a$ is a unit modulo $n$, then it has a \textbf{unique} inverse modulo $n$.
+\end{proposition}
+\begin{proof}
+    Let us suppose that there is two inverses $b, b'$ such that $ab \equiv ab' \equiv 1 \pmod{n}$, then $b \equiv bab \equiv bab' \equiv b' \pmod{ n}$.
+\end{proof}
+\begin{remark}[Notation]
+  Since the inverse of $a$ is unique, we write $a^{-1}$ to mean the inverse of $a$.
+\end{remark}
+If $ab \equiv ac \pmod{n}$, then $b \equiv c \pmod{n}$.
+That is, we can cancel units by multiplying both sides by $a^{-1}$.
+However, this is not true in general.
+For example, as $4$ is not a unit, $4 \cdot 3 \equiv 4 \cdot 8 \pmod{10}$ but $3 \centernot\equiv 8 \pmod{10}$.
+\begin{proposition}
+  Let $p$ be prime, then every non-zero residue modulo $p$ is a unit modulo $p$.
+\end{proposition}
+\begin{proof}
+  As $p$ is prime and the residue is non-zero, We must have $\hcf(a, p) = 1$, so by \cref{bezoutsIdentity} (B\'ezout's Identity) there exists $x, y \in \Z$ such that $ax + py = 1$.
+  Hence $ax = 1 - py$ so $ax \equiv 1 \pmod{p}$ for some $x \in \Z$.
+\end{proof}
+\begin{remark}[Note]
+  A \textit{residue} modulo $n$ is the value of the number under modulo $n$.
+\end{remark}
+\begin{proposition}
+  Let $n \geq 2$.
+  Then $a$ is a unit modulo $n$ if and only if $\hcf(a, n) = 1$.
+\end{proposition}
+\begin{proof}
+  $\hcf(a, n) = 1 \iff ax + ny = 1$ for some $x, y \in \Z$
+  $\iff ax = 1 - ny \iff ax \equiv 1 \pmod{n}$
+\end{proof}
+\begin{corollary}
+  If $\hcf(a, n) = 1$ then the congruence $ax \equiv b \pmod{n}$ has a unique solution.
+  In particular, if $\hcf(a, n) = 1$ then there is a unique inverse of $a$ modulo $n$.
+  \label{congUniqueSolution}
+\end{corollary}
+\begin{example}
+  Suppose we want to figure out which days of the week New Years Day can fall on.
+  If we set New Years Day as day 0 and our week has 7 days in it, then we need to solve $7x + k = 365y$, that is, $365y \equiv k \pmod{7}$.
+  $365 = 7 \cdot 52 + 1$ so $365 \equiv 1 \pmod{7}$, thus $k \equiv y \pmod{7}$ so we can get any day of the week.
+\end{example}
+What if $ax \equiv b \pmod{n}$ with $\hcf(a, n) = d > 1$?
+\begin{proposition}
+  The congruence $ax \equiv b \pmod{n}$ where $\hcf(a, n) = d > 1$ has a solution if and only if $d \mid b$.
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume there is a solution}
+    Then $n \mid ax - b$, $d \mid n$, and $d \mid a$ so we must have $d \mid b$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $d \mid b$}
+    Then $n = dn'$, $a = da'$, and $b = db'$.
+    Note now what $\hcf(a', n') = 1$ so $a'x \equiv b \pmod{n'}$ has a unique solution by \cref{congUniqueSolution}.
+    Thus for some $k \in \Z$:
+    \[
+      a'x -  b = kn' \implies da'x - db' = kdn' \implies ax - b = kn \implies ax \equiv b \pmod{n}
+    \]
+    So there is a solution to $ax \equiv b \pmod{n}$.
+  \end{proofdirection}
+\end{proof}
+So if $\hcf(a, n) = d > 1$, then the congruence $ax \equiv b \pmod{n}$ has no solution unless $d \mid b$, in which case the solutions are exactly $\frac{a}{d}x \equiv \frac{b}{d} \pmod{\frac{n}{d}}$.
+The solution to this congruence will be unique modulo $\frac{n}{d}$ but there will be $d$ solutions modulo $n$.
+\begin{example}
+  \begin{enumerate}
+    \item Suppose we want to solve $7x \equiv 4 \pmod{30}$.
+      By Euclid's algorithm we have $\hcf(7, 30) = 1$ and $13 \cdot 7 - 3 \cdot 30 = 1$.
+      Hence $13 \cdot 7 \equiv 1 \pmod{30}$ so $7^{-1} \equiv 13 \pmod{30}$.
+      Thus $x \equiv 13 \cdot 4 \equiv 22 \pmod{30}$.
+
+      Suppose that $x'$ is also a solution to the congruence $7x' \equiv 4 \pmod{30}$, thus $7x \equiv 7x' \pmod{30}$ and since $7$ is a unit, $x \equiv x' \pmod{30}$.
+
+      For brevity we would just write:
+      \begin{align*}
+        &7x \equiv 4 \pmod{30} \\
+        \iff& 13 \cdot 7x \equiv 13 \cdot 4 \pmod{30} \\
+        \iff& x \equiv 22 \pmod{30}
+      \end{align*}
+      Note that is works both ways as $13$ and $7$ are both units modulo 30.
+    \item Solve $10x \equiv 12 \pmod{34}$.
+      $\hcf(10, 34) = 2$, $2 \mid 12$ so there will be solutions given by:
+      \[
+        \frac{10}{2}x \equiv \frac{2}{2} \pmod{34/2} \iff 5x \equiv 1 \pmod{17}
+      \]
+      We can also convert out of modular arithmetic instead of using the formula above:
+      \begin{align*}
+        &10x \equiv 12 \pmod{34} \\
+        \iff& 10x = 12 + 34y \\
+        \iff& 5x = 6 + 17y \\
+        \iff& 5x \equiv 6 \pmod{17}
+      \end{align*}
+      Note that $\hcf(5, 17) = 1$ so we are back in the original case and can solve as before.
+  \end{enumerate}
+\end{example}
+\subsection{Simultaneous Congruences}
+Suppose we wish to solve the simultaneous congruences $x \equiv 1 \pmod{4},\ x \equiv 2 \pmod{3}$.
+\begin{align*}
+  x \equiv 1 \pmod{4} \to x = 1, 5, 9, \ldots \\
+  x \equiv 2 \pmod{3} \to x = 2, 5, 8, \ldots
+\end{align*}
+So $x \equiv 5 \pmod{12}$.
+
+What about $x \equiv 1 \pmod{4},\ x \equiv 2 \pmod{6}$?
+\begin{align*}
+  x &\equiv 1 \pmod{4} \to x = 1, 5, 9, 13, 17\ldots \\
+  x &\equiv 2 \pmod{6} \to x = 2, 8, 14, 20 \ldots
+\end{align*}
+In fact there is no such $x$ in both lists.
+
+The Chinese Remainder Theorem can help us solve simultaneous congruences
+\begin{theorem}[Chinese Remainder Theorem]
+  Let $m, n$ be coprime, and $a, b \in \Z$.
+  Then there is a unique solution modulo $mn$ to the simultaneous congruences:
+  \begin{align*}
+    x &\equiv a \pmod{n} \\
+    x &\equiv b \pmod{n}
+  \end{align*}
+\end{theorem}
+\begin{remark}[Note]
+  By ``unique'' modulo $mn$, we mean that $y$ is a solution to the same system if and only if $x \equiv y \pmod{mn}$.
+\end{remark}
 \end{document}
