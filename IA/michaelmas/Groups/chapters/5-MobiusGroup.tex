@@ -1,0 +1,243 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{The M\"obius Group}
+\section{Introduction and Definitions}
+This chapter is all about a group called the \textit{M\"obius Group}.
+It is \textit{almost} a group of bijections of $\C$ \textbf{but} we need to add a formal ``point at infinity''.
+\subsection{Riemann Sphere and M\"obius Transforms}
+\begin{definition}[Riemann Sphere]
+  The \textit{Riemann sphere}, $\Cinf$, is defined to be:
+  \[
+    \Cinf = \C \cup \{\infty\}
+  \]
+\end{definition}
+We define $\pi(z)$ to be the \textit{stereographic projection} of $z \in \C$ onto $S^2$ (The unit sphere).
+If we draw a line through $z$ and the north pole, this line will intersect the sphere exactly once, this is $\pi(z)$.
+The stereographic projection identified $\C$ with all the points of the sphere except the north pole, which we define to be $\infty$.
+\begin{definition}[M\"obius Transform]
+  Let $a, b, c, d \in \C$ such that $ad - bc \neq 0$.
+  The \textit{m\"obius transform}, $\mu: \Cinf \to \Cinf$ is defined as:
+
+  For $c \neq 0$:
+  \[
+    z \mapsto \begin{cases}
+    \frac{az + b}{cz + d} & \text{if $z \in \C \setminus \{-\frac{d}{c}\}$} \\
+    \infty & \text{if $z = -\frac{d}{c}$} \\
+    \frac{a}{c} & \text{if $z = \infty$}
+    \end{cases}
+  \]
+  For $c = 0$:
+  \[
+    z \mapsto \begin{cases}
+    \frac{az + b}{d} & \text{if $z \in \C$} \\
+    \infty & \text{if $z = \infty$}
+    \end{cases}
+  \]
+\end{definition}
+For brevity, we usually just write:
+\[
+  \mu(z) = \frac{az + b}{cz + b}
+\]
+and interpret the cases of $0$ and $\infty$ appropriately.
+\section{M\"obius Group}
+\begin{definition}[M\"obius Group]
+  The set $\mob$:
+  \[
+    \mob = \{f: \Cinf \to \Cinf: f \text{ is a M\"obius transform}\}
+  \]
+  together with composition is the \textit{M\"obius Group}.
+\end{definition}
+
+\begin{proposition}
+  The composition of two M\"obius transforms is also a M\"obius transform.
+  \label{mobComposition}
+\end{proposition}
+\begin{proof}
+  If we take:
+  \[
+    \mu_1(z) = \frac{a_1 z + b_1}{c_1 z + d_1},\
+    \mu_2(z) = \frac{a_2 z + b_2}{c_2 z + d_2}
+  \]
+  Then we see that $\mu_1 \circ \mu_2$ is:
+  \begin{align*}
+    \mu_1 \circ \mu_2 (z) &= \frac{a_1\mu_2(z) + b_1}{c_1\mu_2(z) + d_1} \\
+                          &= \frac{a_1\left(\frac{a_2 z + b_2}{c_2 z + d_2}\right) + b_1}{c_1\left(\frac{a_2 z + b_2}{c_2 z + d_2}\right) + d_1} \\
+                          &= \frac{a_1(a_2 z + b_2) + b_1(c_2 z + d_2)}{c_1(a_2 z + b_2) + d_1(c_2 z + d_2)} \\
+                          &= \frac{\overbrace{(a_1 a_2 + b_1 c_2)}^{a'}z + \overbrace{(a_1 b_2 + b_1 d_2)}^{b'}}{\underbrace{(c_1 a_2 + d_1 c_2)}_{c'}z + \underbrace{(c_1 b_2 + d_1 d_2)}_{d'}}
+  \end{align*}
+  So $\mu_1 \circ \mu_2$ is in the correct form.
+  We now need to check that it satisfies $a'd' - b'c' \neq 0$:
+  \begin{align*}
+    a'd' - b'c' &= (a_1 a_2 + b_1 c_2)(c_1 b_2 + d_1 d_2) - (a_1 b_2 + b_1 d_2)(c_1 a_2 + d_1 c_2) \\
+                &= \cancel{a_1 a_2 c_1 b_2} + b_1 b_2 c_1 c_2 + a_1 a_2 d_1 d_2 + \cancel{d_1 d_2 b_1 c_2}\\
+                &\quad- \cancel{a_1 a_2 c_1 b_2} - b_1 c_1 a_2 d_2 - a_1 d_1 b_2 c_2 - \cancel{d_1 d_2 b_1 c_2} \\
+                &= a_2 d_2(a_1 d_1 - b_1 c_1) - b_2 c_2(a_2 d_2 - b_2 c_2) \\
+                &= (a_1 d_1 - b_1 c_1)(a_2 d_2 - b_2 c_2)
+  \end{align*}
+  Since $\mu_1$ and $\mu_2$ are M\"obius transforms, $a_1 d_1 - b_1 c_2 \neq 0$ and $a_2 d_2 - b_2 c_2 \neq 0$.
+  Therefore $a'd' - b'c' \neq 0$, so $\mu_1 \circ \mu_2 \in \mob$.
+\end{proof}
+\begin{remark}
+  $a', b', c', d'$ described above are the entries obtained when multiplying the following two matrices:
+  \[
+    \begin{pmatrix}
+    a_1 & b_1 \\
+    c_1 & d_1 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    a_2 & b_2 \\
+    c_2 & d_2 \\
+    \end{pmatrix} =
+    \begin{pmatrix}
+    a_1a_2 + b_1c_2 & a_1b_2 + b_1d_2 \\
+    c_1a_2 + d_1c_2 & c_1b_2 + d_1d_2 \\
+    \end{pmatrix}
+  \]
+\end{remark}
+\begin{theorem}[M\"obius Group]
+  $(\mob, \circ, \id)$ is a group.
+\end{theorem}
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{Associativity -} Composition of functions is associative, see \cref{assocLemma}.
+    \item \textbf{Identity -}
+      \[
+        \id: z \mapsto z = \frac{1\cdot z + 0}{0 \cdot z + 1} \in \mob
+      \]
+    \item \textbf{Inverses -} Let:
+      \[
+        \mu: z \mapsto \frac{az + b}{cz + d},\ \nu: z \mapsto \frac{dz - b}{-cz + a}
+      \]
+      Then by \cref{mobComposition}:
+      \[
+        \mu \circ \nu = \left(\frac{ad - bc}{ad - bc}\right)z =z
+      \]
+      So $\mu^{-1} = \nu \in \mob$.
+    \item \textbf{Closure -} See \cref{mobComposition}. %TODO
+  \end{itemize}
+\end{proof}
+\section{Fixed Points}
+One important way to study M\"obius transforms is via their fixed points.
+\begin{definition}
+  Suppose $f: X \to X$ is a permutation.
+  Any $x \in X$ such that $f(x) = x$ is called a \textit{fixed point} of $f$.
+\end{definition}
+\begin{remark}[Notation]
+  We denote the set of fixed points of a function $f$ as $\Fix(f)$.
+\end{remark}
+\begin{lemma}[3-point Lemma for $\mob$]
+  If $\mu \in \mob$ fixes three distinct points $w_1, w_2, w_3 \in \Cinf$, then $\mu = \id$.
+  \label{threePointMob}
+\end{lemma}
+\begin{proof}
+  Let $\mu(z) = \frac{az + b}{cz + d}$.
+  A fixed point $w_i$ satisfies the equation:
+  \[
+    w_i = \frac{aw_i + b}{cw_i + d}
+  \]
+  \begin{proofcases}
+    \begin{case}{One $w_i$ is infinite}
+      WLOG suppose $w_1 = \infty$, then $c = 0$ so $w_2$ and $w_3$ satisfy:
+      \[
+        w_i = \frac{aw_i + b}{d} \iff (a-d)w_i + b = 0
+      \]
+      This is a linear equation with at least 2 distinct roots so must be trivial, that is, $a = d$ and $b = 0$.
+      So $\mu(z) = \frac{az}{d} = z = \id$.
+    \end{case}
+    \begin{case}{$w_i \neq \infty$}
+      Now suppose every $w_i \neq \infty$.
+      \begin{align*}
+        w_i &= \frac{aw_i + b}{cw_i + d} \\
+        cw^{2}_{i} + dw_i &= aw_i + b \\
+        cw^{2}_{i} + (d - a)w_i - b &= 0
+      \end{align*}
+      This is a quadratic with at least 3 roots so must be trivial, that is, $b = c = 0$ and $a = d$.
+      So again $\mu(z) = \id$.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\begin{proposition}
+  Every $\mu \in \mob$ has at least one fixed point in $\Cinf$.
+\end{proposition}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$c = 0$}
+      Then, by definition, $\mu(\infty) = \infty$ so $\infty \in \Fix(\mu)$.
+    \end{case}
+    \begin{case}{$c \neq 0$}
+      A fixed point of $\mu$ satisfies:
+      \[
+        \mu(z) = \frac{az + b}{cz + d} = z \\
+        \iff az + b = cz^2 + dz \\
+        \iff cz^2 + (d - a)z - b = 0
+      \]
+      Since $c \neq 0$, this is a quadratic so has either one repeated or two distinct complex roots.
+      In either case, there will be at least one $z$ satisfying $\mu(z) = z$.
+    \end{case}
+    In both cases, $\mu$ fixes at least one point.
+  \end{proofcases}
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item If $\mu(z) = z + 1$, then $\Fix(\mu) = \{\infty\}$.
+    \item If $\mu(z) = 2z$, then $\Fix(\mu) = \{0, \infty\}$.
+  \end{enumerate}
+\end{example}
+\begin{lemma}[Triple Transitivity]
+  For any triples of distinct points $z_1, z_2, z_3 \in \Cinf$ and $w_1, w_2, w_3 \in \Cinf$ there exists a $\mu \in \mob$ such that $\mu(z_i) = w_i$ for $i = 1, 2, 3$.
+  \label{tripleTransitivity}
+\end{lemma}
+\begin{proof}
+  Let
+  \[
+    \alpha(z) = \left(\frac{z - z_1}{z - z_3}\right) \left(\frac{z_2 - z_3}{z_2 - z_1}\right)
+  \]
+  \begin{remark}[Note]
+    If one of $z_i$ is infinite, then we can modify $\alpha$ to be:
+    \[
+      z_1 = \infty \to \frac{z_2 - z_3}{z - z_3},\ z_2 = \infty \to \frac{z - z_1}{z - z_3}, z_3 = \infty \to \frac{z - z_1}{z_2 - z_1}
+    \]
+    and the following still holds true.
+  \end{remark}
+  We can now see that:
+  \[
+    \alpha: z_1 \mapsto 0,\ z_2 \mapsto 1,\ z_3 \mapsto \infty
+  \]
+  Similarly, we can write down a $\beta \in \mob$ such that:
+  \[
+    \beta: w_1 \mapsto 0,\ w_2 \mapsto 1,\ w_3 \mapsto \infty
+  \]
+  Thus we have:
+  \[
+    \beta^{-1} \circ \alpha: z_1 \mapsto w_1,\ z_2 \mapsto w_2,\ z_3 \mapsto w_3
+  \]
+  So $\mu = \beta^{-1} \circ \alpha$ works.
+\end{proof}
+\begin{remark}
+  The above $\mu$ is unique as if we had some other $\nu \in \mob$ with
+  \[
+    \nu: z_1 \mapsto w_1,\ z_2 \mapsto w_2,\ z_3 \mapsto w_3
+  \]
+  then $\Fix(\nu^{-1} \circ \mu) = \{z_1, z_2, z_3\}$ so by \cref{threePointMob}, $\nu^{-1} \circ \mu = \id$ so $\nu = \mu$.
+
+  We say that the action of $\mob$ on $\Cinf$ is \textit{sharply triple transitive}.
+\end{remark}
+\section{Cross Ratio}
+\begin{definition}[Cross Ratio]
+  Let $z_1, z_2, z_3, z_4 \in \Cinf$ be distinct.
+  Because $\mob \acts \Cinf$ sharply triple transitively, there is a unique $\alpha \in \mob$ such that:
+  \[
+    \alpha(z_1) = 0,\ \alpha(z_2) = 1,\ \alpha(z_3) = \infty
+  \]
+  The \textit{cross-ratio} is then defined to be:
+  \[
+    [z_1, z_2, z_3, z_4] = \alpha(z_4)
+  \]
+\end{definition}
+\begin{remark}[Note]
+  We see from \cref{tripleTransitivity} that:
+  \[
+    [z_1, z_2, z_3, z_4] = \left(\frac{z_4 - z_1}{z_4 - z_3}\right)\left(\frac{z_2 - z_3}{z_2 - z_1}\right)
+  \]
+\end{remark}
+\end{document}
