@@ -172,7 +172,14 @@ One important way to study M\"obius transforms is via their fixed points.
         \iff cz^2 + (d - a)z - b = 0
       \]
       Since $c \neq 0$, this is a quadratic so has either one repeated or two distinct complex roots.
-      In either case, there will be at least one $z$ satisfying $\mu(z) = z$.
+      Note that $z = -\frac{d}{c}$ cannot be a root otherwise we would have:
+      \begin{align*}
+        c\left(-\frac{d}{c}\right)^2 + \left(-\frac{d}{c}\right)(d-a) - b &= 0 \\
+        \frac{d^2}{c} - \frac{d^2}{c} + \frac{ad}{c} - b &= 0 \\
+        \frac{ad}{c} - b &= 0 \\
+        ad - bc &= 0
+      \end{align*}
+      So we must have at least one $z$ satisfying $\mu(z) = z$.
     \end{case}
     In both cases, $\mu$ fixes at least one point.
   \end{proofcases}
