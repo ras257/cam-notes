@@ -1004,4 +1004,324 @@ Substituting back into the original decomposition yields:
   M = T + A + \frac{1}{n}\tr(M)I
 \]
 Where $T$ is symmetric and traceless, $A$ is antisymmetric, and $\frac{1}{n}\tr(M)I$ is diagonal with all entries equal, this is called the \textit{isotropic} part.
+\subsection{Orthogonal and Unitary Matrices}
+\begin{definition}[Orthogonal Matrix]
+  A real $n \times n$ matrix $U$ is \textit{orthogonal} if and only if:
+  \[
+    U^{\trans}U = UU^{\trans} = I
+  \]
+  or equivalently $U^{-1} = U^{\trans}$.
+\end{definition}
+This means that the columns and the rows of $U$ are orthonormal.
+Equivalently, $U$ is orthogonal if and only if it preserves inner products, that is:
+\[
+  (U\vec{x}) \cdot (U\vec{y}) = \vec{x} \cdot \vec{y} \quad \forall \vec{x}, \vec{y} \in \R^{n}
+\]
+and from this, $U$ preserves norms and angles.
+\begin{definition}[Unitary Matrix]
+  A complex $n \times n$ matrix, is \textit{unitary} if and only if:
+  \[
+    U^{\dag}U = UU^{\dag} = I
+  \]
+  or equivalently $U^{-1} = U^{\dag}$.
+\end{definition}
+Equivalently, $U$ is unitary if and only if it preserves inner products:
+\[
+  (U\vec{z})^{\dag} \cdot (U\vec{w}) = \vec{z}^{\dag} \vec{w}
+\]
+\begin{example}[Orthogonal Matrices in $\R^2$]
+  Consider a $2 \times 2$ orthogonal matrix $U$ and the canonical basis for $\R^2$:
+  \[
+    \left\{\begin{pmatrix}
+    1 \\
+    0 \\
+    \end{pmatrix},
+    \begin{pmatrix}
+    0 \\
+    1 \\
+    \end{pmatrix}\right\}
+  \]
+  $U$ preserves norms so:
+  \[
+    U\begin{pmatrix}
+    1 \\
+    0 \\
+    \end{pmatrix} =
+    \begin{pmatrix}
+    \cos \theta \\
+    \sin \theta \\
+    \end{pmatrix}
+    \text{ for some $\theta \in \R$}
+  \]
+  Since $U$ preserves angles and $(1, 0)$ and $(0, 1)$ are orthogonal, their images under $U $must also be orthogonal, thus:
+  \[
+    U \begin{pmatrix}
+    0 \\
+    1 \\
+    \end{pmatrix} =
+    \begin{pmatrix}
+    \cos(\theta \pm \pi/2) \\
+    \sin(\theta \pm \pi/2) \\
+    \end{pmatrix} =
+    \pm \begin{pmatrix}
+    -\sin \theta \\
+    \cos \theta \\
+    \end{pmatrix}
+  \]
+  Hence $U$ is either:
+  \[
+    U = \Rot(\theta) = \begin{pmatrix}
+    \cos \theta & -\sin \theta \\
+    \sin \theta & \cos \theta \\
+    \end{pmatrix}
+    \text{ or }
+    U = \Reflect(\theta) = \begin{pmatrix}
+    \cos \theta & \sin \theta \\
+    \sin \theta &  -\cos \theta \\
+    \end{pmatrix}
+  \]
+\end{example}
+\section{Determinant}
+Consider a map $\R^{n} \to \R^{n}$ given by a real $n \times n$ matrix $M$:
+\[
+  \vec{x}' = M\vec{x}
+\]
+Assume that $M$ is invertible so has inverse $M^{-1}$, then:
+\[
+  \vec{x} = M^{-1}\vec{x}'
+\]
+\subsection{Determinants in \texorpdfstring{$\R^2$}{2D}}
+Consider:
+\[
+  M = \begin{pmatrix}
+  M_{1 1} & M_{1 2} \\
+  M_{2 1} & M_{2 2} \\
+  \end{pmatrix} \text{ and }
+  \widetilde{M} = \begin{pmatrix}
+  M_{2 2} & -M_{1 2} \\
+  -M_{2 1} & M_{1 1} \\
+  \end{pmatrix}
+\]
+Note that:
+\[
+  \widetilde{M}M =
+  (M_{1 1}M_{2 2} - M_{1 2}M_{2 1})I
+\]
+Then we have:
+\[
+  \vec{x}' = M\vec{x} \implies \widetilde{M}\vec{x}' = \widetilde{M} M \vec{x} = (\det M)\vec{x}
+\]
+with $\det M = M_{1 1}M_{2 2} - M_{1 2}M_{2 1}$
+
+Therefore, if $\det M \neq 0$, we have:
+\[
+  M^{-1} = \frac{\widetilde{M}}{\det M}
+\]
+and so $M$ is invertible.
+\begin{remark}
+  Note that we can write $\det(M) = [M\vec{e}_1, M\vec{e}_2]$ using the scalar cross product from \cref{scalarCrossProduct}.
+  Therefore, $\det M$ is the signed area of the parallelogram spanned by the images of the basis vectors under $M$.
+\end{remark}
+\subsection{Determinants in \texorpdfstring{$\R^3$}{3D}}
+Take a linear map $\vec{x} \mapsto \vec{x}' = M\vec{x}$ for a $3 \times 3$ matrix $M$.
+Similarly to in $\R^2$, we want a matrix $\widetilde{M}$ and a scalar $\det M$ such that:
+\[
+  \widetilde{M}M = (\det M)I
+\]
+Recall the scalar triple product from \cref{scalarTripleProduct}:
+\[
+  [\vec{a}, \vec{b}, \vec{c}] = \vec{a} \cdot (\vec{b} \times \vec{c}) = \levi_{i j k} a_i b_j c_k
+\]
+This gives the signed volume of the parallelepiped defined by the three vectors.
+
+Under the action of a $3 \times 3$ matrix $M$, volumes will be scaled by a factor of $\det M$.
+To find this scale factor, we compute the triple product of the images of the basis vectors:
+\begin{align*}
+  [M\vec{e}_1, M\vec{e}_2, M\vec{e}_3] &= [\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)] \\
+                                       &= [M_{i 1}\vec{e}_i, M_{j 2}\vec{e}_j, M_{k 3}\vec{e}_k] \\
+                                       &= M_{i 1}M_{j 2}M_{k 3}[\vec{e}_i, \vec{e}_j, \vec{e}_k] \\
+                                       &= M_{i 1}M_{j 2}M_{k 3} \levi_{i j k}
+\end{align*}
+noting that $[\vec{e}_i, \vec{e}_j, \vec{e}_k] = \levi_{i j k} (\vec{e}_i)_i (\vec{e}_j)_j (\vec{e}_k)_k = \levi_{i j k}$.
+So under $M$, the parallelepiped defined by the basis vectors has signed volume $M_{i 1}M_{j 2}M_{k 3} \levi_{i j k}$.
+
+We then define $\det M$ in $\R^{3}$ as:
+\[
+  \det M = M_{i 1}M_{j 2}M_{k 3} \levi_{i j k}
+\]
+\begin{remark}[Notation]
+  We also sometimes use vertical bars to denote the determinant:
+  \[
+    \det M = \begin{vmatrix}
+    M_{1 1} & M_{1 2} & M_{1 3} \\
+    M_{2 1} & M_{2 2} & M_{2 3} \\
+    M_{3 1} & M_{3 2} & M_{3 3} \\
+    \end{vmatrix}
+  \]
+\end{remark}
+To construct $\widetilde{M}$, we need rows of $\widetilde{M}$ such that $\vec{R}_i(\widetilde{M}) \cdot \vec{C}_j(M) = (\det M) \delta_{i j}$ so that $(\widetilde{M}M)_{i j} = (\det M)\delta_{i j}$ and thus $\widetilde{M}M = (\det M)I$.
+
+This means that we need rows so that if they have a different index to the columns, they are orthogonal.
+That is, $\vec{R}_1(\widetilde{M})$ needs to be orthogonal to $\vec{C}_2(M)$ and $\vec{C}_3(M)$ and so on.
+The following rows have this property:
+\begin{align*}
+  \vec{R}_1(\widetilde{M}) &= \vec{C}_2(M) \times \vec{C}_3 (M) \\
+  \vec{R}_2(\widetilde{M}) &= \vec{C}_3(M) \times \vec{C}_1 (M) \\
+  \vec{R}_3(\widetilde{M}) &= \vec{C}_1(M) \times \vec{C}_2 (M)
+\end{align*}
+We then have:
+\begin{align*}
+  \vec{R}_i(\widetilde{M}) \cdot \vec{C}_j(M) &= \vec{C}_1(M) \cdot (\vec{C}_2(M) \times \vec{C}_3(M))\delta_{i j} \\
+                                              &= [\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)]\delta_{i j} \\
+                                              &= (\det M)\delta_{i j}
+\end{align*}
+So these rows are such that $\widetilde{M}M = (\det M)I$.
+Therefore, provided $\det M \neq 0$, similarly to in $\R^2$:
+\[
+  M^{-1} = \frac{\widetilde{M}}{\det M}
+\]
+
+This process also provides us with multiple statements that are equivalent to $\det M \neq 0$:
+\begin{itemize}
+ \item $\{M\vec{e}_1, M\vec{e}_2, M\vec{e}_3\} = \{\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)\}$ are linearly independent
+ \item $\im M = \R^3$
+ \item $\rank M = 3$
+\end{itemize}
+\begin{remark}
+  General $3 \times 3$ determinants can be expanded in terms of $2 \times 2$ determinants:
+  \[
+    \det M = \begin{vmatrix}
+    M_{1 1} & M_{1 2} & M_{1 3} \\
+    M_{2 1} & M_{2 2} & M_{2 3} \\
+    M_{3 1} & M_{3 2} & M_{3 3} \\
+    \end{vmatrix} =
+    M_{1 1} \begin{vmatrix}
+    M_{2 2} & M_{2 3} \\
+    M_{3 2} & M_{3 3} \\
+    \end{vmatrix}
+    - M_{1 2}\begin{vmatrix}
+    M_{2 1} & M_{2 3} \\
+    M_{3 1} & M_{3 3} \\
+    \end{vmatrix}
+    + M_{1 3}\begin{vmatrix}
+    M_{2 1} & M_{2 2} \\
+    M_{3 1} & M_{3 2} \\
+    \end{vmatrix}
+  \]
+  This will be explored further when computing determinants of $n \times n$ matrices.
+\end{remark}
+\subsection{Permutations}
+The goal of this section is to rigorously define a general Levi-Civita Epsilon first encountered in \cref{generalLCE}.
+\begin{definition}[Permutation]
+  A \textit{permutation} of a set $S$ is a bijection $\rho: S \to S$.
+\end{definition}
+\begin{remark}[Notation]
+  \begin{itemize}
+    \item $S_n$ is the set of all permutations of the elements $1, \ldots, n$.
+      This has $n!$ elements
+    \item We usually use the ``two-line'' notation to describe permutations.
+      For example, for a $\rho \in S_n$, we would write:
+      \[
+        \rho = \begin{pmatrix}
+        1 & 2 & \cdots & n \\
+        \rho(1) & \rho(2) & \cdots & \rho(n) \\
+        \end{pmatrix}
+      \]
+  \end{itemize}
+\end{remark}
+\begin{definition}[Fixed Point]
+  A \textit{fixed point} of $\rho$ is a $k$ such that $\rho(k) = k$.
+  By convention, we usually omit fixed points from permutations.
+\end{definition}
+\begin{definition}[Disjoint]
+  Two permutations are \textit{disjoint} if all elements fixed by one permutation are not fixed by the other and vice versa.
+
+  That is, all elements are fixed by exactly one of the two permutations.
+\end{definition}
+\begin{example}[Simplifying Permutations]
+  Consider the following permutation, we can simplify it into multiple smaller permutations:
+  \begin{align*}
+    \begin{pmatrix}
+    1 & 2 & 3 & 4 & 5 & 6 \\
+    5 & 6 & 3 & 1 & 4 & 2 \\
+    \end{pmatrix} &=
+    \begin{pmatrix}
+    1 & 2 & 4 & 5 & 6 \\
+    5 & 6 & 1 & 4 & 2 \\
+    \end{pmatrix} \text{ as 4 is fixed}\\
+    &= \begin{pmatrix}
+    1 & 4 & 5 \\
+    5 & 1 & 4 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    2 & 6 \\
+    6 & 2 \\
+    \end{pmatrix} \text{ split into disjoint permutations}\\
+    &= \begin{pmatrix}
+    5 & 1 & 4 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    6 & 2 \\
+    \end{pmatrix} \text{ as both just cycle elements}
+  \end{align*}
+  The permutations denoted using a single line are \textit{cycles}, and represent permutations where the elements are just cycled.
+
+  Disjoint permutations commute, but in general non-disjoint permutations do \textbf{not commute}.
+\end{example}
+\begin{definition}[Two-Cycle]
+  A \textit{2-cycle} or \textit{transposition} is a cycle which only contains two numbers.
+  That is:
+  \[
+    \begin{pmatrix}
+    i & j \\
+    j & i \\
+    \end{pmatrix} \text{ or }
+    \begin{pmatrix}
+    i & j \\
+    \end{pmatrix}
+  \]
+\end{definition}
+\begin{proposition}
+  Any $q$-cycle can be written as a product of 2-cycles.
+\end{proposition}
+\begin{example}
+  For example:
+  \[
+    \begin{pmatrix}
+      1 & 2 & \cdots & n \\
+      \end{pmatrix} = \begin{pmatrix}
+      1 & 2 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      2 & 3 \\
+    \end{pmatrix} \cdots
+    \begin{pmatrix}
+      n - 1 & n \\
+    \end{pmatrix}
+  \]
+\end{example}
+\begin{definition}[Permutation Sign]
+  The \textit{sign} of a permutation $\varepsilon(\rho)$ is $(-1)^{r}$ where $r$ is the number of two cycles of the permutation $\rho$ when written as a product of 2-cycles.
+
+  If $\varepsilon(\rho) = +1$ then it is an \textit{even permutation}.
+  Otherwise it is an \textit{odd permutation}.
+\end{definition}
+\begin{remark}
+  \[
+    \varepsilon(\rho \sigma) = \varepsilon(\rho)\varepsilon(\sigma) \text{ and } \varepsilon(\rho^{-1}) = \varepsilon(\rho)
+  \]
+\end{remark}
+\begin{definition}[Levi-Civitia Epsilon]
+Define $\levi_{a_1 a_2 \ldots a_n}$ (with $n$ indices) as:
+\[
+  \levi_{a_1 a_2 \ldots a_n} = \begin{cases}
+  1 & (a_1, a_2, \ldots, a_n) \text{ is an even permutation of }(1, 2, \ldots, n) \\
+  -1 & (a_1, a_2, \ldots, a_n) \text{ is an odd permutation of }(1, 2, \ldots, n) \\
+  0 & \text{ otherwise (any two indices are equal)}
+  \end{cases}
+\]
+\end{definition}
+\begin{remark}[Note]
+$\levi_{a_1 a_2 \ldots a_n}$ is \textit{totally antisymmetric}.
+That is, if we swap any of the two indices then we get a change in sign.
 \end{document}

@@ -172,16 +172,146 @@ What about $x \equiv 1 \pmod{4},\ x \equiv 2 \pmod{6}$?
 \end{align*}
 In fact there is no such $x$ in both lists.
 
-The Chinese Remainder Theorem can help us solve simultaneous congruences
+The Chinese Remainder Theorem can help us solve simultaneous congruences.
 \begin{theorem}[Chinese Remainder Theorem]
   Let $m, n$ be coprime, and $a, b \in \Z$.
   Then there is a unique solution modulo $mn$ to the simultaneous congruences:
-  \begin{align*}
-    x &\equiv a \pmod{n} \\
-    x &\equiv b \pmod{n}
-  \end{align*}
+  \[
+    x \equiv a \pmod{m} \text{ and }
+    x \equiv b \pmod{n}
+  \]
 \end{theorem}
 \begin{remark}[Note]
   By ``unique'' modulo $mn$, we mean that $y$ is a solution to the same system if and only if $x \equiv y \pmod{mn}$.
+\end{remark}
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{Existence}
+      Since $\hcf(m, n) = 1$, there exists $s, t \in \Z$ such that $sm + tn = 1$.
+      Note that $sm \equiv 1 \pmod{n}$ and $tn \equiv 1 \pmod{m}$.
+      Trivially, we also have $sm \equiv 0 \pmod{m}$ and $tn \equiv 0 \pmod{n}$.
+      Hence,
+      \[
+        x = a(tn) + b(sm) \equiv \begin{cases}
+          a & \pmod{m} \\
+          b & \pmod{n}
+        \end{cases}
+      \]
+      \item \textbf{Uniqueness -}
+      Suppose $y$ is also a solution, that is, $y \equiv a \pmod{m}$ and $y \equiv b \pmod{n}$.
+      \begin{align*}
+        &y \equiv a \pmod{n} \text{ and } y \equiv b \pmod{n} \\
+        \iff& y \equiv x \pmod{m} \text{ and } y\equiv x \pmod{n} \\
+        \iff& m \mid y - x \text{ and } n \mid y - x \\
+        \iff& mn \mid y - x \text{ as $\hcf(m, n) = 1$} \\
+        \iff& y \equiv x \pmod{mn}
+      \end{align*}
+  \end{itemize}
+\end{proof}
+\begin{remark}
+  The Chinese remainder theorem can be extended, by induction, to more than 2 moduli.
+
+  If $m_1, m_2, \ldots m_k$ are pairwise coprime, then for all $a_1, a_2, \ldots a_k \in \Z$ there exists an $x \in \Z$ such that:
+  \begin{align*}
+    x &\equiv a_1 \pmod{m_1} \\
+    x &\equiv a_2 \pmod{m_2} \\
+    &\cdots \\
+    x &\equiv a_k \pmod{m_k} \\
+  \end{align*}
+\end{remark}
+\section{Exponentiation and Factorials}
+\subsection{FLT and Fermat-Euler}
+\begin{definition}[Euler Totient Function]
+  The \textit{Euler totient function}, $\varphi(n)$, counts the number of integers with $1 \leq a \leq n$ such that $\hcf(a, n) = 1$.
+  That is, $\varphi(n)$ is the number of units modulo $n$.
+
+  By convention, $\varphi(1) = 1$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item  If $m = 9 \to 1, 2, 4, 5, 7, 8$ are coprime so $\varphi(n) = 6$.
+    \item When $p$ is prime, $\varphi(p) = p - 1$ as all naturals less than $p$ are coprime to $p$ and $\varphi(p^2) = p^2 - p$ as there are $p$ multiples of $p$ less than or equal to $p^2$.
+    \item When $p, q$ are distinct primes, $\varphi(pq) = pq - p - q + 1$.
+      The $-p$ accounts for the $p$ multiples of $q$ and the $-q$ accounts for the $q$ multiples of $p$, since $pq$ is then double counted, we need to add 1.
+  \end{enumerate}
+\end{example}
+How do the powers of an integer behave modulo $p$?
+\begin{example}
+  \begin{enumerate}
+    \item For example, in $\Z_7$: $2^{1} \equiv 2, 2^{2} \equiv 4, 2^{3} \equiv 1, 2^{4} \equiv 2$, then it repeats $2, 4, 1, 2, 4, 1, 2, \ldots$
+    \item For example, in $\Z_{11}$: $2^{1} \equiv 2, 2^{2} \equiv 4, 2^{3} \equiv 8, 2^{4} \equiv 5, 2^{5} \equiv 10, 2^{6} \equiv 9, 2^{7} = 7,2^{8} = 3, 2^{9} \equiv 6, 2^{10} \equiv 1$, then repeats.
+  \end{enumerate}
+\end{example}
+\begin{theorem}[Fermat's Little Theorem]
+  Let $p$ be a prime.
+  Then $a^{p} \equiv a \pmod{p}$ for all $a \in \Z$.
+
+  Equivalently $a^{p - 1} \equiv 1$ for all $a \centernot\equiv 0 \pmod{p}$
+\end{theorem}
+\begin{proof}
+  If $a \centernot\equiv 0 \pmod{p}$, then $a$ is a unit mod $p$.
+  So:
+  \[
+    ax \equiv ay \pmod{p} \iff x \equiv y \pmod{p}
+  \]
+  The numbers $1, 2, \ldots, p - 1$ are all pairwise incongruent and non-zero mod $p$.
+  Hence the numbers $a, 2a, \ldots, (p-1)a$ are pairwise incongruent and non-zero mod $p$.
+  So they must be $1, 2, 3, \ldots, p - 1$ in some order.
+
+  Hence:
+  \[
+    a \cdot 2a \cdot 3a \cdots (p-1)a \equiv 1 \cdot 2 \cdot 3 \cdots(p-1) \pmod{p}
+  \]
+  so $a^{p-1}(p-1)! \equiv (p-1)! \pmod{p}$.
+  But $(p - 1)!$ is a product of units so is also a unit mod $p$ so we can cancel it to obtain $a^{p-1} \equiv 1 \pmod{p}$.
+\end{proof}
+\begin{theorem}[Fermat-Euler Theorem]
+  If $a, m \in \Z$ such that $\hcf(a, m) = 1$, then $a^{\varphi(m)} \equiv 1 \pmod{m}$.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{U} = \{x \in \Z : 0 < x < m,\ \hcf(x, m) = 1\}$, this is the $\varphi(m)$ numbers less than $m$ that are coprime to $m$.
+  These must all be units mod $m$ as they are coprime to $m$.
+  Label then $u_1, u_2, \ldots, u_{\varphi(m)}$, similarly to before, we have that $au_1, a_2, \ldots au_{\varphi(n)}$ are all distinct and invertible modulo $m$, since $a$ is a unit.
+  So they must be $u_1, u_2, \ldots u_{\varphi(n)}$ in some order.
+  Hence
+  \[
+    au_1 \cdot au_2 \cdots au_{\varphi(m)} \equiv u_1 \cdot u_2 \cdots u_{\varphi(m)} \pmod{m}
+  \]
+  So $a^{\varphi(m)} z \equiv z \pmod{m}$ where $z = u_1 u_2 \cdots u_{\varphi(m)}$.
+  $z$ is a product of units so is also a unit mod $m$.
+  Thus we may cancel it to obtain $a^{\varphi(m)} \equiv 1 \pmod{m}$.
+\end{proof}
+\subsection{Wilson/Al-Haytham Theorem}
+What is $(p - 1)!$ modulo $p$?
+\begin{example}
+  \begin{enumerate}
+    \item When $p = 5$, $4! \equiv 24 \equiv -1 \pmod{5}$.
+    \item When $p = 7$, $6! = 720 \equiv -1 \pmod{7}$
+  \end{enumerate}
+\end{example}
+We first need to prove a lemma about which integers are self-inverse mod $p$:
+\begin{lemma}
+  Let $p$ be a prime.
+  Then $x^2 \equiv 1 \pmod{p}$ if and only if $x \equiv 1 \pmod{p}$ or $x \equiv -1 \pmod{p}$
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    &x^2 \equiv 1 \pmod{p} \\
+    \iff& x^2 - 1 \equiv 0 \pmod{p} \\
+    \iff& (x - 1)(x + 1) \equiv 0 \pmod{p} \\
+    \iff& p \mid (x - 1)(x + 1)
+  \end{align*}
+  We know from \cref{euclidsLemma} (Euclid's Lemma) that if $p$ is prime and $p \mid ab$ then $p \mid a$ or $p \mid b$.
+  The converse also holds trivially so:
+  \begin{align*}
+    &p \mid (x - 1)(x + 1) \\
+    \iff& p \mid x - 1 \text{ or } p \mid x + 1 \\
+    \iff& x - 1 \equiv 0 \pmod{p} \text{ or } x + 1 \equiv 0 \pmod{p} \\
+    \iff& x \equiv 1 \pmod{p} \text{ or } x \equiv -1 \pmod{p}
+  \end{align*}
+  So $x^2 \equiv 1 \pmod{p} \iff x \equiv 1 \text{ or } x \equiv -1 \pmod{p}$.
+\end{proof}
+\begin{remark}
+  More generally, a non-zero polynomial of degree $k$ over $\Z_p$ has at most $k$ roots in $\Z_p$.
 \end{remark}
 \end{document}
