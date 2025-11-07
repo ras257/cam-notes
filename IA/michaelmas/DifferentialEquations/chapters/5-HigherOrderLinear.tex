@@ -171,6 +171,7 @@ The general form of a homogeneous second order ODE with non-constant coefficient
   y'' + p(x)y' + q(x)y = 0
 \]
 \subsection{Second Complimentary Function -- Reduction of order}
+\label{reductionOrder}
 The following method allows us to find a second solution, $y_2(x)$, given one solution, $y_1(x)$.
 
 We try a solution of the form $y_2(x) = v(x)y_1(x)$.
@@ -354,4 +355,178 @@ Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$ then $\
   Since $W(x) \neq 0\ \forall x$, $y_1$ and $y_2$ are linearly independent.
 \end{example}
 \section{Abel's Theorem}
+\begin{theorem}
+  Given any two solutions of:
+  \[
+    y'' + p(x)y' + q(x)y = 0
+  \]
+  If $p(x)$ and $q(x)$ are continuous on an interval $I$, then either $W(x) = 0\ \forall x \in I$ or $W(x) \neq 0\ \forall x \in I$.
+\end{theorem}
+\begin{proof}
+  \begin{align*}
+    W(x) &= y_1 y_2' - y_2 y_1' \\
+    W'(x) &= \cancel{y_1' y_2'} + y_1 y_2'' - \cancel{y_2' y_1'} - y_2 y_1'' \\
+          &= y_1 y_2'' - y_2 y_1'' \\
+          &= -y_1(py_2' + qy_2) + y_2(py_1' + qy_1) \\
+          &= -p(x)(y_1 y_2' - y_2 y_1') \\
+          &= -p(x)W(x)
+  \end{align*}
+  So we now have a separable ODE for $W(x)$, solving yields:
+  \[
+    W(x) = W(x_0)\underbrace{\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]}_{\neq0}
+  \]
+  This is known as \textit{Abel's identity}.
+  The exponential is never 0 so:
+  \begin{align*}
+    W(x_0) = 0 &\implies W(x) = 0\ \forall x \\
+    W(x_0) \neq 0 &\implies W(x) \neq 0\ \forall x
+  \end{align*}
+\end{proof}
+\begin{remark}
+  The geometric interpretation of this is the solution vectors are always collinear or never collinear as $x$ varies.
+\end{remark}
+\begin{remark}[Generalisation]
+  Abel's theorem holds for solutions of $n$-th order linear homogeneous ODEs.
+  There is also a generalisation of Abel's identity, see Example Sheet 3, Q7.
+\end{remark}
+\begin{corollary}
+  If $p(x) = 0$ then $W(x)$ is a constant.
+\end{corollary}
+\begin{proof}
+  Then $W'(x) = 0 \implies W(x) = C$.
+\end{proof}
+We can find $W(x)$ without knowing solutions to the ODE.
+\begin{example}[Bessel's Equation]
+  Consider the ODE:
+  \begin{align*}
+    x^2 y'' + xy' + (x^2 - n^2)y &= 0 \\
+    y'' + \underbrace{\frac{1}{x}}_{p(x)}y' + \left(1 - \frac{n^2}{x^2}\right)y &= 0
+  \end{align*}
+  We can then apply Abel's identity so:
+  \begin{align*}
+    W(x) &= W(x_0)\exp\left[-\int_{x_0}^{x} \frac{\d{u}}{u}\right] \\
+         &= W(x_0)\exp\left[-\ln\left(\frac{x}{x_0}\right)\right] \\
+         &= \frac{W(x_0)x_0}{x}
+  \end{align*}
+\end{example}
+\subsection{Finding Second Solutions}
+Abel's identity can be used to find a second solution $y_2$ given a known solution $y_1$.
+\[
+  y_1 y_2' + y_2 y_1' = W(x_0)\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
+\]
+Dividing by $y^{2}_{1}$ we have:
+\[
+  y_2' \frac{1}{y_1} + y_2 \frac{y_1'}{y^{2}_{1}} = \frac{W(x_0)}{y^{2}_{1}}\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
+\]
+So provided we know $y_1$ this is a first order ODE for $y_2$:
+\[
+  \deriv{}{x}\left(\frac{y_2}{y_1}\right) = \frac{W(x_0)}{y^{2}_{1}}\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
+\]
+This is the same result that we had using the reduction of order method in \cref{reductionOrder} as $W(x_0)$ is a constant.
+
+\section{Linear Equidimensional ODEs}
+\begin{definition}
+  A linear second order ODE is \textit{equidimensional} if it has form:
+  \begin{equation}
+    \label{generalEquidimensional}
+    ax^2 y'' + bx y' + cy = f(x)
+  \end{equation}
+  with $a, b, c$ constants.
+\end{definition}
+\begin{remark}[Note]
+  These are called \textit{equidimensional} as quantities on the left hand side have consistent physical dimensions.
+\end{remark}
+\subsection{Scaling Property}
+If it is homogeneous, then we have a scaling property of solutions.
+\begin{proposition}
+  If $g(x)$ is a solution of \cref{generalEquidimensional} with $f(x) = 0$, then so is $y = g(\alpha x)$ where $\alpha$ is a constant.
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    \deriv{}{x}(g(\alpha x)) &= \alpha g'(\alpha x) \\
+    x \deriv{y}{x} &= (\alpha x)g'(\alpha x) \\
+    x^2 \deriv[2]{y}{x} &= (\alpha x)^2 g''(\alpha x)
+  \end{align*}
+  Substituting back into \cref{generalEquidimensional} yields:
+  \begin{align*}
+    ax^2 \deriv[2]{y}{x} + bx \deriv{y}{x} + cy &= a (\alpha x)^2 g''(\alpha x) + b(\alpha x)g'(\alpha x) + cg(\alpha x) \\
+                                                &= au^2 g''(u) + bu g'(u) + cg(u) \\
+                                                &=0 \text{ as $g(u)$ is a solution}
+  \end{align*}
+  so $g(\alpha x)$ is also a solution.
+\end{proof}
+
+\subsection{Solving By Eigenfunctions}
+\label{solvingByEigenfunctions}
+Notice that:
+\[
+  x \deriv{}{x}(x^{k}) = k x^{k}
+\]
+so $x^{k}$ is an eigenfunction of $x \deriv{}{x}$ with eigenvalue $k$.
+We will then look for a complimentary function of the form $y_c = x^{k}$.
+\[
+  x^{k}[ak(k - 1) + bk + c] = 0
+\]
+Since this is true for all $x$ we must have:
+\[
+  ak^2 + k(b - a) + c = 0
+\]
+In general this will have two roots $k_1, k_2$.
+If $k_1 \neq k_2$ then the general complimentary function is:
+\[
+  y_c = Ax^{k_1} + Bx^{k_2}
+\]
+with $A, B$ constants.
+\subsection{Solving By Substitution}
+Substitute $z = \ln x$, so:
+\[
+  \deriv{y}{z} = \deriv{x}{z} \deriv{y}{x} = e^{z} \deriv{y}{x} = x \deriv{y}{x}
+\]
+\begin{align*}
+  \deriv[2]{y}{z} &= e^{z} \deriv{y}{x} + e^{2z} \deriv[2]{y}{x} \\
+                  &= x \deriv{y}{x} + x^2 \deriv[2]{y}{x}
+\end{align*}
+So \cref{generalEquidimensional} becomes:
+\begin{align*}
+  a\left(\deriv[2]{y}{z} - \deriv{y}{z}\right) + b \deriv{y}{z} + cy &= f(e^{z}) \\
+  a \deriv[2]{y}{z} + (b - a)\deriv{y}{z} + cy &= f(e^{z})
+\end{align*}
+This is now a second order linear ODE with constant coefficients.
+So $y_c \propto e^{\lambda z}$ and has characteristic equation:
+\[
+  a\lambda^2 + (b - a)\lambda + c = 0
+\]
+This will have the same solutions as the equation for $k_1, k_2$ from the eigenfunction method (\cref{solvingByEigenfunctions}).
+In the non-degenerate case we have:
+\begin{align*}
+  y_c &= Ae^{k_1 z} + Be^{k_2 z} \\
+      &= Ax^{k_1} + Bx^{k_2}
+\end{align*}
+We also know from \cref{detuningExample} that in the degenerate case we have:
+\begin{align*}
+  y_c &= Ae^{kz} + Bze^{kz} \\
+      &= Ax^{k} + B(\ln x)x^{k}
+\end{align*}
+
+\section{Inhomogeneous (Forced) 2nd Order ODEs}
+This section covers methods to find particular integrals.
+\subsection{Constant Coefficients}
+Recall that these have general form:
+\[
+  a \deriv[2]{y}{x} + b \deriv{y}{x} + cy = f(x)
+\]
+After we have found the complimentary function we need to determine a single particular integral.
+It is helpful to know what kind of particular integrals are likely to work for different types of forcing function $f(x)$.
+In general, this is the most ``general'' form of the type of function $f$ is, for example:
+\begin{center}
+\begin{tabular}{c|c}
+$f(x)$ & Try particular integral of form \\
+\hline
+$e^{mx}$ & $Ae^{mx}$ \\
+$\sin kx$ or $\cos kx$ & $A \sin kx + B \cos kx$ \\
+Polynomial $p_n(x)$ & Polynomial $q_n (x) = a_nx^{n} + a_{n - 1}x^{n-1} + \cdots + a_1 x + a_0$ \\
+\end{tabular}
+\end{center}
+We can then determine the constants in these particular integrals by substituting into the ODE.
+Since it is a linear ODE, we can also superpose terms to try and find a particular integral.
 \end{document}
