@@ -337,11 +337,11 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
     \item $\gamma: z \mapsto \frac{1}{z}$
   \end{itemize}
   So it is sufficient to check that $\alpha_a(C)$, $\beta_b(C)$, and $\gamma(C)$ are all circles.
-  For $\alpha_a$ and $\beta_b$, this is easy as dilations, rotations, and translations preserve circles and lines.
+  For $\alpha_a$ and $\beta_b$, this is easy as dilations, rotations, and translations preserve euclidean circles and lines.
   So we just need to check it for $\gamma$.
   \begin{proofcases}
     \begin{case}{$C$ is a Euclidean Circle}
-      If $C$ is a Euclidean circle, then $\gamma(C)$ then has equation:
+      If $C$ is a Euclidean circle, then $\gamma(C)$ has equation:
       \begin{align*}
         \abs{\frac{1}{z} - c} &= r \\
         \abs{\frac{1}{z} - c}^2 &= r^2 \\
@@ -361,15 +361,15 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
 
       Otherwise, if $|c|^2 \neq |r|^2$ then the equation becomes:
       \begin{align*}
-        &|z|^2 - \left(\frac{c}{|c|^2 - r^2}\right) z - \left(\frac{c^{*}}{|c|^2 - r^2}\right)z^{*} + \frac{1}{|c|^2 - r^2} = 0 \\
-        &\iff \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 = \frac{|c|^2}{(|c|^2 - r^2)^2} - \frac{1}{|c|^2 - r^2} \\
-        &\iff \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 = \frac{r^2}{(|c|^2 - r^2)^2} \\
-        &\iff \abs{z - \frac{c^{*}}{|c|^2 - r^2}} = \frac{r}{\abs{|c|^2 - r^2}} \in \R^{+}
+        |z|^2 - \left(\frac{c}{|c|^2 - r^2}\right) z - \left(\frac{c^{*}}{|c|^2 - r^2}\right)z^{*} + \frac{1}{|c|^2 - r^2} &= 0 \\
+        \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 &= \frac{|c|^2}{(|c|^2 - r^2)^2} - \frac{1}{|c|^2 - r^2} \\
+        \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 &= \frac{r^2}{(|c|^2 - r^2)^2} \\
+        \abs{z - \frac{c^{*}}{|c|^2 - r^2}} &= \frac{r}{\abs{|c|^2 - r^2}} \in \R^{+}
       \end{align*}
       which is a circle.
     \end{case}
     \begin{case}{$C$ is a line}
-      If $C$ is a Euclidean line, then $\gamma(C)$ then has equation:
+      If $C$ is a Euclidean line, then $\gamma(C)$ has equation:
       \begin{align*}
         \abs{\frac{1}{z} - a} &= \abs{\frac{1}{z} - b} \\
         \abs{\frac{1}{z} - a}^2 &= \abs{\frac{1}{z} - b}^2 \\
@@ -377,17 +377,17 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
         \cancel{\frac{1}{z^2}} - \frac{a}{z^{*}} - \frac{a^{*}}{z} + |a|^2 &= \cancel{\frac{1}{z^2}} - \frac{b}{z^{*}} - \frac{b^{*}}{z} + |b|^2 \\
         |z|^2(|a|^2 - |b|^2) - z(a - b) - z^{*}(a^{*} - b^{*}) &= 0
       \end{align*}
-      If $|a|^2 = |b|^2$, then the equation then becomes:
+      If $|a|^2 = |b|^2$, then the equation becomes:
       \begin{align*}
         z(a - b) + z^{*}(a^{*} - b^{*}) &= 0 \\
         \left(\frac{a}{2} - \frac{b}{2}\right)z - \left(\frac{b}{2} - \frac{a}{2}\right)z &+ \left(\frac{a^{*}}{2} - \frac{b^{*}}{2}\right)z^{*} - \left(\frac{b^{*}}{2} - \frac{a^{*}}{2}\right)z^{*} = 0 \\
-        -\left(\frac{b}{2} - \frac{a}{2}\right)z - \left(\frac{b^{*}}{2} - \frac{a^{*}}{2}\right)z^{*} &= -\left(\frac{a}{2} - \frac{b}{2}\right)z +\left(\frac{a^{*}}{2} - \frac{b^{*}}{2}\right)z^{*}
+        -\left(\frac{b}{2} - \frac{a}{2}\right)z - \left(\frac{b^{*}}{2} - \frac{a^{*}}{2}\right)z^{*} &= -\left(\frac{a}{2} - \frac{b}{2}\right)z -\left(\frac{a^{*}}{2} - \frac{b^{*}}{2}\right)z^{*}
       \end{align*}
-      We can then add $|z|^2$ and $\frac{|a - b|^2}{4}$ to both sides to yield
+      We can then add $|z|^2$ and $\frac{|a - b|^2}{4}$ to both sides to yield:
       \[
         \abs{z - \frac{b^{*} - a^{*}}{2}} = \abs{z - \frac{a^{*} - b^{*}}{2}}
       \]
-      which is a line.
+      which is a straight line.
 
       Otherwise, if $|a|^2 \neq |b|^2$ then the equation becomes:
       \begin{align*}
@@ -395,7 +395,7 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
         |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{a^{*} - b^{*}}{|a|^2 - |b|^2}\right)z^{*} &= 0 \\
         |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{a^{*} - b^{*}}{|a|^2 - |b|^2}\right)z^{*} + \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} &= \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} \\
         \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}}^2 &= \frac{|a -  b|^2}{(|a|^2 - |b|^2)^2} \\
-        \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}}^2 &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
+        \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}} &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
       \end{align*}
       which is a circle.
     \end{case}
