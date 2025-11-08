@@ -247,6 +247,7 @@ How do the powers of an integer behave modulo $p$?
   Then $a^{p} \equiv a \pmod{p}$ for all $a \in \Z$.
 
   Equivalently $a^{p - 1} \equiv 1$ for all $a \centernot\equiv 0 \pmod{p}$
+  \label{fermatsLittleTheorem}
 \end{theorem}
 \begin{proof}
   If $a \centernot\equiv 0 \pmod{p}$, then $a$ is a unit mod $p$.
@@ -267,6 +268,7 @@ How do the powers of an integer behave modulo $p$?
 \end{proof}
 \begin{theorem}[Fermat-Euler Theorem]
   If $a, m \in \Z$ such that $\hcf(a, m) = 1$, then $a^{\varphi(m)} \equiv 1 \pmod{m}$.
+  \label{fermatEuler}
 \end{theorem}
 \begin{proof}
   Let $\mathcal{U} = \{x \in \Z : 0 < x < m,\ \hcf(x, m) = 1\}$, this is the $\varphi(m)$ numbers less than $m$ that are coprime to $m$.
@@ -281,7 +283,7 @@ How do the powers of an integer behave modulo $p$?
   $z$ is a product of units so is also a unit mod $m$.
   Thus we may cancel it to obtain $a^{\varphi(m)} \equiv 1 \pmod{m}$.
 \end{proof}
-\subsection{Wilson/Al-Haytham Theorem}
+\subsection{Wilson's Theorem}
 What is $(p - 1)!$ modulo $p$?
 \begin{example}
   \begin{enumerate}
@@ -289,10 +291,11 @@ What is $(p - 1)!$ modulo $p$?
     \item When $p = 7$, $6! = 720 \equiv -1 \pmod{7}$
   \end{enumerate}
 \end{example}
-We first need to prove a lemma about which integers are self-inverse mod $p$:
+We first need to prove a lemma about which integers are self-inverse mod $p$.
 \begin{lemma}
   Let $p$ be a prime.
   Then $x^2 \equiv 1 \pmod{p}$ if and only if $x \equiv 1 \pmod{p}$ or $x \equiv -1 \pmod{p}$
+  \label{selfInverseLemma}
 \end{lemma}
 \begin{proof}
   \begin{align*}
@@ -314,4 +317,125 @@ We first need to prove a lemma about which integers are self-inverse mod $p$:
 \begin{remark}
   More generally, a non-zero polynomial of degree $k$ over $\Z_p$ has at most $k$ roots in $\Z_p$.
 \end{remark}
+\begin{example}
+  When $p = 11$, we have:
+  \begin{center}
+  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c}
+  Residue & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+  \hline
+  Inverse & 1 & 6 & 4 & 3 & 9 & 2 & 8 & 7 & 5 & 10
+  \end{tabular}
+  \end{center}
+  Notice that there are exactly two elements that are self inverse, namely those that are $\pm 1 \pmod{p}$ and $\frac{11 - 1 - 2}{2} = 4$ pairs of inverses.
+\end{example}
+\begin{theorem}[Wilson/Al-Haytham Theorem]
+  Let $p$ be a prime.
+  Then $(p - 1)! \equiv -1 \pmod{p}$.
+\end{theorem}
+\begin{proof}
+  True for $p = 2$, so we assume $p > 2$ for the remainder of the proof.
+
+  Note that the units modulo $p$ come in pairs whose product is 1, together with some elements that are self-inverse, that is $x$ such that $x^2 \equiv 1 \pmod{p}$.
+
+  By \cref{selfInverseLemma}, the elements that are self inverse are $+1, -1$, so the remaining $p - 3$ units of $\Z_p$ come in inverse pairs.
+  Hence $(p - 1)!$ is the product of $\frac{p - 3}{2}$ pairs of inverses together with $+1$, $-1$ so:
+  \[
+    (p - 1)! \equiv -1 \pmod{p}
+  \]
+\end{proof}
+We know what squares are either $1$ or $-1$ modulo $p$, but when is $-1$ a square modulo $p$?
+\begin{example}
+  When $p = 5$, $2^{2} \equiv 4 \equiv -1 \pmod{5}$ \tick
+
+  When $p = 7$, $0^{2} \equiv 0, 1^{2} = 1, 2^{2} \equiv 4, 3^{2} \equiv 2$ and we don't need to check 4, 5, 6 as $(-x)^2 = x^2$ \cross
+
+  When $p=13$, $5^{2} \equiv - 1 \pmod{13}$ \tick
+
+  When $p = 19$, there is no such integers \cross
+\end{example}
+\begin{proposition}
+  Let $p$ be an odd prime.
+  Then $-1$ is a square modulo $p$ if and only if $p \equiv 1 \pmod{4}$.
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $-1$ is a square mod $p$}
+    Suppose, for contradiction, that $p \equiv -1 \pmod{4}$.
+    That is, $p = 4k + 3$ for some $k \in \Z$.
+
+    Since $-1$ is a square mod $p$, we have some $z \in \Z$ such that $z^2 \equiv -1 \pmod{p}$.
+    Then by Fermat's Little Theorem (\cref{fermatsLittleTheorem}):
+    \[
+      1 \equiv z^{p - 1} \equiv z^{4k + 2} \equiv z^{2(2k + 1)} \equiv (-1)^{2k + 1} \equiv -1 \pmod{ p}
+    \]
+    which is a contradiction, so $p \centernot\equiv -1 \pmod{4}$.
+    Since $p$ is odd we must then have $p \equiv 1 \pmod{4}$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $p \equiv 1 \pmod{4}$}
+    By Wilson's theorem, $(p - 1)! \equiv -1 \pmod{p}$.
+    We can rewrite $(p - 1)!$ under mod $p$ as follows:
+    \begin{align*}
+      (p - 1)! &\equiv 1 \cdot 2 \cdot 3 \cdots \left(\frac{p - 1}{2}\right)\left(\frac{p + 1}{2}\right) \cdots (p - 3)(p - 2)(p-1) \pmod{p} \\
+               &\equiv 1 \cdot 2 \cdot 3 \cdots \left(\frac{p - 1}{2}\right)\left(-\frac{p - 1}{2}\right)\cdots(-3)(-2)(-1) \pmod{p} \\
+               &\equiv (-1)^{\frac{p-1}{2}}\left[\left(\frac{p - 1}{2}\right)!\right]^2 \pmod{p}
+    \end{align*}
+    Since $p = 4k + 1$ for some $k \in \Z$, then:
+    \[
+      (-1)^{2k}\left[\left(\frac{p - 1}{2}\right)!\right]^2 \equiv \left[\left(\frac{p - 1}{2}\right)!\right]^2 \equiv -1 \pmod{p}
+    \]
+    So $-1$ is a square modulo $p$.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}
+  When $p \equiv 1 \pmod{4}$, Wilson's theorem can be used to tell us a solution to $x^2 \equiv -1 \pmod{p}$.
+
+  For example, when $p = 29$, $\frac{p - 1}{2} = 14$ so $x = 14!$ is a solution.
+\end{remark}
+
+\section{Public Key Cryptography}
+\subsection{RSA Scheme}
+Suppose person $A$ wants to send a message to person $B$ in an \textit{encrypted form}.
+That is, person $B$ can decrypt the messages easily but a third-party cannot.
+The messages will be sent as sequences of numbers which can then be converted back to text after the message has been decrypted.
+
+To do this, we can use the \textit{RSA Scheme} (Rivest-Shamir-Adleman):
+\subsubsection{Person A -- Encryption Scheme}
+\begin{enumerate}
+  \item A finds two very large primes $p, q$, see \cref{fermatsCriterion}.
+  \item Let $n = pq$ and pick a \textit{encoding exponent} $e$ which is coprime to $\varphi(n) = (p - 1)(q - 1)$.
+  \item A publishes the pair $(n, e)$, which is their \textit{encryption scheme}.
+\end{enumerate}
+\subsubsection{Person B -- Encrypting Message}
+\begin{enumerate}
+  \item B splits the message up into smaller numbers of size $M < n$.
+  \item For each of these pieces, B sends $M^{e}$ under mod $n$.
+    This is efficiently computed in $O(\log n)$ operations by repeated squaring under mod $n$.
+\end{enumerate}
+\subsubsection{Person A -- Decrypting Message}
+\begin{enumerate}
+  \item A calculates out the \textit{decoding exponent} $d$ such that $ed \equiv 1 \pmod{\varphi(n)}$.
+  \item A then computes:
+    \begin{align*}
+      (M^{e})^{d} &\equiv M^{k\varphi(n) + 1} \quad k \in \Z \\
+                  &\equiv M \pmod{n}
+    \end{align*}
+    by Fermat-Euler theorem, \cref{fermatEuler}.
+    Since the pieces of the message are $M < n$, each possible piece is unique under mod $n$ so $A$ now knows the pieces of the original message.
+
+    This case works if $\hcf(M, n) = 1$ but can be extended to $\hcf(M, n) \neq 1$.
+    However, this requires extra technicalities not covered here.
+\end{enumerate}
+In order to decrypt in this way, you need to know $n, e, \varphi(n)$.
+$(n, e)$ is published publicly, however, finding $\varphi(n)$ is very difficult without knowing $p$ and $q$.
+Even though $n$ is public, finding the prime factors of $n$ is believed to be \textit{computationally hard} using classical computers.
+It is not currently known if RSA can be broken without carrying out this factorisation.
+\subsection{Fermat's Criterion}
+\label{fermatsCriterion}
+\nonexaminable
+When $a = 2$ then Fermat's little theorem becomes $2^{p} \equiv 2 \pmod{p}$.
+Fermat's criterion is almost the converse of this:
+\begin{proposition}[Fermat's Critereon]
+  If $2^{p} \equiv 2 \pmod{p}$, then there is a \textbf{good chance} that $p$ is prime.
+  If $p$ is not prime, then $p$ is called \textit{pseudoprime}.
+\end{proposition}
+Psuedoprimes are quite rare for large $p$ so this gives a very efficient way of filtering the size of the search space when finding large primes.
 \end{document}

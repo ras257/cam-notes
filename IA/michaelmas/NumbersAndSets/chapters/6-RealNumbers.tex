@@ -1,0 +1,46 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Real Numbers}
+\section{Constructions using \texorpdfstring{$\N$}{the naturals}}
+Recall the construction of $\N$ using the Peano axioms from \cref{natualDef}.
+We can build on this construction to formally define the \textit{integer} and \textit{rational} numbers.
+\subsection{Integers\texorpdfstring{ -- $\Z$}{}}
+We obtain $\Z$ from $\N$ by allowing for subtraction, formally, $\Z$ is the equivalence classes of $\N \times \N$ under the equivalence relation:
+\[
+  (a, b) \rel (c, d) \iff a + d = b + c
+\]
+That is, $\Z$ is the quotient $\Z = (\N \times \N) / R$.
+Think of $(a, b)$ as representing the operation $a - b$.
+We write $0$ for $[(1, 1)]$ and $-a$ for $[(1, 1 + a)]$.
+We also define addition and multiplication operations by:
+\begin{align*}
+  (a, b) + (c, d) &= (a + c, b + d) \\
+  (a, b) \times (c, d) &= (ac + bd, bc + ad)
+\end{align*}
+which satisfy the usual rules of arithmetic.
+
+\section{Rationals\texorpdfstring{ -- $\N$}{}}
+We obtain $\Q$ from $\Z$ by allowing for division.
+Formally, $\Q$ is the set of equivalence classes of $\Z \times \N$ under an equivalence relation:
+\[
+  (a, b) \rel (c, d) \iff ad = bc
+\]
+That is, $\Q$ is the quotient $\Q = (\Z \times \N) / R$.
+We write $\frac{a}{b}$ for $[(a, b)]$.
+We also define additional and multiplication by:
+\begin{align*}
+  (a, b) + (c, d) &= (ad + bc, bd) \\
+  (a, b) \times (c, d) &= (ac, bd)
+\end{align*}
+which satisfy the usual rules of arithmetic.
+
+We can also define an order on $\Q$, denoted $<$, which has the properties:
+\begin{enumerate}
+  \item \textbf{Trichotomy -} If $a, b \in \Q$ then exactly one of:
+    \[
+      a < b \qquad a = b \qquad b < a
+    \]
+    holds.
+  \item \textbf{Transitivity -} If $a < b$ and $b < c$ then $a < c$.
+\end{enumerate}
+\end{document}
