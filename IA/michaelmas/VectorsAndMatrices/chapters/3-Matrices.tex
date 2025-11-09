@@ -1523,7 +1523,7 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
   \item $\det (M^{\dag}) = \overline{\det M}$.
     By definition $(M^{\dag})_{i j} = \overline{M_{j i}}$ so we can write:
     \[
-      \overline{\det (M^{T})} = \overline{\sum_{\rho \in S_n} M_{1 \rho(1)} \cdots M_{n \rho(n)}} = \sum_{\rho \in S_n} \overline{M_{1 \rho(1)}} \cdots \overline{M_{n \rho(n)}} = \det (M^{\dag})
+      \overline{\det (M^{T})} = \overline{\sum_{\rho \in S_n} \varepsilon(\rho) M_{1 \rho(1)} \cdots M_{n \rho(n)}} = \sum_{\rho \in S_n} \varepsilon(\rho) \overline{M_{1 \rho(1)}} \cdots \overline{M_{n \rho(n)}} = \det (M^{\dag})
     \]
     From \textbf{vii}, $\det M^{\trans} = \det M$, thus $\det M^{\dag} = \overline{\det M}$
   \item $\det(MN) = \det(M)\det(N)$.
