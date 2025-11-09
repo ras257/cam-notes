@@ -1258,16 +1258,27 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
     6 & 2 \\
     \end{pmatrix} \text{ split into disjoint permutations}\\
     &= \begin{pmatrix}
-    5 & 1 & 4 \\
+    5 & 4 & 1 \\
     \end{pmatrix}
     \begin{pmatrix}
     6 & 2 \\
     \end{pmatrix} \text{ as both just cycle elements}
   \end{align*}
   The permutations denoted using a single line are \textit{cycles}, and represent permutations where the elements are just cycled.
-
-  Disjoint permutations commute, but in general non-disjoint permutations do \textbf{not commute}.
 \end{example}
+\subsubsection{Conversion From Two Line to Cycle Notation}
+\begin{enumerate}
+  \item Pick an arbitrary element $x$.
+  \item Repeatedly apply the permutation to $x$ until an element is repeated.
+    This is the first cycle.
+  \item Repeat \textbf{i} and \textbf{ii} on a new element not yet written until all elements have appeared.
+\end{enumerate}
+\begin{example}
+  For example, with $\begin{pmatrix}1 & 4 & 5 \\ 5 & 1 & 4 \\\end{pmatrix}$, $\rho(1) = 5, \rho(\rho(1)) = 4, \rho(\rho(\rho(1))) = 1$ so this is written as $\begin{pmatrix}5 & 4 & 1 \\\end{pmatrix}$.
+\end{example}
+\begin{remark}[Warning]
+  Disjoint permutations commute, but in general non-disjoint permutations do \textbf{not commute}.
+\end{remark}
 \begin{definition}[Two-Cycle]
   A \textit{2-cycle} or \textit{transposition} is a cycle which only contains two numbers.
   That is:
@@ -1325,4 +1336,208 @@ Define $\levi_{a_1 a_2 \ldots a_n}$ (with $n$ indices) as:
 $\levi_{a_1 a_2 \ldots a_n}$ is \textit{totally antisymmetric}.
 That is, if we swap any of the two indices then we get a change in sign.
 \end{remark}
+\subsection{Alternating Forms}
+\begin{definition}[Alternating Form]
+  For vector $\vec{v}_1, \ldots, \vec{v}_n \in \R^{n} \text{ or } \C^{n}$, the \textit{rank $n$ alternating form} is defined by:
+  \begin{align*}
+    [\vec{v}_1, \ldots, \vec{v}_n] &= \levi_{j_1 \ldots j_n} (\vec{v}_1)_{j_1} (\vec{v}_2)_{j_2} \cdots (\vec{v}_n)_{j_n} \\
+                                   &= \sum_{\rho \in S_n}  \varepsilon(\rho) (\vec{v}_1)_{\rho(1)} (\vec{v}_2)_{\rho(2)} \cdots (\vec{v}_n)_{\rho(n)}
+  \end{align*}
+\end{definition}
+\begin{remark}
+  In $\R^2$, this is the scalar cross product and in $\R^3$ this is the scalar triple product.
+\end{remark}
+\subsubsection{Properties of Alternating Forms}
+\begin{enumerate}
+  \item \textbf{Multilinear -} Let $\vec{v}_p = \alpha \vec{u} + \beta \vec{w}$, then:
+    \begin{align*}
+    [\vec{v}_1, \ldots, \vec{v}_{p - 1}, \alpha \vec{u} + \beta \vec{w}, \vec{v}_{p + 1}, \ldots, \vec{v}_n] &= \alpha [\vec{v}_1, \ldots, \vec{v}_{p - 1}, \vec{u}, \vec{v}_{p + 1}, \ldots, \vec{v}_n]\\ &\quad+ \beta [\vec{v}_1, \ldots, \vec{v}_{p - 1}, \vec{w}, \vec{v}_{p + 1}, \ldots, \vec{v}_n]
+    \end{align*}
+  \item \textbf{Totally Antisymmetric -} Permuting the vectors introduces the sign of the permutation:
+    \[
+      [\vec{v}_{\rho(1)}, \ldots, \vec{v}_{\rho(n)}] = \varepsilon(\rho)[\vec{v}_1, \ldots, \vec{v}_n]
+    \]
+    This is because exchanging $\vec{v}_p$ and $\vec{v}_q$ for any $p \neq q$ changes the sign of the alternating form and $\varepsilon(\rho)$ depends on how many transpositions are needed to achieve the permutation.
+  \item \textbf{Action on the Canonical Basis -} There is only one permutation of $1, \ldots, n$ where $(\vec{e}_1)_{\rho(1)} \cdots (\vec{e}_n)_{\rho(n)}$ is non-zero, namely the identity permutation.
+    This has sign $+1$, so we have:
+    \[
+      [\vec{e}_1, \ldots, \vec{e}_n] = 1
+    \]
+\end{enumerate}
+The above three properties axiomatically determine alternating forms but there are also further properties that follow from these:
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item If $\vec{v}_p = \vec{v}_q$ for $p \neq q$, then:
+    \[
+      [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_q, \ldots, \vec{v}_n] = 0
+    \]
+    This follows from \textbf{ii} as $\varepsilon(\rho) = 0$ if two indices mapped to the same one.
+  \item If the vectors are linearly dependant then we can write $\vec{v}_p = \sum_{i \neq p} \lambda_i \vec{v}_i$, therefore:
+    \[
+      [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_n] = 0
+    \]
+    This follows from \textbf{i} and \textbf{iv}.
+    We can use multilinearity to split up and pull out the scalars and then we will have repeated vectors in each term.
+\end{enumerate}
+\begin{proposition}
+  \label{alternatingFormIndependent}
+  \[
+    [\vec{v}_1, \ldots, \vec{v}_n] \neq 0 \iff \{\vec{v}_1, \ldots, \vec{v}_n\} \text{ is linearly independent}
+  \]
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $[\vec{v}_1, \ldots, \vec{v}_n] \neq 0$}
+    Suppose, for contradiction, that $\{\vec{v}_1, \ldots, \vec{v}_n\}$ is linearly dependant.
+    Then some $\vec{v}_p$ is a linear combination of the other vectors from the set, that is:
+    \[
+      \vec{v}_p = \sum_{i \neq p} \lambda_i \vec{v}_i
+    \]
+    so by property \textbf{v}, $[\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_n] = 0$.
+    Which contradicts $[\vec{v}_1, \ldots, \vec{v}_n] \neq 0$, so $\{\vec{v}_1, \ldots, \vec{v}_n\}$ is linearly independent.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\{\vec{v}_1, \ldots, \vec{v}_n\}$ is linearly independent}
+    If $\{\vec{v}_1, \ldots, \vec{v}_n\}$  are linearly independent then they span $\R^{n}$ or $\C^{n}$.
+    In particular, we can express the standard basis as:
+    \[
+      \vec{e}_j = u_{i j}\vec{v}_i
+    \]
+    for some coefficients $u_{i j}$.
+    Hence,
+    \begin{align*}
+      [\vec{e}_1, \ldots, \vec{e}_n] &= u_{i_1 1} u_{i_2 2} \ldots u_{i_n n}[\vec{v}_{i_1}, \ldots, \vec{v}_{i_n}] \text{ by property \textbf{i}}\\
+                                     &= u_{i_1 1} u_{i_2 2} \ldots u_{i_n n} \varepsilon_{i_1 \ldots i_n }[\vec{v}_{1}, \ldots, \vec{v}_{n}] \text{ by property \textbf{ii}}
+    \end{align*}
+    From property \textbf{iii}, $[\vec{e}_1, \ldots, \vec{e}_n] = 1$ so $[\vec{v}_{1}, \ldots, \vec{v}_{n}] \neq 0$.
+  \end{proofdirection}
+\end{proof}
+\subsection{Determinants in \texorpdfstring{$\R^{n}$ and $\C^{n}$}{n Dimensions}}
+\begin{definition}[Determinant]
+  Consider an $n \times n$  matrix $M$ with columns given by:
+  \[
+    \vec{C}_i = M\vec{e}_i = M_{i j}\vec{e}_j
+  \]
+  Then, the \textit{determinant} of the matrix $M$, $\det M \in \R \text{ or } \C$, has the following equivalent definitions:
+  \begin{align*}
+    \det M &= [\vec{C}_1, \ldots, \vec{C}_n] \\
+           &= [M\vec{e}_1, \ldots, M\vec{e}_n] \\
+           &= \levi_{j_1 \ldots j_n} M_{j_1 1} \cdots M_{j_n n} \\
+           &= \sum_{\rho \in S_n} \varepsilon(\rho) M_{\rho(1) 1} \cdots M_{\rho(n) n}
+  \end{align*}
+\end{definition}
+\begin{remark}[Notation]
+We also use vertical bars to denote the determinant of an $n \times n$  matrix
+\[
+  \det M =
+  \begin{vmatrix}
+  M_{1 1} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{n 1} & \cdots & M_{n n} \\
+  \end{vmatrix}
+\]
+\end{remark}
+\subsubsection{Properties of the Determinant}
+\begin{enumerate}
+  \item It is a multilinear function of the columns of the matrix.
+    In particular,
+    \[
+      \det (\lambda M)  = [\lambda \vec{C}_1, \ldots, \lambda \vec{C}_n] = \lambda^{n} [\vec{C}_1, \ldots, \vec{C}_n] = \lambda^{n}\det M
+    \]
+    for any matrix of size $n \times n$.
+  \item It is a totally antisymmetric function of the columns of the matrix.
+    That is, if you interchange two columns of the matrix, then the sign of the determinant changes.
+  \item $\det I = [\vec{e}_1, \ldots, \vec{e}_n] = 1$ for the identity matrix of any size.
+  \item If any two columns of a matrix $M$ are identical, then $\det M = 0$.
+    This follows from property \textbf{iv} of the alternating form.
+  \item If two columns are a linearly dependant, then $\det M = 0$.
+    This follows immediately from property \textbf{v} of the alternating form but can also be shown by the following proof.
+\end{enumerate}
+\begin{proof}[\textbf{v}]
+  Suppose now that two columns are linearly dependant, then $\vec{C}_i(M) + \lambda \vec{C}_j(M) = \vec{0}$ for $i \neq j$.
+  Define a matrix $N$ with entries given by:
+  \[
+    N_{r s} = \begin{cases}
+    M_{r s} &  s \neq i \\
+    M_{r s} + \lambda M_{r j} & s = i
+    \end{cases}
+  \]
+  That is, $N$ is $M$ but with every entry in $i$-th column as zero.
+
+  We can write $\det N$ as:
+  \begin{align*}
+    \det N &= [\vec{C}_1(N), \ldots, \vec{C}_i(N), \ldots \vec{C}_n(N)] \\
+           &= [\vec{C}_1(M), \ldots, \vec{C}_i(M) + \lambda \vec{C}_j(M), \ldots, \vec{C}_n(M)] \\
+           &= [\vec{C}_1(M), \ldots, \vec{C}_n(M)] + \lambda [\vec{C}_1(M), \ldots, \vec{C}_j(M), \ldots, \vec{C}_n(M)] \\
+           &= \det M + \lambda \det L
+  \end{align*}
+  where $L$ is a matrix where columns $i$ and $j$ are identical.
+  Therefore by property \textbf{iv}, $\det L = 0$ so $\det N = \det M$.
+  By construction, the $i$-th column of $N$ is all zeroes, thus $\det N = 0$ and so $\det M = 0$.
+\end{proof}
+\begin{enumerate}
+  \setcounter{enumi}{5}
+  \item $\det M \neq 0 \iff$ its columns are linearly independent.
+    This follows immediately from \cref{alternatingFormIndependent}.
+\end{enumerate}
+\begin{remark}
+  As a consequence of the proof for \textbf{v}, under a column operation:
+  \[
+    \vec{C}_i \mapsto \vec{C}_i + \lambda \vec{C}_j \quad i \neq j
+  \]
+  $\det M$ is unchanged.
+\end{remark}
+\begin{enumerate}
+  \setcounter{enumi}{6}
+  \item $\det M = \det(M^{\trans})$
+\end{enumerate}
+\begin{proof}[\textbf{vii}]
+  Take a single term of the alternating form sum, that is:
+  \[
+    \varepsilon(\rho)M_{\rho(1) 1} \cdots M_{\rho(n) n}
+  \]
+  for some $\rho \in S_n$.
+  Take any $\sigma \in S_n$, we then have:
+  \[
+    M_{\rho(1) 1} \cdots M_{\rho(n) n} = M_{\rho(\sigma(1)) \sigma(1)} \cdots M_{\rho(\sigma(n)) \sigma(n)}
+  \]
+  as introducing the $\sigma$ only permutes the order in which the elements are multiplied so the value is unchanged.
+
+  Now if we take $\rho = \sigma^{-1}$, $\varepsilon(\rho) = \varepsilon(\sigma^{-1}) = \varepsilon(\sigma)$ and thus:
+  \begin{align*}
+    \det M &= \sum_{\rho \in S_n} \varepsilon(\rho) M_{\rho(1) 1} \cdots M_{\rho(n) n} \\
+           &= \sum_{\sigma \in S_n} \varepsilon(\sigma) M_{1 \sigma(1)} \cdots M_{n \sigma(n)} \\
+           &= \det(M^{\trans})
+  \end{align*}
+  as, by definition, $(M^{\trans})_{i j} = M_{j i}$.
+\end{proof}
+\begin{remark}
+  Since the columns of $M^{\trans}$ are the rows of $M$, all of the properties above for columns hold equally for rows.
+
+  So under a row operation:
+  \[
+    \vec{R}_i \mapsto \vec{R}_i +\lambda \vec{R}_j \quad i \neq j
+  \]
+  $\det M$ is unchanged.
+\end{remark}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item $\det (M^{\dag}) = \overline{\det M}$.
+    By definition $(M^{\dag})_{i j} = \overline{M_{j i}}$ so we can write:
+    \[
+      \overline{\det (M^{T})} = \overline{\sum_{\rho \in S_n} M_{1 \rho(1)} \cdots M_{n \rho(n)}} = \sum_{\rho \in S_n} \overline{M_{1 \rho(1)}} \cdots \overline{M_{n \rho(n)}} = \det (M^{\dag})
+    \]
+    From \textbf{vii}, $\det M^{\trans} = \det M$, thus $\det M^{\dag} = \overline{\det M}$
+  \item $\det(MN) = \det(M)\det(N)$.
+  \item If $M$ is orthogonal, then $\det M = \pm 1$.
+
+    By definition $M^{\trans} M = I$ so $\det(M^{\trans} M) = \det I = 1$.
+    By \textbf{ix} and \textbf{vii}, $\det M^{\trans}M = \det M \det M^{\trans} = (\det M)^2$.
+    Therefore $(\det M)^2 = 1$, so $\det M = \pm 1$.
+  \item If $M$ is unitary, then $|\det M| = 1$.
+
+    From \textbf{viii}, $\det M^{\dag} = \overline{\det M}$ and since $M M^{\dag} = I$:
+    \[
+      \det(M M^{\dag}) = \det I = \det M \det M^{\dag} = (\det M)(\overline{\det M}) = |\det M|^2 = 1
+    \]
+    so $|\det M| =  1$.
+\end{enumerate}
 \end{document}
