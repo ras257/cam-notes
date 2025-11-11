@@ -280,6 +280,7 @@ That is, given such a $\vec{Y}(x_0)$ at any fixed $x_0$, we can determine the Ta
   This means that they form a basis for the 2D phase space.
 \end{example}
 \section{Wronskian and Linear Dependence}
+\label{wronskian}
 Recall that a set of functions $\{y_i(x)\}$ are linearly dependant if:
 \[
   \sum_{i=1}^{n} c_i y_i(x) = 0\ \forall x,\ c_i \text{ not all 0}
@@ -520,6 +521,7 @@ It is helpful to know what kind of particular integrals are likely to work for d
 In general, this is the most ``general'' form of the type of function $f$ is, for example:
 \begin{center}
 \begin{tabular}{c|c}
+\label{PITable}
 $f(x)$ & Try particular integral of form \\
 \hline
 $e^{mx}$ & $Ae^{mx}$ \\
@@ -529,4 +531,203 @@ Polynomial $p_n(x)$ & Polynomial $q_n (x) = a_nx^{n} + a_{n - 1}x^{n-1} + \cdots
 \end{center}
 We can then determine the constants in these particular integrals by substituting into the ODE.
 Since it is a linear ODE, we can also superpose terms to try and find a particular integral.
+
+\begin{example}
+  Consider the ODE:
+  \[
+    y'' - 5y' + 6y = 2x + e^{4x}
+  \]
+
+  Try a particular integral $y_p = \underbrace{Ax + B}_{\text{for }2x} + \underbrace{Ce^{4x}}_{\text{for }e^{4x}}$.
+  \begin{align*}
+    y_p' &= A + 4Ce^{4x} \\
+    y_p'' &= 16Ce^{4x}
+  \end{align*}
+  Substituting back into the DE and comparing coefficients:
+  \[
+    (\underbrace{16C - 20C + 6C}_{=1})e^{4x} + (\underbrace{6A}_{=2})x + (\underbrace{-5A + 6B}_{=0}) = 2x + e^{4x}
+  \]
+  Therefore we have $2C = 1 \implies C = \frac{1}{2}$, $6A = 2 \implies A = \frac{1}{3}$, $6B = \frac{5}{3} \implies B = \frac{5}{18}$.
+  So:
+  \[
+    y_p = \frac{1}{3}x + \frac{5}{18} + \frac{1}{2}e^{4x}
+  \]
+  The complimentary function is:
+  \[
+    y_c = \alpha e^{2x} + \beta e^{3x}
+  \]
+  Therefore, the general solution is:
+  \[
+    y = \alpha e^{2x} + \beta e^{3x} + \frac{1}{2}e^{4x} + \frac{1}{3}x + \frac{5}{18}
+  \]
+  for constants $\alpha, \beta$.
+\end{example}
+\subsubsection{Resonance}
+What if the forcing term, $f(x)$, involves a term that is in a complimentary function?
+We can solve this using detuning again.
+\begin{example}
+  Consider the ODE:
+  \[
+    \ddot{y} + \omega_0^2 y = \sin(\omega_0 t)
+  \]
+  The homogeneous form of this is simple harmonic motion with angular frequency $\omega_0$.
+  However, we have a forcing term at a \textit{natural frequency} $\omega_0$.
+  We say that the oscillator is driven \textit{resonantly} because:
+  \[
+    y_c(t) = A\sin(\omega_0 t) + B\cos(\omega_0 t)
+  \]
+  so the oscillator is driven at a forcing frequency equal to the natural frequency.
+  Consider the detuned equation:
+  \[
+    \ddot{y} + \omega^{2}_{0} y = \sin(\omega t)
+  \]
+  for some $\omega \neq \omega_0$.
+
+  Try a particular integral $y_p(t) = C\sin(\omega t) + D \cos(\omega t)$:
+  \begin{align*}
+    \dot{y_p} &= C\omega\cos(\omega t) - D\omega\sin(\omega t) \\
+    \ddot{y_p} &= -C\omega^2\sin(\omega t) - D\omega^2\cos(\omega t)
+  \end{align*}
+  Therefore:
+  \[
+    (C\omega^{2}_{0} - C\omega^2)\sin(\omega t) + (D\omega^{2}_{0} - D\omega)\cos(\omega t) = \sin(\omega t)
+  \]
+  So $D = 0$ and:
+  \[
+    (\omega^{2}_{0} - \omega^2)C = 1 \implies C = \frac{1}{\omega^{2}_{0} - \omega^2}
+  \]
+  However, notice that the limit as $\omega \to \omega_0$ does not exist.
+
+  We can try adding in a complimentary function to regularise the limit.
+  \[
+    y_p(t) = \frac{1}{\omega^{2}_{0} - \omega^2}(\sin(\omega t) - \underbrace{\sin(\omega_0 t)}_{C.F.})
+  \]
+  Since we have just added a complimentary function, this still satisfies the detuned equation.
+  We can now try to evaluate this indeterminate limit using L'H\^opitals rule, \cref{LHopitals}:
+  \[
+    \lim_{\omega \to \omega_0} y_p(t) = \lim_{\omega \to \omega_0} \left[\frac{t\cos(\omega t)}{-2\omega}\right] =-\frac{t}{2\omega_0}\cos(\omega_0 t)
+  \]
+  Therefore the particular integral of the original equation is:
+  \[
+    y_p(t) = -\frac{t}{2 \omega_0}\cos(\omega_0 t)
+  \]
+  Notice that the amplitude of this solution grows with $t$, this is referred to as \textit{resonance}.
+\end{example}
+In general, if the forcing term is a linear combination of complimentary functions, the particular integral is of the form:
+\[
+  y_p(t) = t \times (\text{Non-resonant P.I})
+\]
+We can obtain the non-resonant particular integral from the earlier table in \cref{PITable}.
+
+\begin{remark}[Note]
+  If the homogeneous equation is degenerate, we may need to try:
+  \[
+    y_p(t) = t^2 \times (\text{Non-resonant P.I.})
+  \]
+  as the complimentary function will already have a term with a factor of $t$.
+\end{remark}
+\subsubsection{Resonances in Equidimensional ODEs}
+Consider:
+\[
+  ax^2y'' + bxy' + cy = f(x)
+\]
+We know that the general complimentary function is:
+\[
+  y_c = Ax^{k_1} + Bx^{k_2}
+\]
+provided we are in the non-degenerate case ($k_1 \neq k_2$).
+
+If $f(x) \propto x^{m}$, then we should try a particular integral of the form $Cx^{m}$  for $m \neq k_1$ and $m \neq k_2$.
+In the resonant case, $f(x) \propto x^{k_1} \text{ or }x^{k_2}$, then the particular integral is:
+\[
+  y_p \propto (\ln x) x^{k_1}
+\]
+This follows from transforming by $z = \ln x$.
+The particular integral is $y_p = ze^{k_1 z}$ in the case of constant coefficients.
+This is then $(\ln x)x^{k_1}$ after substituting back in with $x$.
+\begin{remark}[Note]
+  If the homogeneous equation is degenerate $(k_1 = k_2)$, we may need to try:
+  \[
+    y_p = (\ln x)^2 x^{k_1}
+  \]
+\end{remark}
+\subsection{Variation of Parameters}
+Variation of parameters is a systematic method to find a particular integral given two linearly independent complimentary functions.
+
+Consider the general form of a 2nd order linear ODE with non-constant coefficients:
+\[
+  y'' + p(x)y' + q(x)y = f(x)
+\]
+with linearly independent complimentary functions $y_1$ and $y_2$.
+Since we know that $y_1$ and $y_2$ are linearly independent, the solution vectors $\vec{Y}_1(x)$ and $\vec{Y}_2(x)$ are linearly independent for all $x$ so we can use them as a basis for phase space at any $x$.
+
+Because they form a basis, we can write the solution vector for the particular integral, $\vec{Y}_p$, as a linear combination of $\vec{Y}_1$ and $\vec{Y}_2$ where the coefficients are functions of $x$:
+\[
+  \vec{Y}_p(x) = u(x)\vec{Y}_1(x) + v(x)\vec{Y}_2(x)
+\]
+We can from equations using the components of this to make it easier to solve:
+\begin{align*}
+  \text{First Component: }&y_p(x) = u(x)y_1(x) + v(x)y_2(x) \\
+  \text{Second Component: }&y_p(x)' = u(x)y_1'(x) + v(x)y_2'(x)
+\end{align*}
+Start by taking the derivative of the second component:
+\[
+  y_p'' = u y_1'' + u'y_1' + vy_2'' + v'y_2'
+\]
+from the original ODE we have:
+\begin{align*}
+  f(x) &= y_p'' + py_p' + qy_p \\
+       &= uy_1'' + u' y_1' + vy_2'' + v'y_2' + p(x)[uy_1' + vy_2'] + q(x)[uy_1 + vy_2] \\
+       &= u[\underbrace{y_1'' + p(x)y_1' + q(x)y_1}_{=0}] + v[\underbrace{y_2'' + p(x)y_2' + q(x)y_2}_{=0}] + u'y_1' + v'y_2' \\
+       &= u'y_1' + v'y_2'
+\end{align*}
+since $y_1$ and $y_2$ are complimentary functions.
+
+The second component must be consistent with the derivative of the first component, therefore:
+\begin{align*}
+  u'y_1 + \cancel{uy_1'} + v'y_2 + \cancel{vy_2'} &= \cancel{uy_1'} + \cancel{vy_2'} \\
+  u' y_1 + v' y_2 &= 0
+\end{align*}
+We can then combine these two equations into a matrix equation:
+\begin{align*}
+  \begin{pmatrix}
+  y_1 & y_2 \\
+  y_1' & y_2' \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  u' \\
+  v' \\
+  \end{pmatrix}&=
+  \begin{pmatrix}
+  0 \\
+  f \\
+  \end{pmatrix}\\\implies
+  \begin{pmatrix}
+  u' \\
+  v' \\
+  \end{pmatrix}&=
+  \frac{1}{W}
+  \begin{pmatrix}
+  y_2' & -y_2 \\
+  -y_1' & y_1 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  0 \\
+  f \\
+  \end{pmatrix}
+\end{align*}
+Where $W(x) = y_1 y_2' - y_2 y_1'$ is the Wronskian, \cref{wronskian}.
+Therefore:
+\[
+  u' = - \frac{y_2}{W}f,\ v' = \frac{y_1}{W}f
+\]
+We can then integrate to yield:
+\[
+  u = \int^{x} \frac{y_1(t)f(t)}{W(t)} \d{t},\ v = \int^{x} \frac{y_2(t)f(t)}{W(t)} \d{t}
+\]
+Substituting back into the equation from the first component yields:
+\[
+  y_p(x) = y_2(x)\int^{x} \frac{y_1(t)f(t)}{W(t)} \d{t} - y_1(x) \int^{x} \frac{y_2(t)f(t)}{W(t)} \d{t}
+\]
+Note that changing the lower limit/including an integration constant is unnecessary as it only adds multiples of the complimentary functions so the particular integral will still satisfy the original ODE regardless.
 \end{document}
