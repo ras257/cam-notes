@@ -1526,7 +1526,43 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
       \overline{\det (M^{T})} = \overline{\sum_{\rho \in S_n} \varepsilon(\rho) M_{1 \rho(1)} \cdots M_{n \rho(n)}} = \sum_{\rho \in S_n} \varepsilon(\rho) \overline{M_{1 \rho(1)}} \cdots \overline{M_{n \rho(n)}} = \det (M^{\dag})
     \]
     From \textbf{vii}, $\det M^{\trans} = \det M$, thus $\det M^{\dag} = \overline{\det M}$
-  \item $\det(MN) = \det(M)\det(N)$.
+  \item If $M$ and $N$ are both $n \times n$ matrices, then $\det(MN) = \det(M)\det(N)$.
+
+    In particular, if $M$ is invertible, $M^{-1} M = I$ so:
+    \[
+      (\det M^{-1})(\det M) = 1 \implies \det M^{-1} = \frac{1}{\det M}
+    \]
+\end{enumerate}
+\begin{proof}[\textbf{ix}]
+  By definition:
+  \[
+    \det MN = \sum_{\sigma} \varepsilon(\sigma) (MN)_{\sigma(1) 1} \cdots (MN)_{\sigma(n) n}
+  \]
+  We can write $(MN)_{i j} = \sum_{k = 1}^{n} M_{i k}N_{k j}$ so:
+  \begin{align*}
+    \det MN &= \sum_{\sigma} \varepsilon(\sigma) \sum_{k_1, \ldots, k_n = 1}^n M_{\sigma(1) k_1}N_{k_1 1} \cdots M_{\sigma(n) k_n}N_{k_n n} \\
+            &= \sum_{k_1, \ldots, k_n = 1}^{n} N_{k_1 1} \cdots N_{k_n n} \underbrace{\sum_{\sigma} \varepsilon(\sigma)M_{\sigma(1) k_1} \cdots M_{\sigma(n) k_n}}_{=S}
+  \end{align*}
+  If $k_i = k_j$ for some $i \neq j$, then $S$ is the determinant of a matrix with two equal columns so $S = 0$.
+  So the only terms in the outer sum that are non-zero are those where $k_1, \ldots, k_n$ must some permutation $\rho$ of $1, \ldots, n$.
+  Therefore:
+  \[
+    \det MN = \sum_{\rho} N_{\rho(1) 1} \cdots N_{\rho(n) n} \sum_{\sigma} \varepsilon(\sigma) M_{\sigma(1) \rho(1)} \cdots M_{\sigma(n) \rho(n)}
+  \]
+  Similarly to in the proof of \textbf{vii}, we can write:
+  \begin{align*}
+    M_{\sigma(1) \rho(1)} \cdots M_{\sigma(n) \rho(n)} &= \varepsilon(\rho^{-1}) M_{\sigma(1) \rho(\rho^{-1}(1))} \cdots M_{\sigma(n) \rho(\rho^{-1}(n))} \\
+                                                       &= \varepsilon(\rho) M_{\sigma(1) 1} \cdots M_{\sigma(n) n}
+  \end{align*}
+  Therefore:
+  \begin{align*}
+    \det MN &= \sum_{\rho} N_{\rho(1) 1} \cdots N_{\rho(n) n} \varepsilon(\rho) \sum_{\sigma} \varepsilon(\sigma) M_{\sigma(1) 1} \cdots M_{\sigma(n) n} \\
+            &= \det M \sum_{\rho} \varepsilon(\rho) N_{\rho(1) 1} \cdots N_{\rho(n) n} \\
+            &= (\det M)(\det N)
+  \end{align*}
+\end{proof}
+\begin{enumerate}
+  \setcounter{enumi}{9}
   \item If $M$ is orthogonal, then $\det M = \pm 1$.
 
     By definition $M^{\trans} M = I$ so $\det(M^{\trans} M) = \det I = 1$.
@@ -1540,4 +1576,126 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
     \]
     so $|\det M| =  1$.
 \end{enumerate}
+\subsection{Minors and Cofactors}
+\begin{definition}[Minor]
+  For an $n \times n$ matrix $M$, consider the $(n - 1) \times (n - 1)$ matrix in which row $i$ and column $j$ of $M$ have been removed.
+  The determinant of this matrix, denoted by $M^{i j}$, is called a \textit{minor} of $M$.
+\end{definition}
+\begin{definition}[Cofactor]
+  For an $n \times n$ matrix $M$, consider its columns and rows:
+  \[
+    \vec{C}_j = \sum_{i} M_{i j}\vec{e}_i,\ \vec{R}_i = \sum_{j} M_{i j}\vec{e}_j
+  \]
+  Then, the determinant of $M$ can be written as:
+  \begin{align*}
+    \det M &= [\vec{C}_1, \ldots, \vec{C}_n] \\
+           &= \sum_{i} M_{i j} \Delta_{i j} \text{ for any fixed $j$} \\
+           &= \sum_{j} M_{i j} \Delta_{i j} \text{ for any fixed $i$}
+  \end{align*}
+  where the $\Delta_{i j}$ are called \textit{cofactors.}
+  \begin{align*}
+    \Delta_{i j} &= [\vec{C}_1, \ldots, \vec{C}_{j - 1}, \vec{e}_i, \vec{C}_{j + 1}, \ldots, \vec{C}_n] \\
+                 &= [\vec{R}_1, \ldots, \vec{R}_{i - 1}, \vec{e}_j, \vec{R}_{i + 1}, \ldots, \vec{R}_n] \\
+                 &= \left(\begin{array}{c c c}
+                    A & \multicolumn{1}{|c}{\scriptstyle{\substack{0 \\ \vdots}}} & \multicolumn{1}{|c}{B} \\ \cline{1-1} \cline{3-3}
+                    \scriptstyle{0\ \cdots\ 0} & \scriptstyle{1} & \scriptstyle{0\ \cdots\ 0} \\ \cline{1-1} \cline{3-3}
+                    C & \multicolumn{1}{|c}{\scriptstyle{\substack{\vdots \\ 0}}} & \multicolumn{1}{|c}{D}
+                    \end{array}\right)
+  \end{align*}
+  where the zeroes are in column $j$ and row $i$.
+\end{definition}
+The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ by replacing the entry $M_{i j}$ by $1$ and all other entries in row $i$ and column $j$ with $0$.
+\begin{remark}
+  By reordering rows and columns, we have
+  \[
+    \Delta_{i j} = (-1)^{i + j} \det \left(\begin{array}{c|c}
+      A & B \\ \hline
+      C & D
+    \end{array}\right) = (-1)^{i + j}M^{i j}
+  \]
+\end{remark}
+Hence we have the following expansion about any column $j$:
+\[
+  \det M = \sum_{i} M_{i j}\Delta_{i j} = \sum_{i} (-1)^{i + j}M_{i j}M^{i j}
+\]
+or about any row $i$:
+\[
+  \det M = \sum_{j} M_{i j}\Delta_{i j} = \sum_{j} (-1)^{i + j}M_{i j}M^{i j}
+\]
+\begin{theorem}[Laplace Expansion Formula]
+  Consider an $n \times n$ matrix $M$.
+  Then for any fixed $j$:
+  \[
+    \det M = \sum_{i} M_{i j}\Delta_{i j}
+  \]
+\end{theorem}
+\begin{remark}[Notation]
+  For brevity, we will write an over-line over an element in a list to denote the list without that particular element
+  For example:
+  \[
+    1, \ldots, \overline{5}, \ldots 7 \equiv 1, 2, 3, 4, 6, 7
+  \]
+\end{remark}
+\begin{proof}
+  \begin{align*}
+    \det M &= \sum_{i_1, \ldots, i_n = 1}^{n} \varepsilon_{i_1 \ldots i_n} M_{i_1 1} \cdots M_{i_n n} \\
+           &= \sum_{i_j = 1}^{n} M_{i_j j} \sum_{i_1, \ldots, \overline{i_j}, \ldots, i_n = 1}^{n} \varepsilon_{i_1 \ldots i_n} M_{i_1 1} \cdots \overline{M_{i_j j}} \cdots M_{i_n n}
+  \end{align*}
+  Consider $\sigma \in S_n$, the permutation that moves $i_j$ to the $j$-th position, and the shifts the elements $j, \cdots, i_j - 1$ to the right into the gap left by $i_j$.
+  If $i_j > j$, then $\sigma$ is written as:
+  \[
+    \sigma = \begin{pmatrix}
+    1 & \cdots & j & j + 1 & j + 2 & \cdots & i_j -1 & i_j & i_j + 1 & \cdots & n \\
+    1 & \cdots & i_j & j & j + 1 & \cdots & i_j - 2 & i_j - 1 & i_j + 1 & \cdots & n \\
+    \end{pmatrix}
+  \]
+  If $i_j < j$, then we construct $\sigma$ analogously apart from that the elements $i_j + 1, \ldots, j$ are shifted to the left.
+  To achieve the permutation $\sigma$ we need to perform $|j - i_j|$ transpositions, thus $\varepsilon(\sigma) = (-1)^{j - i_j}$.
+
+  Now consider the permutation $\rho \in S_n$:
+  \[
+    \rho =\begin{pmatrix}
+    1 & \cdots & \overline{i_j} & \cdots & n \\
+    i_1 & \cdots & \overline{i_j} & \cdots & i_n \\
+    \end{pmatrix}
+  \]
+  Note that $\rho \sigma$ reorders $(1, \ldots, n)$ to $(i_1, \ldots, i_n)$ thus:
+  \[
+    \varepsilon(\rho \sigma) = \levi_{i_1 \ldots i_n} = \varepsilon(\rho) \varepsilon(\sigma) = (-1)^{j - i_j} \levi_{i_1 \ldots \overline{i_j} \ldots i_n}
+  \]
+  Hence, we can write:
+  \[
+    \det M = \sum_{i_j = 1}^{n} M_{i_j j} \sum_{i_1, \ldots, \overline{i_j}, \ldots, i_n = 1}^n (-1)^{j - i_j} \levi_{i_1 \ldots \overline{i_j} \ldots i_n} M_{i_1 1} \ldots \overline{M_{i_j j}} \ldots M_{i_n n} \\
+  \]
+  Note that:
+  \[
+    \sum_{i_1, \ldots, \overline{i_j}, \ldots, i_n = 1}^n \levi_{i_1 \ldots \overline{i_j} \ldots i_n} M_{i_1 1} \ldots \overline{M_{i_j j}} \ldots M_{i_n n} = M^{i_i j}
+  \]
+  Therefore:
+  \begin{align*}
+    \det M &= \sum_{i_j = 1}^{n} M_{i_j j}(-1)^{j - i_j} M^{i_j j} \\
+           &= \sum_{i_j = 1}^{n}  M_{i_j j} \Delta_{i_j j}
+           = \sum_{i = 1}^{n} M_{i j} \Delta_{i j}
+  \end{align*}
+\end{proof}
+\begin{remark}
+  Since $\det M = \det M^{\trans}$, the above holds for an expansion about any row $i$.
+\end{remark}
+Reasoning as a above, if
+\[
+  \vec{C}_k = \sum_{i} M_{i k}\vec{e}_i
+\]
+then:
+\[
+  [\vec{C}_1, \ldots, \vec{C}_{j - 1}, \vec{C}_k, \vec{C}_{j + 1}, \ldots, \vec{C}_n] = \sum_{i} M_{i k} \Delta_{i j} =
+  \begin{cases}
+  \det M & \text{ if }j = k \\
+  0 & \text{ if } j \neq k
+  \end{cases}
+\]
+Hence:
+\begin{align*}
+  \sum_{i} M_{i k}\Delta_{i j} &= (\det M)\delta_{j k} \\
+  \sum_{j} M_{l j}\Delta_{i j} &= (\det M)\delta_{l i}
+\end{align*}
 \end{document}

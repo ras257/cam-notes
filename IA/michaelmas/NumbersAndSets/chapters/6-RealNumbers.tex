@@ -43,4 +43,156 @@ We can also define an order on $\Q$, denoted $<$, which has the properties:
     holds.
   \item \textbf{Transitivity -} If $a < b$ and $b < c$ then $a < c$.
 \end{enumerate}
+This ordering on $\Q$ has the useful property that between any 2 rational numbers, there is another rational number.
+That is, if $p, q \in \Q$ with $p < q$, then $p < \frac{p + q}{2} < q$.
+\section{Gaps in the Rationals}
+\begin{proposition}
+  There is no rational number $x$ with $x^2 = 2$.
+\end{proposition}
+\begin{proof}[1]
+  Suppose $x^2 = 2$.
+  Note we may assume that $x > 0$ since $(-x)^2 = x^2$.
+  If $x$ is rational, then $x = \frac{a}{b}$ for some $a, b \in \N$.
+  Then:
+  \[
+    \frac{a^2}{b^2} = 2 \iff a^2 = 2b^2
+  \]
+  But the exponent of 2 in the prime factorisation of $a^2$ is even, while the exponent of 2 in the prime factorisation of $2b^2$ is odd.
+  Since prime factorisations are unique by \cref{uniquePrimeFactorisation}, this is a contradiction.
+\end{proof}
+\begin{remark}[Note]
+  The same proof shows that if there exists $x \in \Q$ with $x^2 = n$ for some $n \in \N$, then $n$ must be a square number.
+\end{remark}
+\begin{proof}[2]\par
+  \textbf{Part 1 -}
+  Suppose $x^2 = 2$ for some $x = \frac{a}{b}$ with $a, b \in \N$.
+  Then, given any $c, d \in \Z$, $cx + d$ is of the form $\frac{e}{b}$ for some $e \in \Z$.
+  Thus if $cx + d > 0$, then $cx + d \geq \frac{1}{b}$ as 1 is the smallest positive value for $e$.
+
+  \textbf{Part 2 -}
+  Now consider that as $1 < x < 2$, we have $0 < x - 1 < 1$.
+  So we can pick a sufficiently large $n \in \N$ such that:
+  \[
+    0 < (x - 1)^{n} < \frac{1}{b}
+  \]
+  We can then use the binomial theorem (\cref{binomialTheorem}) to expand $(x - 1)^{n}$.
+  After, we can then replace all factors of $x^2$ with 2 to write $(x - 1)^{n}$ in the form $cx + d$ for some $c, d \in \Z$.
+  So we then have:
+  \[
+    0 < cx + d < \frac{1}{b}
+  \]
+  \textbf{Contradiction -}
+  Since we have $cx + d > 0$ for some $c, d \in \Z$ in part 2, we must also have $cx + d \geq \frac{1}{b}$ by part 1.
+  But this contradicts the fact that $cx + d < \frac{1}{b}$.
+  So there does not exist an $x \in \Q$ such that $x^2 = 2$.
+\end{proof}
+So $\Q$ has ``gaps'', but how do we express this fact making reference only to $\Q$?
+$\Q$ in fact fails another property which is key to constructing the reals.
+\begin{example}
+  \label{rationalUpperBound}
+  Let $A$ be the set of positive rationals $p$ such that $p^2 < 2$.
+  That is:
+  \[
+    A = \{p \in \Q : p^2 < 2\}
+  \]
+  We can show that $A$ contains no largest element.
+  For any $p \in A$, consider $q = p - \frac{p^2 - 2}{p + 2}$.
+  Since $p \in A$, $p^2 - 2 < 0$ so $q > p$.
+  We can also see that:
+  \begin{align*}
+    q^2 - 2 &= p^2 - \frac{2p(p^2 - 2)}{p + 2} + \frac{(p^2 - 2)^2}{(p + 2)^2} - 2 \\
+            &= \frac{(p^2 - 2)(p + 2)^2 - 2p(p^2 - 2)(p + 2) + (p^2 - 2)^2}{(p + 2)^2} \\
+            &= \frac{(p^2 - 2)(p^2 + 4p + 4 - 2p^2 - 4p + p^2 - 2)}{(p + 2)^2} \\
+            &= \frac{2(p^2 - 2)}{(p + 2)^2} < 0
+  \end{align*}
+  So $q^2 < 2$, thus $q \in A$.
+  This means for any $p \in A$, we can always construct some $q \in A$ such that $q > p$.
+  That is, $A$ has no largest element in $\Q$.
+
+  Similarly the set $\{q \in \Q: q > 0,\ q^2 > 2\}$ contains no smallest element in $\Q$.
+\end{example}
+Crucially, in $\Q$, there is no \textit{least upper bound}.
+This is what we mean when we say $\Q$ has ``gaps''.
+\section{Defining Real Numbers}
+\begin{definition}[Bounded Above]
+  We say that a set $S$ is \textit{bounded above}, if there exists some $x \in \R$ such that $x \geq y$ for all $y \in S$.
+
+  Such an $x$ is called an \textit{upper bound} for $S$.
+\end{definition}
+\begin{definition}[Least Upper Bound]
+  We say that $x$ is a \textit{least upper bound} for $S$ if $x$ is an upper bound for $S$ and every other upper bound $x'$ satisfies $x' \geq x$.
+\end{definition}
+\begin{remark}[Uniqueness]
+  Suppose both $a$ and $b$ are distinct least upper bounds for $S$.
+
+  Since $a$ is a least upper bound and $b$ is another upper bound, $b \geq a$.
+  Similarly, $b$ is a least upper bound and $a$ is another upper bound, $a \geq b$.
+  But then we have $b \leq a$ and $a \leq b$ so $a = b$ which is a contradiction so the least upper bound is unique.
+
+  So we can say that $x$ is \textit{the} least upper bound.
+\end{remark}
+\begin{remark}[Notation]
+  When $x$ is the upper bound for $S$ we may write:
+  \[
+    x = \operatorname{supremum} S \text{ or } x = \sup S
+  \]
+\end{remark}
+\begin{definition}[Real Numbers]
+  The \textit{real numbers}, denoted $\R$, are a set with elements 0 and 1 ($0 \neq 1$), equipped with addition, multiplication, and an ordering $<$, satisfying the following:
+  \begin{enumerate}
+    \item Addition is commutative and associative with identity 0, and every $x$ has an inverse under addition.
+    \item Multiplication is commutative and associative with identity 1, and every $x \neq 0$ has an inverse under multiplication.
+    \item Multiplication is distributive over addition, that is:
+      \[
+        \forall a, b, c \quad a \times (b + c) = a \times b + a \times c
+      \]
+    \item For all $a, b$, exactly one of:
+      \[
+        a < b \quad a = b \quad b < a
+      \]
+      holds, and for all $a, b, c$:
+      \[
+        a < b \text{ and } b < c \implies a < c
+      \]
+    \item For all $a, b, c$:
+      \[
+        a < b \implies a + c < b + c
+      \]
+      and, if $c > 0$, then:
+      \[
+        a < b \implies ac < bc
+      \]
+    \item Given any set $S$ of real numbers that is non-empty and bounded above, $S$ has a least upper bound.
+  \end{enumerate}
+\end{definition}
+\begin{remark}[Note]
+  Axiom \textbf{vi} in the above definition is known as the \textit{least upper bound axiom}.
+\end{remark}
+\begin{remark}[Note]
+  This is the axiomatic definition of the real numbers.
+  However, there is also other ways to construct the reals that produces the same result.
+\end{remark}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Using axioms \textbf{iv} and \textbf{v}, we can check, for example, that $0 < 1$.
+      By axiom \textbf{iv} and the restriction $1 \neq 0$, we must have one of either $1 < 0$ or $1 > 0$.
+      Suppose, for contradiction, that $1 < 0$.
+      \begin{align*}
+        1 &< 0 \\
+        1 - 1 &< 0 - 1 \text{ by axiom \textbf{v}} \\
+        0 &< - 1 \\
+        0 \times (-1) &< (-1) \times (-1) \text{ by axiom \textbf{v} and we have $-1 > 0$} \\
+        0 &< 1
+      \end{align*}
+      which is a contradiction.
+      Thus we must have $0 < 1$.
+
+      Indeed, if not, then $1 < 0$ as $0 \neq 1$, so $0 = 1 - 1 < 0 - 1 = -1$ so $0 = 0 \times (-1) < (-1)(-1) = 1$ which contradicts $1 < 0$.
+    \item We may consider $\Q$ as contained in $\R$, $\Q \subset \R$, by identifying $\frac{a}{b} \in \Q$ with $a \times b^{-1} \in \R$ where $b^{-1}$ is the multiplicative inverse of $b$.
+    \item $\Q$ does not satisfy \textbf{vi} as the set $A$ of positive rationals $x$ such that $x^2 < 2$ does not have a supremum inside $\Q$. See \cref{rationalUpperBound}.
+    \item In axiom \textbf{vi}, the words ``non empty'' and ``bounded above'' are crucial.
+      If $S$ is empty, then every $x \in \R$ is an upper bound for $S$, so there is no least upper bound.
+      If $S$ is not bounded above, then it has no upper bounds so certainly has no least upper bound.
+  \end{itemize}
+\end{remark}
 \end{document}
