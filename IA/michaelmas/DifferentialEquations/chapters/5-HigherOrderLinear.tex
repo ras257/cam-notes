@@ -338,6 +338,7 @@ Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$ then $\
   $W(x) = 0\ \forall x$  does \textbf{not} necessarily imply that $\{y_i(x)\}$ are linearly dependant.
 \end{remark}
 \begin{example}
+  \label{wronskianExample}
   Consider again the DE from \cref{complexNonDegenerate}:
   \[
     y'' + 4y = 0
@@ -730,4 +731,223 @@ Substituting back into the equation from the first component yields:
   y_p(x) = y_2(x)\int^{x} \frac{y_1(t)f(t)}{W(t)} \d{t} - y_1(x) \int^{x} \frac{y_2(t)f(t)}{W(t)} \d{t}
 \]
 Note that changing the lower limit/including an integration constant is unnecessary as it only adds multiples of the complimentary functions so the particular integral will still satisfy the original ODE regardless.
+\begin{example}
+  Consider again the ODE from \cref{complexNonDegenerate}:
+  \[
+    y'' + 4y = \underbrace{\sin 2x}_{f(x)}
+  \]
+  This has complimentary functions:
+  \[
+    y_1 = \sin 2x,\ y_2 = \cos 2x
+  \]
+  so the Wronskian is $W(x) = -2$ (see \cref{wronskianExample}).
+
+  Note that because $f(x)$ is a linear combination of complimentary functions, the forcing is resonant.
+  We can then use variation of parameters to find a particular integral:
+  \begin{align*}
+    y_p(x) &= -\frac{1}{2}\cos2x \int_{}^{x} \sin(2u)\sin(2u) \d{u} - \left(-\frac{1}{2}\right)\sin2x \int_{}^{x} \cos(2u)\sin(2u) \d{u} \\
+           &= -\frac{1}{4}\cos2x \int_{}^{x} (1-\cos 4u) \d{u} + \frac{1}{4} \sin2x \int_{}^{x} \sin 4u \d{u} \\
+           &= -\frac{1}{4}\cos2x \left[x - \frac{1}{4}\sin4x\right] + \frac{1}{4}\sin2x \left[-\frac{1}{4}\cos 4x\right] \\
+           &= -\frac{1}{4}\cos2x \left[x - \frac{1}{2}\sin2x\cos2x\right] - \frac{1}{16}\sin2x [2\cos^2 2x - 1] \\
+           &= -\frac{1}{4}x\cos2x + \underbrace{\frac{1}{16}\sin2x}_{\text{C.F.}}
+  \end{align*}
+  Since $\sin2x$ is a complimentary function, it can be removed, thus $y_p = -\frac{1}{4}x\cos 2x$ which is $x \times (\text{A complimentary function})$, as expected.
+\end{example}
+\section{Forced ODEs -- Transients and Damping}
+Consider a mass $m$ attached to the floor by a spring and a shock absorber that is driven upwards by a driving force $F(t)$.
+The spring provides a restoring force $-ky$ and the shock absorber provides a damping force $-b\dot{y}$.
+
+From Newton's Second Law, we have:
+\begin{align*}
+  m\ddot{y} &= -ky - b\dot{y} + F(t) \\
+  m\ddot{y} = b\dot{y} + ky &= F(t)
+\end{align*}
+For $b = 0$ and $F(t) = 0$, this is simple harmonic motion at angular frequency $\omega_0 = \sqrt{k/m}$.
+For convenience, we introduce a dimensionless time coordinate:
+\[
+  \tau = \omega_0t \implies \deriv{y}{t} = \omega_0 \deriv{y}{\tau}
+\]
+We then get:
+\[
+  \underbrace{y''}_{\deriv[2]{y}{\tau}} + \underbrace{2\kappa}_{=\frac{b}{m\omega_0}}y' + y = \underbrace{f(\tau)}_{=\frac{F(t)}{k}}
+\]
+\subsection{Free Response}
+The behaviour is described by one dimensionless parameter $\kappa$:
+\[
+  y'' + 2\kappa y' + y = 0
+\]
+This has constant coefficients so we have characteristic equation:
+\[
+  \lambda^2 + 2\kappa\lambda + 1 = 0 \implies \lambda = -\kappa \pm \sqrt{\kappa^2 - 1}
+\]
+\begin{proofcases}
+  \begin{case}{Light Damping, $\kappa < 1$}
+    $\lambda_1$ and $\lambda_2$ are complex:
+    \[
+      \lambda_1, \lambda_2 = -\kappa \pm i \sqrt{1 - \kappa^2}
+    \]
+    So the general solution is:
+    \[
+      y(\tau) = e^{-\kappa \tau}\left[A\sin\left(\tau\sqrt{1-\kappa^2}\right) + B\cos\left(\tau\sqrt{1 - \kappa^2}\right)\right]
+    \]
+    where $A, B$ are constants.
+    \begin{center}
+    \begin{tikzpicture}
+      \draw[->] (0, 0) -- (10, 0) node[right] {$\tau$};
+      \draw[->] (0, -2.5) -- (0, 2.5) node[right] {$y(\tau)$};
+
+      \def\kconst{0.2}
+      \node at (2.6, 1.7) {$e^{-\kappa \tau}$};
+      \node at (2.6, -1.7) {$-e^{-\kappa \tau}$};
+
+      \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{2.1 * exp(-\kconst*\x)});
+      \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{- 2.1 * exp(-\kconst*\x)});
+      \draw[thick, domain=0:10, smooth, samples=100] plot (\x,{2.1 * exp(-\kconst*\x) * (-0.1138 * sin(\x * sqrt(1 - \kconst^2) r) + 0.8 * cos(\x * sqrt(1 - \kconst^2)r))});
+    \end{tikzpicture}
+    \end{center}
+    The oscillations are at $\omega_{\text{free}} = \omega_0\sqrt{1 -\kappa^2}$.
+    Note that as $\kappa \to 0$, $\omega_{\text{free}} \to \omega_0$.
+    This makes sense as when $\kappa = 0$, there is no damping so we expect it to oscillate at the natural frequency $\omega_0$.
+    The period of the oscillations is:
+    \[
+      T=\frac{2\pi}{\omega_{\text{free}}} = \frac{2\pi}{\omega_0\sqrt{1 - \kappa^2}}
+    \]
+  \end{case}
+  \begin{case}{Critical Damping, $\kappa = 1$}
+    This is the degenerate case, $\lambda_1 = \lambda_2 = -\kappa$.
+    So the general solution is:
+    \[
+      y(\tau) = e^{-\kappa \tau}(A + B\tau)
+    \]
+    where $A, B$ are constants.
+    \begin{center}
+    \begin{tikzpicture}
+      \draw[->] (0, 0) -- (10, 0) node[right] {$\tau$};
+      \draw[->] (0, 0) -- (0, 3) node[right] {$y(\tau)$};
+
+      \node at (7.5, 2.5) {$A > 0,\ B > \kappa A$};
+
+      \def\kconst{0.6}
+      \draw[thick, domain=0:10, smooth, samples=100] plot (\x,{2.1 * exp(-\kconst*\x) * (0.5 + 1.7 * \x)});
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+  \begin{case}{Heavy Damping, $\kappa > 1$}
+    $\lambda_1$ and $\lambda_2$ are real.
+    WLOG, take $|\lambda_1| < |\lambda_2|$.
+    \[
+      \lambda_1 = \underbrace{-\kappa + \sqrt{\kappa^2 -1}}_{<0},\ \lambda_2 = \underbrace{-\kappa -\sqrt{\kappa^2 - 1}}_{<0}
+    \]
+    So the general solution is:
+    \[
+      y(\tau) = Ae^{-|\lambda_1|\tau} + Be^{-|\lambda_2|\tau}
+    \]
+    Since $|\lambda_1| > |\lambda_2|$, the first term dominates the long term behaviour provided $A \neq 0$.
+    \begin{center}
+    \begin{tikzpicture}
+      \draw[->] (0, 0) -- (10, 0) node[right] {$\tau$};
+      \draw[->] (0, -2) -- (0, 2.5) node[right] {$y(\tau)$};
+
+      \def\kconst{1.5}
+      \pgfmathsetmacro{\lone}{-\kconst + sqrt(\kconst^2 - 1)}
+      \pgfmathsetmacro{\ltwo}{-\kconst - sqrt(\kconst^2 - 1)}
+      \def\aconst{2.1}
+      \def\bconst{-1.6}
+      \node at (1.3, 2.0) {$Ae^{-|\lambda_1| \tau}$};
+      \node at (1.2, -1) {$Be^{-|\lambda_2| \tau}$};
+      \node at (4.5, 0.8) {$y(\tau)$};
+
+      \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{\aconst * exp(\lone*\x)});
+      \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{\bconst * exp(\ltwo*\x)});
+      \draw[thick, domain=0:10, smooth, samples=100] plot (\x,{\aconst * exp(\lone*\x) + \bconst * exp(\ltwo * \x)});
+    \end{tikzpicture}
+    \end{center}
+    As you can see, the initial behaviour of the solution is similar to that of $Be^{-|\lambda_2|\tau}$ but eventually the $Ae^{-|\lambda_1|\tau}$ dominates.
+  \end{case}
+\end{proofcases}
+\begin{remark}[Note]
+  In all three cases, the free/unforced response decays eventually towards 0.
+\end{remark}
+\subsection{Forced Response}
+Initially, the solution will be similar to just C.F. + P.I, this is the \textit{transient response}.
+But as time progresses, the system settles down to a specific particular integral, the \textit{steady state response}, for any choice of initial conditions.
+\begin{example}
+  Consider the ODE.
+  Note that we are now just using normal $t$ instead of $\tau$.
+  \[
+    \ddot{y} + \mu \dot{y} + \omega^{2}_{0}y = \frac{F_0}{m}\sin \omega t \quad \mu = \frac{b}{m},\ \kappa = \frac{\mu}{2\omega_0}
+  \]
+  Assuming light damping ($\mu < 2 \omega_0$).
+  So the complimentary function is:
+  \[
+    y_c = e^{-\frac{\mu t}{2}}(A\sin\omega_{\text{free}}t + B\cos\omega_{\text{free}}t) \quad \omega_{\text{free}} = \sqrt{\omega^{2}_{0} - \mu^2/4}
+  \]
+  Try a particular integral of the form:
+  \[
+    y_p(t) = \frac{F_0}{m}(C\sin\omega t+ D\cos \omega t)
+  \]
+  Substituting into the DE:
+  \[
+    \sin \omega t(-C\omega^2-D\mu\omega + \omega^{2}_{0}C) + \cos \omega t(-D\omega^2 + C\mu\omega + \omega^{2}_{0}D) = \sin \omega t
+  \]
+  Comparing coefficients of $\sin$ and $\cos$ yields:
+  \[
+    D(\omega^{2}_{0} - \omega^2) = -C\mu\omega,\ C(\omega^{2}_{0} - \omega^2) = 1 + D\mu\omega
+  \]
+  We can then eliminate $C$:
+  \[
+    -\frac{D(\omega^{2}_{0} - \omega^2)^2}{\mu \omega} = 1 + D\mu\omega \implies D=\frac{-\mu\omega}{(\omega^{2}_{0}-\omega^2)^2 + \mu^2\omega^2}
+  \]
+  and therefore:
+  \[
+    C = \frac{\omega^{2}_{0} - \omega^2}{(\omega^{2}_{0} - \omega^2)^2 + \mu^2\omega^2}
+  \]
+  Note that even if the driving has $\omega = \omega_0$, we do not end up with resonance issues because of the damping.
+  If $\mu = 0$, then this would not be the case.
+
+  Finally we can write $y_p$ as:
+  \[
+    y_p(t) = \frac{F_0/m}{(\omega^{2}_{0} - \omega^2)^2 +\mu^2\omega^2}[(\omega^{2}_{0} - \omega^2)\sin\omega t - \mu \omega \cos \omega t]
+  \]
+  If we then plot $y(t) = y_c + y_p$ together with $y_c$ and $y_p$, we see that the solution is originally influenced by both $y_c$ and $y_p$.
+  This is the \textit{transient response}.
+  Then as $t$ increases, $y_c$ decays so the solution approaches $y_p$.
+  This is the \textit{steady-state response}.
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[->] (0, 0) -- (10, 0) node[right] {$t$};
+    \draw[->] (0, -2.5) -- (0, 2.5) node[right] {$y(t)$};
+
+    \def\omegazero{2.5}
+    \def\omegaconst{1.5}
+    \def\muconst{0.8}
+    \def\fmconst{8}
+    \def\cfamp{1.8}
+    \def\cfphase{-0.5}
+    \pgfmathsetmacro\omegafree{sqrt(\omegazero^2 - 0.25 * \muconst^2)}
+    \pgfmathsetmacro\amplitude{(\fmconst)/(sqrt((\omegazero^2 - \omegaconst^2)^2 + \muconst^2 * \omegaconst^2))}
+    \pgfmathsetmacro\tempconst{(\fmconst)/((\omegazero^2 - \omegaconst^2)^2 + \muconst^2 * \omegaconst^2)}
+
+    \draw[gray!70, dashed] (0, \amplitude) -- (10, \amplitude);
+    \draw[gray!70, dashed] (0, -\amplitude) -- (10, -\amplitude);
+    \node[right] at (10, \amplitude) {$y_p$ amplitude};
+    \node[right] at (10, -\amplitude) {$y_p$ amplitude};
+
+    \draw[gray!70, domain=0:10, smooth, samples=100] plot (\x,{exp(-0.5 * \muconst * \x) * \cfamp * cos((\omegafree * \x - \cfphase) r)});
+    \draw[gray!90, dotted, domain=0:10, smooth, samples=100] plot (\x,{exp(-0.5 * \muconst * \x) * \cfamp});
+    \draw[gray!90, dotted, domain=0:10, smooth, samples=100] plot (\x,{-exp(-0.5 * \muconst * \x) * \cfamp});
+
+    \draw[gray!70, domain=0:10, smooth, samples=100] plot (\x,{\tempconst * ((\omegazero^2 - \omegaconst^2) * sin(\omegaconst * \x r) - \muconst * \omegaconst * cos(\omegaconst * \x r))});
+
+    \draw[thick, domain=0:10, smooth, samples=100] plot (\x,{\tempconst * ((\omegazero^2 - \omegaconst^2) * sin(\omegaconst * \x r) - \muconst * \omegaconst * cos(\omegaconst * \x r)) + exp(-0.5 * \muconst * \x) * \cfamp * cos((\omegafree * \x - \cfphase) r)});
+
+    \node at (5.5, 2.2) {$y(t) = y_p + y_c$};
+    \node at (1.3, 2.2) {$y_p$};
+    \node at (1.05, -1.4) {$y_c$};
+
+    \draw[<->] (0, -2.7) -- (3.6, -2.7) node[midway, below] {\small Transient Response};
+    \draw[<->] (3.65, -2.7) -- (10, -2.7) node[midway, below] {\small Steady-State Response};
+  \end{tikzpicture}
+  \end{center}
+\end{example}
 \end{document}

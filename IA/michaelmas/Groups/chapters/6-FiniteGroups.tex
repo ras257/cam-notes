@@ -9,7 +9,7 @@ We have already seen some nice theorems about finite groups:
   \item Cauchy's Theorem
 \end{itemize}
 We will now spend some time thinking about small examples of finite groups.
-\section{Order 1}
+\section{Groups of Order 1}
 There is only one group of order 1, the trivial group.
 Therefore,
 \[
@@ -149,6 +149,7 @@ Another nice application of the direct product theorem is to figure out when a p
   \end{enumerate}
 \end{proof}
 \begin{lemma}[Groups of Order 6]
+  \label{groupsOfOrder6}
   If $|G| = 6$, then either:
   \[
     G \cong C_6 \text{ or } G \cong D_6
@@ -191,4 +192,205 @@ Another nice application of the direct product theorem is to figure out when a p
   These permutations are isometries since there are only three sides so adjacent vertices always remain adjacent.
 \end{remark}
 \section{Groups of Order 8}
+We already know the following groups of order 8:
+\[
+  C_2 \times C_2 \times C_2,\ C_4 \times C_2,\ C_8,\ D_8
+\]
+\begin{remark}
+  None of these examples are isomorphic to each other.
+
+  \begin{itemize}
+    \item $D_8$ is non-abelian so cannot be isomorphic to any of the others as they are all abelian.
+    \item $C_8$ has an element of order 8 which none of the other groups can have otherwise they would have to be $C_8$.
+    \item $C_2 \times C_2 \times C_2$ only has elements of order 2 but $C_4 \times C_2$ has an element of order 4 so they cannot be isomorphic.
+  \end{itemize}
+\end{remark}
+\begin{example}[The Quaternion Group]
+  Let $Q_8$:
+  \[
+    Q_8 = \left\{\begin{pmatrix}
+    \pm 1 & 0 \\
+    0 & \pm 1 \\
+    \end{pmatrix},\
+    \begin{pmatrix}
+    \pm i & 0 \\
+    0 & \mp i \\
+    \end{pmatrix},\
+    \begin{pmatrix}
+    0 & \pm1 \\
+    \mp 1 & 0 \\
+    \end{pmatrix},\
+    \begin{pmatrix}
+    0 & \pm i \\
+    \pm i & 0 \\
+    \end{pmatrix}\right\}
+  \]
+  It is easy to check that this is a group under matrix multiplication.
+  Writing out these matrices is quite clunky so we usually use Hamilton's notation:
+  \[
+    1 = \begin{pmatrix}
+    1 & 0 \\
+    0 & 1 \\
+    \end{pmatrix},\
+    i = \begin{pmatrix}
+    i & 0 \\
+    0 & -i \\
+    \end{pmatrix},\
+    j = \begin{pmatrix}
+    0 & 1 \\
+    -1 & 0 \\
+    \end{pmatrix},\
+    k = \begin{pmatrix}
+    0 & i \\
+    i & 0 \\
+    \end{pmatrix}
+  \]
+  So then the group consists of:
+  \[
+    Q_8 = \{\pm 1,\ \pm i,\ \pm j,\ \pm k\}
+  \]
+  \textbf{Properties of Elements}
+  \begin{itemize}
+    \item $i^2 = j^2 = k^2 = -1$, so $\pm i, \pm j, \pm k$ all have order 4.
+    \item $(-1)i = -i$, $(-1)j = -j$, $(-1)k = -k$, ...
+    \item $ij = k$, $jk = i$, $ki = j$ and $ji = -k$, $kj = -i$, $ik = -j$.
+    \item $-1$ commutes with everything.
+    \item $-1$ is the only element of order 2, all other nontrivial elements have order 4.
+  \end{itemize}
+  This is the \textit{Quaternion Group}.
+  Since $ji = -k \neq k = ij$, $Q_8$ is non-abelian so:
+  \[
+    Q_8 \centernot \cong C_2 \times C_2 \times C_2 \text{ or } C_4 \times C_2 \text{ or } C_8
+  \]
+  Note that $D_8$ has 5 elements of order 2 but $Q_8$ only has 1 element of order 2, namely $-1$, so $Q_8 \centernot\cong D_8$.
+  Therefore $Q_8$ is not isomorphic to any of the earlier examples.
+\end{example}
+\begin{lemma}[Groups of Order 8]
+  If $|G| = 8$, then $G$ is isomorphic to exactly one of:
+  \begin{itemize}
+    \item $C_2 \times C_2 \times C_2$
+    \item $C_4 \times C_2$
+    \item $C_8$
+    \item $D_8$
+    \item $Q_8$
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  By Lagrange's Theorem (\cref{orderDivCorollary}), every element has order 1, 2, 4, or 8.
+
+  \textbf{Element of Order 8 - }
+  If there is an element of order 8, then $G \cong C_8$ \tick
+
+  \textbf{All nontrivial elements order 2 -}
+  Suppose that every nontrivial element has order 2.
+  We can then choose 3 nontrivial elements $a, b, c$ such that $b \neq a$ and $c \neq a, b, ab$.
+  Consider the subgroups $\langle a \rangle$, $\langle b \rangle$, $\langle c \rangle$.
+
+  We know from Q11 Sheet 1 that if every nontrivial element has order 2 then the group must be abelian so $\langle a \rangle$, $\langle b \rangle$, and $\langle c \rangle$ commute.
+  We also know that $\langle a \rangle \cap \langle b \rangle = \{e\}$ and $|\langle a \rangle||\langle b \rangle| = 4 = |C_2 \times C_2|$
+  So by direct product theorem, $\langle a \rangle \times \langle b \rangle \cong C_2 \times C_2$.
+  Similarly $(\langle a \rangle \times \langle b \rangle) \cap \langle c \rangle = \{e\}$ and $|\langle a \rangle \times \langle b \rangle||\langle  c \rangle| = 8 = |G|$ so by direct product theorem:
+  \[
+    G \cong \langle a \rangle \times \langle b \rangle \times \langle c \rangle \cong C_2 \times C_2 \times C_2
+  \]
+  So $G \cong C_2 \times C_2 \times C_2$ \tick
+
+  \textbf{All nontrivial elements order 2 or 4 -}
+  Therefore, we may suppose that there is an $a \in G$ such that $|a| = 4$.
+
+  Let $b \in G \setminus \langle a \rangle$.
+  Since $|\langle a \rangle| = 4$, by Lagrange's Theorem, $|G : \langle a \rangle| = 2$.
+  Similarly to in the proof of \cref{groupsOfOrder6}, we can use the fact that there is only two cosets of $\langle a \rangle$ so both the left and right cosets with respect to $b$ must be equal.
+  That is:
+  \[
+    b \langle a \rangle = G \setminus \langle a \rangle = \langle a \rangle b
+  \]
+  In particular $ba = a^{i}b$ for some $i = 0, 1, 2, 3$.
+  \begin{proofcases}
+    \begin{case}{$i = 0$}
+      Then $ba = b$ so $a = e$, which is a contradiction as $|a| = 4$ \cross
+    \end{case}
+    \begin{case}{$i = 1$}
+      Then $ba = ab$ and therefore $ba^{j} = a^{j}b$ for all $j$ so $G$ is abelian.
+    \end{case}
+    \begin{case}{$i = 2$}
+      Then $ba = a^2 b$ so $bab^{-1} = a^2$.
+      $|a| = 4$ so $|a^2| = |bab^{-1}| = 2$.
+      But from Q1 Sheet 2, we know what the order of an elements conjugate is equal to the order of the element so we have arrived at a contradiction \cross
+    \end{case}
+    \begin{case}{$i = 3$}
+      Then $ba = a^3b = a^{-1}b$, which is the dihedral relation.
+    \end{case}
+  \end{proofcases}
+  So the only cases that can proceed are $i = 1, 3$.
+
+  Next, suppose that $b^2 = ba^{j}$ for some $j$, then $b = a^{j}$ so $b \in \langle a \rangle$ which is a contradiction.
+  Therefore, $b^2 \in \langle a \rangle$.
+  Again, we get several cases:
+  \begin{proofcases}
+    \begin{case}{$b^2 = e$}
+      Considering the valid cases $i = 1, 3$ from above:
+      \begin{proofcases}
+        \begin{case}{$i = 1$}
+          So $G$ is abelian and $|b| = 2$.
+          Therefore $\langle b \rangle \cong C_2$.
+          We also then have $\langle a \rangle \cap \langle b \rangle = \{e\}$.
+          Therefore, by direct product theorem, $G \cong C_4 \times C_2$ \tick
+        \end{case}
+        \begin{case}{$i = 3$}
+          So $G$ is abelian and $b^2 = a^2$.
+          Therefore $(ab^{-1})^2 = e$ and so $|ab^{-1}| = 2$.
+          Again, by direct product theorem, $G \cong C_4 \times C_2$ \tick
+        \end{case}
+      \end{proofcases}
+    \end{case}
+    \begin{case}{$b^2 = a$}
+      Since $|a| = 4$, $|b| = 8$.
+      Therefore $G \cong C_8$ \tick
+    \end{case}
+    \begin{case}{$b^2 = a^2$}
+      Again considering the valid cases $i = 1, 3$ from above:
+      \begin{proofcases}
+        \begin{case}{$i = 1$}
+          So $|a| = 4$, $|b| = 2$, and $ba = a^{-1}b$.
+          Setting $r = a$ and $s = b$, we see from \cref{dihedralIsomorphic} that $G \cong D_8$ \tick
+        \end{case}
+        \begin{case}{$i = 3$}
+          So $|a| = 4$, $b^2 = a^2$ and $ba = a^{-1}b$.
+          Set $i = a$, $j = b$, $k = ab$, $-1 = a^2 = b^2$.
+          Then the elements of $G$ are:
+          \[
+            \begin{array}{c c c c c c c c}
+            e & a & a^2 & a^3 & b & ab & a^2b & a^3b \\
+            \downarrow & \downarrow & \downarrow & \downarrow & \downarrow & \downarrow & \downarrow & \downarrow \\
+            1 & i & -1 & -i & j & k & -j & -k
+            \end{array}
+          \]
+          and we can check that this defines an isomorphism from $Q_8$ to $G$, thus $G \cong Q_8$ \tick
+        \end{case}
+      \end{proofcases}
+    \end{case}
+    \begin{case}{$b^2 = a^3$}
+      So $b^2 = a^{-1}$, $|a^{-1}| = |a| = 4$, therefore $|b| = 8$.
+      Again, we must have $G \cong C_8$ \tick
+    \end{case}
+  \end{proofcases}
+  So in all valid cases $G$ is isomorphic to exactly one of the groups in our list.
+\end{proof}
+\section{Summary}
+In summary, the groups of order 8 or less are:
+\begin{center}
+\begin{tabular}{c|l}
+Order & Groups (Up to Isomorphism) \\
+\hline
+1 & 1 \\
+2 & $C_2$ \\
+3 & $C_3$ \\
+4 & $C_4$, $C_2 \times C_2$ \\
+5 & $C_5$ \\
+6 & $C_6$, $D_6$ \\
+7 & $C_7$ \\
+8 & $C_8$, $C_4 \times C_2$, $C_2 \times C_2 \times C_2$, $D_8$, $Q_8$
+\end{tabular}
+\end{center}
 \end{document}

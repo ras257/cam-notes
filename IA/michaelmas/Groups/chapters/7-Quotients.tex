@@ -1,0 +1,43 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Quotient Groups}
+\section{Normal Subgroups}
+\begin{definition}[Normal Subgroup]
+  $H \leq G$ is called \textit{normal}, if:
+  \[
+    ghg^{-1} \in H
+  \]
+  for every $h \in H$ and $g \in G$.
+  If so, we write $H \lhd G$.
+\end{definition}
+\begin{remark}[Intuition]
+  A subgroup is normal if whenever it contains an element it also contains all of the conjugates of that elements.
+  It is a union of conjugacy classes.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item $1 \lhd G$ and $G \lhd G$ for all $G$.
+    \item If $G$ is abelian and $H \leq G$, then $H \lhd G$.
+      That is, for an abelian group, all subgroups are normal.
+    \item $\langle r \rangle \lhd D_{2n}$ since:
+      \begin{align*}
+        r^{l}r^{k}r^{-l} &= r^{k} \in \langle r \rangle \\
+        sr^{k}s^{-1} &= r^{-k} \in \langle r \rangle
+      \end{align*}
+      by the dihedral relation.
+      But $\langle s \rangle$ is \textbf{not} normal, because:
+      \[
+        rsr^{-1} = sr^{-2} \notin \langle s \rangle
+      \]
+    \item Suppose $\phi: G \to G'$ is a homomorphism.
+      If $h \in \ker \phi$, and $g \in G$ then:
+      \begin{align*}
+        \phi(ghg^{-1}) &= \phi(g)\phi(h)\phi(g^{-1}) \\
+                       &= \phi(g)\phi(g)^{-1} \\
+                       &= e
+      \end{align*}
+      So $ghg^{-1} \in \ker \phi$.
+      Therefore $\ker \phi \lhd G$.
+  \end{enumerate}
+\end{example}
+\end{document}
