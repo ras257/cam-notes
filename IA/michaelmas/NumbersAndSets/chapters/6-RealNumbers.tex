@@ -195,4 +195,125 @@ This is what we mean when we say $\Q$ has ``gaps''.
       If $S$ is not bounded above, then it has no upper bounds so certainly has no least upper bound.
   \end{itemize}
 \end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item $S = \{x \in \R: 0 \leq x \leq 1\} = [0, 1]$.
+      2 is an upper bound for $S$ as for any $x \in S$, $x \leq 2$.
+      The least upper bound for $S$, $\sup S = 1$ because:
+      \begin{itemize}
+        \item 1 is an upper bound, as for any $x \in S$, $x \leq 1$.
+        \item Any other upper bound $y$ is such that $y \geq 1$ as $1 \in S$.
+      \end{itemize}
+    \item $S = \{x \in \R: 0 < x < 1\} = (0, 1)$.
+      2 is an upper bound for $S$ as for any $x \in S$, $x \leq 2$.
+      The least upper bound for $S$, $\sup S = 1$ because:
+      \begin{itemize}
+        \item 1 is an upper bound, as for any $x \in S$, $x \leq 1$.
+        \item Suppose there is an upper bound $c$ such that $c < 1$.
+          We have $0 < c < 1$ so $\frac{1}{2} < \frac{c + 1}{2} < 1$.
+          Thus $\frac{c + 1}{2} \in S$ but $\frac{c + 1}{2} > c$ so $c$ is not an upper bound.
+      \end{itemize}
+  \end{enumerate}
+\end{example}
+\begin{remark}[Warning]
+  If $S$ has a greatest element, then $\sup S = \max S \in S$.
+  But the supremum of a set can exist even when $\max S$ does not, in which case $\sup S \notin S$.
+\end{remark}
+\begin{proposition}[Axiom of Archimedes]
+  $\N$ is not bounded above in $\R$.
+\end{proposition}
+\begin{proof}
+  Suppose, on the contrary, that $\N$ is bounded above in $\R$.
+  Let $c = \sup \N$.
+  By definition, $c - 1$ cannot be an upper bound for $\N$ as it is less than $c$.
+  So there is $n \in \N$ such that $n > c - 1$.
+  But then $n + 1 \in \N$ with $n + 1 > c$ which contradicts the fact that $c$ was an upper bound for $\N$.
+\end{proof}
+\begin{corollary}
+  \label{archimedesCorollary}
+  For any real number $t > 0$, there exits an $n \in \N$ such that $\frac{1}{n} < t$.
+\end{corollary}
+\begin{proof}
+  Given $t > 0$, by the axioms of Archimedes, there exits an $n \in \N$  such that $n > \frac{1}{t}$, hence $\frac{1}{n} < t$.
+\end{proof}
+\begin{definition}[Bounded Below]
+  A set $S$ is said to be \textit{bounded below}, if there exist an $x \in \R$ such that $x \leq y$ for all $y \in S$.
+  Such an $x$ is called a \textit{lower bound} for $S$.
+\end{definition}
+If $S$ is non-empty and bounded below, then
+\[
+  -S = \{-y: y \in S\}
+\]
+is non empty and bounded above.
+So it must have a least upper bound by axiom \textbf{vi}, say $c$.
+Hence $-c$ is a greatest lower bound for $S$.
+\begin{remark}[Notation]
+  When $x$ is the greatest lower bound for $S$ we may write:
+  \[
+    x = \operatorname{infimum} S \text{ or } x = \inf S
+  \]
+\end{remark}
+\Cref{archimedesCorollary} immediately implies that:
+\[
+  \inf\left(\left\{\frac{1}{n}: n \in \N\right\}\right) = 0
+\]
+Suppose we had an lower bound $t > 0$, then there exists an $n \in \N$ such that $\frac{1}{n} < t$ so $t$ is not a lower bound.
+So 0 is the infimum.
+
+The previous proposition and corollary show that there are no ``infinitely large'' or ``infinitely small'' numbers in $\R$.
+
+\begin{example}
+  Let $S=\{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots\} = \{1 - \frac{1}{n}: n \in \N\}$.
+  Clearly 1 is an upper bound for this set.
+
+  Suppose we have some $c < 1$ is an upper bound for $S$.
+  Then $1 - \frac{1}{n} \leq c\ \forall n \in \N$ so $0 < 1 - c \leq \frac{1}{n}\ \forall n \in n$ which contradicts \cref{archimedesCorollary}.
+  So $\sup S = 1$.
+\end{example}
+\begin{theorem}
+  There exists $x \in \R$ with $x^2 = 2$.
+\end{theorem}
+\begin{proof}
+  Let $S = \{ x \in \R: x^2 <2\}$.
+  Note that $S$ is nonempty since $1 \in S$.
+  It is also bounded above, for example, by 2.
+  Hence it has a supremum, $c = \sup S$.
+  Observe that $1 < c < 2$.
+  We claim that $c^2 = 2$.
+
+  Suppose that $c^2 < 2$.
+  For $0 < t < 1$, we have:
+  \begin{align*}
+    (c + t)^2 &= c^2 + 2ct + t^2 \\
+              &< c^2 + 4t + t \\
+              &= c^2 + 5t \\
+              &< 2 \text{ for sufficiently small $t$, e.g. $t < \frac{2 - c^2}{5}$}
+  \end{align*}
+  This contradicts the fact that $c$ is an upper bound for $S$ since $c + t \in S$ and $c + t > c$.
+
+  Suppose that $c^2 > 2$.
+  For $0 < t < 1$, we have:
+  \begin{align*}
+    (c - t)^2 &= c^2 - 2ct + t^2 \\
+              &> c^2 - 4t + 0 \\
+              &> 2 \text{ for sufficiently small $t$, e.g. $t < \frac{c^2 - 2}{4}$}
+  \end{align*}
+  This contradicts the fact that $c$ is a least upper bound for $S$ since $c - t < c$ and $(c - t)^2 > 2$ so $c - t$ is an upper bound for $S$.
+
+  Therefore, by trichotomy, $c^2 = 2$.
+\end{proof}
+\begin{remark}
+  The same proof shows that $\sqrt[n]{x}$ for all $n \in \N, x \in \R, x > 0$.
+  That is:
+  \[
+    \forall n \in \N,\ \forall x \in \R, x > 0\ \exists y \in \R \text{ s.t. } y^n = x
+  \]
+\end{remark}
+\begin{definition}[Irrational]
+  A real number that is not rational is called \textit{irrational}.
+\end{definition}
+\begin{example}
+  $\sqrt{2}, \sqrt{3}, \sqrt{6}, \ldots$ are irrational.
+  Also $2 + 3\sqrt{5}$ is irrational as suppose we had $2  + 3 \sqrt{5} = \frac{a}{b}$ with $a, b \in \N$, then $\sqrt{5} = \frac{a - 2b}{3b} \in \Q$ which is a contradiction.
+\end{example}
 \end{document}

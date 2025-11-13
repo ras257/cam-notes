@@ -1,4 +1,5 @@
 \documentclass[../main.tex]{subfiles}
+\DeclareMathOperator{\adj}{adj}
 \begin{document}
 \chapter{Matrices}
 \section{Linear Maps}
@@ -1605,14 +1606,45 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
   where the zeroes are in column $j$ and row $i$.
 \end{definition}
 The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ by replacing the entry $M_{i j}$ by $1$ and all other entries in row $i$ and column $j$ with $0$.
-\begin{remark}
-  By reordering rows and columns, we have
-  \[
-    \Delta_{i j} = (-1)^{i + j} \det \left(\begin{array}{c|c}
+\begin{remark}[Relation between $\Delta_{i j}$ and $M^{i j}$]
+  By reordering rows and columns, noting that swapping a row or column introduces a $-1$, we have:
+  \begin{align*}
+    \Delta_{i j} &=
+    \det \left(\begin{array}{c c c}
+    A & \multicolumn{1}{|c}{\scriptstyle{\substack{0 \\ \vdots}}} & \multicolumn{1}{|c}{B} \\ \cline{1-1} \cline{3-3}
+    \scriptstyle{0\ \cdots\ 0} & \scriptstyle{1} & \scriptstyle{0\ \cdots\ 0} \\ \cline{1-1} \cline{3-3}
+    C & \multicolumn{1}{|c}{\scriptstyle{\substack{\vdots \\ 0}}} & \multicolumn{1}{|c}{D}
+    \end{array}\right)\\
+    &=(-1)^{n - i}(-1)^{n - j} \det \left(\begin{array}{c c c}
+    A & \multicolumn{1}{|c}{B} & \multicolumn{1}{|c}{0} \\ \cline{1-2}
+    C & \multicolumn{1}{|c}{D} & \multicolumn{1}{|c}{\vdots} \\ \cline{1-2}
+    0 & \cdots & 1
+    \end{array}\right)
+  \end{align*}
+  The determinant of this matrix is the same as the determinant of the top left block matrices as if we have a permutation of $n - 1$ elements and introduce a new element $n$ that is always mapped to itself the sign of the permutation is unchanged.
+  That is:
+  \begin{align*}
+    \det \left(\begin{array}{c c c}
+    A & \multicolumn{1}{|c}{B} & \multicolumn{1}{|c}{0} \\ \cline{1-2}
+    C & \multicolumn{1}{|c}{D} & \multicolumn{1}{|c}{\vdots} \\ \cline{1-2}
+    0 & \cdots & 1
+    \end{array}\right)
+    &= \sum_{i_1, \ldots, i_n = 1}^{n} \levi_{i_1 \ldots i_n} M_{i_1 1} \ldots M_{i_n n} \\
+    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n} \levi_{i_1 \ldots i_{n-1} n} M_{i_1 1} \ldots M_{i_{n-1} n-1} M_{n n} \\
+    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n} \levi_{i_1 \ldots i_{n - 1}} M_{i_1 1} \ldots M_{i_{n-1} n-1} \\
+    &=\det \left(\begin{array}{c|c}
       A & B \\ \hline
       C & D
-    \end{array}\right) = (-1)^{i + j}M^{i j}
-  \]
+    \end{array}\right)
+  \end{align*}
+  Therefore:
+  \begin{align*}
+    \Delta_{i j}&=(-1)^{i + j} \det \left(\begin{array}{c|c}
+      A & B \\ \hline
+      C & D
+    \end{array}\right) \\
+                &= (-1)^{i + j}M^{i j}
+  \end{align*}
 \end{remark}
 Hence we have the following expansion about any column $j$:
 \[
@@ -1633,7 +1665,7 @@ or about any row $i$:
   For brevity, we will write an over-line over an element in a list to denote the list without that particular element
   For example:
   \[
-    1, \ldots, \overline{5}, \ldots 7 \equiv 1, 2, 3, 4, 6, 7
+    1, \ldots, \overline{4}, \ldots 7 \equiv 1, 2, 3, 5, 6, 7
   \]
 \end{remark}
 \begin{proof}
@@ -1652,14 +1684,18 @@ or about any row $i$:
   If $i_j < j$, then we construct $\sigma$ analogously apart from that the elements $i_j + 1, \ldots, j$ are shifted to the left.
   To achieve the permutation $\sigma$ we need to perform $|j - i_j|$ transpositions, thus $\varepsilon(\sigma) = (-1)^{j - i_j}$.
 
-  Now consider the permutation $\rho \in S_n$:
+  Now consider the permutation $\rho \in S_{n - 1}$:
   \[
     \rho =\begin{pmatrix}
-    1 & \cdots & \overline{i_j} & \cdots & n \\
-    i_1 & \cdots & \overline{i_j} & \cdots & i_n \\
+    1 & \cdots & \cdots & \overline{i_j} & \cdots & n \\
+    i_1 & \cdots & \overline{i_j} & \cdots & \cdots & i_n \\
     \end{pmatrix}
   \]
-  Note that $\rho \sigma$ reorders $(1, \ldots, n)$ to $(i_1, \ldots, i_n)$ thus:
+  so $\rho$ sends $1, 2, \ldots, \overline{i_j}, \ldots, n$ (1 to $n$ excluding $i_j$) to $i_1, \ldots, \overline{i_j}, \ldots, i_n$ (some permutation of 1 to $n$ excluding $i_j$), thus $\varepsilon(\rho) = \levi_{i_1 \ldots \overline{i_j} \ldots i_n}$.
+  Since $i_j$ is not included in $\rho$, it is unchanged under $\rho$.
+
+  Note that $\rho \sigma$ reorders $(1, \ldots, n)$ to $(i_1, \ldots, i_n)$ so $\varepsilon(\rho\sigma) = \levi_{i_1 \ldots i_n}$.
+  Therefore:
   \[
     \varepsilon(\rho \sigma) = \levi_{i_1 \ldots i_n} = \varepsilon(\rho) \varepsilon(\sigma) = (-1)^{j - i_j} \levi_{i_1 \ldots \overline{i_j} \ldots i_n}
   \]
@@ -1674,8 +1710,8 @@ or about any row $i$:
   Therefore:
   \begin{align*}
     \det M &= \sum_{i_j = 1}^{n} M_{i_j j}(-1)^{j - i_j} M^{i_j j} \\
-           &= \sum_{i_j = 1}^{n}  M_{i_j j} \Delta_{i_j j}
-           = \sum_{i = 1}^{n} M_{i j} \Delta_{i j}
+           &= \sum_{i_j = 1}^{n}  M_{i_j j} \Delta_{i_j j} \text{ (as $(-1)^{j - i_j}M^{i_j j} = (-1)^{i_j + j}M^{i_j j} = \Delta_{i_j j}$)}\\
+           &= \sum_{i = 1}^{n} M_{i j} \Delta_{i j}
   \end{align*}
 \end{proof}
 \begin{remark}
@@ -1693,9 +1729,445 @@ then:
   0 & \text{ if } j \neq k
   \end{cases}
 \]
+as if two columns are identical $\det M = 0$.
 Hence:
 \begin{align*}
   \sum_{i} M_{i k}\Delta_{i j} &= (\det M)\delta_{j k} \\
   \sum_{j} M_{l j}\Delta_{i j} &= (\det M)\delta_{l i}
 \end{align*}
+\begin{definition}[Adjugate]
+  The \textit{adjugate} of a matrix $M$ is defined to be:
+  \[
+    \widetilde{M} = \adj M = \Delta^{\trans}
+  \]
+  where $\Delta$ is the matrix of cofactors $\Delta_{i j}$.
+\end{definition}
+From the expression above, using summation convention, note that:
+\begin{align*}
+  \Delta_{i j}M_{i k} &= (\Delta^{\trans})_{j i}M_{i k} \\
+                      &= (\Delta^{\trans} M)_{j k} \\
+                      &= (\widetilde{M} M)_{j k}
+\end{align*}
+Since $\Delta_{i j}M_{i k} = (\det M)\delta_{j k}$, $\widetilde{M} M = (\det M)I$.
+
+Similarly:
+\begin{align*}
+  M_{l j}\Delta_{i j} &= M_{l j}(\Delta^{\trans})_{j i} \\
+                      &= (M \Delta^{\trans})_{l i} \\
+                      &= (M \widetilde{M})_{l i}
+\end{align*}
+Since $M_{l j}\Delta_{i j} = (\det M)\delta_{l i}$, $M \widetilde{M} = (\det M)I$.
+
+Therefore:
+\[
+  \widetilde{M} M = M \widetilde{M} = (\det M)I
+\]
+and if $\det M \neq 0$, then $M^{-1}$ exists:
+\[
+  M^{-1} = \frac{1}{\det M}\widetilde{M} = \frac{1}{\det M}(\adj M)
+\]
+This is the inverse of $M$.
+\begin{example}
+  \label{determinantExample}
+  Consider the matrix $M$:
+  \[
+    M = \begin{pmatrix}
+    1 & x & 1 \\
+    1 & 1 & x \\
+    x & 1 & 1 \\
+    \end{pmatrix}
+    \quad x \in \R
+  \]
+  We want to compute its determinant.
+  Recall that row and column operations do not change the value of the determinant and scaling a column/row by a factor multiplies the determinant by that factor.
+  This will allow us to greatly simplify the matrix before needing to carry out the Laplace expansion.
+  \begin{align*}
+    \det M &= \det \begin{pmatrix}
+    1 & x & 1 \\
+    1 & 1 & x \\
+    x & 1 & 1 \\
+    \end{pmatrix}\\
+    &= \det \begin{pmatrix}
+    0 & x & 1 \\
+    1-x & 1 & x \\
+    x-1 & 1 & 1 \\
+    \end{pmatrix} \quad\text{ ($\vec{C}_1 \mapsto \vec{C}_1 - \vec{C}_3$)}\\
+    &= \det \begin{pmatrix}
+    0 & x & 1 \\
+    2-2x & 0 & x - 1 \\
+    x-1 & 1 & 1 \\
+    \end{pmatrix} \quad\text{ ($\vec{R}_2 \mapsto \vec{R}_2 - \vec{R}_3$)}\\
+    &= \det \begin{pmatrix}
+    0 & x & 1 \\
+    2-2x & 0 & x - 1 \\
+    x-1 & 1-x & 0 \\
+    \end{pmatrix} \quad\text{ ($\vec{R}_3 \mapsto \vec{R}_3 - \vec{R}_1$)}\\
+    &= (x - 1)^2\det \begin{pmatrix}
+    0 & x & 1 \\
+    -2 & 0 & 1 \\
+    1 & -1 & 0 \\
+    \end{pmatrix} \quad\text{ (scaling $\vec{R}_2$ and $\vec{R}_3$ by $1/(x - 1)$)}\\
+    &= (x-1)^2 \det \begin{pmatrix}
+    0 & x + 2 & 0 \\
+    -2 & 0 & 1 \\
+    1 & -1 & 0 \\
+    \end{pmatrix} \quad\text{ ($\vec{R}_1 \mapsto \vec{R}_1 - \vec{R}_2 - 2\vec{R}_3$)}\\
+    &= (x-1)^2(x + 2) \det \begin{pmatrix}
+    0 & 1 & 0 \\
+    -2 & 0 & 1 \\
+    1 & -1 & 0 \\
+    \end{pmatrix} \quad\text{ (scaling $\vec{R}_1$ by $1/(x + 2)$)}\\
+    &= (x - 1)^2(x + 2)\left[
+    0 \begin{vmatrix}
+    0 & 1 \\
+    -1 & 0 \\
+    \end{vmatrix}
+    -1 \begin{vmatrix}
+    -2 & 1 \\
+    1 & 0 \\
+    \end{vmatrix}
+    +0 \begin{vmatrix}
+    -2 & 0 \\
+    1 & -1 \\
+    \end{vmatrix}\right] \\
+    &= (x - 1)^2(x + 2)
+  \end{align*}
+\end{example}
+\section{Systems of Linear Equations}
+\subsection{System of Two Equations}
+Consider the system of equations given by:
+\begin{align}
+  A_{1 1}x_1 + A_{1 2}x_2 &= b_1 \tag{\textasteriskcentered}\label{system1}\\
+  A_{2 1}x_1 + A_{2 2}x_2 &= b_2 \tag{$\dagger$}\label{system2}
+\end{align}
+We can write this as:
+\[
+  A\vec{x} = \vec{b}
+\]
+Multiply \cref{system1} by $A_{2 2}$ and subtract \cref{system2} multiplied by $A_{1 2}$:
+\[
+  (A_{1 1}A_{2 2} - A_{1 2}A_{2 1})x_1 = A_{2 2}b_1 - A_{1 2}b_2
+\]
+Similarly multiply \cref{system2} by $A_{1 1}$ and subtract \cref{system1} multiplied by $A_{2 1}$:
+\[
+  (A_{1 1}A_{2 2} - A_{1 2}A_{2 1})x_2 = A_{1 1}b_2 - A_{2 1}b_1
+\]
+Take the matrix:
+\[
+  A = \begin{pmatrix}
+  A_{1 1} & A_{1 2} \\
+  A_{2 1} & A_{2 2} \\
+  \end{pmatrix},\
+  \det A = A_{1 1}A_{2 2} - A_{1 2}A_{2 1}
+\]
+Therefore:
+\begin{align*}
+  (\det A)x_1 &= A_{2 2}b_1 - A_{1 2}b_2 \\
+  (\det A)x_2 &= A_{1 1}b_2 - A_{2 1}b_2
+\end{align*}
+Provided $\det A \neq 0$, we can then write:
+\begin{align*}
+  \begin{pmatrix}
+  x_1 \\
+  x_2 \\
+  \end{pmatrix}
+  &= \frac{1}{\det A}
+  \begin{pmatrix}
+  A_{2 2} & -A_{1 2} \\
+  -A_{2 1} & A_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  b_1 \\
+  b_2 \\
+  \end{pmatrix} \\
+  &= \frac{\adj A}{\det A}
+  \begin{pmatrix}
+  b_1 \\
+  b_2 \\
+  \end{pmatrix} \\
+  &= A^{-1}
+  \begin{pmatrix}
+  b_1 \\
+  b_2 \\
+  \end{pmatrix}
+\end{align*}
+So in summary, given $A\vec{x} = \vec{b}$, if $A^{-1}$ exists, we can write:
+\[
+  \vec{x} = A^{-1} \vec{b}
+\]
+\subsection{General Case}
+Consider a system of $n$ linear equations with $n$ unknowns $x_i$ written in vector-matrix form as:
+\[
+  A\vec{x} = \vec{b}
+\]
+where $\vec{x}, \vec{b} \in \R^{n}$ and $A$ is an $n \times n$ matrix.
+
+A solution for $A\vec{x} = \vec{b}$ exists if and only if we can find $A\vec{x}_0 = \vec{b}$ for some $\vec{x}_0$, equivalently, $\vec{b} \in \im A$.
+
+If there is a such a solution we have:
+\begin{align*}
+  &A\vec{x} = \vec{b} \\
+  \iff& A\vec{x} - \vec{b} = \vec{0} \\
+  \iff& A\vec{x} - A\vec{x}_0 = \vec{0} \\
+  \iff& A(\vec{x} - \vec{x}_0) = \vec{0}
+\end{align*}
+So $\vec{x}$ is also solution if and only if:
+\[
+  \vec{u} = \vec{x} - \vec{x}_0
+\]
+satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$.
+\begin{proofcases}
+  \begin{case}{$\det A \neq 0$}
+    Recall that the image of a matrix is the span of its columns and the determinant is zero if and only if its columns are linearly independent.
+    Therefore:
+    \[
+      \det A \neq 0 \iff \im A = \R^{n} \iff \ker A = \{\vec{0}\}
+    \]
+    Since $\im A = \R^{n}$, $b \in \im A$ so there must be a particular solution $\vec{x}_0$.
+    Furthermore, $A\vec{u} = 0 \iff \vec{u} = \vec{0}$ so there is a unique solution, $\vec{x}_0 = A^{-1} \vec{b}$, to the original system.
+  \end{case}
+  \begin{case}{$\det A = 0$}
+    \[
+      \det A = 0 \iff \im A \neq \R^{n} \iff \rank A < n \iff \nullity A > 0
+    \]
+    Since $\nullity A > 0$, $\ker A$ cannot be a point so must contain an infinite number of elements and therefore there must be infinitely many possibilities for $\vec{u}$.
+
+    If $\{\vec{u}_1, \ldots, \vec{u}_k\}$ is a basis for $\ker A$, then the general solution for $A \vec{u} = \vec{0}$ is:
+    \[
+      \vec{u} = \sum_{i = 1}^{k} \lambda_i \vec{u}_i
+    \]
+    where $k = \nullity A$.
+
+    Now if $b \in \im A$, we have a particular solution $\vec{x}_0$, so there is infinitely many solutions given by $\vec{x} = \vec{x}_0 + \vec{u}$.
+    Otherwise, if $b \notin \im A$, there is no solutions.
+  \end{case}
+\end{proofcases}
+\subsubsection{Summary}
+\begin{enumerate}
+  \item $\det A \neq 0$ so $A^{-1}$ exists and there is a unique solution given by:
+    \[
+      \vec{x} = A^{-1}\vec{b}
+    \]
+  \item $\det A = 0$ and $\vec{b} \centernot\in \im A$, so there is no solution.
+  \item $\det A = 0$ and $\vec{b} \in \im A$, there are infinitely many solutions given by:
+    \[
+      \vec{x} = \vec{x}_0 + \vec{u}
+    \]
+    where $\vec{x}_0$ is a particular solution and $\vec{u} \in \ker A$.
+\end{enumerate}
+\begin{example}
+  Solve $A\vec{x} = \vec{b}$ with:
+  \[
+    A = \begin{pmatrix}
+    1 & x & 1 \\
+    1 & 1 & x \\
+    x & 1 & 1 \\
+    \end{pmatrix},\
+    \vec{b} = \begin{pmatrix}
+    1 \\
+    y \\
+    1 \\
+    \end{pmatrix}
+  \]
+  We saw before in \cref{determinantExample} that $\det A = (x - 1)^2(x + 2)$.
+  \begin{proofcases}
+    \begin{case}{$x \neq 1$ and $x \neq -2$}
+      Assume that $x \neq 1$ and $x \neq -2$ so $\det A \neq 0$ and thus $A^{-1}$ exists.
+      We can construct $A^{-1}$ from the matrix of cofactors.
+      \[
+        A^{-1} = \frac{\Delta^{\trans}}{\det A}
+      \]
+      where:
+      \[
+        \Delta = \begin{pmatrix}
+        1 - x & x^2 - 1 & 1 - x \\
+        1 - x & 1 - x & x^2 - 1 \\
+        x^2 - 1 & 1 - x & 1 - x \\
+        \end{pmatrix}
+      \]
+      So:
+      \[
+        \adj A = \Delta^{\trans} = \begin{pmatrix}
+        1-x & 1-x & x^2-1 \\
+        x^2-1 & 1-x & 1-x \\
+        1-x & x^2 -1 & 1-x \\
+        \end{pmatrix}
+      \]
+      Note that $x^2 - 1 = (x + 1)(x - 1)$.
+      So the solution is:
+      \begin{align*}
+        \vec{x} &= A^{-1} \vec{b} \\
+                &= \frac{1}{(1 - x)(x + 2)}
+                \begin{pmatrix}
+                1 & 1 & -x-1 \\
+                -x-1 & 1 & 1 \\
+                1 & -x-1 & 1 \\
+                \end{pmatrix}
+                \begin{pmatrix}
+                1 \\
+                y \\
+                1 \\
+                \end{pmatrix}\\
+                &= \frac{1}{(1- x)(x+2)}
+                \begin{pmatrix}
+                y - x \\
+                -x + y \\
+                2 - xy - y \\
+                \end{pmatrix}
+      \end{align*}
+      So the solution is a point, as expected.
+    \end{case}
+    \begin{case}{$x = 1$}
+      So $\det A = 0$ and
+      \[
+        A = \begin{pmatrix}
+        1 & 1 & 1 \\
+        1 & 1 & 1 \\
+        1 & 1 & 1 \\
+        \end{pmatrix}
+      \]
+      We can then find:
+      \[
+        \im A = \Span\left\{\begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        \end{pmatrix}\right\},\
+        \ker A = \Span\left\{\begin{pmatrix}
+        1 \\
+        -1 \\
+        0 \\
+        \end{pmatrix},
+        \begin{pmatrix}
+        1 \\
+        0 \\
+        -1 \\
+        \end{pmatrix}\right\}
+      \]
+      So:
+      \[
+        \vec{b} = \begin{pmatrix}
+        1 \\
+        y \\
+        1 \\
+        \end{pmatrix} \in \im A
+        \iff y = 1
+      \]
+      If $y \neq 1$, then we have no solutions.
+
+      Otherwise, if $y  = 1$, a particular solution of $A\vec{x} = \vec{b}$ is:
+      \[
+        \vec{x}_0 = \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        \end{pmatrix}
+      \]
+      So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $\vec{u} \in \ker A$:
+      \[
+        \vec{x} =
+        \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        \end{pmatrix} +
+        \lambda \begin{pmatrix}
+        1 \\
+        -1 \\
+        0 \\
+        \end{pmatrix} +
+        \mu \begin{pmatrix}
+        1 \\
+        0 \\
+        -1 \\
+        \end{pmatrix}=
+        \begin{pmatrix}
+        1 + \lambda + \mu \\
+        -\lambda \\
+        -\mu \\
+        \end{pmatrix}
+      \]
+      Which describes a plane.
+    \end{case}
+    \begin{case}{$x = -2$}
+      So $\det A = 0$ and
+      \[
+        A = \begin{pmatrix}
+        1 & -2 & 1 \\
+        1 & 1 & -2 \\
+        -2 & 1 & 1 \\
+        \end{pmatrix}
+      \]
+      Since $\det A = 0$ the columns are linearly dependant and we see that any other pair of two columns is linearly independent so:
+      \[
+        \im A = \Span\left\{\begin{pmatrix}
+        1 \\
+        1 \\
+        -2 \\
+        \end{pmatrix},
+        \begin{pmatrix}
+        1 \\
+        -2 \\
+        1 \\
+        \end{pmatrix}\right\}
+      \]
+      We expect $\nullity A = 1$ and can find that $(1, 1, 1)$ is orthogonal to all rows so:
+      \[
+        \ker A = \Span\left\{\begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        \end{pmatrix}\right\}
+      \]
+      Checking when $b \in \im A$:
+      \[
+        \vec{b} = \begin{pmatrix}
+        1 \\
+        y \\
+        1 \\
+        \end{pmatrix} \in \im A \iff
+        \begin{pmatrix}
+        1 \\
+        y \\
+        1 \\
+        \end{pmatrix}=
+        \begin{pmatrix}
+        \alpha + \beta \\
+        \alpha - 2\beta \\
+        -2\alpha + \beta \\
+        \end{pmatrix}
+        \iff y = -2
+      \]
+      If $y \neq -2$, then we have no solutions.
+
+      Otherwise, if $y = -2$, a particular solution of $A\vec{x} = \vec{b}$ is:
+      \[
+        \vec{x}_0 = \begin{pmatrix}
+        0 \\
+        0 \\
+        1 \\
+        \end{pmatrix}
+      \]
+      So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $u \in \ker A$:
+      \[
+        \vec{x} = \begin{pmatrix}
+        0 \\
+        0 \\
+        1 \\
+        \end{pmatrix} +
+        \lambda \begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        \end{pmatrix}=
+        \begin{pmatrix}
+        \lambda \\
+        \lambda \\
+        1 + \lambda \\
+        \end{pmatrix}
+      \]
+      Which describes a line.
+    \end{case}
+  \end{proofcases}
+\end{example}
 \end{document}
