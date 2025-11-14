@@ -229,7 +229,9 @@ Orbits and stabilisers can help us do this.
   We now need to check that $\Phi$ is injective.
   Suppose $\Phi(g_1S) = \Phi(g_2S)$, so $g_1x = g_2x$.
   Now we need to prove that $g_1S = g_2S$.
-  Let $s = g^{-1}_{2} \cdot g_1$.
+  Since cosets partition we just need to show that $g_1 \in g_2 S$.
+  That is, there is some $s \in S$ such that $g_1 = g_2 s$.
+  Therefore, let $s = g^{-1}_{2} \cdot g_1$.
   \begin{align*}
     sx &= (g^{-1}_{2} \cdot g_1)x \\
        &= g^{-1}_{2}(g_1 x) \\
@@ -239,12 +241,7 @@ Orbits and stabilisers can help us do this.
        &=x
   \end{align*}
   So $s \in S$.
-  Therefore:
-  \begin{align*}
-    g_1 &= (g_2 \cdot g^{-1}_{2}) \cdot g_1 \\
-        &= g_2 \cdot (g^{-1}_{2} \cdot g_1) \\
-        &= g_2 \cdot s \in g_2S
-  \end{align*}
+  Therefore $g_1 = g_2 s \in g_2S$.
   So $g_1 \in g_2S$ so the cosets $g_1S$ and $g_2S$ overlap but since cosets partition, it follows that $g_1S = g_2S$.
   So $\Phi$ is a well-defined bijection.
 \end{proof}
