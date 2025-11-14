@@ -12,7 +12,7 @@
 \end{definition}
 \begin{remark}[Intuition]
   A subgroup is normal if whenever it contains an element it also contains all of the conjugates of that elements.
-  It is a union of conjugacy classes.
+  Equivalently, a subgroup is normal if it is the union of the conjugacy classes of all of its elements in $G$.
 \end{remark}
 \begin{example}
   \begin{enumerate}
@@ -40,4 +40,199 @@
       Therefore $\ker \phi \lhd G$.
   \end{enumerate}
 \end{example}
+\begin{lemma}
+  \label{quotientCosets}
+  Suppose $H \leq G$.
+  Then $H \lhd G$ if and only if
+  \[
+    gH = Hg
+  \]
+  for all $g \in G$.
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $H \lhd G$}
+    Let $h \in H$ and $g \in G$ since $H \lhd G$, $ghg^{-1} \in H$.
+    Therefore:
+    \[
+      gh = (ghg^{-1})g \in Hg
+    \]
+    So $gH \subseteq Hg$.
+    Similarly:
+    \[
+      hg = g(g^{-1} h g) =g(g^{-1} h(g^{-1})^{-1}) \in gH
+    \]
+    So $Hg \subseteq gH$.
+    Therefore, $gH = Hg$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $gH = Hg$}
+    Let $h \in H$, then $gh \in gH  = Hg$. So there is a $h' \in H$ such that:
+    \[
+      gh = h'g \implies ghg^{-1} = h' \in H
+    \]
+    So $H \lhd G$.
+  \end{proofdirection}
+\end{proof}
+\section{Quotient Groups}
+\begin{theorem}[Quotient Groups]
+  \label{quotientTheorem}
+  If $H \lhd G$, the set of (left) cosets $G / H$ is a group with operation:
+  \[
+    (g_1H)(g_2H) = g_1g_2H
+  \]
+\end{theorem}
+\begin{proof}
+  We need to check that the operation is well defined and satisfies the group axioms.
+
+  \textbf{Well Defined -} Suppose that $g_1 H = g_1' H$ and $g_2H = g_2'H$.
+  By \cref{quotientCosets}, $g_2H = g_2'H \iff Hg_2 = Hg_2'$ as $H \lhd G$.
+  So there are $h_1, h_2 \in H$ such that $g_1 = g_1'h_1$ and $g_2 = h_2 g_2'$.
+  Therefore:
+  \begin{align*}
+    g_1g_2 &= g_1'h_1 h_2 g_2' \\
+           &= g_1'(h_1 h_2) g_2' \\
+           &= g_1' g_2' h_3 \text{ for $h_3 \in H$ as $Hg_2' = g_2'H$}
+  \end{align*}
+  Therefore, $g_1g_2 \in g_1'g_2'H$, since cosets partition, $g_1g_2H = g_1'g_2'H$.
+  So for $g_1H = g_1'H$ and $g_2H = g_2'H$:
+  \[
+    (g_1H)(g_2H) = g_1g_2H = g_1'g_2'H = (g_1'H)(g_2'H)
+  \]
+  so the operation is well defined.
+
+  \textbf{Associativity -} Apparent from definition and associativity of the operation of $G$.
+
+  \textbf{Closure -} $g_1g_2H \in G / H$.
+
+  \textbf{Identity -} Provided by the trivial coset, $H$.
+
+  \textbf{Inverses}
+  \[
+    (gH)(g^{-1}H) = (gg^{-1})H = H
+  \]
+  so $(gH)^{-1} = g^{-1}H$.
+\end{proof}
+\begin{definition}[Quotient Groups]
+  If $H \lhd G$, then the group $G / H$ provided by \cref{quotientTheorem} is the \textit{quotient} of $G$ by $H$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $G / 1 \cong G$, $G / G \cong 1$.
+    \item Since $\Z$ is abelian, $n\Z \lhd \Z$ for any $n$ and $\Z/n\Z$ is a cyclic group of order $n$ (provided $n \neq 0$) with generator $1 + n\Z$ so:
+      \[
+        \Z / n\Z \cong C_n
+      \]
+    \item Let $G$ be a group and $H \leq G$ and suppose that $|G:H| = 2$.
+      Then for any $g \notin H$:
+      \[
+        gH = G \setminus H = Hg
+      \]
+      and $eH = He$ so $H \lhd G$ by \cref{quotientCosets}.
+      Furthermore, there is exactly 2 cosets so $|G / H| = 2$.
+      Therefore, $G /H \cong C_2$ as there is only one group of order 2 up to isomorphism.
+    \item In particular, $C_n \cong \langle r \rangle$ and $\langle r \rangle \lhd D_{2n}$.
+      Since $|D_{2n} : \langle r \rangle| = 2$:
+      \[
+        D_{2n} / C_n \cong C_2
+      \]
+  \end{enumerate}
+\end{example}
+\begin{remark}[Warning]
+Notice that:
+\[
+  C_4 / C_2 \cong C_2 \text{ and } K_4 / C_2 \cong C_2
+\]
+but $C_4 \centernot\cong K_4$
+
+In general, for groups $A, B, C$:
+\[
+  A / B \cong C \centernot\implies A \cong B \times C
+\]
+\end{remark}
+\subsection{Isomorphism Theorem}
+\begin{theorem}[First Isomorphism Theorem]
+  \label{isomorphismTheorem}
+  If $\phi: G \to H$ is a homomorphism, then:
+  \[
+    G /\ker\phi \cong \im \phi
+  \]
+\end{theorem}
+\begin{proof}
+  Since $\ker \phi \lhd G$, the quotient $G / \ker \phi$ is indeed a group.
+  Define $\overline{\phi}: G / \ker \phi \to \im \phi$, $g \ker \phi \mapsto \phi(g)$.
+
+  \textbf{Well Defined -} Suppose that $g_1 \ker \phi = g_2 \ker \phi$.
+  Therefore for some $k \in \ker \phi$:
+  \[
+    g_1 = g_2 k
+  \]
+  Then we see that:
+  \begin{align*}
+    \overline{\phi}(g_1 \ker \phi) &= \phi(g_1) \\
+                                   &= \phi(g_2 k) \\
+                                   &= \phi(g_2)\phi(k) \text{ as $\phi$ is a homomorphism} \\
+                                   &= \phi(g_2) \\
+                                   &= \overline{\phi}(g_2 \ker \phi)
+  \end{align*}
+  So $\overline{\phi}$ is well defined.
+
+  \textbf{Homomorphism -} For $g_1, g_2 \in G$.
+  \begin{align*}
+    \overline{\phi}((g_1 \ker \phi)(g_2 \ker \phi)) &= \overline{\phi}(g_1 g_2 \ker \phi) \\
+                                                    &= \phi(g_1g_2) \\
+                                                    &= \phi(g_1)\phi(g_2) \\
+                                                    &= \overline{\phi}(g_1 \ker \phi)\overline{\phi}(g_2 \ker \phi)
+  \end{align*}
+  So $\overline{\phi}$ is a homomorphism.
+
+  \textbf{Injectivity -} If $g \ker \phi \in \ker \overline{\phi}$ then $\overline{\phi}(g \ker \phi) = e$.
+  Then:
+  \[
+    \overline{\phi}(g \ker \phi) = \phi(g) = e
+  \]
+  So $g \in \ker \phi$.
+  Therefore,
+  \[
+    g \ker \phi = \ker \phi
+  \]
+  That is, $g \ker \phi \in \ker \overline{\phi} \implies g \ker \phi = \ker \phi$, the trivial coset.
+  Therefore, $\ker \overline{\phi} = \{\ker \phi\}$ so $\ker \overline{\phi}$ is trivial and thus $\overline{\phi}$ is injective.
+
+  \textbf{Surjectivity -} A typical element of $\im \phi$ is $\phi(g)$ for some $g \in G$.
+  By definition:
+  \[
+    \phi(g) = \overline{\phi}(g \ker \phi)
+  \]
+  so $\overline{\phi}$ is surjective.
+
+  Therefore, $\overline{\phi}$ is a well defined bijective homomorphism so $G / \ker \phi \cong \im \phi$
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Because $\phi: \Z \to \C_\times$, $k \mapsto e^{\frac{2\pi i k}{n}}$ is a homomorphism with image $C_n$ and kernel $n\Z$, we get that:
+      \[
+        \Z / n\Z \cong \im \phi \cong C_n
+      \]
+    by \cref{isomorphismTheorem}.
+  \item Similarly $\phi: \R \to \C$, $t \mapsto e^{2\pi i t}$ is a homomorphism with:
+    \begin{align*}
+      \im \phi &= \{z \in \C: |z| = 1\} = U(1) \\
+      \ker \phi &= \Z
+    \end{align*}
+    Then, by \cref{isomorphismTheorem}:
+    \[
+      \R / \Z \cong U(1)
+    \]
+  \end{enumerate}
+\end{example}
+\begin{corollary}
+  If $|G| < \infty$ and $\phi: G \to H$ is a homomorphism, then $|G| = |\im \phi||\ker \phi|$.
+\end{corollary}
+\begin{proof}
+  By Lagrange's theorem (\cref{lagrangesTheorem}), $|G / \ker \phi||\ker \phi| = |G|$.
+  From \cref{isomorphismTheorem}, $|G / \ker \phi| = |\im \phi|$.
+  Thus:
+  \[
+    |G| = |\im \phi||\ker \phi|
+  \]
+\end{proof}
 \end{document}
