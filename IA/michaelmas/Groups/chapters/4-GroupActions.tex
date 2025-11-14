@@ -64,7 +64,7 @@ We write $G \acts X$.
   \end{proofdirection}
 \end{proof}
 \begin{remark}[Intuition]
-  This means that given a group action of $G$ on $X$ then there is a permutation representation of the action given by $\phi: G \to \Sym(X)$.
+  This means that given a group action of $G$ on $X$, there is a permutation representation of the action given by $\phi: G \to \Sym(X)$.
   That is, for any $g \in G$ there is a corresponding permutation of $X$, $\phi(g)$, such that $gx = \phi(g)(x)$.
 
   Similarly if we have a homomorphism $\phi: G \to \Sym X$, there is a corresponding group action of $G$ on $X$ given by $gx = \phi(g)(x)$.
@@ -127,6 +127,7 @@ Orbits and stabilisers can help us do this.
 \end{definition}
 \begin{remark}
   If $G$ acting on $X$ is faithful if the associated homomorphism $G \to \Sym(X)$ is injective.
+  Equivalently, $\ker \phi$ is trivial so only the identity of $G$ is mapped to $\id_X$
 \end{remark}
 \begin{proposition}
   Suppose $G \acts X$ then:
@@ -267,7 +268,7 @@ Orbits and stabilisers can help us do this.
   We saw that, if $x = 1$ then $|D_{2n}x| = n$ and $|\Stab_{D_{2n}}(x)| = 2$.
   So by Orbit-Stabiliser, $|D_{2n}| = 2n$.
 
-  This proof is a circular at the moment as we used the group structure to determine the orbits and stabilisers but we could do this without knowing the group structure for an easier proof of the size of $D_{2n}$.
+  This proof is circular at the moment as we used the group structure to determine the orbits and stabilisers but we could do this without knowing the group structure for an easier proof of the size of $D_{2n}$.
 \end{example}
 \begin{example}[Symmetries of a Cube]
   Let $G$ be the group of isometries of a cube and let $x$ be the centre of a face.
@@ -290,7 +291,7 @@ The next theorem is a different kind of application of orbit-stabiliser.
   \[
     X = \{(g_1, \ldots, g_p) : g_i \in G\ \forall i \text{ and } g_1 g_2 \cdots g_p = e\}
   \]
-  Define the action of $C_p = \{1, t, t^2, \ldots, t^{p-1}\}$ on $X$ as follows:
+  Define the action of $C_p = \{e, t, t^2, \ldots, t^{p-1}\}$ on $X$ as follows:
   \[
     t^{k}(g_1, \ldots g_p) = (g_{k + 1}, \ldots g_p, g_1, \ldots g_k)
   \]
@@ -423,7 +424,7 @@ The next theorem is a different kind of application of orbit-stabiliser.
 \end{proposition}
 \begin{proof}
   \begin{itemize}
-    \item For any $g \in G$, $ge = g \cdot e \cdot g^{-1} = g \cdot g^{-1} = e$
+    \item For any $g \in G$, $eg = e \cdot g \cdot e^{-1} = g$
     \item For any $g, h, \gamma \in G$:
       \begin{align*}
         (g \cdot h)\gamma &= (g \cdot h) \cdot \gamma \cdot (g \cdot h)^{-1} \\

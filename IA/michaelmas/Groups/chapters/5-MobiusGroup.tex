@@ -36,9 +36,8 @@ The stereographic projection identified $\C$ with all the points of the sphere e
 \end{definition}
 For brevity, we usually just write:
 \[
-  \mu(z) = \frac{az + b}{cz + b}
+  ``\mu(z) = \frac{az + b}{cz + b} \text{, interpreting the cases of $0$ and $\infty$ appropriately''}
 \]
-and interpret the cases of $0$ and $\infty$ appropriately.
 \section{M\"obius Group}
 \begin{definition}[M\"obius Group]
   The set $\mob$:
@@ -113,7 +112,7 @@ and interpret the cases of $0$ and $\infty$ appropriately.
         \mu \circ \nu = \left(\frac{ad - bc}{ad - bc}\right)z =z
       \]
       So $\mu^{-1} = \nu \in \mob$.
-    \item \textbf{Closure -} See \cref{mobComposition}. %TODO
+    \item \textbf{Closure -} See \cref{mobComposition}.
   \end{itemize}
 \end{proof}
 \section{Fixed Points}
@@ -225,7 +224,7 @@ One important way to study M\"obius transforms is via their fixed points.
   \[
     \nu: z_1 \mapsto w_1,\ z_2 \mapsto w_2,\ z_3 \mapsto w_3
   \]
-  then $\Fix(\nu^{-1} \circ \mu) = \{z_1, z_2, z_3\}$ so by \cref{threePointMob}, $\nu^{-1} \circ \mu = \id$ so $\nu = \mu$.
+  then $\{z_1, z_2, z_3\} \subseteq \Fix(\nu^{-1} \circ \mu)$ so by \cref{threePointMob}, $\nu^{-1} \circ \mu = \id$ so $\nu = \mu$.
 
   We say that the action of $\mob$ on $\Cinf$ is \textit{sharply triple transitive}.
 \end{remark}

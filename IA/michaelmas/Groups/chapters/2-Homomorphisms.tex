@@ -12,7 +12,7 @@ For example $\Sym\{\text{Deck of Cards}\}$ and $\Sym\{\text{52 people}\}$.
   for all $g, g' \in G$. Where $\cdot$ is the binary operation on $G$ and $*$ is the binary operation on $H$.
 \end{definition}
 \begin{remark}[Notation]
-  Usually differentiating the two binary operations is unnecessary if it is obvious which groups elements we are working with and the operation is fairly ``normal''.
+  Usually differentiating the two binary operations is unnecessary if it is obvious which group's elements we are working with and the operation is fairly ``normal''.
 \end{remark}
 \begin{example}
   \begin{enumerate}
@@ -250,7 +250,7 @@ The groups $C_n \cong \Z_n$ that we described above have a special property:
 \end{definition}
 \begin{example}
   \begin{enumerate}
-    \item $C_n \{z \in \C: z^{n} = 1\}$ is cyclic with generator $e^{\frac{2\pi i}{n}}$.
+    \item $C_n =  \{z \in \C: z^{n} = 1\}$ is cyclic with generator $e^{\frac{2\pi i}{n}}$.
     \item $\Z$ is cyclic with generator 1.
     \item $\Z_n$ is cyclic, since $\Z_n \cong C_n$.
   \end{enumerate}
@@ -281,9 +281,9 @@ The groups $C_n \cong \Z_n$ that we described above have a special property:
       \[
         \phi(k + l) = g^{k + l} = g^{k}g^{l} = \phi(k)\phi(l)
       \]
-      so $\phi$ is a homomorphism.
+      $\phi$ is a homomorphism.
 
-      We know that $\phi$ is surjective since $G$ is cyclic so by definition $g^{k}$ $k \in \Z$ are the elements of $G$.
+      We know that $\phi$ is surjective since $G$ is cyclic so by definition $g^{k}$ for $k \in \Z$ are the elements of $G$.
 
       To prove that $\phi$ is injective we need to show that $\ker \phi = \{0\}$.
       Suppose we have $k \in \ker \phi$ but $k \neq 0$.
@@ -310,9 +310,10 @@ The groups $C_n \cong \Z_n$ that we described above have a special property:
       so $\phi$ is surjective.
 
       To prove injectivity, suppose $k \in \ker \phi$, that is, $\phi(k) = g^{k} = e$ for some $k \in \Z_n$.
-      So $k \in S$ and $0 \leq k < n$.
-      Since $n$ was minimal in $S$ and we required that elements of $S$ are positive, it follows that $k = 0$.
-      Thus $\ker \phi = \{0\}$ so $\phi$ is injective.
+      So either $k \in S$ or $k = 0$.
+      Since $k \in \Z_n$, $k < n$.
+      But $n$ was minimal in $S$ so $k \notin S$.
+      Thus $k = 0$, so $\ker \phi = \{0\}$ and $\phi$ is injective.
       Therefore $\phi$ is an isomorphism so $G \cong \Z_n \cong C_n$.
     \end{case}
   \end{proofcases}
