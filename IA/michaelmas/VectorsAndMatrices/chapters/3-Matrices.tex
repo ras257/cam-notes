@@ -2169,4 +2169,260 @@ satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$.
     \end{case}
   \end{proofcases}
 \end{example}
+\subsection{Geometric Interpretation of the Homogeneous Case}
+Consider the problem $A \vec{u} = \vec{0}$.
+Then if $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$,
+\[
+  A \vec{u} = \vec{0} \iff \begin{cases}
+  \vec{R}_1 \cdot \vec{u} = 0 \\
+  \vec{R}_2 \cdot \vec{u} = 0 \\
+  \vec{R}_2 \cdot \vec{u} = 0
+  \end{cases}
+\]
+Each of these equations describes a plane that passes through $\vec{0}$ with normal $\vec{R}_i$.
+Then, the solution of $A \vec{u} = 0$, which is $\ker A$, is the intersection of the three planes.
+\begin{proofcases}
+  \begin{case}{$\rank A  = 3$}
+    $\rank A = 3 \iff \nullity = 0$ so $\ker A = \vec\{\vec{0}\}$.
+    The normals are linearly independent and the planes only all intersect at $\vec{0}$.
+  \end{case}
+  \begin{case}{$\rank A = 2$}
+    $\rank A = 2 \iff \nullity = 1$ so $\ker A$ is a line.
+    So the planes all intersect along a line, and the three normals span a plane.
+  \end{case}
+  \begin{case}{$\rank A  = 1$}
+    $\rank A = 1 \iff \nullity = 2$ so $\ker A$ is a plane. So the three planes coincide.
+    In this case, all the normals are parallel.
+  \end{case}
+\end{proofcases}
+\subsection{Geometric Interpretation of the General Case}
+Consider the problem $A\vec{x} = \vec{b}$.
+Then:
+\[
+  A \vec{x} = \vec{b} \iff \begin{cases}
+  \vec{R}_1 \cdot \vec{x} = b_1 \\
+  \vec{R}_2 \cdot \vec{x} = b_2 \\
+  \vec{R}_2 \cdot \vec{x} = b_3
+  \end{cases}
+\]
+These are three equations of planes with $\vec{R}_i$ but not necessarily passing through $\vec{0}$.
+\begin{proofcases}
+  \begin{case}{$\rank A = 3$}
+    $\rank A = 3 \iff \det A \neq 0$.
+    The normals are all linearly independent, and the planes intersect at a single point.
+    There is a unique solution for any $\vec{b}$.
+  \end{case}
+  \begin{case}{$\rank A < 3$}
+    $\rank A < 3 \iff \det A = 0$.
+    The existence of solutions depends on whether $\vec{b} \in \im A$.
+    \begin{proofcases}
+      \begin{case}{$\rank A = 2$}
+        Planes may intersect in a line, as in the homogeneous case, or there is no solution.
+
+        \textbf{Examples of no solutions:}
+        \begin{center}
+        \begin{tikzpicture}
+          \draw[very thick] (0,0) -- (2, 2);
+          \draw[very thick] (-0.1,0.3) -- (3, 0.3);
+          \draw[very thick] (2.9, 0) -- (1, 2);
+          \node at (1.4, -0.5) {Planes form a sheaf};
+          \begin{scope}[xshift=5cm]
+            \draw[very thick] (0,0) -- (2, 2);
+            \draw[very thick] (1,0) -- (3, 2);
+            \draw[very thick] (2.5, 0) -- (0.7, 2);
+
+            \node at (1.4, -0.5) {Two planes parallel};
+          \end{scope}
+        \end{tikzpicture}
+        \end{center}
+      \end{case}
+      \begin{case}{$\rank A = 1$}
+        Planes may coincide as in the homogeneous case, or there is no solution.
+
+        \textbf{Examples of no solutions:}
+        \begin{center}
+        \begin{tikzpicture}
+          \draw[very thick] (0,0) -- (2, 2);
+          \draw[very thick] (1,0) -- (3, 2);
+          \draw[very thick] (2.5, 0) -- (0.7, 2);
+
+          \node at (1.4, -0.5) {Two planes parallel};
+          \begin{scope}[xshift=5cm]
+            \draw[very thick] (0,0) -- (2, 2);
+            \draw[very thick] (1,0) -- (3, 2);
+            \draw[very thick] (2,0) -- (4, 2);
+
+            \node at (1.7, -0.5) {All planes parallel};
+          \end{scope}
+        \end{tikzpicture}
+        \end{center}
+      \end{case}
+    \end{proofcases}
+  \end{case}
+\end{proofcases}
+\subsection{Gaussian Elimination}
+Consider a system of $m$ equations in $n$ unknowns:
+\begin{align*}
+  A_{1 1}x_1 + A_{1 2}x_2 + \cdots + A_{1 n}x_n &= b_1 \\
+  A_{2 1}x_1 + A_{2 2}x_2 + \cdots + A_{2 n}x_n &= b_2 \\
+  \vdots \hspace{11.5em}&\;\;\vdots \\
+  A_{m 1}x_1 + A_{m 2}x_2 + \cdots + A_{m n}x_n &= b_m
+\end{align*}
+Without loss in generality, assume $A_{1 1} \neq 0$ as at this stage we can reorder the equations as desired.
+\begin{remark}[Notation]
+  We will use a superscript $i$ to denote a coefficient at step $i$ of the process.
+  For example $A^{(i)}_{1 2}$ and $b^{(i)}_1$.
+\end{remark}
+\subsubsection{Steps for Gaussian Elimination}
+\begin{enumerate}
+  \item We subtract multiples of the first equation from all other equations until the coefficient of $x_1$ in all other equations is 0.
+    \begin{align*}
+      A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
+      A^{(1)}_{2 2}x_2 + A^{(1)}_{2 3}x_3 + \cdots + A^{(1)}_{2 n}x_n &= b^{(1)}_2 \\
+      A^{(1)}_{3 2}x_2 + A^{(1)}_{3 3}x_3 + \cdots + A^{(1)}_{3 n}x_n &= b^{(1)}_3 \\
+      \vdots \hspace{11.5em}&\;\;\vdots \\
+      A^{(1)}_{m 2}x_2 + A^{(1)}_{m 3}x_3 + \cdots + A^{(1)}_{m n}x_n &= b^{(1)}_m
+    \end{align*}
+  \item We then subtract multiples of the second equation from all later equations it until the coefficient of $x_2$ in all later equations is 0.
+    \begin{align*}
+      A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
+      A^{(2)}_{2 2}x_2 + A^{(2)}_{2 3}x_3 + \cdots + A^{(2)}_{2 n}x_n &= b^{(2)}_2 \\
+      A^{(2)}_{3 3}x_3 + \cdots + A^{(2)}_{3 n}x_n &= b^{(2)}_3 \\
+      \vdots \hspace{7.5em}&\;\;\vdots \\
+      A^{(2)}_{m 3}x_3 + \cdots + A^{(2)}_{m n}x_n &= b^{(2)}_m
+    \end{align*}
+  \item Repeat this process for each later equation until there are either no more equations or the left hand side of all further equations is 0.
+    The transformed system of equations is then as follows:
+    \begin{align*}
+      A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
+      A^{(2)}_{2 2}x_2 + A^{(2)}_{2 3}x_3 + \cdots + A^{(2)}_{2 n}x_n &= b^{(2)}_2 \\
+      A^{(3)}_{3 3}x_3 + \cdots + A^{(3)}_{3 n}x_n &= b^{(3)}_3 \\
+      \vdots \hspace{7.5em}&\;\;\vdots \\
+      A^{(r)}_{r r}x_r + \cdots + A^{(r)}_{r n}x_n &= b^{(r)}_r \\
+      0 &= b^{(r)}_{r + 1} \\
+      &\;\;\vdots \\
+      0 &= b^{(r)}_{m}
+    \end{align*}
+    where $A^{(i)}_{i i} \neq 0$ for all $i$.
+\end{enumerate}
+\subsubsection{Outcomes}
+\begin{enumerate}
+  \item If $r = n \leq m$  and $b^{(i)}_i = 0$ for $i = r + 1, \ldots, m$, then there is a unique solution.
+
+    Since $r = n$, the last equation is simply $A^{(n)}_{n n}x_n = b^{(n)}_n$.
+    $A^{(n)}_{n n} \neq 0$ so $x_n$ can be determined.
+    We can then substitute this value for $x_n$ back into the previous equation to find $x_{n - 1}$.
+    This process can then be reacted to find all other $x_i$.
+  \item If $r < m$ and $b^{(r)}_i \neq 0$ for some $i = r + 1, \ldots, m$, then there is no solutions.
+
+    The equations require that $b^{(r)}_i = 0$ for all $i = r + 1, \ldots, m$ so this is inconsistent, thus there is no solution.
+
+    If instead $b^{(r)}_i = 0$ for all $i = r + 1 \ldots m$, then we solve as in \textbf{i}.
+  \item If $r = m < n$, then there are infinitely many solutions.
+
+    If we choose values for $x_{r + 1}, \ldots, x_n$, we can solve for $x_1, \ldots, x_r$.
+    However, since we could pick any values for $x_{r + 1}, \ldots, x_n$, there are infinitely many solutions.
+\end{enumerate}
+\subsubsection{Matrix Approach}
+We can rewrite this system as $A\vec{x} = \vec{b}$ where $A$ is a $m \times n$ matrix.
+This can be re-expressed using row and column operations as above to obtain $M\vec{x} = \vec{d}$ with $M$:
+\[
+  M = \left(\begin{array}{c|c}
+  \begin{matrix}
+  M_{1 1} & \cdots & M_{1 r} \\
+  \scriptstyle{\substack{0 \\\vdots}} & \ddots & \vdots \\
+  \scriptstyle{0} & \cdots\;\scriptstyle{0} & M_{r r} \\
+  \end{matrix} &\begin{matrix}
+  M_{1 (r+1)} & \cdots & M_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  M_{r (r+1)} & \cdots & M_{r n} \\
+  \end{matrix} \\ \hline
+  O & O
+\end{array}\right)
+\]
+this is called an \textit{echelon form}.
+The upper left block is \textit{upper triangular}, that is, below the diagonal there are only zeros.
+The diagonal of the upper left block is also non zero as $M_{i i} \neq 0$ for $i = 1, \ldots, r$.
+The lower two blocks are all zeros.
+
+In the matrix approach:
+\[
+  r = \rank M = \rank A
+\]
+Furthermore, if $n = m$, then $\det A = \pm \det M$.
+If $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{1 1} \cdots M_{r r} \neq 0$ so both $A$ and $M$ are invertible.
+
+\subsubsection{Examples of Solving via Gaussian Elimination}
+\begin{example}[Unique Solution]
+  Consider the system of equations:
+  \begin{align*}
+    x_1 - x_2 + x_3 &= 8 \\
+    2x_1 + 3x_2 - x_3 &= -2 \\
+    3x_1 - 2x_2 - 9x_3 &= 9 \\
+  \end{align*}
+  \begin{enumerate}
+    \item \textbf{Step 1 -} $\vec{R}_2 \mapsto \vec{R}_2 - 2\vec{R}_1$ and $\vec{R}_3 \mapsto \vec{R}_3 - 3\vec{R}_1$
+    \begin{align*}
+      x_1 - x_2 + x_3 &= 8 \\
+      5x_2 - 3x_3 &= -18 \\
+      x_2 - 12x_3 &= -15 \\
+    \end{align*}
+    \item \textbf{Step 2 -} $\vec{R}_3 \mapsto \vec{R}_3 - \frac{1}{5}\vec{R}_2$
+    \begin{align*}
+      x_1 - x_2 + x_3 &= 8 \\
+      5x_2 - 3x_3 &= -18 \\
+      -\frac{57}{3}x_3 &= -\frac{57}{3} \\
+    \end{align*}
+  \end{enumerate}
+  Last non-zero equation has unknown $x_3$ so $r = 3$.
+  Since $r = m = n = 3$, we should have a unique solution which we can obtain via back substitution:
+  \begin{align*}
+    \frac{-57}{3}x_3 = -\frac{57}{3} &\implies x_3 = 1 \\
+    5x_2 - 3(1) = -18 &\implies x_2 = -3 \\
+    x_1 - (-3)+ 1 = 8 &\implies x_1 = 4
+  \end{align*}
+\end{example}
+\begin{example}[Overdetermined System]
+  Consider the same system of equations but with an additional equation:
+  \begin{align*}
+    x_1 - x_2 + x_3 &= 8 \\
+    2x_1 + 3x_2 - x_3 &= -2 \\
+    3x_1 - 2x_2 - 9x_3 &= 9 \\
+    - 5x_2 + x_3 &= b
+  \end{align*}
+  \begin{enumerate}
+    \item \textbf{Step 1 -} Identical to before as 4th equation does not include $x_1$.
+    \item \textbf{Step 2 -} Additionally apply $\vec{R}_4 \mapsto \vec{R}_4 + \vec{R}_2$ to yield:
+      \[
+        -2x_3 = b - 18
+      \]
+    \item \textbf{Step 3 -} Apply $\vec{R}_4 \mapsto \vec{R}_4 - \frac{6}{57}\vec{R}_3$ to yield the transformed system:
+      \begin{align*}
+        x_1 - x_2 + x_3 &= 8 \\
+        5x_2 - 3x_3 &= -18 \\
+        -\frac{57}{3}x_3 &= -\frac{57}{3} \\
+        0 &= b - 16
+      \end{align*}
+  \end{enumerate}
+  Again $r = 3$, but now $r = 3 < m = 4$.
+  If $b = 16$, then the equations are consistent so the solution is as before.
+  Otherwise, there is no solution.
+\end{example}
+\begin{example}[Underdetermined System]
+  Consider the same system of equations but with only two equations
+  \begin{align*}
+    x_1 - x_2 + x_3 &= 8 \\
+    2x_1 + 3x_2 - x_3 &= -2
+  \end{align*}
+  The transformed system is:
+  \begin{align*}
+    x_1 - x_2 + x_3 &= 8 \\
+    5x_2 - 3x_3 &= -18
+  \end{align*}
+  So the system is \textit{underdetermined}, $r = 2 = m < n = 3$.
+  We can pick any value for $x_3$, say $t$ and then solve for $x_1, x_2$:
+  \[
+    x_1 = \frac{2}{5}(11 - t),\ x_2 = \frac{3}{5}(t - 6)
+  \]
+\end{example}
 \end{document}

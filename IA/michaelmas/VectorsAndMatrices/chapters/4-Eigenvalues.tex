@@ -1,0 +1,38 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Eigenvalues and Eigenvectors}
+\section{Introduction}
+\begin{theorem}[Fundemental Theorem of Algebra]
+  Let $p(z)$ be a polynomial of degree $m \geq 1$:
+  \[
+    p(z) = \sum_{j = 0}^{m}  c_jz^{j}
+  \]
+  where $c_j \in \C$, and $c_m \neq 0$.
+  Then $p(z) = 0$ has precisely $m$ roots (not necessarily distinct) counted with multiplicity in $\C$.
+\end{theorem}
+\begin{definition}[Multiplicity]
+  The root $z = w$ has \textit{multiplicity} $k$ if $(z - w)^{k}$ is a factor of $p(z)$ but $(z - w)^{k + 1}$ is not.
+\end{definition}
+\begin{definition}[Eigenvector]
+  Let $T: V \to V$ be a linear map.
+  Then $v \in V$ with $\vec{v} \neq 0$ is an \textit{eigenvector} of $T$ if:
+  \[
+    T(\vec{v}) = \lambda \vec{v}
+  \]
+  for a scalar $\lambda$ called the \textit{eigenvalue}.
+\end{definition}
+If $V = \R^{n} \text{ or } \C^{n}$, and $T$ is given in terms of an $n \times n$ matrix $A$, then:
+\[
+  \vec{A}\vec{v} = \lambda \vec{v} \iff (A - \lambda I)\vec{v} = 0
+\]
+For a given $\lambda$, this holds for some vector $\vec{v} \neq 0$ if and only if $\det (A - \lambda I) = 0$.
+This is because we require the kernel of $A - \lambda I$ to be nontrivial.
+
+The equation obtained from this is called the \textit{characteristic equation}.
+\begin{definition}[Characteristic Polynomial]
+  For a matrix $A$, the \textit{characteristic polynomial} of degree $n$, $\chi_A$, is defined as:
+  \[
+    \chi_A(t) = \det (A - \lambda I)
+  \]
+\end{definition}
+\end{document}
