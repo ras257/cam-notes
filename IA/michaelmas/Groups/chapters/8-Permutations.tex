@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Permutations}
+\section{Introduction to Permutations}
 Recall that a permutation of a set $X$ is a bijection from $X \to X$ and that $\Sym(X)$ is the group of all such permutations.
 \begin{example}
   \label{permutationExample}
@@ -14,8 +15,8 @@ Recall that a permutation of a set $X$ is a bijection from $X \to X$ and that $\
     \node at (0.5, -1.5) {\tick};
     \begin{scope}[xshift=3cm]
       \node at (-0.7, 0) {$\tau:$};
-      \draw[->] (0, 1) node[left] {1} -- (1, 0) node[right] {3};
-      \draw[->] (0, 0) node[left] {2} -- (1, 1) node[right] {2};
+      \draw[->] (0, 1) node[left] {1} -- (1, 0) node[right] {2};
+      \draw[->] (0, 0) node[left] {2} -- (1, 1) node[right] {1};
       \draw[->] (0, -1) node[left] {3} -- (1, -1) node[right] {3};
 
       \node at (0.5, -1.5) {\tick};
@@ -43,14 +44,15 @@ Recall that a permutation of a set $X$ is a bijection from $X \to X$ and that $\
     \begin{scope}[xshift=2cm]
       \node at (0.75, 1.5) {$\tau$};
       \draw[|->] (0, 1) -- (1.5, 1) node[right] {3};
-      \draw[|->] (0, 0) -- (1.5, 0) node[right] {1};
-      \draw[|->] (0, -1) -- (1.5, -1) node[right] {2};
+      \draw[|->] (0, 0) -- (1.5, 0) node[right] {2};
+      \draw[|->] (0, -1) -- (1.5, -1) node[right] {1};
     \end{scope}
   \end{tikzpicture}
   \end{center}
   Because we applied $\sigma$ first and then $\tau$, we write $\tau \sigma$ as it is a composition of functions.
   Drawing diagrams like this is quite cumbersome so we will introduce notation to simplify this.
 \end{example}
+\subsection{Cycles}
 \begin{definition}
   Any list of $k$ \textbf{distinct} elements $a_1, \ldots, a_k \in \{1, \ldots, n\}$ determines a \textit{$k$-cycle}.
   \[
@@ -180,6 +182,7 @@ We often omit singletons so a $(3, 2, 1)$-cycle is also referred to as a $(3, 2)
   \]
   as we want the smallest such $n$ so that all the cycles are trivial at the same time.
 \end{remark}
+\subsection{Transpositions}
 \begin{definition}[Transposition]
   A 2-cycle is also called a \textit{transposition} as it transposes two elements.
 \end{definition}
