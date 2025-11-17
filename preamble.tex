@@ -4,6 +4,7 @@
 \usepackage{fancyhdr} % Header & footer styling
 \usepackage{lipsum} % Generates lorem ipsum text for testing
 \usepackage{cancel} % Provides \cancel and \cancelto{value}{expr}
+\usepackage{listofitems} % Provides tools for working with lists
 \usepackage{subfiles} % Allows for multiple files to be combined
 \usepackage{import} % Needed for importing figures from inkscape
 \usepackage{pdfpages} % Needed for importing figures from inkscape
@@ -245,6 +246,13 @@
   }{
     \frac{\partial^{#1} #2}{\partial #3^{#1}}
   }
+}
+
+% Permutation cycle notation, see https://tex.stackexchange.com/questions/135868/permutation-cycle-notation
+\newcommand\cycle[2][~~]{
+  \setsepchar{ }
+  \readlist\thecycle{#2}
+  (\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i})
 }
 
 \newcommand{\at}[2]{\left. #1 \right|_{#2}} % Evaluate derivative at

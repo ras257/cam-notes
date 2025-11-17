@@ -1257,12 +1257,7 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
     2 & 6 \\
     6 & 2 \\
     \end{pmatrix} \text{ split into disjoint permutations}\\
-    &= \begin{pmatrix}
-    5 & 4 & 1 \\
-    \end{pmatrix}
-    \begin{pmatrix}
-    6 & 2 \\
-    \end{pmatrix} \text{ as both just cycle elements}
+    &= \cycle{5 4 1}\cycle{6 2} \text{ as both just cycle elements}
   \end{align*}
   The permutations denoted using a single line are \textit{cycles}, and represent permutations where the elements are just cycled.
 \end{example}
@@ -1274,7 +1269,7 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
   \item Repeat \textbf{i} and \textbf{ii} on a new element not yet written until all elements have appeared.
 \end{enumerate}
 \begin{example}
-  For example, with $\begin{pmatrix}1 & 4 & 5 \\ 5 & 1 & 4 \\\end{pmatrix}$, $\rho(1) = 5, \rho(\rho(1)) = 4, \rho(\rho(\rho(1))) = 1$ so this is written as $\begin{pmatrix}5 & 4 & 1 \\\end{pmatrix}$.
+  For example, with $\begin{pmatrix}1 & 4 & 5 \\ 5 & 1 & 4 \\\end{pmatrix}$, $\rho(1) = 5, \rho(\rho(1)) = 4, \rho(\rho(\rho(1))) = 1$ so this is written as $\cycle{5 4 1}$.
 \end{example}
 \begin{remark}[Warning]
   Disjoint permutations commute, but in general non-disjoint permutations do \textbf{not commute}.
@@ -1287,9 +1282,7 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
     i & j \\
     j & i \\
     \end{pmatrix} \text{ or }
-    \begin{pmatrix}
-    i & j \\
-    \end{pmatrix}
+    \cycle{i j}
   \]
 \end{definition}
 \begin{proposition}
@@ -1298,17 +1291,7 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
 \begin{example}
   For example:
   \[
-    \begin{pmatrix}
-      1 & 2 & \cdots & n \\
-      \end{pmatrix} = \begin{pmatrix}
-      1 & 2 \\
-    \end{pmatrix}
-    \begin{pmatrix}
-      2 & 3 \\
-    \end{pmatrix} \cdots
-    \begin{pmatrix}
-      n - 1 & n \\
-    \end{pmatrix}
+    \cycle{1 2 {\cdots} n} = \cycle{1 2}\cycle{2 3}\cdots\cycle{{n - 1} n}
   \]
 \end{example}
 \begin{definition}[Permutation Sign]
