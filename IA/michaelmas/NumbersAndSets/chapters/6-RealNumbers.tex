@@ -220,6 +220,7 @@ This is what we mean when we say $\Q$ has ``gaps''.
   But the supremum of a set can exist even when $\max S$ does not, in which case $\sup S \notin S$.
 \end{remark}
 \begin{proposition}[Axiom of Archimedes]
+  \label{axiomArchimedes}
   $\N$ is not bounded above in $\R$.
 \end{proposition}
 \begin{proof}
@@ -316,4 +317,194 @@ The previous proposition and corollary show that there are no ``infinitely large
   $\sqrt{2}, \sqrt{3}, \sqrt{6}, \ldots$ are irrational.
   Also $2 + 3\sqrt{5}$ is irrational as suppose we had $2  + 3 \sqrt{5} = \frac{a}{b}$ with $a, b \in \N$, then $\sqrt{5} = \frac{a - 2b}{3b} \in \Q$ which is a contradiction.
 \end{example}
+\begin{proposition}
+The rationals are \textit{dense} in the reals.
+
+This means that if we take any 2 real numbers $a < b \in \R$, there exists a $c \in \Q$ with $a < c < b$.
+\end{proposition}
+\begin{proof}
+  WLOG, assume $a \geq 0$.
+  By \cref{archimedesCorollary}, there exists an $n \in \N$ with $\frac{1}{n} < b - a$.
+  Let
+  \[
+    T = \left\{k \in \N: \frac{k}{n} \geq b\right\}
+  \]
+  By \cref{axiomArchimedes}, there exists $N \in \N$ such that $N > b$.
+  Since $N > b$, $Nn \in T$, so $T \neq \emptyset$.
+  Therefore, by the Well-Ordering Principle (\cref{WOP}), $T$ has a least element $m$.
+  Set $c = \frac{m - 1}{n}$.
+  $m$ is the least element of $T$ so $m - 1 \notin T$, that is, $\frac{m - 1}{n} < b$ so $c < b$.
+
+  Now suppose that $c \leq a$.
+  Then $\frac{m}{n} = c + \frac{1}{n} < a + (b - a) = b$, which contradicts the fact that $m$ is the least element of $T$.
+  Therefore $c > a$.
+
+  So we have constructed $c \in \Q$ such that $a < c < b$.
+\end{proof}
+\begin{corollary}
+  The irrationals are \textit{dense} in the reals.
+
+  That is, for all $a < b \in \R$, there exists a $c \in \R \setminus \Q$ with $a < c < b$.
+\end{corollary}
+\begin{proof}
+  From the above, take a $c \in \Q$ such that $a\sqrt{2} < c < b\sqrt{2}$.
+  We then have $a < \frac{c}{\sqrt{2}} < b$.
+  $\frac{c}{\sqrt{2}}$ is irrational so we are done.
+\end{proof}
+\section{Sequences}
+\begin{definition}[Sequence]
+  A \textit{sequence} is an enumerated collection of objects in which repetitions are allowed and order matters.
+
+  We write $a_1, a_2, \ldots$ or $(a_n)^{\infty}_{n=1}$.
+\end{definition}
+What does it mean for a sequence $a_1, a_2, \ldots$ to tend to a limit $\ell$?
+
+It is \textbf{not} enough that the terms get closer to $\ell$.
+For example, we would not want $0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots$ to tend to 35 as technically each term gets closer to 35.
+
+It is also \textbf{not} enough just that the terms get ``arbitrarily'' close to $\ell$, in the sense that
+\[
+  \forall \varepsilon > 0, \exists n \in \N \text{ s.t. } \ell -\varepsilon < a_n < \ell + \varepsilon
+\]
+For example, $0, 10, \frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, 10, \frac{4}{5}, 10, \ldots$ satisfies the above but we would not want this to tend to 1.
+
+We want the sequence to both get and stay within $\varepsilon$ of $\ell$.
+\subsection{Convergence and Divergence}
+\begin{definition}[Convergence]
+  \label{convergenceDef}
+  We say that the sequence $a_1, a_2, \ldots$ \textit{tends} or \textit{converges} to the limit $\ell \in \R$ as $n$ tends to infinity if:
+  \[
+    \forall\varepsilon > 0, \exists N \in \N \text{ s.t. } \forall n \geq N, \ell - \varepsilon < a_n < \ell +\varepsilon
+  \]
+  or more compactly:
+  \[
+    \forall \varepsilon > 0, \exists N \in \N \text{ s.t. } \forall n \geq N, |a_n - \ell| <\varepsilon
+  \]
+\end{definition}
+\begin{remark}[Notation]
+  $|x|$ denotes the \textit{absolute value} of $x$, defined by:
+  \[
+    |x| = \begin{cases}
+    x & \text{ if } x\geq 0 \\
+    -x & \text{ if } x< 0
+    \end{cases}
+  \]
+\end{remark}
+We think of $|a - b|$ as the ``distance'' between $a$ and $b$ on the real number line.
+The absolute value also satisfies the \textit{triangle inequality}:
+\[
+  \forall a, b, c \quad |a - c| \leq |a - b| + |b - c|
+\]
+\begin{remark}
+  We will typically apply the triangle inequality when using the following trick:
+  \[
+    |a - c| = |a - b + b - c| \leq |a - b| + |b - c|
+  \]
+\end{remark}
+\begin{remark}[Notation]
+When $(a_n)^{\infty}_{n = 1}$ tends to $\ell$ as $n$ tends to infinity, we write $a_n \to \ell$ as $n \to \infty$ or $\displaystyle\lim_{n \to \infty} a_n = \ell$.
+\end{remark}
+If there is a limit $\ell$ but it is not specified, then we simply say that the sequence \textit{converges}.
+If $(a_n)^{\infty}_{n = 1}$ does not converge, then we say it \textit{diverges}.
+Note that although this word suggests that the sequence shoots off to infinity if it diverges, that is not always the case.
+For example, a sequence diverges if it just oscillates between two values forever, see example \textbf{iv} below.
+\begin{remark}
+  For a sequence to \textit{diverge}, the negation of \cref{convergenceDef} must be true for all limits $\ell$:
+  \[
+    \exists \varepsilon > 0 \text{ s.t. } \forall N \in \N, \exists n \geq N \text{ s.t. } |a_n - \ell| \geq \varepsilon
+  \]
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider the sequence $0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, \ldots$ defined by $a_n = 1 - \frac{1}{n}$.
+      \begin{center}
+      \begin{tikzpicture}
+        \def\limitepsilon{0.3}
+        \draw[->] (0, 0) -- (0, 2) node[below right] {$a_n$};
+        \draw[->] (0, 0) -- (8, 0) node[right] {$n$};
+        \draw[dotted, thick] (0, 1 + \limitepsilon) -- (8, 1 + \limitepsilon) node[right] {$\scriptstyle1 + \varepsilon$};
+        \draw[dotted, thick] (0, 1 - \limitepsilon) -- (8, 1 - \limitepsilon) node[right] {$\scriptstyle1 - \varepsilon$};
+        \draw[dashed] (0, 1) node[left] {1} -- (8, 1);
+        \foreach \i in {1, 2, ..., 8} {
+          \pgfmathsetmacro{\seq}{1 - 1/\i}
+          \fill (\i, \seq) circle (1.4pt);
+        }
+      \end{tikzpicture}
+      \end{center}
+      Given $\varepsilon > 0$, using \cref{archimedesCorollary}, choose $N > \frac{1}{\varepsilon}$.
+      If $n \geq N$, then:
+      \[
+        |a_n - 1| = \abs{1 - \frac{1}{n} - 1} = \frac{1}{n} \leq \frac{1}{N} < \varepsilon
+      \]
+      Hence $a_n \to 1$ as $n \to \infty$.
+    \item Consider the sequence $0, \frac{1}{2}, 0, \frac{1}{4}, 0, \ldots$ defined by
+      $a_n = \begin{cases}
+      \frac{1}{n} & \text{ if $n$ is even} \\
+      0 & \text{ if $n$ is odd}
+      \end{cases}$
+    \begin{center}
+    \begin{tikzpicture}
+      \def\limitepsilon{0.4}
+      \draw[->] (0, -0.7) -- (0, 2) node[below right] {$a_n$};
+      \draw[->] (0, 0) node[left] {0} -- (8, 0) node[right] {$n$};
+      \draw[dotted, thick] (0, \limitepsilon) -- (8, \limitepsilon) node[right] {$\scriptstyle\varepsilon$};
+      \draw[dotted, thick] (0, -\limitepsilon) -- (8, -\limitepsilon) node[right] {$\scriptstyle-\varepsilon$};
+      \foreach \i in {1, 2, ..., 8} {
+        \ifodd\i
+          \pgfmathsetmacro{\seq}{0}
+        \else
+          \pgfmathsetmacro{\seq}{2/\i}
+        \fi
+        \fill (\i, \seq) circle (1.4pt);
+      }
+    \end{tikzpicture}
+    \end{center}
+    Given $\varepsilon > 0$, pick $N > \frac{1}{\varepsilon}$.
+    For the odd terms, we always have $|a_n -0| < \varepsilon$, and for the even terms, if $n \geq N$, then:
+    \[
+      |a_n - 0| \leq \frac{1}{n} \leq \frac{1}{N} < \varepsilon
+    \]
+    Hence $a_n \to 0$ as $n \to \infty$
+  \item Consider the sequence $\frac{1}{2}, \frac{1}{2} + \frac{1}{4}, \frac{1}{2} + \frac{1}{4} + \frac{1}{8}, \ldots$ defined by $a_n = 1 - \frac{1}{2^{n}}$.
+    \begin{center}
+    \begin{tikzpicture}
+      \def\limitepsilon{0.3}
+      \draw[->] (0, 0) -- (0, 2) node[below right] {$a_n$};
+      \draw[->] (0, 0) node[left] {0} -- (8, 0) node[right] {$n$};
+      \draw[dotted, thick] (0, 1 + \limitepsilon) -- (8, 1 + \limitepsilon) node[right] {$\scriptstyle1 + \varepsilon$};
+      \draw[dotted, thick] (0, 1 - \limitepsilon) -- (8, 1 - \limitepsilon) node[right] {$\scriptstyle1 - \varepsilon$};
+      \draw[dashed] (0, 1) node[left] {1} -- (8, 1);
+      \foreach \i in {1, 2, ..., 8} {
+        \pgfmathsetmacro{\seq}{1 - 1/2^\i}
+        \fill (\i, \seq) circle (1.4pt);
+      }
+    \end{tikzpicture}
+    \end{center}
+    We can see the limit is probably $1$.
+    So consider:
+    \[
+      |a_n - 1| = \frac{1}{2^{n}} \leq \frac{1}{n} \leq \frac{1}{N}
+    \]
+    Given $\varepsilon > 0$ we would then choose $N > \frac{1}{\varepsilon}$ so that $\frac{1}{N} < \varepsilon$.
+    If $n \geq N$ then the above holds true, hence $a_n \to 1$ as $n \to \infty$
+  \item $a_n = (-1)^{n}$
+      \begin{center}
+      \begin{tikzpicture}
+        \def\limitepsilon{0.4}
+        \draw[->] (0, -1.3) -- (0, 1.3) node[below right] {$a_n$};
+        \draw[->] (0, 0) node[left] {0} -- (8, 0) node[right] {$n$};
+        \draw[dashed] (0, 0.75) node[left] {1}-- (8, 0.75);
+        \draw[dashed] (0, -0.75) node[left] {1}-- (8, -0.75);
+        \foreach \i in {1, 2, ..., 8} {
+          \pgfmathsetmacro{\seq}{0.75*(-1)^\i}
+          \fill (\i, \seq) circle (1.4pt);
+        }
+      \end{tikzpicture}
+      \end{center}
+  \end{enumerate}
+\end{example}
+\begin{remark}[Advice]
+  It is difficult to just conjure up a bound on $N$ involving $\varepsilon$.
+  Instead, consider the distance between what you think is the limit and $a_n$ and use this to scope out a suitable bound.
+\end{remark}
 \end{document}

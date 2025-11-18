@@ -3,6 +3,7 @@
 \chapter{Eigenvalues and Eigenvectors}
 \section{Introduction}
 \begin{theorem}[Fundemental Theorem of Algebra]
+  \label{FTA}
   Let $p(z)$ be a polynomial of degree $m \geq 1$:
   \[
     p(z) = \sum_{j = 0}^{m}  c_jz^{j}
@@ -13,7 +14,7 @@
 \begin{definition}[Multiplicity]
   The root $z = w$ has \textit{multiplicity} $k$ if $(z - w)^{k}$ is a factor of $p(z)$ but $(z - w)^{k + 1}$ is not.
 \end{definition}
-\begin{definition}[Eigenvector]
+\begin{definition}[Eigenvector and Eigenvalue]
   Let $T: V \to V$ be a linear map.
   Then $v \in V$ with $\vec{v} \neq 0$ is an \textit{eigenvector} of $T$ if:
   \[
@@ -23,7 +24,7 @@
 \end{definition}
 If $V = \R^{n} \text{ or } \C^{n}$, and $T$ is given in terms of an $n \times n$ matrix $A$, then:
 \[
-  \vec{A}\vec{v} = \lambda \vec{v} \iff (A - \lambda I)\vec{v} = 0
+  A\vec{v} = \lambda \vec{v} \iff (A - \lambda I)\vec{v} = 0
 \]
 For a given $\lambda$, this holds for some vector $\vec{v} \neq 0$ if and only if $\det (A - \lambda I) = 0$.
 This is because we require the kernel of $A - \lambda I$ to be nontrivial.
@@ -32,7 +33,324 @@ The equation obtained from this is called the \textit{characteristic equation}.
 \begin{definition}[Characteristic Polynomial]
   For a matrix $A$, the \textit{characteristic polynomial} of degree $n$, $\chi_A$, is defined as:
   \[
-    \chi_A(t) = \det (A - \lambda I)
+    \chi_A(t) = \det (A - t I)
   \]
 \end{definition}
+From the definition of the determinant,
+\begin{align*}
+  \chi_A(t) &= \det (A - tI) \\
+            &= \levi_{j_1 \ldots j_n}(A_{j_1 1} - t\delta_{j_1 1}) \cdots (A_{j_n n} - t\delta_{j_n n}) \\
+            &= c_0 + c_1 t + \cdots + c_n t^{n}
+\end{align*}
+for some constants $c_0, \ldots, c_n$.
+
+From this we can conclude the following:
+\begin{enumerate}
+  \item $\chi_A(t)$ has degree $n$, and thus has $n$ roots.
+    Hence, an $n \times n$ matrix has $n$ eigenvalues accounting for multiplicity.
+  \item If $A$ is real, then all $c_i \in \R$, and thus eigenvalues are either real or come in conjugate pairs.
+  \item \label{eigenvalueTrDet}
+    $c_n = (-1)^{n}$ as we multiply $-t$ by itself $n$ times.
+    Moreover:
+    \[
+      c_{n - 1} = (-1)^{n - 1}(A_{1 1} + \ldots + A_{n n}) = (-1)^{n - 1}\tr A
+    \]
+    We also know that $-\frac{c_{n - 1}}{c_n}$ is the sum of the roots, hence:
+    \[
+      t_1 + \cdots + t_n = -\frac{c_{n - 1}}{(-1)^n} = -\frac{(-1)^{n - 1}}{(-1)^{n}} = \tr A
+    \]
+    so the trace of a matrix is the sum of its eigenvalues.
+
+    Finally,
+    \[
+      c_0 = \chi_A(0) = \det A
+    \]
+    We also know that $(-1)^{n} \frac{c_0}{c_n} = c_0$ is the product of the roots, hence:
+    \[
+      \det A = t_1 \cdots t_n
+    \]
+    so the determinant of a matrix is the product of its eigenvalues.
+\end{enumerate}
+\begin{example}
+  \begin{enumerate}
+    \item $V = \C^{2}$, $A = \begin{pmatrix}
+        0 & -1 \\
+        1 & 0 \\
+        \end{pmatrix}$
+
+      \textbf{Characteristic Polynomial}
+      \[
+        \chi_A(t) = \det (A - tI) = \det \begin{pmatrix}
+        -t & -1 \\
+        1 & -t \\
+        \end{pmatrix} = t^2  + 1
+      \]
+      \textbf{Eigenvalues -} $\lambda = \pm i$.\par
+      \textbf{Eigenvectors -}
+      To get the eigenvector for $\lambda = i$:
+      \[
+        (A - iI)\vec{v} =
+        \begin{pmatrix}
+        -i & -1 \\
+        1 & -i \\
+        \end{pmatrix}
+        \begin{pmatrix}
+        x \\
+        y \\
+        \end{pmatrix} = \vec{0} \implies
+        -ix - y = 0
+      \]
+      So the associated eigenvector is:
+      \[
+        \vec{v} = \alpha \begin{pmatrix}
+        1 \\
+        -i \\
+        \end{pmatrix}
+      \]
+      for all $\alpha \in \C$.
+      Similarly, for $\lambda = -i$, the associated eigenvector is  $\vec{v} = \alpha\begin{pmatrix}
+      1 \\
+      i \\
+      \end{pmatrix}$ for all $\alpha \in \C$.
+    \item $V = \R^2$, $A = \begin{pmatrix}
+      1 & 1 \\
+      0 & 1 \\
+      \end{pmatrix}$
+
+      \textbf{Characteristic Polynomial -} $\chi_A(t) = (t - 1)^2$.\par
+      \textbf{Eigenvalues -} $\lambda  = 1$ with multiplicity 2.\par
+      \textbf{Eigenvectors -} To get the eigenvector for $\lambda = 1$:
+      \[
+        (A - 1I)\vec{v} = \vec{0}  \iff \begin{pmatrix}
+        0 & 1 \\
+        0 & 0 \\
+        \end{pmatrix}
+        \begin{pmatrix}
+        x \\
+        y \\
+        \end{pmatrix} = \vec{0} \implies y = 0
+      \]
+      So the associated eigenvector is $\vec{v} = \alpha \begin{pmatrix}
+      1 \\
+      0 \\
+      \end{pmatrix}$ for all $\alpha \in \R$.
+  \end{enumerate}
+\end{example}
+\section{Eigenspaces and Multiplicity}
+\begin{definition}[Eigenspace]
+  For an eigenvalue $\lambda$ of a matrix $A$, we define its \textit{eigenspace} by:
+  \[
+    E_\lambda = \{\vec{v} : A \vec{v} = \lambda \vec{v}\} = \ker (A - \lambda I)
+  \]
+  It is the collection of eigenvectors associated with a particular eigenvalue.
+\end{definition}
+\begin{definition}[Algebraic Multiplicity]
+  The \textit{algebraic multiplicity}, denoted $M(\lambda)$ or $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ in the characteristic polynomial $\chi_A(\lambda)$.
+\end{definition}
+By the fundamental theorem of algebra (\cref{FTA}), if $A$ is a $n \times n$ matrix, then the sum of all the algebraic multiplicities must be $n$. That is:
+\[
+  \sum_{\lambda} M(\lambda) = n
+\]
+\begin{definition}[Geomtric Multiplicity]
+  The \textit{geometric multiplicity}, denoted $m(\lambda)$ or $m_\lambda$, of an eigenvalue $\lambda$ is the dimension of its eigenspace:
+  \[
+    m(\lambda) = \dim (E_\lambda)
+  \]
+\end{definition}
+Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenvectors associated with the eigenvalue $\lambda$.
+\begin{proposition}
+  \label{multiplicityRelation}
+  If $A$ is an $n \times n$ matrix with an eigenvalue $\lambda$, then $M_\lambda \geq m_\lambda$
+\end{proposition}
+\begin{proof}
+  Covered later.
+\end{proof}
+Note that this means if an eigenvalue as $m_\lambda = 1 \implies M_\lambda = 1$ since $M_\lambda > 0$.
+\begin{definition}
+  The \textit{defect}, denoted $\Delta_\lambda$ of an eigenvalue $\lambda$ is defined as:
+  \[
+    \Delta_\lambda = M_\lambda - m_\lambda
+  \]
+\end{definition}
+By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
+\begin{example}
+  \begin{enumerate}
+    \item Consider the matrix:\[
+      A = \begin{pmatrix}
+      4 & 1 & 0 \\
+      0 & 4 & 1 \\
+      0 & 0 & 4 \\
+      \end{pmatrix}
+    \]
+    \textbf{Characteristic Polynomial -} $\chi_A(t) = (4 - t)^3$.\par
+    \textbf{Eigenvalues -} $A$ only has one eigenvalue $\lambda = 4$ with $M_\lambda = 3$.\par
+    \textbf{Eigenvectors}
+    \[
+      (A - 4\lambda)\vec{v} = \begin{pmatrix}
+      0 & 1 & 0 \\
+      0 & 0 & 1 \\
+      0 & 0 & 0 \\
+      \end{pmatrix}
+      \begin{pmatrix}
+      x \\
+      y \\
+      z \\
+      \end{pmatrix} = \vec{0} \implies
+      y = z = 0
+    \]
+    So the associated eigenvector is $\vec{v} = \alpha \begin{pmatrix}
+    1 \\
+    0 \\
+    0 \\
+    \end{pmatrix}$, thus $m_\lambda = 1$ as the eigenspace is:
+    \[
+      E_\lambda = \Span\left\{\begin{pmatrix}
+      1 \\
+      0 \\
+      0 \\
+      \end{pmatrix}\right\} \implies \dim (E_\lambda) = 1
+    \]
+    Therefore the defect is $\Delta_{\lambda} = 3 - 1 = 2$.
+  \item Consider a reflection in the plane through $\vec{0}$ with normal $\vec{n}$.
+    We do not need to use the matrix representation of this to compute the eigenvalues.
+    Instead, we can use geometric intuition.
+
+    Since $\vec{n}$ is just sent to $-\vec{n}$, that is, $H\vec{n} = -\vec{n}$, we have an eigenvector $\vec{n}$ with eigenvalue $\lambda = -1$.
+    So $E_{-1} = \Span\{\vec{n}\}$
+
+    Moreover, any vector $\vec{u}$ on the plane is unchanged, that is, $H \vec{u} = \vec{u}$ for all $\vec{u} \perp \vec{n}$.
+    So we also have eigenvalue $\lambda = 1$ with $E_1 = \{\vec{x} : \vec{x} \cdot \vec{n} = \vec{0}\}$.
+
+    Since $m_{-1} = 1$ and $m_1 = 2$ and $m_1 + m_2 \leq 3$, we must have all eigenvalues.
+    Furthermore, since $M_\lambda \geq m_\lambda$, we must have $M_1 = 2$ and $M_{1} = 1$ so the geometric and algebraic multiplicities coincide for each eigenvalue.
+  \item Consider a rotation $\Rot(\theta) \in \R^2$,
+    \[
+      \Rot(\theta) = \begin{pmatrix}
+      \cos \theta & -\sin \theta \\
+      \sin \theta & \cos \theta \\
+      \end{pmatrix}
+    \]
+    \textbf{Characteristic Polynomial -} $\chi_{\Rot(\theta)}(t) = t^2 - 2t \cos \theta + 1$.\par
+    \textbf{Eigenvalues -} It does not have real eigenvalues but does have eigenvalues in $\C$, $\lambda = e^{\pm i\theta}$.
+    Note that this is a conjugate pair, as expected.\par
+    \textbf{Eigenvectors -} The associated eigenvectors are:
+    \[
+      \vec{v} = \alpha \begin{pmatrix}
+      1 \\
+      \mp i \\
+      \end{pmatrix}
+    \]
+    Since these both have $m_\lambda = 1$, they must also both have $M_\lambda = 1$.
+  \item Consider a rotation by and $\theta$ about $\vec{n}$, $R(\theta, \vec{n})$.
+    Note that:
+    \[
+      R(\theta, \vec{n})\vec{n} = \vec{n}
+    \]
+    So we have an eigenvalue $\lambda = 1$ with eigenspace $E_\lambda = \Span\{\vec{n}\}$.
+
+    If we consider a basis given by $\vec{n}$ and two orthogonal vectors lying in the plane, $\vec{n}$ is unchanged under $R$ whereas the two vectors are rotated in the plane, similarity to as in \textbf{iii}.
+
+    From \textbf{iii}, we know the rotation in the plane has eigenvalues $e^{\pm i \theta}$.
+    Note that there are no other real eigenvalues unless $\theta = n\pi$, in which case, all vectors on the plane are eigenvectors with eigenvalue $\lambda = -1$ and algebraic multiplicity $M_{-1} = 2$ as both $e^{+i\pi}$ and $e^{-i\pi}$ coincide.
+
+    So we have found all three complex eigenvalues.
+  \item Consider the matrix
+    \[
+      A = \begin{pmatrix}
+      -3 & -1 & 1 \\
+      -1 & -3 & 1 \\
+      -2 & -2 & 0 \\
+      \end{pmatrix}
+    \]
+    \textbf{Characteristic Polynomial -} $\chi_A(t) = -(t + 2)^3$.\par
+    \textbf{Eigenvalues -} $A$ only has eigenvalue $\lambda = -2$ with $M_\lambda = 3$.\par
+    \textbf{Eigenvectors -} For the eigenvectors:
+    \[
+      (A + 2I) \vec{v} =
+      \begin{pmatrix}
+      -1 & -1 & 1 \\
+      -1 & -1 & 1 \\
+      -2 & -2 & 2 \\
+      \end{pmatrix}
+      \begin{pmatrix}
+      x \\
+      y \\
+      z \\
+      \end{pmatrix} = \vec{0}
+    \]
+    By eliminating $z$, we see that the general solution for this is:
+    \[
+      \begin{pmatrix}
+      x \\
+      y \\
+      x + y \\
+      \end{pmatrix} =
+      x \begin{pmatrix}
+      1 \\
+      0 \\
+      1 \\
+      \end{pmatrix} + y\begin{pmatrix}
+      0 \\
+      1 \\
+      1 \\
+      \end{pmatrix}
+    \]
+    Therefore:
+    \[
+      E_\lambda = \Span\left\{\begin{pmatrix}
+      1 \\
+      0 \\
+      1 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+      0 \\
+      1 \\
+      1 \\
+      \end{pmatrix}\right\} \implies m_\lambda = 2
+    \]
+    So the eigenvalues do not form a basis of $\C^{3}$.
+    The defect is $\Delta_\lambda = 3 - 2 = 1$.
+  \end{enumerate}
+\end{example}
+\section{Diagonalisation and Similarity}
+\begin{proposition}[Diagonalisble]
+  If $A$ is a $n \times n$ matrix acting on $V = \R^{n}$ or $\C^{n}$, then the following statements are equivalent:
+  \begin{itemize}
+    \item There exists a basis of eigenvectors for $V$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$ with $A \vec{v}_i = \lambda_i \vec{v}_i$.
+
+      \textit{(Summation convention not used)}
+    \item There exits an $n \times n$ invertible matrix $P$ with:
+      \[
+        P^{-1} A P = D = \begin{pmatrix}
+        \lambda_1 &  &  \\
+         & \ddots &  \\
+         &  & \lambda_n \\
+        \end{pmatrix}
+      \]
+      where $D$ is a \textit{diagonal matrix}, that is, all non-diagonal entries are $0$.
+  \end{itemize}
+  If either of these conditions is satisfied, $A$ is \textit{diagonalisable}.
+\end{proposition}
+\begin{remark}
+  Using $\det AB = \det A \det B$ and $\det P^{-1} = (\det P)^{-1}$, we see that:
+  \[
+    \det (P^{-1} A P) = \det (P^{-1}) \det (A) \det (P) = \det A
+  \]
+  The determinant of a diagonal matrix $D$ is given by the product of its diagonal entries.
+  Therefore:
+  \[
+    \det A = \det D = \lambda_1 \cdots \lambda_n
+  \]
+
+  Moreover, since $\tr(AB) = \tr(BA)$, we see that:
+  \[
+    \tr(P^{-1} A P) = \tr(APP^{-1}) = \tr A
+  \]
+  Therefore:
+  \[
+    \tr A = \tr D = \lambda _1 + \cdots + \lambda _n
+  \]
+
+  Both of these results are consistent with \cref{eigenvalueTrDet}.
+\end{remark}
 \end{document}
