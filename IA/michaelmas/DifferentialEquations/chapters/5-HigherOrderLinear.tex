@@ -1337,4 +1337,190 @@ Using the above form will simplify matters later.
 
 The feasibility of finding a series solution around $x = x_0$ depends on the nature of $p(x)$, $q(x)$ and $r(x)$ around $x_0$.
 \subsection{Classification of Singular Points}
+\begin{definition}[Ordinary and Singular Points]
+  The point $x = x_0$ is an \textit{ordinary point} if $\frac{q(x)}{p(x)}$ and $\frac{r(x)}{p(x)}$ are analytic at $x_0$.
+
+  Otherwise, $x_0$ is a \textit{singular point.}
+\end{definition}
+\begin{remark}[Note]
+  For our purposes, analytic means that we require $\frac{p(x)}{q(x)}$ and $\frac{r(x)}{p(x)}$ have a Taylor series about $x = x_0$ which converge in a region around $x_0$.
+\end{remark}
+\begin{definition}[Regular and Irregular Singular Point]
+  If $x_0$ is a singular point and $(x - x_0)\frac{q(x)}{p(x)}$, $(x - x_0)^2\frac{r(x)}{p(x)}$ are analytic, then $x_0$ is a \textit{regular singular point}.
+  Otherwise, $x_0$ is an \textit{irregular singular point}
+\end{definition}
+\begin{example}
+  Consider an equidimensional 2nd order ODE:
+  \[
+    \underbrace{ax^2}_{p(x)} y'' + \underbrace{bx}_{q(x)}y' + \underbrace{c}_{r(x)}y = 0
+  \]
+  \[
+    \frac{q}{p} = \frac{b}{ax} \text{ and } \frac{r}{p} = \frac{c}{ax^2}
+  \]
+  Both $\frac{q}{p}$ and $\frac{r}{p}$ are undefined at $x = 0$ so $x = 0$ is a singular point.
+
+  Furthermore:
+  \[
+    x \frac{q}{p} = \frac{b}{a} \text{ and } x^2\frac{r}{p} = \frac{c}{a}
+  \]
+  which are both constants so $x = 0$ is a regular singular point.
+\end{example}
+\begin{example}
+  \label{pointClassificationEx}
+  \[
+    \underbrace{(1 - x^2)}_{p(x)}y'' \underbrace{- 2x}_{q(x)}y' + \underbrace{2}_{r(x)}y = 0
+  \]
+  \[
+    \frac{q}{p} = -\frac{2x}{1-x^2} = \frac{2x}{(x - 1)(x + 1)}
+  \]
+  So $\lim_{x \to \pm 1} \frac{q}{p}$ diverges.
+  \[
+    \frac{r}{p} = -\frac{2}{(x - 1)(x + 1)}
+  \]
+  Similarly, $\lim_{x \to \pm 1} \frac{r}{p}$ diverges.
+
+  We therefore cannot write down the Taylor series about $x = \pm 1$ in either of the above cases.
+  So we have singular points at $x = \pm 1$.
+
+  For $x = + 1$:
+  \[
+    (x - 1)\frac{q}{p} = \frac{2x}{x + 1}\text{ and }
+    (x - 1)^2\frac{r}{p} = -\frac{2(x - 1)}{x + 1}
+  \]
+  Both of the above are well behaved at $x = 1$ so $x = +1$ is a \textit{regular singular point}.
+
+  Similarly, for $x = -1$:
+  \[
+    (x + 1)\frac{q}{p} = \frac{2x}{x - 1}\text{ and }
+    (x + 1)^2\frac{r}{p} = -\frac{2(x + 1)}{x - 1}
+  \]
+  Both of the above are well behaved at $x = -1$ so $x = -1$ is also a regular singular point.
+\end{example}
+\begin{example}
+  \[
+    \underbrace{(1 + \sqrt{x})}_{p(x)}y'' \underbrace{- 2x}_{q(x)}y' + \underbrace{2}_{r(x)}y = 0
+  \]
+  \[
+    \frac{q}{p} = -\frac{2x}{1 + \sqrt{x}}
+  \]
+  Consider $x_0 = 0$, although $\frac{q}{p}$ is well behaved as $x \to 0$, if we try and find the Taylor series, we find that the second derivative of $\frac{q}{p}$ is undefined at $x = 0$.
+  So $x = 0$ is a singular point.
+  \[
+    x \frac{q}{p} = -\frac{2x^2}{1 + \sqrt{x}}
+  \]
+  This also does not have a Taylor series about $x = 0$.
+  So $x = 0$ is an irregular singular point.
+\end{example}
+\subsection{Method of Frobenius}
+\begin{theorem}[Fuch's Theorem]
+  \begin{enumerate}
+    \item
+      If $x = x_0$ is an \textbf{ordinary point}, then there are two linearly independent solutions of the form:
+      \[
+        y = \sum_{n = 0}^{\infty} a_n (x - x_0)^{n}
+      \]
+      which are convergent in some neighbourhood of $x_0$.
+      That is, the solutions have a Taylor series about $x_0$ convergent in some neighbourhood of $x_0$.
+    \item
+      If $x = x_0$ is a \textbf{regular singular point}, then there is at least one solution of the form:
+      \[
+        y = \sum_{n=0}^{\infty} a_n(x - x_0)^{n + \sigma} = (x - x_0)^{\sigma} \sum_{n=0}^{\infty} a_n(x - x_0)^{n}
+      \]
+      where $\sigma \in \R$ and $a_0 \neq 0$ (this is so $\sigma$ is unique).
+      This is called a \textit{Frobenius series}.
+  \end{enumerate}
+\end{theorem}
+\begin{remark}[Note]
+  In the case of a \textbf{regular singular point}, there is no guarantee that we obtain two linearly independent solutions.
+
+  The series solution method may fail completely for an \textbf{irregular singular point}.
+\end{remark}
+\begin{example}[Ordinary Point]
+  Find series solutions about $x = 0$ of
+  \[
+    (1 - x^2)y'' - 2xy' + 2y = 0
+  \]
+  From \cref{pointClassificationEx}, we see that $x = 0$ is an ordinary point and so we expect to find two linearly independent series solutions.
+
+  Try $y = \sum_{n=0}^{\infty} a_nx^{n}$.
+  We then have:
+  \[
+    y' = \sum_{n = 1}^{\infty} na_nx^{n - 1} \text{ and }y'' = \sum_{n = 2}^{\infty} n(n-1)a_nx^{n - 2}
+  \]
+  For convenience, multiply the ODE by $x^2$.
+  \[
+    (1 - x^2)\cdot x^2y'' - 2x \cdot x^2 y' + 2x^2y = 0
+  \]
+  Now substituting in yields:
+  \[
+    \sum_{n = 2}^{\infty} a_n[(1 - x^2)n(n-1)]x^{n} - 2\sum_{n=1}^{\infty} a_n n x^{n + 2} + 2 \sum_{n = 0}^{\infty} a_n x^{n + 2} = 0 \\
+  \]
+  We can rewrite the first sum as:
+  \begin{align*}
+    \sum_{n = 2}^{\infty} a_n[(1 - x^2)n(n - 1)]x^{n} &= \sum_{n=2}^{\infty} a_n n(n-1)x^{n} - \sum_{n = 2}^{\infty} a_n n(n - 1)x^{n + 2} \\
+                                                      &= \sum_{n = 2}^{\infty} a_n n(n - 1)x^{n} - \sum_{n = 4}^{\infty} a_{n - 2}(n - 2)(n - 3)x^{n} \text{ ($n \mapsto n - 2$)}\\
+                                                      &=  \sum_{n = 2}^{\infty} a_n n(n - 1)x^{n} - \sum_{n = 2}^{\infty} a_{n - 2}(n - 2)(n - 3)x^{n}
+  \end{align*}
+  The second sum can also be rewritten as follows:
+  \begin{align*}
+    -2\sum_{n=1}^{\infty} a_n n x^{n + 2} &= -2 \sum_{n = 3}^{\infty} a_{n - 2}(n - 2)x^{n} \text{ ($n \mapsto n -2$)}\\
+                                          &= -2 \sum_{n = 2}^{\infty} a_{n - 2}(n - 2)x^{n}
+  \end{align*}
+  Similarly, for the third sum, we can re-index $n \mapsto n - 2$
+  \[
+    2 \sum_{n=0}^{\infty} a_n x^{n + 2} = 2 \sum_{n=2}^{\infty} a_{n - 2}x^{n}
+  \]
+  The sums now all go from $n = 2 \to \infty$ and only contain $x^{n}$ so we can easily equate coefficients of $x^{n}$ for $n \geq 2$:
+  \begin{align*}
+    a_n n(n - 1)& - a_{n - 2}(n - 2)(n - 3) - 2 a_{n - 2}(n - 2) + 2a_{n - 2} = 0 \\
+    \implies n(n - 1)a_n &= (n^2 - 5n + 6 + 2n - 4 - 2)a_{n - 2} \\
+                &= n(n - 3)a_{n - 2} \\
+    a_n &= \frac{n - 3}{n - 1}a_{n  - 2}
+  \end{align*}
+  So we have found a recurrence relation for $a_n$.
+  Note that because $a_0$ and $a_1$ are not determined, they are arbitrary constants in the general solution.
+
+  Consider first the odd terms of the sequence.
+  Notice that:
+  \[
+    a_3 = \frac{3 - 3}{3 - 1} a_1 = 0
+  \]
+  So $a_3 = a_5 = a_7 = \cdots = 0$.
+  Therefore, one solution is $y = a_1 x$.
+  Note that this is an even function of $x$.
+
+  Now considering the even terms of the sequence
+  \[
+    a_n = \frac{n - 3}{n - 1}a_{n - 2} = \left(\frac{\cancel{n - 3}}{n - 1}\right)\left(\frac{n - 5}{\cancel{n - 3}}\right)a_{n - 4} = \cdots = - \frac{1}{n - 1}a_0
+  \]
+  Therefore, a second solution is:
+  \[
+    y = a_0 \left(1 - x^2 - \frac{x^4}{3} - \frac{x^{6}}{5} - \cdots\right)
+  \]
+  which is an even function of $x$, so we have separated the solution into an even and an odd component.
+
+  Note that:
+  \begin{align*}
+    \ln (1 \pm x) &= \pm x - \frac{x^2}{2} \pm \frac{x^3}{3} - \frac{x^4}{4} \pm \frac{x^5}{5} + \cdots \\
+    x\ln(1 \pm x) &= \pm x^2 - \frac{x^3}{2} \pm \frac{x^4}{3} - \frac{x^5}{4} \pm \frac{x^6}{5} + \cdots \\
+    \implies x(\ln(1 + x) - \ln(1 - x)) &= 2x^2 + \frac{2x^4}{3} + \frac{2x^6}{5} + \cdots
+  \end{align*}
+  Therefore
+  \begin{align*}
+    y &= a_0 \left[1 - \frac{1}{2}(x\ln(1 + x) - x\ln(1 - x))\right] \\
+      &= a_0 \left[1 - \frac{x}{2}\ln\left(\frac{1 + x}{1 - x}\right)\right]
+  \end{align*}
+  Alternatively, we could also notice that:
+  \begin{align*}
+    x^2 + \frac{x^4}{3} + \frac{x^{6}}{5} + \cdots &= x\left[x + \frac{x^{3}}{3} + \frac{x^{5}}{5} + \cdots \right] \\
+                                                 &= x\left[\int (1 + x^2 + x^{4} + \cdots) \d{x}\right] \\
+                                                 &= x\left[\int \frac{1}{1 - x^2} \d{x}\right] \\
+                                                 &= x\artanh(x)
+  \end{align*}
+  In this example, we are able to write the general solution in closed form:
+  \[
+    y = a_1 x + a_0 \left[1 - \frac{x}{2}\ln\left(\frac{1 + x}{1 - x}\right)\right]
+  \]
+  Note the divergent behaviour near the singular points $x = \pm 1$.
+\end{example}
 \end{document}
