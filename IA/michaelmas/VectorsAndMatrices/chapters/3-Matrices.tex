@@ -1816,6 +1816,49 @@ This is the inverse of $M$.
     &= (x - 1)^2(x + 2)
   \end{align*}
 \end{example}
+\subsection{Determinants of Block Matrices}
+\label{blockDeterminants}
+\nonexaminable
+For square matrices $A, B, C, D$, we have the following:
+\[
+  \det \left(\begin{array}{c|c}
+    A & B \\ \hline
+    O & D
+  \end{array}\right) =
+  \det \left(\begin{array}{c|c}
+    A & O \\ \hline
+    C & D
+  \end{array}\right) =
+  \det(A)\det(D)
+\]
+In particular:
+\[
+  \det \left(\begin{array}{c|c}
+    A & O \\ \hline
+    O & I
+  \end{array}\right) =
+  \det \left(\begin{array}{c|c}
+    I & O \\ \hline
+    O & A
+  \end{array}\right) =
+  \det A
+\]
+Furthermore, if $A$ is invertible:
+\[
+  \det \left(\begin{array}{c|c}
+    A & B \\ \hline
+    C & D
+  \end{array}\right) =
+  \det(A)\det(D - CA^{-1}B)
+\]
+or if $D$ is invertible:
+\[
+  \det \left(\begin{array}{c|c}
+    A & B \\ \hline
+    C & D
+  \end{array}\right) =
+  \det(D)\det(A - BD^{-1}C)
+\]
 \section{Systems of Linear Equations}
 \subsection{System of Two Equations}
 Consider the system of equations given by:

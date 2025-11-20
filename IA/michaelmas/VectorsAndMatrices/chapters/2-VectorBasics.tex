@@ -212,6 +212,7 @@ This definition generalises to any other vector space, keeping the same axioms.
   We denote this as either $|\vec{a}|$ or $\norm{\vec{a}}$.
 \end{definition}
 \begin{theorem}[Cauchy-Schwarz Inequality]
+  \label{cauchySchwarz}
   For all $\vec{x}, \vec{y} \in \R^{n}$,
   \[
     |\vec{x} \cdot \vec{y}| \leq |\vec{x}||\vec{y}|
@@ -696,6 +697,7 @@ To simplify notation, we omit the symbol ``$\sum$'' for repeated indices and sum
       \end{align*}
   \item $\levi_{ijk} \levi_{ijk} = 6$ (as $(1)^2 = (-1)^2$ and there are 6 permutations of three objects)
 \end{enumerate}
+\subsection{Applications of Suffix Notation and Summation Convention}
 We can use this to show the relation:
 \[
   \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{c}
@@ -727,6 +729,23 @@ We can also use it to prove:
      &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) (\vec{b} \cdot \vec{b}) \\
      &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) |\vec{b}|^2
   \end{align*}
+\end{proof}
+
+Finally, we can use it to provide a proof for the Cauchy-Schwarz inequality (\cref{cauchySchwarz}) that works in $\R^{n}$.
+\begin{proof}
+  \begin{align*}
+    (\vec{x} \cdot \vec{x})(\vec{y} \cdot \vec{y}) - (\vec{x} \cdot \vec{y})^2 &= x_i x_i y_j y_j - x_i y_i x_j y_j \\
+    &= x_i y_j (x_i y_j - x_j y_i) \\
+    &= - x_j y_i (x_i y_j - x_j y_i) \\
+    &= \frac{1}{2}(x_i y_j - x_j y_i)(x_i y_j - x_j y_i) \\
+    &= \frac{1}{2}(x_i y_j - x_j y_i)^2 \\
+    &\geq 0
+  \end{align*}
+  Thus $|\vec{x}|^2|\vec{y}|^2 \geq (x \cdot y)^2$ with equality if and only if:
+  \[
+    x_i y_j = x_j y_i \iff \frac{x_i}{y_i} = \frac{x_j}{y_j} = \lambda
+  \]
+  for all $i, j$. Equivalently, $x_i = \lambda y_i\ \forall i \iff \vec{x} = \lambda \vec{y}$.
 \end{proof}
 \subsection{Application to Spherical Trigonometry*}
 \nonexaminable
@@ -1122,6 +1141,7 @@ This has the following properties:
   We can use any basis of $V$ to determine its dimension as by \cref{basesSize} the size of all bases for a particular vector space must be equal.
 \end{remark}
 \begin{proposition}
+  \label{addBasis}
   Consider a vector space $V$ of dimension $n$,
   \begin{enumerate}
     \item If $Y = \{\vec{w}_1, \ldots, \vec{w}_m\}$ spans $V$ with $m \geq n$ then if $m = n$, $Y$ is a basis for $V$.

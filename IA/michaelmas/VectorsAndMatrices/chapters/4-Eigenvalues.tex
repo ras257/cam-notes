@@ -162,6 +162,9 @@ Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenve
   \label{multiplicityRelation}
   If $A$ is an $n \times n$ matrix with an eigenvalue $\lambda$, then $M_\lambda \geq m_\lambda$
 \end{proposition}
+\begin{proof}
+  See \cref{multiplicityProof}.
+\end{proof}
 Note that this means if an eigenvalue as $m_\lambda = 1 \implies M_\lambda = 1$ since $M_\lambda > 0$.
 \begin{definition}
   The \textit{defect}, denoted $\Delta_\lambda$ of an eigenvalue $\lambda$ is defined as:
@@ -430,6 +433,7 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   Similar matrices represent the same linear map with respect to different bases.
 \end{remark}
 \begin{proposition}
+  \label{similarProperties}
   If $A$ and $B$ are similar, then:
   \begin{enumerate}
     \item $\tr A= \tr B$
@@ -467,6 +471,55 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   \end{enumerate}
   These results are consistent with \cref{eigenvalueTrDet}.
 \end{remark}
+We can use these relations between similar matrices to provide a proof for \cref{multiplicityRelation}.
+\begin{proof}
+  \nonexaminable
+  \label{multiplicityProof}
+  Consider a basis for $E_\lambda$, $\{\vec{v}_1, \ldots, \vec{v}_r\}$ with $r = \dim E_\lambda = m_\lambda$.
+  Using \cref{addBasis}, we can extend this to a basis for $V = \R^{n}$ or $\C^{n}$ by adding the vectors $\{\vec{w}_{r + 1}, \ldots, \vec{w}_n\}$.
+
+  Define the $n \times n$ matrix P with columns such that:
+  \begin{align*}
+    \vec{C}_i(P) &= \vec{v}_i \text{ for } i = 1, \ldots, r \\
+    \vec{C}_j(P) &= \vec{w}_i \text{ for } j = r + 1, \ldots, n \\
+  \end{align*}
+  Then, since $\vec{v}_i \in E_\lambda$ for $i = 1, \ldots, r$ we have:
+  \[
+    A \vec{C}_i = A \vec{v}_i = \lambda \vec{v}_i
+  \]
+  and for $\vec{C}_j$:
+  \[
+    A \vec{C}_j = A \vec{w}_j = \sum_{i} B_{i j}\vec{v}_i + \sum_{k} B_{k j}\vec{w}_k
+  \]
+  where $B$ is an $n \times n$ matrix with entries:
+  \[
+    B_{i j} = \begin{cases}
+    \lambda \delta_{i j} & i, j = 1, \ldots, r \\
+    0 & i = r + 1, \ldots, n \text{ and }j = 1, \ldots, r  \\
+    \text{unknown} & i = 1, \ldots, n \text{ and }j = r + 1, \ldots, n
+    \end{cases}
+  \]
+  We can rewrite with as $AP = PB$ and then, as $P$ is invertible since its columns form a basis for $V$, we have:
+  \[
+    P^{-1}AP = B =
+      \left(\begin{array}{c|c}
+      \lambda I & ? \\ \hline
+      O & \hat{B}
+      \end{array}\right)
+  \]
+  Where $?$ and $\hat{B}$ denote the unknown elements.
+  From \cref{blockDeterminants}:
+  \[
+    \det(B - tI) = \det(\lambda I - tI)\det(\hat{B} - tI) = (\lambda - t)^{r}\det(\hat{B} - tI)
+  \]
+  From \cref{similarProperties}$, \chi_A(t) = \chi_B(t)$.
+  Therefore:
+  \[
+    \chi_A(t)= (\lambda - t)^{r}\det(\hat{B} - tI)
+  \]
+  So the multiplicity of the root $\lambda$ must be at least $r$.
+  Thus $M_\lambda \geq r = m_\lambda$.
+\end{proof}
 \subsection{Hermitian and Symmetric Matrices}
 \begin{remark}[Recap] See \cref{transposeAndConjugate,complexInnerProduct} for further details.\par
   \textbf{Hermitian -} $A$ is Hermitian if and only if:
