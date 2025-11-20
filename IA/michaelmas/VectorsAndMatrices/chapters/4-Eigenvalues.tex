@@ -162,9 +162,6 @@ Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenve
   \label{multiplicityRelation}
   If $A$ is an $n \times n$ matrix with an eigenvalue $\lambda$, then $M_\lambda \geq m_\lambda$
 \end{proposition}
-\begin{proof}
-  Covered later.
-\end{proof}
 Note that this means if an eigenvalue as $m_\lambda = 1 \implies M_\lambda = 1$ since $M_\lambda > 0$.
 \begin{definition}
   The \textit{defect}, denoted $\Delta_\lambda$ of an eigenvalue $\lambda$ is defined as:
@@ -314,6 +311,7 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
 \end{example}
 \section{Diagonalisation and Similarity}
 \begin{proposition}[Diagonalisble]
+  \label{diagonalProp}
   If $A$ is a $n \times n$ matrix acting on $V = \R^{n}$ or $\C^{n}$, then the following statements are equivalent:
   \begin{itemize}
     \item There exists a basis of eigenvectors for $V$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$ with $A \vec{v}_i = \lambda_i \vec{v}_i$.
@@ -331,26 +329,208 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
   \end{itemize}
   If either of these conditions is satisfied, $A$ is \textit{diagonalisable}.
 \end{proposition}
-\begin{remark}
-  Using $\det AB = \det A \det B$ and $\det P^{-1} = (\det P)^{-1}$, we see that:
+\subsection{Linearly Independent Eigenvectors}
+\begin{theorem}
+  \label{linearlyIndependantEigenvectors}
+  If an $n \times n$ matrix $A$ has distinct eigenvalues $\lambda_1, \ldots, \lambda_r$ with corresponding eigenvectors $\vec{v}_1, \ldots, \vec{v}_r$ then, $\{\vec{v}_1, \ldots, \vec{v}_r\}$ are linearly independent.
+\end{theorem}
+\begin{proof}
+  Suppose, for contradiction, that $\{\vec{v}_1, \ldots, \vec{v}_r\}$ are linearly dependant.
+  Then:
   \[
-    \det (P^{-1} A P) = \det (P^{-1}) \det (A) \det (P) = \det A
+    \sum_{j = 1}^{r} \alpha_j \vec{v}_j = \vec{0}
   \]
-  The determinant of a diagonal matrix $D$ is given by the product of its diagonal entries.
-  Therefore:
-  \[
-    \det A = \det D = \lambda_1 \cdots \lambda_n
-  \]
+  where not all $\alpha_j = 0$.
 
-  Moreover, since $\tr(AB) = \tr(BA)$, we see that:
+  There will be at least one such linear combination but we can take the minimal $p$ for which $\exists \alpha_1, \ldots, \alpha_p \neq 0$ with:
   \[
-    \tr(P^{-1} A P) = \tr(APP^{-1}) = \tr A
+    \sum_{j = 1}^{p} \alpha_j \vec{v}_j = \vec{0}
   \]
-  Therefore:
-  \[
-    \tr A = \tr D = \lambda _1 + \cdots + \lambda _n
-  \]
+  We are able to assume WLOG that this minimal linear combination occurs with the first $p$ vectors as we can just relabel the vectors.
 
-  Both of these results are consistent with \cref{eigenvalueTrDet}.
+  If we then apply the matrix $(A - \lambda_1 I)$, then we remove the first term of the sum, that is:
+  \[
+    (A - \lambda_1 I) \sum_{j = 1}^{p} \alpha_j \vec{v}_j = \sum_{j = 2}^{p} \alpha_j(\lambda_j - \lambda_1)\vec{v}_j
+  \]
+  Since $(A - \lambda_1 I)\vec{v}_1 = \vec{0}$.
+
+  The above is a linear combination with $p - 1$ non-zero coefficients which contradicts the fact that $p$ was minimal.
+  Thus $\{\vec{v}_1, \ldots, \vec{v}_r\}$ is linearly independent.
+\end{proof}
+\begin{remark}[Note]
+  The above theorem and proof only hold when each eigenvalue has geometric multiplicity one, that is, each eigenvalue has exactly one associated eigenvector.
+  However this does generalise to the following:
+
+  Let $B_\lambda$ be a basis for the eigenspace $E_\lambda$ associated with $\lambda$.
+  If $\lambda_1, \ldots, \lambda_r$ are distinct, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set.
 \end{remark}
+We can now prove \cref{diagonalProp}
+\begin{proof}[\Cref{diagonalProp}]
+  For any matrix $P$:
+  \begin{itemize}
+    \item $AP$ has columns $A\vec{C}_i(P)$.
+    \item $PD$ has columns $\lambda_i\vec{C}_i(P)$.
+  \end{itemize}
+  where $D$ is a diagonal matrix as in the proposition.
+  So $AP = PD \iff A \vec{C}_i(P) = \lambda_i \vec{C}_i(P)\ \forall i = 1, \ldots, n$.
+
+  \begin{proofdirection}{Suppose there exists a basis of eigenvectors for $V$}
+    Given a basis of eigenvectors for $V$, the above relation allows us to determine such a $P$ as $\vec{C}_i(P)$ satisfies $A\vec{C}_i(P) = \lambda \vec{C}_i$ so we can take $\vec{C}_i(P) = \vec{v}_i$.
+
+    Since we know what the eigenvectors form a basis for $V$, they are linearly independent and therefore the columns of $P$ are linearly independent so $\det P \neq 0$.
+    Thus $P$ is invertible so we have constructed a $P$ such that $P^{-1} A P = D$.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose there exists such an invertible $P$}
+    Since $P$ is invertible, $P^{-1} A P = D \iff AP = PD$.
+    By the relation $A\vec{C}_i(P) = \lambda_i \vec{C}_i(P)$, we see that the columns of $P$ are eigenvectors.
+    The columns of $P$ span $V$ so we have found a basis of eigenvectors for $V$.
+  \end{proofdirection}
+\end{proof}
+\subsection{Criteria For Diagonalisability}
+\subsubsection{A sufficient but not necessary condition}
+\begin{proposition}
+  If an $n \times n$ matrix has $n$ distinct eigenvalues, then it is diagonalisable.
+\end{proposition}
+\begin{proof}
+If an $n \times n$ matrix has $n$ distinct eigenvalues, then by \cref{linearlyIndependantEigenvectors}, we have $n$ eigenvectors which are linearly independent.
+This provides a basis of eigenvectors for $\R^{n}$ or $\C^{n}$.
+So from \cref{diagonalProp}, $A$ is diagonalisable.
+\end{proof}
+Note that we require that all $n$ eigenvalues are distinct as otherwise we could have an eigenvalue with $m_\lambda < M_\lambda$ so would have less than $n$ linearly independent eigenvectors so would be unable to form a basis.
+\subsubsection{A necessary and sufficient condition}
+\begin{proposition}
+  $A$ is diagonalisable if and only if for all eigenvalues $\lambda$, $M_\lambda = m_\lambda$
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Suppose $A$ is diagonalisable}
+    Then by \cref{diagonalProp}, there exists a basis of $n$ eigenvectors for $V$.
+
+    Suppose we have $m_{\lambda_i} < M_{\lambda_i}$ for some $\lambda_i$.
+    Then since $m_\lambda \leq M_\lambda$ for all eigenvalues, $\sum_{\lambda} m_\lambda < \sum_{\lambda} M_\lambda = n$.
+
+    However, this implies that $\sum_{\lambda} m_\lambda < n$ which contradicts the fact the eigenvectors form a basis for $V$.
+    So we must have $m_\lambda = M_\lambda$ for all eigenvalues.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose $M_\lambda = m_\lambda$ for all $\lambda$}
+    If $\lambda_i$ with $i = 1, \ldots, r$ are all the distinct eigenvalues of a matrix, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set, and its number of elements is:
+    \[
+      \sum_{i} m_i = \sum_{i} M_i = n
+    \]
+    so it must form a basis.
+  \end{proofdirection}
+\end{proof}
+\subsection{Similarity}
+\begin{definition}
+  We say that two $n \times n$ matrices $A$ and $B$ are \textit{similar} if there exists an $n \times n$ invertible matrix $P$ such that:
+  \[
+    B = P^{-1}AP
+  \]
+\end{definition}
+\begin{remark}
+  Similar matrices represent the same linear map with respect to different bases.
+\end{remark}
+\begin{proposition}
+  If $A$ and $B$ are similar, then:
+  \begin{enumerate}
+    \item $\tr A= \tr B$
+    \item $\det A = \det B$
+    \item $\chi_A(t) = \chi_B(t)$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item Using $\det AB = \det A \det B$ and $\det P^{-1} = (\det P)^{-1}$, we see that:
+      \[
+        \det B = \det (P^{-1} A P) = \det (P^{-1}) \det (A) \det (P) = \det A
+      \]
+    \item Using $\tr(AB) = \tr(BA)$, we see that:
+      \[
+        \tr B = \tr(P^{-1} A P) = \tr(APP^{-1}) = \tr A
+      \]
+    \item Take an eigenvector $\vec{v}$ of $B$ with eigenvalue $\lambda$.
+      \[
+        (P^{-1}AP)\vec{v} = \lambda \vec{v} \iff A(P \vec{v}) = \lambda (P \vec{v})
+      \]
+      So $P \vec{v}$ is an eigenvector of $A$ with eigenvalue $\lambda$.
+      Therefore the roots of $\chi_A$ and $\chi_B$ are the same.
+      Since $A$ and $B$ are both $n \times n$ matrices, the leading coefficient of both $\chi_A$ and $\chi_B$ is $(-1)^{n}$.
+      Thus $\chi_A(t) = \chi_B(t)$.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  For the particular case of $B = D$ where $D$ is a diagonal matrix, this means that $A$ is diagonalisable.
+  Utilising the fact that the determinant of a diagonal matrix is the product of the diagonal entries, we then have:
+  \begin{enumerate}
+    \item $\tr A = \sum_{i} \lambda_i$
+    \item $\det A = \prod_{i} \lambda_i$
+    \item $\chi_A(t) = (\lambda_1 - t) \cdots(\lambda_n - t)$
+  \end{enumerate}
+  These results are consistent with \cref{eigenvalueTrDet}.
+\end{remark}
+\subsection{Hermitian and Symmetric Matrices}
+\begin{remark}[Recap] See \cref{transposeAndConjugate,complexInnerProduct} for further details.\par
+  \textbf{Hermitian -} $A$ is Hermitian if and only if:
+  \[
+    A^{\dag} = \overline{(A^{\trans})} = A \iff A_{i j} = \overline{A_{j i}}
+  \]
+  \textbf{Symmetric -} $A$ is symmetric if and only if:
+  \[
+    A^{\trans} = A \iff A_{i j} = A_{j i}
+  \]
+  \textbf{Complex Inner Product -} For $\vec{v}, \vec{w} \in \C^{n}$:
+  \[
+    \vec{v}^{\dag}\vec{w} = \sum_{i} \overline{v_i}w_i
+  \]
+  \textbf{Real Inner Product - } For $\vec{v}, \vec{w} \in \R^{n}$, this reduces to:
+  \[
+    \vec{v}^{\trans}\vec{w} = \sum_{i} v_i w_i
+  \]
+\end{remark}
+\begin{remark}
+  If $A$ is hermitian, then:
+  \[
+    (A \vec{v})^{\dag}\vec{w} = \vec{v}^{\dag}(A\vec{w})
+  \]
+\end{remark}
+\begin{theorem}
+  If $A$ is a $n \times n$ Hermitian matrix, then:
+  \begin{enumerate}
+    \item Every eigenvalue of $A$ is real.
+    \item Eigenvectors $\vec{v}, \vec{w}$ with distinct eigenvalues, $\lambda, \mu$ are orthogonal, that is, $\vec{v}^{\dag} \vec{w} = 0$
+    \item If $A$ is symmetric, then for any eigenvalues $\lambda$, we can construct a real eigenvector $\vec{v}$ so that \textbf{ii} reduces to  $\vec{v}^{\trans} \vec{w} = 0$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item Consider an eigenvector $\vec{v}$ with eigenvalue $\lambda$, then:
+    \begin{align*}
+      \vec{v}^{\dag}(A \vec{v}) &= (A \vec{v})^{\dag}\vec{v} \\
+      \vec{v}^{\dag}(\lambda \vec{v}) &=(\lambda \vec{v})^{\dag} \vec{v} \\
+      \lambda \vec{v}^{\dag}\vec{v} &= \overline{\lambda}\vec{v}^{\dag}\vec{v}
+    \end{align*}
+    Since $\vec{v} \neq \vec{0}$, $\lambda = \overline{\lambda} \implies \lambda \in \R$.
+  \item Consider eigenvectors $\vec{v}, \vec{w}$ with eigenvalues $\lambda, \mu$ respectively:
+    \begin{align*}
+      \vec{v}^{\dag}(A \vec{w}) &= (A \vec{v})^{\dag} \vec{w} \\
+      \mu \vec{v}^{\dag}\vec{w} &= \overline{\lambda} \vec{v}^{\dag} \vec{w} \\
+      \mu \vec{v}^{\dag}\vec{w} &= \lambda \vec{v}^{\dag} \vec{w}
+    \end{align*}
+    Since $\lambda \neq \mu$ we must have $\vec{v}^{\dag}\vec{w} = 0$, so $\vec{v}$ and $\vec{w}$ are orthogonal.
+  \item Since $A$ is Hermitian and symmetric, $A$ must be real.
+    From \textbf{i}, all eigenvalues must be real also.
+
+    Consider an eigenvector $\vec{v} \in \C^{n}$ with eigenvalue $\lambda \in \R$.
+    Let $\vec{v} = \vec{u} + i \vec{u}'$ with $\vec{u}, \vec{u}' \in \R^{n}$.
+    Then:
+    \begin{align*}
+      A \vec{v} = \lambda \vec{v} \\
+      A \vec{u} + i(A \vec{u}') = \lambda \vec{u} + i(\lambda \vec{u})
+    \end{align*}
+    Since $\lambda \in \R$, we must have:
+    \[
+      A \vec{u} = \lambda \vec{u} \text{ and } A \vec{u}' = \lambda \vec{u}'
+    \]
+    Furthermore, since $\vec{v} \neq \vec{0}$, at least one of $\vec{u}, \vec{u}' \neq \vec{0}$ so there is at least one real eigenvector.
+  \end{enumerate}
+\end{proof}
 \end{document}

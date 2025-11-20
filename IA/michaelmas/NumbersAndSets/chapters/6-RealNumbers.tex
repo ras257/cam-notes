@@ -409,10 +409,11 @@ If $(a_n)^{\infty}_{n = 1}$ does not converge, then we say it \textit{diverges}.
 Note that although this word suggests that the sequence shoots off to infinity if it diverges, that is not always the case.
 For example, a sequence diverges if it just oscillates between two values forever, see example \textbf{iv} below.
 \begin{remark}
-  For a sequence to \textit{diverge}, the negation of \cref{convergenceDef} must be true for all limits $\ell$:
+  For a sequence to not converge to $\ell$ the negation of \cref{convergenceDef} must be true:
   \[
     \exists \varepsilon > 0 \text{ s.t. } \forall N \in \N, \exists n \geq N \text{ s.t. } |a_n - \ell| \geq \varepsilon
   \]
+  We then write $a_n \centernot \to \ell$
 \end{remark}
 \begin{example}
   \begin{enumerate}
@@ -501,10 +502,119 @@ For example, a sequence diverges if it just oscillates between two values foreve
         }
       \end{tikzpicture}
       \end{center}
+      Let us first show that $a_n \centernot\to 0$.
+      We could pick $\varepsilon = 1$ and observe that $|a_n - 0| = 1\ \forall n \in \N$.
+
+      To show that $a_n$ does not converge to any limit (i.e. it diverges), we argue by contradiction.
+      Suppose $a_m \to \ell$ as $n \to \infty$ for some $\ell \in \R$.
+      Let $\varepsilon = 1$, there must exist some $N \in \N$ such that for all $n \geq N$, $|a_n - \ell| < 1$.
+      In particular, $|1 - l| < 1$ and $|-1 - l| < 1$.
+      But then
+      \[
+        2 = |1 - (-1)| = |1 - l + l - (-1)| \leq |1 - l| + |-1 - l| < 2
+      \]
+      which is a contradiction.
+      Hence $((-1)^{n})^{\infty}_{n = 1}$ diverges.
   \end{enumerate}
 \end{example}
 \begin{remark}[Advice]
   It is difficult to just conjure up a bound on $N$ involving $\varepsilon$.
   Instead, consider the distance between what you think is the limit and $a_n$ and use this to scope out a suitable bound.
+\end{remark}
+We implicitly assumed that if a limit assumed then it is unique. This can be proven
+\begin{proposition}
+  If $a_n \to \ell$ as $n \to \infty$, then the limit $\ell$ is unique.
+\end{proposition}
+\begin{proof}
+  Suppose $a_n \to \ell$ and $a_n \to k$ as $n \to \infty$ with $\ell \neq k$.
+  Chose $\varepsilon = \frac{1}{2}|\ell - k| > 0$.
+  Then $\exists N \in \N$ such that $|a_n - \ell| < \varepsilon$  $\forall n \geq N$ and $\exists M \in \N$ such that $|a_n - k| < \varepsilon$ $\forall n \geq m$.
+
+  But then for any $n \geq \max\{N, M\}$, we have:
+  \[
+    2\varepsilon = |\ell - k| = |\ell - a_n + a_n - k| \leq |\ell - a_n| + |a_n - k| < 2\varepsilon
+  \]
+  which is a contradiction.
+\end{proof}
+\subsection{Boundedness}
+\begin{definition}[Bounded Sequence]
+  A sequence $(a_n)^{\infty}_{n = 1}$ is \textit{bounded} if there exists a real number $B$ such that
+  \[
+    |a_n| \leq B,\ \forall n \in \N
+  \]
+\end{definition}
+\begin{remark}
+  Any convergent sequence is bounded.
+  If $a_n \to \ell$ as $n \to \infty$, then we can take $\varepsilon = 1$ so that $\exists N \in \N$ such that $\forall n \geq N$, $|a_n - \ell| < 1$.
+  Hence $|a_n| \leq \max\{|a_1|, |a_2|, \ldots, |a_{N - 1}|, |\ell| + 1\}\ \forall n \in \N$.
+\end{remark}
+\begin{definition}[Monotonic]
+  A sequence $(a_n)^{\infty}_{n = 1}$ is \textit{monotonic} if it is either increasing or decreasing.
+
+  It is \textit{increasing} if $a_{n + 1} \geq a_n\ \forall n \in \N$ and it is \textit{decreasing} if $a_{n + 1} \leq a_n\ \forall \in \N$.
+\end{definition}
+\begin{theorem}[Monotone Convergence Theorem]
+  Every bounded monotonic sequence of real numbers converges.
+\end{theorem}
+\begin{proof}
+  Suppose $(a_n)$ is increasing.
+  Then the set $\{a_n: n \geq 1\}$ is a non-empty set which is bounded above as $(a_n)$ is bounded.
+  By the least upper bound axiom, it has a supremum, say $\ell$.
+
+  Given $\varepsilon > 0$, $\ell - \varepsilon$ cannot be an upper bound for the set because $\ell$ is the least upper bound.
+  Therefore $\exists N \in \N$ such that $a_N > \ell - \varepsilon$.
+  Thus, since $(a_n)$ is monotonic $\ell - \varepsilon < a_n \leq \ell$ for $\forall n \geq N$.
+  Hence $\forall n \geq N$, $|a_n -\ell| < \varepsilon$ so $a_n \to \ell$.
+
+  The decreasing case is the same but instead considering $(-a_n)$.
+\end{proof}
+\begin{remark}
+  \begin{enumerate}
+    \item Note that for an increasing sequence to converge, we only need to use the fact that it is bounded above.
+    \item The bounded condition is important. For example, the sequence $(a_n)^{\infty}_{n=1}$ with $a_n = n$ is increasing but not bounded and certainly diverges.
+    \item Increasing sequences converge if and only if they are bounded above.
+    \item Monotonic Convergence Theorem is in fact equivalent to the least upper bound axiom.
+    \item You can in fact show that every sequence has a monotonic subsequence, see Analysis 1.
+    \item This does not work over the rational numbers.
+      For example, consider the sequence:
+      \[
+        a_n = \frac{\floor{10^{n}\sqrt{2}}}{10^{n}}
+      \]
+      That is, $a_n$ gives the first $n + 1$ digits of the decimal expansion of $\sqrt{2}$.
+      This is bounded above and increasing sequence of rationals with a limit of $\sqrt{2} \in \R$, but $\sqrt{2} \notin \Q$.
+  \end{enumerate}
+\end{remark}
+\begin{proposition}
+  If $a_n \leq d\ \forall n \in \N$ and $a_n \to c$ as $n \to \infty$, then $c \leq d$.
+\end{proposition}
+\begin{proof}
+  Suppose, for contradiction, that $c > d$.
+  Let $\varepsilon = c - d > 0$.
+  Then $\exists N \in \N$ such that $\forall n \geq N$, $|a_n - c| < \varepsilon$.
+  So $|a_n - c| < c - d$.
+  Since $a_n \leq d < c$, we have $a_n < c$ so $|a_n - c| = c - a_n$.
+  But then we have $c - a_n < c - d \implies a_n > d$ which is a contradiction.
+  So we must have $c \leq d$.
+\end{proof}
+\begin{remark}[Warning]
+  If $a_n < d$ $\forall n \in \N$ and $a_n \to c$ as $n \to \infty$ then we need \textbf{not} have $c < d$.
+
+  For example, $\frac{1}{2}, \frac{1}{2} + \frac{1}{4}, \frac{1}{2} + \frac{1}{4} + \frac{1}{8}, \ldots$, whilst each term is less than 1, $\lim_{n \to \infty} a_n = 1$.
+\end{remark}
+\begin{proposition}
+  If $a_n \to c$ as $n \to \infty$ and $b_n \to d$ as $n \to \infty$, then $a_n + b_n \to c + d$ as $n \to \infty$
+\end{proposition}
+\begin{proof}
+  Given $\varepsilon > 0$, $\exists N \in \N$ such that $\forall n \geq N, |a_n - c| < \frac{\varepsilon}{2}$, and $\exists M \in \N$ such that $\forall n \geq M, |b_n - d| < \frac{\varepsilon}{2}$.
+
+  If we choose $N' = \max\{N, M\}$, then $\forall n \geq N'$:
+  \[
+    |a_n + b_n - (c + d)| \leq |a_m - c| + |b_n - d| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+  \]
+  So $a_n + b_n \to c + d$.
+\end{proof}
+\begin{remark}[Note]
+  When doing a proof like this, it is \textbf{not} imperative that you end up with just $< \varepsilon$ at the end.
+  In the above proof it would be fine to have ended up with $2\varepsilon$ as we could just make the original $\varepsilon$ smaller.
 \end{remark}
 \end{document}
