@@ -572,7 +572,7 @@ This makes it possible to determine conjugacy classes in $A_n$.
 \begin{example}[Conjuacy Classes in $A_4$]
   The even elements of $S_4$ are $e$, $(2, 2)$-cycles, and 3-cycles.
 
-Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy class in half, so $\ccl(\cycle{1 2}\cycle{3 4})$ remains intact in $A_4$.
+Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy class in half, so $\ccl_{S_4}(\cycle{1 2}\cycle{3 4})$ remains intact in $A_4$.
 
   For a 3-cycle, $\sigma = \cycle{1 2 3}$:
   \[
@@ -582,7 +582,7 @@ Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy c
   \[
     C_{S_4}(\cycle{1 2 3}) = \langle \cycle{1 2 3} \rangle \leq A_4
   \]
-  All of the elements in this subgroup are even by \cref{conjugacyAn}, $\ccl_{S_4}\cycle{1 2 3}$ splits.
+  All of the elements in this subgroup are even, so by \cref{conjugacyAn}, $\ccl_{S_4}\cycle{1 2 3}$ splits.
   One half is just the even permutations of $\ccl_{S_4}\cycle{1 2 3}$.
   The other half can be obtained by taking the conjugate of $\cycle{1 2 3}$ by any odd permutation, such as $\cycle{1 2}$ to get $\cycle{1 2}\cycle{1 2 3}\cycle{1 2} = \cycle{3 2 1}$, the other half is then $\ccl_{A_4}\cycle{3 2 1}$.
 
