@@ -1413,6 +1413,7 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
 \end{example}
 \subsection{Method of Frobenius}
 \begin{theorem}[Fuch's Theorem]
+  \label{fuchTheorem}
   \begin{enumerate}
     \item
       If $x = x_0$ is an \textbf{ordinary point}, then there are two linearly independent solutions of the form:
@@ -1426,7 +1427,7 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
       \[
         y = \sum_{n=0}^{\infty} a_n(x - x_0)^{n + \sigma} = (x - x_0)^{\sigma} \sum_{n=0}^{\infty} a_n(x - x_0)^{n}
       \]
-      where $\sigma \in \R$ and $a_0 \neq 0$ (this is so $\sigma$ is unique).
+      where $\sigma \in \C$ and $a_0 \neq 0$ (this is so $\sigma$ is unique).
       This is called a \textit{Frobenius series}.
   \end{enumerate}
 \end{theorem}
@@ -1522,5 +1523,198 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
     y = a_1 x + a_0 \left[1 - \frac{x}{2}\ln\left(\frac{1 + x}{1 - x}\right)\right]
   \]
   Note the divergent behaviour near the singular points $x = \pm 1$.
+\end{example}
+\begin{example}[Regular Singular Point]
+  \[
+    4xy'' + 2(1 - x^2)y' - xy = 0
+  \]
+  Since $\frac{2(1-x^2)}{4x}$ is not analytic at $x = 0$ but $2(1-x^2)$ is analytic at $x = 0$, $x = 0$ is a regular singular point.
+
+  For convenience, we start by multiplying the DE by $x$.
+  \[
+    4x^2y'' + 2(1 - x^2)xy' - x^2y = 0
+  \]
+  Try $y=\sum_{n=0}^{\infty} a_n x^{n + \sigma}$, where $a_0 \neq 0$.
+  \[
+    \sum_{n=0}^{\infty} a_nx^{n + \sigma}[4\left(n + \sigma\right)(n + \sigma - 1) + 2(1-x^2)(n + \sigma) - x^2] = 0
+  \]
+  We will look at the lowest power of $x$ to determine $\sigma$, the lowest power is $x^{\sigma}$ which only occurs when $n = 0$.
+  Comparing coefficients, we get:
+  \begin{align*}
+    a_0[4\sigma(\sigma - 1) + 2\sigma] &= 0  \\
+    2a_0\sigma(2\sigma - 1) &= 0
+  \end{align*}
+  This is called the \textit{indicial equation}.
+  Since $a_0 \neq 0$, we have either $\sigma = 0$ or $\sigma = \frac{1}{2}$.
+
+  The next lowest power of $x$ is $x^{\sigma + 1}$ which only occurs when $n = 1$:
+  \begin{align*}
+    a_1 [4(\sigma + 1)\sigma + 2(\sigma + 1)] &= 0 \\
+    2a_1(\sigma + 1) (2\sigma  + 1) &= 0
+  \end{align*}
+  Since $\sigma = 0$ or $\sigma = \frac{1}{2}$, we must have $a_1 = 0$.
+
+  Now consider $x^{n + \sigma}$ for $n \geq 2$.
+  Because $n \geq 2$, we get contributions from $x^{n - 2 + \sigma} \cdot x^2$ so we could expect to see $a_{n-2}$:
+  \begin{align*}
+    a_n4(n + \sigma)(n + \sigma - 1) + 2a_n(n + \sigma) - 2a_{n - 2}(n + \sigma - 2)- a_{n - 2} &= 0 \\
+    2(n + \sigma)(2n + 2\sigma - 1)a_n &= (2n + 2\sigma - 3)a_{n - 2}
+  \end{align*}
+  First, consider $\sigma = 0$:
+  \begin{align*}
+    2n(2n - 1)a_n &= (2n - 3)a_{n -2} \\
+    a_n &= \frac{2n - 3}{2n(2n -1)}a_{n-2}
+  \end{align*}
+  which us a recurrence relation for $a_n$.
+  For the odd terms, we have $a_1 = 0$ so $a_3 = a_5 = a_7 = \cdots = 0$.
+  For the even terms:
+  \[
+    a_2 = \frac{1}{4 \cdot 3}a_0,\ a_4 = \frac{5}{8 \cdot 7}a_2 = \frac{5 \cdot 1}{8 \cdot 7 \cdot 4 \cdot 3}a_0
+  \]
+  Therefore:
+  \[
+    y_1 = a_0\left[1 + \frac{x^2}{4\cdot3} + \frac{5x^4}{8\cdot 7 \cdot 4 \cdot 3} + \cdots\right]
+  \]
+  which is just a Taylor series.
+
+  Now considering $\sigma = \frac{1}{2}$:
+  \begin{align*}
+    2\left(n + \frac{1}{2}\right)(2n + 1 - 1)a_n &= (2n + 1 - 3)a_{n -2} \\
+    2n(2n + 1)a_n &= 2(n-1)a_{n-2}\\
+    a_n &= \frac{n - 1}{n(2n  + 1)}a_0
+  \end{align*}
+  For the odd terms, we again have $a_1 = a_3 = a_5 = a_7 = \cdots = 0$.
+  For the even terms:
+  \[
+    a_2 = \frac{1}{2 \cdot 5}a_0,\ a_4 = \frac{3}{4 \cdot 9}x_2 = \frac{3 \cdot 1}{4 \cdot 9 \cdot 2 \cdot 5}a_0, \ldots
+  \]
+  Therefore:
+  \[
+    y_2 = b_0x^{\frac{1}{2}}\left[1 + \frac{x^2}{2 \cdot 5} + \frac{3x^4}{4 \cdot 9 \cdot 2 \cdot 5} + \cdots\right]
+  \]
+  We relabeled the constant to $b_0$ as it does not have to be the same constant as in $y_1$ as we expect to have two arbitrary constants in the final solution.
+  Note that this is an example of a Frobenius series.
+\end{example}
+\begin{remark}[Note]
+  In this example, we were able to find two linearly independent solutions but we know from \cref{fuchTheorem} that this is not generally the case.
+\end{remark}
+\subsection{Second Solutions}
+We are guaranteed to get one series solution about a regular singular point, but whether we get a second linearly independent such solution depends on the roots of the \textit{indicial equation}, say $\sigma_1$ and $\sigma_2$.
+\begin{proofcases}
+  \begin{case}{$\sigma_2 - \sigma_1$ \textbf{not} an integer}
+    In this case, we get two linearly independent series solutions:
+    \begin{align*}
+      y_1 &= (x - x_0)^{\sigma_1}\sum_{n=0}^{\infty} a_n (x - x_0)^{n} \\
+      y_2 &= (x - x_0)^{\sigma_2}\sum_{n=0}^{\infty} b_n (x - x_0)^{n}
+    \end{align*}
+    Note that if $\Re(\sigma_1) < \Re(\sigma_2)$ then $y_1$ will dominate as $x$ gets close to $x_0$.
+  \end{case}
+  \begin{case}{$\sigma_2 - \sigma_1$ is a \textbf{non-zero} integer}
+    In this case, we get one series solution involving the larger root, say $\sigma_2 > \sigma_1$.
+    \[
+      y_1 = (x - x_0)^{\sigma_2}\sum_{n=0}^{\infty} a_n (x - x_0)^{n}
+    \]
+    The second solution has the form:
+    \[
+      y_2 = (x - x_0)^{\sigma_1}\sum_{n=0}^{\infty} b_n(x - x_0)^{n} + Cy_1(x)\ln(x - x_0)
+    \]
+    where $C$ is a constant that may or may not be zero.
+    $C$ is determined in terms of $a_0$ and $b_0$, so we will have two arbitrary constants, as required.
+  \end{case}
+  \begin{case}{$\sigma_2 = \sigma_1 = \sigma$ -- Degenerate case}
+    This is the similar to the second case, but we require $C \neq 0$ so that the two solutions are linearly independent.
+  \end{case}
+\end{proofcases}
+\begin{example}[Case 2]
+  \[
+    x^2y'' - xy = 0
+  \]
+  Since $-\frac{1}{x}$ is not analytic at $x = 0$ but $-x$ is analytic at $x = 0$, $x = 0$ is a regular singular point.
+
+  Try $y = \sum_{n=0}^{\infty} a_nx^{n + \sigma}$, where $a_0 \neq 0$.
+  \[
+    \sum_{n=0}^{\infty} \left[a_n(n + \sigma)(n + \sigma - 1)x^{n + \sigma} - a_nx^{n + \sigma + 1}\right] = 0
+  \]
+  In this case, the lowest power of $x$ is $x^{\sigma}$ which is only obtained when $n = 0$:
+  \[
+    a_0\sigma(\sigma -  1) = 0
+  \]
+  So $\sigma_1 = 0$ and $\sigma_2 = 1$.
+  $\sigma_2 - \sigma_1 = 1$ which is a non-zero integer so we are indeed in case 2.
+
+  For $n \geq 1$, since we can obtain $x^{n + \sigma}$ from $x^{n - 1 + \sigma + 1}$, we should expect to see $a_{n- 1}$:
+  \[
+    a_n (n + \sigma)(n + \sigma - 1) - a_{n - 1} = 0
+  \]
+
+  Starting with $\sigma_2 = 1$:
+  \[
+    a_n = \frac{a_{n - 1}}{n(n + 1)} \implies a_n = \frac{a_0}{n!(n + 1)!}
+  \]
+  Therefore:
+  \[
+    y_1 = a_0 x \left[1 + \frac{x}{2} + \frac{x^2}{12} + \frac{x^3}{144} + \cdots\right]
+  \]
+
+  Now with $\sigma_1 = 0$ we have:
+  \[
+    a_n n(n - 1) = a_{n - 1}
+  \]
+  But when $n = 1$, we have $a_0 = 0$ which is a contradiction.
+  So as expected, we cant find another series solution like we did previously.
+
+  At this point, to obtain a second linearly independent solution, we can either try a solution of the form:
+  \[
+    y_2 = \sum_{n=0}^{\infty} b_n x^{n} + Cy_1(x)\ln x
+  \]
+  or use a different method, such as reduction of order (see \cref{reductionOrder}).
+
+  \nonexaminable
+  To proceed using a series solution method, we can determine $\{b_n\}$ and $C$ by direct substitution into the ODE.
+
+  We have:
+  \begin{align*}
+    xy_2 &= Cy_1 x\ln x + \sum_{n=0}^{\infty} b_n x^{n + 1} \\
+    x^2y_2'' &= C(y_1'' x^2 \ln x + 2xy_1' - y_1) + \sum_{n=0}^{\infty} b_nn(n-1)x^{n}
+  \end{align*}
+  Thus:
+  \begin{align*}
+    x^2y_2'' - xy_2 &= C(\ln x (\overbrace{x^2 y_1'' -y_1x}^{=0}) + 2xy_1' - y_1) + \sum_{n=0}^{\infty} b_n[n(n-1)x^{n} - x^{n + 1}] \\
+                    &= 2Cxy_1' - Cy_1 + \sum_{n=0}^{\infty} b_n[n(n-1)x^{n} - x^{n + 1}]
+  \end{align*}
+  So we require:
+  \[
+    2Cxy_1' - Cy_1 + \sum_{n=0}^{\infty} b_n[n(n-1)x^{n} - x^{n + 1}] = 0
+  \]
+  for $y_2$ to be a solution.
+  From the series for $y_1$, we see that:
+  \begin{align*}
+    y_1 &= \sum_{n=0}^{\infty} a_n x^{n + 1} \text{ (as $\sigma_2 = 1$)} \\
+    xy_1' &= \sum_{n=0}^{\infty} a_n(n + 1)x^{n + 1}
+  \end{align*}
+  So we require:
+  \[
+    C\sum_{n=0}^{\infty} a_n (2n + 1)x^{n + 1} + \sum_{n=0}^{\infty} b_n[n(n-1)x^{n} - x^{n + 1}] = 0
+  \]
+  The $x^{0}$ term vanishes but for $x^{n}$ with $n \geq 1$ we need:
+  \[
+    Ca_{n - 1}(2n - 1) + n(n - 1)b_n - b_{n - 1} = 0
+  \]
+  When $n = 1$, this gives $Ca_0 = b_0$ so $C = \frac{b_0}{a_0}$.
+  Substituting in the expression for $a_n$ yields:
+  \[
+    \frac{2n - 1}{n!(n - 1)!}b_0 - b_{n - 1} +  n(n - 1)b_n = 0
+  \]
+  In this recurrence, we can choose $b_0$ and $b_1$ arbitrarily to then determine $b_n$ for all $n$ from there.
+
+  Note that if $b_0 = 0$, then $y_2$ reduces to a multiple of $y_1$ so would not be a second linearly independent solution.
+  In the case of $b_1 = 0$ we have:
+  \[
+    b_2 = -\frac{3}{4},\ b_3 = -\frac{7}{36}, \ldots
+  \]
+  So $y_2$ is then:
+  \[
+    y_2 = \frac{b_0}{a_0} y_1(x)\ln x + b_0\left[1 - \frac{3x^2}{4} - \frac{7x^3}{36} + \cdots\right]
+  \]
 \end{example}
 \end{document}
