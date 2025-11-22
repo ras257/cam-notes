@@ -367,6 +367,8 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
 
   Let $B_\lambda$ be a basis for the eigenspace $E_\lambda$ associated with $\lambda$.
   If $\lambda_1, \ldots, \lambda_r$ are distinct, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set.
+
+  See \cref{gramSchmidt} for a construction of this in the case of Hermitian matrices.
 \end{remark}
 We can now prove \cref{diagonalProp}
 \begin{proof}[\Cref{diagonalProp}]
@@ -390,6 +392,10 @@ We can now prove \cref{diagonalProp}
     The columns of $P$ span $V$ so we have found a basis of eigenvectors for $V$.
   \end{proofdirection}
 \end{proof}
+\begin{remark}
+  We see that the columns of $P$ are the eigenvectors of $A$.
+  Since we need $P$ to be invertible, they must form a basis for $V$, which agrees with the equivalence of the two statements.
+\end{remark}
 \subsection{Criteria For Diagonalisability}
 \subsubsection{A sufficient but not necessary condition}
 \begin{proposition}
@@ -432,6 +438,7 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
 \end{definition}
 \begin{remark}
   Similar matrices represent the same linear map with respect to different bases.
+  See \cref{COBSpecialCases}.
 \end{remark}
 \begin{proposition}
   \label{similarProperties}
@@ -549,6 +556,7 @@ We can use these relations between similar matrices to provide a proof for \cref
   \]
 \end{remark}
 \begin{theorem}
+  \label{hermitianProperties}
   If $A$ is a $n \times n$ Hermitian matrix, then:
   \begin{enumerate}
     \item Every eigenvalue of $A$ is real.
@@ -589,4 +597,254 @@ We can use these relations between similar matrices to provide a proof for \cref
     Furthermore, since $\vec{v} \neq \vec{0}$, at least one of $\vec{u}, \vec{u}' \neq \vec{0}$ so there is at least one real eigenvector.
   \end{enumerate}
 \end{proof}
+\subsection{Gram-Schmidt Orthogonalisation}
+\label{gramSchmidt}
+Given a linearly independent set of vectors in $\C^{n}$ $\{\vec{w}_1, \ldots, \vec{w}_r\}$.
+Using the \textit{Gram-Schmidt Process}, we can construct a sequence of sets of the form:
+\begin{center}
+\begin{tabular}{c}
+$\{\vec{w}_1, \vec{w}_2, \vec{w}_3, \ldots, \vec{w}_r\} $ \\
+$\{\vec{u}_1, \vec{w}_2', \vec{w}_3', \ldots, \vec{w}_r'\} $ \\
+$\{\vec{u}_1, \vec{u}_2, \vec{w}_3'', \ldots, \vec{w}_r''\} $ \\
+$\vdots$ \\
+$\{\vec{u}_1, \vec{u}_2, \vec{u}_3,\ldots, \vec{u}_r\} $ \\
+\end{tabular}
+\end{center}
+where the final set, $\{\vec{u}_1, \vec{u}_2, \ldots, \vec{u}_n\}$, is an orthonormal set.
+
+At each step of the process:
+\begin{itemize}
+  \item The span of the set is unmodified.
+  \item The set is linearly independent.
+  \item All of the $\vec{u}_i$ are orthonormal to each other.
+  \item All of the $\vec{u}_i$ are orthogonal all of the $\vec{w}_i$.
+\end{itemize}
+\subsubsection{Construction}
+\begin{itemize}
+  \item \textbf{Step 1 -} Define $\vec{u}_1$ and $\vec{w}_j'$ for $j = 2, \ldots, r$ as:
+    \[
+      \vec{u}_1 = \frac{\vec{w}_1}{|\vec{w}_1|},\ \vec{w}_j' = \vec{w}_j  - (\vec{u}^{\dag}_{1}\vec{w}_j)\vec{u}_1
+    \]
+    This guarantees that $|\vec{u}_1| = 1$. We also see that:
+    \begin{align*}
+      \vec{u}^{\dag}_{1}\vec{w}_j' &= \vec{u}^{\dag}_{1}(\vec{w}_j - (\vec{u}^{\dag}_{1}\vec{w}_j)\vec{u}_1) \\
+                                   &= \vec{u}^{\dag}_{1}\vec{w}_j - (\vec{u}^{\dag}_{1}\vec{w}_j)(\underbrace{\vec{u}^{\dag}_{1}\vec{u}_1}_{|\vec{u}_1| = 1}) \\
+                                   &= \vec{u}^{\dag}_{1}\vec{w}_j -\vec{u}^{\dag}_{1}\vec{w}_j = 0
+    \end{align*}
+    So $\vec{u}^{\dag}_{1}\vec{w}_j' = 0$ for $j = 2, \ldots, r$.
+  \item \textbf{Step 2 -} Define $\vec{u}_2$ and $\vec{w}_j''$ for $j = 3, \ldots, r$ as:
+    \[
+      \vec{u}_2 = \frac{\vec{w}_2'}{|\vec{w}_2|},\ \vec{w}_j'' = \vec{w}_j' - (\vec{u}^{\dag}_{2}\vec{w}_j')\vec{u}_2
+    \]
+    This guarantees that:
+    \begin{itemize}
+      \item $|\vec{u}_2| = 1$
+      \item $\vec{u}_1$ and $\vec{u}_2$ are orthogonal since:
+        \[
+          \vec{u}^{\dag}_{1}\vec{u}_2 = \frac{\vec{u}^{\dag}_{1}\vec{w}_2'}{|\vec{w}_2|} = 0
+        \]
+        where $\vec{u}^{\dag}_{1}\vec{w}_2' = 0$ by the construction from the previous step.
+      \item $\vec{u}_1$ is orthogonal to $\vec{w}_j''$ for $j = 3, \ldots, r$ since:
+        \[
+          \vec{u}^{\dag}_{1}\vec{w}_j'' = \underbrace{\vec{u}^{\dag}_{1}\vec{w}_j}_{=0} -(\vec{u}^{\dag}_{2}\vec{w}_j')(\underbrace{\vec{u}^{\dag}_{1}\vec{u}_2}_{=0}) =0
+        \]
+      \item $\vec{u}_2$ is orthogonal to $\vec{w}_j''$ for $j = 3, \ldots, r$ because $\vec{u}^{\dag}_{2}\vec{w}_j'' = 0$ by the same argument as in Step 1.
+    \end{itemize}
+  \item \textbf{Step ...}\par
+    Repeatedly apply the same construction for $r$ steps total.
+\end{itemize}
+Since the construction at each step preserves the properties listed earlier, we will end up with an orthonormal set of vectors.
+
+If we have a Hermitian matrix $A$, we can use this process to obtain an orthonormal basis $B_\lambda$ for each eigenspace $E_\lambda$.
+Since we established that all the eigenvectors associated with different eigenvalues of a hermitian matrix are orthogonal, if $\lambda_1, \ldots, \lambda_r$ are distinct eigenvalues of $A$, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is an orthonormal set.
+\subsection{Unitary and Orthogonal Diagonalisation}
+\begin{theorem}
+  If $A$ is a $n \times n$ hermitian matrix, then $A$ is diagonalisable.
+\end{theorem}
+More specifically, if $A$ is hermitian, then all of the following equivalent statements hold:
+\begin{enumerate}
+  \item There exists a basis for $\C^{n}$ of eigenvectors $\vec{u}_1, \ldots, \vec{u}_n \in \C^{n}$ with $A \vec{u}_i = \lambda_i \vec{u}_i$.
+  \item There exists a $n \times n$ invertible matrix $P$ with $P^{-1}AP = D$ where:
+    \begin{itemize}
+      \item $D$ is a diagonal matrix with $\lambda_1, \ldots, \lambda_n$ on the diagonal
+      \item $C_i(P) = \vec{u}_i$, i.e., the columns of $P$ are the eigenvectors.
+    \end{itemize}
+\end{enumerate}
+\begin{remark}
+  In addition, the eigenvectors, $\vec{u}_i$ can be chosen to be orthonormal, that is:
+  \[
+    \vec{u}^{\dag}_{i}\vec{u}_j = \delta_{i j}
+  \]
+  Equivalently, the matrix $P$ can be chosen to be unitary, so that $P^{-1} = P^{\dag}$ and thus $P^{\dag} A P = D$.
+
+  When working with real matrices, for a $n \times n$ real \textbf{symmetric} matrix $A$ ($A^{\trans} = A$), the eigenvectors can be taken to be $\vec{u}_1, \ldots, \vec{u}_n \in \R^{n}$ (see \cref{hermitianProperties}) and can be chosen so that:
+  \[
+    \vec{u}^{\trans}_{i} \vec{u}_j = \vec{u}_i \cdot \vec{u}_j= \delta_{i j}
+  \]
+  Equivalently, $P$ can be chosen to be orthogonal, so that $P^{-1} = P^{\trans}$ and thus $P^{\trans} A P = D$.
+\end{remark}
+\section{Change of Basis}
+Consider the real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$.
+Let $T: V \to W$ be a linear map and let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be a basis of $V$ and $\{\vec{f}_1, \ldots, \vec{f}_n\}$ be a basis of $W$ such that $T$ is represented by an $m \times n$ matrix $A$ with respect to these bases.
+
+From \cref{matrixDef}, this means that:
+\[
+  T(\vec{e}_i) = \sum_{j} \vec{f}_j A_{j i}
+\]
+Now let $\{\vec{e}_1', \ldots, \vec{e}_n'\}$ be a new basis of $V$ and $\{\vec{f}_1', \ldots, \vec{f}_n'\}$ be a new basis of $W$.
+$T$ is represented with respect to these new basis by a $m \times n$ matrix $B$.
+Namely:
+\[
+  T(\vec{e}_i') = \sum_{j} \vec{f}_j' B_{j i}
+\]
+Suppose that the bases are related by:
+\[
+  \vec{e}_i' = \sum_{k} \vec{e}_k P_{k i} \text{ and } \vec{f}_j' = \sum_{l} \vec{f}_l Q_{l j}
+\]
+where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of which are invertible.
+\begin{proposition}[Change of Basis Formula]
+  If $A, B, P, Q$ are defined as above, then:
+  \[
+    B = Q^{-1} A P
+  \]
+  This defines the \textit{change of basis formula} for matrices of linear maps.
+  $P$ and $Q$ are called the \textit{change of basis matrices}.
+\end{proposition}
+\begin{proof}
+  Consider the image of an element from the new basis for $V$, $\vec{e}_i'$, under $T$.
+
+  We first use the definition of $P$ to yield:
+  \begin{align*}
+    T(\vec{e}_i') &= T\left(\sum_{k} \vec{e}_k P_{k i} \right) \text{ (by definition of $P$)} \\
+                  &= \sum_{k} T(\vec{e}_k)P_{k i} \text{ (by linearity)} \\
+                  &= \sum_{k, j} \vec{f}_j A_{j k} P_{k i}  \text{ (by definition of $A$)}
+  \end{align*}
+  Secondly, we use the definition of $B$:
+  \begin{align*}
+    T(\vec{e}_i') &= \sum_{j} \vec{f}_j' B_{j i} \text{ (by definition of $B$)}\\
+                  &= \sum_{j, l} \vec{f}_l Q_{l j}B_{j i} \text{ (by definition of $Q$)}\\
+                  &= \sum_{k, j} \vec{f}_j Q_{j k}B_{k i} \text{ (Relabel $l \mapsto j$, $j \mapsto k$)}
+  \end{align*}
+  We can then compare the coefficients of $\vec{f}_j$ in each expression for $T(\vec{e}_i)$:
+  \begin{align*}
+    \sum_{k} A_{j k}P_{k i} &= \sum_{k} Q_{j k}B_{k i} \\
+    (AP)_{j i} &= (QB)_{j i} \\
+    \implies AP &= QB
+  \end{align*}
+  Since $P$ and $Q$ are invertible, the result follows.
+\end{proof}
+\begin{remark}
+  \begin{enumerate}
+    \item From the definition of $A$ which represents $T$ with respect to the original bases $\{\vec{e}_i\}$ and $\{\vec{f}_j\}$, we see that  that column $i$ of $A$ consists of the components of $T(\vec{e}_i)$ with respect to $\{\vec{f}_j\}$.
+
+      Similarly, for the matrix $B$ which represents $T$ with respect to the new bases $\{\vec{e}_i'\}$ and $\{\vec{f}_j'\}$,  column $i$ of $B$ consists of the components of $T(\vec{e}_i')$ with respect to $\{\vec{f}_j'\}$.
+    \item Column $i$ of $P$ consists of the components of $\vec{e}_i'$ with respect to the original basis $\{\vec{e}_i\}$.
+
+      Similarly, column $i$ of $Q$ consists of the components of $\vec{f}_i'$ with respect to the original basis $\{\vec{f}_j\}$
+    \item If instead of changing in the direction:
+      \begin{align*}
+        \{\vec{e}_i\} &\to \{\vec{e}_i'\} \\
+        \{\vec{f}_j\} &\to \{\vec{f}_j'\}
+      \end{align*}
+      we instead change in the converse direction, then $P' = P^{-1}$ and $Q' = Q^{-1}$.
+      The original bases can then be obtained with:
+      \[
+        \vec{e}_i = \sum_{k} \vec{e}_k' P_{k i}' \text{ and } \vec{f}_j = \sum_{l} \vec{f}_l' Q_{l j}'
+      \]
+  \end{enumerate}
+\end{remark}
+\begin{example}
+  Consider $\dim V = n = 2$ and $\dim W = m = 3$.
+  Suppose the image of the original basis is given by:
+  \begin{align*}
+    T(\vec{e}_1) &= \vec{f}_1  + 2\vec{f}_2 - \vec{f}_3 \\
+    T(\vec{e}_2) &= -\vec{f}_1  + 2\vec{f}_2 + \vec{f}_3
+  \end{align*}
+  Then, from remark \textbf{i} above, $A$ is represented by:
+  \[
+    A = \begin{pmatrix}
+    1 & -1 \\
+    2 & 2 \\
+    -1 & 1 \\
+    \end{pmatrix}
+  \]
+
+  Now consider a new basis for $V$, $\{\vec{e}_1', \vec{e}_2'\}$ that is related to $\{\vec{e}_1, \vec{e}_2\}$ by:
+  \[
+    \vec{e}_1' = \vec{e}_1 - \vec{e}_2 \text{ and } \vec{e}_2' = \vec{e}_1 + \vec{e}_2
+  \]
+  so, by remark \textbf{ii} above, $P$ is:
+  \[
+    P = \begin{pmatrix}
+    1 & 1 \\
+    -1 & 1 \\
+    \end{pmatrix}
+  \]
+  Now consider a new basis for $W$, $\{\vec{f}_1', \vec{f}_2', \vec{f}_3'\}$ that is related to $\{\vec{f}_1, \vec{f}_2, \vec{f}_3\}$ by:
+  \begin{align*}
+    \vec{f}_1' &= \vec{f}_1 - \vec{f}_3 \\
+    \vec{f}_2' &= \vec{f}_2 \\
+    \vec{f}_3' &= \vec{f}_1 + \vec{f}_3
+  \end{align*}
+  So, again by remark \textbf{ii}, $Q$ is:
+  \[
+    Q = \begin{pmatrix}
+    1 & 0 & 1 \\
+    0 & 1 & 0 \\
+    -1 & 0 & 1 \\
+    \end{pmatrix}
+  \]
+  From the change of basis formula, we then have:
+  \[
+    B = Q^{-1}AP = \begin{pmatrix}
+    2 & 0 \\
+    0 & 4 \\
+    0 & 0 \\
+    \end{pmatrix}
+  \]
+  Thus, by remark \textbf{i}, the images of the new basis vectors are:
+  \[
+    T(\vec{e}_1') = 2\vec{f}_1',\ T(\vec{e}_2') = 4\vec{f}_2'
+  \]
+  We can check our answer by ensuring that the images of the original basis match:
+  \begin{align*}
+    T(\vec{e}_1') &= T(\vec{e}_1) - T(\vec{e}_2) \\
+                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 - (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3)) \\
+                  &= 2\vec{f}_1 -2 \vec{f}_3 \\
+                  &= 2\vec{f}_1'
+  \end{align*}
+  and:
+  \begin{align*}
+    T(\vec{e}_2') &= T(\vec{e}_1) + T(\vec{e}_2) \\
+                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 + (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3)) \\
+                  &= 4\vec{f}_2 \\
+                  &= 4\vec{f}_2'
+  \end{align*}
+  which is consistent \tick
+\end{example}
+\begin{remark}[Special Cases]
+  \label{COBSpecialCases}
+  \begin{enumerate}
+    \item If $V = W$ and both have the same bases, that is, $\vec{e}_i = \vec{f}_i$ and $\vec{e}_i' = \vec{f}_i'$, then $P = Q$ so the change of basis formula becomes:
+      \[
+        B = P^{-1} A P
+      \]
+      Therefore, matrices represent the same linear map $T: V \to V$ if and only if they are \textbf{similar}.
+    \item Consider the case $V = W = \R^{n} \text{ or }\C^{n}$ both with the standard basis $\{\vec{e}_i\}$.
+
+      If there exists a basis of eigenvectors of $T$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$, then we can construct this to be the new basis $\{\vec{e}_i' = \vec{v}_i\}$ and define $B$ to be the matrix of $T$ with respect to this new basis.
+
+      It then follows that:
+      \[
+        B = D
+      \]
+      where $D$ is a diagonal matrix with $\lambda_1, \ldots, \lambda_n$ on the diagonal where $T(\vec{v}_i) = \lambda_i \vec{v}_i$ and thus $D = P^{-1} A P$.
+      By definition:
+      \[
+        \vec{v}_i  = \sum_{j} \vec{e}_j P_{j i}
+      \]
+      That is, the eigenvectors are the columns of $P$.
+      Hence $P$ is both the change of basis matrix and also the matrix that diagonalises $A$.
+  \end{enumerate}
+\end{remark}
 \end{document}

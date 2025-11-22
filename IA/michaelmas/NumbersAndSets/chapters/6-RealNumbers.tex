@@ -554,6 +554,7 @@ We implicitly assumed that if a limit assumed then it is unique. This can be pro
   It is \textit{increasing} if $a_{n + 1} \geq a_n\ \forall n \in \N$ and it is \textit{decreasing} if $a_{n + 1} \leq a_n\ \forall \in \N$.
 \end{definition}
 \begin{theorem}[Monotone Convergence Theorem]
+  \label{MCT}
   Every bounded monotonic sequence of real numbers converges.
 \end{theorem}
 \begin{proof}
@@ -616,5 +617,164 @@ We implicitly assumed that if a limit assumed then it is unique. This can be pro
 \begin{remark}[Note]
   When doing a proof like this, it is \textbf{not} imperative that you end up with just $< \varepsilon$ at the end.
   In the above proof it would be fine to have ended up with $2\varepsilon$ as we could just make the original $\varepsilon$ smaller.
+\end{remark}
+\section{Series}
+In the reals, the sum of two numbers is defined, so by induction, all finite sums are defined.
+But, a priori, infinite sums are not.
+Nevertheless, for example, we know that:
+\[
+  1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \cdots = \ln 2
+\]
+\subsection{Partial Sums}
+\begin{definition}[Partial Sum]
+Let $(a_n)$ be a sequence, then for any finite $k$
+\[
+  s_k = \sum_{n = 1}^{k} a_n
+\]
+is the \textit{$k$-th partial sum} of the \textit{series} whose $n$-th term is $a_n$.
+\end{definition}
+\begin{definition}[Series]
+A \textit{series} is an infinite sum of terms of a sequence. It value can be thought of as the limit of the partial sum $s_k$ as $k \to \infty$.
+
+We write:
+\[
+  \sum_{n=1}^{\infty} a_n = \lim_{k \to \infty} s_k
+\]
+if the limit exists.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item The series whose $n$-th term is $a_n = r^{n}$ for some $|r| < 1$, is known as the \textit{geometric} series.
+      \begin{align*}
+        s_k &= r + r^2 + \cdots + r^{k} \\
+            &= r \cdot \frac{1 - r^{k}}{1 -r} \to r \cdot \frac{1}{1 - r}
+      \end{align*}
+      as $k \to \infty$ since $r^{k} \to 0$.
+      Hence:
+      \[
+        \sum_{n = 1}^{\infty} r^{n} = \frac{r}{1 - r}
+      \]
+    \item The series whose $n$-th term is $a_n = \frac{1}{n}$ is known as the \textit{harmonic series}.
+      \begin{align*}
+        s_{2^{k}} &= 1 + \frac{1}{2} + \underbrace{\frac{1}{3} + \frac{1}{4}}_{\geq 2 \cdot \frac{1}{4}} + \underbrace{\frac{1}{5} + \frac{1}{6} + \frac{1}{7} + \frac{1}{8}}_{\geq 4\cdot \frac{1}{8}} + \cdots + \frac{1}{2^{k}} \\
+                  &\geq 1 + \frac{1}{2} + 2 \cdot \frac{1}{4} + 4 \cdot \frac{1}{8} + \cdots + 2^{k - 1} \cdot\frac{1}{2^{k}}
+      \end{align*}
+      In general, we are dividing this sum into blocks that look like:
+      \[
+        \frac{1}{2^{m} + 1} + \frac{1}{2^{m} + 2} + \cdots + \frac{1}{2^{m + 1}} \geq 2^{m} \cdot \frac{1}{2^{m + 1}} = \frac{1}{2}
+      \]
+      Hence:
+      \[
+        s_{2^{k}} \geq 1 + \frac{k}{2}
+      \]
+      So the partial sums are increasing and unbounded, so $\sum_{n=1}^{\infty} \frac{1}{n}$ diverges.
+    \item Consider the series whose $n$-th term is $a_n = \frac{1}{n^2}$.
+      \[
+        s_{(2^{k} - 1)} = 1 + \underbrace{\frac{1}{2^{2}} + \frac{1}{3^{2}}}_{\leq 2 \cdot \frac{1}{2^{2}}} + \underbrace{\frac{1}{4^{2}} + \frac{1}{5^{2}} + \frac{1}{6^{2}} + \frac{1}{7^{2}}}_{\leq 4\cdot \frac{1}{4^{2}}} + \cdots + \frac{1}{(2^{k} - 1)^2}
+      \]
+      In general, we are dividing this sum into blocks that look like:
+      \[
+        \frac{1}{(2^{m})^2} + \frac{1}{(2^{m} + 1)^2} + \cdots + \frac{1}{(2^{m + 1} - 1)^2} \leq 2^{m} \cdot \frac{1}{(2^{m})^2} = \frac{1}{2^{m}}
+      \]
+      Hence:
+      \[
+        s_{(2^{k} - 1)} &\leq 1 + \frac{1}{2} + \frac{1}{4} + \cdots + \frac{1}{2^{k - 1}}
+      \]
+      Using the geometric series from \textbf{i}, we see that:
+      \[
+        \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots = \frac{1/2}{1 - 1/2} = 1
+      \]
+      So $s_{(2^{k} - 1)} < 2$.
+
+      Since the partial sums are bounded above and increasing, by the Monotone Convergence Theorem (\cref{MCT}), they converge as $n \to \infty$.
+      Therefore, the series converges.
+      In fact, it can be shown that it converges to $\frac{\pi^2}{6}$.
+  \end{enumerate}
+\end{example}
+\subsection{Decimal Expansions}
+Let $(d_n)$ be a sequence with $d_n \in \{0, 1, \ldots, 9\}$.
+Then $\sum_{n = 1}^{\infty} \frac{d_n}{10^{n}}$ converges to some limit $x$ where $0 \leq x \leq 1$, because the partial sums
+\[
+  s_m = \sum_{n=1}^{m} \frac{d_n}{10^{n}}
+\]
+are increasing and bounded above by a geometric series:
+\[
+  s_m = \sum_{n=1}^{m} \frac{d_n}{10^{n}} \leq \sum_{n=1}^{\infty} \frac{9}{10^{n}} = \frac{9}{10} \cdot \frac{1}{1 - \frac{1}{10}} = 1
+\]
+so converge.
+
+We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
+\begin{proposition}
+  Every $x \in \R$, $0 \leq x < 1$ has a decimal expansion
+\end{proposition}
+\begin{proof}
+  Pick $d_1$ to be the maximal integer such that $\frac{d_1}{10} \leq x < 1$.
+  We must have $0 \leq d_1 \leq 9$ because we required $0 \leq x < 1$.
+  Moreover, since $d_1$ was picked to be maximal, we must have $x - \frac{d_1}{10} < \frac{1}{10}$.
+  So overall, we have $0 \leq x- \frac{d_1}{10} < \frac{1}{10}$.
+
+  Similarly, pick $d_2$ to be the maximal integer such that $\frac{d_2}{100} \leq x - \frac{d_1}{10} < \frac{1}{10}$.
+  Since $\frac{d_2}{100} < \frac{1}{10}$  and $x - \frac{d_1}{10} \geq 0$, we must have $0 \leq d_2 \leq 9$.
+  Moreover, since $d_2$ was picked to be maximal, we must have $x - \frac{d_1}{10} - \frac{d_2}{100} < \frac{1}{100}$.
+  So overall, we have $0 \leq x - \frac{d_1}{10} - \frac{d_2}{100} < \frac{1}{100}$.
+
+  We can continue this inductively.
+  Pick $d_n$ to be the maximal integer such that
+  \[
+    \frac{d_n}{10^{n}} \leq x - \sum_{j = 1}^{n - 1} \frac{d_j}{10^{j}} < \frac{1}{10^{n -1}}
+  \]
+  By similar arguments to above, we must have $0 \leq d_n \leq 9$ and
+  \[
+    0 \leq x - \sum_{j = 1}^{n} \frac{d_j}{10^{j}} < \frac{1}{10^{n}}
+  \]
+  Since $\frac{1}{10^{n}} \to 0$ as $n \to \infty$, we have $x - \sum_{j = 1}^{n} \frac{d_j}{10^{j}} \to 0$ as it is sandwiched between the two inequalities in the limit.
+  Therefore:
+  \[
+    x = \sum_{j=1}^{\infty} \frac{d_j}{10^{j}}= 0.d_1d_2d_3\ldots
+  \]
+  where $d_j \in \{0, 1, \ldots, 9\}$.
+\end{proof}
+\begin{proposition}
+  Decimal expansions are not unique.
+\end{proposition}
+\begin{proof}
+  Suppose $a = 0.a_1a_2a_3\ldots = 0.b_1b_2b_3\ldots = b$.
+  Suppose that the expansions agree for the first $K - 1$ digits, that is, $a_j = b_j$ for $j < K$.
+  Since they disagree for $j = K$, WLOG we can assume $a_K < b_K$.
+
+  Now consider the ``tail'' of $a$ for $j \geq K + 1$, i.e., after the disagreeing digit.
+  \[
+    \sum_{j = K + 1}^{\infty} \frac{a_j}{10^{j}} \leq \sum_{j = K + 1}^{\infty} \frac{9}{10^{j}} = \frac{9}{10^{K + 1}} \cdot \frac{1}{1-\frac{1}{10}} = \frac{1}{10^{K}}
+  \]
+  Suppose, for contradiction, that $b_K > a_K + 1$.
+  We then have:
+  \begin{align*}
+    b - a &\geq \underbrace{2 \cdot 10^{-K}}_{\text{$k$-th place}} - \underbrace{10^{-K}}_{\text{tail}} \\
+          &= 10^{-K} > 0
+  \end{align*}
+  which as a contradiction as $a = b$.
+  Therefore we must have $b_K = a_K + 1$
+
+  Since we now require that $b_K = a_K + 1$, we must have:
+  \[
+    \sum_{j = K + 1}^{\infty} \frac{a_j}{10^{j}} - \sum_{j = K + 1}^{\infty} \frac{b_j}{10^{j}} = \frac{1}{10^{K}}
+  \]
+  to maintain $a = b$.
+  From earlier, we see that $\sum_{j = K +1}^{\infty} \frac{a_j}{10^{j}} \leq \frac{1}{10^{K}}$, so the only way that the equality can hold true is if:
+  \[
+    \sum_{j = K + 1}^{\infty} \frac{b_j}{10_j} = 0 \text{ and } \sum_{j = K + 1}^{\infty} \frac{a_j}{10^{j}} = \frac{1}{10^{K}}
+  \]
+  That is, $a_j = 9$ and $b_j = 0$ for all $j > K$.
+\end{proof}
+\begin{remark}
+  From this, we see that decimal expansions are not unique if and only if they are of the form:
+  \[
+    0.a_1a_2 \ldots a_{K - 1}a_K9999\ldots \text{ and } 0.a_1a_2 \ldots a_{K - 1}b_K0000\ldots
+  \]
+  where $b_K = a_K + 1$.
+  For example:
+  \[
+    0.47999999\ldots = 0.48000000\ldots
+  \]
 \end{remark}
 \end{document}
