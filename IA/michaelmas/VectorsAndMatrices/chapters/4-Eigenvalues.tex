@@ -452,14 +452,16 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
       \[
         \tr B = \tr(P^{-1} A P) = \tr(APP^{-1}) = \tr A
       \]
-    \item Take an eigenvector $\vec{v}$ of $B$ with eigenvalue $\lambda$.
-      \[
-        (P^{-1}AP)\vec{v} = \lambda \vec{v} \iff A(P \vec{v}) = \lambda (P \vec{v})
-      \]
-      So $P \vec{v}$ is an eigenvector of $A$ with eigenvalue $\lambda$.
-      Therefore the roots of $\chi_A$ and $\chi_B$ are the same.
-      Since $A$ and $B$ are both $n \times n$ matrices, the leading coefficient of both $\chi_A$ and $\chi_B$ is $(-1)^{n}$.
-      Thus $\chi_A(t) = \chi_B(t)$.
+    \item Again, using $\det AB = \det A \det B$ and $\det P^{-1} = (\det P)^{-1}$, we see that:
+      \begin{align*}
+        \chi_B(t) &= \det(B - tI) \\
+                  &= \det(P^{-1} A P - tI) \\
+                  &= \det(P^{-1})\det(AP - tP) \\
+                  &= \det(P^{-1})\det(A - tI)\det(P) \\
+                  &= \det(A - tI) \\
+                  &= \chi_A(t)
+      \end{align*}
+      So $\chi_A(t) = \chi_B(t)$, as required.
   \end{enumerate}
 \end{proof}
 \begin{remark}
