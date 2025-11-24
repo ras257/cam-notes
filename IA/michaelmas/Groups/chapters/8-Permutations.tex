@@ -147,7 +147,7 @@ The most important thing to ensure that you \textbf{start from the right}.
   Let $n_j = |\langle \sigma \rangle i_j|$.
   We see that:
   \[
-    \cycle{i_1 \sigma(i_1) {\cdots} \sigma^{n_1 - 1}(i_1)} \cdots \cycle{i_k \sigma(i_k) {\cdots} \sigma^{n_k - 1}(i_k)}
+    \sigma = \cycle{i_1 \sigma(i_1) {\cdots} \sigma^{n_1 - 1}(i_1)} \cdots \cycle{i_k \sigma(i_k) {\cdots} \sigma^{n_k - 1}(i_k)}
   \]
   which proves existence.
 
@@ -270,7 +270,7 @@ We first need to introduce the concept of an \textit{inversion}:
     \[
       \sigma = \underbrace{\tau_1}_{\tau} \underbrace{\tau_2 \cdots \tau_k}_{\sigma'} = \tau\sigma'
     \]
-    where $\tau$ is an adjacent transposition, so we can write $\tau = \cycle{l {l + 1}}$ for some $l$, and $\sigma'$ is the product of $k - 1$ transpositions.
+    where $\tau$ is an adjacent transposition (as if not, it could be rewritten as a product of and odd number of adjacent transpositions without changing the parity of $k$), so we can write $\tau = \cycle{l {l + 1}}$ for some $l$, and $\sigma'$ is the product of $k - 1$ transpositions.
 
     Now consider which pairs $\{i, j\}$ could be an inversion of $\sigma'$ but not of $\sigma$ and vice versa?
 

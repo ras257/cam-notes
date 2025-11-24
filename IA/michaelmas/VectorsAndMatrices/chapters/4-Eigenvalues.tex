@@ -148,14 +148,14 @@ From this we can conclude the following:
 \begin{definition}[Algebraic Multiplicity]
   The \textit{algebraic multiplicity}, denoted $M(\lambda)$ or $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ in the characteristic polynomial $\chi_A(\lambda)$.
 \end{definition}
-By the fundamental theorem of algebra (\cref{FTA}), if $A$ is a $n \times n$ matrix, then the sum of all the algebraic multiplicities must be $n$. That is:
+By the fundamental theorem of algebra (\cref{FTA}), if $A$ is an $n \times n$ matrix, then the sum of all the algebraic multiplicities must be $n$. That is:
 \[
   \sum_{\lambda} M(\lambda) = n
 \]
-\begin{definition}[Geomtric Multiplicity]
+\begin{definition}[Geometric Multiplicity]
   The \textit{geometric multiplicity}, denoted $m(\lambda)$ or $m_\lambda$, of an eigenvalue $\lambda$ is the dimension of its eigenspace:
   \[
-    m(\lambda) = \dim (E_\lambda)
+    m_\lambda = \dim (E_\lambda)
   \]
 \end{definition}
 Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenvectors associated with the eigenvalue $\lambda$.
@@ -166,7 +166,7 @@ Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenve
 \begin{proof}
   See \cref{multiplicityProof}.
 \end{proof}
-Note that this means if an eigenvalue as $m_\lambda = 1 \implies M_\lambda = 1$ since $M_\lambda > 0$.
+Note that this means if an eigenvalue as $M_\lambda = 1 \implies m_\lambda = 1$ since $m_\lambda > 0$.
 \begin{definition}
   The \textit{defect}, denoted $\Delta_\lambda$ of an eigenvalue $\lambda$ is defined as:
   \[
@@ -424,7 +424,7 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   \begin{proofdirection}{Suppose $M_\lambda = m_\lambda$ for all $\lambda$}
     If $\lambda_i$ with $i = 1, \ldots, r$ are all the distinct eigenvalues of a matrix, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set, and its number of elements is:
     \[
-      \sum_{i} m_i = \sum_{i} M_i = n
+      \sum_{i} m_{\lambda_i} = \sum_{i} M_{\lambda_i} = n
     \]
     so it must form a basis.
   \end{proofdirection}

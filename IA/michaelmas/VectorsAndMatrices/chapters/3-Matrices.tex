@@ -838,7 +838,7 @@ For any three matrices $M, N, L$ that have the correct dimensions to conform, an
 \subsection{Matrix Inverses}
 Consider three matrices $L\ (n \times m),\ M\ (n \times m)$, and $N\ (m \times n)$.
 
-We say that $L$ is a \textit{left inverse} of $M$ if:
+We say that $L$ is a \textit{left inverse} of $N$ if:
 \[
   LN = I \text{ (Identity of size $n \times n$)}
 \]
@@ -959,8 +959,8 @@ or more explicitly:
 \begin{definition}[Hermitian and Anti-Hermitian]
   If $M$ is square, then $M$ is:
   \begin{itemize}
-    \item \textbf{Hermitian -} If $M^{\trans} = M$ or $M_{i j} = \overline{M_{j i}}$
-    \item \textbf{Anti-Hermitian -} If $M^{\trans} = -M$ or $M_{i j} = -\overline{M_{j i}}$
+    \item \textbf{Hermitian -} If $M^{\dag} = M$ or $M_{i j} = \overline{M_{j i}}$
+    \item \textbf{Anti-Hermitian -} If $M^{\dag} = -M$ or $M_{i j} = -\overline{M_{j i}}$
   \end{itemize}
   Anti-Hermitian is sometimes called \textit{skew-hermitian}.
 \end{definition}
@@ -1323,7 +1323,7 @@ That is, if we swap any of the two indices then we get a change in sign.
 \end{remark}
 \subsection{Alternating Forms}
 \begin{definition}[Alternating Form]
-  For vector $\vec{v}_1, \ldots, \vec{v}_n \in \R^{n} \text{ or } \C^{n}$, the \textit{rank $n$ alternating form} is defined by:
+  For vectors $\vec{v}_1, \ldots, \vec{v}_n \in \R^{n} \text{ or } \C^{n}$, the \textit{rank $n$ alternating form} is defined by:
   \begin{align*}
     [\vec{v}_1, \ldots, \vec{v}_n] &= \levi_{j_1 \ldots j_n} (\vec{v}_1)_{j_1} (\vec{v}_2)_{j_2} \cdots (\vec{v}_n)_{j_n} \\
                                    &= \sum_{\rho \in S_n}  \varepsilon(\rho) (\vec{v}_1)_{\rho(1)} (\vec{v}_2)_{\rho(2)} \cdots (\vec{v}_n)_{\rho(n)}
@@ -1356,7 +1356,7 @@ The above three properties axiomatically determine alternating forms but there a
     \[
       [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_q, \ldots, \vec{v}_n] = 0
     \]
-    This follows from \textbf{ii} as $\varepsilon(\rho) = 0$ if two indices mapped to the same one.
+    This follows from \textbf{ii} as $\varepsilon(\rho) = 0$ if two indices are mapped to the same one.
   \item If the vectors are linearly dependant then we can write $\vec{v}_p = \sum_{i \neq p} \lambda_i \vec{v}_i$, therefore:
     \[
       [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_n] = 0
@@ -1701,7 +1701,7 @@ or about any row $i$:
 \begin{remark}
   Since $\det M = \det M^{\trans}$, the above holds for an expansion about any row $i$.
 \end{remark}
-Reasoning as a above, if
+Reasoning as above, if
 \[
   \vec{C}_k = \sum_{i} M_{i k}\vec{e}_i
 \]
@@ -1820,7 +1820,7 @@ This is the inverse of $M$.
 \subsection{Determinants of Block Matrices}
 \label{blockDeterminants}
 \nonexaminable
-For square matrices $A, B, C, D$, we have the following:
+For square matrices $A$ and $D$, we have the following:
 \[
   \det \left(\begin{array}{c|c}
     A & B \\ \hline
@@ -2296,7 +2296,7 @@ Consider a system of $m$ equations in $n$ unknowns:
   \vdots \hspace{11.5em}&\;\;\vdots \\
   A_{m 1}x_1 + A_{m 2}x_2 + \cdots + A_{m n}x_n &= b_m
 \end{align*}
-Without loss in generality, assume $A_{1 1} \neq 0$ as at this stage we can reorder the equations as desired.
+Without loss of generality, assume $A_{1 1} \neq 0$ as at this stage we can reorder the equations as desired.
 \begin{remark}[Notation]
   We will use a superscript $i$ to denote a coefficient at step $i$ of the process.
   For example $A^{(i)}_{1 2}$ and $b^{(i)}_1$.
