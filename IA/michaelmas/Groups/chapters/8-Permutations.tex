@@ -569,10 +569,11 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
   \end{enumerate}
 \end{proof}
 This makes it possible to determine conjugacy classes in $A_n$.
+\subsection{Examples for Small Alternating Groups}
 \begin{example}[Conjuacy Classes in $A_4$]
   The even elements of $S_4$ are $e$, $(2, 2)$-cycles, and 3-cycles.
 
-Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy class in half, so $\ccl_{S_4}(\cycle{1 2}\cycle{3 4})$ remains intact in $A_4$.
+  Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy class in half, so $\ccl_{S_4}(\cycle{1 2}\cycle{3 4})$ remains intact in $A_4$.
 
   For a 3-cycle, $\sigma = \cycle{1 2 3}$:
   \[
@@ -588,7 +589,7 @@ Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy c
 
   In summary:
   \begin{center}
-  \begin{tabular}{c|c|>{\small}m{5cm}}
+  \begin{tabular}{c|c|>{\small}m{7cm}}
     Typical Element ($\gamma$) & $|\ccl_{A_4}(\gamma)|$ & Comment\\
   \hline
   $e$ & 1 & --\\
@@ -598,5 +599,76 @@ Since there is an odd number of $(2, 2)$-cycles, we cannot split the conjugacy c
   \end{tabular}
   \end{center}
   If we sum the sizes of the conjugacy classes we get $12 = \frac{24}{2} = |A_4|$ as expected.
+
+  Finally, lets look at conjugacy in $S_5$ and $A_5$.
+  \begin{example}[Conjugacy in $S_5$]
+    \begin{center}
+    \renewcommand\arraystretch{1.5}
+    \begin{tabular}{c|c|c|>{\small}m{5cm}}
+    Typical Element -- $\gamma$ & $|\ccl_{S_5}(\gamma)|$ & $|C_{S_5}(\gamma)|$ & Comment\\
+    \hline
+    $e$ & 1 & 120 & $5! = 120$ \\
+    $\cycle{1 2}$ & $\binom{5}{2} = 10$ & 12 & Choose 2 from 5, order irrelevant \\
+    $\cycle{1 2 3}$ & $2 \binom{5}{3} = 20$ &6 & $\binom{5}{3}$ to pick, then two orderings by reversing items \\
+    $\cycle{1 2}\cycle{3 4}$ & $\frac{1}{2}\binom{5}{2}\binom{3}{2} = 15$ & 8 & $\binom{5}{2}$ for first and $\binom{3}{2}$ for second, then half as we have double counted as transpositions commute \\
+    $\cycle{1 2 3}\cycle{4 5}$ & $2\binom{5}{3} = 20$ & 6 & Select a 3-cycle as above, then the remaining two elements are the transposition\\
+    $\cycle{1 2 3 4}$ & $\binom{5}{4}\cdot3! = 30$ & 4 & $\binom{5}{4}$ to pick and then $3!$ ways to arrange as we can always start with a specific element. \\
+    $\cycle{1 2 3 4 5}$ & $4! = 24$ & 5 & Can always start with 1, $4!$ for rest\\
+    \end{tabular}
+    \end{center}
+    The sum of the sizes of the conjugacy classes is $120 = |S_5|$, as  expected.
+  \end{example}
 \end{example}
+\begin{example}[Conjugacy in $A_5$]
+  The even elements types in $S_5$ are $e$, $(2, 2)$-cycles, $3$-cycles, and $5$-cycles so we only have these elements in $A_5$.
+
+  \begin{itemize}
+    \item $\cycle{4 5} \in C_{S_5}\cycle{1 2 3}$, that is, $\cycle{4 5}$ commutes with $\cycle{1 2 3}$, so by \cref{conjugacyAn} $\ccl_{S_5}\cycle{1 2 3}$ \textbf{does not split}.
+    \item $|\ccl_{S_5}\cycle{\cycle{1 2}\cycle{3 4}}| = 15$ which is an odd number so $\ccl_{S_5} \cycle{1 2}\cycle{3 4}$ \textbf{does not split}.
+    \item $|C_{S_5}\cycle{1 2 3 4 5}| = 5$ so $C_{S_5}\cycle{1 2 3 4 5} = \langle \cycle{1 2 3 4 5} \rangle \leq A_5$ so $\ccl_{S_5}\cycle{1 2 3 4 5}$ \textbf{does split} by \cref{conjugacyAn}.
+  \end{itemize}
+
+  In summary:
+  \begin{center}
+  \renewcommand\arraystretch{1.5}
+  \begin{tabular}{c|c|>{\small}m{7cm}}
+  Typical Element -- $\gamma$ & $|\ccl_{A_5}(\gamma)|$ & Comment\\
+  \hline
+  $e$ & 1 & -- \\
+  $\cycle{1 2 3}$ & 20 & Does not split \\
+  $\cycle{1 2}\cycle{3 4}$ & 15 & Does not split \\
+  $\cycle{1 2 3 4 5}$ & 12 & Has order 24 in $S_5$ and splits so has order 12 \\
+  $\cycle{2 1 3 4 5}$ & 12 & Other half of $\ccl_{S_5}\cycle{1 2 3 4 5}$, that is, $\ccl_{A_5}(\tau \cycle{1 2 3 4 5}\tau^{-1})$ for odd $\tau \in S_5$ \\
+  \end{tabular}
+  \end{center}
+  The sum of the sizes of the conjugacy classes is $60 = \frac{120}{2} = |A_5|$.
+\end{example}
+\begin{theorem}[$A_5$ is simple]
+  $A_5$ is a simple group.
+\end{theorem}
+\begin{proof}
+  Suppose $N \lhd A_5$.
+  By Sheet 3 Q5 (or the definition), $N$ is a union of conjugacy classes in $A_5$.
+  Since conjugacy classes are disjoint, the possible orders are then:
+  \begin{center}
+  \begin{tabular}{l|c}
+  Order & Divides 60? \\
+  \hline
+  $1$ & \tick \\
+  $1 + 20 = 21$ & \cross \\
+  $1 + 20 + 15 = 36$ & \cross \\
+  $1 + 20 + 12 = 33$ & \cross \\
+  $1 + 20 + 12 + 15 = 48$ & \cross \\
+  $1 + 20 + 12 + 12 = 45$ &\cross  \\
+  $1 + 15 = 16$ & \cross \\
+  $1 + 15 + 12 = 28$ & \cross \\
+  $1 + 15 + 12 + 12 = 40$ & \cross \\
+  $1 + 12 = 13$ & \cross \\
+  $1 + 12 + 12 = 25$ & \cross\\
+  $1 + 20 + 15 + 12 + 12 = 60$ & \tick\\
+  \end{tabular}
+  \end{center}
+  By Lagrange's Theorem (\cref{lagrangesTheorem}), the only groups that could be normal subgroups are $1$ and $A_5$ which we know are normal subgroups.
+  Therefore, the only normal subgroups are $1$ and $A_5$ so $A_5$ is simple.
+\end{proof}
 \end{document}

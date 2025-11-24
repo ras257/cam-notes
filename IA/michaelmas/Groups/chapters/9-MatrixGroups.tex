@@ -1,0 +1,110 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Matrix Groups}
+\section{General and Special Linear Groups}
+Let $M_n(\R)$ be the set of $n \times n$ matrices with real entries.
+From Vectors and Matrices we know that matrix multiplication is associative and the identity matrix provides an identity for matrix multiplication.
+However, not all matrices are invertible, recall that:
+\begin{lemma}
+  A matrix $A \in M_n(\R)$ has an inverse if and only if $\det A \neq 0$.
+\end{lemma}
+\begin{proof}
+  See Vectors and Matrices 3.5.1
+\end{proof}
+\begin{definition}[General Linear Group]
+  The \textit{General Linear Group} is defined as:
+  \[
+    \GL_n(\R) = \{A \in M_n(\R) : \det A \neq 0\}
+  \]
+  This is a group by the above discussion.
+\end{definition}
+\begin{lemma}
+  For matrices $A, B \in M_n(\R)$:
+  \[
+    \det(AB) = \det A \det B
+  \]
+\end{lemma}
+\begin{proof}
+  See Vectors and Matrices 3.5.5
+\end{proof}
+This says that $\det$ is a homomorphism:
+\[
+  \det: \GL_n(\R) \to \R_\times,\ A \mapsto \det A
+\]
+\begin{remark}[Notation]
+  $\R_\times$ is the group of $(\R \setminus \{0\}, 1, \times)$ under multiplication.
+\end{remark}
+\begin{definition}[Special Linear Group]
+  The \textit{special linear group} is defined to be:
+  \begin{align*}
+    \SL_n(\R) &= \ker(\det) \\
+              &= \{A \in M_n(\R) : \det A = 1\}
+  \end{align*}
+\end{definition}
+Since $\SL_n$ is the kernel of a homomorphism, it must be a normal subgroup of $\GL_n$, that is:
+\[
+  \SL_n(\R) \lhd \GL_n(\R)
+\]
+So by the Isomorphism Theorem (\cref{isomorphismTheorem}), we have:
+\[
+  \GL_n(\R) / \SL_n(\R) \cong \im (\det)
+\]
+Consider following determinant for any $x \in \R_\times$:
+\[
+  \det \begin{pmatrix}
+  x & 0 & \cdots & 0 & 0 \\
+  0 & 1 & \cdots & 0 & 0 \\
+  \vdots & \vdots & \ddots & \vdots & \vdots \\
+  0 & 0 & \cdots & 1 &  0\\
+  0 & 0 & \cdots & 0 & 1 \\
+  \end{pmatrix} =
+  \det \left(\begin{array}{c|c}
+    x & O \\ \hline
+    O & I
+  \end{array}\right) = x
+\]
+Therefore, $\im(\det) = \R_\times$ so:
+\[
+  \GL_n(\R)/\SL_n(\R) = \R_\times
+\]
+
+All of the above makes just as much sense when $\R$ is replaced with $\C$ so we also have:
+\[
+  \GL_n(\C) \text{ and } \SL_n(\C)
+\]
+and again:
+\[
+  \GL_n(\C) / \SL_n(\C) \cong \C_\times
+\]
+\section{Change of Basis}
+There is a natural action of $\GL_n(\R)$ on $M_n(\R)$ by conjugation, that is:
+\[
+  \GL_n(\R) \acts M_n(\R) \text{ by } P(A) = PAP^{-1}
+\]
+\begin{proposition}
+  Let $V$ be an $n$ dimensional vector space (over $\R$) and $\alpha: V \to V$ a linear map.
+  If $A \in M_n(\R)$ that represents $\alpha$ in some basis, then the orbit:
+  \[
+    GL_n(\R)A = \{PAP^{-1} : P \in \GL_n(\R)\}
+  \]
+  consists of \textbf{all} the matrices that represent $\alpha$ in any basis.
+\end{proposition}
+\begin{proof}
+  A basis $\{\vec{v}_1, \ldots, \vec{v}_n\}$ for $V$ defines an isomorphism of vector spaces:
+  \[
+    \phi: \R^{n} \to V,\ (\lambda_1, \ldots, \lambda_n) \mapsto \sum_{i = 1}^{n} \lambda_i \vec{v}_i
+  \]
+  This relation between $\R^{n}$ and $V$ can be expressed diagrammatically:
+  \begin{center}
+  \begin{tikzcd}
+  \R^n \arrow{d}[swap]{A} \arrow{r}{\phi}[swap]{\cong} & V \arrow{d}{\alpha} \\
+  \R^n \arrow{r}{\phi}[swap]{\cong} & V
+  \end{tikzcd}
+  \end{center}
+  The claim that $A$ represents $\alpha$ in this basis means that:
+  \[
+    \alpha = \phi A \phi^{-1}
+  \]
+  Continued next lecture.
+\end{proof}
+\end{document}

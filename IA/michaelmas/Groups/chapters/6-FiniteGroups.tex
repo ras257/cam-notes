@@ -93,9 +93,25 @@ The direct product is useful for investigating this.
   Therefore, $\ker \Phi$ is trivial so $\Phi$ is injective.
   Thus $\Phi$ is a bijective homomorphism so $G \cong H_1 \times H_2$.
 \end{proof}
-\begin{remark}
+\begin{lemma}
   If $H_1 \cap H_2 = \{e\}$, then $|H_1 H_2| = |H_1||H_2|$.
+\end{lemma}
+\begin{proof}
+  We need to show that when we multiply a pair of elements, we cannot get a repeated element.
+  Let $h_1, h_1' \in H_1$ and $h_2, h_2' \in H_2$ and suppose that:
+  \begin{align*}
+    h_1 h_2 &= h_1' h_2' \\
+    (h_1')^{-1} h_1 &= h_2'h^{-1}_{2}
+  \end{align*}
+  But $(h_1')^{-1} h_1 \in H_1$ and $h_2h^{-1}_{2} \in H_2$ so both are in $H_1 \cap H_2 = \{e\}$.
+  Thus $(h_1')^{-1} h_1 = e \implies h_1 = h_1'$ and $h_2' h^{-1}_{2} = e \implies h_2 = h_2'$.
+  Therefore each element in $H_1 H_2$ corresponds to exactly one pair $(h_1, h_2) \in H_1 \times H_2$ so $|H_1H_2| = |H_1||H_2|$.
+\end{proof}
+\begin{remark}
   In particular, if $|H_1||H_2| = |G|$, then $H_1 \cap H_2 = \{e\} \implies G = H_1 H_2$.
+
+  This is because $H_1 \cap H_2 = \{e\} \implies |H_1||H_2| = |H_1H_2| = |G|$ and, since $H_1, H_2 \leq G$ we must have $H_1H_2 \leq G$.
+  So $H_1H_2 \leq G$ and $|H_1H_2| = |G|$, thus $G = H_1 H_2$.
 \end{remark}
 \begin{lemma}[Groups of Order 4]
   If $|G| = 4$, then either:

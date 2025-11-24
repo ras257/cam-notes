@@ -21,7 +21,7 @@
 \usepackage{enumitem} % Used to customise lists
 \usepackage{framed} % Used for creating boxes
 \usepackage{tikz} % Used for making diagrams
-\usetikzlibrary{arrows.meta, calc, shapes.geometric} % TikZ packages
+\usetikzlibrary{arrows.meta, calc, shapes.geometric, cd} % TikZ packages
 \usepackage[skip=5pt, indent=0em]{parskip} % Removes first line indentation
 \usepackage[a4paper, top=1in, bottom=1in, left=1.4in, right=1.4in]{geometry} % Page geometry
 
@@ -231,7 +231,7 @@
 }
 
 % Roman d for integrals
-\renewcommand{\d}[1]{\,\mathrm{d} #1}
+\renewcommand{\d}[1]{\mathrm{d} #1}
 % Derivative, optional order argument
 \newcommand{\deriv}[3][\relax]{
   \ifstrempty{#1}{
@@ -281,6 +281,7 @@
 % Groups
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
 \newcommand{\SO}{\mathrm{SO}}
 \newcommand{\SU}{\mathrm{SU}}
 
