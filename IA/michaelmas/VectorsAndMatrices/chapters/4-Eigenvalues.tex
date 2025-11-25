@@ -847,4 +847,315 @@ where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of whi
       Hence $P$ is both the change of basis matrix and also the matrix that diagonalises $A$.
   \end{enumerate}
 \end{remark}
+\subsection{Changes in Vector Components Under Change of Basis}
+We can also arrive at the change of basis formula by considering vectors within the two vector spaces under both sets of bases.
+
+Consider a real or complex vector space $V$ and $\vec{x} \in V$.
+Assume that $\{\vec{e}_i\}$ and $\{\vec{e}_i'\}$ are two bases of $V$ related by $P$ where:
+\[
+  \vec{x} = x_i \vec{e}_i = x_i' \vec{e}_i'
+\]
+Since the bases are related by $P$, we have:
+\[
+  \vec{e}_j' = \sum_{i} \vec{e}_i P_{i j}
+\]
+Substituting this into the relation from $\vec{x}$, we have:
+\[
+  \vec{x} = x_i \vec{e}_i = x_j' \vec{e}_j' = x_j'(\vec{e}_i P_{i j}) = (P_{i j}x_j')\vec{e}_i
+\]
+As the basis vectors are linearly independent, we can compare coefficients to yield:
+\[
+  x_i = P_{i j}x_j'
+\]
+This is the relation between vector components with respect to different bases related by $P$.
+In matrix form this can be written as:
+\[
+  \vec{x} = \begin{pmatrix}
+  x_1 \\
+  \vdots \\
+  x_n \\
+  \end{pmatrix}=
+  \begin{pmatrix}
+  P_{1 1} & \cdots & P_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  P_{n 1} & \cdots & P_{n n} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1' \\
+  \vdots \\
+  x_n' \\
+  \end{pmatrix}
+  = P\vec{x}'
+\]
+Similarly, consider a vector space $W$ and $y \in W$.
+Assume $\{\vec{f}_i\}$ and $\{\vec{f}_i'\}$ are two bases of $W$ related by $Q$ where:
+\[
+  \vec{y} = y_j \vec{f}_j = y_j'\vec{f}_j'
+\]
+Since the bases are related by $Q$, by a similar argument to above, we have:
+\[
+  y_i = Q_{i j}y_j' \text{ or equivalently } \vec{y} = Q\vec{y}'
+\]
+Now, if we consider the definition of a linear map $T: V \to W$ in terms of a matrix $A$ in the original basis and a matrix $B$ in the new basis, we have:
+\[
+  \vec{y} = T(\vec{x}) \iff \vec{y} = A\vec{x} \text{ and } \vec{y}' = B\vec{x}'
+\]
+Therefore,
+\[
+  B\vec{x}' = \vec{y}' = Q^{-1} \vec{y} = Q^{-1}A \vec{x} = (Q^{-1} A P)\vec{x}'
+\]
+Thus $B = Q^{-1} A P$.
+\section{Cayley-Hamilton Theorem}
+\begin{theorem}[Cayley-Hamilton Theorem]
+  If $A$ is an $n \times n$ matrix with:
+  \[
+    \chi_A(t) = \det(A - tI) = \sum_{r = 0}^{n} c_r t^{r}
+  \]
+  then,
+  \[
+    \chi_A(A) = \sum_{r = 0}^{n} c_r A^{r} = O
+  \]
+  That is, a matrix satisfies its own characteristic polynomial.
+\end{theorem}
+We will cover multiple different proofs of varying complexity for different types of matrices.
+\begin{proof}[For $2 \times 2$ Matrices]
+  We can write a general $2 \times 2$ matrix as:
+  \[
+    A = \begin{pmatrix}
+    A_{1 1} & A_{1 2} \\
+    A_{2 1} & A_{2 2} \\
+    \end{pmatrix}
+  \]
+  Then:
+  \begin{align*}
+    \chi_A(t) &= t^2 - (\tr A)t + \det A \\
+              &= t^2 - (A_{1 1} + A_{2 2})t + (A_{1 1}A_{2 2} - A_{1 2}A_{2 2})
+  \end{align*}
+  Then by substitution of $A$ into $\chi_A(t)$ we see that $\chi_A(A) = O$.
+\end{proof}
+\begin{proof}[Diagonalisible $n \times n$ Matrices]
+  Consider an $n \times n$ matrix $A$ with eigenvalues $\lambda_i$ and invertible matrix $P$ such that:
+  \[
+    P^{-1} A P = D
+  \]
+  where $D$ is a diagonal matrix with $\lambda_i$ on the diagonal.
+  Note that $D^{r}$ is also diagonal with:
+  \[
+    D^{r} = \begin{pmatrix}
+    \lambda^{r}_{1} &  & \\
+     & \ddots &  \\
+     &  & \lambda^{r}_{n} \\
+    \end{pmatrix}
+  \]
+  We can then substitute $D$ into $\chi_A$ and use the above to get the following:
+  \[
+    \chi_A(D) = \begin{pmatrix}
+      \chi_A(\lambda_1) &  &  \\
+                        & \ddots &  \\
+                        &  & \chi_A(\lambda_n) \\
+    \end{pmatrix} = O
+  \]
+  But $A = PDP^{-1}$ so $A^{r} = (PDP^{-1})^{r} = PD^{r}P^{-1}$.
+  So when substituting $A$ into $\chi_A$ we can pull out $P$ and $P^{-1}$.
+  Hence:
+  \begin{align*}
+    \chi_A(A) &= \chi(PDP^{-1}) \\
+              &= P\chi_A(D)P^{-1} \\
+              &= O
+  \end{align*}
+\end{proof}
+\begin{proof}[General $n \times n$ Matrix]
+  \nonexaminable
+  Let $M = A- tI$, then
+  \[
+    \chi_A(t) = \det M = \sum_{r = 0}^{n} c_r t^{r}
+  \]
+  Recall that $\adj M =\widetilde{M}$, which satisfies:
+  \[
+    \widetilde{M}M = (\det M)I
+  \]
+  Since every entry of $\widetilde{M}$ is a cofactor of $M$, it will be a degree $n- 1$ polynomial in $t$.
+  Therefore we can define the matrices $B_r$ such that:
+  \[
+    \widetilde{M} = \sum_{r = 0}^{n - 1}  B_r t^{r}
+  \]
+  Therefore we can write $\widetilde{M} M$ as:
+  \begin{align*}
+    \widetilde{M} M &= \left(\sum_{r = 0}^{n - 1} B_r t^{r}\right)(A - tI) \\
+                    &= B_0 A - (B_1 A - B_0)t + (B_2 A - B_1)t^2 + \cdots \\
+                    &\quad + (B_{n - 1}A - B_{n- 2})t^{n - 1} - B_{n - 1}t^{n}
+  \end{align*}
+  Comparing coefficients of $t$ in $\widetilde{M} M$ and $(\det M)I$, we have:
+  \begin{align*}
+    c_0 I &= B_0 A \\
+    c_1 I &= B_1 A - B_0 \\
+    c_2 I &= B_2 A - B_1 \\
+          &\ \ \vdots \\
+    c_{n-1}I &= B_{n - 1}A - B_{n - 2} \\
+    c_n I &= -B_{n - 1}
+  \end{align*}
+  If we multiply both sides by ascending powers of $A$, we get the terms of $\chi_A(A)$ on the left hand side:
+  \begin{align*}
+    c_0 I &= B_0 A \\
+    c_1 A &= B_1 A^2 - B_0A \\
+    c_2 A^2 &= B_2 A^3 - B_1A^2 \\
+          &\ \ \vdots \\
+    c_{n-1}A^{n - 1} &= B_{n - 1}A^{n} - B_{n - 2}A^{n - 1} \\
+    c_n A^{n} &= -B_{n - 1}A^{n}
+  \end{align*}
+  The sum of the terms on the right hand side telescopes as follows:
+  \[
+    B_0A+B_1A^2 - B_0A + B_2 A^3 - B_1A^2 + \cdots + B_{n-1}A^{n} - B_{n-2}A^{n-1} -B_{n-1}A^{n} =O
+  \]
+  The sum of the terms on the left hand side is:
+  \[
+    \chi_A(A) = c_0 I + c_1 A + c_2 A^2 + \cdots c_{n - 1}A^{n - 1} + c_n A^{n}
+  \]
+  Thus $\chi_A(A) = O$.
+\end{proof}
+\section{Quadratic Forms}
+\begin{definition}[Quadratic Form]
+  A \textit{quadratic form} is a function $\mathcal{F}: \R^{n} \to \R$.
+  \[
+    \mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x} = x_i A_{i j} x_j
+  \]
+  where $A$ is a real symmetric matrix.
+\end{definition}
+Since $A$ is a real symmetric matrix it can be diagonalised as:
+\[
+  P^{\trans} A P = D = \begin{pmatrix}
+  \lambda_1 &  &  \\
+   & \ddots &  \\
+   &  & \lambda_n \\
+  \end{pmatrix}
+\]
+where $\lambda_i$ are real eigenvalues and $P$ is a real orthogonal $n \times n$ matrix with orthonormal eigenvectors $\vec{u}_i$ as its columns.
+
+If we set $\vec{x}' = P^{\trans} \vec{x} \iff \vec{x} = P\vec{x}'$, we can diagonalise $\mathcal{F}$.
+Noting that $\vec{x}^{\trans} = (\vec{x}')^{\trans}P^{\trans}$, we have:
+\[
+  \mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x} = (\vec{x}')^{\trans} P^{\trans} A \vec{x} = (\vec{x}')^{\trans}P^{\trans}AP\vec{x}' = (\vec{x}')^{\trans}D\vec{x}'
+\]
+Since $D$ is diagonal, we can easily compute this in terms of the components of $\vec{x}'$:
+\begin{equation}
+  \label{quadraticFormSum}
+  \mathcal{F}(\vec{x}) = (\vec{x}')^{\trans}D \vec{x}' = \sum_{i}\lambda_i (x_i')^2
+\end{equation}
+We can write $\vec{x}'$ and $\vec{x}$ in the standard basis as:
+\begin{align*}
+  \vec{x}' &= x_1' \vec{e}_1 + \cdots + x_n' \vec{e}_n \\
+  \vec{x} &= x_1 \vec{e}_1 + \cdots + x_n \vec{e}_n
+\end{align*}
+As $\vec{x} = P\vec{x}'$ and the columns of $P$ are the orthonormal eigenvectors $\vec{u}_i$ we can also write $\vec{x}$ as:
+\begin{align*}
+  \vec{x} &= x'_1(P\vec{e}_1) + \cdots + x_n'(P\vec{e}_n)\\
+          &= x_1' \vec{u}_1 + \cdots + x_n'\vec{u}_n
+\end{align*}
+We can then take the dot product of this with $\vec{u}_i$ to extract the $i$-th component:
+\[
+  x_i' = \vec{x} \cdot \vec{u}_i
+\]
+So $x_i'$ are the components of $\vec{x}$ with respect to the new orthonormal basis vectors $\vec{u}_i$. We call the new axes along the these directions the \textit{principal axes} of $\mathcal{F}$.
+
+Since these are related to the standard axes by the orthogonal matrix $P$, from \cref{orthogonalMatrices}, we see that:
+\[
+  |\vec{x}|^2 = x_i x_i = x_i'x_i'
+\]
+so the norm of $\vec{x}$ is calculated the same way in both bases.
+\begin{example}
+  In $\R^2$, the general quadratic form is $\mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x}$ with:
+  \[
+    A = \begin{pmatrix}
+    \alpha & \beta \\
+    \beta & \alpha \\
+    \end{pmatrix}
+  \]
+  The eigenvalues of this are $\lambda_1 = \alpha + \beta$ and $\lambda_2 = \alpha - \beta$ with normalised eigenvectors:
+  \[
+    \vec{u}_1 = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+    \end{pmatrix},\
+    \vec{u}_2 = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    -1 \\
+    1 \\
+    \end{pmatrix}
+  \]
+  So:
+  \[
+    \mathcal{F}(\vec{x}) = (x_1, x_2) \begin{pmatrix}
+      \alpha & \beta \\
+      \beta & \alpha \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      x_1 \\
+      x_2 \\
+    \end{pmatrix} =
+    \alpha x^{2}_{1} + 2\beta x_1 x_2 + \alpha x^{2}_{2} \\
+  \]
+  which is $\mathcal{F}(\vec{x})$ using the standard basis components $x_1$ and $x_2$.
+  However if we use:
+  \begin{align*}
+    x_1' &= \vec{u}_1 \cdot \vec{x} = \frac{1}{\sqrt{2}}(x_1 + x_2) \\
+    x_2' &= \vec{u}_2 \cdot \vec{x} = \frac{1}{\sqrt{2}}(-x_2 + x_2)
+  \end{align*}
+  we get $\mathcal{F(\vec{x})}$ using the eigenvector basis components (i.e. using the principle axes), $x_1'$ and $x_2'$:
+  \[
+    \mathcal{F}(\vec{x}) = (\alpha + \beta)(x_1')^2 + (\alpha - \beta)(x_2')^2
+  \]
+  which agrees with \cref{quadraticFormSum}.
+  \begin{proofcases}
+    \begin{case}{Ellipse}
+      If we take:
+      \[
+        \alpha = \frac{3}{2},\ \beta = \frac{1}{2} \implies \lambda_1 = 1, \lambda_2 = 2
+      \]
+      Therefore:
+      \[
+        \mathcal{F}(\vec{x}) = (x_1')^2 + 2(x_2')^2
+      \]
+      If we set $\mathcal{F}(\vec{x}) = 1$ this defines an ellipse with respect to the principle axes:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->, gray!90] (0, -3) -- (0, 3) node[above] {$x_2$};
+        \draw[->, gray!90] (-3, 0) -- (3, 0) node[right] {$x_1$};
+
+        \draw[very thick, rotate=-45] (0, 0) ellipse (1cm and 2cm);
+
+        \draw[dashed, ->] (2.12, -2.12) -- (-2.12, 2.12) node[above left] {$x_2'$};
+        \draw[decorate, decoration={brace, mirror, raise=2pt}] (0, 0) -- node[above right] {$\frac{1}{\sqrt{2}}$} (-0.71, 0.71);
+        \draw[dashed, ->] (-2.12, -2.12) -- (2.12, 2.12) node[above right] {$x_1'$};
+        \draw[decorate, decoration={brace, mirror, raise=2pt}] (0, 0) -- node[below right] {$1$} (1.41, 1.41);
+      \end{tikzpicture}
+      \end{center}
+    \end{case}
+    \begin{case}{Hyperbola}
+      If we take
+      \[
+        \alpha = -\frac{1}{2},\ \beta = \frac{3}{2} \implies \lambda_1 = 1, \lambda_2 = -2
+      \]
+      Therefore:
+      \[
+        \mathcal{F}(\vec{x}) = (x_1')^2 - 2(x_2')^2 = 1
+      \]
+      If we set $\mathcal{F}(\vec{x}) = 1$ this defines a hyperbola with respect to the principal axes:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->, gray!90] (0, -3) -- (0, 3) node[above] {$x_2$};
+        \draw[->, gray!90] (-3, 0) -- (3, 0) node[right] {$x_1$};
+
+        \begin{scope}
+          \clip (-3, -3) rectangle (3, 3);
+          \draw[very thick, rotate=45, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{0.6*tan(\t r)});
+          \draw[very thick, rotate=-135, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{0.6*tan(\t r)});
+        \end{scope}
+
+        \draw[dashed, ->] (2.12, -2.12) -- (-2.12, 2.12) node[above left] {$x_2'$};
+        \draw[dashed, ->] (-2.12, -2.12) -- (2.12, 2.12) node[above right] {$x_1'$};
+        \draw[decorate, decoration={brace, mirror, raise=2pt}] (0, 0) -- node[below right] {$1$} (0.71, 0.71);
+      \end{tikzpicture}
+      \end{center}
+    \end{case}
+  \end{proofcases}
+\end{example}
 \end{document}

@@ -753,7 +753,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
           &= 10^{-K} > 0
   \end{align*}
   which as a contradiction as $a = b$.
-  Therefore we must have $b_K = a_K + 1$
+  Therefore we must have $b_K = a_K + 1$.
 
   Since we now require that $b_K = a_K + 1$, we must have:
   \[
@@ -777,4 +777,179 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
     0.47999999\ldots = 0.48000000\ldots
   \]
 \end{remark}
+\begin{definition}[Periodic]
+  A decimal expansion is \textit{periodic} if after a finite number of terms, it repeats in blocks of length $k$.
+  That is, there exists $l, k \in \N$ such that $d_{n + k} = d_n\ \forall n > l$.
+\end{definition}
+\begin{remark}[Notation]
+  An over-line is usually used to denote a block of repeating decimal digits.
+  For example:
+  \[
+    0.123789789789\ldots = 0.123\overline{789}
+  \]
+\end{remark}
+\begin{example}
+  Consider $x = 0.7832147147147\ldots = 0.783\overline{147}$
+  \begin{align*}
+    10^{4}x - 7832 &= 0.147147147\ldots \\
+                   &= 147 \sum_{j = 1}^{\infty} \frac{1}{10^{3j}} \\
+                   &= 147 \cdot \frac{1}{10^{3}} \cdot \frac{1}{1-1/10^{3}}
+  \end{align*}
+  We can conclude from this that $x \in \Q$.
+\end{example}
+\begin{proposition}
+  The decimal expansion of a number $x$ is periodic if and only if $x \in \Q$
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $x$ has a periodic decimal expansion}
+    Since $x \in \R$, it can be written as: $x = \sum_{j = 1}^{\infty} \frac{d_j}{10^{j}}$ where $d_{n + k} = d_n\ \forall n > l$.
+    We then have:
+    \begin{align*}
+      10^{l}x &= \sum_{j = 1}^{\infty} \frac{d_j}{10^{j - l}} \\
+      10^{l}x - \underbrace{\sum_{j = 1}^{l}  10^{l - j}d_j}_{\in \Z} &= \underbrace{\sum_{j = l + 1}^{\infty} \frac{d_j}{10^{j - l}}}_{\text{Repeating Section}}
+    \end{align*}
+    Using the periodicity of $d_n$, we can write:
+    \begin{align*}
+      \sum_{j = l + 1}^{\infty} \frac{d_j}{10^{j - l}} &= \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}} + \sum_{j = k + 1}^{2k} \frac{d_{j + l}}{10^{j}} + \cdots \\
+                                                       &= \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}} + \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j + k}} + \cdots \\
+                                                       &= \left(\sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}}\right)\left(1 + \frac{1}{10^{k}} + \frac{1}{10^{2k}} + \cdots\right) \\
+                                                       &= \underbrace{\frac{1}{10^{k} - 1}}_{\in \Q}\underbrace{\sum_{j=1}^{k} d_{j + l}10^{k - j}}_{\in \Z}
+    \end{align*}
+    So $10^{l}x - p = t$ for $p \in \Z$ and $t \in \Q$.
+    Thus $x = \frac{t + p}{10^{l}} \in \Q$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $x \in \Q$}
+    To see this we write:
+    \[
+      x = \frac{p}{2^{a}5^{b} q}
+    \]
+    where $a, b, p, q \in \Z,\ a, b \geq 0,\ q > 0$ and $\hcf(q, 10) = 1$.
+    Then:
+    \[
+      10^{\max\{a, b\}}x = \frac{t}{q}
+    \]
+    for some $t \in \Z$.
+    Using the division algorithm (\cref{divisionAlgorithm}), we can write $t = nq + c$ where $n, c \in \Z$, $0 \leq c < q$, so:
+    \[
+      10^{\max\{a, b\}}x = \frac{nq + c}{q} = n + \frac{c}{q}
+    \]
+    By Fermat-Euler Theorem (\cref{fermatEuler}), since $\hcf(q, 10) = 1$, $10^{\varphi(q)} \equiv 1 \pmod{q}$.
+    Equivalently, $10^{\varphi(q)} - 1 = kq$ for some $k \in \N$ as $q > 0$.
+    Hence
+    \[
+      \frac{c}{q} = \frac{kc}{kq} = \frac{kc}{10^{\varphi(q)} - 1}= kc \cdot \frac{1}{1 - 1/10^{\varphi(q)}} = kc \sum_{j = 1}^{\infty} \frac{1}{(10^{\varphi(q)})^{j}}
+    \]
+    For this to be periodic, we need to ensure that $kc$ has $\varphi(q)$ or less digits, that is $0 \leq kc < 10^{\varphi(q)}$.
+    This is always satisfied since $0 \leq kc < kq < 10^{\varphi(q)}$.
+    Therefore we can write $kc$ as a $\varphi(q)$-digit number $d_1d_2\ldots d_{\varphi(q)}$.
+    Then:
+    \[
+      \frac{c}{q} = 0.d_1d_2\ldots d_{\varphi(q)}d_1d_2\ldots d_{\varphi(q)}\ldots
+    \]
+    Finally, we can write:
+    \[
+      x = \frac{1}{10^{\max\{a, b\}}}\left(n + \frac{c}{q}\right)
+    \]
+    where $N \in \Z$ and $\frac{c}{q}$ has a periodic decimal expansion.
+    Thus, $x$ has a periodic decimal expansion.
+  \end{proofdirection}
+\end{proof}
+\section{Euler's Number}
+\begin{definition}[Euler's Number]
+Define \textit{Euler's Number} $e$ by the following series:
+\[
+  e = 1 + \frac{1}{1!} + \underbrace{\frac{1}{2!}}_{= \frac{1}{2}} + \underbrace{\frac{1}{3!}}_{\leq \frac{1}{4}} + \underbrace{\frac{1}{4!}}_{\leq \frac{1}{8}} + \cdots
+\]
+\end{definition}
+Note that by the Monotone Convergence Theorem (\cref{MCT}), this series converges because its partial sums are increasing and are bounded above by:
+\[
+  1 + 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots = 1 + \frac{1}{1-1/2} = 3
+\]
+We can also see that $e > 2$ as the first two terms of the series are both 1.
+
+If we define $0! = 1$, then we can more compactly write:
+\[
+  e = \sum_{n=0}^{\infty} \frac{1}{n!}
+\]
+\begin{proposition}[Irrationality of $e$]
+  $e$ is irrational.
+\end{proposition}
+\begin{proof}
+  Suppose that $e$ is rational, that is $e = \frac{p}{q}$  where $p, q \in \N$ and $q > 1$ (since $e \notin \N$ as $2 < e < 3$).
+  So $q!e \in \N$.
+
+  However:
+  \begin{align*}
+    q!e &= \underbrace{q! + \frac{q!}{1!} + \frac{q!}{2!} + \frac{q!}{3!} + \cdots + \frac{q!}{q!}}_{N \in \N} + \underbrace{\frac{q!}{(q + 1)!} + \frac{q!}{(q+ 2)!} + \cdots }_{x}\\
+        &= N + x
+  \end{align*}
+  for some $N \in \N$ and $x \in \R$ where:
+  \begin{align*}
+    x &= \sum_{j = q + 1}^{\infty} \frac{q!}{j!} = \sum_{j = 1}^{\infty} \frac{q!}{(q + j)!}\quad\text{($j \mapsto j + q$)}\\
+      &= \frac{1}{q + 1} + \underbrace{\frac{1}{(q + 1)(q + 2)}}_{\leq \frac{1}{(q + 1)^2}} + \underbrace{\frac{1}{(q + 1)(q + 2)(q + 3)}}_{\leq \frac{1}{(q + 1)^3}} + \cdots \\
+      &\leq \frac{1}{q + 1} + \frac{1}{(q + 1)^2} + \frac{1}{(q + 1)^3} + \cdots \\
+      &= \frac{1}{q} < 1 \text{ as $q > 1$}
+  \end{align*}
+  Hence $0 < x < 1$, which contradicts the fact that $N + x = q!e \in \N$, so $e \notin \Q$.
+\end{proof}
+\section{Algebraic and Transcendental Numbers}
+We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but we will now cover them in further depth.
+\begin{definition}[Algebraic Number]
+  We say a real number is \textit{algebraic} if it is a root of a (non-zero) polynomial with integer coefficients.
+\end{definition}
+\begin{remark}[Note]
+  Equivalently, it could be written with rational coefficients as we can simply multiply by some constant to arrive at a polynomial with integer coefficients.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Every rational number is algebraic.
+      \[
+        x = \frac{p}{q} \text{ is a root of }qx - p = 0
+      \]
+    \item $\sqrt{2}$ is algebraic as it satisfies $x^2 - 2= 0$.
+  \end{enumerate}
+\end{example}
+\begin{definition}[Transcendental]
+  A real number is \textit{transcendental} if it is \textbf{not} algebraic.
+\end{definition}
+\begin{theorem}[Liouville -- 1844]
+  The number:
+  \[
+    L = \sum_{n=1}^{\infty} \frac{1}{10^{n!}}
+  \]
+  is transcendental.
+\end{theorem}
+To prove this, we will first need two facts about polynomials.
+\begin{lemma}
+  For any polynomial $p(x)$, there exists a constant $K$ such that $|p(x) - p(y)| \leq K|x - y|$ for all $0 \leq x, y \leq 1$.
+\end{lemma}
+\begin{proof}
+  Indeed, suppose:
+  \[
+    p(x) = a_d x^{d} + a_{d- 1}x^{d - 1} + \cdots a_1 x + a_0
+  \]
+  then:
+  \[
+    p(x) - p(y) = a_d(x^{d} - y^{d}) + a_{d - 1}(x^{d - 1} - y^{d - 1}) + \cdots + a_1(x - y) \\
+  \]
+  We can then use the factorisation:
+  \[
+    x^{n} - y^{n} = (x^{n-1} + x^{n-2}y + x^{n-3}y^2 + \cdots + xy^{n-2} + y^{n-1})
+  \]
+  to yield:
+  \[
+    p(x) - p(y) = (x - y)\left[a_d(x^{d - 1} + \cdots + y^{d - 1}) + a_{d-1}(x^{d - 2} + \cdots + y^{d- 2}) + \cdots + a_1\right]
+  \]
+  Since $0 \leq x, y \leq 1$, we have:
+  \[
+    \underbrace{x^{d - 1} + x^{d - 2}y + \cdots y^{d - 1}}_{d \text{ terms}} \leq d
+  \]
+  Thus:
+  \[
+    |p(x) - p(y)| \leq |x - y|\underbrace{[|a_d|\cdot d + |a_{d - 1}| \cdot d + \cdots |a_1| \cdot d]}_{K}
+  \]
+\end{proof}
+\begin{theorem}
+  A non-zero polynomial of degree $d$ has at most $d$ real roots.
+\end{theorem}
 \end{document}
