@@ -76,6 +76,7 @@ So at stationary points:
   \vec{s} \cdot \nabla f = 0\ \forall \uvec{s} \implies \nabla f = \vec{0}
 \]
 \subsection{Types of Stationary Points}
+\label{typesOfStationary}
 \subsubsection{Local Maximum}
 For a local maximum, $\nabla f$ points towards the maximum point.
 Contours are usually locally elliptical around a maximum.
@@ -228,4 +229,206 @@ This can be written in a coordinate independent form as:
   f(\vec{x}_0 + \delta \vec{x}) &= f(\vec{x}_0) + \delta \vec{x} \cdot \at{(\nabla f)}{\vec{x}_0} + \frac{1}{2} (\delta \vec{x})^{\trans} \at{H}{\vec{x}_0} \delta \vec{x} + \cdots \\
                                 & =f(\vec{x}_0) + \delta \vec{x} \cdot \at{(\nabla f)}{\vec{x}_0} + \frac{1}{2} (\delta \vec{x})^{\trans} \at{(\nabla \nabla f)}{\vec{x}_0} \delta \vec{x} + \cdots
 \end{align*}
+\subsection{Classification of Stationary Points}
+Suppose $\vec{x}_0$ is a stationary point, that is $\at{\nabla f}{\vec{x}_0} = \vec{0}$.
+
+Using the multivariate Taylor series, around $\vec{x}_0$ we have:
+\[
+  f(\vec{x}) \approx f(\vec{x}_0) + \frac{1}{2} (\delta \vec{x})^{\trans} H (\delta\vec{x})
+\]
+where $\delta \vec{x} = \vec{x} - \vec{x}_0$.
+\begin{definition}[Positive and Negative Definite]
+  A real symmetric matrix $H$ is:
+  \begin{itemize}
+    \item \textit{Positive definite}, if:
+      \[
+        \vec{x}^{\trans} H \vec{x} > 0\ \forall \vec{x} \in \R^{n}, \vec{x} \neq \vec{0}
+      \]
+    \item \textit{Negative definite}, if:
+      \[
+        \vec{x}^{\trans} H \vec{x} < 0\ \forall \vec{x} \in \R^{n}, \vec{x} \neq \vec{0}
+      \]
+    \item \textit{Indefinite} otherwise.
+  \end{itemize}
+\end{definition}
+\begin{itemize}
+  \item If $H$ is \textbf{positive definite} at $\vec{x}_0$, then the stationary point is a local minimum as $f(\vec{x}) > f(\vec{x}_0)$ close to $\vec{x}_0$.
+  \item If $H$ is \textbf{negative definite} at $\vec{x}_0$, then the stationary point is a local maximum as $f(\vec{x}) < f(\vec{x}_0)$ close to $\vec{x}_0$.
+  \item If $H$ is \textbf{indefinite}, then the stationary point may be a maximum, minimum or a saddle point.
+\end{itemize}
+\subsection{Definiteness and Eigenvalues}
+$H$ is a real symmetric matrix, therefore it can be diagonalised with an orthogonal transformation. This corresponds to using coordinates along the principal axes (that is, the axes defined by the eigenvectors).
+\textit{(For more details see Vectors and Matrices 4.6)}
+
+After diagonalisation, in $n$ dimensions:
+\begin{align*}
+  (\delta \vec{x})^{\trans}H(\delta\vec{x}) &= (\delta x_1, \ldots, \delta x_n)
+  \begin{pmatrix}
+  \lambda_1 &  &  \\
+   & \ddots &  \\
+   &  & \lambda_n \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  \delta x_1 \\
+  \vdots \\
+  \delta x_n \\
+  \end{pmatrix} \\
+  &= \lambda_1 (\delta x_1)^2 + \lambda_2 (\delta x_2)^2 + \cdots + \lambda_n(\delta x_n)^2
+\end{align*}
+where $\delta x_i$ are the coordinates with respect to the principal axes.
+
+Since the definiteness of $H$ depends on whether the relation holds for all $\delta \vec{x}$, we can conclude that:
+\begin{itemize}
+  \item $H$ is \textbf{positive definite} if and only if all $\lambda_i > 0$ $\to$ \textbf{Minimum} point.
+  \item $H$ is \textbf{negative definite} if and only if all $\lambda_i < 0$ $\to$ \textbf{Maximum} point.
+  \item All eigenvalues are \textbf{non-zero and mixed signs} $\to$ \textbf{Saddle} point.
+  \item \textbf{Any} eigenvalues are 0 $\to$ Need higher order terms in the Taylor series to classify the stationary point.
+\end{itemize}
+\begin{example}
+  \[
+    f(x, y) = x^2 + y^4
+  \]
+  We can see that is has a global minimum at $(0, 0)$.
+  First we find $\nabla f$:
+  \[
+    \nabla f = (f_x, f_y) = (2x, 4y^3)
+  \]
+  We then can find the Hessian at $(0, 0)$:
+  \[
+    H = \begin{pmatrix}
+    2 & 0 \\
+    0 & 12y^2 \\
+    \end{pmatrix} \implies
+    \at{H}{(0, 0)} =
+    \begin{pmatrix}
+    2 & 0 \\
+    0 & 0 \\
+    \end{pmatrix}
+  \]
+  which has eigenvalues $\lambda_1 = 2$ and $\lambda_2 = 0$.
+  Since one of the eigenvalues is 0, we would need to use higher order terms in the Taylor series to classify the stationary point using this method.
+\end{example}
+\subsection{Definiteness and Signature}
+The signature of the Hessian matrix provides an alternative method for classifying stationary points that does not involve computing eigenvalues.
+
+\begin{definition}[Signature]
+  The \textit{signature} of $H$ is the pattern of signs of the ordered sub-determinants of the leading principal minors of $H$.
+\end{definition}
+For $f(x_1, x_2, \ldots, x_n)$, the sub-determinants of the leading principal minors of $H$ are:
+\begin{align*}
+  |H_1| &= |f_{x_1 x_1}| \\
+  |H_2| &= \begin{vmatrix}
+  f_{x_1 x_1} & f_{x_1 x_2} \\
+  f_{x_2 x_1} & f_{x_2 x_2} \\
+  \end{vmatrix} \\
+  &\ \ \vdots \\
+  |H_n| &= \begin{vmatrix}
+  f_{x_1 x_1} & \cdots & f_{x_1 x_n} \\
+  \vdots & \ddots & \vdots \\
+  f_{x_n x_1} & \cdots & f_{x_nx_n } \\
+  \end{vmatrix}
+\end{align*}
+So the signature of $H$ is: sign of $|H_1|$, sign of $|H_2|$, ..., sign of $|H_n|$.
+\begin{theorem}[Slyvesters Critereon]
+  \label{syvestersCritereon}
+  For a symmetric matrix $H$:
+  \begin{align*}
+    H \text{ is positive definite} &\iff \text{ signature is: }+, +, +, \cdots, +\\
+    H \text{ is negative definite} &\iff \text{ signature is: }-, +, -, +, \cdots
+  \end{align*}
+  If $H$ has any other signature, it is indefinite.
+\end{theorem}
+\subsection{Contours Near Stationary Points}
+Suppose $f(x, y)$ has a stationary point at $\vec{x}_0 = (x_0, y_0)$.
+For ease, use the coordinates aligned with the principal axes of $H(\vec{x}_0)$.
+So $H(\vec{x}_0)$ will be diagonal:
+\[
+  H(\vec{x}_0) = \begin{pmatrix}
+  \lambda_1 & 0 \\
+  0 & \lambda_2 \\
+  \end{pmatrix}
+\]
+We are going to assume the eigenvalues are non-zero for simplicity.
+Consider $\delta \vec{x} = (\xi, \eta)$ for small $\xi$ and $\eta$.
+\[
+  \vec{x} = \vec{x}_0 + (\xi, \eta)
+\]
+Then around $\vec{x}_0$ we  have:
+\[
+  f(\vec{x}) = f(\vec{x}_0) + \frac{1}{2}(\lambda_1 \xi^2 + \lambda_2 \eta^2) + \cdots
+\]
+Close to $\vec{x}_0$, the higher order terms become negligible.
+Therefore, close to $\vec{x}_0$ the contours have the form:
+\[
+  \lambda_1 \xi^2 + \lambda_2 \eta^2 = \text{constant}
+\]
+For a maximum or minimum, both eigenvalues share the same sign so we see that this describes an ellipse with respect to the principal axes of $H(\vec{x}_0)$.
+
+At  a saddle point, the eigenvalues have opposite signs so we see that describes a hyperbola with respect to the principal axes of $H(\vec{x}_0)$.
+
+This agrees with what we saw in \cref{typesOfStationary}.
+\subsection{Example of Classifying Stationary Points}
+\begin{example}
+  Find and classify the stationary points of:
+  \[
+    f(x, y) = 4x^3 - 12xy + y^2 + 10y+ 6
+  \]
+  \begin{align*}
+    \nabla f = (f_x, f_y) = (12x^2 - 12y, -12x + 2y + 10)
+  \end{align*}
+  We have stationary points when both $f_x$ and $f_y$ are 0.
+  \begin{align*}
+    f_x &= 0 \implies y = x^2 \\
+    f_y &= 0 \implies -12x + 2y + 10 = 0
+  \end{align*}
+  Combining the above we have:
+  \begin{align*}
+    -12x + 2x^2 + 10 &= 0 \\
+    x^2 - 6x + 5 &= 0
+  \end{align*}
+  This has roots at $x = 1$ and $x = 5$.
+  Therefore the stationary points are at $(1, 1)$ and $(5, 25)$.
+
+  Now to compute the Hessian we first find:
+  \[
+    f_{x x} = 24x,\ f_{x y} = -12,\ f_{y y} = 2
+  \]
+  So:
+  \[
+    H = \begin{pmatrix}
+    24x & -12 \\
+    -12 & 2 \\
+    \end{pmatrix}
+  \]
+  First, considering the stationary point $(1, 1)$:
+  \[
+    \at{H}{(1, 1)} = \begin{pmatrix}
+    24 & -12 \\
+    -12 & 2 \\
+    \end{pmatrix}
+  \]
+  So $|H_1| = 24$ and $|H_2| = -96$.
+  So the signature is $+, -$ which doesn't match either of the conditions in \cref{syvestersCritereon}, thus $H$ is indefinite.
+  Since the diagonalised form of $H$ has the same determinant and $|H| \neq 0$, the product of all eigenvalues is non-zero.
+  Therefore, all eigenvalues are non-zero and have mixed signs so we have a saddle point.
+
+  Now, considering the stationary point $(5, 25)$
+  \[
+    \at{H}{(5, 25)} = \begin{pmatrix}
+    120 & -12 \\
+    -12 & 2 \\
+    \end{pmatrix}
+  \]
+  So $|H_1| = 120$ and $|H_2| = 240 - 144 = 96$.
+  So the signature is $+, +$, so we see from \cref{syvestersCritereon} that $H$ is positive definite.
+  Therefore we have a local minimum.
+
+  Near the saddle point, the contours satisfy
+  \[
+    24(\delta x)^2 - 24(\delta x)(\delta y) + 2(\delta y)^2 = \text{constant}
+  \]
+  If we find the eigenvalues and eigenvectors of $\at{H}{(5, 25)}$, this will define an ellipse aligned with the principal axes of $\at{H}{(5, 25)}$.
+
+\textit{(For more details see Vectors and Matrices 4.6)}
+\end{example}
 \end{document}

@@ -27,7 +27,7 @@ However, not all matrices are invertible, recall that:
 \begin{proof}
   See Vectors and Matrices 3.5.5
 \end{proof}
-This says that $\det$ is a homomorphism:
+This means that $\det$ is a homomorphism:
 \[
   \det: \GL_n(\R) \to \R_\times,\ A \mapsto \det A
 \]
@@ -90,21 +90,208 @@ There is a natural action of $\GL_n(\R)$ on $M_n(\R)$ by conjugation, that is:
   consists of \textbf{all} the matrices that represent $\alpha$ in any basis.
 \end{proposition}
 \begin{proof}
-  A basis $\{\vec{v}_1, \ldots, \vec{v}_n\}$ for $V$ defines an isomorphism of vector spaces:
-  \[
-    \phi: \R^{n} \to V,\ (\lambda_1, \ldots, \lambda_n) \mapsto \sum_{i = 1}^{n} \lambda_i \vec{v}_i
-  \]
-  This relation between $\R^{n}$ and $V$ can be expressed diagrammatically:
-  \begin{center}
-  \begin{tikzcd}
-  \R^n \arrow{d}[swap]{A} \arrow{r}{\phi}[swap]{\cong} & V \arrow{d}{\alpha} \\
-  \R^n \arrow{r}{\phi}[swap]{\cong} & V
-  \end{tikzcd}
-  \end{center}
-  The claim that $A$ represents $\alpha$ in this basis means that:
-  \[
-    \alpha = \phi A \phi^{-1}
-  \]
-  Continued next lecture.
+  \begin{proofdirection}{Suppose a matrix $B$ represents $\alpha$ in some basis}
+    A basis $\{\vec{v}_1, \ldots, \vec{v}_n\}$ for $V$ defines an isomorphism of vector spaces:
+    \[
+      \phi: \R^{n} \to V,\ (\lambda_1, \ldots, \lambda_n) \mapsto \sum_{i = 1}^{n} \lambda_i \vec{v}_i
+    \]
+    This relation between $\R^{n}$ and $V$ can be expressed diagrammatically:
+    \begin{center}
+    \begin{tikzcd}
+    \R^n \arrow{d}[swap]{A} \arrow{r}{\phi}[swap]{\cong} & V \arrow{d}{\alpha} \\
+    \R^n \arrow{r}{\phi}[swap]{\cong} & V
+    \end{tikzcd}
+    \end{center}
+    The claim that $A$ represents $\alpha$ in this basis means that:
+    \[
+      \alpha = \phi A \phi^{-1}
+    \]
+    Likewise, another basis  $\{\vec{u}_1, \ldots, \vec{u}_n\}$ corresponds to another isomorphism $\psi: \R^{n} \to V$, and a matrix $B$ represents $\alpha$ in these coordinates if $B = \psi^{-1} \alpha \psi \iff \alpha = \psi B \psi^{-1}$.
+
+    Therefore:
+    \begin{align*}
+      B &= \psi^{-1} \alpha \psi \\
+        &= (\psi^{-1} \circ \phi) A (\phi^{-1} \circ \psi) \\
+        &= PAP^{-1}
+    \end{align*}
+    where $P \in \GL_n(\R)$ represents:
+    \[
+      \psi^{-1} \circ \phi: \R^{n} \to \R^{n}
+    \]
+    in the standard basis.
+    We know that $P \in GL_n(\R)$ as we know that it has an inverse given by the matrix representing $\phi^{-1} \circ \psi$.
+
+    So $B \in \GL_n(\R)A$.
+    Thus, the set of all matrices representing $\alpha$ is contained in the orbit.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose a matrix $B$ is in the orbit of $A$}
+    Conversely, if $B = PAP^{-1}$, for some $P \in \GL_n(\R)$, then by setting:
+    \[
+      \psi = \phi \circ P^{-1}: \R^{n} \to V
+    \]
+    we get a basis $\{\vec{u}_i = \psi(\vec{e}_i)\}$ for $V$.
+    In this basis, $B$ represents $\alpha$.
+
+    Thus the orbit is contained in the set of matrices representing $\alpha$
+  \end{proofdirection}
 \end{proof}
+\section{M\"obius Transformations Revisited}
+Recall from \cref{mobComposition} that multiplication in $\mob$ looked similar to multiplication of $2 \times 2$ matrices.
+Now that we have studied quotient groups in \cref{quotientGroups}, we can more precisely describe this relation using a quotient group.
+\begin{proposition}
+  Identify
+  \[
+    \C_{\times} = \left\{\begin{pmatrix}
+    \lambda & 0 \\
+    0 & \lambda \\
+    \end{pmatrix} \in \GL_2(\C) : \lambda \in \C \setminus \{0\} \right\}
+  \]
+  Then $\C_\times \lhd \GL_2(\C)$ and:
+  \[
+    \mob \cong \GL_2(\C)/\C_\times
+  \]
+\end{proposition}
+\begin{proof}
+  Define the map $\Phi: \GL_2(\C) \to \mob$ as:
+  \[
+    \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} \mapsto
+    \left(z \mapsto \frac{az + b}{cz + d}\right)
+  \]
+  By our computation of multiplication in \cref{mobComposition}, we see that $\Phi$ is a homomorphism.
+  We can also see that it is surjective as if $M \in \GL_2(\C)$, $\det M = ad - bc \neq 0$, which is exactly the restriction on $a, b, c, d$ for a M\"obius transform.
+  Thus, $\im \Phi = \mob$.
+
+  A matrix $M \in \ker \Phi$ if and only if $\Phi(M) = \id$.
+  From \cref{threePointMob}, we know a transform is the identity if and only if its image fixes 0, 1 and $\infty$.
+  A transform fixes 0, 1 and $\infty$ if and only if:
+  \[
+    b = c = 0 \text{ and } a = d
+  \]
+  So $\ker \Phi$ is exactly the matrices in $\C_\times$.
+  Since $\ker \Phi \lhd \GL_2(\C)$, we have $\C_\times \lhd \GL_2(\C)$.
+  Finally, by the Isomorphism Theorem (\cref{isomorphismTheorem}), we have $M \cong \GL_2 /\C_\times$.
+\end{proof}
+\section{Orthogonal Groups}
+We want to do geometry using special types of matrices so we need to define a notion of distance.
+We will denote the usual euclidean norm in $\R^{n}$ as $\norm{\cdot}$, defined as:
+\[
+  \norm{\vec{u}} = \sqrt{\sum_{i=1}^{n} u^{2}_{i}}
+\]
+\begin{definition}[Orthogonal Group]
+  The \textit{$n$-dimensional orthogonal group}, $O(n),$ is the subgroup of $\GL_n(\R)$ that preserves distance in $\R^{n}$.
+  That is:
+  \[
+    O(n) = \{A \in \GL_n(\R): \norm{A \vec{v}} = \norm{\vec{v}} \text{ for all } \vec{v} \in \R^{n}\}
+  \]
+\end{definition}
+The dot product:
+\[
+  \vec{u} \cdot \vec{v} = \sum_{i = 1}^{n} u_i v_i
+\]
+is often more convenient to work with as it encodes information about both lengths and angles.
+We can show that $O(n)$ is equivalently only the matrices that preserve the dot product.
+We first need a simple but useful lemma:
+\begin{lemma}[Polarisiation Identity]
+  For any vectors $\vec{u}, \vec{v} \in \R^{n}$,
+  \[
+    2(\vec{u} \cdot \vec{v}) = \norm{\vec{u}}^2 + \norm{\vec{v}}^2 - \norm{\vec{u} - \vec{v}}^2
+  \]
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    \norm{\vec{u} - \vec{v}}^2 &= (\vec{u} - \vec{v}) \cdot (\vec{u} - \vec{v}) \\
+                            &= \norm{\vec{u}}^2 - 2(\vec{u} \cdot \vec{v}) + \norm{\vec{v}}^2
+  \end{align*}
+  From which the result follows.
+\end{proof}
+We can now characterise $O(n)$ using the dot product:
+\begin{lemma}[$O(n)$ and Dot Products]
+  \[
+    O(n) = \{A \in \GL_n(\R) : (A\vec{x}) \cdot (A\vec{y}) = \vec{x} \cdot \vec{y} \text{ for all } \vec{x}, \vec{y} \in \R^{n}\}
+  \]
+  That is, $O(n)$ is the set of all matrices that preserves the dot product.
+\end{lemma}
+\begin{proof}
+  If $A \in \GL_n(\R)$ preserves the dot product, then $(A\vec{x})\cdot(A\vec{y}) = \vec{x} \cdot \vec{y}$ for all $\vec{x} , \vec{y} \in \R^{n}$.
+
+  For any $v \in \R^{n}$, we then have:
+  \begin{align*}
+    \norm{A \vec{v}}^2 &= (A \vec{v}) \cdot (A \vec{v}) \\
+                    &= \vec{v} \cdot \vec{v} \\
+                    &= \norm{\vec{v}}^2
+  \end{align*}
+  Thus $\norm{A \vec{v}} = \norm{\vec{v}}$ so $A \in O(n)$
+
+  Conversely, if $A \in O(n)$, then for any $\vec{x} , \vec{y} \in \R^{n}$ then:
+  \begin{align*}
+    2(A \vec{x}) \cdot (A \vec{y}) &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A\vec{x} - A\vec{y}}^2 \text{ (by polarisation identity)}\\
+                                   &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A(\vec{x} - \vec{y})}^2 \\
+                                   &= \norm{\vec{x}}^2 + \norm{\vec{y}}^2 - \norm{\vec{x} - \vec{y}}^2 \text{ (as $A \in O(n)$))}\\
+                                   &= 2(\vec{x} \cdot \vec{y}) \text{ (by polarisation identity)}
+  \end{align*}
+  Thus $(A\vec{x})\cdot(A \vec{y}) = \vec{x} \cdot \vec{y}$ so $A$ preserves the dot product.
+  Therefore both characterisations of $O(n)$ are equivalent.
+\end{proof}
+This quickly leads to a nice characterisation of matrices in $O(n)$:
+\begin{lemma}[Matrices in $O(n)$]
+  Let $A \in M_n(\R)$.
+  The following statements are equivalent:
+  \begin{enumerate}
+    \item $A \in O(n)$
+    \item The columns of $A$ form an orthonormal basis for $\R^{n}$.
+    \item $A^{\trans} A = I$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Let $A = (a_{i j})$.
+
+  (\textbf{i} $\implies$ \textbf{ii})\par
+  \begin{indentenvironment}
+    Let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be the standard basis for $\R^{n}$.
+    The $i$-th column of $A$ is the column vector $A \vec{e}_i$.
+    Since $A \in O(n)$ we have:
+    \[
+      (A\vec{e}_i) \cdot (A\vec{e}_j) = \vec{e}_i \cdot \vec{e}_j = \delta_{i j}
+    \]
+    which is exactly what it means for the columns of $A$ to form an orthonormal basis.
+  \end{indentenvironment}
+
+  (\textbf{ii} $\implies$ \textbf{iii})\par
+  \begin{indentenvironment}
+    As explained above, \textbf{ii} means that:
+    \[
+      (A\vec{e}_i) \cdot (A\vec{e}_j) = \delta_{i j}
+    \]
+    Since $\vec{u} \cdot \vec{v} = \vec{u}^{\trans} \vec{v}$, this means that:
+    \begin{align*}
+      (A\vec{e}_i)^{\trans} (A\vec{e}_j) &= \delta_{i j} \\
+      \vec{e}^{\trans}_{i} A^{\trans} A \vec{e}_j &= \delta_{i j}
+    \end{align*}
+    But $\vec{e}^{\trans}_{i}M\vec{e}_j = M_{i j}$, so $(A^{\trans}A)_{i j} = \delta_{i j}$.
+    Thus $A^{\trans} A = I$.
+  \end{indentenvironment}
+
+  (\textbf{iii} $\implies$ \textbf{i})\par
+  \begin{indentenvironment}
+    Suppose $\vec{u}, \vec{v} \in \R^{n}$.
+    Then:
+    \begin{align*}
+      (A \vec{u}) \cdot (A \vec{v}) &= (A \vec{u})^{\trans} (A \vec{v}) \\
+                                    &= \vec{u}^{\trans} A^{\trans} A \vec{v} \\
+                                    &= \vec{u}^{\trans} I \vec{v} \text{ (as $A^{\trans} A = I$)} \\
+                                    &= \vec{u}^{\trans} \vec{v} \\
+                                    &= \vec{u} \cdot \vec{v}
+    \end{align*}
+    So $A \in O(n)$, as required.
+  \end{indentenvironment}
+\end{proof}
+Recall from Vectors and Matrices 3.5.5 that $\det A^{\trans} = \det A$.
+Therefore:
+\[
+  1 = \det I = \det(A^{\trans} A) = \det A^{\trans} \det A = (\det A)^2
+\]
+So $\det A = \pm 1$ for any $A \in O(n)$.
 \end{document}
