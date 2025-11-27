@@ -1063,7 +1063,7 @@ Since these are related to the standard axes by the orthogonal matrix $P$, from 
   |\vec{x}|^2 = x_i x_i = x_i'x_i'
 \]
 so the norm of $\vec{x}$ is calculated the same way in both bases.
-\begin{example}
+\begin{example}[Quadratic Forms in 2D]
   In $\R^2$, the general quadratic form is $\mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x}$ with:
   \[
     A = \begin{pmatrix}
@@ -1115,7 +1115,7 @@ so the norm of $\vec{x}$ is calculated the same way in both bases.
       \[
         \mathcal{F}(\vec{x}) = (x_1')^2 + 2(x_2')^2
       \]
-      If we set $\mathcal{F}(\vec{x}) = 1$ this defines an ellipse with respect to the principle axes:
+      Setting $\mathcal{F}(\vec{x}) = 1$ defines an ellipse with respect to the principle axes:
       \begin{center}
       \begin{tikzpicture}[>=stealth]
         \draw[->, gray!90] (0, -3) -- (0, 3) node[above] {$x_2$};
@@ -1139,7 +1139,7 @@ so the norm of $\vec{x}$ is calculated the same way in both bases.
       \[
         \mathcal{F}(\vec{x}) = (x_1')^2 - 2(x_2')^2 = 1
       \]
-      If we set $\mathcal{F}(\vec{x}) = 1$ this defines a hyperbola with respect to the principal axes:
+      Setting $\mathcal{F}(\vec{x}) = 1$ defines a hyperbola with respect to the principal axes:
       \begin{center}
       \begin{tikzpicture}[>=stealth]
         \draw[->, gray!90] (0, -3) -- (0, 3) node[above] {$x_2$};
@@ -1159,4 +1159,407 @@ so the norm of $\vec{x}$ is calculated the same way in both bases.
     \end{case}
   \end{proofcases}
 \end{example}
+\begin{example}[Quadratic Forms in 3D]
+  If we diagonalise $\mathcal{F}$, we can write it using the coordinates with respect to the principal axes and the eigenvalues of $A$:
+  \[
+    \mathcal{F}(\vec{x}) = \vec{x}^{\trans} A \vec{x} = \lambda_1(x_1')^2 + \lambda_2 (x_2')^2 + \lambda_3 (x_3')^2
+  \]
+  \begin{proofcases}
+    \begin{case}{$\lambda_1, \lambda_2, \lambda_3 > 0$}
+      Setting $\mathcal{F(\vec{x})} = 1$ defines an ellipsoid aligned with the principal axes:
+      \begin{center}
+      \begin{tikzpicture}
+      \begin{axis}[
+        view={135}{20},
+        axis lines=center,axis on top,
+        ticks=none,set layers=default,axis equal,
+        xlabel={$x_1'$}, ylabel={$x_2'$}, zlabel={$x_3'$},
+        xlabel style={anchor=south east},
+        ylabel style={anchor=south west},
+        zlabel style={anchor=south west},
+        enlargelimits,
+        tick align=inside,
+        domain=0:2.00,
+        samples=20,
+        z buffer=sort,
+      ]
+        \def\a{3}
+        \def\b{2}
+        \def\c{1.5}
+
+        \addplot3[
+            mesh,
+            samples=15,
+            samples y=30,
+            domain=-90:90,
+            domain y=0:360,
+            draw=black,
+            line width=0.1pt,
+        ]
+        (
+            { \a*cos(x)*cos(y) },
+            { \b*cos(x)*sin(y) },
+            { \c*sin(x) }
+        );
+      \end{axis}
+      \end{tikzpicture}
+      \end{center}
+    \end{case}
+    \begin{case}{$\lambda_1, \lambda_2, \lambda_3$ do not all have the same sign}
+      For example, consider the matrix:
+      \[
+        A = \begin{pmatrix}
+        0 & 1 & 1 \\
+        1 & 0 & 1 \\
+        1 & 1 & 0 \\
+        \end{pmatrix}
+        \implies \lambda_1 = \lambda_2 = - 1,\ \lambda_3 = 2
+      \]
+      We can then find the following orthonormal eigenvectors:
+      \[
+        \vec{u}_1 = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        1 \\
+        -1 \\
+        0 \\
+        \end{pmatrix},\
+        \vec{u}_2 = \frac{1}{\sqrt{6}}\begin{pmatrix}
+        1 \\
+        1 \\
+        -2 \\
+        \end{pmatrix},\
+        \vec{u}_3 = \frac{1}{\sqrt{3}}\begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        \end{pmatrix}
+      \]
+      These are the principal axes of $\mathcal{F}$.
+
+      We can then find $\mathcal{F}$ with respect to the standard axes and the principal axes:
+      \begin{align*}
+        \mathcal{F}(\vec{x}) &= 2x_1 x_2 + 2x_2x_3 + 2x_3 x_1 \\
+                             &= -(x_1')^2 - (x_2')^2 + 2(x_3')^2
+      \end{align*}
+      Setting $\mathcal{F}(\vec{x}) = 1$ defines a hyperboloid with 2 sheets aligned with the principal axes:
+      \begin{center}
+      \begin{tikzpicture}
+      \begin{axis}[
+        view={135}{20},
+        axis lines=center,axis on top,
+        ticks=none,set layers=default,axis equal,
+        xlabel={$x_1'$}, ylabel={$x_2'$}, zlabel={$x_3'$},
+        xlabel style={anchor=south east},
+        ylabel style={anchor=south west},
+        zlabel style={anchor=south west},
+        enlargelimits,
+        tick align=inside,
+        domain=0:2.00,
+        samples=20,
+        z buffer=sort,
+      ]
+        \def\a{0.5}
+        \def\b{0.5}
+        \def\c{0.5}
+        \def\umax{1.4}
+
+        \addplot3[
+            mesh,
+            samples=15,
+            samples y=30,
+            domain=0:\umax,
+            domain y=0:360,
+            draw=black,
+            line width=0.1pt,
+        ]
+        (
+            {\a*sinh(x)*cos(y)},
+            {\b*sinh(x)*sin(y)},
+            {\c*cosh(x) - 0.3}
+        );
+
+        \addplot3[
+            mesh,
+            samples=15,
+            samples y=30,
+            domain=0:\umax,
+            domain y=0:360,
+            draw=black,
+            line width=0.1pt,
+        ]
+        (
+            {\a*sinh(x)*cos(y)},
+            {\b*sinh(x)*sin(y)},
+            {-\c*cosh(x) + 0.3}
+        );
+      \end{axis}
+      \end{tikzpicture}
+      \end{center}
+      Setting $\mathcal{F}(\vec{x}) = -1$ also defines a hyperboloid aligned with the principal axes but now with only one sheet:
+
+      \begin{center}
+      \begin{tikzpicture}
+      \begin{axis}[
+        view={135}{20},
+        axis lines=center,axis on top,
+        ticks=none,set layers=default,axis equal,
+        xlabel={$x_1'$}, ylabel={$x_2'$}, zlabel={$x_3'$},
+        xlabel style={anchor=south east},
+        ylabel style={anchor=south west},
+        zlabel style={anchor=south west},
+        enlargelimits,
+        tick align=inside,
+        domain=0:2.00,
+        samples=20,
+        z buffer=sort,
+      ]
+        \def\a{0.5}
+        \def\b{0.5}
+        \def\c{0.5}
+        \def\umax{1.4}
+
+        \addplot3[
+            mesh,
+            samples=15,
+            samples y=30,
+            domain=-\umax:\umax,
+            domain y=0:360,
+            draw=black,
+            line width=0.1pt,
+        ]
+        (
+            {\a*cosh(x)*cos(y)},
+            {\b*cosh(x)*sin(y)},
+            {\c*sinh(x)}
+        );
+        \addplot3[
+            mesh,
+            domain=0:360,
+            samples=20,
+            very thick,
+            black
+        ]
+        (
+          { \a*cos(x) },
+          { \b*sin(x) },
+          { 0 }
+        );
+      \end{axis}
+      \end{tikzpicture}
+      \end{center}
+      This cuts the plane $x_3' = 0$ in the circle $(x_1')^2 + (x_2')^2 = 1$.
+    \end{case}
+  \end{proofcases}
+\end{example}
+\begin{remark}
+  Given a real square matrix $M$, we saw in \cref{matrixDecomp} that we can decompose $M$ into:
+  \[
+    M = S + A
+  \]
+  where $S$ is symmetric and $A$ is antisymmetric.
+
+  Let $k = \vec{x}^{\trans}A\vec{x}^{\trans}$, then:
+  \[
+    k = \vec{x}^{\trans}A\vec{x} = (\vec{x}^{\trans}A^{\trans}\vec{x})^{\trans} = -(\vec{x}^{\trans}A\vec{x})^{\trans} = -k^{\trans} = -k \implies k=\vec{x}^{\trans}A\vec{x}^{\trans} = 0  \]
+  So for an antisymmetric matrix $A$, $\vec{x}^{\trans}A\vec{x} = 0$.
+  Therefore:
+  \[
+    \vec{x}^{\trans} M \vec{x} = \vec{x}^{\trans}(S + A)\vec{x} = \vec{x}^{\trans}S\vec{x}
+  \]
+  This is why for quadratic forms we always use a symmetric matrix as if we used a general matrix, it could just be reduced to a quadratic form with a symmetric matrix.
+\end{remark}
+\section{Quadrics and Conics}
+\subsection{Quadrics}
+A \textit{quadric} in $\R^{n}$ is a hypersurface defined by:
+\[
+  Q(\vec{x}) = \vec{x}^{\trans}A\vec{x} + \vec{b}^{\trans}\vec{x} + c = 0
+\]
+for some real $n \times n$ real symmetric matrix $A$, $b \in \R^{n}$, and $c \in \R$.
+
+We can also write $Q(\vec{x})$ in component form as:
+\[
+  Q(\vec{x}) = A_{i j}x_ix_j + b_i x_i + c = 0
+\]
+
+We now wish to classify solutions of this equation up to \textit{geometrical equivalence}, that is, we have no distinctions between solutions related by isometries in $\R^{n}$, i.e. we consider two solutions the same if they are related by:
+\begin{itemize}
+  \item Translations or changes in origin
+  \item Orthogonal transformations about the origin
+\end{itemize}
+If $A$ is invertible, we can ``complete the square'' to simplify the equation.
+Let $\vec{y} = \vec{x} + \frac{1}{2}A^{-1}\vec{b}$.
+Noting that $(A^{-1})^{\trans} = A^{-1}$, we then have:
+\[
+  \vec{y}^{\trans} = \vec{x}^{\trans} + \frac{1}{2}\vec{b}^{\trans}A^{-1}
+\]
+We can then evaluate $\mathcal{F}(\vec{y})$ as:
+\begin{align*}
+  \mathcal{F}(\vec{y}) &= \vec{y}^{\trans}A\vec{y} \\
+                       &= \vec{x}^{\trans}A\vec{x} + \vec{b}^{\trans} \vec{x} + \frac{1}{4}\vec{b}^{\trans}A^{-1}\vec{b} \\
+                       &= \vec{x}^{\trans}A\vec{x} + \vec{b}^{\trans} \vec{x} + c +  \frac{1}{4}\vec{b}^{\trans}A^{-1}\vec{b} - c \\
+                       &= Q(\vec{x}) + k
+\end{align*}
+where $k = \frac{1}{4}\vec{b}^{\trans} A^{-1} \vec{b} - c$.
+Therefore:
+\[
+  \mathcal{F}(\vec{y}) = k \iff Q(\vec{x}) = 0
+\]
+Now, we diagonalise $\mathcal{F}$ as we did for the quadratic forms.
+We know that the orthonormal eigenvectors give the principal axes, then the eigenvalues of $A$ along with the value of $k$ determine the geometrical nature of the quadric.
+\subsubsection{Geometric Cases}
+\begin{enumerate}
+  \item Eigenvalues all positive and $k$ is positive $\to$ \textbf{Ellipsoid}
+  \item Eigenvalues of mixed signs and $k \neq 0$ $\to$ \textbf{Hyperboloid}
+  \item If $A$ has one or more zero eigenvalues, then $A$ is not invertible.
+    We are unable to complete the square as we did above.
+    It is simplest to continue analysis on a case by case basis using $Q(\vec{x})$ in its component form.
+\end{enumerate}
+\subsection{Conics}
+Quadrics in $\R^2$ are curves called \textit{conics}.
+\begin{proofcases}
+  \begin{case}{$\det A \neq0$}
+    Since $A$ is invertible, we can complete the square as above to obtain $\mathcal{F}(\vec{y}) = k$.
+    After diagonalising, we obtain:
+    \[
+      \lambda_1 (y_1')^2 + \lambda_2 (y_2')^2 = k
+    \]
+    where $y_1'$ and $y_2'$ are coordinates with respect to the principal axes of $A$.
+    Since $\vec{y}$ is $\vec{x}$ shifted by a constant vector, these axes will not necessarily be centred at the origin.
+    \begin{proofcases}
+      \begin{case}{$\lambda_1, \lambda_2 > 0$}
+        \begin{itemize}
+          \item For $k > 0$ $\to$ \textbf{Ellipse}
+          \item For $k = 0$ $\to$ \textbf{Point}
+          \item For $k < 0$ $\to$ \textbf{No solution}
+        \end{itemize}
+      \end{case}
+      \begin{case}{$\lambda_1 > 0, \lambda_2 < 0$}
+        \begin{itemize}
+          \item For $k\neq0$ $\to$ \textbf{Hyperbola}
+          \item For $k = 0$ $\to$ \textbf{Pair of lines}
+        \end{itemize}
+      \end{case}
+    \end{proofcases}
+  \end{case}
+  \begin{case}{$\det A = 0$}
+    As discussed, since $\det A = 0$ we cannot complete the square using $\vec{y}$ so instead we need to analyse $Q(\vec{x})$ directly.
+    Since $\det A = 0$, we must have an eigenvalue of 0.
+
+    Consider $\lambda_1 > 0$ and $\lambda_2 = 0$.
+    After diagonalising $A$ in the original formula for $Q(\vec{x})$, we get:
+    \begin{align*}
+      \lambda_1(x_1')^2 + b_1'x_1' + b_2'x_2' + c &= 0 \\
+      \lambda_1(x_1')^2 + b_1'x_1' + \frac{1}{4\lambda_1}(b_1')^2 - \frac{1}{4\lambda_1}(b_1')^2 + b_2'x_2' + c &= 0 \\
+      \lambda_1\left(x_1' + \frac{1}{2\lambda_1}b_1'\right)^2 - \frac{1}{4\lambda_1}(b_1')^2 + b_2'x_2' + c &= 0 \\
+      \lambda_1(x_1'')^2 + b_2'x_2' + c - \frac{1}{4 \lambda_{1}}(b_1')^2 &= 0 \\
+      \lambda_1(x_1'')^2 + b_2'x_2' + c' &= 0
+    \end{align*}
+    where:
+    \[
+      x_1'' = x_1' + \frac{1}{2\lambda_1}b_1' \text{ and } c'=c-\frac{1}{4\lambda_1}(b_1')^2
+    \]
+    \begin{proofcases}
+      \begin{case}{$b_2' = 0$}
+        \begin{itemize}
+          \item For $c' < 0$ $\to$ \textbf{Pair of parallel lines}
+          \item For $c' = 0$ $\to$ \textbf{Single line}
+          \item For $c' > 0$ $\to$ \textbf{No solution}
+        \end{itemize}
+      \end{case}
+      \begin{case}{$b_2 \neq 0$}
+        If we set:
+        \[
+          x_2'' = x_2' + \frac{1}{b_2' c'}
+        \]
+        then the equation becomes:
+        \[
+          \lambda_1(x_1'')^2 + b_2'x_2'' = 0
+        \]
+        which describes a parabola.
+      \end{case}
+    \end{proofcases}
+  \end{case}
+  Note that all changes of coordinates have been translations or orthogonal transformations about a given point.
+  Therefore, all the transformations have preserved distances and angles so solutions are geometrically equivalent. 
+\end{proofcases}
+\subsubsection{Standard Forms for Conics in Cartesian Coordinates}
+\begin{proofcases}
+  \begin{case}{Ellipse}
+    Consider the equation:
+    \[
+      \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1
+    \]
+    This matches with the case above where both eigenvalues are positive and $k > 0$ so we get an ellipse.
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+      \draw[->] (-3, 0) -- (3, 0) node[right] {$x$};
+
+      \draw[very thick] (0, 0) ellipse (2cm and 1cm);
+
+      \draw[decorate, decoration={brace, mirror, raise=2pt}] (0, 0) -- node[below=5pt] {$a$} (2, 0);
+      \draw[decorate, decoration={brace, raise=2pt}] (0, 0) -- node[left=5pt] {$b$} (0, 1);
+
+      \fill (1.2, 0) circle (1pt) node[above] {$F_1$};
+      \fill (-1.2, 0) circle (1pt) node[above] {$F_2$};
+    \end{tikzpicture}
+    \end{center}
+    Where $a$ is the \textit{semi-major axis} and $b$ is the \textit{semi-minor axis}.
+
+    Ellipses have \textit{eccentricity}, $e < 1$.
+    For $a > b$, $b^2 = a^2(1 - e^2)$ and they have foci at $x = \pm ae$
+  \end{case}
+  \begin{case}{Parabola}
+    Parabola have general equation:
+    \[
+      y^2 = 4ax
+    \]
+    where $a > 0$.
+
+    They have eccentricity $e = 1$ and have a single focus at $x = a$.
+
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+      \draw[->] (-3, 0) -- (3, 0) node[right] {$x$};
+
+      \clip (-3, -3) rectangle (3, 3);
+      \draw[very thick, rotate=-90,domain=-2:2, samples=50] plot ({\x}, {(\x)^2});
+
+      \fill (1.2, 0) circle (1pt) node[above] {$F$} node[below] {\small$(a, 0)$};
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+  \begin{case}{Hyperbola}
+    Hyperbola have general equation:
+    \[
+      \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1
+    \]
+    They have eccentricity $e > 1$, where:
+    \[
+      b^2 = a^2(e^2 - 1)
+    \]
+    They have foci at $x = \pm ae$ and asymptotes $y = \pm \frac{b}{a}x$.
+
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -3) -- (0, 3) node[above] {$y$};
+      \draw[->] (-4, 0) -- (4, 0) node[right] {$x$};
+
+      \begin{scope}
+        \clip (-4, -3) rectangle (4, 3);
+        \draw[very thick, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{tan(\t r)});
+        \draw[very thick, rotate=180, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{tan(\t r)});
+      \end{scope}
+
+      \draw[decorate, decoration={brace, mirror, raise=2pt}] (0, 0) -- node[below=5pt] {$a$} (1, 0);
+
+      \draw[dashed] (-3, -3) -- (3, 3);
+      \draw[dashed] (-3, 3) -- (3, -3);
+
+      \fill (1.8, 0) circle (1pt) node[above] {$F_1$};
+      \fill (-1.8, 0) circle (1pt) node[above] {$F_2$};
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+\end{proofcases}
 \end{document}

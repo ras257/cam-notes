@@ -139,6 +139,7 @@ This is what we mean when we say $\Q$ has ``gaps''.
 \end{remark}
 \begin{definition}[Real Numbers]
   The \textit{real numbers}, denoted $\R$, are a set with elements 0 and 1 ($0 \neq 1$), equipped with addition, multiplication, and an ordering $<$, satisfying the following:
+  \label{realDef}
   \begin{enumerate}
     \item Addition is commutative and associative with identity 0, and every $x$ has an inverse under addition.
     \item Multiplication is commutative and associative with identity 1, and every $x \neq 0$ has an inverse under multiplication.
@@ -913,7 +914,8 @@ We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but 
   A real number is \textit{transcendental} if it is \textbf{not} algebraic.
 \end{definition}
 \begin{theorem}[Liouville -- 1844]
-  The number:
+  \label{LNumber}
+  The number, \textit{Liouville's Constant}, defined by:
   \[
     L = \sum_{n=1}^{\infty} \frac{1}{10^{n!}}
   \]
@@ -921,6 +923,7 @@ We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but 
 \end{theorem}
 To prove this, we will first need two facts about polynomials.
 \begin{lemma}
+  \label{fact1}
   For any polynomial $p(x)$, there exists a constant $K$ such that $|p(x) - p(y)| \leq K|x - y|$ for all $0 \leq x, y \leq 1$.
 \end{lemma}
 \begin{proof}
@@ -949,7 +952,128 @@ To prove this, we will first need two facts about polynomials.
     |p(x) - p(y)| \leq |x - y|\underbrace{[|a_d|\cdot d + |a_{d - 1}| \cdot d + \cdots |a_1| \cdot d]}_{K}
   \]
 \end{proof}
-\begin{theorem}
+\begin{lemma}
+  \label{fact2}
   A non-zero polynomial of degree $d$ has at most $d$ real roots.
-\end{theorem}
+\end{lemma}
+\begin{proof}
+  \induction
+  {$d = 1$}{
+    A first degree polynomial is of the form $ax + b = 0$, which has exactly one real root, namely, $x = -\frac{b}{a}$.
+  }
+  {$d = k - 1$}{}
+  {$d = k$}{
+    Suppose $p(x)$ is a polynomial of degree $k$.
+    If this has no real roots, then we are done.
+    Otherwise, suppose it has a real root $r$.
+    We can then factorise $p(x)$ as:
+    \[
+      p(x) = (x- r)q(x)
+    \]
+    where $q(x)$ is a polynomial of degree $k - 1$.
+    By the induction hypothesis, $q(x)$ has at most $k - 1$  real roots.
+    Thus $p(x)$ has at most $k$ real roots.
+  }
+\end{proof}
+We can now complete the proof of the transcendence of Liouville's constant:
+\begin{proof}[\cref{LNumber}]
+  Write the partial sums of $L$ as:
+  \[
+    L_n = \sum_{k = 1}^{n} \frac{1}{10^{k!}}
+  \]
+  We see that $L_n \to L$ as $n \to \infty$ because they are bounded above and increasing.
+
+  Now suppose there is a polynomial of integer coefficients $p(x)$ of which $L$ is a root.
+  By \cref{fact1}, there exists a $K$ such that:
+  \[
+    |p(x) - p(y)| \leq K|x - y|\ \forall 0 \leq x, y \leq 1
+  \]
+  Note, since $0 < L_n < L < 1$, we can set $x = L$ and $y = L_n$ to yield:
+  \[
+    |L - L_n| = \sum_{k = n + 1}^{\infty} \frac{1}{10^{k!}} \leq 2 \cdot \frac{1}{10^{(k + 1)!}}
+  \]
+  where the inequality is due to the rapid decay of the partial sums.
+
+  Suppose $p$ has degree $d$, i.e.
+  \[
+    p(x) = a_d x^{d} + a_{d-1} x^{d - 1} + \cdots + a_1 x + a_0
+  \]
+  with $a_i \in \Z$ and $a_d \neq 0$.
+
+  Notice that:
+  \[
+    L_n = \frac{s}{10^{n!}}
+  \]
+  for some $s \in \N$, by bringing all of the fractions in the partial sum to a common denominator.
+  So:
+  \[
+    p(L_n) = \frac{t}{10^{d \cdot n!}}
+  \]
+  for some $t \in \Z$ by bring all the terms in $p(L_n)$ to a common denominator.
+  By \cref{fact2}, for sufficiently large $n$, some $L_n$ must not be a root of $p$ so we have some $p(L_n) \neq 0$ and therefore $t\neq0$.
+
+  Hence:
+  \[
+    |p(L_n) - p(L)| = |p(L_n)| = \frac{|t|}{10^{d \cdot n!}} \geq \frac{1}{10^{d \cdot n!}}
+  \]
+  as $t \in \Z \setminus \{0\}$.
+  Therefore:
+  \begin{align*}
+    \frac{1}{10^{d \cdot n!}} &\leq |p(L_n) - p(L)| \\
+                              &\leq K|L_n - L| \\
+                              &\leq 2K \cdot \frac{1}{10^{(n + 1)!}} \\
+    \implies \frac{1}{10^{d}} &\leq \frac{2K}{10^{n + 1}}
+  \end{align*}
+  For sufficiently large $n$, the inequality does not hold so we have a contradiction.
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item This same proof would not work to show that $e$ is transcendental as the partial sums do not decay quickly enough.
+      However, $e$ is in fact transcendental.
+    \item The same proof shows that any real number $x$ such that $\forall n \in \N$, $\exists \frac{p}{q} \in \Q$ such that $0 < |x - \frac{p}{q}| < \frac{1}{q^{n}}$ is transcendental.
+      Such numbers are called \textit{Liouville numbers}.
+
+      This inequality shows that Liouville numbers can be very well approximated by rational numbers.
+    \item We will give another proof of the existence in transcendental numbers in the next chapter.
+  \end{enumerate}
+\end{remark}
+\section{Complex Numbers}
+Some polynomials have no real roots, for example, $x^2 + 1$.
+We will instead define an $x$ satisfying $x^2 + 1 = 0$ ``into existence''.
+
+\begin{definition}[Complex Numbers -- $\C$]
+  The \textit{complex numbers}, denoted $\C$, consists of $\R^2$ (the set of all ordered pairs $(a, b)$ with $a, b \in \R$) together with addition and multiplication defined by:
+  \begin{align*}
+    (a, b) + (c, d) &= (a + c, b + d) \\
+    (a, b) \times (c, d) &= (ac - bd, ad + bc)
+  \end{align*}
+\end{definition}
+We can view $\R$ as contained in $\C$ by identifying $a \in \R$ with $(a, 0) \in \C$.
+Note that $(a, 0) + (b, 0) = (a + b, 0)$ and similarly $(a, 0) \times (b, 0) = (ab, 0)$, so the usual definitions of arithmetic in $\R$ have been ``built in'' to this definition.
+
+Now let $i = (0, 1)$. Then $i^2 = (-1, 0)$, corresponding to $-1 \in \R$, so $i^2 + 1 = 0$ which is what we wanted to construct.
+
+Note that every $z \in \C$ is of the form $a + ib$ with $a, b \in \R$ by writing:
+\[
+  (a, b) = a(1, 0) + b(0, 1) = a + bi
+\]
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item $\C$ obeys all the usual rules of arithmetic, that is, it satisfies axioms \textbf{i}, \textbf{ii}, and \textbf{iii} in \cref{realDef}.
+
+      However, multiplicative inverses are a little more tricky than in $\R$.
+      If $z \in \C$, $z \neq 0$, then there exists $w \in \C$ such that $zw = 1$.
+
+      Indeed, given $z = a + ib$, note that:
+      \[
+        (a + ib) \times (a - ib) = a^2 + b^2
+      \]
+      so, since $z \neq 0$, $a^2 + b^2 \neq 0$, thus:
+      \[
+        (a + ib) \times \frac{a - ib}{a^2 + b^2} = 1
+      \]
+    \item Every non-constant polynomial (even allowing for complex valued coefficients) has a root in $\C$.
+      This is known as the \textit{Fundamental Theorem of Algebra}.
+  \end{enumerate}
+\end{remark}
 \end{document}

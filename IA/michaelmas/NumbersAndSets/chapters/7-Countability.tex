@@ -1,0 +1,56 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Countability}
+We want to talk about the sizes of infinite sets, for example, $\N$ ``looks smaller'' than $\Z$ which seem ``a lot smaller'' than $\Q$, which seems ``even smaller than'' $\R$
+
+\begin{definition}[Countable Set]
+  We say that a set $X$ is \textit{countable} if $X$ is finite or there is a bijection $X \to \N$.
+
+  This second case is often referred to as \textit{countably infinite}.
+\end{definition}
+That is, $X$ is countable if and only if we can enumerate the elements of $X$ using $\N$, i.e:
+\[
+  x_1, x_2, x_3, \ldots
+\]
+which terminates if $X$ is finite.
+\begin{example}
+  \begin{enumerate}
+    \item Any finite set is countable.
+    \item $\N$ is countable, or more specifically, countably infinite.
+    \item $\Z$ is countable as we may list its elements as:
+      \[
+        0, 1, -1, 2, -2, \ldots
+      \]
+      That is, we can define a bijection $\N \to \Z$ given by $n \mapsto x_n$ where:
+      \[
+        x_n = \begin{cases}
+        \frac{n}{2} & \text{ if $n$ even} \\
+        -\frac{n - 1}{2} & \text{ if $n$ odd}
+        \end{cases}
+      \]
+  \end{enumerate}
+\end{example}
+\begin{lemma}
+  Any subset of $\N$ is countable.
+\end{lemma}
+\begin{proof}
+  If $S \subseteq \N$ is non empty, by the Well-Ordering Principle (\cref{WOP}), there is a least element $s_1 \in S$.
+
+  If $S \setminus \{s_1\} \neq \emptyset$, again, there is a least element $s_2 \in S \setminus \{s_1\}$.
+
+  If $S \setminus \{s_1, s_2\} \neq \emptyset$, ...
+
+  If at some point this process terminates, then $S = \{s_1, s_2, \ldots, s_n\}$ is finite and therefore countable.
+
+  Otherwise, if this process never terminates, then the map:
+  \[
+    g: \N \to S, n \mapsto s_n
+  \]
+  is well-defined, as, for every $n$ there will be a unique minimal element $s_n$.
+  This map will be injective as when a least element appears, it is removed from the set so the same least element cannot occur twice.
+
+  It is also surjective because, if $k \in S$, then $k \in \N$ so there are less than $k$ elements of $S$ less than $k$, so $k = s_n$ for some $n \leq k$.
+
+  So we have a bijection between $S$ and $\N$, thus $S$ is countably infinite.
+\end{proof}
+\end{document}
