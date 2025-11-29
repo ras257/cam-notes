@@ -409,6 +409,7 @@ So from \cref{diagonalProp}, $A$ is diagonalisable.
 Note that we require that all $n$ eigenvalues are distinct as otherwise we could have an eigenvalue with $m_\lambda < M_\lambda$ so would have less than $n$ linearly independent eigenvectors so would be unable to form a basis.
 \subsubsection{A necessary and sufficient condition}
 \begin{proposition}
+  \label{diagonalisationIFF}
   $A$ is diagonalisable if and only if for all eigenvalues $\lambda$, $M_\lambda = m_\lambda$
 \end{proposition}
 \begin{proof}
@@ -1541,7 +1542,7 @@ Quadrics in $\R^2$ are curves called \textit{conics}.
     They have foci at $x = \pm ae$ and asymptotes $y = \pm \frac{b}{a}x$.
 
     \begin{center}
-    \begin{tikzpicture}[>=stealth]
+    \begin{tikzpicture}[>=stealth, scale=0.8]
       \draw[->] (0, -3) -- (0, 3) node[above] {$y$};
       \draw[->] (-4, 0) -- (4, 0) node[right] {$x$};
 
@@ -1562,4 +1563,336 @@ Quadrics in $\R^2$ are curves called \textit{conics}.
     \end{center}
   \end{case}
 \end{proofcases}
+\subsubsection{Focus Directrix Property}
+The 4 conic sections (circle, parabola, hyperbola, and ellipse) can be obtained by intersecting a plane at varying angles with a double cone:
+\begin{itemize}
+  \item Plane \textbf{horizontal} $\to$ \textbf{Circle}
+  \item Plane \textbf{parallel to the slant} of the cone $\to$ \textbf{Parabola}
+  \item Plane \textbf{vertical} $\to$ \textbf{Hyperbola} (only one which intersects both cones simultaneously)
+  \item Otherwise $\to$ \textbf{Ellipse}
+\end{itemize}
+Consider the expression for the conic given by:
+\[
+  \frac{x^2}{a^2} + \frac{y^2}{b^2} = k
+\]
+\begin{definition}[Conic Sections]
+  For all \textit{conic sections} or \textit{conics}, we define the following:
+  \begin{itemize}
+    \item The \textit{eccentricity} of a conic is a non-negative parameter $e$.
+    \item The \textit{foci} of a conic are at $(\pm ae, 0)$.
+    \item The \textit{directrices} of a conic are the lines $x = \pm \frac{a}{e}$
+  \end{itemize}
+  A conic is then the set of points whose distance from the focus is $e$ times the distance from the directrix which is closest to that focus (With the exception of $e = 1$, in which case, we take the distance to the other further directrix).
+
+  This is known as the \textit{focus-directrix property}.
+\end{definition}
+\begin{proofcases}
+  \begin{case}{$e < 1$ -- Ellipse or Circle}
+    When $e < 1$ we obtain an ellipse:
+
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+      \draw[->] (-3, 0) -- (3, 0) node[right] {$x$};
+
+      \draw[very thick, gray!90] (0, 0) ellipse (2cm and 1cm);
+
+
+      \fill (1.2, 0) circle (1pt) node[above] {$F_1$};
+      \fill (-1.2, 0) circle (1pt) node[above] {$F_2$};
+
+      \draw[dashed] (2.5, -2) node[below] {\small$x = -\frac{a}{e}$} -- (2.5, 2);
+      \draw[thick] (1.2, 0) -- (0.84, 0.917) node[above] {$P$} -- (2.5, 0.917) node[right] {$M$};
+    \end{tikzpicture}
+    \end{center}
+    We must have $|PF| = e|PM|$ and so we obtain:
+    \[
+      \sqrt{(x - ae)^2 + y^2} = e\left(\frac{a}{e} - x\right) \implies
+      \frac{x^2}{a^2} + \frac{y^2}{a^2(1 - e^2)} = 1
+    \]
+    with $b = a\sqrt{1 - e^2}$.
+    In the limiting case as $e \to 0$, we have a circle.
+  \end{case}
+  \begin{case}{$e > 1$}
+    When $e > 1$ we obtain a hyperbola:
+    \begin{center}
+    \begin{tikzpicture}[>=stealth, scale=0.8]
+      \draw[->] (0, -3) -- (0, 3) node[above] {$y$};
+      \draw[->] (-4, 0) -- (4, 0) node[right] {$x$};
+
+      \begin{scope}
+        \clip (-4, -3) rectangle (4, 3);
+        \draw[very thick, domain=-1.4:1.4, smooth, variable=\t, gray!90] plot ({sec(\t r)},{tan(\t r)});
+        \draw[very thick, rotate=180, domain=-1.4:1.4, smooth, variable=\t, gray!90] plot ({sec(\t r)},{tan(\t r)});
+      \end{scope}
+
+      \draw[dashed] (0.5, -3) node[below] {\small$x = \frac{a}{e}$} -- (0.5, 3);
+      \fill (1.8, 0) circle (1pt) node[above right] {$F_1$};
+      \fill (-1.8, 0) circle (1pt) node[above] {$F_2$};
+
+      \draw[thick] (1.8, 0) -- (2, 1.732) node[right] {$P$} -- (0.5, 1.732) node[left] {$M$};
+    \end{tikzpicture}
+    \end{center}
+    We must have $|PF| = e|PM|$ and so we obtain:
+    \[
+      \sqrt{(x - ae)^2 + y^2} = e\left(x - \frac{a}{e}\right) \implies
+      \frac{x^2}{a^2} - \frac{y^2}{a^2(e^2 - 1)} = 1
+    \]
+    with $b = a\sqrt{e^2 - 1}$.
+  \end{case}
+  \begin{case}{$e = 1$}
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+      \draw[->] (-3, 0) -- (3, 0) node[right] {$x$};
+
+      \clip (-3, -3) rectangle (3, 3);
+      \draw[very thick, rotate=-90,domain=-2:2, samples=50, gray!90] plot ({\x}, {(\x)^2});
+
+      \fill (1, 0) circle (1pt) node[above] {$F$} node[below] {\small$(a, 0)$};
+
+      \draw[dashed] (-0.25, -2) node[below] {\small$x = -\frac{a}{e}$} -- (-0.25, 2);
+      \draw[thick] (1, 0) -- (1.2, 1.095) node[above] {$P$} -- (-0.25, 1.095) node[left] {$M$};
+    \end{tikzpicture}
+    \end{center}
+    We must have $|PF| = |PM|$ and so we obtain
+    \[
+      \sqrt{(x - a)^2 + y^2} = (x + a) \implies y^2 = 4ax
+    \]
+  \end{case}
+\end{proofcases}
+\subsubsection{Conics in Polar Coordinates}
+We introduce a new parameter the \textit{semi-latus rectum}, $\ell$, such that $\frac{\ell}{e}$ is the distance from the focus to the appropriate directrix.
+
+In the case of $e \neq 1$, we use the closet directrix so have:
+\[
+  \frac{\ell}{e} = \abs{\frac{a}{e} - ae} \implies \ell = a|1 - e^2|
+\]
+In the case $e = 1$ (parabola), we use the other directrix so $\ell = 2a$.
+
+We use polar coordinates $(r, \theta)$ that are centered on a focus:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.5]
+  \draw[->] (0, -1.5) -- (0, 1.5) node[above] {$y$};
+  \draw[->] (-0.5, 0) -- (3, 0) node[right] {$x$};
+
+  \begin{scope}[xshift=-0.5cm]
+    \clip (0, -1.5) rectangle (3, 1.5);
+    \draw[very thick, gray!90] (0, 0) ellipse (2cm and 1cm);
+    \fill (0.5, 0) circle (1pt) node[above left] {$F$};
+
+    \draw[decorate, decoration={brace, mirror,raise=2pt}] (0.5, 0) -- node[below=5pt] {$\frac{\ell}{e}$} (2.5, 0);
+
+    \draw (0.7,0) arc[start angle=0, end angle=70, radius=0.2] node[right, xshift=2] {$\scriptstyle\theta$};
+
+    \draw[dashed] (2.5, -2) -- (2.5, 2);
+    \draw[thick] (0.5, 0) -- (0.84, 0.917) node[midway, right] {$r$} node[above] {$P$} -- (2.5, 0.917) node[right] {$M$};
+    \draw[decorate, decoration={brace, raise=1pt}] (0.84, 0.917) -- node[above=1pt] {$\frac{\ell}{e} - r\cos\theta$} (2.5, 0.917);
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+Hence, the focus-directrix property is given by:
+\[
+  r = e\left(\frac{\ell}{e} - r\cos \theta\right) \implies r= \frac{\ell}{1 + e\cos \theta}
+\]
+\begin{proofcases}
+  \begin{case}{$e < 1$ -- Ellipse}
+    In this case we have $\ell = a(1 - e^2)$ so $r = \frac{a(1 - e^2)}{1 + e\cos \theta}$.
+
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -1.8) -- (0, 1.8) node[above] {$y$};
+      \draw[->] (-4, 0) -- (1.2, 0) node[right] {$x$};
+
+      \begin{scope}[xshift=-1.2cm]
+        \draw[very thick] (0, 0) ellipse (2cm and 1cm);
+        \fill (1.2, 0) circle (1pt) node[above left] {$F_1$};
+        \fill (-1.2, 0) circle (1pt) node[above] {$F_2$};
+      \end{scope}
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+  \begin{case}{$e = 1$ -- Parabola}
+    Since $e = 1$, we have $\ell = 2a$ so $r = \frac{2a}{1 + e\cos \theta}$.
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+      \draw[->] (-3, 0) -- (1.8, 0) node[right] {$x$};
+
+      \clip (-3, -3) rectangle (3, 3);
+      \begin{scope}[xshift=1.2cm]
+        \draw[very thick, rotate=90,domain=-2:2, samples=50] plot ({\x}, {(\x)^2});
+
+        \fill (-1.2, 0) circle (1pt) node[above left] {$F$};
+      \end{scope}
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+  \begin{case}{$e > 1$ -- Hyperbola}
+    In this case we have $\ell = a(e^2 - 1)$ so $r = \frac{a(e^2 - 1)}{1 + e\cos \theta}$.
+    \begin{center}
+    \begin{tikzpicture}[>=stealth, scale=0.8]
+      \draw[->] (0, -3) -- (0, 3) node[above] {$y$};
+      \draw[->] (-3, 0) -- (3, 0) node[right] {$x$};
+
+      \clip (-4, -3) rectangle (4, 3);
+      \begin{scope}[xshift=1.8cm]
+        \draw[very thick, rotate=180, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{tan(\t r)});
+        \draw[dashed] (-3, 3) -- (0, 0) -- (-3, -3);
+        \fill (-1.8, 0) circle (1pt) node[above left] {$F$};
+      \end{scope}
+    \end{tikzpicture}
+    \end{center}
+  \end{case}
+\end{proofcases}
+\section{Jordan Canonical/Normal Forms}
+This gives us a classification for $n \times n$ complex matrices up to similarity.
+
+Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to \C^{n}$ which is similar to the matrix $B$ after a change of basis.
+\begin{proposition}[Jordan normal forms in $\C^2$]
+  \label{2x2Similar}
+  Let $A$ be a $2 \times 2$ complex matrix $A$ with eigenvalues $\lambda_1$ and $\lambda_2$:
+  \begin{enumerate}
+    \item If $\lambda_1 \neq \lambda_2$, then $A$ is similar to:
+      \[
+        B = \begin{pmatrix}
+        \lambda_1 & 0 \\
+        0 & \lambda_2 \\
+        \end{pmatrix}
+      \]
+    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 2$, then $A$ is similar to:
+      \[
+        B = \begin{pmatrix}
+        \lambda & 0 \\
+        0 & \lambda \\
+        \end{pmatrix}
+      \]
+    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 1$, then $A$ is similar to:
+      \[
+        B = \begin{pmatrix}
+        \lambda & 1 \\
+        0 & \lambda \\
+        \end{pmatrix}
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  We know that $\chi_A(t)$ has 2 roots, counting multiplicity over $\C$.
+  \begin{enumerate}
+    \item For distinct roots/eigenvalues $\lambda_1, \lambda_2$, we have:
+      \[
+        M_{\lambda_1} = m_{\lambda_1} = 1 \text{ and } M_{\lambda_2} = m_{\lambda_2} = 1
+      \]
+      Since the algebraic and geometric multiplicities coincide for all eigenvalues, by \cref{diagonalisationIFF}, $A$ can be diagonalised by the matrix $P$ that has its eigenvectors as its columns.
+
+      Therefore, we have $P^{-1}AP = B$ for a diagonal matrix $B$.
+      So $A$ is similar to
+      \[
+        B = \begin{pmatrix}
+        \lambda_1 & 0 \\
+        0 & \lambda_2 \\
+        \end{pmatrix}
+      \]
+    \item For $\lambda_1 = \lambda_2 = \lambda$ and $M_\lambda = m_{\lambda} = 2$ we can diagonalise so the same argument applies.
+    \item For $\lambda_1 = \lambda_2 = \lambda$ and $M_\lambda = 2 \neq m_{\lambda} = 1$, let $\vec{v}$ be an eigenvector for $\lambda$ and extend this to a basis for $\C^{2}$ by adjoining a vector $\vec{w}$ that is linearly independent to $\vec{v}$.
+
+      Since $\vec{v}$ is an eigenvector, $A \vec{v} = \lambda \vec{v}$.
+      We can also write:
+      \[
+        A\vec{w} = \alpha \vec{v} + \beta \vec{w}
+      \]
+      to represent $A\vec{w}$ in the basis $\{\vec{v}, \vec{w}\}$.
+      Note that $\alpha \neq 0$ as we cannot have a second linearly independent eigenvector.
+
+      Then, the matrix representing the linear map $T$ with respect to the basis $\{\vec{v}, \vec{w}\}$ is:
+      \[
+        \begin{pmatrix}
+        \lambda & \alpha \\
+        0 & \beta \\
+        \end{pmatrix}
+      \]
+      This matrix must be similar to $A$ as it represents the same transform in a different basis.
+      It therefore needs to have the same repeated eigenvalue $\lambda$ so we require that $\beta = \lambda$.
+
+      Now defining $\vec{u} = \alpha \vec{v}$, we have that:
+      \[
+        B = \begin{pmatrix}
+        \lambda & 1 \\
+        0 & \lambda \\
+        \end{pmatrix}
+      \]
+      represents $T$ with respect to the basis $\{\vec{u}, \vec{w}\}$.
+      Therefore, $B = P^{-1} A P$ where $\vec{u}, \vec{w}$ are the columns of $P$.
+      So $A$ is similar to $B$.
+  \end{enumerate}
+\end{proof}
+\begin{theorem}[Jordan normal forms in $\C^n$]
+  Any $n \times n$ complex matrix $A$ is similar to a matrix $B$ with block form given by:
+  \[
+    B = \begin{pmatrix}
+    \multicolumn{1}{c|}{J_{n_1}(\lambda_1)} &  &  &  \\ \cline{1-2}
+     & \multicolumn{1}{|c|}{J_{n_2}(\lambda_2)} &  &  \\ \cline{2-2}
+     &  & \ddots &  \\ \cline{4-4}
+     &  &  & \multicolumn{1}{|c}{J_{n_r}(\lambda_n)} \\
+    \end{pmatrix}
+  \]
+  where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are the eigenvalues of $A$ and $B$.
+
+  Each \textit{Jordan block} $J_p(\lambda)$ has form:
+  \[
+    J_p(\lambda) = \begin{pmatrix}
+    \lambda & 1 &  &  &  \\
+     & \lambda & 1 &  &  \\
+     &  & \lambda & 1 &  \\
+     &  &  & \ddots &  1\\
+     &  &  &  & \lambda \\
+    \end{pmatrix}
+  \]
+  where the main diagonal has only $\lambda$, the diagonal above has only $1$, and everything else is 0.
+\end{theorem}
+\begin{remark}[Note]
+  The same eigenvalue may appear in more than one block.
+
+  For example, considering the matrices in \cref{2x2Similar}:
+  \begin{enumerate}
+    \item We have 2 Jordan blocks with different eigenvalues.
+    \item We have 2 Jordan Blocks with the same eigenvalue.
+    \item The entire matrix is a single Jordan block.
+  \end{enumerate}
+\end{remark}
+\begin{remark}
+  $A$ is diagonalisable if and only if $B$ consists of only $1 \times 1$ Jordan blocks.
+\end{remark}
+\section{Symmetries and Transformation Groups}
+\subsection{Orthogonal Transformations and Rotations}
+Since we are talking about orthogonal matrices instead of unitary matrices, we will work in $\R^{n}$.
+\begin{remark}[Recap] (See \cref{orthogonalMatrices} for full details)
+
+  The following statements are equivalent:
+  \begin{itemize}
+    \item A square matrix $R$ is orthogonal.
+    \item $R^{\trans} R = R R^{\trans} = I$.
+    \item $(R \vec{x})\cdot(R \vec{y}) = \vec{x} \cdot \vec{y}\ \forall \vec{x}, \vec{y} \in \R^{n}$, that is, $R$ preserves lengths and angles.
+    \item The columns of $R$ form an orthonormal basis.
+  \end{itemize}
+\end{remark}
+\begin{definition}[Orthogonal Group]
+  The set of orthogonal matrices $R$ of size $n \times n$, denoted by $O(n)$ is called the \textit{orthogonal group}.
+\end{definition}
+Recall from \cref{orthoDeterminant} that $R \in O(n) \iff \det R = \pm 1$.
+\begin{definition}[Special Orthogonal Group]
+  The subgroup of $O(n)$ formed by orthogonal matrices with $\det R = 1$ is called the \textit{special orthogonal group} and is denoted $\SO(n)$
+\end{definition}
+We already saw that $R \in O(n)$ preserve length, angles and the unsigned value of $n$-dimensional volumes.
+However, matrices $R \in \SO(n)$ also preserve \textit{orientation}.
+This means they preserve the signs of $n$-dimensional volumes.
+
+The group $\SO(n)$ consists of all rotation in $\R^{n}$.
+Reflections belong to $O(n)$ but not $\SO(n)$, so for any rotation $H$, $H \in O(n) \setminus \SO(n)$.
+
+We can write any element of $O(n)$ in the form:
+\begin{align*}
+  R \text{ where }&R \in \SO(n) \\
+  RH \text{ where }&R \in \SO(n),\ H \in O(n) \setminus \SO(n)
+\end{align*}
 \end{document}
