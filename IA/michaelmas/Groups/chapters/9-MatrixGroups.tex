@@ -175,6 +175,7 @@ Now that we have studied quotient groups in \cref{quotientGroups}, we can more p
   Finally, by the Isomorphism Theorem (\cref{isomorphismTheorem}), we have $M \cong \GL_2 /\C_\times$.
 \end{proof}
 \section{Orthogonal Groups}
+\subsection{Orthogonal Group}
 We want to do geometry using special types of matrices so we need to define a notion of distance.
 We will denote the usual euclidean norm in $\R^{n}$ as $\norm{\cdot}$, defined as:
 \[
@@ -294,6 +295,7 @@ Therefore:
   1 = \det I = \det(A^{\trans} A) = \det A^{\trans} \det A = (\det A)^2
 \]
 So $\det A = \pm 1$ for any $A \in O(n)$.
+\subsection{Special Orthogonal Group}
 \begin{definition}[Special Orthogonal Group]
   We define the \textit{special orthogonal group} as:
   \begin{align*}
@@ -308,6 +310,7 @@ Note that:
 So $\SO \lhd O(n)$.
 Furthermore, since we know that there are orthogonal matrices with $\det A = -1$, we have that $|O(n):\SO(n)| = 2$.
 Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminus \SO(n)$, are provided by \textit{reflections}.
+\subsection{Reflections and Rotations}
 \begin{definition}[Reflections]
   Any $v \in \R^{n} \setminus \{\vec{0}\}$ defines an \textit{orthogonal plane}:
   \[
