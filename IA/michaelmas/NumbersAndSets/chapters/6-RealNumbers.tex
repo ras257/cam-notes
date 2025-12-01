@@ -522,7 +522,7 @@ For example, a sequence diverges if it just oscillates between two values foreve
   It is difficult to just conjure up a bound on $N$ involving $\varepsilon$.
   Instead, consider the distance between what you think is the limit and $a_n$ and use this to scope out a suitable bound.
 \end{remark}
-We implicitly assumed that if a limit assumed then it is unique. This can be proven
+We implicitly assumed that if a limit exists then it is unique, however, this can be proven to be true:
 \begin{proposition}
   If $a_n \to \ell$ as $n \to \infty$, then the limit $\ell$ is unique.
 \end{proposition}
@@ -635,7 +635,7 @@ Let $(a_n)$ be a sequence, then for any finite $k$
 is the \textit{$k$-th partial sum} of the \textit{series} whose $n$-th term is $a_n$.
 \end{definition}
 \begin{definition}[Series]
-A \textit{series} is an infinite sum of terms of a sequence. It value can be thought of as the limit of the partial sum $s_k$ as $k \to \infty$.
+A \textit{series} is an infinite sum of terms of a sequence. Its value can be thought of as the limit of the partial sum $s_k$ as $k \to \infty$.
 
 We write:
 \[

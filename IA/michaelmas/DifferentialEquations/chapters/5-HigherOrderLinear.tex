@@ -1429,7 +1429,7 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
       \[
         y = \sum_{n=0}^{\infty} a_n(x - x_0)^{n + \sigma} = (x - x_0)^{\sigma} \sum_{n=0}^{\infty} a_n(x - x_0)^{n}
       \]
-      where $\sigma \in \C$ and $a_0 \neq 0$ (this is so $\sigma$ is unique).
+      where $\sigma \in \C$ and $a_0 \neq 0$ (as if we had $a_0 = 0$, the sum would effectively start at $n = 1$ so we could re-index and $\sigma$ would not be unique).
       This is called a \textit{Frobenius series}.
   \end{enumerate}
 \end{theorem}
@@ -1480,6 +1480,9 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
                 &= n(n - 3)a_{n - 2} \\
     a_n &= \frac{n - 3}{n - 1}a_{n  - 2}
   \end{align*}
+  \begin{remark}[Advice]
+    Whilst this method is very explicit, it is quite slow and it is often considerably faster to try to directly find the coefficient of $x^{n}$ as in \cref{regSPEx}.
+  \end{remark}
   So we have found a recurrence relation for $a_n$.
   Note that because $a_0$ and $a_1$ are not determined, they are arbitrary constants in the general solution.
 
@@ -1527,6 +1530,7 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
   Note the divergent behaviour near the singular points $x = \pm 1$.
 \end{example}
 \begin{example}[Regular Singular Point]
+  \label{regSPEx}
   \[
     4xy'' + 2(1 - x^2)y' - xy = 0
   \]
