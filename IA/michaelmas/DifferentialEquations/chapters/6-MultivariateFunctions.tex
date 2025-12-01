@@ -642,6 +642,7 @@ The process of solving this using matrix methods is quite similar to how we solv
   for constant vectors $\vec{a}, \vec{b}$.
 \end{remark}
 \subsection{Non-Degenerate Phase Portraits}
+\label{nonDegenPhase}
 \begin{remark}[Recap]
   In \cref{autoAndPhaseSec}, we saw examples of 1D phase portraits that demonstrated how the solutions of a system of a single differential equation evolved.
   This generalises to higher dimensions:
@@ -670,29 +671,106 @@ where $\lambda_1$ and $\lambda_2$ are the eigenvalues of $M$ and $\vec{v}_1$ and
 For $\lambda_1 \neq 0$, $\lambda_2 \neq 0$ and $\lambda_1 \neq \lambda_2$.
 There are a few possibilities:
 \begin{proofcases}
-  \begin{case}{$\lambda_1$ and $\lambda_2$ are real and have opposite signs}
+  \begin{case}{$\lambda_1$ and $\lambda_2$ are real and have opposite signs -- Saddle Node}
     WLOG we can assume $\lambda_1 > 0$  and $\lambda_2 < 0$.
     Note that since the eigenvalues are real, we can choose $\vec{v}_1$ and $\vec{v}_2$ to be real.
 
-    %TODO Plot
-    Note that, since $\lambda_2 < 0$, when $a = 0$, solutions flow along $\vec{v}_2$ \textbf{towards} the fixed point.
-    Conversely, since $\lambda_1 > 0$, when $b = 0$, solutions flow along $\vec{v}_1$ \textbf{away} from the fixed point.
+    \begin{center}
+    \begin{tikzpicture}[scale=0.6, >=stealth]
+      \begin{axis}[
+        width=15cm,
+        axis lines=middle,
+        ticks = none,
+        smooth,
+        xlabel = \huge$y_1$, ylabel = \huge$y_2$,
+        xlabel style = {anchor=west},
+        ylabel style = {anchor=south},
+        xmin=-6, xmax=6,
+        ymin=-6, ymax=6,
+      ]
+        \def\lone{1}
+        \def\ltwo{-1}
 
-    Notice that the solutions only cross at the fixed point as this is an autonomous system.
+        \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+          markings,
+          mark=between positions 0.1 and 0.9 step 20em with {\arrow[scale=1.5]{stealth}}
+        }]
+          \foreach \a in {-2, -1, 1, 2} {
+            \foreach \b in {-2, -1, 1, 2} {
+                \addplot[smooth, thick, variable=\t, domain=-2:2, samples=10, postaction=decorate]
+                ({\a * exp(\lone * \t) + \b * exp(\ltwo * \t)},{\a * exp(\lone * \t) - \b * exp(\ltwo * \t)});
+            }
+          }
+
+          \draw[thick, postaction=decorate] (-6, 6) -- (0, 0);
+          \draw[thick, postaction=decorate] (0, 0) -- (-6, -6);
+          \draw[thick, postaction=decorate] (6, -6) -- (0, 0);
+          \draw[thick, postaction=decorate] (0, 0) -- (6, 6);
+        \end{scope}
+        \draw[->, very thick, gray] (0, 0) -- (2, 2) node[left=5] {\huge$v_1$};
+        \draw[->, very thick, gray] (0, 0) -- (2, -2) node[left=5] {\huge$v_2$};
+
+        \fill (0, 0) circle (3pt);
+      \end{axis}
+
+    \end{tikzpicture}
+    \end{center}
+    Note that, since $\lambda_2 < 0$, when $a = 0$, solutions flow along the line of $\vec{v}_2$ \textbf{towards} the fixed point.
+    Conversely, since $\lambda_1 > 0$, when $b = 0$, solutions flow along the line of $\vec{v}_1$ \textbf{away} from the fixed point.
+    Furthermore, the solutions only cross at the fixed point as this is an autonomous system.
 
     This type of fixed point where some solutions are flowing away and others are flowing inwards is called a \textit{saddle point} or \textit{saddle node}
   \end{case}
   \begin{case}{$\lambda_1$ and $\lambda_2$ are real and have the same sign}
     WLOG we can assume $|\lambda_1| > |\lambda_2|$ and again can choose $\vec{v}_1$ and $\vec{v}_2$ to be real.
     \begin{proofcases}
-      \begin{case}{$\lambda_1, \lambda_2 > 0$}
-        %TODO Plot
+      \begin{case}{$\lambda_1, \lambda_2 > 0$ -- Unstable Node}
+        \begin{center}
+        \begin{tikzpicture}[scale=0.6, >=stealth]
+          \begin{axis}[
+            width=15cm,
+            axis lines=middle,
+            ticks = none,
+            smooth,
+            xlabel = \huge$y_1$, ylabel = \huge$y_2$,
+            xlabel style = {anchor=west},
+            ylabel style = {anchor=south},
+            xmin=-6, xmax=6,
+            ymin=-6, ymax=6,
+          ]
+            \def\lone{2}
+            \def\ltwo{1}
+
+            \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+              markings,
+              mark=between positions 0.2 and 0.8 step 10em with {\arrow[scale=1.5]{stealth}}
+            }]
+              \foreach \a in {-2, -1, 1, 2} {
+                \foreach \b in {-2, -1, 1, 2} {
+                    \addplot[smooth, thick, variable=\t, domain=-3:0.7, samples=20, postaction=decorate]
+                    ({\a * exp(\lone * \t) + \b * exp(\ltwo * \t)},{\a * exp(\lone * \t) - \b * exp(\ltwo * \t)});
+                }
+              }
+
+              \draw[thick, postaction=decorate] (0, 0) -- (6, 6);
+              \draw[thick, postaction=decorate] (0, 0) -- (-6, 6);
+              \draw[thick, postaction=decorate] (0, 0) -- (6, -6);
+              \draw[thick, postaction=decorate] (0, 0) -- (-6, -6);
+            \end{scope}
+            \draw[->, very thick, gray] (0, 0) -- (2, 2) node[left=5] {\huge$v_1$};
+            \draw[->, very thick, gray] (0, 0) -- (2, -2) node[left=5] {\huge$v_2$};
+
+
+            \fill (0, 0) circle (3pt);
+          \end{axis}
+        \end{tikzpicture}
+        \end{center}
         Since both $\lambda_1, \lambda_2 > 0$, solutions on $\vec{v_1}$ and $\vec{v}_2$ flow away from the fixed point.
         Moreover, since $|\lambda_1| > |\lambda_2|$, as $t$ gets large the term with $e^{\lambda_1 t}$ dominates so solution trajectories tend towards the line of $\vec{v}_1$.
 
         This type of fixed point where all solutions are flowing away is called a \textit{unstable node}
       \end{case}
-      \begin{case}{$\lambda_1, \lambda_2 < 0$}
+      \begin{case}{$\lambda_1, \lambda_2 < 0$ -- Stable Node}
         Same as in the previous case but with the arrows reversed.
 
         In this case, since all solutions flow towards the fixed point, it is called a \textit{stable node}.
@@ -712,20 +790,369 @@ There are a few possibilities:
     \end{align*}
     Note that we picked $D = \overline{C}$ so that $\vec{Y}$ is a sum of a complex vector and its conjugate and is therefore real.
     \begin{proofcases}
-      \begin{case}{$\Re(\lambda_1) > 0$}
-        As $t$ \textbf{increases}, the magnitude of the solutions \textbf{increases} so we get an \textit{unstable spiral}, where solution trajectories spiral outwards.
-        %TODO Plot
-      \end{case}
       \begin{case}{$\Re(\lambda_1) < 0$}
         In this case, as $t$ \textbf{increases}, the magnitude of the solutions \textbf{decrease} so we get a \textit{stable spiral}, where solution trajectories spiral inwards.
-        %TODO Plot
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.6, >=stealth]
+          \begin{axis}[
+            width=15cm,
+            axis lines=middle,
+            ticks = none,
+            smooth,
+            xlabel = \huge$y_1$, ylabel = \huge$y_2$,
+            xlabel style = {anchor=west},
+            ylabel style = {anchor=south},
+            xmin=-6, xmax=6,
+            ymin=-6, ymax=6,
+          ]
+            \def\real{-2}
+            \def\imag{5}
+
+            \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+              markings,
+              mark=at position 0.8 with {\arrow[scale=1.5]{stealth}}
+            }]
+              \foreach \a in {-2, -1, 1, 2} {
+                  \addplot[smooth, thick, variable=\t, domain=-1:6, samples=100, postaction=decorate]
+                  ({\a * exp(\real * \t) * (cos(\imag * \t r) - sin(\imag * \t r)},{\a * exp(\real * \t) * (cos(\imag * \t r) + sin(\imag * \t r)});
+              }
+            \end{scope}
+            \fill (0, 0) circle (3pt);
+          \end{axis}
+        \end{tikzpicture}
+        \end{center}
+      \end{case}
+      \begin{case}{$\Re(\lambda_1) > 0$}
+        As $t$ \textbf{increases}, the magnitude of the solutions \textbf{increases} so we get an \textit{unstable spiral}, where solution trajectories spiral outwards. This looks the same as the previous case but with the arrows pointing outwards.
       \end{case}
       \begin{case}{$\Re(\lambda_1) = 0$}
         In this case, $\vec{Y}(t)$ is periodic.
         We have a \textit{centre} and solutions form closed elliptical trajectories around the centre.
-        %TODO Plot
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.6, >=stealth]
+          \begin{axis}[
+            width=15cm,
+            axis lines=middle,
+            ticks = none,
+            smooth,
+            xlabel = \huge$y_1$, ylabel = \huge$y_2$,
+            xlabel style = {anchor=west},
+            ylabel style = {anchor=south},
+            xmin=-6, xmax=6,
+            ymin=-6, ymax=6,
+          ]
+            \def\angle{30}
+
+            \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+              markings,
+              mark=at position 0.5 with {\arrow[scale=1.5]{stealth}}
+            }]
+              \foreach \a in {1, ..., 4} {
+                  \addplot[smooth, thick, variable=\t, domain=0:360, samples=50, postaction=decorate]
+                  ({\a * (cos(\t)*cos(\angle) - sin(\t)*sin(\angle))},{\a * (cos(\t)*cos(\angle) + sin(\t)*sin(\angle))});
+              }
+            \end{scope}
+
+            \fill (0, 0) circle (3pt);
+          \end{axis}
+        \end{tikzpicture}
+        \end{center}
+        If we want to determine the direction of rotation for these trajectories, we can calculate $\dot{\vec{Y}}$ at a particular point.
+        For example, if $\dot{y}_2 > 0$ at $\vec{Y} = (1, 0)$, then the rotation is anti-clockwise.
       \end{case}
     \end{proofcases}
   \end{case}
 \end{proofcases}
+\section{Non-Linear Dynamical Systems}
+We can use the techniques we studied for linear systems to investigate the nature of equilibrium points in non-linear systems.
+
+Consider an autonomous system of 2 non-linear first order ODEs:
+\[
+  \dot{x} = f(x, y),\ \dot{y} = g(x, y)
+\]
+where $f$ and $g$ are general functions of $x$ and $y$ without explicit $t$ dependence.
+
+An equilibrium or fixed point $(x_0, y_0)$ of this system is a point at which $\dot{x} = 0$ and $\dot{y} = 0$.
+We therefore need to solve:
+\[
+  f(x_0, y_0) = 0 = g(x_0, y_0)
+\]
+to determine the fixed points.
+
+The nature of such fixed points can be determined with perturbation analysis, similarly to in \cref{pertubationSec}.
+
+We can perturb around $(x_0, y_0)$ by using:
+\[
+  (x(t), y(t)) = (x_0 + \xi(t), y_0 + \eta(t))
+\]
+for small perturbations $\xi, \eta$.
+We can use the multivariate Taylor series to approximate $\dot{\xi}$  around the fixed point:
+\begin{align*}
+  \dot{\xi} &= f(x_0 + \xi, y_0 + \eta) \\
+            &\approx \underbrace{f(x_0, y_0)}_{0} + \xi \pderiv{f}{x}(x_0, y_0) + \eta \deriv{f}{y}(x_0, y_0)
+\end{align*}
+Similarly:
+\[
+  \dot{\eta} \approx \xi \pderiv{g}{x}(x_0, y_0) + \eta \pderiv{g}{y}(x_0, y_0)
+\]
+We can write this in matrix form as:
+\[
+  \begin{pmatrix}
+  \dot{\xi} \\
+  \dot{\eta} \\
+  \end{pmatrix} =
+  \underbrace{\at{\begin{pmatrix}
+    f_x & f_y \\
+    g_x & g_y \\
+    \end{pmatrix}}{(x_0, y_0)}}_{M \text{ at } (x_0, y_0)}
+  \begin{pmatrix}
+  \xi \\
+  \eta \\
+  \end{pmatrix}
+\]
+This is a linear autonomous system of homogeneous ODEs so the eigenvalues of $M$ determine the stability of the fixed points as in \cref{nonDegenPhase}.
+\begin{example}[Predator-prey Model]
+  Let $x(t)$ be the number of prey and $y(t)$ be the number of predators.
+
+  We model the prey population as:
+  \[
+    \dot{x} = \alpha x - \beta x^2 - \gamma xy
+  \]
+  where $\alpha, \beta, \gamma$ are positive constants.
+  \begin{center}
+  \begin{tabular}{c|c}
+  Term & Modelling Reason  \\
+  \hline
+  $\alpha x$ & Excess births over natural deaths \\
+  $-\beta x^2$ &  Competition over scarce resources \\
+  $-\gamma xy$ &  Prey killed by predators\\
+  \end{tabular}
+  \end{center}
+
+  We model predator population as:
+  \[
+    \dot{y} = \varepsilon xy - \delta y
+  \]
+  where $\varepsilon, \delta$ are positive constants.
+  \begin{center}
+  \begin{tabular}{c|c}
+  Term & Modelling Reason  \\
+  \hline
+  $\varepsilon xy$ & Birth rate, increases with prey \\
+  $\delta y$ & Natural death rate \\
+  \end{tabular}
+  \end{center}
+
+  For ease, consider the specific case of:
+  \begin{align*}
+    \dot{x} &= 8x - 2x^2 - 2xy = f(x, y) \\
+    \dot{y} &= xy - y = g(x, y)
+  \end{align*}
+  To find the fixed points, we need to solve the system:
+  \[
+    \dot{x} = 2x(4 - x - y) = 0 \text{ and } \dot{y} = y(x - 1) = 0
+  \]
+  this has 3 solutions, namely, $(0, 0)$, $(1, 3)$, and $(4, 0)$.
+
+  We also need to determine $M$ so we can analyse the stability of the fixed points.
+  \[
+    M = \begin{pmatrix}
+    f_x & f_y \\
+    g_x & g_y \\
+    \end{pmatrix} =
+    \begin{pmatrix}
+    8 - 4x - 2y & -2x \\
+    y & x - 1 \\
+    \end{pmatrix}
+  \]
+
+  \textbf{Fixed point at $(0, 0)$}
+  \[
+    \at{M}{(0, 0)} = \begin{pmatrix}
+    8 & 0 \\
+    0 & -1 \\
+    \end{pmatrix}
+  \]
+  \begin{center}
+  \begin{tabular}{c|c|c}
+  Eigenvalues & 8 & -1 \\
+  \hline
+  Eigenvectors & $(1, 0)^{\trans}$ & $(0, 1)^{\trans}$
+  \end{tabular}
+  \end{center}
+  We have two real eigenvalues of opposite signs so we have a saddle point at $(0, 0)$.
+
+  \textbf{Fixed point at $(4, 0)$}
+  \[
+    \at{M}{(4, 0)} = \begin{pmatrix}
+    -8 & -8 \\
+    0 & 3 \\
+    \end{pmatrix}
+  \]
+  \begin{center}
+  \begin{tabular}{c|c|c}
+  Eigenvalues & -8 & 3 \\
+  \hline
+  Eigenvectors & $(1, 0)^{\trans}$ & $(8, -11)^{\trans}$
+  \end{tabular}
+  \end{center}
+  This means we have a saddle point at $(4, 0)$
+
+  \textbf{Fixed point at $(1, 3)$}
+  \[
+    \at{M}{(1, 3)} = \begin{pmatrix}
+    -2 & -2 \\
+    3 & 0 \\
+    \end{pmatrix}
+  \]
+  The eigenvalues are $-1 \pm \sqrt{5}$.
+  These are a complex conjugate pair so we have periodic behaviour.
+  Since $\Re(\lambda) < 0$, we have a stable spiral at $(1, 3)$.
+  At $(\xi, \eta) = (1, 0)$:
+  \[
+    (\dot{\xi}, \dot{\eta}) = (-2, 3)
+  \]
+  so we have an anticlockwise spiral.
+
+  \textbf{Phase Portrait Sketch}\par
+  As we are modeling the number of predator/prey we can only have positive values of $x$ and $y$ so we only need to sketch the first quadrant.
+
+  Using our analysis, we can sketch what the behaviour of the solutions will be near each of the fixed points:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=0.7]
+    \begin{scope}
+      \node at (2, 2.7) {\small Near $(0, 0)$};
+      \draw (-3, 0) -- (3, 0) node[above] {$\xi$};
+      \draw (0, -3) -- (0, 3) node[right] {$\eta$};
+
+      \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+        markings,
+        mark=between positions 0.1 and 0.9 step 0.2 with {\arrow[scale=1]{stealth}}
+      }]
+        \draw[postaction=decorate] (0, 0) -- (3, 0);
+        \draw[postaction=decorate] (0, 0) -- (-3, 0);
+        \draw[postaction=decorate] (0, 3) -- (0, 0);
+        \draw[postaction=decorate] (0, -3) -- (0, 0);
+      \end{scope}
+
+      \draw[->, very thick, gray] (0, 0) -- (1, 0);
+      \draw[->, very thick, gray] (0, 0) -- (0, 1);
+    \end{scope}
+    \begin{scope}[xshift=6.5cm]
+      \node at (2, 2.7) {\small Near $(4, 0)$};
+      \draw (-3, 0) -- (3, 0) node[above] {$\xi$};
+      \draw (0, -3) -- (0, 3) node[right] {$\eta$};
+
+      \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+        markings,
+        mark=between positions 0.1 and 0.9 step 0.2 with {\arrow[scale=1]{stealth}}
+      }]
+        \draw[postaction=decorate] (0, 0) -- (2.18, -3);
+        \draw[postaction=decorate] (0, 0) -- (-2.18, 3);
+        \draw[postaction=decorate] (3, 0) -- (0, 0);
+        \draw[postaction=decorate] (-3, 0) -- (0, 0);
+      \end{scope}
+
+      \draw[->, very thick, gray] (0, 0) -- (1, 0);
+      \draw[->, very thick, gray] (0, 0) -- (1.3, -1.78);
+    \end{scope}
+
+    \begin{scope}[xshift=13cm]
+      \node at (2, 2.7) {\small Near $(1, 3)$};
+
+      \draw (-3, 0) -- (3, 0) node[above] {$\xi$};
+      \draw (0, -3) -- (0, 3) node[right] {$\eta$};
+
+      \def\a{1}
+      \def\re{-2}
+      \def\im{5}
+
+      \begin{scope}[/pgf/fpu/install only={reciprocal}, decoration={
+        markings,
+        mark=between positions 0.1 and 0.9 step 0.2 with {\arrow[scale=1]{stealth}}
+      }]
+        \clip (-3, -3) rectangle (3, 3);
+        \foreach \a in {-2, -1, 1, 2} {
+          \draw[thick, domain=-0.5:6, samples=50,smooth, variable=\t, postaction=decorate] plot ({\a * exp(\re * \t) * (cos(\im * \t r) - sin(\im * \t r))},{\a * exp(\re * \t) * (cos(\im * \t r) + sin(\im * \t r))});
+        }
+      \end{scope}
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+  Finally, we can combine this information to predict what the phase portrait looks like even if we cannot solve the system directly:
+  \begin{center}
+  \begin{tikzpicture}[scale=1.2, /pgf/fpu/install only={reciprocal}]
+    \draw[->] (0, 0) --  (0, 5) node[above] {$y$};
+    \draw[->] (0, 0) --  (7, 0) node[right] {$x$};
+
+    \draw[dashed] (0, 3) node[left] {3} -- (1, 3) -- (1, 0) node[below] {1};
+
+    \fill (1, 3) circle (1.2pt);
+    \fill (4, 0) circle (1.2pt) node[below] {4};
+    \fill (1, 0) circle (1.2pt);
+
+    \def\len{0.1}
+
+    \foreach \x in {0.3, 0.6, ..., 7} {
+        \foreach \y in {0.3, 0.6, ..., 5} {
+            \pgfmathsetmacro{\m}{\y * (\x - 1)/(2 * \x * (4 - \x - \y))}
+            \pgfmathsetmacro{\dx}{\len/sqrt(1+(\m)^2)}
+            \pgfmathsetmacro{\dy}{\m*\dx}
+            \draw (\x-\dx/2,\y-\dy/2)--(\x+\dx/2,\y+\dy/2);
+        }
+    }
+  \end{tikzpicture}
+  \end{center}
+  Solutions flow in from the bottom left and right and spiral into the stable fixed point at $(1, 3)$.
+\end{example}
+\section{Partial Differential Equations}
+\textit{Partial differential equations} (PDEs) are differential equations with multiple independent variables.
+
+We are going to illustrate some introductory ideas with \textit{wave equations}.
+\subsection{First Order Wave Equation}
+Consider the function $\psi(x, t)$ where $x$ is position and $t$ is time governed by the PDE:
+\[
+  \pderiv{\psi}{t} - c \pderiv{\psi}{x} = 0
+\]
+where $c$ is a constant with dimensions of speed.
+
+We can employ the \textit{method of characteristics} to solve this PDE.
+
+How does $\psi$ vary along a path $x(t)$?
+On the path we have $\psi(x(t), t)$ so we can use the multivariate chain rule (\cref{multivariateChainRule}) to yield:
+\begin{align*}
+  \pderiv{\psi}{t} &= \pderiv{\psi}{t} + \pderiv{\psi}{x} \deriv{x}{t} \\
+                   &= \pderiv{\psi}{x}\left(c + \deriv{x}{t}\right)
+\end{align*}
+If we choose $x(t)$ such that $\deriv{x}{t} = -c$, then
+\[
+  x(t)  = x_0 - ct
+\]
+where $x_0$ is a constant on the path and is also used to label the path.
+
+By construction, on such paths $\pderiv{\psi}{t} = 0$ so $\psi$ is constant along the path.
+These paths are referred to as \textit{characteristics} of the PDE.
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  \draw[->] (0, 0) --  (0, 5.5) node[above] {$t$};
+  \draw[->] (0, 0) --  (5.5, 0) node[right] {$x$};
+
+  \node at (4, 4) {$x = x_0 - ct$};
+  \node at (4, 4.5) {\small Characteristics of $\psi$};
+
+  \foreach \x in {1, 2, ..., 5} {
+    \draw (0, \x) -- (\x, 0) node[below] {$x^{(\x)}_0$};
+  }
+\end{tikzpicture}
+\end{center}
+Since $\psi$ is constant along characteristics, suppose for each characteristic the value of $\psi$ is given by $f(x_0)$ for an arbitrary $f(x_0)$.
+The general solution to the first order wave equation is then:
+\[
+  \psi(x, t) = f(x_0) = f(x + ct)
+\]
+for some arbitrary function $f$.
+Differentiating this, we can easily check that every function of this form satisfies the PDE.
+We also see that this satisfies the PDE with the initial condition $\psi(x, t=0) = f(x)$.
 \end{document}
