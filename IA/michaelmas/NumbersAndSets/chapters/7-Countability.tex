@@ -203,6 +203,7 @@ We will give two proofs of this.
   This is a countable union of countable sets so $\Q$ is countable.
 \end{example}
 \begin{theorem}
+  \label{ACountable}
   The set $\mathbb{A}$ of algebraic numbers is countable.
 \end{theorem}
 \begin{proof}
@@ -223,8 +224,120 @@ We will give two proofs of this.
 \end{definition}
 \begin{theorem}
   $\R$ is uncountable.
+  \label{RUncountable}
+\end{theorem}
+\begin{proof}[Cantor -- 1891]
+  Suppose $\R$ is countable, we can then enumerate its elements as $r_1, r_2, r_3, \ldots$
+
+  We can write each $r_n$ in decimal form:
+  \begin{align*}
+    r_1 &= n_1.d_{1 1}d_{1 2}d_{1 3}\ldots \\
+    r_2 &= n_2.d_{2 1}d_{2 2}d_{2 3}\ldots \\
+    r_3 &= n_3.d_{3 1}d_{3 2}d_{3 3}\ldots \\
+        &\;\;\vdots
+  \end{align*}
+  Although we saw in \cref{decimalExpansionUniqueness} that decimal expansions are not unique, we can always just pick a specific decimal expansion to represent $r_i$.
+
+  We then define the number $r = 0.d_1d_2d_3\ldots$ where:
+  \[
+    d_n = \begin{cases}
+    1 & d_{n n} \neq 1 \\
+    2 & d_{d n} = 1
+    \end{cases}
+  \]
+  This $r$ has only one decimal expansion (as it does not terminate in all 0s or 9s) and is not in the enumerated list, as $\forall n \in \N$ $r \neq r_n$ as we have constructed it to disagree with $r_n$ on the $n$-th decimal digit.
+  This contradicts the countability of $\R$.
+\end{proof}
+This proof strategy is known as a \textit{diagonal argument}.
+\begin{remark}
+  This proof did not use the integer part of each $r_i$ so we can conclude that the interval $(0, 1)$ is uncountable.
+\end{remark}
+\begin{corollary}
+  There are uncountably many transcendental numbers.
+\end{corollary}
+\begin{proof}
+  Suppose $\R \setminus \mathbb{A}$ is countable.
+  We saw that $\mathbb{A}$ is countable in \cref{ACountable}, however, we can write $\R = (\R \setminus \mathbb{A}) \cup \mathbb{A}$ which is a countable union of countable sets, so by \cref{countableUnion}, $\R$ is countable which is a contradiction by the above.
+\end{proof}
+\begin{theorem}
+  $\powerset{\N}$ is uncountable.
+\end{theorem}
+We will provide 2 proofs:
+\begin{proof}[1 -- Diagonal Arugment]
+  If $\powerset{\N}$ were countable, we would be able to enumerate its elements as $S_1, S_2, S_3, \ldots$
+
+  Similarly to in \cref{RUncountable}, we wish to construct a set that disagrees with each of our sets on one element.
+  If we define:
+  \[
+    S = \{n \in \N: n \notin S_n\}
+  \]
+  then $S$ is not on our list since $\forall n \in \N$, $S \neq S_n$ as, by construction, they must disagree on the element $n$.
+  This contradicts the countability of $\powerset{\N}$.
+\end{proof}
+\begin{proof}[2 -- Injection]
+  We wish to show that there is an injection from $(0, 1) \to \powerset{\N}$ so that if $\powerset{\N}$ were countable, we would have an injection $\powerset{\N} \to \N$ and thus an injection $(0, 1) \to \N$ which contradicts \cref{RUncountable}.
+
+  We start by writing $x \in (0, 1)$ in binary:
+  \[
+    0.x_1x_2x_3\ldots
+  \]
+  with $x_i \in \{0, 1\}$.
+  Since the binary representation of $x$ is not necessarily unique, we pick those not ending in an infinite string of 1s.
+
+  We then define:
+  \[
+    f(x) = \{n \in \N: x_n = 1\}
+  \]
+  For example, $f(0.1110100000\ldots) = \{1, 2, 3, 5\}$.
+  This is a well-defined injection as each subset of $\N$ uniquely defines such a binary expansion.
+\end{proof}
+\begin{remark}
+  Note that we are not requiring $f$ to be surjective, as $\{n \in \N: n > 5\}$ cannot be the image of any $x$ as this it would need to end in an infinite string of $1$s.
+\end{remark}
+The first proof of this theorem can also be used to show the following:
+\begin{theorem}
+  For any set $X$, there does \textbf{not} exist a bijection between $X$ and $\powerset{X}$.
 \end{theorem}
 \begin{proof}
-  Covered next lecture.
+  Given any $f: X \to \powerset{X}$, we can show that it cannot be surjective.
+
+  Indeed, let $S = \{x \in X: x \notin f(x)\}$.
+  Certainly $S \in \powerset{X}$ and $S$ is not in the image of $f$, since for every $x \in X$, the sets $S$ and $f(x)$ differ in the element $x$.
+  Thus $S \neq f(x)$ for all $x \in X$ so $f$ cannot be surjective and consequently cannot be  bijective.
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item This is reminiscent of Russel's Paradox (\cref{russelsParadox}).
+      However, our proof is valid as we used subset selection correctly by specifying a well defined set to select the elements from.
+    \item In fact, it gives another proof that there is no universal set.
+
+      Suppose we had a universal set $V$, then we would have $\powerset{V} \subseteq V$, in which case there would certainly be a surjection from $V$ onto $\powerset{V}$ as there is always a surjection from a set to one of its subsets.
+      This is a contradiction by the above, thus, there is no universal set.
+  \end{enumerate}
+\end{remark}
+\begin{proposition}
+  If $\{A_i : i \in I\}$ is a family of open pairwise disjoint intervals of $\R$ indexed by the set $I$, then $I$ is countable.
+\end{proposition}
+We will provide 2 proofs:
+\begin{proof}[1 -- Injection]
+  We know that each interval $A_i$ contains a rational as, from \cref{rationalsDense}, $\Q$ is dense in $\R$.
+  Since the intervals are disjoint, we can construct an injection from $I \to \Q$ by picking a rational from each interval.
+  We know that $\Q$ is countable, so we now must have an injection $I \to \N$.
+  Hence $I$ is countable.
+\end{proof}
+\begin{proof}[2 -- Union of Countable Sets]
+  The set $S_1 = \{i \in I: A_i \text{ has length} \geq 1\}$ is countable as we can pick an integer from each $A_i$ with length $\geq 1$ and, since they are disjoint, use this to construct an injection into $\Z$.
+
+  Similarly, the set $S_2 = \{i \in I: A_i \text{ has length}\geq 1/2\}$ is countable as it injects into the set of half integers which is countable by \cref{countableSubset} as it is a subset of $\Z$.
+
+  More generally, for each $n \in \N$, the set $S_n = \left\{i \in I : A_i \text{ has length} \geq \frac{1}{n}\right\}$ is countable as it injects into $\Z/n$.
+
+  By \cref{archimedesCorollary}, for any length $\ell_n \in \R$ of $A_n$, we can find some $n \in \N$ such that $\frac{1}{n} < \ell_n$.
+  This means that if we continue this construction for all $n \in \N$, every element of $I$ will be in at least one of these sets.
+  We can then express $I$ as:
+  \[
+    I = \bigcup_{n = 1}^{\infty} S_n
+  \]
+  Thus, $I$ is countable by \cref{countableUnion} as it is a countable union of countable sets.
 \end{proof}
 \end{document}

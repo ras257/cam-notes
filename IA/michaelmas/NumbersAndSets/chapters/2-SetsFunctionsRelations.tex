@@ -145,14 +145,15 @@ We can extend the Cartesian product to ordered triples and so on.
 \begin{example}
   $\powerset{\{1, 2\}} = \{ \emptyset, \{1\}, \{2\}, \{1, 2\}\}$
 \end{example}
+\label{russelsParadox}
 \begin{remark}[Warning]
   Given a set $A$, we can form $\{x \in A: P(x)\}$ for any property $P$.
   But we cannot form $\{x: P(x)\}$ because of Russell's Paradox. Suppose we consider the set:
   \[
     X = \{x: x \text{ is a set and } x \notin x\}
   \]
-  If $X \in X \implies X \notin X$.
-  On the other hand $X \notin X \implies X \in X$.
+  If $x \in X \implies x \notin X$.
+  On the other hand $x \notin X \implies x \in X$.
   So the construction of this set leads to a contradiction!
   Similarly, there is no ``universal set'' of objects $Y$, such that $\forall x$, $x \in Y$.
   Otherwise we could form $X$ by subset selection:
