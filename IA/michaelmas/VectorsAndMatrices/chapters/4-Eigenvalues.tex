@@ -685,6 +685,7 @@ More specifically, if $A$ is hermitian, then all of the following equivalent sta
   Equivalently, $P$ can be chosen to be orthogonal, so that $P^{-1} = P^{\trans}$ and thus $P^{\trans} A P = D$.
 \end{remark}
 \section{Change of Basis}
+\label{changeOfBasis}
 Consider the real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$.
 Let $T: V \to W$ be a linear map and let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be a basis of $V$ and $\{\vec{f}_1, \ldots, \vec{f}_n\}$ be a basis of $W$ such that $T$ is represented by an $m \times n$ matrix $A$ with respect to these bases.
 
@@ -1892,7 +1893,352 @@ Reflections belong to $O(n)$ but not $\SO(n)$, so for any rotation $H$, $H \in O
 
 We can write any element of $O(n)$ in the form:
 \begin{align*}
-  R \text{ where }&R \in \SO(n) \\
-  RH \text{ where }&R \in \SO(n),\ H \in O(n) \setminus \SO(n)
+  &R \text{ where }R \in \SO(n) \\
+  \text{ or }&RH \text{ where }  \in \SO(n),\ H \in O(n) \setminus \SO(n)
 \end{align*}
+For a rotation matrix $R$, we can find the components of the image of $\vec{x}$ using:
+\[
+  x_i' = R_{i j}x_j
+\]
+So far, we have been thinking of this a transformation of vectors.
+This is called the \textit{active} point of view.
+We typically take the standard basis $\{\vec{e}_1, \vec{e}_2\}$, and by means of the above transformation, we transform it to some $\vec{x}'$.
+Since this is an orthogonal transformation, $|\vec{x}| = |\vec{x}'|$.
+In this perspective, the components of both $\vec{x}$ and $\vec{x}'$ are both with respect to the standard basis.
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.5]
+  \draw[->] (0, -0.3) -- (0, 3);
+  \draw[->] (-0.3, 0) -- (3, 0);
+
+  \draw[rotate=30, ->, thick] (0, 0) -- (2.5, 0) node[right] {$\vec{x}$};
+  \draw[dashed] (0, 1.25) node[left] {$x_2$} -- (2.165, 1.25) -- (2.165, 0) node[below] {$x_1$};
+  \draw[rotate=60, ->, thick] (0, 0) -- (2.5, 0) node[above right] {$\vec{x}'$};
+  \draw[thick, dotted] (0, 2.165) node[left] {$x_2'$} -- (1.25, 2.165) -- (1.25, 0) node[below] {$x_1'$};
+
+  \draw[->, thick] (0, 0) -- (1, 0) node[below] {$\vec{e}_1$};
+  \draw[->, thick] (0, 0) -- (0, 1) node[left] {$\vec{e}_2$};
+\end{tikzpicture}
+\end{center}
+
+However, we could also think of this orthogonal transformation as a change of basis, this is the \textit{passive} point of view.
+If we keep the vector $\vec{x}$ fixed and instead change the basis, the components of $\vec{x}$ become $x_i'$ with respect to a different orthonormal basis $\{\vec{u}_1, \vec{u}_2\}$.
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=2]
+  \draw[->] (0, -1) -- (0, 2.5);
+  \draw[->] (-1, 0) -- (2.5, 0);
+
+  \draw[rotate=30, ->, thick] (0, 0) -- (2.5, 0) node[right] {$\vec{x}$};
+  \draw[dashed] (0, 1.25) node[left] {$x_2$} -- (2.165, 1.25) -- (2.165, 0) node[below] {$x_1$};
+
+  \draw[thick, dotted] (1.707, 1.707) node[above left] {$x_2'$} -- (2.165, 1.25) -- (0.458, -0.458) node[below] {$x_1'$};
+
+  \draw[->, thick] (0, 0) -- (1, 0) node[below] {$\vec{e}_1$};
+  \draw[->, thick] (0, 0) -- (0, 1) node[left] {$\vec{e}_2$};
+
+
+  \draw[->, thick, rotate=-45] (0, 0) -- (1, 0) node[below] {$\vec{u}_1$};
+  \draw[->, thick, rotate=-45] (0, 0) -- (0, 1) node[right] {$\vec{u}_2$};
+
+  \draw[->] (-1, -1) -- (2.5, 2.5);
+  \draw[->] (-1, 1) -- (1, -1);
+\end{tikzpicture}
+\end{center}
+To get the transformed $\vec{x}$ in the original basis, we first determine the new basis $\{\vec{u}_1, \vec{u}_2\}$ with respect to the original basis as we did in \cref{changeOfBasis} and then use this to find the image:
+\[
+  \vec{u}_i = \sum_{j} R_{i j}\vec{e}_j = \sum_{j} \vec{e}_j (R^{-1})_{j i}
+\]
+where $R_{i j} = (R^{\trans})_{j i} = (R^{-1})_{j i}$ as $R$ is orthogonal.
+\begin{remark}
+  If we compare this to the standard rotation for the matrix of change of basis, we see that the change of basis matrix is $P = R^{-1}$.
+  That is, we can either carry out the rotation directly in the active point of view, or transform the axes by the inverse rotation and find the coordinates of $\vec{x}$ with respect to this new basis in the passive point of view.
+\end{remark}
+\subsection{2D Minkowski Space and Lorentz Transformations}
+Consider a new ``inner product'' on $\R^2$ given by:
+\[
+  (\vec{x}, \vec{y}) = \vec{x}^{\trans} J \vec{y},\ J = \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}
+\]
+We can write this in terms of the components of $\vec{x}$ and $\vec{y}$:
+\[
+  \vec{x} = \begin{pmatrix}
+  x_0 \\
+  x_1 \\
+  \end{pmatrix},\
+  \vec{y} = \begin{pmatrix}
+  y_0 \\
+  y_1 \\
+  \end{pmatrix} \implies (\vec{x}, \vec{y}) = x_0 y_0 - x_1 y_1
+\]
+We saw this originally in \cref{scalarCrossProduct}.
+
+Note that this ``inner product'' is \textbf{not} positive definite as $(\vec{x}, \vec{x})$ is not necessarily positive.
+However, it is still bilinear and symmetric (See \cref{innerProd} for details of the normal inner product on $\R^{2}$).
+
+Consider the vectors $\vec{e}_0 = \begin{pmatrix}
+1 \\
+0 \\
+\end{pmatrix}$ and $\vec{e}_1 = \begin{pmatrix}
+0 \\
+1 \\
+\end{pmatrix}$.
+Notice that:
+\begin{align*}
+  (\vec{e}_0, \vec{e}_0) &= 1 \\
+  (\vec{e}_1, \vec{e}_1) &= -1 \\
+  (\vec{e}_0, \vec{e}_1) & = 0
+\end{align*}
+This is similar to how basis vectors are orthonormal when using the standard inner product.
+We generalise the notion of orthonormality to this new ``inner product'' as above so that the standard basis vector are orthogonal.
+\begin{definition}[Minkowski Space]
+  The inner product defined for all $\vec{x}, \vec{y} \in \R^2$ by $\vec{x}^{\trans}J\vec{y}$ is called the \textit{Minkowski metric}.
+
+  Futhermore, $\R^2$ equipped with the Minkowski metric is called the \textit{Minkowski space}.
+\end{definition}
+Consider a matrix associated with a linear map $T: \R^2 \to R^2$ of the form:
+\[
+  M = \begin{pmatrix}
+  M_{0 0} & M_{0 1} \\
+  M_{1 0} & M_{1 1} \\
+  \end{pmatrix}
+\]
+We say that this matrix preserves the Minkowski metric if and only if:
+\begin{align*}
+  &(M\vec{x}, M\vec{y}) = (\vec{x}, \vec{y})\ \forall \vec{x}, \vec{y} \in \R^2 \\
+  \iff& (M\vec{x})^{\trans}J(M\vec{y}) = \vec{x}^{\trans}J\vec{y} \ \forall \vec{x}, \vec{y} \in \R^2 \\
+  \iff& \vec{x}^{\trans}(M^{\trans}JM)\vec{y} = \vec{x}^{\trans}J\vec{y} \ \forall \vec{x}, \vec{y} \in \R^2 \\
+  \iff& M^{\trans}JM = J
+\end{align*}
+The matrices $M$ for which this holds form a group.
+If we take determinants of each side, we see that matrices in this group must necessarily have $\det M = \pm 1$:
+\[
+  \det (M^{\trans})\det(J)\det(M) = \det(J) \implies (\det M)^2 = 1 \implies \det M = \pm 1
+\]
+\begin{definition}[Lorentz Group]
+  The \textit{Lorentz group} is the subgroup of the group above for which $\det M = 1$ and $M_{0 0} > 0$.
+\end{definition}
+
+\textbf{General form of M}\par
+To find the general form of a matrix $M$ in the Lorentz group, we will use a method similar to when we determined the general form of orthogonal matrices in $\R^2$ in \cref{orthoExampleR2}.
+
+First, we use the fact that $(\vec{e}_0, \vec{e}_0) = 1$, so if $M$ is to preserve the Minkowski metric, we must have $(M\vec{e}_0, M\vec{e}_0) = 1$.
+Thus:
+\[
+  \vec{e}^{\trans}_0 M^{\trans} J M \vec{e}_0 =
+  (1, 0)\begin{pmatrix}
+  M_{0 0} & M_{1 0} \\
+  M_{0 1} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  M_{0 0} & M_{0 1} \\
+  M_{1 0} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 \\
+  0 \\
+  \end{pmatrix} = M_{0 0}^2 - M_{1 0}^2 = 1
+\]
+Similarly, since $(\vec{e}_1, \vec{e}_1) = -1$, we must have $(M\vec{e}_1, M\vec{e}_1) = -1$:
+\[
+  \vec{e}^{\trans}_1 M^{\trans} J M \vec{e}_1 =
+  (0, 1)\begin{pmatrix}
+  M_{0 0} & M_{1 0} \\
+  M_{0 1} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  M_{0 0} & M_{0 1} \\
+  M_{1 0} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  0 \\
+  1 \\
+  \end{pmatrix} = M_{0 1}^2 - M_{1 1}^2 = -1
+\]
+Now using $(\vec{e}_0, \vec{e}_1) = 0$, so $(M\vec{e}_0, M\vec{e}_1) = 0$:
+\[
+  \vec{e}^{\trans}_0 M^{\trans} J M \vec{e}_1 =
+  (1, 0)\begin{pmatrix}
+  M_{0 0} & M_{1 0} \\
+  M_{0 1} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  M_{0 0} & M_{0 1} \\
+  M_{1 0} & M_{1 1} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  0 \\
+  1 \\
+  \end{pmatrix} = M_{0 0}M_{0 1} - M_{1 0}M_{1 1} = 0
+\]
+
+From $M_{0 0}^2 - M_{1 0}^2 = 1$, we have that $M_{0 0} = \pm \cosh \theta$ and $M_{1 0} = \pm \sinh \theta$ for some $\theta$.
+Since $M_{0 0} > 0$, we must have $M_{0 0} = \cosh \theta$.
+We can then also set $M_{1 0} = \sinh \theta$ as we can just set $\theta \mapsto -\theta$ without affecting $M_{0 0}$.
+
+Similarly, from $M_{0 1}^2 - M_{1 1}^2 = -1$, we have that $M_{1 1} = \pm \cosh \phi$ and $M_{0 1} = \sinh \phi$.
+Since we require $\det M = 1$, we must have $M_{1 1} = \cosh \phi$.
+
+Finally, using $M_{0 0}M_{0 1} - M_{1 0}M_{1 1} = 0$, we have:
+\[
+  \cosh \theta \sinh \phi - \sinh \theta \cosh \phi = \sinh(\phi - \theta) = 0 \implies \phi = \theta
+\]
+Thus, we must have:
+\[
+  M(\theta) = \begin{pmatrix}
+  \cosh \theta & \sinh \theta \\
+  \sinh \theta & \cosh \theta \\
+  \end{pmatrix}
+\]
+for some $\theta$.
+
+Similarly to rotation matrices, we can relate the product of two such matrices to another matrix.
+For $M$ in the Lorentz group, we have:
+\begin{align*}
+  M(\theta_1)M(\theta_2) &=
+  \begin{pmatrix}
+  \cosh \theta_1 \cosh \theta_2 + \sinh \theta_1 \sinh \theta_2 & \cosh \theta_1 \sinh \theta_2 + \cosh \theta_2 \sinh \theta_1 \\
+  \sinh \theta_1 \cosh \theta_2 + \sinh \theta_2 \cosh \theta_1 & \sinh \theta_1 \sinh \theta_2 + \cosh \theta_1 \cosh \theta_2 \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+  \cosh(\theta_1 + \theta_2) & \sinh(\theta_1 + \theta_2) \\
+  \sinh(\theta_1 + \theta_2) & \cosh(\theta_1 + \theta_2) \\
+  \end{pmatrix} \\
+  &= M(\theta_1 + \theta_2)
+\end{align*}
+
+\subsubsection{Geometric Interpretation}
+Suppose we require $(\vec{x}, \vec{x}) = k$ to be constant.
+Note that this is not fixing the standard euclidean norm of $\vec{x}$, we are instead fixing the \textit{psuedonorm} given by the Minkowski metric.
+
+Now take the image of $\vec{x}$ under some Lorentz transform $M$, $\vec{x}' = M\vec{x}$.
+We have seen that any Lorentz transformation preserves the Minkowski metric, thus
+\[
+  k = (\vec{x}, \vec{x}) = (M\vec{x}, M\vec{x}) = (\vec{x}', \vec{x}')
+\]
+so the pseudonorm of $\vec{x}'$ is the same as $\vec{x}$.
+We then have:
+\[
+  x^{2}_{0} - x^{2}_{1} = k = (x_0')^2 - (x_1')^2
+\]
+So $\vec{x}'$ must lie on the same curve of constant $k$ as $\vec{x}$.
+We see that the shape of the curve depends on the value of $k$:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=0.67]
+  \node[left] at (3, 3.5) {$k > 0$};
+  \draw[->] (-3, 0) -- (3, 0) node[right] {$x_1$};
+  \draw[->] (0, -3) -- (0, 3) node[above] {$x_0$};
+
+  \draw[very thick,->] (0, 0) -- (1, 1.41) node[above left] {$\vec{x}$};
+  \draw[very thick,->] (0, 0) -- (-2.552, 2.74) node[above right] {$\vec{x}'$};
+
+  \begin{scope}
+    \clip (-3, -3) rectangle (3, 3);
+    \draw[domain=-1.4:1.4, smooth, variable=\t] plot ({tan(\t r)},{sec(\t r)});
+    \draw[domain=-1.4:1.4, smooth, variable=\t, dashed] plot ({tan(\t r)},{-sec(\t r)});
+  \end{scope}
+\begin{scope}[xshift=7cm]
+  \node[left] at (3, 3.5) {$k = 0$};
+  \draw[->] (-3, 0) -- (3, 0) node[right] {$x_1$};
+  \draw[->] (0, -3) -- (0, 3) node[above] {$x_0$};
+
+  \draw[very thick,->] (0, 0) -- (1.41, 1.41) node[right] {$\vec{x}$};
+  \draw[very thick,->] (0, 0) -- (-2.5, -2.5) node[left] {$\vec{x}'$};
+
+  \draw (-3, -3) -- (3, 3);
+  \draw[dashed] (-3, 3) -- (3, -3);
+\end{scope}
+\begin{scope}[xshift=14cm]
+  \node[left] at (3, 3.5) {$k < 0$};
+  \draw[->] (-3, 0) -- (3, 0) node[right] {$x_1$};
+  \draw[->] (0, -3) -- (0, 3) node[above] {$x_0$};
+
+  \draw[very thick,->] (0, 0) -- (1.41, 1) node[right] {$\vec{x}$};
+  \draw[very thick,->] (0, 0) -- (2.74, -2.552) node[above right] {$\vec{x}'$};
+
+  \begin{scope}
+    \clip (-3, -3) rectangle (3, 3);
+    \draw[domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{tan(\t r)});
+    \draw[domain=-1.4:1.4, smooth, variable=\t, dashed] plot ({-sec(\t r)},{tan(\t r)});
+  \end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{center}
+For $k \neq 0$, we have a hyperbola, and for $k = 0$, we have a straight line.
+
+Note that the dashed sections represent the other branch of the curve.
+Since we required that $M_{0 0} > 0$, $\vec{x}$ and $\vec{x}'$ must both lie on the same branch.
+
+\subsubsection{Application to Special Relativity}
+We can rewrite:
+\[
+  M(\theta) =
+  \frac{\sech \theta}{\sqrt{1 - \tanh^2 \theta}}
+  \begin{pmatrix}
+  \cosh \theta & \sin \theta \\
+  \sinh \theta  & \cosh \theta \\
+  \end{pmatrix} =
+  \frac{1}{\sqrt{1 - \tanh^2 \theta}} \begin{pmatrix}
+  1 & \tanh \theta \\
+  \tanh \theta & 1 \\
+  \end{pmatrix}
+\]
+When working with special relativity use \textit{natural units}.
+This means that we normalise the speed of light to be $c = 1$.
+This means that all other velocities $v$ must be in the range $-1 < v < 1$.
+We can then let $v = \tanh \theta$ for some $\theta$.
+
+We then rename $x_0 \mapsto t$ to represent the \textit{time coordinate} and rename $x_1 \mapsto x$ to represent the \textit{space coordinate}.
+
+The image of $\vec{x}$, $\vec{x}' = M\vec{x}$, then has components:
+\[
+  t' = \frac{1}{\sqrt{1 - v^2}}(t + vx) \text{ and } x' = \frac{1}{\sqrt{1 - v^2}}(x + vt)
+\]
+
+$x$ and $t$ represent a space and time coordinate in one spacetime reference frame and $x'$ and $t'$ are those but in some other reference frame with relative velocity $v$ to the initial frame.
+
+This means that \textit{Lorentz transformations} relate the space and time coordinates for observers with relative velocity $v$, this is used heavily in \textit{Special Relativity} and is covered further in the course Dynamics and Relativity.
+
+The factor $\gamma(v) = \frac{1}{\sqrt{1 - v^2}}$ is called the \textit{Lorentz factor} and gives rise to time dilation and length contraction effects.
+
+
+Here we employed the active point of view by considering the transformation of vectors and saw that these transformations are moving the body, however, if we consider the passive point of view, then we can instead see the transformation as changing the reference frame whilst keeping the body fixed.
+\subsubsection{Composition of Velocities}
+We can use the product formula derived above to compose relativistic velocities:
+\[
+  M(\theta_1)M(\theta_2) = M(\underbrace{\theta_1 + \theta_2}_{\theta_3})
+\]
+If we set $v_i = \tanh(\theta_i)$ for $i = 1, 2, 3$, then:
+\begin{align*}
+  &\frac{1}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}}
+  \begin{pmatrix}
+  1 & v_1 \\
+  v_1 & 1 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 & v_2 \\
+  v_2 & 1 \\
+  \end{pmatrix} =
+  \frac{1}{\sqrt{1 - v^{2}_{3}}}
+  \begin{pmatrix}
+  1 & v_3 \\
+  v_3 & 1 \\
+  \end{pmatrix} \\
+  \implies& \frac{1 + v_1 v_2}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}} = \frac{1}{\sqrt{1 - v^{2}_{3}}} \text{ and }
+  \frac{v_1 + v_2}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}} = \frac{v_3}{\sqrt{1 - v^{2}_{3}}} \\
+  \implies& v_3 = \frac{v_1 + v_2}{1 + v_1v_2}
+\end{align*}
+which is the composition of relativistic velocities in natural units (i.e. all $|v_i| < 1$).
 \end{document}
