@@ -73,7 +73,7 @@ So to define the notion of a stationary point, we require that $\deriv{f}{s} = 0
 \end{definition}
 So at stationary points:
 \[
-  \vec{s} \cdot \nabla f = 0\ \forall \uvec{s} \implies \nabla f = \vec{0}
+  \uvec{s} \cdot \nabla f = 0\ \forall \uvec{s} \implies \nabla f = \vec{0}
 \]
 \subsection{Types of Stationary Points}
 \label{typesOfStationary}
@@ -1123,7 +1123,7 @@ We can employ the \textit{method of characteristics} to solve this PDE.
 How does $\psi$ vary along a path $x(t)$?
 On the path we have $\psi(x(t), t)$ so we can use the multivariate chain rule (\cref{multivariateChainRule}) to yield:
 \begin{align*}
-  \pderiv{\psi}{t} &= \pderiv{\psi}{t} + \pderiv{\psi}{x} \deriv{x}{t} \\
+  \deriv{\psi}{t} &= \pderiv{\psi}{t} + \pderiv{\psi}{x} \deriv{x}{t} \\
                    &= \pderiv{\psi}{x}\left(c + \deriv{x}{t}\right)
 \end{align*}
 If we choose $x(t)$ such that $\deriv{x}{t} = -c$, then
@@ -1132,7 +1132,7 @@ If we choose $x(t)$ such that $\deriv{x}{t} = -c$, then
 \]
 where $x_0$ is a constant on the path and is also used to label the path.
 
-By construction, on such paths $\pderiv{\psi}{t} = 0$ so $\psi$ is constant along the path.
+By construction, on such paths $\deriv{\psi}{t} = 0$ so $\psi$ is constant along the path.
 These paths are referred to as \textit{characteristics} of the PDE.
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -1152,7 +1152,273 @@ The general solution to the first order wave equation is then:
 \[
   \psi(x, t) = f(x_0) = f(x + ct)
 \]
-for some arbitrary function $f$.
+for some arbitrary differentiable function $f$.
 Differentiating this, we can easily check that every function of this form satisfies the PDE.
 We also see that this satisfies the PDE with the initial condition $\psi(x, t=0) = f(x)$.
+
+Functions of this form translate the $x$ dependence of $\psi$ in the negative $x$ direction by $ct$ at time $t$.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0) -- (0, 4) node[above] {$\psi$};
+  \draw[->] (0, 0) -- (8, 0) node[right] {$x$};
+
+  \def\scale{3}
+
+  \node at (5, \scale + 0.4) {$\psi(x, 0)$};
+  \node at (2, \scale + 0.4) {$\psi(x, t)$};
+
+  \draw[domain=0:8, samples=100, thick] plot (\x, {\scale * exp(-(\x - 5)^2)});
+  \draw[domain=0:8, samples=100, very thick, dotted] plot (\x, {\scale * exp(-(\x - 2)^2)});
+
+  \draw[dashed] (5, 0) -- (5, \scale);
+  \draw[dashed] (2, 0) -- (2, \scale);
+  \draw[<-, thick] (2, -0.1) -- (5, -0.1) node[midway, below] {$ct$};
+\end{tikzpicture}
+\end{center}
+These solutions are left moving wave solutions and only have waves propagating in a single direction.
+\begin{example}[Unforced Wave Equation]
+  Consider the unforced wave equation:
+  \[
+    \pderiv{\psi}{t} - c \pderiv{\psi}{x} = 0
+  \]
+  with boundary condition $\psi(x, 0) = x^2 - 3$.
+  We know the general solution is $\psi(x, t) = f(x + ct)$.
+
+  Applying the boundary condition at $t = 0$, we have:
+  \[
+    \psi(x, 0) = f(x) = x^2 - 3
+  \]
+  Therefore the final solution is:
+  \[
+    \psi(x, t)  = (x + ct)^2 - 3
+  \]
+\end{example}
+\begin{example}[Forced Wave Equation]
+  We can also have a forced wave equation, for example:
+  \[
+    \pderiv{\psi}{t} + 5\pderiv{\psi}{x} = e^{-t}
+  \]
+  with boundary condition $\psi(x, 0) = e^{-x^2}$.
+  The characteristics have:
+  \[
+    \deriv{x}{t} = 5 \implies x = x_0 + 5t
+  \]
+  Along these characteristics we can write $\psi(x, t) = \psi(x(t), t)$ and so:
+  \begin{align*}
+    \deriv{\psi}{t} &= \pderiv{\psi}{t}  + \pderiv{\psi}{x} \deriv{x}{t} \\
+                    &= e^{-t} - 5\pderiv{\psi}{x} + 5\pderiv{\psi}{x} \\
+                    &= e^{-t}
+  \end{align*}
+  Integrating with respect to $t$, we have $\psi(x, t) = f(x_0) - e^{-t}$.
+  So the general solution is:
+  \[
+    \psi(x, t) = f(x - 5t) - e^{-t}
+  \]
+  for an arbitrary differentiable function $f$.
+
+  Applying the boundary condition:
+  \begin{align*}
+    \psi(x, 0) &= f(x) - 1 = e^{-x^2} \\
+    \implies f(x) &= 1 + e^{-x^2}
+  \end{align*}
+  So the final solution is:
+  \[
+    \psi(x, t) = 1 + e^{-(x - 5t)^2} - e^{-t}
+  \]
+  Similarly to in the unforced wave equation, the $x$ dependence is translated by $5t$, however, $\psi$ is also translated by the $e^{-t}$ term.
+\end{example}
+\subsection{Second Order Wave Equation}
+The first order wave equation only describes waves propagating in one direction.
+However, many physical systems have waves propagating in two directions.
+These can be modelled by the second order wave equation:
+\[
+  \pderiv[2]{\psi}{t} - c^2\pderiv[2]{\psi}{x} = 0
+\]
+where the constant $c$ has dimensions of speed.
+Since partial derivatives commute, we can factor the operator acting on $\psi$ as:
+\begin{align*}
+  \left(\pderiv{}{t} - c \pderiv{}{x}\right)\left(\pderiv{}{t} + c \pderiv{}{x}\right) &= \pderiv[2]{}{t} - c \frac{\partial^2}{\partial x \partial t} + c \frac{\partial^2}{\partial t \partial x} - c^2 \pderiv[2]{}{x} \\
+                                                                                       &= \pderiv[2]{}{t} - c^2 \pderiv[2]{}{x}
+\end{align*}
+Therefore, the PDE becomes:
+\[
+  \left(\pderiv{}{t} - c \pderiv{}{x}\right)\left(\pderiv{}{t} + c \pderiv{}{x}\right)\psi = 0
+\]
+A function $f(x + ct)$ is sent to 0 by the first operator as we saw in the case of the first order wave equation and similarly a function $g(x - ct)$ is sent to 0 by the second operator.
+Since these two operators commute, both $f(x + ct)$ and $g(x - ct)$ are solutions as we can just rearrange the operators so that the function is sent to zero by the first operator
+
+The operator is also linear so $f(x + ct) + g(x - ct)$ is also a solution for arbitrary differentiable functions $f, g$.
+
+But how do we know what this is the most general solution?
+Let $\xi = x + ct$ and $\eta = x - ct$, we then have:
+\begin{align*}
+  \at{\pderiv{}{x}}{t} &= \underbrace{\at{\pderiv{\xi}{x}}{t}}_{1} \at{\pderiv{}{\xi}}{\eta} + \underbrace{\at{\pderiv{\eta}{x}}{t}}_{1} \at{\pderiv{}{\eta}}{\xi} \\
+  \at{\pderiv{}{t}}{x} &= \underbrace{\at{\pderiv{\xi}{t}}{x}}_{c} \at{\pderiv{}{\xi}}{\eta} + \underbrace{\at{\pderiv{\eta}{t}}{x}}_{-c} \at{\pderiv{}{\eta}}{\xi}
+\end{align*}
+We can combine these to get:
+\begin{align*}
+  \pderiv{}{t} - c \pderiv{}{x} &= -2c \pderiv{}{\eta} \\
+  \pderiv{}{t} + c \pderiv{}{x} &= 2c \pderiv{}{\xi}
+\end{align*}
+So the wave equation becomes:
+\[
+  -4c^2 \frac{\partial^2 \psi}{\partial \xi \partial \eta} = 0
+\]
+We can then integrate this twice, first with respect to $\xi$ and then with respect to $\eta$:
+\begin{align*}
+  \pderiv{\psi}{\eta} &= \widetilde{g}(\eta) \\
+  \implies \psi(\xi, \eta) &= f(\xi) + g(\eta)
+\end{align*}
+So we have exhibited the most general solution:
+\[
+  \psi(x, t) = f(x + ct) + g(x - ct)
+\]
+\begin{example}
+  Suppose we are trying to solve:
+  \[
+    \pderiv[2]{\psi}{t} - c^2\pderiv[2]{\psi}{x} = 0
+  \]
+  with boundary condition:
+  \[
+    \psi(x, 0) = \frac{1}{1 + x^2}
+  \]
+  Since this is a second order equation, this is not enough information to uniquely specify a solution so we also need a second boundary condition:
+  \[
+    \pderiv{\psi}{t}(x, 0) = 0
+  \]
+  We saw that the general solution is $\psi(x, t) = f(x + ct) + g(x - ct)$.
+  To apply the boundary condition, we need to find $\partial \psi / \partial t$:
+  \[
+    \pderiv{\psi}{t}(x, t) = cf'(x + ct) - cg'(x - ct)
+  \]
+  So at $t = 0$ we have:
+  \[
+    \frac{1}{1 + x^2} = f(x) + g(x)
+  \]
+  and:
+  \[
+    \pderiv{\psi}{t}(x, 0) = cf'(x) - cg'(x) = 0
+  \]
+  If we integrate this with respect to $x$, we get:
+  \[
+    f(x) - g(x) = A
+  \]
+  where $A$ is a constant.
+
+  Combining the two equations for $f$ and $g$ we have:
+  \[
+    2f(x) - A = \frac{1}{1 + x^2} \implies f(x) = \frac{1}{2(1 + x^2)} + \frac{A}{2} \implies g(x) = \frac{1}{2(1 + x^2)} - \frac{A}{2}
+  \]
+  Therefore the final solution is:
+  \[
+    \psi(x, t) = \frac{1}{2}\left[\frac{1}{1 + (x + ct)^2} + \frac{1}{1 + (x - ct)^2}\right]
+  \]
+  If we plot this over time, we see that we have two waves propagating in opposite directions:
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[->] (0, 0) -- (0, 4) node[above] {$\psi$};
+    \draw[->] (-6, 0) -- (6, 0) node[right] {$x$};
+
+    \def\const{1}
+    \def\scale{1.7}
+
+    \foreach \t/\o in {0/100, 1/80, 2/60, 4/40, 5/20} {
+      \pgfmathsetmacro{\max}{\scale * (1/(1 + (\t + \const * \t)^2) + 1/(1 + (\t - \const * \t)^2))}
+      \node[black!\o] at (\t, \max + 0.3) {$t = \t$};
+      \draw[domain=-6:6, samples=100, thick, black!\o] plot (\x, {\scale * (1/(1 + (\x + \const * \t)^2) + 1/(1 + (\x - \const * \t)^2))});
+    }
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\subsection{Diffusion Equation}
+Another example of a PDE is the \textit{diffusion equation}.
+The temperature $T$ of a one-dimensional line evolves due to the diffusion of thermal energy and is governed by:
+\[
+  \pderiv{T}{t}=\kappa \pderiv[2]{T}{x}
+\]
+where $\kappa$ is a constant known as the \textit{diffusion coefficient}.
+\begin{example}
+  The temperature $T(x, t)$ in an infinitely long rod with one end at $x = 0$ can be modelled by the diffusion equation.
+
+  As $t \to 0^{+}$, the temperature at $x > 0$ is 0, and for $t > 0$, the temperature at $x = 0$, $T(0, t)$, is kept constant at 1.
+
+  It is possible to find \textit{similarity solutions} of the form $T(x, t) = \Theta(\eta)$ where we define $\eta$ as:
+  \[
+    \eta \equiv \frac{x}{2\sqrt{\kappa t}}
+  \]
+  The motivation for trying a solution of this form comes from analysing the physical dimensions of the diffusion equation.
+
+  Using the chain rule, we have:
+  \[
+    \pderiv{T}{t} = \pderiv{\eta}{t} \deriv{\Theta}{\eta} = -\frac{\eta}{2t}\deriv{\Theta}{\eta} \text{ and }
+    \pderiv{T}{x} = \pderiv{\eta}{x} \deriv{\Theta}{\eta} = \frac{1}{2\sqrt{\kappa t}} \deriv{\Theta}{\eta}
+  \]
+  Therefore:
+  \[
+    \pderiv[2]{T}{x} = \frac{1}{2\sqrt{\kappa t}} \pderiv{\eta}{x} \deriv[2]{\Theta}{\eta} = \frac{1}{4\kappa t} \deriv[2]{\Theta}{\eta} \\
+  \]
+  Substituting into the diffusion equation yields:
+  \[
+    \kappa \cdot \frac{1}{4\kappa t} \deriv[2]{\Theta}{\eta} = -\frac{\eta}{2t}\deriv{\Theta}{\eta} \implies \deriv[2]{\Theta}{\eta} + 2\eta\deriv{\Theta}{\eta} = 0
+  \]
+  This is a separable differential equation for $\deriv{\Theta}{\eta}$ which can be solved to obtain:
+  \[
+    \deriv{\Theta}{\eta} = Ae^{-\eta^2}
+  \]
+  We can then integrate to find $\Theta(\eta)$:
+  \[
+    \Theta(\eta) = A \int_{0}^{\eta} e^{-u^2} \d{u} + B
+  \]
+  where $A$ and $B$ are constants.
+
+  This integral does \textbf{not} have a closed form solution, however, we can rewrite it in terms of the \textit{error function} that is defined by:
+  \[
+    \erf(x) = \frac{2}{\sqrt{\pi}} \int_{0}^{x} e^{-u^2} \d{x}
+  \]
+  This satisfies $\erf(x) \to 1$ as $x \to \infty$ as the area under $e^{-x^2}$ from $0$ to $\infty$ is $\frac{\sqrt{\pi}}{2}$ (See Example Sheet 1, Q14). So we have:
+  \[
+    \Theta(\eta) = C \erf(\eta) + B
+  \]
+  for a constant $C$.
+
+  Applying the first boundary condition, as $t \to 0^{+}$, $\eta \to \infty$ so we require $T \to 0$ (and therefore $\Theta \to 0$) in this limit for $x > 0$.
+  Therefore we must have $C + B = 0$.
+
+  At $x = 0$, we required that $T(0, t) = 1$ for $t > 0$.
+  We then have $\eta = 0$ and $\erf(\eta) = 0$ so we need $B = 1$.
+  Therefore the final solution for $t > 0$ is:
+  \[
+    T(x, t) = 1 - \erf\left(\frac{x}{2\sqrt{\kappa t}}\right)
+  \]
+  If we plot this solution over time (lighter plot for larger $t$), we see that it tends towards a uniform temperature of $T = 1$ along the whole rod as $t \to \infty$.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.3]
+    % From https://tex.stackexchange.com/questions/107423/erf-function-in-latex
+    \makeatletter
+    \pgfmathdeclarefunction{erf}{1}{%
+      \begingroup
+        \edef\x{#1}%
+        \pgfmathparse{1/(1+0.3275911*\x)}%
+        \edef\t{\pgfmathresult}%
+        \pgfmathparse{%
+          1 - (((((1.061405429*\t - 1.453152027)*\t) + 1.421413741)*\t - 0.284496736)*\t + 0.254829592)*\t*exp(-(\x*\x))}%
+        \pgfmath@smuggleone\pgfmathresult%
+      \endgroup
+    }
+    \makeatother
+
+    \draw[->] (0, 0) -- (0, 4) node[above] {$T$};
+    \draw[->] (0, 0) -- (8, 0) node[right] {$x$};
+    \def\const{1}
+    \def\scale{3.5}
+
+    \draw[dashed] (0, \scale) node[left] {1} -- (8, \scale);
+
+    \foreach \t/\o in {0.1/100, 1/90, 3/80, 6/70, 10/60, 20/50, 30/40, 60/30, 100/20, 200/10, 500/10, 1500/5, 10000/5} {
+      \draw[domain=0:8, samples=100, thick, black!\o] plot (\x, {\scale * (1 - erf(\x/(2 * sqrt(\const * \t))))});
+    }
+  \end{tikzpicture}
+  \end{center}
+  This is what we would expect physically as thermal energy diffuses down the rod from the $x = 0$ which is kept at a constant temperature.
+\end{example}
 \end{document}
