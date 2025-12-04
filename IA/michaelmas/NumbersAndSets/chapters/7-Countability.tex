@@ -6,6 +6,7 @@
 We want to talk about the sizes of infinite sets, for example, $\N$ ``looks smaller'' than $\Z$ which seem ``a lot smaller'' than $\Q$, which seems ``even smaller than'' $\R$
 
 \begin{definition}[Countable Set]
+  \label{countableDef}
   We say that a set $X$ is \textit{countable} if $X$ is finite or there is a bijection $X \to \N$.
 
   This second case is often referred to as \textit{countably infinite}.
@@ -261,6 +262,7 @@ This proof strategy is known as a \textit{diagonal argument}.
 \end{proof}
 \begin{theorem}
   $\powerset{\N}$ is uncountable.
+  \label{powerSetUncountable}
 \end{theorem}
 We will provide 2 proofs:
 \begin{proof}[1 -- Diagonal Arugment]
@@ -317,6 +319,7 @@ The first proof of this theorem can also be used to show the following:
 \end{remark}
 \begin{proposition}
   If $\{A_i : i \in I\}$ is a family of open pairwise disjoint intervals of $\R$ indexed by the set $I$, then $I$ is countable.
+  \label{intervalsExample}
 \end{proposition}
 We will provide 2 proofs:
 \begin{proof}[1 -- Injection]
@@ -340,4 +343,118 @@ We will provide 2 proofs:
   \]
   Thus, $I$ is countable by \cref{countableUnion} as it is a countable union of countable sets.
 \end{proof}
+\begin{remark}[Summary]\par
+To show that a set $X$ is \textbf{countable}, we can:
+\begin{enumerate}
+  \item List/enumerate its elements -- \cref{countableDef}
+  \item Construct an injection into $\N$ -- \cref{countabilityEquivalence}
+  \item Show it is a countable union of countable sets -- \cref{countableUnion}
+  \item If the set is in or ``near'' $\R$, consider $\Q$ -- \cref{intervalsExample}
+\end{enumerate}
+To show that a set $X$ is \textbf{uncountable}, we can:
+\begin{enumerate}
+  \item Use a diagonal argument -- Assume countable and then show that we can construct an element that differs from every other element -- See \cref{RUncountable}
+  \item Inject an uncountable set (e.g. $(0, 1)$ or  $\powerset{\N}$) into $X$ -- Cannot have an injection from $X$ into $\N$ otherwise we have a contradiction -- See \cref{powerSetUncountable}
+\end{enumerate}
+\end{remark}
+\section{Functions and Sizes of Sets}
+We have the following intuition about functions of different types between sets:
+\begin{center}
+\begin{tabular}{c|c}
+Statement & Intuition \\
+\hline
+$A$ bijects with $B$ & $A$ and $B$ are of the same size \\
+$A$ injects into $B$ & $A$ is at most as big as $B$ \\
+$A$ surjects onto $B$ & $A$ is at least as big as $B$
+\end{tabular}
+\end{center}
+For these interpretations to make sense, we need to check that ``$A$ is at most as big as $B$'' if and only if ``$B$ is at least as big as $A$'' so that our intuition about inequalities still holds even with sets.
+This is confirmed by the following lemma:
+\begin{lemma}
+  Given non-empty sets $A$ and $B$, there exists an injection $f: A \to B$ if and only if there exists a surjection $g: B \to A$.
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Suppose we have an injection $f: A \to B$}
+    Fix some $a_0 \in A$.
+    We wish construct a surjection $g: B \to A$.
+
+    Define $g: B \to A$ by:
+    \[
+      b \mapsto \begin{cases}
+      \text{unique $a \in A$ s.t. $f(a) = b$} &  \text{ if such an $a$ exists} \\
+      a_0 & \text{ otherwise}
+     \end{cases}
+    \]
+    The first case of this map satisfies the criterion for surjectivity, however we need to send elements of $B$ that were not mapped to by $f$ from $A$ so that $g$ is a well-defined function.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose we have a surjection $g: B \to A$}
+    Define $f: A \to B$ by:
+    \[
+      a \mapsto \text{some $b \in B$ s.t. $g(b) = a$}
+    \]
+    Then $f$ is injective as $g$ is a well-defined map.
+  \end{proofdirection}
+\end{proof}
+Another intuition from inequalities we wan to confirm is that that, if ``$A$ is at most as big as $B$'' and ``$B$ is at most as big as $A$'', then
+``$A$ and $B$ have the same size''.
+\begin{theorem}[Schr\"oder Berstein Theorem]
+  \label{schroderBerstein}
+  If $f: A \to B$ and $g: B \to A$ are injections, then there exists a bijection $h: A \to B$.
+\end{theorem}
+\begin{proof}
+  For some point $a \in A$, write $g^{-1}(a)$ for the unique $b \in B$ (if it exists) such that $g(b) = a$.
+
+  Similarly, for $b \in B$, write $f^{-1}(b)$ for the unique $a \in A$ (if it exists) such that $f(a) = b$.
+
+  We call:
+  \[
+    g^{-1}(a),\ f^{-1}(g^{-1}(a)),\ g^{-1}(f^{-1}(g^{-1}(a))),\ \ldots
+  \]
+  the \textit{ancestor sequence} of the point $a \in A$.
+  This terminates if the preimage does not exist at at some step.
+  We define the ancestor sequence for $b \in B$ similarly.
+
+  Let:
+  \begin{align*}
+    A_0 &= \{a \in A : \text{ ancestor sequence of $a$ stops after an even number of steps}\} \\
+    A_1 &= \{a \in A : \text{ ancestor sequence of $a$ stops after an odd number of steps}\} \\
+    A_{\infty} &= \{a \in A : \text{ ancestor sequence of $a$ does not terminate}\}
+  \end{align*}
+  and define $B_0, B_1, B_{\infty}$ similarly.
+  Intuitively, $A_0$ is the element of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_0, B_0$ and $B_1$.
+  Since each element is in exactly one of these three sets, they partition $A$ and $B$ respectively.
+
+  Every $b \in B_1$ terminates in an odd number of steps so has a preimage under $f$ that terminates in an even number of steps and so is in $A_0$.
+  Similarly, every $a \in A_0$ terminates in an even number of steps so has a preimage under $g$ that terminates in an odd number of steps and so in $B_1$.
+  Thus we have a bijection between $A_0$ and $B_0$ given by $f$.
+
+  By symmetry, $g$ bijects $B_0$ with $A_1$.
+
+  Finally, both $f$ and $g$ bijects $A_{\infty}$ with $B_{\infty}$ as these are only the points whose ancestor sequence never terminates.
+
+  Then the function $h: A \to B$ defined by:
+  \[
+    a \mapsto \begin{cases}
+    f(a) & \text{ if }a \in A_0 \\
+    g^{-1}(a) & \text{ if }a \in A_1 \\
+    f(a) & \text{ if }a \in A_{\infty}
+    \end{cases}
+  \]
+  is a bijection by construction.
+\end{proof}
+\begin{example}
+  Is there a bijection from $[0, 1]$ to $[0, 1] \cup [2, 3]$?
+
+  Observe that we have an injection $f: [0, 1] \to [0, 1] \cup [2, 3]$, $x \mapsto x$ and an injection $g: [0, 1] \cup [2, 3] \to [0, 1]$, $x \mapsto x/3$.
+  So by \cref{schroderBerstein}, there is a bijection between them.
+\end{example}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item It would be nice to be able to say that for any sets $A$ and $B$, either $A$ injects into $B$, or $B$ injects into $A$.
+
+      This is in fact true but it more difficult to prove, see Logic and Set Theory.
+    \item The \textit{Continuum Hypothesis} states that there does not exist a set whose size lies between $\N$ and $\R$.
+      That is, any subset of $\R$ is either finite, countably infinite, or uncountable (in bijection with $\R$).
+  \end{enumerate}
+\end{remark}
 \end{document}
