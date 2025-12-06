@@ -1332,7 +1332,7 @@ So we have exhibited the most general solution:
 \end{example}
 \subsection{Diffusion Equation}
 Another example of a PDE is the \textit{diffusion equation}.
-The temperature $T$ of a one-dimensional line evolves due to the diffusion of thermal energy and is governed by:
+For example, the temperature $T$ of a one-dimensional line evolves due to the diffusion of thermal energy and is governed by:
 \[
   \pderiv{T}{t}=\kappa \pderiv[2]{T}{x}
 \]
@@ -1351,13 +1351,13 @@ where $\kappa$ is a constant known as the \textit{diffusion coefficient}.
   Using the chain rule, we have:
   \[
     \pderiv{T}{t} = \pderiv{\eta}{t} \deriv{\Theta}{\eta} = -\frac{\eta}{2t}\deriv{\Theta}{\eta} \text{ and }
-    \pderiv{T}{x} = \pderiv{\eta}{x} \deriv{\Theta}{\eta} = \frac{1}{2\sqrt{\kappa t}} \deriv{\Theta}{\eta}
+    \pderiv{T}{x} = \pderiv{\eta}{x} \deriv{\Theta}{\eta}
   \]
   Therefore:
   \[
-    \pderiv[2]{T}{x} = \frac{1}{2\sqrt{\kappa t}} \pderiv{\eta}{x} \deriv[2]{\Theta}{\eta} = \frac{1}{4\kappa t} \deriv[2]{\Theta}{\eta} \\
+    \pderiv[2]{T}{x} = \left(\pderiv{\eta}{x}\right)^2 \deriv[2]{\Theta}{\eta} + \underbrace{\pderiv[2]{\eta}{x}}_{0} \deriv{\Theta}{\eta} = \left(\frac{1}{2\sqrt{\kappa t}}\right)^2 \deriv[2]{\Theta}{\eta} = \frac{1}{4\kappa t} \deriv[2]{\Theta}{\eta} \\
   \]
-  Substituting into the diffusion equation yields:
+  Substituting these into the diffusion equation yields:
   \[
     \kappa \cdot \frac{1}{4\kappa t} \deriv[2]{\Theta}{\eta} = -\frac{\eta}{2t}\deriv{\Theta}{\eta} \implies \deriv[2]{\Theta}{\eta} + 2\eta\deriv{\Theta}{\eta} = 0
   \]
@@ -1371,7 +1371,7 @@ where $\kappa$ is a constant known as the \textit{diffusion coefficient}.
   \]
   where $A$ and $B$ are constants.
 
-  This integral does \textbf{not} have a closed form solution, however, we can rewrite it in terms of the \textit{error function} that is defined by:
+  This integral does \textbf{not} have a closed form solution, however, we can rewrite it in terms of the \textit{error function} that is defined as:
   \[
     \erf(x) = \frac{2}{\sqrt{\pi}} \int_{0}^{x} e^{-u^2} \d{x}
   \]
