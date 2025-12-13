@@ -300,16 +300,17 @@ We already know the following groups of order 8:
   \textbf{All nontrivial elements order 2 -}
   Suppose that every nontrivial element has order 2.
   We can then choose 3 nontrivial elements $a, b, c$ such that $b \neq a$ and $c \neq a, b, ab$.
-  Consider the subgroups $\langle a \rangle$, $\langle b \rangle$, $\langle c \rangle$.
 
-  We know from Q11 Sheet 1 that if every nontrivial element has order 2 then the group must be abelian so $\langle a \rangle$, $\langle b \rangle$, and $\langle c \rangle$ commute.
-  We also know that $\langle a \rangle \cap \langle b \rangle = \{e\}$ and $|\langle a \rangle||\langle b \rangle| = 4 = |C_2 \times C_2|$
-  So by direct product theorem, $\langle a \rangle \times \langle b \rangle \cong C_2 \times C_2$.
-  Similarly $(\langle a \rangle \times \langle b \rangle) \cap \langle c \rangle = \{e\}$ and $|\langle a \rangle \times \langle b \rangle||\langle  c \rangle| = 8 = |G|$ so by direct product theorem:
+  Consider the subgroups $\langle a \rangle$, $\langle b \rangle$, and $\langle c \rangle$, because of how we chose $a$, $b$, and $c$, the pairwise intersections of these subgroups are trivial.
+  We also know from Q11 Sheet 1 that if every nontrivial element has order 2, then the group must be abelian, thus, $\langle a \rangle$, $\langle b \rangle$ and $\langle c \rangle$ commute.
+  So by direct product theorem (\cref{directProductTheorem}):
   \[
-    G \cong \langle a \rangle \times \langle b \rangle \times \langle c \rangle \cong C_2 \times C_2 \times C_2
+    \langle a \rangle\langle b \rangle \cong \langle a \rangle \times \langle b \rangle \cong C_2 \times C_2
   \]
-  So $G \cong C_2 \times C_2 \times C_2$ \tick
+  Moreover, as $|G| = |\langle a \rangle\langle b \rangle||\langle c \rangle|$ and $(\langle a \rangle\langle b \rangle) \cap \langle c \rangle = \{ e\}$, we can apply direct product theorem again to yield:
+  \[
+    G \cong (\langle a \rangle \langle b \rangle) \times \langle c \rangle \cong (\langle a \rangle \times \langle b \rangle) \times \langle c \rangle  \]
+  Since the direct product is associative, $G \cong C_2 \times C_2 \times C_2$ \tick
 
   \textbf{All nontrivial elements order 2 or 4 -}
   Therefore, we may suppose that there is an $a \in G$ such that $|a| = 4$.
