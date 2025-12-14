@@ -254,11 +254,12 @@ This discussion leads to a notion of \textit{parity} for permutations.
 \subsection{Parity}
 We first need to introduce the concept of an \textit{inversion}:
 \begin{definition}
-  A pair $\{i, j\} \subseteq \{1, \ldots, n\}$ is called an \textit{inversion} of a permutation $\sigma$ if $i < j$ but $\sigma(i) > \sigma(j)$
+  A pair $\{i, j\} \subseteq \{1, \ldots, n\}$ is called an \textit{inversion} of a permutation $\sigma$ if $i < j$ but $\sigma(i) > \sigma(j)$.
+  That is, an inversion is any pair where the ordering of the two elements is changed by the permutation.
 \end{definition}
 \begin{lemma}
   \label{inversionsMod2}
-  For any $\sigma = \tau_1 \cdots \tau_k$, $k \equiv \text{\#(inversions of $\sigma$)} \pmod{2}$
+  If $\tau_1, \ldots, \tau_k$ are all adjacent transpositions and $\sigma = \tau_1 \cdots \tau_k$, then $k \equiv \text{\#(inversions of $\sigma$)} \pmod{2}$
 \end{lemma}
 \begin{proof}
   \induction
@@ -271,12 +272,10 @@ We first need to introduce the concept of an \textit{inversion}:
     \[
       \sigma = \underbrace{\tau_1}_{\tau} \underbrace{\tau_2 \cdots \tau_k}_{\sigma'} = \tau\sigma'
     \]
-    where $\tau$ is an adjacent transposition (as if not, it could be rewritten as a product of and odd number of adjacent transpositions without changing the parity of $k$), so we can write $\tau = \cycle{l {l + 1}}$ for some $l$, and $\sigma'$ is the product of $k - 1$ transpositions.
+    Since $\tau$ is an adjacent transposition, we can write $\tau = \cycle{l {l + 1}}$ for some $l$, and $\sigma'$ is the product of $k - 1$ adjacent transpositions.
 
-    Now consider which pairs $\{i, j\}$ could be an inversion of $\sigma'$ but not of $\sigma$ and vice versa?
-
-    The only such pairs are those where $\sigma$ sends to either $l$ or $l + 1$.
-    So the only such pair is $\{i, j\}$ such that $\sigma(i) = l$ and $\sigma(j) = l + 1$.
+    Now, consider which pairs $\{i, j\}$ could be an inversion of $\sigma'$ but not of $\sigma$ or vice versa?
+    The only such pairs are those where $\sigma$ sends $i$ and $j$ to either $l$ or $l + 1$, that is, $\{i, j\}$ such that $\sigma'(i) = l$ and $\sigma'(j) = l + 1$.
     For this pair, we have:
     \[
       \sigma'(i) = l < l + 1 = \sigma'(j)
@@ -301,9 +300,9 @@ We first need to introduce the concept of an \textit{inversion}:
   If $\tau_1, \ldots, \tau_k$ are all transpositions and $\sigma = \tau_1 \cdots \tau_k = e$, then $k$ is even.
 \end{lemma}
 \begin{proof}
-  By \cref{adjacentLemma}, we may assume that all $\tau_i$ are adjacent as any non-adjacent transpositions could be rewritten as a product of an \textbf{odd} number of adjacent transpositions which would not change the parity of $k$ (whether $k$ is odd or even).
+  By \cref{adjacentLemma}, we may assume that all $\tau_i$ are adjacent as any non-adjacent transpositions could be rewritten as a product of an \textbf{odd} number of adjacent transpositions without changing the parity of $k$ (whether $k$ is odd or even).
 
-  If $\sigma = e$, then $\sigma$ has 0 inversions so by \cref{inversionsMod2}, $k$ is even.
+  If $\sigma = e$, then $\sigma$ has 0 inversions so, by \cref{inversionsMod2}, $k$ is even.
 \end{proof}
 This enables us to define the \textit{sign homomorphism}.
 \begin{theorem}[Sign Homomorphism]
