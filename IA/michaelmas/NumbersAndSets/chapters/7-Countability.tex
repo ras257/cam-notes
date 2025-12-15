@@ -425,13 +425,14 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
   Intuitively, $A_0$ is the set of elements of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_0, B_0$ and $B_1$.
   Since each element is in exactly one of these three sets, they partition $A$ and $B$ respectively.
 
-  Every $b \in B_1$ terminates in an odd number of steps so has a preimage under $f$ that terminates in an even number of steps and so is in $A_0$.
-  Similarly, every $a \in A_0$ terminates in an even number of steps so has a preimage under $g$ that terminates in an odd number of steps and so in $B_1$.
+  If we restrict $f: A_0 \to B_1$, it is injective by hypothesis and we can show that it is surjective.
+  Every $b \in B_1$ terminates in an odd number of steps so has at least one ancestor.
+  Therefore for some $a \in A_0$, that terminates in an even number of steps, we have $f(a) = b$ (If we take $a = f^{-1}(b)$ when we see that this terminates after an even number of steps as the ancestor sequence for $b$ has an odd number of steps, so $a \in A_0$).
   Thus we have a bijection between $A_0$ and $B_1$ given by $f$.
 
   By symmetry, $g$ bijects $B_0$ with $A_1$.
 
-  Finally, both $f$ and $g$ bijects $A_{\infty}$ with $B_{\infty}$ as these are only the points whose ancestor sequence never terminates.
+  Finally, both $f$ and $g$ bijects $A_{\infty}$ with $B_{\infty}$ by a similar argument as these are only the points whose ancestor sequence never terminates.
 
   Then the function $h: A \to B$ defined by:
   \[
