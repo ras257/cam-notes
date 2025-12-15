@@ -37,7 +37,7 @@ We can carry out addition and multiplication as usual in $\Z_n$.
       Thus, $a + b \equiv a' + b' \pmod{n}$.
     \item So:
       \[
-        n \mid (a - a')\cdot b + a' (b - b') \cdot a = ab - a'b'
+        n \mid (a - a')\cdot b + (b - b') \cdot a' = ab - a'b'
       \]
       Thus, $ab \equiv a'b' \pmod{n}$
   \end{enumerate}
@@ -145,7 +145,7 @@ The solution to this congruence will be unique modulo $\frac{n}{d}$ but there wi
     \item Solve $10x \equiv 12 \pmod{34}$.
       $\hcf(10, 34) = 2$, $2 \mid 12$ so there will be solutions given by:
       \[
-        \frac{10}{2}x \equiv \frac{2}{2} \pmod{34/2} \iff 5x \equiv 1 \pmod{17}
+        \frac{10}{2}x \equiv \frac{12}{2} \pmod{34/2} \iff 5x \equiv 1 \pmod{17}
       \]
       We can also convert out of modular arithmetic instead of using the formula above:
       \begin{align*}
@@ -270,7 +270,7 @@ How do the powers of an integer behave modulo $p$?
   But $(p - 1)!$ is a product of units so is also a unit mod $p$ so we can cancel it to obtain $a^{p-1} \equiv 1 \pmod{p}$.
 \end{proof}
 \begin{theorem}[Fermat-Euler Theorem]
-  If $a, m \in \Z$ such that $\hcf(a, m) = 1$, then $a^{\varphi(m)} \equiv 1 \pmod{m}$.
+  If $a \in \Z, m \in \N$ such that $\hcf(a, m) = 1$, then $a^{\varphi(m)} \equiv 1 \pmod{m}$.
   \label{fermatEuler}
 \end{theorem}
 \begin{proof}

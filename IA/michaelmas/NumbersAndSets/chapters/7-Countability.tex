@@ -107,6 +107,7 @@ which terminates if $X$ is finite.
   So we have: \textbf{ii} $\iff$ \textbf{i} $\implies$ \textbf{iii} $\implies$ \textbf{ii}, thus, all the statements are equivalent.
 \end{proof}
 \begin{corollary}
+  \label{subsetOfCountableSet}
   Any subset of a countable set is countable.
 \end{corollary}
 \begin{proof}
@@ -194,7 +195,7 @@ We will give two proofs of this.
   Define $f: \bigcup_{n \in \N} A_n \to \N$, $x \mapsto 2^{i}3^{j}$ where $x = a^{(i)}_{j}$ for the \textbf{least} $i$ such that $x \in A_i$ as $x$ could be in multiple sets, however by WOP, we can pick the least such $i$.
   This is an injection by the same argument as in \cref{ftaInjectiveProof}.
 
-  Alternatively, the association of $x$ with a unique pair $(i, j)$ provides a bijection $\bigcup A_n \to  \N \times \N$, which we know is countable.
+  Alternatively, the association of $x$ with a unique pair $(i, j)$ provides a injection $\bigcup A_n \to  \N \times \N$, which we know is countable.
 \end{proof}
 \begin{example}[Countability of $\Q$]
   We can define $\Q$ as:
@@ -331,7 +332,7 @@ We will provide 2 proofs:
 \begin{proof}[2 -- Union of Countable Sets]
   The set $S_1 = \{i \in I: A_i \text{ has length} \geq 1\}$ is countable as we can pick an integer from each $A_i$ with length $\geq 1$ and, since they are disjoint, use this to construct an injection into $\Z$.
 
-  Similarly, the set $S_2 = \{i \in I: A_i \text{ has length}\geq 1/2\}$ is countable as it injects into the set of half integers which is countable by \cref{countableSubset} as it is a subset of $\Z$.
+  Similarly, the set $S_2 = \{i \in I: A_i \text{ has length}\geq 1/2\}$ is countable as it injects into the set of half integers which is countable by \cref{subsetOfCountableSet} as it is a subset of $\Q$.
 
   More generally, for each $n \in \N$, the set $S_n = \left\{i \in I : A_i \text{ has length} \geq \frac{1}{n}\right\}$ is countable as it injects into $\Z/n$.
 
@@ -347,7 +348,7 @@ We will provide 2 proofs:
 To show that a set $X$ is \textbf{countable}, we can:
 \begin{enumerate}
   \item List/enumerate its elements -- \cref{countableDef}
-  \item Construct an injection into $\N$ -- \cref{countabilityEquivalence}
+  \item Construct an injection into $\N$ or another countable set -- \cref{countabilityEquivalence}
   \item Show it is a countable union of countable sets -- \cref{countableUnion}
   \item If the set is in or ``near'' $\R$, consider $\Q$ -- \cref{intervalsExample}
 \end{enumerate}
@@ -397,7 +398,7 @@ This is confirmed by the following lemma:
 \end{proof}
 Another intuition from inequalities we wan to confirm is that that, if ``$A$ is at most as big as $B$'' and ``$B$ is at most as big as $A$'', then
 ``$A$ and $B$ have the same size''.
-\begin{theorem}[Schr\"oder Berstein Theorem]
+\begin{theorem}[Schr\"oder Bernstein Theorem]
   \label{schroderBerstein}
   If $f: A \to B$ and $g: B \to A$ are injections, then there exists a bijection $h: A \to B$.
 \end{theorem}
@@ -421,12 +422,12 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
     A_{\infty} &= \{a \in A : \text{ ancestor sequence of $a$ does not terminate}\}
   \end{align*}
   and define $B_0, B_1, B_{\infty}$ similarly.
-  Intuitively, $A_0$ is the element of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_0, B_0$ and $B_1$.
+  Intuitively, $A_0$ is the set of elements of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_0, B_0$ and $B_1$.
   Since each element is in exactly one of these three sets, they partition $A$ and $B$ respectively.
 
   Every $b \in B_1$ terminates in an odd number of steps so has a preimage under $f$ that terminates in an even number of steps and so is in $A_0$.
   Similarly, every $a \in A_0$ terminates in an even number of steps so has a preimage under $g$ that terminates in an odd number of steps and so in $B_1$.
-  Thus we have a bijection between $A_0$ and $B_0$ given by $f$.
+  Thus we have a bijection between $A_0$ and $B_1$ given by $f$.
 
   By symmetry, $g$ bijects $B_0$ with $A_1$.
 
@@ -452,9 +453,10 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
   \begin{enumerate}
     \item It would be nice to be able to say that for any sets $A$ and $B$, either $A$ injects into $B$, or $B$ injects into $A$.
 
-      This is in fact true but it more difficult to prove, see Logic and Set Theory.
+      This is in fact true but is more difficult to prove, see Logic and Set Theory.
     \item The \textit{Continuum Hypothesis} states that there does not exist a set whose size lies between $\N$ and $\R$.
       That is, any subset of $\R$ is either finite, countably infinite, or uncountable (in bijection with $\R$).
+      It has been shown that in ZFC (\textit{Zermelo–Fraenkel set theory}), it is impossible to prove or disprove the continuum hypothesis.
   \end{enumerate}
 \end{remark}
 \end{document}

@@ -9,7 +9,7 @@ To introduce university style maths, we will look at:
   \item Foundational questions
 \end{itemize}
 \begin{definition}[Mathematical Statement]
-  A sentence that can have a true or false value. 
+  A sentence that can have a true or false value.
 \end{definition}
 \begin{definition}[Proof]
   A sequence of true statements without logical gaps establishing some conclusion.
@@ -29,7 +29,7 @@ Here is an example proof:
 \end{proposition}
 \begin{proof}
   $\forall n \in \N, n^3 - n = n(n + 1)(n - 1) = (n - 1)n(n + 1)$.
-  
+
   Notice that this is a product of three consecutive integers so one must be a multiple of three and thus their product must be a multiple of three.
 \end{proof}
 Here is an example non-proof:
@@ -61,7 +61,7 @@ We could prove this by individually proving both assertions:
         (x-2)(x-3) &= 0 \\
         x^2 - 5x + 6 &= 0
       \end{align*}
-    \item Suppose $x^2 - 5x + 6 = 0$ 
+    \item Suppose $x^2 - 5x + 6 = 0$
       \begin{align*}
         x^2 - 5x + 6 &= 0 \\
         (x - 2)(x - 3) &= 0 \\
@@ -99,11 +99,9 @@ We also need to ensure that any assumptions we make are reasonable:
 This is clearly nonsense! We don't know that there is a least positive real.
 To avoid errors like this we need to ensure that \textbf{every} assumption is justified when suitable.
 \subsection{Proof by contradiction}
-To show $A \implies B$ we can show that there is no case where $A$ is true and $B$ is false. i.e:
-\[
-  (A \implies B) \iff (\lnot B \implies \lnot A)
-\]
-For example, here is the correct proof for \cref{nEven}.
+Proof by contradiction is a proof strategy where we assume that a statement is false and then show that this leads to a logical contradiction and thus our original statement must be true.
+
+For example, here is the correct proof for \cref{nEven}:
 \begin{proof}
   Assume on the contrary that $n^2$ is even but $n$ is odd.
 
@@ -137,16 +135,25 @@ De Morgan's Law states that $\lnot (A \land B) \iff (\lnot A) \lor (\lnot B)$ an
 
 $A \implies B$ is equivalent to $(\lnot A) \lor B$, $B \lor (\lnot A)$ and hence also to $\lnot B \implies \lnot A$.
 
-$\lnot B \implies \lnot A$ is called the ``contrapositive'' of the statement $A \implies B$.
+$\lnot B \implies \lnot A$ is the \textit{contrapositive} of the statement $A \implies B$.
+This means that if we wish to show $A \implies B$, we can instead show that there is no case where $A$ is true and $B$ is false. i.e:
+\[
+  (A \implies B) \iff (\lnot B \implies \lnot A)
+\]
 
+We can also negate an implication, for example:
+\[
+  \lnot (A \implies B) \iff \lnot (\lnot A \lor B) \iff A \land \lnot B
+\]
+This highlights the fact that $A \implies B$ is false if and only if $A$ is true and $B$ is false.
 \subsection{Quantifiers}
 The quantifier ``for all'' is denoted $\forall$ and the quantifier ``there exists'' is denoted $\exists$.
-Quantifiers can be negated:
+Quantifiers can be negated as follows:
 \[
-  \lnot (\forall x A(x)) \iff \exists x\; \lnot A(x) 
+  \lnot (\forall x\ A(x)) \iff \exists x\ \lnot A(x)
 \]
 \[
-  \lnot (\exists x B(x)) \iff \forall x\; \lnot B(x) 
+  \lnot (\exists x\ B(x)) \iff \forall x\ \lnot B(x)
 \]
 
 \section{Number Systems}
@@ -165,6 +172,6 @@ Here are informal definitions of a few number systems covered within this course
   A real number is \textit{algebraic} if it is the root some polynomial with integer coefficients.
 \end{definition}
 \begin{definition}[Transcendental Numbers]
-  A real number is \textit{transcendental} if it is not algebraic. 
+  A real number is \textit{transcendental} if it is not algebraic.
 \end{definition}
 \end{document}

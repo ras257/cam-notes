@@ -187,8 +187,6 @@ This is what we mean when we say $\Q$ has ``gaps''.
       \end{align*}
       which is a contradiction.
       Thus we must have $0 < 1$.
-
-      Indeed, if not, then $1 < 0$ as $0 \neq 1$, so $0 = 1 - 1 < 0 - 1 = -1$ so $0 = 0 \times (-1) < (-1)(-1) = 1$ which contradicts $1 < 0$.
     \item We may consider $\Q$ as contained in $\R$, $\Q \subset \R$, by identifying $\frac{a}{b} \in \Q$ with $a \times b^{-1} \in \R$ where $b^{-1}$ is the multiplicative inverse of $b$.
     \item $\Q$ does not satisfy \textbf{vi} as the set $A$ of positive rationals $x$ such that $x^2 < 2$ does not have a supremum inside $\Q$. See \cref{rationalUpperBound}.
     \item In axiom \textbf{vi}, the words ``non empty'' and ``bounded above'' are crucial.
@@ -305,7 +303,7 @@ The previous proposition and corollary show that there are no ``infinitely large
   Therefore, by trichotomy, $c^2 = 2$.
 \end{proof}
 \begin{remark}
-  The same proof shows that $\sqrt[n]{x}$ for all $n \in \N, x \in \R, x > 0$.
+  The same proof shows that $\sqrt[n]{x} \in \R$ for all $n \in \N, x \in \R, x > 0$.
   That is:
   \[
     \forall n \in \N,\ \forall x \in \R, x > 0\ \exists y \in \R \text{ s.t. } y^n = x
@@ -573,10 +571,10 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
 \end{proof}
 \begin{remark}
   \begin{enumerate}
-    \item Note that for an increasing sequence to converge, we only need to use the fact that it is bounded above.
+    \item Note that for an increasing sequence to converge, we only required that it is \textit{bounded above} and similarly for decreasing sequences, we only required that it is \textit{bounded below}.
     \item The bounded condition is important. For example, the sequence $(a_n)^{\infty}_{n=1}$ with $a_n = n$ is increasing but not bounded and certainly diverges.
     \item Increasing sequences converge if and only if they are bounded above.
-    \item Monotonic Convergence Theorem is in fact equivalent to the least upper bound axiom.
+    \item Monotone Convergence Theorem is in fact equivalent to the least upper bound axiom.
     \item You can in fact show that every sequence has a monotonic subsequence, see Analysis 1.
     \item This does not work over the rational numbers.
       For example, consider the sequence:
@@ -737,7 +735,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
   where $d_j \in \{0, 1, \ldots, 9\}$.
 \end{proof}
 \begin{proposition}
-  Decimal expansions are not unique.
+  Decimal expansions need not be unique.
   \label{decimalExpansionUniqueness}
 \end{proposition}
 \begin{proof}
@@ -992,9 +990,9 @@ We can now complete the proof of the transcendence of Liouville's constant:
   \]
   Note, since $0 < L_n < L < 1$, we can set $x = L$ and $y = L_n$ to yield:
   \[
-    |L - L_n| = \sum_{k = n + 1}^{\infty} \frac{1}{10^{k!}} \leq 2 \cdot \frac{1}{10^{(n + 1)!}}
+    |p(L) - p(L_n)| \leq K|L - L_n| = K\sum_{k = n + 1}^{\infty} \frac{1}{10^{k!}} \leq 2K \cdot \frac{1}{10^{(n + 1)!}}
   \]
-  where the inequality is due to the rapid decay of the partial sums.
+where the second inequality is due to the rapid decay of $\frac{1}{10^{k!}}$.
 
   Suppose $p$ has degree $d$, i.e.
   \[
@@ -1036,7 +1034,7 @@ We can now complete the proof of the transcendence of Liouville's constant:
       Such numbers are called \textit{Liouville numbers}.
 
       This inequality shows that Liouville numbers can be very well approximated by rational numbers.
-    \item We will give another proof of the existence in transcendental numbers in the next chapter.
+    \item We will give another proof of the existence of transcendental numbers in the next chapter.
   \end{enumerate}
 \end{remark}
 \section{Complex Numbers}
