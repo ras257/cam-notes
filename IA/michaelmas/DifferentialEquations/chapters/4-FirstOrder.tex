@@ -149,7 +149,7 @@ It is sometimes useful to consider a function evaluated at discrete points.
     y_n &= \left(1 + \frac{3}{5}h\right)y_{n-1} = \left(1 + \frac{3}{5}h\right)^2 y_{n - 2} = \cdots \\
         &= \left(1 + \frac{3}{5}h\right)^{n}y_0 = \left(1 + \frac{3x_n}{5n}\right)^{n}y_0
   \end{align*}
-  Now take $x_n = x$ ($n$ steps from $x = 0$ to $x$) as $n \to \infty$:
+  Now take $x_n = x$ ($n$ steps from $x = 0$ to $x$) as $n \to \infty$ (and $h \to 0$):
   \[
     y(x) = \lim_{n \to \infty} y_n = \lim_{n \to \infty} y_0 \left(1 + \frac{3x}{5n}\right)^{n} = y_0 \exp\left(\frac{3x}{5}\right)
   \]
@@ -803,7 +803,7 @@ Therefore:
 \end{align*}
 Since $\varepsilon$ is small we can just consider the linear approximation, thus:
 \[
-  \deriv{\varepsilon}{t} = \varepsilon \pderiv{f}{y}(t, c)
+  \deriv{\varepsilon}{t} \approx \varepsilon \pderiv{f}{y}(t, c)
 \]
 This is now a linear ODE which is simpler to solve.
 If $\pderiv{f}{y}(t, c) = 0$ then we need higher order terms in the Taylor series to determine stability.
@@ -847,8 +847,8 @@ Although it is separable we may not be able to solve it in a closed form.
 
 Near a fixed point $y = c$ (so $f(c) = 0$), we have:
 \[
-  \deriv{\varepsilon}{t} = \varepsilon \underbrace{\deriv{f}{y}(c)}_{\text{constant}} = \varepsilon k \implies
-  \varepsilon(t) = \varepsilon_0 e^{kt}
+  \deriv{\varepsilon}{t} \approx \varepsilon \underbrace{\deriv{f}{y}(c)}_{\text{constant}} = \varepsilon k \implies
+  \varepsilon(t) \approx \varepsilon_0 e^{kt}
 \]
 If $k = f'(c) < 0 \implies$ stable fixed point.
 If $k = f'(c) > 0 \implies$ unstable fixed point.
@@ -944,7 +944,7 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
     -\lambda & \text{ at } y=Y
     \end{cases}
   \]
-  For $\lambda > 0$ (birth rate > isolated death rate, $\alpha > \beta$), then $y = 0$ is unstable and $y = Y$ is stable.
+  For $\lambda > 0$ (birth rate $>$ isolated death rate, $\alpha > \beta$), then $y = 0$ is unstable and $y = Y$ is stable.
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (6, 0) node[right] {$y$};

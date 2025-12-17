@@ -187,7 +187,7 @@ Along this line, $f(\vec{x}_0 + s \uvec{s}) = f(x(s), y(s))$ so $f$ is a functio
 Therefore, we can use the usual Taylor series:
 \begin{align*}
   f(\vec{x}_0 + s \uvec{s}) &= f(\vec{x}_0) + s \at{\deriv{f}{s}}{\vec{x}_0} + \frac{1}{2}s^2 \at{\deriv[2]{f}{s}}{\vec{x}_0} + \cdots \\
-                            &= f(\vec{x}_0) + s \uvec{s} \cdot \at{\nabla f}{\vec{x}_0} + \frac{1}{2}s^2 \at{(\uvec{s} \cdot \nabla)(\uvec{s} \cdot \nabla f)}{\vec{x}_0} + \cdots
+                            &= f(\vec{x}_0) + s \uvec{s} \cdot \at{\nabla f}{\vec{x}_0} + \frac{1}{2}s^2 (\uvec{s} \cdot \nabla)(\uvec{s} \cdot \nabla)\at{f}{\vec{x}_0} + \cdots
 \end{align*}
 Looking at the second term of the expansion, let $\delta\vec{x} = (x - x_0, y - y_0) = (\delta x, \delta y) = s \uvec{s}$.
 We then have:
@@ -197,8 +197,8 @@ We then have:
 Looking at the third term of the expansion, let $\hat{s}_x$ and $\hat{s}_y$ be the components of $\uvec{s} =(\hat{s}_x, \hat{s}_y)$.
 We then have:
 \begin{align*}
-  s^2(\uvec{s} \cdot \nabla)(\uvec{s} \cdot \nabla f) &= s^2\left(\hat{s}_x \pderiv{}{x} + \hat{s}_y \pderiv{}{y}\right)\left(\hat{s}_x \pderiv{f}{x} + \hat{s}_y \pderiv{f}{y}\right) \\
-                                                      &= \left(\delta x \pderiv{}{x} + \delta y \pderiv{}{y}\right)\left(\delta x \pderiv{f}{x} + \delta y \pderiv{f}{y}\right) \\
+  s^2(\uvec{s} \cdot \nabla)(\uvec{s} \cdot \nabla)f &= s^2\left(\hat{s}_x \pderiv{}{x} + \hat{s}_y \pderiv{}{y}\right)\left(\hat{s}_x \pderiv{}{x} + \hat{s}_y \pderiv{}{y}\right)f \\
+                                                      &= \left(\delta x \pderiv{}{x} + \delta y \pderiv{}{y}\right)\left(\delta x \pderiv{}{x} + \delta y \pderiv{}{y}\right)f \\
                                                       &= (\delta x)^2 \pderiv[2]{f}{x} + (\delta x)(\delta y) \frac{\partial^2 f}{\partial x \partial y} + (\delta y)(\delta x)\frac{\partial^2 f}{\partial y \partial x} + (\delta y)^2 \pderiv[2]{f}{y} \\
                                                       &= (\delta x, \delta y)
                                                       \begin{pmatrix}
@@ -633,9 +633,9 @@ The process of solving this using matrix methods is quite similar to how we solv
   where $a, b$ are arbitrary constants.
 \end{example}
 \begin{remark}
-  If $\vec{F} = \vec{u}e^{\lambda t}$ where $\lambda$ an eigenvalue of $M$, the matrix $(\lambda I - M)$ is not invertible so we cannot solve for $\vec{u}$ as we did above.
+  If $\vec{F} = \vec{u}e^{\lambda t}$ where $\lambda$ an eigenvalue of $M$, then the matrix $(\lambda I - M)$ is not invertible so we cannot solve for $\vec{u}$ as we did above.
 
-  Similarly to how we dealt with resonance for 2nd order linear ODEs with constant coefficients, we should try a particular integral of the form:
+  In this case, provided $M$ has distinct eigenvalues, we should try a particular integral of the form:
   \[
     \vec{Y}_p = (\vec{a} + \vec{b} t)e^{\lambda t}
   \]
@@ -771,7 +771,7 @@ There are a few possibilities:
         This type of fixed point where all solutions are flowing away is called a \textit{unstable node}
       \end{case}
       \begin{case}{$\lambda_1, \lambda_2 < 0$ -- Stable Node}
-        Same as in the previous case but with the arrows reversed.
+        Same as in the previous case but with the arrows reversed and now the term with $e^{\lambda_2 t}$ dominates as $|\lambda_2| < |\lambda_1|$.
 
         In this case, since all solutions flow towards the fixed point, it is called a \textit{stable node}.
       \end{case}

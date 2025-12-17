@@ -20,7 +20,6 @@ Differential equations appear in almost all branches of science and applied math
   We sometimes also use the notation $f'(x)$ or $\dot{f}(x)$ (The dot notation is usually used when $f$ is a function  of time).
 \end{remark}
 The derivative of a function allows us to determine the gradient of a function at a particular point.
-% Maybe add plot?
 \begin{definition}[Informal Definition of a Limit]
   Informally, if $\lim_{x \to x_0} f(x) = A$ then $f(x)$ can be made arbitrarily close to $A$ by making $x$ sufficiently close to $x_0$.
   (Note that we don't require that $f(x_0) = A$).
@@ -46,7 +45,7 @@ We can define higher order derivatives for sufficiently smooth functions:
 \begin{remark}[Notation]
   For the $n$th derivative we use the notation:
   \[
-    \deriv[n]{f}{x} = f^{(n)}(x) 
+    \deriv[n]{f}{x} = f^{(n)}(x)
   \]
 \end{remark}
 \subsection{Order Parameters}
@@ -54,10 +53,10 @@ Order parameters allow us to compare the behaviour of functions close to a limit
 \begin{definition}[Big-$O$ Notation]
   \begin{proofcases}
     \begin{case}{$x_0$ finite}
-      $f(x)$ is $O(g(x))$ as $x \to x_0$ if $\exists \delta > 0 \text{ and } M > 0$ such that $\forall x$ with $0 < |x - x_0| < \delta$, then $|f(x)| \leq M |g(x)|$.
+      $f(x)$ is $O(g(x))$ as $x \to x_0$ if $\exists \delta > 0 \text{ and } M > 0$ such that $\forall x$ with $0 < |x - x_0| < \delta$, $|f(x)| \leq M |g(x)|$.
     \end{case}
     \begin{case}{$x_0$ infinite}
-      $f(x)$ is $O(g(x))$ as $x \to \infty$ if $\exists x_1 \text{ and } M > 0 \text{ such that } \forall x > x_1$, then $|f(x)| \leq M|g(x)|$.
+      $f(x)$ is $O(g(x))$ as $x \to \infty$ if $\exists x_1 \text{ and } M > 0 \text{ such that } \forall x > x_1$, $|f(x)| \leq M|g(x)|$.
     \end{case}
   \end{proofcases}
 \end{definition}
@@ -94,7 +93,7 @@ This is because $O(g(x))$ is a \textit{class} of functions but in practice using
   Often written as $f(x) = o(g(x))$ or $\underline{o}(g(x))$ when handwritten to differentiate it from big O.
 \end{remark}
 
-$f(x) = o(g(x))$ loosely means that $f(x)$ is \textbf{much smaller} than $g(x)$ as $x \to x_0$. 
+$f(x) = o(g(x))$ loosely means that $f(x)$ is \textbf{much smaller} than $g(x)$ as $x \to x_0$ as we can bound $f(x)/g(x)$ by any arbitrary $\varepsilon > 0$ provided $x$ is sufficiently close to $x_0$.
 \begin{example}
  $x^2 = o(x)$ as $x \to 0$ as $\lim_{x \to 0} x^2/x = 0$
 \end{example}
@@ -103,14 +102,14 @@ $f(x) = o(g(x))$ loosely means that $f(x)$ is \textbf{much smaller} than $g(x)$ 
 \end{example}
 \begin{remark}[Notes]
   \begin{itemize}
-    \item $f(x) = o(g(x))$ is a stronger statement that $f(x) = O(g(x))$. 
-      This is because little-o means that we are bounded by any multiple whereas big-O means were are bounded by a given multiple.
+    \item $f(x) = o(g(x))$ is a stronger statement that $f(x) = O(g(x))$.
+      This is because little-o means that we are bounded by any multiple whereas big-O means were are bounded by some multiple.
 
       So $f(x) = o(g(x)) \implies f(x) = O(g(x))$ but $f(x) = O(g(x)) \centernot\implies f(x) = o(g(x))$
 
       E.g. $f(x) = 2x = O(x)$ as $x \to 0$ but $f(x) \neq o(x)$ because $\lim_{x \to 0} 2x/x = 2$.
     \item Constants don't matter. If $f(x) = O(g(x))$ then $af(x) = O(g(x))$ and $f(x) = O(ag(x))$ for any non-zero constant $a$.
-  \end{itemize} 
+  \end{itemize}
 \end{remark}
 Order parameters are useful to classify remainder terms before taking limits.
 \begin{proposition}
@@ -136,7 +135,7 @@ We can introduce some rules of differentiation to make it easier to differentiat
 \begin{theorem}[Chain Rule]
  If $f(x) = F(g(x))$, then:
  \[
-   \deriv{f}{x} = F'(g(x))\deriv{g}{x} = \at{\deriv{F}{g}}{g(x)} \at{\deriv{g}{x}}{x}
+   \deriv{f}{x} = F'(g(x))\deriv{g}{x} = \deriv{F}{g} \deriv{g}{x}
  \]
 \end{theorem}
 \begin{proof}
@@ -159,7 +158,7 @@ We can introduce some rules of differentiation to make it easier to differentiat
   If $f(x) = u(x)v(x)$, then:
   \[
     \deriv{f}{x} = v \deriv{u}{x} + u \deriv{v}{x}
-\]
+  \]
 \end{theorem}
 If we replace $v \mapsto v^{-1}$ and also apply the chain rule then we get the quotient rule:
 \[

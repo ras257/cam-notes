@@ -59,7 +59,7 @@ Generally speaking, partial derivatives are the derivatives of a multivariate fu
 \end{remark}
 \begin{remark}[Alternative Notation]
   \[
-    f_x \equiv \pderiv{f}{x}, f_{xy} \equiv \frac{\partial^2 f}{\partial y \partial x}
+    f_x \equiv \pderiv{f}{x}, f_{xy} \equiv (f_x)_y \equiv \frac{\partial^2 f}{\partial y \partial x}
   \]
   In the second case the derivative with respect to $x$ is carried out \textbf{first}.
 \end{remark}
@@ -117,7 +117,7 @@ If we instead parametrise the path by the $x$ coordinate then:
 \]
 \begin{theorem}[Integral Form of the Multivariate Chain Rule]
   \[
-    \Delta f = \int  \d{f} = \int \deriv{f}{x} \d{x} + \int \pderiv{f}{y} \d{y}
+    \Delta f = \int  \d{f} = \int \pderiv{f}{x} \d{x} + \int \pderiv{f}{y} \d{y}
     \label{multiChainRule}
   \]
   Where $\Delta f$ is the change in $f$ between the endpoints of the path.

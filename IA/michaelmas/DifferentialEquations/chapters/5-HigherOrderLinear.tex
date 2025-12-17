@@ -79,6 +79,13 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
     \]
     So $y_{c_1}$ and $y_{c_2}$ for a \textit{basis} for the space of solutions for the homogeneous equation.
     Note that if the roots are complex, we get oscillatory behaviour.
+
+    \begin{remark}
+      If the roots of the characteristic equation are $\pm k \in \R$, it is often advisable to use the general form:
+      \[
+        y_c = A\cosh kx + B \sinh kx
+      \]
+    \end{remark}
   \end{case}
   \begin{case}{$\lambda = \lambda_2$ -- Degenerate Case}
     So now we have only one linearly independent complimentary function of the form $e^{\lambda_1 x}$.
@@ -185,7 +192,7 @@ If $y_2$ satisfies the original ODE then we require that:
   v''y_1 + v'(2y_1' + py_1) + v(\underbrace{y_1'' + py_1' + qy_1}_{0}) &= 0 \\
   v''y_1 + v'(2y_1' + py_1) &= 0
 \end{align*}
-We can then let $u = y'$ to reduce the order of the DE:
+We can then let $u = v'$ to reduce the order of the DE:
 \[
   u'y_1 + u(2y_1' + py_1) = 0
 \]
@@ -220,7 +227,7 @@ We can then, in theory, integrate this expression for $u(x)$ to obtain $v(x)$.
 \label{phaseSpaceSec}
 The general form of an $n$-th order linear ODE is:
 \[
-  y^{(n)} + p(x)y^{(n-1)} + \cdots + q(x)y = f(x)
+  y^{(n)} + p_1(x)y^{(n-1)} + \cdots + p_n(x)y = f(x)
 \]
 This means that $y^{(n)}$ is determined by $y^{(0)}, \ldots, y^{(n-1)}$.
 When we differentiate the equation, we see that higher order derivatives can also be determined by $y^{(0)}, \ldots, y^{(n-1)}$.
@@ -778,12 +785,17 @@ For convenience, we introduce a dimensionless time coordinate:
 \[
   \tau = \omega_0t \implies \deriv{y}{t} = \omega_0 \deriv{y}{\tau}
 \]
-We then get:
+So the differential equation becomes:
+\begin{align*}
+  m\omega^{2}_{0}\underbrace{y''}_{\deriv[2]{y}{\tau}} + b\omega_0 y' + ky &= F\left(\frac{\tau}{\omega_0}\right) \\
+  y'' + \frac{b}{m \omega_0}y' + y &= \underbrace{f(\tau)}_{\frac{F(t)}{k}}
+\end{align*}
+We then let $\kappa = \frac{b}{2m\omega_0}$ to yield:
 \[
-  \underbrace{y''}_{\deriv[2]{y}{\tau}} + \underbrace{2\kappa}_{=\frac{b}{m\omega_0}}y' + y = \underbrace{f(\tau)}_{=\frac{F(t)}{k}}
+  y'' + 2\kappa y' + y = f(\tau)
 \]
 \subsection{Free Response}
-The behaviour is described by one dimensionless parameter $\kappa$:
+The behaviour is described by a single dimensionless parameter $\kappa$:
 \[
   y'' + 2\kappa y' + y = 0
 \]
@@ -853,7 +865,7 @@ This has constant coefficients so we have characteristic equation:
     \[
       y(\tau) = Ae^{-|\lambda_1|\tau} + Be^{-|\lambda_2|\tau}
     \]
-    Since $|\lambda_1| > |\lambda_2|$, the first term dominates the long term behaviour provided $A \neq 0$.
+    Since $|\lambda_1| < |\lambda_2|$, the first term dominates the long term behaviour provided $A \neq 0$.
     \begin{center}
     \begin{tikzpicture}
       \draw[->] (0, 0) -- (10, 0) node[right] {$\tau$};
@@ -1091,7 +1103,7 @@ So we then have:
 This is known as the \textit{jump condition}.
 \begin{remark}[Note]
   The continuity of $y$ at $x = 0$ is required otherwise $y'$ is undefined at $x = 0$.
-  We would have $y' \propto \delta(x)$ with $y''$ being even worse behaved.
+  We would then have $y' \propto \delta(x)$ with $y''$ being even worse behaved so it would not be possible for it to be a solution to the DE.
   (Further discussion on this later)
 \end{remark}
 In general, the highest-order term in the ODE ``addresses'' the delta function forcing as all the lower order terms must be finite (else we would run into the issues described above) so will vanish in the limit.
@@ -1156,7 +1168,7 @@ In general, the highest-order term in the ODE ``addresses'' the delta function f
 \begin{definition}[Heaviside Step Function]
   The \textit{Heaviside} step function is defined by:
   \[
-    H(x) = \int_{-\infty}^{x} \delta(x') \d{x'}
+    H(x) = \int_{-\infty}^{x} \delta(t) \d{r}
   \]
 \end{definition}
 From the properties of the Dirac delta, it follows that:
@@ -1236,14 +1248,37 @@ So if $y'' \sim H(x)$ around $x = 0$ and both $y$ and $y'$ are continuous at $x 
 Therefore, the jump conditions for the Heaviside function are:
 \[
   \lim_{\varepsilon \to 0^{+}} \eval{y'}{-\varepsilon}{\varepsilon} = 0 \text{ and }
-  \lim_{\varepsilon \to 0^{+}} \eval{y''}{-\varepsilon}{\varepsilon} = 0
+  \lim_{\varepsilon \to 0^{+}} \eval{y}{-\varepsilon}{\varepsilon} = 0
 \]
-That is, we require that both $y$ and $y'$ are continuous at $x = 0$.
+That is, we require that both $y'$ and $y$ are continuous at $x = 0$.
 
 Typically, we are told that $y = 0$ for $x < 0$.
 We then solve for $x > 0$ and get a solution with two arbitrary constants and determine these by matching $y$ and $y'$ at $x = 0$.
 Sometimes we instead solve in $x > 0$ and $x < 0$ and then match at $x = 0$.
+\subsection{General Method for Heaviside and Delta Forcing}
+The highest order derivative ``inherits'' the discontinuity of the forcing term.
+This is is because if a lower order derivative had such a discontinuity, any higher order derivatives would have a more extreme discontinuities as differentiating makes functions less smooth in general.
+This would mean that the discontinuities on one side of the equation would be more extreme than in the forcing term, so it would not be possible for it to satisfy the DE.
 
+For example in the ODE:
+\[
+  y'' + 3y' + 2y = \delta(x)
+\]
+we expect $y'' \sim \delta(x)$ around $x = 0$ and, since integrating makes functions more smooth in general, we expect $y' \sim H(x)$ around $x = 0$ and expect $y$ to be continuous at $x = 0$.
+\[
+  \delta(x) \xrightarrow{\text{Integrating}} H(x) \xrightarrow{\text{Integrating}} \text{continuous}
+\]
+However in the ODE:
+\[
+  y' + 2y = \delta(x)
+\]
+we expect $y' \sim \delta(x)$ and $y \sim H(x)$ around $x = 0$.
+
+To derive the exact jump conditions try integrating over the discontinuity from $T - \varepsilon$ to $T + \varepsilon$ and then taking the limit as $\varepsilon \to 0^+$.
+For Heaviside forcing, also try evaluating both sides of the DE between $T - \varepsilon$ and $T + \varepsilon$ and then taking the limit as $\varepsilon \to 0^+$.
+
+Then solve the ODE in all cases of the forcing function, remembering to use different constants for each discontinuous piece.
+Finally, apply boundary and jump conditions, verifying that the final solution has the expected discontinuities/is continuous.
 \section{Higher Order Discrete Equations}
 Consider a linear, discrete, 2nd order equation with constant coefficients:
 \[
