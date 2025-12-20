@@ -483,7 +483,8 @@ The first of which is a basic fact from Euclidean geometry.
 \begin{proof}
   Proceed by contradiction.
   Suppose $f(y) \neq y$ for some $y \in X$.
-  Then:
+
+  We have:
   \begin{align*}
     |f(y) - x_i| &= |f(y) - f(x_i)| \text{ by hypothesis} \\
                  &= |y - x_i| \text{ since $f$ is an isometry}
@@ -492,8 +493,9 @@ The first of which is a basic fact from Euclidean geometry.
 
   Now by \cref{kiteLemma} (Kite Lemma), with $y_1 = y$ and $y_2 = f(y)$. $x_2 - x_1$ is perpendicular to $y_2 - y_1 = f(y) - y$.
   But similarly using \cref{kiteLemma} again, $x_3 - x_1$ is perpendicular to $f(y) - y$.
-  So both $x_2 - x_1$ and $x_3 - x_1$ are perpendicular to the same thing.
-  Hence $x_1, x_2, x_3$ are collinear which contradicts the hypothesis.
+  So both $x_2 - x_1$ and $x_3 - x_1$ are perpendicular to $f(y) - y$.
+  Since $f(y) \neq y$, this is non-zero so $x_1, x_2, x_3$ are collinear which contradicts the hypothesis.
+  Therefore we must have $f(x) = x$ for all $x \in X$.
 \end{proof}
 \begin{remark}
   There is equally an $n + 1$ point lemma which is valid in $\R^{n}$.

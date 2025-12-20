@@ -3,7 +3,7 @@
 \chapter{Homomorphisms}
 \section{Homomorphisms}
 Some groups are not literally (i.e. set-theoretically) \textit{equal} but, nevertheless \textit{share the same structure}.
-For example $\Sym\{\text{Deck of Cards}\}$ and $\Sym\{\text{52 people}\}$.
+For example $\Sym(\{\text{Deck of Cards}\})$ and $\Sym(\{\text{52 people}\})$.
 \begin{definition}[Homomorphims]
   A \textit{homomorphism} is a map between groups, $\phi: G \to H$, that preserves the group structure, that is:
   \[
@@ -388,6 +388,7 @@ In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y
       \begin{align*}
         \phi(r^{k}s)\phi(r^{l}) &= a^{k} b a^{l} \\
                                 &= a^{k - l} b \text{ (as $ba^{l} = a^{-l}b$)}\\
+                                &= a^{k +_n (-l)} \\
                                 &= \phi(r^{k - l} s) \\
                                 &= \phi(r^{k}s r^{l}) \text{ (as $r^{-l}s = sr^{l}$)}
       \end{align*}
@@ -398,6 +399,7 @@ In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y
         \phi(r^{k}s)\phi(r^{l}s) &= a^{k} b a^{l}b \\
                                  &= a^{k - l} b^2 \text{ (as $ba^{l} = a^{-l}b$)}\\
                                  &= a^{k - l} \text{ (as $b^2 = e$)}\\
+                                 &= a^{k +_n (-l)} \\
                                  &= \phi(r^{k - l}) \\
                                  &= \phi(r^{k - l} s s) \text{ (as $s^2 = e$)}\\
                                  &= \phi(r^{k} s r^{l} s) \text{ (as $r^{-l}s = sr^{l}$)}

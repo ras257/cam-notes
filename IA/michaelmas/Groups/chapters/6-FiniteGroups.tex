@@ -1,6 +1,6 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-\chapter{Finite Groups}
+\chapter{Small Finite Groups}
 We have already seen some nice theorems about finite groups:
 \begin{itemize}
   \item Lagrange's Theorem
@@ -110,8 +110,8 @@ The direct product is useful for investigating this.
 \begin{remark}
   In particular, if $|H_1||H_2| = |G|$, then $H_1 \cap H_2 = \{e\} \implies G = H_1 H_2$.
 
-  This is because $H_1 \cap H_2 = \{e\} \implies |H_1||H_2| = |H_1H_2| = |G|$ and, since $H_1, H_2 \leq G$ we must have $H_1H_2 \leq G$.
-  So $H_1H_2 \leq G$ and $|H_1H_2| = |G|$, thus $G = H_1 H_2$.
+  This is because $H_1 \cap H_2 = \{e\} \implies |H_1||H_2| = |H_1H_2| = |G|$ and, since $H_1, H_2 \leq G$ we must have $H_1H_2 \subseteq G$.
+  So $H_1H_2 \subseteq G$ and $|H_1H_2| = |G|$, thus $G = H_1 H_2$.
 \end{remark}
 \begin{lemma}[Groups of Order 4]
   If $|G| = 4$, then either:
@@ -163,6 +163,7 @@ Another nice application of the direct product theorem is to figure out when a p
     \item $C_{nm}$ is abelian so \textbf{ii} is immediate.
     \item $|C_n||C_m| = nm = |C_{nm}|$ so by the remark and \textbf{i}, \textbf{iii} holds.
   \end{enumerate}
+  Therefore by \cref{directProductTheorem}, $C_{nm} \cong C_m \times C_n$.
 \end{proof}
 \begin{lemma}[Groups of Order 6]
   \label{groupsOfOrder6}
@@ -387,8 +388,7 @@ We already know the following groups of order 8:
       \end{proofcases}
     \end{case}
     \begin{case}{$b^2 = a^3$}
-      So $b^2 = a^{-1}$, $|a^{-1}| = |a| = 4$, therefore $|b| = 8$.
-      Again, we must have $G \cong C_8$ \tick
+      So $b^2 = a^{-1}$, $|a^{-1}| = |a| = 4$, therefore $|b| = 8$ which is a contradiction.
     \end{case}
   \end{proofcases}
   So in all valid cases $G$ is isomorphic to exactly one of the groups in our list.

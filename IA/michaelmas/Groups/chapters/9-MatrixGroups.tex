@@ -312,9 +312,9 @@ Furthermore, since we know that there are orthogonal matrices with $\det A = -1$
 Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminus \SO(n)$, are provided by \textit{reflections}.
 \subsection{Reflections and Rotations}
 \begin{definition}[Reflections]
-  Any $v \in \R^{n} \setminus \{\vec{0}\}$ defines an \textit{orthogonal plane}:
+  Any $\vec{v} \in \R^{n} \setminus \{\vec{0}\}$ defines an \textit{orthogonal plane}:
   \[
-    \vec{v}^{\perp} = P_{\vec{v}} = \{x \in \R^{n}: \vec{x} \cdot \vec{v} = 0\}
+    P_{\vec{v}} = \{x \in \R^{n}: \vec{x} \cdot \vec{v} = 0\}
   \]
   The \textit{reflection} in the plane $P_{\vec{v}}$ is defined to be:
   \[
@@ -414,7 +414,7 @@ Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminu
     Since orthogonal transformations preserve the dot product, so the plane $P_{\vec{e}_n}$ orthogonal to $\vec{e}_n$ must also be preserved.
     The plane $P_{\vec{e}_n} = \R^{n - 1} \times \{0\}$ as it is just all the vectors where the $n$-th component is 0.
 
-    If we restrict $S_{\vec{v}}A$ to $P_{\vec{e}_n}$, it is still an orthogonal transformation, so, by the induction hypothesis, there exists $\vec{v}_1, \ldots, \vec{v}_{n - 1} \in \R^{n - 1}$ such that:
+    If we restrict $S_{\vec{v}}A$ to $P_{\vec{e}_n}$, it is still an orthogonal transformation, so, by the induction hypothesis, there exists $\vec{v}_1, \ldots, \vec{v}_{n - 1} \in \R^{n - 1} \setminus \{\vec{0}\}$ such that:
     \[
       S_{\vec{v}}A = S_{\vec{v}_1} \cdots S_{\vec{v}_{n - 1}} \text{ on }\R^{n - 1}
     \]
@@ -450,12 +450,10 @@ Orthogonal transformations are especially easy to analyse in low dimensions.
       Suppose that some $\vec{x} \neq \vec{0}$ is fixed by $A$.
       That is:
       \[
-        S_{\vec{u}}S_{\vec{v}}\vec{x} = \vec{x} \iff S_{\vec{u}} \vec{x} = S_{\vec{v}}\vec{x}
+        S_{\vec{u}}S_{\vec{v}}\vec{x} = \vec{x} \iff S_{\vec{u}} \vec{x} = S_{\vec{v}}\vec{x} \iff (\vec{x} \cdot \vec{u})\vec{u} = (\vec{x} \cdot \vec{v})\vec{v}
       \]
-      We see that $\vec{v}$ is parallel to $\vec{x} - S_{\vec{v}}\vec{x}$ and $\vec{u}$ is parallel to $\vec{x} - S_{\vec{u}}\vec{x}$.
-      Note that $\vec{x} - S_{\vec{v}}\vec{x}$ and $\vec{x} - S_{\vec{v}}\vec{x}$ cannot both be 0 as the only point on both the planes $P_{\vec{u}}$ and $P_{\vec{v}}$ is $\vec{0}$.
-      However, $\vec{x} - S_{\vec{u}}\vec{x} = \vec{x} - S_{\vec{v}}\vec{x}$ so $\vec{u}$ and $\vec{v}$ are parallel to the same non-zero vector and therefore $\vec{u}$ and $\vec{v}$ are parallel, which is a contradiction.
-      Hence $A$ only fixes $\vec{0}$ as claimed and so is a rotation.
+      However, since $\vec{x}, \vec{u}, \vec{v}$ are non-zero, we conclude that $\vec{u}$ and $\vec{v}$ are parallel which is a contradiction.
+      Hence $A$ only fixes $\vec{0}$ as claimed and so is a rotation about the origin.
   \end{enumerate}
 \end{proof}
 \begin{remark}
@@ -492,13 +490,13 @@ Orthogonal transformations are especially easy to analyse in low dimensions.
   Both reflections fix their corresponding plane so the composition must fix their intersection thus $A$ must fix $\ell$.
 
   For $A$ to be a non-identity rotation, it must fix \textbf{only} the line $\ell$.
-  Suppose some $\vec{x}$ not on $\ell$ is fixed by $A$, that is:
+  Suppose some $\vec{x} \notin \ell$ is fixed by $A$, as in the previous lemma, that is:
   \[
-    S_{\vec{u}}S_{\vec{v}}\vec{x} = \vec{x} \iff S_{\vec{u}}\vec{x} = S_{\vec{v}}\vec{x}
+    S_{\vec{u}}S_{\vec{v}}\vec{x} = \vec{x} \iff S_{\vec{u}} \vec{x} = S_{\vec{v}}\vec{x} \iff (\vec{x} \cdot \vec{u})\vec{u} = (\vec{x} \cdot \vec{v})\vec{v}
   \]
-  Arguing as in the previous lemma, $\vec{v}$ is parallel to $\vec{x} - S_{\vec{v}}\vec{x}$ and $\vec{u}$ is parallel to $\vec{x} - S_{\vec{u}}\vec{x}$.
-  Note that $\vec{x} - S_{\vec{v}}\vec{x}$ and $\vec{x} - S_{\vec{v}}\vec{x}$ cannot both be $\vec{0}$ as the only points on both the planes $P_{\vec{u}}$ and $P_{\vec{v}}$ is the line $\ell$.
-  However, $\vec{x} - S_{\vec{u}}\vec{x} = \vec{x} - S_{\vec{v}}\vec{x}$ so $\vec{u}$ and $\vec{v}$ are both parallel to the same non-zero vector and therefore $\vec{u}$ and $\vec{v}$ are parallel, which is a contradiction.
+  Since $x \notin \ell = P_{\vec{u}} \cap P_{\vec{v}}$, at least one of $\vec{x} \cdot \vec{u}$ and $\vec{x} \cdot \vec{v}$ must be non-zero.
+  If exactly one is non-zero then either $\vec{u} = \vec{0}$ or $\vec{v} = \vec{0}$, which is a contradiction.
+  Thus both must be non-zero so we conclude that $\vec{u}$ and $\vec{v}$ are parallel which is a contradiction.
   Hence $A$ only fixes the line $\ell$ and therefore must be a rotation with axis $\ell$.
 \end{proof}
 \end{document}

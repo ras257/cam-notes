@@ -126,13 +126,12 @@ where the tetrahedron is centered on the origin.
 \end{lemma}
 \begin{proof}
   Since $|S_n : H| = 2$, by \cref{quotientExamples}, we see that $H \lhd S_n$ and $S_n / H \cong C_2$.
-  We therefore have a homomorphism:
+  We therefore have a surjective homomorphism:
   \[
     \theta: S_n \to C_2 = \{\pm 1\}
   \]
   with $\ker \theta = H$.
-  This must be surjective as otherwise $\ker \theta = H = S_n$ which contradicts $|S_n : H| = 2$.
-  So we must have some element that is mapped to $-1$.
+  Since it is surjective, we must have some element that is mapped to $-1$.
   Since transpositions generate $S_n$ (\cref{transpositionsGenerate}), we can write the image of each element as a product of the images of transpositions.
   This must be $-1$ for some element of $S_n$ so there must be some transposition $\tau_0$ such that $\theta(\tau_0) = -1$.
 
@@ -282,7 +281,7 @@ Therefore:
   60 = |G_0| \geq |\im \theta| \geq |A_5| = 60
 \]
 Since this is a chain of inequalities starting an with equality at either end, all the inequalities must be equalities and thus $|G| = |\im \theta| = |A_5|$.
-Therefore $\theta$ is an isomorphism between $G_0$ and $A_5$ so $G_0 \cong A_5$.
+Therefore, if we restrict the codomain of $\theta$ to its image, we get an isomorphism between $G_0$ and $A_5$ so $G_0 \cong A_5$.
 \subsection{Full Symmetry Group}
 Similarly to with the cube and octahedron in \cref{cubeFullSymmetry}, $-I \in G$ is a symmetry of the dodecahedron that commutes with everything in $G_0$ so we have:
 \[

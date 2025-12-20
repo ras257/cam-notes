@@ -13,7 +13,7 @@ It is \textit{almost} a group of bijections of $\C$ \textbf{but} we need to add 
 \end{definition}
 We define $\pi(z)$ to be the \textit{stereographic projection} of $z \in \C$ onto $S^2$ (The unit sphere).
 If we draw a line through $z$ and the north pole, this line will intersect the sphere exactly once, this is $\pi(z)$.
-The stereographic projection identified $\C$ with all the points of the sphere except the north pole, which we define to be $\infty$.
+The stereographic projection identifies $\C$ with all the points of the sphere except the north pole, which we define to be $\infty$.
 \begin{definition}[M\"obius Transform]
   Let $a, b, c, d \in \C$ such that $ad - bc \neq 0$.
   The \textit{m\"obius transform}, $\mu: \Cinf \to \Cinf$ is defined as:
@@ -170,7 +170,7 @@ One important way to study M\"obius transforms is via their fixed points.
         \iff az + b = cz^2 + dz \\
         \iff cz^2 + (d - a)z - b = 0
       \]
-      Since $c \neq 0$, this is a quadratic so has either one repeated or two distinct complex roots.
+      This is a quadratic so has at least 2 roots.
       Note that $z = -\frac{d}{c}$ cannot be a root otherwise we would have:
       \begin{align*}
         c\left(-\frac{d}{c}\right)^2 + \left(-\frac{d}{c}\right)(d-a) - b &= 0 \\
@@ -368,7 +368,9 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
       which is a circle.
     \end{case}
     \begin{case}{$C$ is a line}
-      If $C$ is a Euclidean line, then $\gamma(C)$ has equation:
+      So $C = l \cup \{\infty\}$.
+      We first consider the euclidean line $l \subseteq \C$.
+      $\gamma(l)$ has equation:
       \begin{align*}
         \abs{\frac{1}{z} - a} &= \abs{\frac{1}{z} - b} \\
         \abs{\frac{1}{z} - a}^2 &= \abs{\frac{1}{z} - b}^2 \\
@@ -397,6 +399,9 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
         \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}} &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
       \end{align*}
       which is a circle.
+
+      In both cases $\gamma(l)$ is a euclidean circle.
+      Finally, $\gamma(\infty) = 0$ which is on the circle in both cases.
     \end{case}
   \end{proofcases}
   In all cases, $\gamma$ sends generalised circles to generalised circles.
@@ -418,7 +423,7 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
     But the only circle containing $0, 1, \infty$ is the line $\R \cup \{\infty\}$ so $\alpha(z_4) \in \R \cup \{\infty\}$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $\alpha(z_4) \in \R \cup \{\infty\}$}
-    If $\alpha(z_4) \in \R \cup \{\infty\}$, which we know is a circle that $0, 1, \infty$ lie on.
+    $\alpha(z_4) \in \R \cup \{\infty\}$, which we know is a circle that $0, 1, \infty$ lie on.
     Therefore:
     \[
       z_1, \ldots, z_4 \in \alpha^{-1} (\R \cup \{\infty\})

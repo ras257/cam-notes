@@ -189,7 +189,7 @@ We often omit singletons so a $(3, 2, 1)$-cycle is also referred to as a $(3, 2)
 \end{definition}
 \begin{theorem}[Transpositions Generate]
   \label{transpositionsGenerate}
-  The set of transpositions generates $S_n$ for any finite $n$.
+  The set of transpositions generates $S_n$ for any finite $n \geq 2$.
 \end{theorem}
 \begin{proof}
   \induction
@@ -424,7 +424,7 @@ Conjugacy in $S_n$ is surprisingly simple.
     \[
       \sigma_2 = \cycle{b^{1}_{1} {\cdots} b^{1}_{l_1}} \cdots \cycle{b^{k}_{l} {\cdots} b^{k}_{l_k}}
     \]
-    where $b^{i}_{j} = \tau(a^{i}_{j})$ for all $1 \leq i \leq k$ and $i \leq j \leq l$.
+    where $b^{i}_{j} = \tau(a^{i}_{j})$ for all $1 \leq i \leq k$ and $1 \leq j \leq l_i$.
     Therefore, $\sigma_1$ and $\sigma_2$ are both $(l_1, \ldots, l_k)$-cycles.
   \end{proofdirection}
 \end{proof}
@@ -441,7 +441,7 @@ This makes it easy to count conjugacy classes in $S_n$.
   This involves picking 2 numbers from 3 numbers so there is exactly $\binom{3}{2} = 3$ ways of doing this so $|\ccl_{S_3}\cycle{1 2}| = 3$.
 
   To find $|\ccl_{S_3}\cycle{1 2 3}|$, consider constructing a 3-cycle.
-  There are 3 options for the first element, 2 for the second element and then 1 for the third element so $|\ccl_{S_3} = 2 \cdot 1 =2|$
+  There are 3 options for the first element, 2 for the second element and then 1 for the third element so $|\ccl_{S_3}\cycle{1 2 3}| = 2 \cdot 1 = 2$
 \end{example}
 \begin{example}[A Conjugacy Class in $S_4$]
   Suppose we want to compute the size of the conjugacy class of $(2, 2)$-cycles in $S_4$.
@@ -507,7 +507,7 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
       \[
         \ccl_{S_n}(\gamma) = \ccl_{A_n}(\gamma) \cup \ccl_{A_n}(\tau \gamma \tau^{-1})
       \]
-      where $\tau$ is some odd element of $S_n$ (e.g. a transposition).
+      where $\tau$ is any odd element of $S_n$ (e.g. a transposition).
   \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -523,7 +523,7 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
   \end{equation}
   We also have that:
   \[
-    C_{A_n}(\gamma) = \ker(\sign |_{C_{S_n}(\gamma)}: C_{S_n(\gamma)} \to C_2)
+    C_{A_n}(\gamma) = \ker(\sign |_{C_{S_n}(\gamma)}: C_{S_n}(\gamma) \to C_2)
   \]
   that is, $C_{A_n}(\gamma)$ is the kernel of the sign function restricted to $C_{S_n}(\gamma)$.
   The image has either size 1, if the elements of $C_{S_n}(\gamma)$ are all even, or 2, if the some of the elements are odd.
@@ -552,7 +552,7 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
       \]
       So $\ccl_{A_n}(\gamma)$ is half as big.
 
-      Now consider an odd permutation $\tau \in S_n$.
+      Now consider transposition $\tau \in S_n$, which is an odd permutation.
       Note that $\tau \gamma \tau^{-1} \in \ccl_{S_n}(\gamma)$.
       Suppose that $\tau \gamma \tau^{-1} \in \ccl_{A_n}(\gamma)$ then:
       \[
@@ -569,6 +569,10 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
       So it follows that $C_{S_n}(\gamma)$ was split into $\ccl_{A_n}(\gamma)$ and $\ccl_{A_n}(\tau \gamma \tau^{-1})$
   \end{enumerate}
 \end{proof}
+\begin{remark}
+  In the case where the conjugacy class splits, we know that $|\ccl_{S_n}(\gamma)| = 2 |\ccl_{A_n}(\gamma)|$.
+  This means that if $|\ccl_{S_n}(\gamma)|$ is odd, then the conjugacy class cannot split.
+\end{remark}
 This makes it possible to determine conjugacy classes in $A_n$.
 \subsection{Examples for Small Alternating Groups}
 \begin{example}[Conjuacy Classes in $A_4$]
@@ -650,8 +654,8 @@ This makes it possible to determine conjugacy classes in $A_n$.
   \label{A5Simple}
 \end{theorem}
 \begin{proof}
-  Suppose $N \lhd A_5$.
-  By Sheet 3 Q5 (or the definition), $N$ is a union of conjugacy classes in $A_5$.
+  Suppose $H \lhd A_5$.
+  By Sheet 3 Q5 (or the definition), $H$ is a union of conjugacy classes in $A_5$.
   Since conjugacy classes are disjoint, the possible orders are then:
   \begin{center}
   \begin{tabular}{l|c}
