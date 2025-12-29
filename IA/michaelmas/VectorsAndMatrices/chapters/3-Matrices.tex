@@ -40,13 +40,17 @@
     Therefore there exists, $\vec{u}, \vec{v} \in V$ such that $T(\vec{u}) = \vec{u}'$ and $T(\vec{v}) = \vec{v}'$.
     For any scalars $\lambda, \mu$ we have that $\lambda \vec{u} + \mu \vec{v} \in V$ so $T(\lambda \vec{u} + \mu \vec{v}) \in \im T$.
     By linearity, $T(\lambda \vec{u} + \mu \vec{v}) = \lambda \vec{u}' + \mu \vec{v}'$.
-    Thus $\lambda \vec{u}' + \mu \vec{v}' \in \im T$ and $\im T \subseteq W$ so $\im T$ is a subspace of $W$.
+    Thus $\lambda \vec{u}' + \mu \vec{v}' \in \im T$.
+    Furthermore, $T(\vec{0}) = \vec{0}$ so $\im T$ is non-empty.
+    Finally, $\im T \subseteq W$ so $\im T$ is a subspace of $W$.
   \item Let $\vec{u}, \vec{v} \in \ker T$. Therefore $T(\vec{u}) = T(\vec{v}) = \vec{0}$.
     Consider for any scalars $\lambda, \mu$:
     \[
       T(\lambda \vec{u} + \mu \vec{v}) = \lambda T(\vec{u}) + \mu T(\vec{v}) = \vec{0}
     \]
-    Thus $\lambda \vec{u} + \mu \vec{v} \in \ker T$ and $\ker T \subseteq V$ so $\ker T$ is a subspace of $V$.
+    Thus $\lambda \vec{u} + \mu \vec{v} \in \ker T$.
+    $\ker T$ is also non-empty as $\vec{0} \in \ker T$.
+    Finally, $\ker T \subseteq V$ so $\ker T$ is a subspace of $V$.
 \end{enumerate}
 \end{proof}
 \begin{definition}[Rank]
@@ -135,8 +139,8 @@ This composition is also a linear map, defined by:
 \[
   (T \circ S)(\vec{x}) = T(S(\vec{x}))
 \]
-\begin{theorem}[Rank-nullity Theore]
-  For a linear map $T: V \to W$ then:
+\begin{theorem}[Rank-nullity Theorem]
+  If $T: V \to W$ is a linear map, then:
   \[
     \label{rankNullity}
     \rank T + \nullity T = \dim V
@@ -496,7 +500,7 @@ To find the image of $\vec{x}_{\perp}$, consider the plane passing through the o
 \node at (0.35,0.15) {$\theta$};
 \end{tikzpicture}
 \end{center}
-We get $(\sin \theta)(\vec{n} \times \vec{x})$ as $|\vec{x}_{\perp}| = |\vec{n} \times \vec{x}|$ (consider the projection of $\vec{x}$ onto the plane orthogonal to $\vec{n}$) and $\vec{n} \times \vec{x}$ is orthogonal to $\vec{x}_{\perp}$ and lies in the plane.
+We get $(\sin \theta)(\vec{n} \times \vec{x})$ as $|\vec{x}_{\perp}| = |\vec{n} \times \vec{x}|$ (See \cref{vectorProdRotate}) and $\vec{n} \times \vec{x}$ is orthogonal to $\vec{x}_{\perp}$ and lies in the plane.
 
 Therefore:
 \[
@@ -601,7 +605,7 @@ Note that $S\vec{a} = \vec{a}$, $S\vec{b} = \vec{b} + \lambda \vec{a}$, and $S\v
     \{\vec{f}_1, \ldots, \vec{f}_m\} \text{ for $W$}
   \]Then $T$ can be represented by the \textit{matrix} $M$, which is an \textit{$m \times n$ array} with entries $M_{i j} \in \R \text{ or }\C$ for rows $i = 1, \ldots, m$ and columns $j = 1, \ldots, n$.
 
-  We define:
+  We define the matrix components to be the $M_{i j}$ such that:
   \[
     T(\vec{e}_j) = \sum_{i} M_{i j}\vec{f}_i
   \]
@@ -781,7 +785,7 @@ Let:
   \{\vec{f}_1, \ldots, \vec{f}_m\}& \text{ be a basis for $W$, $\dim W = m$} \\
   \{\vec{g}_1, \ldots, \vec{g}_l\}& \text{ be a basis for $U$, $\dim U = l$}
 \end{align*}
-The matrix $L$ has coefficients given by:
+The matrix $L$ then has coefficients given by:
 \[
   L_{i k} = M_{i j}N_{j k}
 \]
@@ -1031,7 +1035,7 @@ and from this, $U$ preserves norms and angles.
 \end{definition}
 Equivalently, $U$ is unitary if and only if it preserves inner products:
 \[
-  (U\vec{z})^{\dag} \cdot (U\vec{w}) = \vec{z}^{\dag} \vec{w}
+  (U\vec{z}, U\vec{w}) = (U\vec{z})^{\dag} (U\vec{w}) = \vec{z}^{\dag} \vec{w}
 \]
 \begin{example}[Orthogonal Matrices in $\R^2$]
   \label{orthoExampleR2}
@@ -1943,11 +1947,7 @@ If there is a such a solution we have:
   \iff& A\vec{x} - A\vec{x}_0 = \vec{0} \\
   \iff& A(\vec{x} - \vec{x}_0) = \vec{0}
 \end{align*}
-So $\vec{x}$ is also solution if and only if:
-\[
-  \vec{u} = \vec{x} - \vec{x}_0
-\]
-satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$.
+So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$ ($\vec{u} \in \ker A$).
 \begin{proofcases}
   \begin{case}{$\det A \neq 0$}
     Recall that the image of a matrix is the span of its columns and the determinant is zero if and only if its columns are linearly independent.
@@ -2216,7 +2216,7 @@ Each of these equations describes a plane that passes through $\vec{0}$ with nor
 Then, the solution of $A \vec{u} = 0$, which is $\ker A$, is the intersection of the three planes.
 \begin{proofcases}
   \begin{case}{$\rank A  = 3$}
-    $\rank A = 3 \iff \nullity = 0$ so $\ker A = \vec\{\vec{0}\}$.
+    $\rank A = 3 \iff \nullity = 0$ so $\ker A = \{\vec{0}\}$.
     The normals are linearly independent and the planes only all intersect at $\vec{0}$.
   \end{case}
   \begin{case}{$\rank A = 2$}
@@ -2277,15 +2277,14 @@ These are three equations of planes with $\vec{R}_i$ but not necessarily passing
         \begin{tikzpicture}
           \draw[very thick] (0,0) -- (2, 2);
           \draw[very thick] (1,0) -- (3, 2);
-          \draw[very thick] (2.5, 0) -- (0.7, 2);
+          \draw[very thick] (2,0) -- (4, 2);
 
-          \node at (1.4, -0.5) {Two planes parallel};
+          \node at (1.7, -0.5) {All planes parallel};
           \begin{scope}[xshift=5cm]
             \draw[very thick] (0,0) -- (2, 2);
             \draw[very thick] (1,0) -- (3, 2);
-            \draw[very thick] (2,0) -- (4, 2);
 
-            \node at (1.7, -0.5) {All planes parallel};
+            \node at (1.4, -0.5) {All parallel and two coincide};
           \end{scope}
         \end{tikzpicture}
         \end{center}

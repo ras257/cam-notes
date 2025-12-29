@@ -9,7 +9,7 @@
     p(z) = \sum_{j = 0}^{m}  c_jz^{j}
   \]
   where $c_j \in \C$, and $c_m \neq 0$.
-  Then $p(z) = 0$ has precisely $m$ roots (not necessarily distinct) counted with multiplicity in $\C$.
+  Then $p(z) = 0$ has exactly $m$ roots (not necessarily distinct) counted with multiplicity in $\C$.
 \end{theorem}
 \begin{definition}[Multiplicity]
   The root $z = w$ has \textit{multiplicity} $k$ if $(z - w)^{k}$ is a factor of $p(z)$ but $(z - w)^{k + 1}$ is not.
@@ -146,7 +146,7 @@ From this we can conclude the following:
   It is the collection of eigenvectors associated with a particular eigenvalue.
 \end{definition}
 \begin{definition}[Algebraic Multiplicity]
-  The \textit{algebraic multiplicity}, denoted $M(\lambda)$ or $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ in the characteristic polynomial $\chi_A(\lambda)$.
+  The \textit{algebraic multiplicity}, denoted $M(\lambda)$ or $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ in the characteristic polynomial $\chi_A(t)$.
 \end{definition}
 By the fundamental theorem of algebra (\cref{FTA}), if $A$ is an $n \times n$ matrix, then the sum of all the algebraic multiplicities must be $n$. That is:
 \[
@@ -375,7 +375,7 @@ We can now prove \cref{diagonalProp}
   For any matrix $P$:
   \begin{itemize}
     \item $AP$ has columns $A\vec{C}_i(P)$.
-    \item $PD$ has columns $\lambda_i\vec{C}_i(P)$.
+    \item $PD$ has columns $\lambda_i\vec{C}_i(P)$ as $D$ is diagonal.
   \end{itemize}
   where $D$ is a diagonal matrix as in the proposition.
   So $AP = PD \iff A \vec{C}_i(P) = \lambda_i \vec{C}_i(P)\ \forall i = 1, \ldots, n$.
@@ -445,8 +445,8 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   \label{similarProperties}
   If $A$ and $B$ are similar, then:
   \begin{enumerate}
-    \item $\tr A= \tr B$
     \item $\det A = \det B$
+    \item $\tr A= \tr B$
     \item $\chi_A(t) = \chi_B(t)$
   \end{enumerate}
 \end{proposition}
@@ -553,7 +553,7 @@ We can use these relations between similar matrices to provide a proof for \cref
 \begin{remark}
   If $A$ is hermitian, then:
   \[
-    (A \vec{v})^{\dag}\vec{w} = \vec{v}^{\dag}(A\vec{w})
+    (A \vec{v})^{\dag}\vec{w} = \vec{v}^{\dag} A^{\dag} \vec{w} = \vec{v}^{\dag}(A\vec{w})
   \]
 \end{remark}
 \begin{theorem}
@@ -725,7 +725,7 @@ where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of whi
   \begin{align*}
     T(\vec{e}_i') &= \sum_{j} \vec{f}_j' B_{j i} \text{ (by definition of $B$)}\\
                   &= \sum_{j, l} \vec{f}_l Q_{l j}B_{j i} \text{ (by definition of $Q$)}\\
-                  &= \sum_{k, j} \vec{f}_j Q_{j k}B_{k i} \text{ (Relabel $l \mapsto j$, $j \mapsto k$)}
+                  &= \sum_{k, j} \vec{f}_j Q_{j k}B_{k i} \text{ (relabel $l \mapsto j$, $j \mapsto k$)}
   \end{align*}
   We can then compare the coefficients of $\vec{f}_j$ in each expression for $T(\vec{e}_i)$:
   \begin{align*}
@@ -1359,9 +1359,10 @@ so the norm of $\vec{x}$ is calculated the same way in both bases.
   \]
   where $S$ is symmetric and $A$ is antisymmetric.
 
-  Let $k = \vec{x}^{\trans}A\vec{x}^{\trans}$, then:
+  Let $k = \vec{x}^{\trans}A\vec{x}$, then:
   \[
-    k = \vec{x}^{\trans}A\vec{x} = (\vec{x}^{\trans}A^{\trans}\vec{x})^{\trans} = -(\vec{x}^{\trans}A\vec{x})^{\trans} = -k^{\trans} = -k \implies k=\vec{x}^{\trans}A\vec{x}^{\trans} = 0  \]
+    k = \vec{x}^{\trans}A\vec{x} = (\vec{x}^{\trans}A^{\trans}\vec{x})^{\trans} = -(\vec{x}^{\trans}A\vec{x})^{\trans} = -k^{\trans} = -k \implies k=\vec{x}^{\trans}A\vec{x} = 0
+  \]
   So for an antisymmetric matrix $A$, $\vec{x}^{\trans}A\vec{x} = 0$.
   Therefore:
   \[
@@ -1389,7 +1390,7 @@ We now wish to classify solutions of this equation up to \textit{geometrical equ
 \end{itemize}
 If $A$ is invertible, we can ``complete the square'' to simplify the equation.
 Let $\vec{y} = \vec{x} + \frac{1}{2}A^{-1}\vec{b}$.
-Noting that $(A^{-1})^{\trans} = A^{-1}$, we then have:
+Noting that $A^{\trans} = A \implies A^{-1} A^{\trans} = I \implies (A^{-1})^{\trans} = A^{-1}$, we then have:
 \[
   \vec{y}^{\trans} = \vec{x}^{\trans} + \frac{1}{2}\vec{b}^{\trans}A^{-1}
 \]
@@ -1508,7 +1509,7 @@ Quadrics in $\R^2$ are curves called \textit{conics}.
     Where $a$ is the \textit{semi-major axis} and $b$ is the \textit{semi-minor axis}.
 
     Ellipses have \textit{eccentricity}, $e < 1$.
-    For $a > b$, $b^2 = a^2(1 - e^2)$ and they have foci at $x = \pm ae$
+    For $a > b$, $b^2 = a^2(1 - e^2)$ and they have foci at $(\pm ae, 0)$
   \end{case}
   \begin{case}{Parabola}
     Parabola have general equation:
@@ -1572,12 +1573,8 @@ The 4 conic sections (circle, parabola, hyperbola, and ellipse) can be obtained 
   \item Plane \textbf{vertical} $\to$ \textbf{Hyperbola} (only one which intersects both cones simultaneously)
   \item Otherwise $\to$ \textbf{Ellipse}
 \end{itemize}
-Consider the expression for the conic given by:
-\[
-  \frac{x^2}{a^2} + \frac{y^2}{b^2} = k
-\]
 \begin{definition}[Conic Sections]
-  For all \textit{conic sections} or \textit{conics}, we define the following:
+  For all \textit{conic sections} or \textit{conics}, we define the following for a positive real scale parameter $a$:
   \begin{itemize}
     \item The \textit{eccentricity} of a conic is a non-negative parameter $e$.
     \item The \textit{foci} of a conic are at $(\pm ae, 0)$.
@@ -1822,7 +1819,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
         0 & \lambda \\
         \end{pmatrix}
       \]
-      represents $T$ with respect to the basis $\{\vec{u}, \vec{w}\}$.
+      represents $T$ with respect to the basis $\{\vec{u}, \vec{w}\}$ as $A\vec{u} = \lambda \vec{u}$ and $A\vec{w} = \vec{u} + \lambda \vec{w}$.
       Therefore, $B = P^{-1} A P$ where $\vec{u}, \vec{w}$ are the columns of $P$.
       So $A$ is similar to $B$.
   \end{enumerate}
@@ -1837,7 +1834,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
      &  &  & \multicolumn{1}{|c}{J_{n_r}(\lambda_r)} \\
     \end{pmatrix}
   \]
-  where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are the eigenvalues of $A$ and $B$.
+  where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are eigenvalues of $A$ and $B$.
 
   Each \textit{Jordan block} $J_p(\lambda)$ has form:
   \[
@@ -1880,7 +1877,7 @@ Since we are talking about orthogonal matrices instead of unitary matrices, we w
 \begin{definition}[Orthogonal Group]
   The set of orthogonal matrices $R$ of size $n \times n$, denoted by $O(n)$ is called the \textit{orthogonal group}.
 \end{definition}
-Recall from \cref{orthoDeterminant} that $R \in O(n) \iff \det R = \pm 1$.
+Recall from \cref{orthoDeterminant} that $R \in O(n) \implies \det R = \pm 1$.
 \begin{definition}[Special Orthogonal Group]
   The subgroup of $O(n)$ formed by orthogonal matrices with $\det R = 1$ is called the \textit{special orthogonal group} and is denoted $\SO(n)$
 \end{definition}
@@ -1894,7 +1891,7 @@ Reflections belong to $O(n)$ but not $\SO(n)$, so for any rotation $H$, $H \in O
 We can write any element of $O(n)$ in the form:
 \begin{align*}
   &R \text{ where }R \in \SO(n) \\
-  \text{ or }&RH \text{ where }  \in \SO(n),\ H \in O(n) \setminus \SO(n)
+  \text{ or }&RH \text{ where } R \in \SO(n),\ H \in O(n) \setminus \SO(n)
 \end{align*}
 For a rotation matrix $R$, we can find the components of the image of $\vec{x}$ using:
 \[
@@ -1950,7 +1947,7 @@ To get the transformed $\vec{x}$ in the original basis, we first determine the n
 where $R_{i j} = (R^{\trans})_{j i} = (R^{-1})_{j i}$ as $R$ is orthogonal.
 \begin{remark}
   If we compare this to the standard rotation for the matrix of change of basis, we see that the change of basis matrix is $P = R^{-1}$.
-  That is, we can either carry out the rotation directly in the active point of view, or transform the axes by the inverse rotation and find the coordinates of $\vec{x}$ with respect to this new basis in the passive point of view.
+  That is, we can either carry out the rotation directly in the active point of view, or transform the axes by the inverse rotation ($\vec{u}_i = P^{-1}\vec{e}_i$) and find the coordinates of $\vec{x}$ with respect to this new basis in the passive point of view.
 \end{remark}
 \subsection{2D Minkowski Space and Lorentz Transformations}
 Consider a new ``inner product'' on $\R^2$ given by:
@@ -1990,7 +1987,7 @@ Notice that:
   (\vec{e}_0, \vec{e}_1) & = 0
 \end{align*}
 This is similar to how basis vectors are orthonormal when using the standard inner product.
-We generalise the notion of orthonormality to this new ``inner product'' as above so that the standard basis vector are orthogonal.
+We generalise the notion of orthonormality to this new ``inner product'' as above so that the standard basis vectors are orthonormal in this metric.
 \begin{definition}[Minkowski Space]
   The inner product defined for all $\vec{x}, \vec{y} \in \R^2$ by $\vec{x}^{\trans}J\vec{y}$ is called the \textit{Minkowski metric}.
 
@@ -2180,14 +2177,17 @@ For $k \neq 0$, we have a hyperbola, and for $k = 0$, we have a straight line.
 
 Note that the dashed sections represent the other branch of the curve.
 Since we required that $M_{0 0} > 0$, $\vec{x}$ and $\vec{x}'$ must both lie on the same branch.
-
+\begin{remark}
+  This is similar to how orthogonal transformations preserve the standard norm of vectors so vectors lying on a circle centered at the origin are mapped to another vector on the same circle.
+  Instead, Lorentz transformations keep vectors on the same hyperbola branch instead of the same circle.
+\end{remark}
 \subsubsection{Application to Special Relativity}
 We can rewrite:
 \[
   M(\theta) =
   \frac{\sech \theta}{\sqrt{1 - \tanh^2 \theta}}
   \begin{pmatrix}
-  \cosh \theta & \sin \theta \\
+  \cosh \theta & \sinh \theta \\
   \sinh \theta  & \cosh \theta \\
   \end{pmatrix} =
   \frac{1}{\sqrt{1 - \tanh^2 \theta}} \begin{pmatrix}

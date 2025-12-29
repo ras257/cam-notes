@@ -394,6 +394,7 @@ This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{
 \draw[dashed] (A) -- (B);
 \end{tikzpicture}
 \end{center}
+\label{vectorProdRotate}
 We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
 \begin{center}
 \begin{tikzpicture}[>=stealth]
@@ -404,7 +405,7 @@ We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then co
 \draw[->] (0.6,0) arc [start angle=0,end angle=45,radius=0.6] node[pos=0.7,right] {$\pi/2$};
 \end{tikzpicture}
 \end{center}
-
+If the vector $\vec{x}$ is not originally on the plane, taking $\vec{a} \times \vec{x}$ first projects $\vec{x}$ onto the plane and then carries out the same operation as above.
 \subsection{Component Expressions}
 Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
 If we impose the further restriction that:
@@ -515,7 +516,7 @@ The component of $\vec{r}$ along $\vec{n}$ is
 \[
   \uvec{n} \cdot \vec{r} = \frac{\vec{n} \cdot \vec{r}}{|\vec{n}|} = \frac{k}{|\vec{n}|}
 \]
-The perpendicular distance from the origin to the plane is $\frac{|k|}{|n|}$.
+The perpendicular distance from the origin to the plane is $\frac{|k|}{|\vec{n}|}$.
 
 If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane containing them as:
 \[
@@ -535,7 +536,7 @@ If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane contain
   \end{align*}
   In the case that $\vec{u} \cdot \vec{n} = 0$ then $\vec{u}$ is orthogonal to $\vec{n}$ so either:
   \begin{itemize}
-    \item The line and plane are parallel so never intersect.
+    \item The line and plane are parallel and never intersect.
     \item The line is contained entirely within the plane so the intersection is just the line itself.
   \end{itemize}
 \end{example}
@@ -933,7 +934,7 @@ Geometrically this represents the signed area of a parallelogram:
 This is similar to the vector triple product in  $\R^{3}$ which represents the signed volume of a parallelepiped.
 \section{Generalised Complex Vectors\texorpdfstring{ -- $\C^{n}$}{}}
 \subsection{Definitions for Complex Vectors}
-Similarly to in $\R^{n}$ we define $C^{n}$ as:
+Similarly to in $\R^{n}$ we define $\C^{n}$ as:
 \[
   \C^{n} = \{\vec{z} = (z_1, z_2, \ldots, z_n): z_i \in \C\}
 \]
@@ -1052,12 +1053,14 @@ The \textit{span} of $\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\}$ is:
 \end{remark}
 \subsection{Subspaces}
 \begin{definition}[Subspace]
-  A \textit{subspace} of $V$ is a subset of $V$ that is itself a vector space.
+  A \textit{subspace} $U$ of a vector space $V$ is a subset of $V$ that is itself a vector space under the same operations as defined for $V$.
 
   Equivalently, a non-empty subset $U \subseteq V$ is a subspace if it satisfies that for every pair of vectors $\vec{v}, \vec{w} \in U$ and for any pair of scalars $\lambda, \mu \in \R$ then, $\lambda \vec{v} + \mu \vec{w} \in U$.
 \end{definition}
 In particular, for any $\vec{v}_1, \ldots, \vec{v}_r$, their span, $\Span\{\vec{v}_1, \ldots, \vec{v}_r\}$, is a subspace of $V$.
+
 The two trivial subspaces of any vector space $V$ are $V$ itself and $\{\vec{0}\}$.
+If a subspace is neither of these, then we say that it is a \textit{proper subspace}.
 
 \subsection{Linear Independence and Dependence}
 \begin{definition}[Linearly Independant]
@@ -1081,7 +1084,7 @@ If a set of vectors are linearly independent then we cannot construct one of the
  \end{enumerate}
 \end{example}
 \subsection{Inner Products}
-For $\vec{v}, \vec{w} \in V$, denote their inner product by $\vec{v} \cdot \vec{w}$ or $(\vec{v} \cdot \vec{w})$.
+For $\vec{v}, \vec{w} \in V$, denote their inner product by $\vec{v} \cdot \vec{w}$ or $(\vec{v}, \vec{w})$.
 This has the following properties:
 \begin{enumerate}
   \item $(\vec{v}, \vec{w}) \in \R \text{ or } \C$ depending on if we are in a real or complex vector space.
