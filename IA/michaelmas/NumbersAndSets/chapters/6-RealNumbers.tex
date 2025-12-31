@@ -314,7 +314,7 @@ The previous proposition and corollary show that there are no ``infinitely large
 \end{definition}
 \begin{example}
   $\sqrt{2}, \sqrt{3}, \sqrt{6}, \ldots$ are irrational.
-  Also $2 + 3\sqrt{5}$ is irrational as suppose we had $2  + 3 \sqrt{5} = \frac{a}{b}$ with $a, b \in \N$, then $\sqrt{5} = \frac{a - 2b}{3b} \in \Q$ which is a contradiction.
+  $2 + 3\sqrt{5}$ is also irrational as suppose we had $2  + 3 \sqrt{5} = \frac{a}{b}$ with $a, b \in \N$, then $\sqrt{5} = \frac{a - 2b}{3b} \in \Q$ which is a contradiction.
 \end{example}
 \begin{proposition}
   \label{rationalsDense}
@@ -325,11 +325,27 @@ The previous proposition and corollary show that there are no ``infinitely large
 \begin{proof}
   WLOG, assume $a \geq 0$.
   By \cref{archimedesCorollary}, there exists an $n \in \N$ with $\frac{1}{n} < b - a$.
-  Let
+  This is a rational that is less than the distance from $a$ to $b$.
+  We can use this to find a rational between $a$ and $b$ as in the below diagram:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[<->] (-4, 0) -- (4, 0);
+    \fill (-2, 0) circle (2pt) node[below] {$a$};
+    \fill (2, 0) circle (2pt) node[below] {$b$};
+    \node[below] at (3, 0) {$\frac{m}{n}$};
+    \node[below] at (0, 0) {$\frac{m - 1}{n}$};
+    \node[below] at (-3, 0) {$\frac{m - 2}{n}$};
+    \clip (-4, 0) rectangle (4, 1.5);
+    \foreach \i in {-6, -3, 0, 3} {
+      \draw[->, thick] (\i, 0) to[bend left=60] node[above] {$\frac{1}{n}$} (\i + 3, 0);
+    }
+  \end{tikzpicture}
+  \end{center}
+  To do this, consider the set:
   \[
     T = \left\{k \in \N: \frac{k}{n} \geq b\right\}
   \]
-  By \cref{axiomArchimedes}, there exists $N \in \N$ such that $N > b$.
+  By \cref{axiomArchimedes}, there exists some $N \in \N$ such that $N > b$.
   Since $N > b$, $Nn \in T$, so $T \neq \emptyset$.
   Therefore, by the Well-Ordering Principle (\cref{WOP}), $T$ has a least element $m$.
   Set $c = \frac{m - 1}{n}$.
@@ -368,7 +384,7 @@ It is also \textbf{not} enough just that the terms get ``arbitrarily'' close to 
 \]
 For example, $0, 10, \frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, 10, \frac{4}{5}, 10, \ldots$ satisfies the above but we would not want this to tend to 1.
 
-We want the sequence to both get and stay within $\varepsilon$ of $\ell$.
+We want the sequence to both get \textbf{and} stay within $\varepsilon$ of $\ell$.
 \subsection{Convergence and Divergence}
 \begin{definition}[Convergence]
   \label{convergenceDef}
@@ -546,6 +562,10 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
 \begin{remark}
   Any convergent sequence is bounded.
   If $a_n \to \ell$ as $n \to \infty$, then we can take $\varepsilon = 1$ so that $\exists N \in \N$ such that $\forall n \geq N$, $|a_n - \ell| < 1$.
+  For such $n$, we have:
+  \[
+    |a_n| = |a_n - \ell + \ell| \leq |a_n - \ell| + |\ell| < |\ell| + 1
+  \]
   Hence $|a_n| \leq \max\{|a_1|, |a_2|, \ldots, |a_{N - 1}|, |\ell| + 1\}\ \forall n \in \N$.
 \end{remark}
 \begin{definition}[Monotonic]
