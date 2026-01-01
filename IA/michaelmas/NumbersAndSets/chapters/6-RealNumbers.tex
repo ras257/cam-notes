@@ -827,16 +827,16 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
     We then have:
     \begin{align*}
       10^{l}x &= \sum_{j = 1}^{\infty} \frac{d_j}{10^{j - l}} \\
-      10^{l}x - \underbrace{\sum_{j = 1}^{l}  10^{l - j}d_j}_{\in \Z} &= \underbrace{\sum_{j = l + 1}^{\infty} \frac{d_j}{10^{j - l}}}_{\text{Repeating Section}}
+      10^{l}x - \underbrace{\sum_{j = 1}^{l}  10^{l - j}d_j}_{\in \N_0} &= \underbrace{\sum_{j = l + 1}^{\infty} \frac{d_j}{10^{j - l}}}_{\text{Repeating Section}}
     \end{align*}
     Using the periodicity of $d_n$, we can write:
     \begin{align*}
       \sum_{j = l + 1}^{\infty} \frac{d_j}{10^{j - l}} &= \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}} + \sum_{j = k + 1}^{2k} \frac{d_{j + l}}{10^{j}} + \cdots \\
                                                        &= \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}} + \sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j + k}} + \cdots \\
                                                        &= \left(\sum_{j = 1}^{k} \frac{d_{j + l}}{10^{j}}\right)\left(1 + \frac{1}{10^{k}} + \frac{1}{10^{2k}} + \cdots\right) \\
-                                                       &= \underbrace{\frac{1}{10^{k} - 1}}_{\in \Q}\underbrace{\sum_{j=1}^{k} d_{j + l}10^{k - j}}_{\in \Z}
+                                                       &= \underbrace{\frac{1}{10^{k} - 1}}_{\in \Q}\underbrace{\sum_{j=1}^{k} d_{j + l}10^{k - j}}_{\in \N_0}
     \end{align*}
-    So $10^{l}x - p = t$ for $p \in \Z$ and $t \in \Q$.
+    So $10^{l}x - p = t$ for $p \in \N_0$ and $t \in \Q$.
     Thus $x = \frac{t + p}{10^{l}} \in \Q$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $x \in \Q$}
