@@ -632,7 +632,7 @@ This makes it possible to determine conjugacy classes in $A_n$.
 
   \begin{itemize}
     \item $\cycle{4 5} \in C_{S_5}\cycle{1 2 3}$, that is, $\cycle{4 5}$ commutes with $\cycle{1 2 3}$, so by \cref{conjugacyAn} $\ccl_{S_5}\cycle{1 2 3}$ \textbf{does not split}.
-    \item $|\ccl_{S_5}\cycle{\cycle{1 2}\cycle{3 4}}| = 15$ which is an odd number so $\ccl_{S_5} \cycle{1 2}\cycle{3 4}$ \textbf{does not split}.
+    \item $|\ccl_{S_5}(\cycle{1 2}\cycle{3 4})| = 15$ which is an odd number so $\ccl_{S_5}(\cycle{1 2}\cycle{3 4})$ \textbf{does not split}.
     \item $|C_{S_5}\cycle{1 2 3 4 5}| = 5$ so $C_{S_5}\cycle{1 2 3 4 5} = \langle \cycle{1 2 3 4 5} \rangle \leq A_5$ so $\ccl_{S_5}\cycle{1 2 3 4 5}$ \textbf{does split} by \cref{conjugacyAn}.
   \end{itemize}
 
@@ -646,7 +646,9 @@ This makes it possible to determine conjugacy classes in $A_n$.
   $\cycle{1 2 3}$ & 20 & Does not split \\
   $\cycle{1 2}\cycle{3 4}$ & 15 & Does not split \\
   $\cycle{1 2 3 4 5}$ & 12 & Has order 24 in $S_5$ and splits so has order 12 \\
-  $\cycle{2 1 3 4 5}$ & 12 & Other half of $\ccl_{S_5}\cycle{1 2 3 4 5}$, that is, $\ccl_{A_5}(\tau \cycle{1 2 3 4 5}\tau^{-1})$ for odd $\tau \in S_5$ \\
+  $\cycle{2 1 3 4 5}$ & 12 & Other half of $\ccl_{S_5}\cycle{1 2 3 4 5}$, that is, $\ccl_{A_5}(\tau \cycle{1 2 3 4 5}\tau^{-1})$ for odd $\tau \in S_5$.
+
+  In this case, we used $\tau = \cycle{1 2}$. \\
   \end{tabular}
   \end{center}
   The sum of the sizes of the conjugacy classes is $60 = \frac{120}{2} = |A_5|$.

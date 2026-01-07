@@ -141,7 +141,7 @@ Now that we have studied quotient groups in \cref{quotientGroups}, we can more p
 \begin{proposition}
   If we identify $\C_\times$ with the following diagonal $2 \times 2$ matrices in $\GL_2(\C)$:
   \[
-    \C_{\times} = \left\{\begin{pmatrix}
+    \C_{\times} = \left\{ \lambda I = \begin{pmatrix}
     \lambda & 0 \\
     0 & \lambda \\
     \end{pmatrix} \in \GL_2(\C) : \lambda \in \C \setminus \{0\} \right\}
@@ -395,6 +395,7 @@ Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminu
   {$n$}{
     Let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be the standard basis for $\R^{n}$.
     Let $\vec{v} = \vec{e}_n - A \vec{e}_n$.
+    For now, assume that $A\vec{e}_n \neq \vec{e}_n \iff \vec{v} \neq \vec{0}$ so that $P_{\vec{v}}$ is well defined.
     This is the vector that joins $\vec{e}_n$ and $A\vec{e}_n$ so we see that reflection in $P_{\vec{v}}$ will send $A\vec{e}_n$ back to $\vec{e}_n$.
     \begin{center}
     \begin{tikzpicture}[>=stealth, scale=1.5]
@@ -421,6 +422,8 @@ Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminu
     Since both sides also fix $\vec{e}_n$, they must also agree on $\R^{n}$.
     Therefore $S_{\vec{v}}A = S_{\vec{v}_1} \cdots S_{\vec{v}_{n - 1}}$ and so $A = S_{\vec{v}} S_{\vec{v}_1} \cdots S_{\vec{v}_{n - 1}}$.
     Thus $A$ is a product of at most $n$ reflections.
+
+    If $A\vec{e}_n = \vec{e}_n$, then by a similar argument using $\R^{n - 1}$, $A = S_{\vec{v}_1} \cdots S_{\vec{v}_{n - 1}}$ which is less than $n$ reflections.
   }
 \end{proof}
 Orthogonal transformations are especially easy to analyse in low dimensions.
