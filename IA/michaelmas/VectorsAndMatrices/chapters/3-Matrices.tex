@@ -1622,8 +1622,8 @@ The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ b
     0 & \cdots & 1
     \end{array}\right)
     &= \sum_{i_1, \ldots, i_n = 1}^{n} \levi_{i_1 \ldots i_n} M_{i_1 1} \ldots M_{i_n n} \\
-    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n} \levi_{i_1 \ldots i_{n-1} n} M_{i_1 1} \ldots M_{i_{n-1} n-1} M_{n n} \\
-    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n} \levi_{i_1 \ldots i_{n - 1}} M_{i_1 1} \ldots M_{i_{n-1} n-1} \\
+    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n-1} \levi_{i_1 \ldots i_{n-1} n} M_{i_1 1} \ldots M_{i_{n-1} n-1} M_{n n} \\
+    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n-1} \levi_{i_1 \ldots i_{n-1}} M_{i_1 1} \ldots M_{i_{n-1} n-1} \\
     &=\det \left(\begin{array}{c|c}
       A & B \\ \hline
       C & D

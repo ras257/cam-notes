@@ -356,7 +356,9 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
         |z|^2 &= \abs{z - \frac{1}{c}}^2 \\
         |z| &= \abs{z - \frac{1}{c}}
       \end{align*}
-      which is a straight line, as required.
+      which is a euclidean straight line.
+      Note that $|c|^2 = |r|^2$ so $z = 0$ is on the circle.
+      $\gamma(0) = \infty$ so $\gamma(C) = l \cup \{\infty\}$, as required.
 
       Otherwise, if $|c|^2 \neq |r|^2$ then the equation becomes:
       \begin{align*}
@@ -388,7 +390,10 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
       \[
         \abs{z - \frac{b^{*} - a^{*}}{2}} = \abs{z - \frac{a^{*} - b^{*}}{2}}
       \]
-      which is a straight line.
+      which is a euclidean straight line.
+      $z = 0$ is on the original line and $\gamma(0) = \infty$.
+      Likewise, $z = 0$ is on the transformed line and $\gamma(\infty) = 0$.
+      So $\gamma(l \cup \{\infty\}) = l' \cup \{\infty\}$ as required.
 
       Otherwise, if $|a|^2 \neq |b|^2$ then the equation becomes:
       \begin{align*}
@@ -399,9 +404,7 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
         \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}} &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
       \end{align*}
       which is a circle.
-
-      In both cases $\gamma(l)$ is a euclidean circle.
-      Finally, $\gamma(\infty) = 0$ which is on the circle in both cases.
+      Finally, $\gamma(\infty) = 0$ which is on the circle.
     \end{case}
   \end{proofcases}
   In all cases, $\gamma$ sends generalised circles to generalised circles.

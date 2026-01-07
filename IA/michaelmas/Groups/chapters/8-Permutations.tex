@@ -56,7 +56,7 @@ Recall that a permutation of a set $X$ is a bijection from $X \to X$ and that $\
 \begin{definition}
   Any list of $k$ \textbf{distinct} elements $a_1, \ldots, a_k \in \{1, \ldots, n\}$ determines a \textit{$k$-cycle}.
   \[
-    \sigma = \cycle{a_1 a_2 {\cdots} a_n}
+    \sigma = \cycle{a_1 a_2 {\cdots} a_k}
   \]
   as follows:
   \[
@@ -487,7 +487,7 @@ Since we can count the sizes of conjugacy classes, it is also easy to count the 
   $e$ & 1 & 24 & -- \\
   $\cycle{1 2}$ & $\binom{4}{2} = 6$ & 4 & Covered previously \\
   $\cycle{1 2}\cycle{3 4}$ & $\frac{1}{2}\binom{4}{2} = 3$ & 8 & Covered previously \\
-  $\cycle{1 2 3}$ & $2 \binom{4}{3} = 8$ & 3 & $\binom{4}{3}$ to pick, then two orderings by reversing items \\
+  $\cycle{1 2 3}$ & $2 \binom{4}{3} = 8$ & 3 & $\binom{4}{3}$ to pick, smallest element can always go first so two orderings by swapping last two \\
   $\cycle{1 2 3 4}$ & $3! = 6$ & 4 & Cycle can always start with 1, then $3!$ for remaining items \\
   \end{tabular}
   \end{center}
@@ -545,14 +545,14 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
       \[
         C_{S_n}(\gamma) = C_{A_n}(\gamma)
       \]
-      as no elements are lost when we restrict from $A_n$ to $S_n$
-      so using \cref{conjugacyStar}, we then have:
+      as no elements are lost when we restrict from $A_n$ to $S_n$.
+      So, using \cref{conjugacyStar}, we then have:
       \[
         |\ccl_{S_n}(\gamma)| = 2 |\ccl_{A_n}(\gamma)|
       \]
-      So $\ccl_{A_n}(\gamma)$ is half as big.
+      so $\ccl_{A_n}(\gamma)$ is half as big.
 
-      Now consider transposition $\tau \in S_n$, which is an odd permutation.
+      Now consider some odd permutation $\tau \in S_n$.
       Note that $\tau \gamma \tau^{-1} \in \ccl_{S_n}(\gamma)$.
       Suppose that $\tau \gamma \tau^{-1} \in \ccl_{A_n}(\gamma)$ then:
       \[
@@ -561,12 +561,14 @@ Counting conjugacy classes in $A_n$ can be done similarly to as in $S_n$ but req
       for some $\alpha \in A_n$.
       But then:
       \[
-        (\tau \alpha)\gamma(\tau \alpha)^{-1} = \gamma \iff (\tau \alpha)\gamma = \gamma(\tau\alpha)
+        \gamma (\tau^{-1} \alpha) = (\tau^{-1} \alpha) \gamma
       \]
-      so $\tau \alpha \in C_{S_n}(\gamma) = C_{A_n}(\gamma)$.
-      But $\tau \alpha$ is odd, so we have arrived at a contraction.
+      so $\tau^{-1} \alpha \in C_{S_n}(\gamma) = C_{A_n}(\gamma)$.
+      But $\tau^{-1} \alpha$ is odd, so we have arrived at a contradiction.
       Hence $\tau \gamma \tau^{-1} \notin \ccl_{A_n}(\gamma)$.
-      So it follows that $C_{S_n}(\gamma)$ was split into $\ccl_{A_n}(\gamma)$ and $\ccl_{A_n}(\tau \gamma \tau^{-1})$
+
+      It follows that each element of $\ccl_{S_n}(\gamma)$ must be in either $\ccl_{A_n}(\gamma)$ (if it is $\gamma$ conjugated by an even element) or $\ccl_{A_n}(\tau\gamma\tau^{-1})$ (if it is $\gamma$ conjugated by an odd element).
+      Therefore, $\ccl_{S_n}(\gamma)$ is split into disjoint conjugacy classes $\ccl_{A_n}(\gamma)$ and $\ccl_{A_n}(\tau \gamma \tau^{-1})$ in $A_n$.
   \end{enumerate}
 \end{proof}
 \begin{remark}
@@ -614,10 +616,10 @@ This makes it possible to determine conjugacy classes in $A_n$.
     \hline
     $e$ & 1 & 120 & $5! = 120$ \\
     $\cycle{1 2}$ & $\binom{5}{2} = 10$ & 12 & Choose 2 from 5, order irrelevant \\
-    $\cycle{1 2 3}$ & $2 \binom{5}{3} = 20$ &6 & $\binom{5}{3}$ to pick, then two orderings by reversing items \\
+    $\cycle{1 2 3}$ & $2 \binom{5}{3} = 20$ &6 & $\binom{5}{3}$ to pick, smallest element can always go first so two orderings by swapping last two \\
     $\cycle{1 2}\cycle{3 4}$ & $\frac{1}{2}\binom{5}{2}\binom{3}{2} = 15$ & 8 & $\binom{5}{2}$ for first and $\binom{3}{2}$ for second, then half as we have double counted as transpositions commute \\
     $\cycle{1 2 3}\cycle{4 5}$ & $2\binom{5}{3} = 20$ & 6 & Select a 3-cycle as above, then the remaining two elements are the transposition\\
-    $\cycle{1 2 3 4}$ & $\binom{5}{4}\cdot3! = 30$ & 4 & $\binom{5}{4}$ to pick and then $3!$ ways to arrange as we can always start with a specific element. \\
+    $\cycle{1 2 3 4}$ & $\binom{5}{4}\cdot3! = 30$ & 4 & $\binom{5}{4}$ to pick and then $3!$ ways to arrange as we can always start with the smallest element. \\
     $\cycle{1 2 3 4 5}$ & $4! = 24$ & 5 & Can always start with 1, $4!$ for rest\\
     \end{tabular}
     \end{center}

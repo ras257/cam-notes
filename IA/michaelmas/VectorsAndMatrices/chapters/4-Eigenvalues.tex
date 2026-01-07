@@ -687,13 +687,13 @@ More specifically, if $A$ is hermitian, then all of the following equivalent sta
 \section{Change of Basis}
 \label{changeOfBasis}
 Consider the real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$.
-Let $T: V \to W$ be a linear map and let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be a basis of $V$ and $\{\vec{f}_1, \ldots, \vec{f}_n\}$ be a basis of $W$ such that $T$ is represented by an $m \times n$ matrix $A$ with respect to these bases.
+Let $T: V \to W$ be a linear map and let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be a basis of $V$ and $\{\vec{f}_1, \ldots, \vec{f}_m\}$ be a basis of $W$ such that $T$ is represented by an $m \times n$ matrix $A$ with respect to these bases.
 
 From \cref{matrixDef}, this means that:
 \[
   T(\vec{e}_i) = \sum_{j} \vec{f}_j A_{j i}
 \]
-Now let $\{\vec{e}_1', \ldots, \vec{e}_n'\}$ be a new basis of $V$ and $\{\vec{f}_1', \ldots, \vec{f}_n'\}$ be a new basis of $W$.
+Now let $\{\vec{e}_1', \ldots, \vec{e}_n'\}$ be a new basis of $V$ and $\{\vec{f}_1', \ldots, \vec{f}_m'\}$ be a new basis of $W$.
 $T$ is represented with respect to these new basis by a $m \times n$ matrix $B$.
 Namely:
 \[
@@ -1836,7 +1836,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
   \]
   where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are eigenvalues of $A$ and $B$.
 
-  Each \textit{Jordan block} $J_p(\lambda)$ has form:
+  Each \textit{Jordan block} $J_p(\lambda)$ is a $p \times p$ matrix of the form:
   \[
     J_p(\lambda) = \begin{pmatrix}
     \lambda & 1 &  &  &  \\
