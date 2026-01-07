@@ -116,10 +116,10 @@ What if $ax \equiv b \pmod{n}$ with $\hcf(a, n) = d > 1$?
   \end{proofdirection}
   \begin{proofdirection}{Assume $d \mid b$}
     Then $n = dn'$, $a = da'$, and $b = db'$.
-    Note now what $\hcf(a', n') = 1$ so $a'x \equiv b \pmod{n'}$ has a unique solution by \cref{congUniqueSolution}.
+    Note now what $\hcf(a', n') = 1$ so $a'x \equiv b' \pmod{n'}$ has a unique solution by \cref{congUniqueSolution}.
     Thus for some $k \in \Z$:
     \[
-      a'x -  b = kn' \implies da'x - db' = kdn' \implies ax - b = kn \implies ax \equiv b \pmod{n}
+      a'x -  b' = kn' \implies da'x - db' = kdn' \implies ax - b = kn \implies ax \equiv b \pmod{n}
     \]
     So there is a solution to $ax \equiv b \pmod{n}$.
   \end{proofdirection}
@@ -200,7 +200,7 @@ The Chinese Remainder Theorem can help us solve simultaneous congruences.
       \item \textbf{Uniqueness -}
       Suppose $y$ is also a solution, that is, $y \equiv a \pmod{m}$ and $y \equiv b \pmod{n}$.
       \begin{align*}
-        &y \equiv a \pmod{n} \text{ and } y \equiv b \pmod{n} \\
+        &y \equiv a \pmod{m} \text{ and } y \equiv b \pmod{n} \\
         \iff& y \equiv x \pmod{m} \text{ and } y\equiv x \pmod{n} \\
         \iff& m \mid y - x \text{ and } n \mid y - x \\
         \iff& mn \mid y - x \text{ as $\hcf(m, n) = 1$} \\

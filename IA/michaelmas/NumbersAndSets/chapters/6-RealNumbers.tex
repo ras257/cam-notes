@@ -858,7 +858,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
     Equivalently, $10^{\varphi(q)} - 1 = kq$ for some $k \in \N$ as $q > 0$.
     Hence
     \[
-      \frac{c}{q} = \frac{kc}{kq} = \frac{kc}{10^{\varphi(q)} - 1}= kc \cdot \frac{1}{1 - 1/10^{\varphi(q)}} = kc \sum_{j = 1}^{\infty} \frac{1}{(10^{\varphi(q)})^{j}}
+      \frac{c}{q} = \frac{kc}{kq} = \frac{kc}{10^{\varphi(q)} - 1}= kc \cdot \frac{1/10^{\varphi(q)}}{1 - 1/10^{\varphi(q)}} = kc \sum_{j = 1}^{\infty} \frac{1}{(10^{\varphi(q)})^{j}}
     \]
     For this to be periodic, we need to ensure that $kc$ has $\varphi(q)$ or less digits, that is $0 \leq kc < 10^{\varphi(q)}$.
     This is always satisfied since $0 \leq kc < kq < 10^{\varphi(q)}$.

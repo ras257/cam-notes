@@ -244,7 +244,7 @@ We will give two proofs of this.
   \[
     d_n = \begin{cases}
     1 & d_{n n} \neq 1 \\
-    2 & d_{d n} = 1
+    2 & d_{n n} = 1
     \end{cases}
   \]
   This $r$ has only one decimal expansion (as it does not terminate in all 0s or 9s) and is not in the enumerated list, as $\forall n \in \N$ $r \neq r_n$ as we have constructed it to disagree with $r_n$ on the $n$-th decimal digit.
@@ -422,24 +422,23 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
     A_{\infty} &= \{a \in A : \text{ ancestor sequence of $a$ does not terminate}\}
   \end{align*}
   and define $B_0, B_1, B_{\infty}$ similarly.
-  Intuitively, $A_0$ is the set of elements of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_0, B_0$ and $B_1$.
+  Intuitively, $A_0$ is the set of elements of $A$ such that their ancestor sequence ends in $A$ and there are similar intuitions for $A_1, B_0$ and $B_1$.
   Since each element is in exactly one of these three sets, they partition $A$ and $B$ respectively.
 
   If we restrict $f: A_0 \to B_1$, it is injective by hypothesis and we can show that it is surjective.
   Every $b \in B_1$ terminates in an odd number of steps so has at least one ancestor.
-  Therefore for some $a \in A_0$, that terminates in an even number of steps, we have $f(a) = b$ (If we take $a = f^{-1}(b)$ when we see that this terminates after an even number of steps as the ancestor sequence for $b$ has an odd number of steps, so $a \in A_0$).
+  Therefore for some $a \in A_0$ we have $f(a) = b$ (If we take $a = f^{-1}(b)$ we see that this terminates after an even number of steps as the ancestor sequence for $b$ has an odd number of steps, so $a \in A_0$).
   Thus we have a bijection between $A_0$ and $B_1$ given by $f$.
 
   By symmetry, $g$ bijects $B_0$ with $A_1$.
 
-  Finally, both $f$ and $g$ bijects $A_{\infty}$ with $B_{\infty}$ by a similar argument as these are only the points whose ancestor sequence never terminates.
+  Finally, by a similar argument, both $f$ and $g$ provide a bijection between $A_{\infty}$ and $B_{\infty}$ as these are the points whose ancestor sequence never terminates.
 
   Then the function $h: A \to B$ defined by:
   \[
     a \mapsto \begin{cases}
-    f(a) & \text{ if }a \in A_0 \\
+    f(a) & \text{ if }a \in A_0 \cup A_{\infty} \\
     g^{-1}(a) & \text{ if }a \in A_1 \\
-    f(a) & \text{ if }a \in A_{\infty}
     \end{cases}
   \]
   is a bijection by construction.
