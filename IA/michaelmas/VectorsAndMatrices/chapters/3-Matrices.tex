@@ -225,6 +225,7 @@ So we only need to consider $m \leq n$.
   \end{enumerate}
 \end{example}
 \section{Matrices as Linear Maps}
+\label{matricesAsLinearMaps}
 Let $M$ be a matrix with entries $M_{i j} \in \R$, where $i$ labels rows and $j$ labels columns.
 Then the map defined by $T: \R^{n} \to \R^{n}$, $T(\vec{x}) = \vec{x}' = M\vec{x}$ for $\vec{x}, \vec{x}' \in \R^{n}$ with $x'_i = M_{i j}x_j$, is a linear map.
 \begin{example}
@@ -970,6 +971,16 @@ or more explicitly:
 \end{definition}
 \begin{remark}[Note]
   If the matrices and scalars are all real, the hermitian conjugate just reduces to the regular matrix transpose.
+\end{remark}
+\begin{remark}
+  We can use the transpose to write the inner product on $\R^n$ (\cref{realInnerProduct}) as:
+  \[
+    \vec{u} \cdot \vec{v} = \vec{u}^{\trans}\vec{v}
+  \]
+  and we can use the hermitian conjugate to write the inner product on $\C^n$ (\cref{complexInnerProduct}) as:
+  \[
+    (\vec{u}, \vec{v}) = \vec{u}^{\dag}\vec{v}
+  \]
 \end{remark}
 \subsection{Trace}
 \begin{definition}[Trace]
@@ -2204,7 +2215,7 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
 \end{example}
 \subsection{Geometric Interpretation of the Homogeneous Case}
 Consider the problem $A \vec{u} = \vec{0}$.
-Then if $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$,
+Then if $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$:
 \[
   A \vec{u} = \vec{0} \iff \begin{cases}
   \vec{R}_1 \cdot \vec{u} = 0 \\
@@ -2221,13 +2232,22 @@ Then, the solution of $A \vec{u} = 0$, which is $\ker A$, is the intersection of
   \end{case}
   \begin{case}{$\rank A = 2$}
     $\rank A = 2 \iff \nullity = 1$ so $\ker A$ is a line.
-    So the planes all intersect along a line, and the three normals span a plane.
+    Therefore the planes all intersect along a line, and the three normals span a plane.
   \end{case}
   \begin{case}{$\rank A  = 1$}
-    $\rank A = 1 \iff \nullity = 2$ so $\ker A$ is a plane. So the three planes coincide.
-    In this case, all the normals are parallel.
+    $\rank A = 1 \iff \nullity = 2$ so $\ker A$ is a plane.
+    Therefore the three planes coincide and all three normals are collinear.
   \end{case}
 \end{proofcases}
+\begin{remark}
+  We saw in \cref{matricesAsLinearMaps} that $\im A$ is the span of its columns and $\rank A = \dim(\im A)$.
+
+  In general $\Span\{\text{Columns of $A$}\} \neq \Span\{\text{Rows of $A$}\}$, however, it is true that:
+  \[
+    \rank A = \dim(\Span\{\text{Rows of A}\})
+  \]
+  which agrees with the spans of the rows/normals in the above cases.
+\end{remark}
 \subsection{Geometric Interpretation of the General Case}
 Consider the problem $A\vec{x} = \vec{b}$.
 Then:
