@@ -1,0 +1,102 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Structure of the Newtonian Universe}
+\section{Reference Frames}
+Three dimensional space can be endowed with a \textit{Cartesian reference frame}.
+  This is an origin and some axes such that points in space are labelled as follows:
+  \[
+    \vec{x} = (x_1, x_2, x_3)
+  \]
+Time can be labelled with respect to an arbitrary reference frame, by a real number $t$.
+\begin{definition}[Point Particle]
+  A \textit{point particle} is an idealised object that is completely determined by its position at a given time, $\vec{x}(t)$.
+\end{definition}
+A point particle can be a variety of objects depending on the context. For example an electron, tennis ball, or planet.
+\begin{definition}[Velocity]
+  The \textit{velocity} is defined to be the vector:
+  \[
+    \vec{v} \equiv \deriv{\vec{x}}{t} = \dot{\vec{x}}
+  \]
+\end{definition}
+Recall that in Cartesian coordinates we differentiate a vector by taking the derivative of each component:
+\[
+  \deriv{\vec{x}}{t} = \left(\deriv{x_1}{t}, \deriv{x_2}{t}, \deriv{x_3}{t}\right)
+\]
+\begin{remark}
+  Differentiating in other coordinate systems will be discussed later in the course.
+\end{remark}
+From Vector Calculus, we see that the velocity is always \textbf{tangent} to the trajectory.
+\begin{definition}[Acceleration]
+  The \textit{acceleration} is defined to be the vector:
+  \[
+    \vec{a} \equiv \ddot{\vec{x}} = \dot{\vec{v}} = \deriv[2]{\vec{x}}{t}
+  \]
+\end{definition}
+The above structure is \textbf{not} enough to write down Newton's equations.
+
+Consider a ``free'' particle that does not experience any forces, e.g. the particle is alone in the depths of space, far away from anything else.
+The position of this particle is $\vec{x}(t)$, but which reference frame should we use?
+In one reference frame, the particle could be at rest, however, it could have very complex movement in a different reference frame, for example, one with respect to a moving spaceship.
+\section{Law of Inertia}
+\begin{definition}[Inertial Reference Frame]
+  A reference frame $S$ is inertial if any free particle has constant velocity:
+  \[
+    \dot{\vec{v}} = \ddot{\vec{x}} = \vec{0}
+  \]
+\end{definition}
+\begin{law}[Law of inertia]
+  For any free particle, there exists a reference frame in which it has constant velocity.
+\end{law}
+The law of inertia is an improved version of Newton's 1st Law.
+This is a true statement about the world, but not an obvious one.
+\begin{remark}
+  In antiquity, it was assumed that the natural state of an object was to be at rest, instead of moving at a constant velocity.
+\end{remark}
+\section{Galilean Relativity Principle}
+\label{galileanRelativity}
+\begin{definition}[Galilean Transformation]
+  A \textit{Galilean Transformation} is a transformation of $\vec{x}$ to $\vec{x}'$ of the form:
+  \[
+    \vec{x}' = R\vec{x} + \vec{k} + \vec{w}t
+  \]
+  where $R$ is an $3 \times 3$ orthogonal matrix (i.e. it is a rotation and/or reflection), $\vec{k}$ is a constant vector acting as a translation, and $\vec{w}$ is a constant velocity called a \textit{boost}.
+\end{definition}
+It follows that $\ddot{\vec{x}}' = R\ddot{\vec{x}}$ so $\abs{\ddot{\vec{x}}'} = \abs{R\ddot{\vec{x}}} = \abs{\ddot{\vec{x}}}$.
+Thus, $\ddot{\vec{x}}' = \vec{0} \iff \ddot{\vec{x}} = \vec{0}$, so one reference frame is inertial if and only if the other is.
+\begin{definition}[Galilean Relativity Principle]
+  A frame related to an inertial frame by a \textit{Galilean transformation} is also an inertial frame, and all laws of physics are the same in both frames.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We can achieve any combination of reflection/rotation, translation, and boost.
+      For example, by setting $R = I$ and $\vec{k} = \vec{0}$, we get just the boost $\vec{x}' = \vec{x} + \vec{w}t$.
+    \item These are not all the transformations that map between inertial frame.
+      The others are of the form $\vec{x}' = \lambda\vec{x}$ for $\lambda \in \R$.
+      These are rescale the coordinates, for example, if we wish to use different units in different inertial frames.
+  \end{enumerate}
+\end{remark}
+\begin{example}[Moving Boat]
+  A mass dropped from the mast of boat moving with constant velocity lands at the same place on the boat as if the boat was not moving.
+  This is because the both the boat and the shore are inertial reference frames so there is a Galilean transformation between them and thus the laws of physics are the same in both.
+
+  However, if the boat was accelerating, the reference frame would not be inertial so there would not be a Galilean transformation between the boat and the shore and so it would not land in the same place.
+\end{example}
+Galilean invariance restricts the type of forces that are possible (See Example Sheet 1).
+It also implies that the laws of physics make reference to no special point, direction, time or velocity.
+All these things must be specified relative to some inertial reference frame.
+
+This means that if we wish to specify a point, velocity or direction, we must specify it relative to something else, however we do not have to do this for acceleration.
+
+More specifically, you cannot be ``at rest'', you must be ``at rest with respect to something''.
+Acceleration is not relative, so if you are accelerating in an inertial frame then you will be accelerating in all other inertial frames with the same magnitude but not necessarily in the same direction.
+\begin{definition}[Galilean Group]
+  The set of Galilean transformations form a group called the \textit{Galilean Group}.
+\end{definition}
+This is often supplemented by time transformations from time $t$ to time $t'$:
+\[
+  t' = t + t_0
+\]
+The laws of physics are also invariant under time transformations.
+That is, all inertial frames have the same time, called \textit{absolute time}.
+This means identical clocks in different inertial frames will all tick at the same rate.
+\end{document}

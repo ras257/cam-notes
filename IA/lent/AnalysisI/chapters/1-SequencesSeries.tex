@@ -1,0 +1,210 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Numerical Sequences and Series}
+\section{Sequences}
+\begin{definition}[Sequence]
+  A \textit{sequence} $(x_n)_{n \in \N}$ on a set $X$ is an enumerated list (i.e. $x_1, x_2, x_3, \ldots$) where each element is in $X$.
+\end{definition}
+In this chapter, we will consider only sequences where $X \subseteq \R$ or $X \subseteq \C$.
+A concrete and important example is $X = \R$ which are known as the \textit{real sequences}.
+
+\subsection{Convergence and Divergence}
+We would like to think about what it means for a sequence $x_n$ to converge to a point $x \in X$, and what it means for $x_n$ to diverge to infinity?
+
+\textbf{On convergence}
+\begin{itemize}
+  \item We need $|x_n - x|$ to be small, more specifically, smaller than any given threshold $\varepsilon > 0$ that we choose.
+  \item For this comparison, only the ``tail'' of the sequence, i.e. the ``large $n$'' behaviour, matters.
+    We can always ignore the first $N$ terms of the sequence, for some $N$ dependent on $\varepsilon$.
+\end{itemize}
+\textbf{On divergence to infinity}
+\begin{itemize}
+  \item We need $|x_n|$ to clear any threshold $L > 0$ that we set for it.
+  \item Again, only the ``tail'' matters.
+    We can always ignore the first $N$ terms, for some $N$ dependent on $L$.
+\end{itemize}
+Now that we know what we what restrictions we want the definitions to impose, we can more rigorously state them:
+\begin{definition}[Convergence]
+  We say that the sequence $(x_n)$ \textit{converges} to some finite $x$ if:
+  \[
+    \forall \varepsilon > 0\ \exists N = N(\varepsilon) \text{ s.t. } |x_n - x| < \varepsilon\ \forall n \geq N
+  \]
+  We then write $x_n \to x$.
+\end{definition}
+\begin{definition}[Divergence to infinity]
+  We say that the sequence $(x_n)$ \textit{diverges to infinity} if:
+  \[
+    \forall L > 0\ \exists N = N(L) \text{ s.t. } |x_n| > L\ \forall n \geq N
+  \]
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We can make the modulus inequality non strict (i.e. $|x_n - x| \leq \varepsilon$ for convergence or $|x_n| \geq L$ for divergence to infinity) for an equivalent definition.
+    \item We can also replace $\varepsilon$ by any constant non-zero multiple of $\varepsilon$ for an equivalent definition.
+  \end{enumerate}
+\end{remark}
+\begin{definition}[Floor and Ceiling functions]
+  The floor function takes as input any $x \in \R$ and outputs the \textbf{greatest integer less than or equal} to $x$.
+  It is denoted $\floor{x}$.
+
+  Similarly, the ceiling function takes as input any $x \in \R$ and outputs the \textbf{greatest integer greater than or equal} to $x$.
+  It is denoted $\ceil{x}$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $x_n = \frac{1}{n}$, then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
+      \[
+        |x_n - 0| = \frac{1}{n} < \varepsilon\ \forall n \geq N = N(\varepsilon) = 1 + \ceil{\frac{1}{\varepsilon}}
+      \]
+    \item $x_n = \frac{1}{2^{n}}$ then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
+      \[
+        |x_n - 0| = \frac{1}{2^{n}} < \varepsilon\ \forall n \geq N = N(\varepsilon) = \max\left\{1 + \log_2\left(\frac{1}{\varepsilon}\right), 1\right\}
+      \]
+      Note that we use the $\max$ to avoid issues when $\log_{2}(1/\varepsilon) < 0$.
+    \item $x_n = i n$ diverges to infinity as $\forall L > 0$, we have:
+      \[
+        \frac{x_n}{i} = n > L\ \forall n \geq N = 1 + \ceil{L}
+      \]
+    \item $x_n = (-1)^{n}$ does not diverge to $\infty$ (as $|x_n| \leq 1\ \forall n$), but also does not converge (See Numbers and Sets -- Example 6.5).
+  \end{enumerate}
+\end{example}
+\subsection{Limit Laws and Properties}
+\begin{lemma}
+  If it exists, the limit of $(x_n)$ is unique.
+\end{lemma}
+\begin{proof}
+  Suppose $x_n \to a$ and $x_n \to b$.
+  Take $\varepsilon > 0$, we then have:
+  \begin{align*}
+    \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |x_n - a| < \varepsilon\ \forall n \geq N_1 \\
+    \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |x_n - b| < \varepsilon\ \forall n \geq N_2
+  \end{align*}
+  In particular $|x_n - a|, |x_n - b| < \varepsilon\ \forall n \geq N = \max\{N_1, N_2\}$, thus, using the triangle inequality:
+  \[
+    |a - b| = |a - x_n + x_n - b| \leq |x_n - a| + |x_n - b| < 2\varepsilon\ \forall n \geq N
+  \]
+  Now since $\varepsilon$ can be arbitrarily small and positive, we conclude that $|a - b| = 0$ and so $a = b$.
+\end{proof}
+\begin{remark}[Notation]
+  Since the limit is unique, we write:
+  \[
+    \lim_{n \to \infty} x_n = x
+  \]
+  to mean the unique limit of $x_n$ as $n \to \infty$.
+\end{remark}
+\begin{proposition}[Sandwich Theorems]
+  Let $(x_n), (y_n), (z_n)$ be real sequences.
+  Then:
+  \begin{enumerate}
+    \item If $x_n \leq y\ \forall n$ and $x_n \to x$, then $x \leq y$
+    \item If $x_n \to x$, $z_n \to x$ and $x_n \leq y_n \leq z_n\ \forall n$, then $y_n \to x$ also.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Suppose, for contradiction, that $x > y$.
+  Then $x - y > 0$, so we can take $\varepsilon = x - y$.
+  Thus $\exists N \text{ s.t. } |x_n - x| < x - y \ \forall n \geq N$.
+  However, $x_n \leq y < x$ so:
+  \[
+    |x_n - x| = x - x_n < x - y \implies x_n > y\ \forall n \geq N
+  \]
+  which is a contradiction.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Take $\varepsilon > 0$, we then have:
+  \begin{align*}
+    \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |x_n - a| < \varepsilon\ \forall n \geq N_1 \\
+    \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |x_n - b| < \varepsilon\ \forall n \geq N_2
+  \end{align*}
+  We can then write:
+  \begin{align*}
+    |y_n - x| &= \frac{1}{2}|(x_n - x) + (z_n - x) + (y_n - x_n) + (y_n - z_n)| \\
+              &< \frac{1}{2}(2\varepsilon + |y_n - x_n| + |y_n - z_n|) \\
+              &= \frac{1}{2}(2\varepsilon + y_n - x_n + z_n - y_n) \\
+              &= \varepsilon + \frac{1}{2}(z_n - x_n) \\
+              &= \varepsilon + \frac{1}{2}|z_n - x_n| \\
+              &\leq \varepsilon + \frac{1}{2}(|z_n - x| + |x_n - x|) \\
+              &< 2\varepsilon
+  \end{align*}
+  So $y_n \to x$.
+\end{proof}
+\begin{remark}
+  Note that $x_n < y\ \forall n$ and $x_n \to x$ does not necessarily imply $x < y$.
+
+  For example, $x_n = 1 - \frac{1}{n} < 1\ \forall n$ but $x_n \to 1$.
+\end{remark}
+\begin{lemma}
+  Let $(x_n)$ be a complex sequence.
+  Then $x_n \to x$ if and only if $\Re(x_n) \to \Re(x)$ and $\Im(x_n) \to \Im(x)$.
+\end{lemma}
+\begin{proof}
+  Recall that for $z \in \C$, $|z| = \sqrt{(\Re(z))^2 + (\Im(z))^2}$.
+  \begin{proofdirection}{Assume $x_n \to x$}
+    If we fix $\varepsilon > 0$, by definition of convergence:
+    \[
+      \exists N \text{ s.t } |x_n - x| < \varepsilon\ \forall n \geq N
+    \]
+    We see that $|\Re(z)| \leq |z|$ and $|\Im(z)| \leq |z|$.
+    Therefore for all $n \geq N$:
+    \begin{align*}
+      |\Re(x_n) - \Re(x)| &= |\Re(x_n - x)| \leq |x_n - x| < \varepsilon \\
+      |\Im(x_n) - \Im(x)| &= |\Im(x_n - x)| \leq |x_n - x| < \varepsilon
+    \end{align*}
+    So $\Re(x_n) \to \Re(x)$ and $\Im(x_n) \to \Im(x)$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\Re(x_n) \to \Re(x)$ and $\Im(x_n) \to \Im(x)$}
+    If we fix $\varepsilon > 0$, by definition of convergence:
+    \begin{align*}
+      \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |\Re(x_n) - \Re(x)| < \varepsilon\ \forall n \geq N_1 \\
+      \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |\Im(x_n) - \Im(x)| < \varepsilon\ \forall n \geq N_2
+    \end{align*}
+    We see that:
+    \[
+      |z| = |\Re(z) + i \Im(z)| \leq |\Re(z)| + |i||\Im(z)| = |\Re(z)| + |\Im(z)|
+    \]
+    and so:
+    \[
+      |x_n - x| \leq |\Re(x_n) - \Re(x)| + |\Im(x_n) - \Im(x)| < 2\varepsilon\ \forall n \geq \max\{N_1, N_2\}
+    \]
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  If $x_n \to x$ then $(x_n)$ must be bounded.
+  That is $\exists M$ s.t. $|x_n| \leq M\ \forall n$.
+  \label{convergenceBounded}
+\end{lemma}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
+\begin{lemma}
+  If $x_n \to x$ and $y_n \to y$, then:
+  \begin{enumerate}
+    \item $x_n + y_n \to x + y$
+    \item $x_n y_n \to xy$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Since $x_n \to x$ and $y_n \to y$, $\forall \varepsilon > 0\ \exists N_1 = N_1 (\varepsilon),\ N_2 = N_2(\varepsilon)$ such that:
+  \[
+    |x_n - x| < \varepsilon\ \forall n \geq N_1 \text{ and } |y_n - y| < \varepsilon\ \forall n \geq N_2
+  \]
+
+  \textbf{Addition of Limits:}
+  \[
+    |x_n + y_n - (x + y)| \leq |x_n - x| + |y_n - y| < 2\varepsilon\ \forall n \geq \max\{N_1, N_2\}
+  \]
+  which is a constant multiple of $\varepsilon$, so we are done.
+
+  \textbf{Multiplication of Limits:}
+  \begin{align*}
+    |x_n y_n - xy| &= |x_n y_n - xy_n + xy_n - xy| \\
+                   &= |x| |y_n - y| + |y_n||x - x_n|
+  \end{align*}
+  Hence $|x_n y_n - xy| \leq \varepsilon(|x| + |y_n|)\ \forall n \geq \max\{N_1, N_2\}$.
+  By \cref{convergenceBounded}, for some $M > 0$, we have:
+  \[
+    |x_ny_n - xy| \leq \varepsilon(|x| + |y_n|) \leq \varepsilon(|x| + M)\ \forall n \geq \max\{N_1, N_2\}
+  \]
+  which is a constant multiple of $\varepsilon$, so we are done.
+\end{proof}
+\end{document}

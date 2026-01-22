@@ -1,0 +1,30 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Fundamentals of Forces}
+\section{Newton's Second Law}
+Once there is more than one particle in in the universe, there will be \textit{interactions} between the particles.
+In Newtonian physics such interactions are described by \textit{forces}.\quad
+\begin{definition}[Momentum]
+  The \textit{momentum} of a point particle is the product of its \textit{mass} and its \textit{velocity}:
+  \[
+    \vec{P} = m \dot{\vec{x}}
+  \]
+  where $m$ is the \textit{inertial mass}, often shortened to just \textit{mass}.
+\end{definition}
+The mass is an additional property of point particles.
+It could change with time, but we assume that it is constant unless otherwise specified.
+\begin{law}[Newton's Second Law]
+  In an inertial frame:
+  \[
+    \dot{\vec{p}} = \vec{F}
+  \]
+  That is, the rate of change of momentum is equal to the force.
+\end{law}
+The force $\vec{F}$ depends on the interaction, but can only depend on $\vec{x}$ and $\dot{\vec{x}}$.
+This means that Newton's 2nd law is a second order differential equation for $\vec{x}(t)$.
+Thus, given $\vec{x}$ and $\dot{\vec{x}}$ of all particles in a system at some time, Newton's equations uniquely determine $\vec{x}(t)$ for all future and past times.
+The force cannot depend exclusively on time because there is no preferred time in the universe as we saw in \cref{galileanRelativity}.
+\begin{remark}
+  Newtonian mechanics has been superseded by both quantum mechanics (generally, small things) and relativity (generally, fast things), but nevertheless accurately describes much of the universe.
+\end{remark}
+\end{document}

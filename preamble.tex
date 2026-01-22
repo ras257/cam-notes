@@ -40,7 +40,7 @@
 %
 %  % Make border a light blue
 %  % linkbordercolor = {0.55 0.67 0.93},
-%  
+%
 %  % Disable box around link
 %  % pdfborder = {0 0 0}
 %
@@ -56,6 +56,7 @@
 \newcounter{subexample}\counterwithin{subexample}{example}
 \newcounter{subtheorem}\counterwithin{subtheorem}{theorem}
 \newcounter{definition}\counterwithin{definition}{chapter}
+\newcounter{law}\counterwithin{law}{chapter}
 \newcounter{proofdirection} % Used for automating proof-direction arrows
 
 
@@ -153,7 +154,19 @@
   \begin{shaded*}
   \ignorespaces
 }{
-  \end{shaded*} 
+  \end{shaded*}
+}
+
+\crefname{law}{law}{laws}
+\newenvironment{law}[1][] {
+  \refstepcounter{law}
+  \par\smallskip
+  \noindent
+  \textbf{Law \thelaw}\ifstrempty{#1}{}{ (#1)}:
+  \begin{shaded*}
+  \ignorespaces
+}{
+  \end{shaded*}
 }
 
 \newenvironment{indentenvironment}[1][1em]{
@@ -223,7 +236,7 @@
   \textbf{Assume} true for #3\ifstrempty{#4}{.}{:}
   \ifstrempty{#4}{\par\noindent\nopagebreak}{\begin{indentenvironment}#4\end{indentenvironment}}
   \textbf{RTP} true for #5:
-  \begin{indentenvironment}#6\end{indentenvironment} 
+  \begin{indentenvironment}#6\end{indentenvironment}
   Thus proven by mathematical induction.
 }
 
