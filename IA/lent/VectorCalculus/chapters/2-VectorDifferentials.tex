@@ -1,0 +1,51 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Vector Differential Operators}
+An operator is a map between vector spaces.
+\section{Del}
+\begin{definition}
+  The fundamental differential operator is \textit{del}:
+  \[
+    \nabla = \begin{pmatrix}
+    \partial/\partial x_1 \\
+    \partial/\partial x_2 \\
+    \partial/\partial x_3 \\
+    \end{pmatrix}
+  \]
+\end{definition}
+This operator is applied in various ways to scalar and vector fields.
+In this context, a \textit{field} is simply a quantity that depends on $\vec{x}$.
+\begin{remark}
+  Del is often called ``grad'' although this is not strictly correct as grad is a specific operator derived from del.
+\end{remark}
+We can also write:
+\[
+  \nabla = \vec{e}_1 \pderiv{}{x} + \vec{e}_2 \pderiv{}{y} + \vec{e}_3 \pderiv{}{z} = \vec{e}_i \pderiv{}{x_i}
+\]
+where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
+\section{Gradient}
+\begin{definition}[Gradient]
+  When del is applied to a scalar field $f(\vec{x})$, it is known as the \textit{gradient operator}:
+  \[
+    \nabla f = \begin{pmatrix}
+    \partial f/\partial x \\
+    \partial f/\partial y \\
+    \partial f/\partial z \\
+    \end{pmatrix}
+  \]
+  or in suffix notation:
+  \[
+    (\nabla f)_i = \pderiv{f}{x_i},\ \nabla f = \pderiv{f}{x_i}\vec{e}_i
+  \]
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item If $f(\vec{x}) = |\vec{x}| = x^2 + y^2 + z^2$, then $\nabla f = (2x, 2y, 2z) = 2\vec{x}$.
+
+      Alternatively, we can use suffix notation and summation convention:
+      \[
+        \pderiv{}{x_i}(x_j x_j) = 2x_j \pderiv{x_j}{x_i} = 2x_j \delta_{i j} = 2x_i
+      \]
+  \end{enumerate}
+\end{example}
+\end{document}

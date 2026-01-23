@@ -1,0 +1,100 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Preliminaries}
+\section{Vector Notation}
+\subsection{Conventions}
+Throughout this course, we will work in $\R^3$ unless stated otherwise, using the standard basis denoted $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$.
+Most results will also be valid in $\R^{n}$ but it is helpful to understand the concepts in $\R^{3}$ before generalising to higher dimensions.
+
+Suffix notation and summation will be used heavily and Newton's dot notation ($\dot{\vec{x}},\ \ddot{\vec{x}},\ \ldots$) for differentiation with respect to $t$, even if $t$ does not represent time.
+
+\subsection{Calculus on Vectors}
+Many rules of calculus for scalars apply similarly to scalars:
+\begin{align*}
+  \dot{\vec{a}}(t) = \deriv{\vec{a}}{t}& = \deriv{}{t}(a_1, a_2, a_3) = (\dot{a}_1, \dot{a}_2, \dot{a}_3) \\
+  \deriv{}{t}(\vec{a} \cdot \vec{b}) &= \dot{\vec{a}} \cdot \vec{b} + \vec{a} \cdot \dot{\vec{b}} \\
+  \deriv{}{t}(\vec{a} \times \vec{b}) &= \dot{\vec{a}} \times \vec{b} + \vec{a} \times \dot{\vec{b}} \\
+\end{align*}
+These can be checked using suffix notation and summation convention along with the standard rules of calculus for scalars.
+
+The integral of a vector is the integral of its components:
+\[
+  \int_{t_1}^{t_2} \vec{a}(t) \d{t} = \int_{t_1}^{t_2} (a_1, a_2, a_3) \d{t} = \left(\int_{t_1}^{t_2} a_1 \d{t}, \int_{t_1}^{t_2} a_2 \d{t}, \int_{t_1}^{t_2} a_3 \d{t}\right)
+\]
+In particular, using the fundamental theorem of calculus:
+\[
+  \int_{t_1}^{t_2} \dot{\vec{a}}(t) \d{t} = \vec{a}(t_2) - \vec{a}(t_1)
+\]
+\subsection{Additional Notation}
+Position vectors will usually be denoted by $\vec{x}$ or $\vec{r}$.
+
+The modulus of a  vector will be denoted by the same letter as the vector, but not bold or underlined.
+For example, $r = |\vec{r}|$.
+One exception to this rule is $x$, which is used to mean the first component $x_1$ and not $|\vec{x}|$.
+
+The partial derivative $\partial/\partial x_i$ can also be written as $\partial_i$ although these act on the whole term and not just the adjacent symbol.
+That is:
+\[
+  \partial_i fg = \pderiv{}{x_i}(fg)
+\]
+\section{The Chain Rule}
+Recall from Differential Equations that if $f$ is a function of $\vec{x}(t)$ then:
+\begin{align*}
+  \deriv{}{t}(f(\vec{x}(t))) &= \pderiv{f}{x} \deriv{x}{t} + \pderiv{f}{y} \deriv{y}{t} + \pderiv{f}{z} \deriv{z}{t} \\
+                             &= \pderiv{f}{x_i} \deriv{x_i}{t}
+\end{align*}
+If instead $\vec{x} = \vec{x}(\vec{u})$ where $\vec{u} = (u_1, u_2, u_3) \equiv (u, v, w)$ then:
+\[
+  \deriv{f}{u} = \pderiv{f}{x} \pderiv{x}{u} + \pderiv{f}{y} \pderiv{y}{u} + \pderiv{f}{z} \pderiv{z}{u}
+\]
+and similarly for $\partial f/\partial v$ and $\partial f/\partial w$.
+More generally:
+\[
+  \pderiv{f}{u_i} = \pderiv{f}{x_j} \pderiv{x_j}{u_i}
+\]
+\section{Taylor's Theorem}
+Recall from Differential Equations that for a small $\delta \vec{x}$:
+\begin{align*}
+  f(\vec{x} + \delta \vec{x}) &= f(x + \delta x, y + \delta y, z + \delta z) \\
+                              &= f(x, y, z) + \deriv{f}{x}\delta x + \pderiv{f}{y} \delta y + \pderiv{f}{z} \delta z + \frac{1}{2!}\left(\delta x \pderiv{}{x} + \delta y \pderiv{}{y} + \delta z \pderiv{}{z}\right)^2 f + \cdots
+\end{align*}
+or in suffix notation:
+\[
+  f(\vec{x} + \delta \vec{x}) = f(\vec{x}) + \pderiv{f}{x_i}\delta x_i + O(|\delta \vec{x}|^2)
+\]
+as the order term contains $(\delta x)^2$, $(\delta y)^2$ and $(\delta z)^2$.
+\section{Infinitesimals}
+\subsection{Infinitesimals in 1D}
+In one dimension, if $\delta x$ is a small change in $x$, then we have:
+\[
+  \delta f \equiv f(x + \delta x) - f(x) = f'(x)\delta x + O(\delta x^2)
+\]
+If $\delta x$ is small then $\delta x^2$ is negligible so $\delta f \approx f'(x)\delta x$.
+As $\delta x \to 0$, both $\delta x$ and $\delta f$ become the \textit{infinitesimals} $\d{x}$ and $\d{f}$.
+$\d{x^2}$ is then vanishingly small so:
+\[
+  \d{f} = f'(x) \d{x}
+\]
+We can then write $\deriv{f}{x} = f'(x)$.
+
+Infinitesimals also have their own product and quotient rules:
+\[
+  \d{(fg)} = g\d{f} + f\d{g} \text{ and } \d{(f/g)} = \frac{g \d{f} - f\d{g}}{g^2}
+\]
+\subsection{Infinitesimal Vectors}
+In higher dimensions, an infinitesimal vector is one whose components are all infinitesimals.
+For example, $\d{\vec{x}} = (\d{x}, \d{y}, \d{z})$.
+Then we have:
+\[
+  \d{f} = \pderiv{f}{x_i}\d{x_i}
+\]
+The modulus of an infinitesimal vector can be calculated with:
+\[
+  |\d{\vec{x}}| = |\d{x}|\sqrt{1 + \left(\deriv{y}{x}\right)^2 + \left(\deriv{z}{x}\right)^2}
+\]
+and other similar formula if $\d{x} = 0$.
+
+If $\d{x}$ and $\d{y}$ are independent infinitesimals then $\d{x}\d{y}$ is an infinitesimal area.
+However, if they are dependant in some way, then $\d{x}\d{y}$ vanishes.
+For example, if $y = f(x)$, then $\d{x}\d{y} = \d{x} f'(x)\d{x} = f'(x) \d{x^2} = 0$.
+\end{document}

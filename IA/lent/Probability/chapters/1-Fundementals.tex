@@ -1,0 +1,170 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Fundamentals of Probability}
+\section{Probability Spaces}
+\subsection{Definitions}
+\begin{definition}[Subset Complement]
+  For any subset $A \subseteq \Omega$, the \textit{complement} of $A$ is defined as $A^{\comp} = \Omega \setminus A$.
+\end{definition}
+\begin{definition}[$\sigma$-algebra]
+  Suppose $\Omega$ is a set and $\salg$ is a collection of subsets of $\Omega$.
+
+  We call $\salg$ a \textit{$\sigma$-algebra} if:
+  \begin{enumerate}
+    \item $\Omega \in \salg$.
+    \item If $A \in \salg$, then $A^{\comp} \in \salg$.
+    \item If $(A_n)_{n \in \N}$ is a countable collection of sets in $\salg$ (i.e. $A_n \in \salg\ \forall n$), then their union $\bigcup_{n \in \N} A_n \in \salg$.
+  \end{enumerate}
+\end{definition}
+\begin{definition}[Probability Measure]
+  Consider a $\sigma$-algebra $\salg$ on $\Omega$.
+  A function $\P: \salg \to [0, 1]$ is called a \textit{probability measure} if:
+  \begin{enumerate}
+    \item $\P(\Omega) = 1$
+    \item For any countable disjoint collection $(A_n)_{n \in \N}$ in $\salg$:
+      \[
+        \P\left(\bigcup_{n} A_n\right) = \sum_{n} \P(A_n)
+      \]
+  \end{enumerate}
+  $\P(A)$ is then called the \textit{probability} of $A \in \salg$.
+\end{definition}
+\begin{definition}[Probability Space]
+  For a set $\Omega$, $\sigma$-algebra $\salg$ and probability measure $\P$, we call the triplet $(\Omega, \salg, \P)$ a \textit{probability space}.
+\end{definition}
+\begin{definition}[Outcomes and Events]
+  The elements of $\Omega$ are called \textit{outcomes} and the elements of $\salg$ are called \textit{events}.
+\end{definition}
+We talk about probabilities of events and \textbf{not} probabilities of outcomes.
+\begin{remark}
+  When $\Omega$ is countable, we take $\salg$ to be all subsets of $\Omega$, that is, $\salg = \powerset{\Omega}$.
+\end{remark}
+\subsection{Properties of Probability Spaces}
+We can derive some basic properties about probability spaces directly from the definitions:
+\begin{enumerate}
+  \item $\P(A^{\comp}) = 1 - \P(A)$ as $\P(A \cup A^{\comp}) = \P(\Omega) = 1 = \P(A) + \P(A^{\comp})$.
+  \item $\P(\emptyset) = 0$ as the probability of an empty union is an empty sum.
+  \item If $A \subseteq B$, then $\P(B \setminus A) = \P(B) - \P(A)$ as $\P((B \setminus A) \cup A) = \P(B \setminus A) + \P(A) = \P(B)$.
+  \item If $A \subseteq B$, then $\P(A) \leq \P(B)$ as $\P(B \setminus A) \geq 0$ above.
+  \item $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ as:
+    \begin{align*}
+      \P(A \cup B) &= \P((A \setminus (A \cap B)) \cup (B \setminus (A \cap B)) \cup (A \cap B)) \\
+                   &= \P(A \setminus (A \cap B)) + \P(B \setminus (A \cap B)) + \P(A \cap B) \\
+                   &= \P(A) + \P(B) - \P(A \cap B)
+    \end{align*}
+\end{enumerate}
+\subsection{Examples of Probability Spaces}
+We will now look at some basic examples of probability spaces.
+\begin{example}[6-Sided Die]
+  The set of outcomes is $\Omega = \{1, 2, 3, 4, 5, 6\}$, and as it is countable, $\salg = \powerset{\Omega}$.
+  We then have $\P(\{\omega\}) = 1/6$ for $\omega \in \Omega$ as each singleton event is equally likely.
+  Furthermore, for any $A \in \salg$, we have $\P(A) = |A|/6$.
+\end{example}
+\begin{example}[Picking Elements]
+  For a set $\Omega$ with $n$ elements, $\Omega = \{\omega_1, \ldots, \omega_n\}$, $\salg = \powerset{\Omega}$.
+  We can model the experiment of picking a random element of $\Omega$ by setting $\P(A) = |A|/|\Omega|$.
+  We then have:
+  \[
+    \P(\{\omega\}) = 1/|\Omega|\ \forall \omega \in \Omega
+  \]
+\end{example}
+\begin{example}[Picking Balls]
+  Suppose we have $n$ balls labelled $\{1, \ldots, n\}$ that are indistinguishable by touch.
+  If we wish to model picking $k \leq n$ balls \textbf{at random} without replacement then:
+  \[
+    \Omega = \{A \subseteq \{1, \ldots, n\}: |A| = k\},\ |\Omega| = \binom{n}{k},\ \P(\{\omega\}) = \frac{1}{\binom{n}{k}}
+  \]
+\end{example}
+\begin{example}[Deck of Cards]
+  Take a standard deck of 52 cards that is \textbf{well-shuffled} (all permutations equally likely).
+  The set of outcomes $\Omega$ is then:
+  \[
+    \Omega = \{\text{all permutations of 52 cards}\},\ |\Omega| = 52!
+  \]
+  We can then find the probability that the top two cards are aces:
+  \[
+    \P(\text{top 2 cards are aces}) = \frac{4 \times 3 \times 50!}{52!}
+  \]
+  As there are 4 ways to pick the top ace, 3 ways to pick the second ace, and $50!$ ways to pick the remaining cards.
+\end{example}
+\begin{example}[Largest Digit]
+  Consider a string of $n$ random digits from $\{0, \ldots, 9\}$.
+  The set of outcomes is then:
+  \[
+    \Omega = \{0, \ldots, 9\}^n,\ |\Omega| = 10^n
+  \]
+  We can then define the even $A_k$ to be:
+  \[
+    A_k = \{\text{no digit exceeds $k$}\}
+  \]
+  then
+  \[
+    \P(A_k) = \frac{(k + 1)^n}{10^n}
+  \]
+  as we pick from $k + 1$ possible digits $n$ times.
+
+  Furthermore, if $B_k = \{\text{largest digit is $k$}\}$, we have:
+  \[
+    \P(B_k) = \P(A_k \setminus A_{k - 1}) = \frac{(k + 1)^n - k^n}{10^n}
+  \]
+  as $A_{k - 1} \subseteq A_k$.
+\end{example}
+\begin{example}[Birthday Problem]
+  Suppose we have $n$ people, what is the probability that at least two of them share the same birthday?
+  We first assume each birthday is equally likely to be one of $\{1, \ldots, 365\}$ (i.e. no-one was born on the 29th of February).
+
+  The set of outcomes and $\sigma$-algebra is:
+  \[
+    \Omega = \{1, 2, \ldots, 365\}^n,\ \salg = \powerset{\Omega}
+  \]
+  Since each birthday is equally likely, the probability of a singleton event is:
+  \[
+    \P(\{\omega\}) = \frac{1}{365^{n}},\ \omega \in \Omega
+  \]
+  We then define the event $A = \{\text{at least two people have same birthday}\}$.
+  It is often more convenient to work out $\P(A^{\comp})$ and then use this to find $\P(A)$.
+  The compliment of $A$ is the event that no-one shares a birthday:
+  \[
+    A^{\comp} = \{\text{all $n$ birthdays are distinct}\}
+  \]
+  We can then calculate $\P(A^{\comp})$ as:
+  \[
+    \P(A^{\comp}) = \frac{365 \times 364 \times \cdots \times (365 - n + 1)}{365^n}
+  \]
+  so
+  \[
+    \P(A) = 1 - \P(A^{\comp}) = 1 - \frac{365 \times 364 \times \cdots \times (365 - n + 1)}{365^n}
+  \]
+
+  Surprisingly, for $n = 22$, $\P(A) \approx 0.476$, and for $n = 23$, $\P(A) \approx 0.507$.
+  This means that we only need 23 people for the probability of two people sharing a birthday to be greater than $1/2$.
+\end{example}
+\section{Combinatorial Analysis}
+\subsection{Multinomial Coefficients}
+Suppose $\Omega$ is a finite set with $|\Omega| = n$.
+We want to partition $\Omega$ into $k$ disjoint subsets $\Omega_1, \ldots, \Omega_k$ with $|\Omega_i| = n_i$ and $n_1 + \cdots + n_k = n$.
+How many ways are there to do this?
+Let $M$ be the number of ways:
+\begin{align*}
+  M &= \binom{n}{n_1} \times \binom{n - n_1}{n_2} \times \cdots \times \binom{n - (n_1 + \cdots n_{k - 1})}{n_k} \\
+    &= \frac{n!}{n_1! n_2! \cdots n_k!}
+\end{align*}
+As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
+\begin{definition}[Multinomial Coefficient]
+  For $n_1, \ldots, n_k$ such that $n_1 + \cdots + n_k = n$, we define the multinomial coefficient to be:
+  \[
+    \binom{n}{n_1, n_2, \ldots, n_k} = \frac{n!}{n_1! n_2! \cdots n_k!}
+  \]
+\end{definition}
+\subsection{Increasing Functions}
+\begin{definition}[Increasing and Strictly Increasing Functions]
+  A function $f$ is:
+  \begin{itemize}
+    \item \textit{Increasing} if $x < y \implies f(x) \leq f(y)$
+    \item \textit{Strictly increasing} if $x < y \implies f(x) < f(y)$
+  \end{itemize}
+\end{definition}
+Consider $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$.
+
+For $k \leq n$, how many strictly increasing $f$ are there?
+Such a function is determined by its image which is a subset size $k$ of $\{1, \ldots, n\}$, so there are $\binom{n}{k}$ of them.
+\end{document}
