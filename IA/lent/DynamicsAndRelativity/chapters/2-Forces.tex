@@ -7,7 +7,7 @@ In Newtonian physics such interactions are described by \textit{forces}.\quad
 \begin{definition}[Momentum]
   The \textit{momentum} of a point particle is the product of its \textit{mass} and its \textit{velocity}:
   \[
-    \vec{P} = m \dot{\vec{x}}
+    \vec{p} = m \dot{\vec{x}}
   \]
   where $m$ is the \textit{inertial mass}, often shortened to just \textit{mass}.
 \end{definition}
@@ -19,12 +19,146 @@ It could change with time, but we assume that it is constant unless otherwise sp
     \dot{\vec{p}} = \vec{F}
   \]
   That is, the rate of change of momentum is equal to the force.
+  \label{newton2}
 \end{law}
-The force $\vec{F}$ depends on the interaction, but can only depend on $\vec{x}$ and $\dot{\vec{x}}$.
+The force $\vec{F}$ depends on the interaction, however, we require that it must only depend on $\vec{x}$ and $\dot{\vec{x}}$.
 This means that Newton's 2nd law is a second order differential equation for $\vec{x}(t)$.
 Thus, given $\vec{x}$ and $\dot{\vec{x}}$ of all particles in a system at some time, Newton's equations uniquely determine $\vec{x}(t)$ for all future and past times.
 The force cannot depend exclusively on time because there is no preferred time in the universe as we saw in \cref{galileanRelativity}.
 \begin{remark}
   Newtonian mechanics has been superseded by both quantum mechanics (generally, small things) and relativity (generally, fast things), but nevertheless accurately describes much of the universe.
 \end{remark}
+\section{Conservative Forces}
+\begin{definition}[Conservative Force]
+  A \textit{conservative force} can be written as:
+  \[
+    \vec{F} = - \nabla V
+  \]
+  for some \textit{potential} $V$, a scalar function.
+\end{definition}
+\begin{remark}[Derivative Notation]\par
+  From Vector Calculus, the gradient $\nabla V$ is the vector:
+  \[
+    \nabla V = \left(\pderiv{V}{x_1}, \pderiv{V}{x_2}, \pderiv{V}{x_3}\right)
+  \]
+  The notation $\partial_i f$ is often used as a shorthand for $\pderiv{f}{x_i}$.
+\end{remark}
+\subsection{Gravitational Potential Energy}
+The \textit{gravitational potential energy} of a particle of mass $m$ at $\vec{x}$ due to a particle of mass $M$ at $\vec{x}_0$ is:
+\[
+  V = - \frac{GMm}{|\vec{x} - \vec{x}_0|}
+\]
+where $G \approx \qty{6.67e-11}{\metre^3\kilogram^{-1}\second^{-2}}$ is the \textit{gravitational constant}.
+
+We can find $\nabla|\vec{x} - \vec{x}_0|$ by computing $\partial_i|\vec{x} - \vec{x}_0|^2$ in two ways:
+\begin{align*}
+  \partial_i(|\vec{x} - \vec{x}_0|^2) &= 2|\vec{x} - \vec{x}_0|\partial_i|\vec{x} - \vec{x}_0| \\
+  \partial_i((\vec{x} - \vec{x}_0)_j (\vec{x} - \vec{x}_0)_j) &= 2(\vec{x} - \vec{x}_0)_j \partial_i(x_j - {x_0}_j) = 2(\vec{x} - \vec{x}_0)_j \delta_{i j} = 2(\vec{x} - \vec{x}_0)_i
+\end{align*}
+Combining the above yields:
+\[
+  2|\vec{x} - \vec{x}_0|\partial_i |\vec{x} - \vec{x}_0| = 2(\vec{x} - \vec{x}_0)_i \implies  \partial_i|\vec{x} - \vec{x}_0| = \frac{(\vec{x} - \vec{x}_0)_i}{|\vec{x} - \vec{x}_0|}
+\]
+Therefore:
+\[
+  \nabla |\vec{x} - \vec{x}_0| = \frac{\vec{x} - \vec{x}_0}{|\vec{x} - \vec{x}_0|}
+\]
+and so:
+\[
+  F = - \nabla V = -GMm \frac{\nabla|\vec{x} - \vec{x}_0|}{|\vec{x} - \vec{x}_0|^2} = -GMm \frac{\vec{x} - \vec{x}_0}{|\vec{x} - \vec{x}_0|^3}
+\]
+If we let $\vec{r} = \vec{x} - \vec{x}_0$ be the vector that points from $\vec{x}_0$ to $\vec{x}$ then:
+\[
+  F = -\frac{GMm}{r^2} \uvec{r} \text{ where } \uvec{r} = \frac{\vec{r}}{|\vec{r}|}
+\]
+which is the \textit{inverse square law of gravity}.
+The force is going in the opposite direction to $\uvec{r}$ so the force acting on the particle of mass $m$ at $\vec{x}$ is attractive towards the particle of mass $M$ at $\vec{x}_0$, as expected.
+
+Sometimes we write $V = m \Phi$ where $\Phi = -\frac{GM}{|\vec{x} - \vec{x}_0|}$ is called the \textit{gravitational potential}.
+
+Near the surface of the Earth, take $\vec{x}_0 = \vec{0}$ to be the centre of the Earth and $|\vec{x}| = R + z$, where $R$ is the radius of the Earth and $z \ll R$ is the distance above the surface.
+\begin{align*}
+  \Phi(R + z) &= - \frac{GM}{R + z} \\
+              &\approx -\frac{GM}{R}\left[1 - \frac{z}{R} + \frac{z^2}{R^2} + \cdots\right] \\
+              &\approx \text{constant} + \frac{GM}{R^2} z + \cdots
+\end{align*}
+We define $g = \frac{GM}{R^2} \approx \qty{9.81}{\metre\second^{-2}}$ on Earth.
+So $\Phi(R + z) \approx \text{constant} + gz$ near the earth.
+Using this approximation, when we take the gradient, the constant drops out so $\nabla \Phi = g\uvec{z}$.
+Thus $\vec{F} = -m\nabla \Phi = -mg\uvec{z}$ which is a constant downwards force.
+
+This force leads to the simplest nontrivial example of motion due to a force.
+Newton's 2nd Law (\cref{newton2}) tells us that:
+\[
+  m \ddot{\vec{x}} = m \vec{g} \text{ where } \vec{g} = (0, 0, -g)
+\]
+Considering the $z$ component:
+\begin{align*}
+  \cancel{m} \ddot{z} &= - \cancel{m}g \\
+  \implies \dot{z} &= v_0 - gt \\
+  \implies z &= z_0 + v_0 t - \frac{1}{2}gt^2
+\end{align*}
+where $z_0$ is the initial height and $v_0$ is the initial velocity.
+\begin{remark}[Assumptions]
+  \begin{itemize}
+    \item We treated the Earth as a point particle, assuming that all of its mass is concentrated in a single point.
+    \item We ignored non-inertial effects as technically the Earth is accelerating so is not an inertial frame.
+  \end{itemize}
+\end{remark}
+\subsection{Energy}
+\begin{definition}[Energy]
+  Conservative forces have a \textit{conserved energy}:
+  \begin{align*}
+    E &= \frac{1}{2}m \dot{\vec{x}} \cdot \dot{\vec{x}} + V(\vec{x}) \\
+      &= \frac{1}{2}m \dot{x}_i \dot{x}_i + V(\vec{x})
+  \end{align*}
+\end{definition}
+We can check that it is constant by computing $\deriv{E}{t}$:
+\begin{align*}
+  \deriv{E}{t} &= m \dot{x}_i \ddot{x}_i + \pderiv{V}{x_i}\dot{x}_i \\
+  &= \dot{x}_i\left(m \ddot{x}_i + \pderiv{V}{x_i}\right) \\
+  &= 0 \text{ as $\vec{F} = m \ddot{\vec{x}} = -\nabla V$}
+\end{align*}
+\begin{example}[Escape Velocity]
+  Suppose we throw an object into space and want it to never fall back down.
+  The minimal velocity the object must have to achieve this is called the \textit{escape velocity}.
+
+  As the object is thrown:
+  \[
+    E_{\text{initial}} = \frac{1}{2}mv^2 - \frac{GMm}{R}
+  \]
+  as $V = - GMm/R$ on the surface of Earth.
+
+  To not fall back, the object must reach $|\vec{x}| \to \infty$ without the velocity going to zero.
+  Assuming that the particle reaches infinity, we have:
+  \begin{align*}
+    \frac{1}{2}mv^2 - \frac{GMm}{R} &= E_{\text{initial}} \\
+                                    &= E_{\infty} \text{ by conservation of energy}\\
+                                    &= \frac{1}{2}mv^{2}_{\infty} - 0 \text{ as $V(\vec{x}) \to 0$ as $|\vec{x}| \to \infty$}
+  \end{align*}
+  Since it made it to infinity, $v_{\infty}$ must be positive and thus $v^2 > 2GM/R$.
+  The escape velocity is then $v_{\text{escape}} = \sqrt{2GM/R}$.
+  On Earth, this is about \qty{10}{\kilo\metre\second^{-1}}.
+
+  Note that the mass of the object $m$ cancels in $v_{\text{escape}}$ because the \textit{gravitational mass} (that appears in the inverse square law), is the same as the \textit{inertial mass} (that appears in Newton's 2nd Law -- \cref{newton2}).
+  This hypothesis is known as the \textit{principal of equivalence}.
+\end{example}
+It is useful to write $E = T + V$ where $T = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}}$ is the \textit{kinetic energy} and $V$ is the potential energy.
+
+\begin{definition}[Work Done]
+  The \textit{work done} by a force along a trajectory $C$ is defined to be the line integral:
+  \[
+    W = \int_C \vec{F} \cdot \d{\vec{x}}
+  \]
+\end{definition}
+\begin{proposition}[Path independence of work done for conservative forces]
+  Conservative forces have the property that the \textit{work done} by the force as a particle moves along a trajectory only \textbf{depends on the endpoints of the trajectory} and \textbf{not} on the path itself.
+\end{proposition}
+There are two ways to see this:
+\begin{proof}[1]
+  \[
+    W = \int_C \vec{F} \cdot \d{\vec{x}} = \int_{t_1}^{t_2} \underbrace{\vec{F} \cdot \deriv{\vec{x}}{t}}_{\text{Power}} \d{t}
+  \]
+  Continued next lecture.
+\end{proof}
 \end{document}

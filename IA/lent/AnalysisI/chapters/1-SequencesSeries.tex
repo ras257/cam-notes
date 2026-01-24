@@ -25,7 +25,7 @@ We would like to think about what it means for a sequence $x_n$ to converge to a
 \end{itemize}
 Now that we know what we what restrictions we want the definitions to impose, we can more rigorously state them:
 \begin{definition}[Convergence]
-  We say that the sequence $(x_n)$ \textit{converges} to some finite $x$ if:
+  We say that the sequence $(x_n)$ \textit{converges} to some finite $x \in \C$ if:
   \[
     \forall \varepsilon > 0\ \exists N = N(\varepsilon) \text{ s.t. } |x_n - x| < \varepsilon\ \forall n \geq N
   \]
@@ -41,13 +41,17 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \begin{enumerate}
     \item We can make the modulus inequality non strict (i.e. $|x_n - x| \leq \varepsilon$ for convergence or $|x_n| \geq L$ for divergence to infinity) for an equivalent definition.
     \item We can also replace $\varepsilon$ by any constant non-zero multiple of $\varepsilon$ for an equivalent definition.
+    \item If $(x_n)$ is real, then it diverges to infinity if either $(x_n)$ or $(-x_n)$ satisfy:
+      \[
+        \forall L > 0\ \exists N = N(L) \text{ s.t. } x_n > L\ \forall n \geq N
+      \]
   \end{enumerate}
 \end{remark}
 \begin{definition}[Floor and Ceiling functions]
-  The floor function takes as input any $x \in \R$ and outputs the \textbf{greatest integer less than or equal} to $x$.
+  The \textit{floor function} takes as input any $x \in \R$ and outputs the \textbf{greatest integer less than or equal} to $x$.
   It is denoted $\floor{x}$.
 
-  Similarly, the ceiling function takes as input any $x \in \R$ and outputs the \textbf{greatest integer greater than or equal} to $x$.
+  Similarly, the \textit{ceiling function} takes as input any $x \in \R$ and outputs the \textbf{greatest integer greater than or equal} to $x$.
   It is denoted $\ceil{x}$.
 \end{definition}
 \begin{example}
@@ -69,7 +73,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \end{enumerate}
 \end{example}
 \subsection{Limit Laws and Properties}
-\begin{lemma}
+\begin{lemma}[Uniqueness of Limits]
   If it exists, the limit of $(x_n)$ is unique.
 \end{lemma}
 \begin{proof}
@@ -94,6 +98,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \end{remark}
 \begin{proposition}[Sandwich Theorems]
   Let $(x_n), (y_n), (z_n)$ be real sequences.
+  \label{sandwichThm}
   Then:
   \begin{enumerate}
     \item If $x_n \leq y\ \forall n$ and $x_n \to x$, then $x \leq y$
@@ -168,16 +173,29 @@ Now that we know what we what restrictions we want the definitions to impose, we
     \]
   \end{proofdirection}
 \end{proof}
-\begin{lemma}
+\begin{definition}[Bounded Sequence]
+  We say that $(x_n)$ is bounded if $\exists M > 0$ such that $|x_n| \leq M$ or equivalently $\sup\limits_{n \geq0} |x_n| \leq M$.
+\end{definition}
+\begin{lemma}[Boundedness of Convergent Sequences]
   If $x_n \to x$ then $(x_n)$ must be bounded.
   That is $\exists M$ s.t. $|x_n| \leq M\ \forall n$.
   \label{convergenceBounded}
 \end{lemma}
 \begin{proof}
-  Covered next lecture.
+  Take $\varepsilon = 1$, then $\exists N \text{ s.t. } |x_n - x| \leq 1\ \forall n \geq N$ and thus by the triangle inequality:
+  \[
+    |x_n|  = |x_n - x + x| \leq |x_n - x| + |x| \leq 1 + |x|\ \forall n \geq N
+  \]
+  For $n < N$, $|x_n| \leq \max\{|x_1|, \ldots, |x_{N - 1}|\} < \infty$
+
+  Therefore the whole sequence is bounded by:
+  \[
+    |x_n| \leq \max\{|x_1|, \ldots, |x_{N - 1}|, 1 + |x|\}\ \forall n
+  \]
 \end{proof}
-\begin{lemma}
+\begin{lemma}[Addition and Multiplication of Limits]
   If $x_n \to x$ and $y_n \to y$, then:
+  \label{limitLaws}
   \begin{enumerate}
     \item $x_n + y_n \to x + y$
     \item $x_n y_n \to xy$
@@ -189,22 +207,150 @@ Now that we know what we what restrictions we want the definitions to impose, we
     |x_n - x| < \varepsilon\ \forall n \geq N_1 \text{ and } |y_n - y| < \varepsilon\ \forall n \geq N_2
   \]
 
-  \textbf{Addition of Limits:}
+  \textbf{Addition of Limits (i):}
   \[
     |x_n + y_n - (x + y)| \leq |x_n - x| + |y_n - y| < 2\varepsilon\ \forall n \geq \max\{N_1, N_2\}
   \]
   which is a constant multiple of $\varepsilon$, so we are done.
 
-  \textbf{Multiplication of Limits:}
+  \textbf{Multiplication of Limits (ii):}
   \begin{align*}
     |x_n y_n - xy| &= |x_n y_n - xy_n + xy_n - xy| \\
                    &= |x| |y_n - y| + |y_n||x - x_n|
   \end{align*}
   Hence $|x_n y_n - xy| \leq \varepsilon(|x| + |y_n|)\ \forall n \geq \max\{N_1, N_2\}$.
-  By \cref{convergenceBounded}, for some $M > 0$, we have:
+  By \cref{convergenceBounded}, for some $M \geq 0$, we have:
   \[
     |x_ny_n - xy| \leq \varepsilon(|x| + |y_n|) \leq \varepsilon(|x| + M)\ \forall n \geq \max\{N_1, N_2\}
   \]
   which is a constant multiple of $\varepsilon$, so we are done.
 \end{proof}
+\begin{lemma}[Convergence of Reciprocal Sequence]
+  If $x_n \neq 0\ \forall n$ and $x_n \to x \neq 0$, then $\frac{1}{x_n} \to \frac{1}{x}$
+\end{lemma}
+\begin{proof}
+  Since $x_n \to x$ and $x \neq 0$, we can take $\varepsilon = |x/2|$ so $\exists N$ s.t. $|x_n - x| < |x/2|\ \forall n \geq N$.
+  Using the triangle inequality, for such $n$ we have:
+  \[
+    |x_n - (x_n - x)| \leq |x_n| + |x_n - x| \implies |x_n| \geq |x| - |x_n - x| > |x| - \abs{\frac{x}{2}} = \abs{\frac{x}{2}}
+  \]
+  Since there are finitely many times with index $< N$, we can construct the bound:
+  \[
+    |x_n| \geq \min\{|x_1|, \ldots, |x_{N - 1}|, |x/2|\}\ \forall n
+  \]
+  So $|x_n| \geq M\ \forall n$ for some $M > 0$.
+
+  Now for any $\varepsilon > 0$, $\exists N(\varepsilon)$ s.t. $\forall n > N$ we have the following:
+  \begin{align*}
+    \abs{\frac{1}{x_n} - \frac{1}{x}} &= \abs{\frac{x_n - x}{x_n x}} \\
+                                      &< \frac{\varepsilon}{|x_n||x|} \\
+                                      &\leq \frac{\varepsilon}{M|x|}
+  \end{align*}
+  which is a constant multiple of $\varepsilon$, so we are done.
+\end{proof}
+\begin{remark}
+  This proof also shows that if $x_n \neq 0\ \forall n$ and $x_n \to x \neq 0$, then $\exists M > 0$ such that $|x_n| \geq M\ \forall n$.
+\end{remark}
+\begin{remark}[Advice]
+  We often specify that something must be true for all terms of the sequence, however if it is not, we can just define a new sequence that removes terms from the start of the sequence so that the property is satisfied for all $n$.
+\end{remark}
+\subsection{Monotone Sequences}
+\begin{definition}[Monotone Sequence]
+  We say a real sequence $(x_n)$ is \textit{monotone} if either:
+  \begin{itemize}
+    \item It is \textit{increasing} $x_n \leq x_{n + 1}\ \forall n$ (strictly increasing if $<$)
+    \item It is \textit{decreasing} $x_n \geq x_{n + 1}\ \forall n$ (strictly decreasing if $>$)
+  \end{itemize}
+\end{definition}
+\begin{proposition}[Monotone Convergence Theorem]
+  Every bounded monotone real sequence converges.
+  \label{monotoneConvergence}
+\end{proposition}
+\begin{proof}
+  Suppose $(x_n)$ is increasing.
+  Then the set $\{x_n: n \geq 1\}$ is a non-empty set which is bounded above as $(x_n)$ is bounded.
+  By the least upper bound axiom, it has a supremum, say $\ell$.
+
+  Given $\varepsilon > 0$, $\ell - \varepsilon$ cannot be an upper bound for the set because $\ell$ is the least upper bound.
+  Therefore $\exists N$ s.t. $x_N > \ell - \varepsilon$.
+  Thus, since $(x_n)$ is monotonic $\ell - \varepsilon < x_n \leq \ell$ for $\forall n \geq N$.
+  Hence $\forall n \geq N$, $|x_n -\ell| < \varepsilon$ so $x_n \to \ell$.
+
+  The decreasing case is the same but instead considering $(-x_n)$.
+\end{proof}
+\begin{remark}
+  We only required the sequence to be bounded above if it is monotonically increasing and bounded below if it is monotonically decreasing.
+\end{remark}
+Sequences that are bounded but not monotone do not necessarily have to converge, for example the sequence $x_n = (-1)^{n}$ is bounded but does not converge.
+However, if we remove even terms we get the subsequence $x_{2k + 1} = -1$, and if we remove all the odd terms, we get the subsequence $x_{2k} = 1$.
+These are constant sequences so converge.
+\section{Bolzano-Weierstrass Theorem}
+To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce the notion of a subsequence and prove a few preliminary lemmas.
+\begin{definition}[Subsequence]
+  Given a sequence $(x_n)$, a \textit{subsequence} of $(x_n)$ is a sequence of the form $(x_{n_k})_{k \in \N}$ where $(n_k)_{k \in \N}$ is a sequence of naturals satisfying $n_1 < n_2 < n_3 < \cdots$ (strictly monotonically increasing).
+\end{definition}
+\begin{lemma}[Convergence of Subsequences]
+  If $x_n \to x$ then any subsequence $(x_{n_k})_{k \in \N}$ must converge to the same limit.
+\end{lemma}
+\begin{proof}
+  Since $n_k < n_{k + 1} \implies n_{k + 1} \geq n_k + 1$, by induction $n_k \geq k$.
+  If we take $\varepsilon > 0$, then $\exists N = N (\varepsilon) \text{ s.t. } |x_n - x| < \varepsilon\ \forall n \geq N$.
+  So if $k \geq N$, then $n_k \geq k \geq N$ so $|x_{n_k} - x| < \varepsilon$.
+  Hence $\lim\limits_{k \to \infty} x_{n_k} = x$.
+\end{proof}
+\begin{proposition}[Nested Interval Property]
+  Let $(I_n)_{n \in \N}$ be a sequence of nested intervals in $\R$, that is, $\forall n\ I_{n + 1} \subseteq I_n$ and $I_n = [a_n, b_n]$ for $a_n \leq b_n$.
+  \label{nestedInterval}
+
+  If $b_n - a_n = |I_n| \to 0$ as $n \to \infty$ then $\bigcap_{n \in \N} I_n$ contains exactly one point.
+\end{proposition}
+\begin{proof}
+  Since $I_{n + 1} \subseteq I_n$ and $a_{n + 1} \geq a_n$ and $b_{n + 1} \leq b_n$.
+  Therefore $a_1 \leq a_n \leq b_n \leq b_1\ \forall n$.
+
+  So the sequence $(a_n)$ is increasing and bounded above by $b_1$ and the sequence $(b_n)$ is decreasing and bounded below by $a_1$.
+  Thus, by \cref{monotoneConvergence}, $a_n \to a$ and $b_n \to b$ for some $a, b \in \R$.
+  Since $a_n \leq b_n \forall n$ we can use \cref{sandwichThm} to preserve the non-strict inequality to yield, $a \leq b$.
+
+  \textbf{Existence}\par
+  For all $k \geq n$, $a_k \in [a_k, b_k] \subseteq [a_n, b_n]$ so $a_n \leq a_k \leq b_n$.
+  For fixed $n$, as $k \geq n$, we can take the limit as $k \to \infty$ so using \cref{sandwichThm} again $a_n \leq a \leq b_n$.
+  Thus $a \in I_n\ \forall n$ so $a \in \bigcap_{n \in \N} I_n$.
+
+  \textbf{Uniqueness}\par
+  By \cref{limitLaws}, $b_n - a_n \to b - a$.
+  By assumption, $b_n - a_n \to 0$ and limits are unique, therefore $b - a = 0 \implies b = a$.
+
+  Hence $x \in \bigcap_{n} I_n \iff x \in I_n\ \forall n \iff a_n \leq x \leq b_n\ \forall n$.
+  Using \cref{sandwichThm} again, $a \leq x \leq b = a \implies x = a$.
+  So the intersection contains only $a$.
+\end{proof}
+\begin{theorem}[Bolzano-Weierstrass Theorem]
+  If $(x_n)$ is a real and bounded sequence, then it has at least one convergence subsequence.
+\end{theorem}
+\begin{proof}
+  Suppose $(x_n)$ is bounded by $M \geq 0$.
+  We wish to construct a sequence of nested intervals from which we can sample our subsequence since that will ensure that our subsequence will converge  to the unique intersection point of the nested intervals.
+
+  Let $a_1 = -M$ and $b_1 = M$ so $I_1 = [-M, M] \supset \{x_n: n \in \N\}$ as $|x_n| \leq M\ \forall n$.
+  If we let $c = \frac{a_1 + b_1}{2}$, then at least one of the halves $[a_1, c]$ and $[c, b_1]$ will have infinitely many elements of $(x_n)$.
+  Take $I_2$ to be a half that has infinitely many elements.
+  Continue this process inductively to get $(I_n)_{n \in \N}$ which are nested by construction and all have infinitely many elements of the sequence.
+  By \cref{nestedInterval}, $\exists!\ x$ s.t. $x \in \bigcap_{n} I_n$.
+
+  We then choose $(x_{n_k})$ as follows:
+  \begin{itemize}
+    \item Since $I_1$ has infinitely many elements, we can pick $n_1$ s.t. $x_{n_1} \in I_1$.
+    \item By construction, $I_2$ has infinitely many elements of $(x_n)$ of index $> n_1$ so we can pick $n_2 > n_1$ s.t $x_{n_2} \in I_2 \subset I_1$.
+    \item Continue this process inductively to get $(x_{n_k})_{k \in \N}$.
+  \end{itemize}
+  We have $x_{n_k} \in I_k\ \forall k \implies x_{n_k} \in \bigcap_{n \leq k} I_n$.
+  Therefore, as $k \to \infty$, the intersection becomes $\{x\}$ so $x_{n_k} \to x$.
+\end{proof}
+\begin{remark}[Notation]
+  We write $\exists!$ to mean ``there exists unique'' and $\centernot \exists$ to mean ``there does not exist''.
+\end{remark}
+\begin{remark}
+  We see from $x_n = (-1)^{n}$ that there can be more than one convergent subsequence and their limits can disagree.
+\end{remark}
 \end{document}
