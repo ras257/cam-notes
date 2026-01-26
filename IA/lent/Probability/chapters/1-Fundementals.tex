@@ -163,8 +163,184 @@ As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
     \item \textit{Strictly increasing} if $x < y \implies f(x) < f(y)$
   \end{itemize}
 \end{definition}
-Consider $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$.
+\begin{proposition}
+  For $k \leq n$, the number of \textbf{strictly increasing} $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$ is $\binom{n}{k}$
+  \label{strictlyIncreasingF}
+\end{proposition}
+\begin{proof}
+  If we pick a subset of size $k$ from $\{1, \ldots, n\}$ to be $\im f$, then this uniquely determines $f$ as it must be order preserving.
+  Therefore, the number of strictly increasing $f$ is the number of such subsets which is $\binom{n}{k}$.
+\end{proof}
+\begin{proposition}
+  For $k \leq n$, the number of \textbf{increasing} $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$ is $\binom{n + k - 1}{k}$.
+\end{proposition}
+\begin{proof}
+  We can define a bijection between:
+  \begin{align*}
+    &\{f: \{1, \ldots, k\} \to \{1, \ldots, n\} \text{ increasing}\} \\
+    \text{ and }&\{g: \{1, \ldots, k\} \to \{1, \ldots, n + k - 1\} \text{ strictly increasing}\}
+  \end{align*}
+  We do this by mapping each increasing $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$ to $g(i) = f(i) + i - 1$.
+  Such $g$ are strictly increasing as, if $i < j$, then $f(i) - f(j) \leq 0$ and $i - j < 0$ so:
+  \[
+    g(i) - g(j) = (f(i) - f(j)) + (i - j) < 0 \implies g(i) < g(j)
+  \]
+  This construction ensures that $g(1) = f(1)$ and then always adds 1 each time the input increases to ensure that $g$ never stays at a constant value.
 
-For $k \leq n$, how many strictly increasing $f$ are there?
-Such a function is determined by its image which is a subset size $k$ of $\{1, \ldots, n\}$, so there are $\binom{n}{k}$ of them.
+  This mapping is a bijection as:
+  \[
+    g_1 = g_2 \implies f_1(i) + i - 1 = f_2(i) + i - 1\ \forall i \implies f_1(i) = f_2(i)\ \forall i \implies f_1 = f_2
+  \]
+  Thus, the number of increasing $f$ is the same as the number of strictly increasing $g: \{1, \ldots, k\} \to \{1, \ldots, n + k - 1\}$, which is $\binom{n + k - 1}{k}$ by \cref{strictlyIncreasingF}.
+\end{proof}
+\subsection{Stirling's Formula}
+\begin{remark}[Asymptotic Notation]
+  If $(a_n)$ and $(b_n)$ are sequences then we write $a_n \sim b_n$ as $n \to \infty$ if $\frac{a_n}{b_n} \to 1$ as $n \to \infty$.
+\end{remark}
+Stirling's formula provides an asymptotic expression for $n!$ as $n \to \infty$.
+\begin{theorem}[Stirling's Formula]
+  \[
+    n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^n \text{ as $n \to \infty$}
+  \]
+  \label{stirling}
+\end{theorem}
+We will first show the weaker statement $\log n! \sim n \log n$.
+\begin{proof}[Weaker Statment]
+  Define $\ell_n = \log n! = \log 2 + \cdots + \log n$ and for $x \in \R$, we write $\floor{x}$ to mean the integer part of $x$.
+  \[
+    \log \floor{x} \leq \log x \leq \log \floor{x + 1}
+  \]
+  If we integrate this from $1$ to $n$ we get:
+  \begin{align*}
+    \sum_{k = 1}^{n - 1} \log k &\leq \int_{1}^{n} (\log x) \d{x} \leq \sum_{k = 1}^{n} \log k \\
+    \ell_{n - 1} &\leq n \log n - n + 1 \leq \ell_{n}
+\end{align*}
+So we can bound $\ell_n$ by:
+\[
+  n \log n - n + 1 \leq \ell_n \leq (n + 1) \log(n + 1) - (n + 1) + 1
+\]
+we can then divide through by $n \log n$ to get:
+\[
+  1 - \cancelto{0}{\frac{n - 1}{n \log n}} \leq \frac{\ell_n}{n \log n} \leq \cancelto{1}{\frac{\log (n + 1)}{\log n}} + \cancelto{0}{\frac{\log(n + 1)}{n \log n}} - \cancelto{0}{\frac{1}{\log n}}
+\]
+as $n \to \infty$, so by squeeze theorem:
+\[
+  \frac{\ell_n}{n \log n} \to 1 \text{ as $n \to \infty$}
+\]
+and thus $\ell_n = \log n! \sim n \log n$.
+\end{proof}
+\nonexaminable
+To prove the stronger Stirling's formula, we first need to prove an integral identity.
+\begin{lemma}
+  For all twice differentiable $f : \R \to \R$ and $a < b$ we have:
+  \label{integralIdentity}
+  \[
+    \int_{a}^{b} f(x)\d{x} = \frac{f(a) + f(b)}{2}(b - a) - \frac{1}{2}\int_{a}^{b} (x - a)(b - x)f''(x) \d{x}
+  \]
+\end{lemma}
+\begin{proof}
+  Integrating the final integral by parts twice yields:
+  \begin{align*}
+    \int_{a}^{b} (x - a)(b - x) f''(x) \d{x} &= \eval{(-x^2 + ax + bx - ab)f'(x)}{a}{b} + \int_{a}^{b} (2x - a - b)f'(x) \d{x} \\
+                                             &= \int_{a}^{b} (2x - a - b)f'(x) \d{x} \\
+                                             &= \eval{(2x - a - b)f(x)}{a}{b} - 2 \int_{a}^{b} f(x) \d{x} \\
+                                             &= (b - a)(f(b) + f(a)) - 2 \int_{a}^{b} f(x) \d{x}
+  \end{align*}
+  from which the identity follows.
+\end{proof}
+We can now prove the stronger asymptotic expression:
+\begin{proof}[Stirling's Formula -- \Cref{stirling}]\par
+  \textbf{Showing $n! \sim n^n e^{-n}\sqrt{n} \cdot A$}\par
+  Taking $f(x) = \log x$, $a = k$, $b = k + 1$ for $k \in \N$ in \cref{integralIdentity} yields:
+  \[
+    \int_{k}^{k + 1} \log x \d{x} = \frac{\log k + \log(k + 1)}{2} + \frac{1}{2}\int_{k}^{k + 1} \frac{(x - k)(k + 1 - x)}{x^2} \d{x}
+  \]
+  Summing both sides from $k = 1$ to $n - 1$, we have:
+  \[
+    \int_{1}^{n} \log x \d{x} = \frac{\log (n - 1)! + \log n!}{2} + \sum_{k = 1}^{n - 1} a_k
+  \]
+  where
+  \[
+    a_k = \frac{1}{2} \int_{k}^{k + 1} \frac{(x - k)(k + 1 - x)}{x^2} \d{x} \stackrel{x \mapsto x + k}= \frac{1}{2} \int_{0}^{1} \frac{x(1 - x)}{(x + k)^2} \d{x}
+  \]
+  We can also rewrite:
+  \[
+    \frac{\log (n - 1)! + \log n!}{2} = \frac{\log n! - \log n + \log n!}{2} = \log n! - \frac{\log n}{2}
+  \]
+  and so, after rearranging:
+  \begin{align*}
+    \log n! &= n \log n - n + \frac{\log n}{2} + 1 - \sum_{k = 1}^{n - 1} a_k \\
+    \implies n! &= n^n e^{-n} \sqrt{n} \exp\left[1 - \sum_{k = 1}^{n - 1} a_k\right]
+  \end{align*}
+  We now wish to bound $a_k$.
+  Since $x + k \geq k$ for $x \geq 0$ we have:
+  \begin{align*}
+    a_k = \frac{1}{2} \int_{0}^{1} \frac{x(1 - x)}{(x + k)^2} \d{x} &\leq \frac{1}{2k^2} \int_{0}^{1} x(1 - x) \d{x} \\
+                                                                    &= \frac{1}{12k^2}
+  \end{align*}
+  This means that $\sum_{k = 1}^{\infty} a_k$ converges by comparison to $\sum_{k = 1}^{\infty} \frac{1}{k^2}$.
+  Let
+  \[
+    A = \exp\left[1 - \sum_{k = 1}^{\infty} a_k\right]
+  \]
+  So $n! = n^n e^{-n} \sqrt{n} \cdot A \exp\left[\sum_{k = n}^{\infty} a_k\right]$.
+  As $n \to \infty$, $\sum_{k = n}^{\infty} a_k \to 0$ so $\exp\left[\sum_{k = n}^{\infty} a_k\right] \to 1$.
+  Thus:
+  \[
+    \frac{n!}{n^{n}e^{-n}\sqrt{n}} \to A \text{ as $n \to \infty$}
+  \]
+  We now know that $n! \sim n^n e^{-n}\sqrt{n} \cdot A$ for some constant $A$.
+
+  \textbf{Showing $A = \sqrt{2 \pi}$}\par
+  To show that $A = \sqrt{2 \pi}$, we will find an asymptotic expression for $2^{-2n} \binom{2n}{n}$ in two different ways.
+
+  Firstly, using the asymptotic expression we just derived, we have:
+  \[
+    2^{(-2n)}\binom{2n}{n} = 2^{-2n} \frac{(2n)!}{(n!)^2} \sim \frac{2^{-2n} (2n)^{2n} e^{-2n} \sqrt{2n} \cdot A}{(n^{n} e^{-n}\sqrt{n} \cdot A)(n^{n} e^{-n}\sqrt{n} \cdot A)} = \frac{\sqrt{2}}{A\sqrt{n}}
+  \]
+
+  Secondly, using a different method, we will show that $2^{-2n}\binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}$ as $n \to \infty$, which will then force $A = \sqrt{2\pi}$.
+
+  \textbf{Showing $2^{-2n} \binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}$}\par
+  Consider the integrals:
+  \[
+    I_n = \int_{0}^{\pi/2} (\cos \theta)^{n} \d{\theta},\ I_0 = \frac{\pi}{2},\  I_1 = 1
+  \]
+  Integrating by parts:
+  \begin{align*}
+    I_n &= \eval{\cos^{n - 1} \theta \sin \theta}{0}{\pi/2} + (n - 1)\int_{0}^{\pi/2} \cos^{n - 2} \theta \sin^2 \theta \d{\theta} \\
+        &= (n - 1) \int_{0}^{\pi/2} \cos^{n - 2} \theta (1 - \cos^2 \theta) \d{\theta} \\
+        &= (n - 1)(I_{n - 2} - I_n)
+  \end{align*}
+  Rearranging, we obtain the recurrence $I_n = \frac{n - 1}{n} I_{n - 2}$.
+  Thus:
+  \begin{align*}
+    I_{2n} = \frac{2n - 1}{2n} I_{2n - 2} &= \frac{(2n - 1) \cdot (2n - 3) \cdots 3 \cdot 1}{2n \cdot (2n - 2) \cdots 2} I_0 \\
+                                          &= \frac{2n \cdot (2n - 1) \cdot (2n - 2) \cdots 3 \cdot 2\cdot 1}{2n \cdot 2n \cdot (2n - 2) \cdot (2n - 2) \cdots 2 \cdot 2} I_0 \\
+                                          &= \frac{(2n)!}{2^{2n} (n!)^2} I_0  \\
+                                          &= 2^{-2n} \binom{2n}{n} \frac{\pi}{2}
+  \end{align*}
+  Similarly:
+  \[
+    I_{2n + 1} = \frac{(2n) \cdots 4 \cdot 2}{(2n + 1) \cdots 3\cdot 1} I_1 = \frac{1}{2n + 1} \left(2^{-2n} \binom{2n}{n}\right)^{-1}
+  \]
+  If we know that $\frac{I_{2n}}{I_{2n + 1}} \to 1$ as $n \to \infty$ then:
+  \[
+    \frac{\frac{\pi}{2} \cdot 2^{-2n} \cdot \binom{2n}{n}}{\frac{1}{2n + 1} \cdot \left(2^{-2n} \cdot \binom{2n}{n}\right)^{-1}} \to 1 \implies \left(2^{-2n} \cdot \binom{2n}{n}\right)^{2} \sim \frac{1}{\pi n} \text{ as $n \to \infty$}
+  \]
+  which is the desired result.
+
+  Consider $\frac{I_n}{I_{n - 2}}$:
+  \[
+    \frac{I_n}{I_{n - 2}} = \frac{n - 1}{n} \to 1 \text{ as $n \to \infty$}
+  \]
+  $I_n$ is decreasing in $n$ as the integrand is $0 \leq \cos \theta \leq 1$ over the integration bounds, so:
+  \[
+    \frac{I_{2n}}{I_{2n + 1}} \leq \frac{I_{2n - 1}}{I_{2n + 1}} \to 1 \text{ and } \frac{I_{2n}}{I_{2n + 1}} \geq \frac{I_{2n}}{I_{2n - 2}} \to 1
+  \]
+  So $\frac{I_{2n}}{I_{2n + 1}} \to 1$ by squeeze theorem as $n \to \infty$.
+
+  \textbf{Conclusion}\par
+  This forces $A = \sqrt{2\pi}$ and so $n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^{n}$.
+\end{proof}
 \end{document}

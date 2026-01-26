@@ -38,7 +38,8 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
     (\nabla f)_i = \pderiv{f}{x_i},\ \nabla f = \pderiv{f}{x_i}\vec{e}_i
   \]
 \end{definition}
-\begin{example}
+\begin{example}[Using Grad]
+  \label{gradExample}
   \begin{enumerate}
     \item If $f(\vec{x}) = |\vec{x}| = x^2 + y^2 + z^2$, then $\nabla f = (2x, 2y, 2z) = 2\vec{x}$.
 
@@ -46,6 +47,218 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
       \[
         \pderiv{}{x_i}(x_j x_j) = 2x_j \pderiv{x_j}{x_i} = 2x_j \delta_{i j} = 2x_i
       \]
+    \item $\nabla |\vec{x} - \vec{x}_0|^2 = 2(\vec{x} - \vec{x}_0)$.
+      We can evaluate this component wise, or use suffix notation and summation convention like above.
+      However, if we shift the origin by letting $\vec{x}' = \vec{x} - \vec{x}_0$, then using multivariate chain rule \cref{MVC}:
+      \[
+      \pderiv{}{x_i'} = \pderiv{x_j}{x_i'} \pderiv{}{x_j} = \pderiv{}{x_i'}(x'_j + {x_0}_j) \pderiv{}{x_j} = \delta_{i j} \pderiv{}{x_j} = \pderiv{}{x_i}
+      \]
+      so $\nabla_{\vec{x}} |\vec{x} - \vec{x}_0|^2 = \nabla_{\vec{x}'} |\vec{x}'| = 2\vec{x}' = 2(\vec{x} - \vec{x}_0)$.
+    \item For constant $\vec{a}$, $\nabla(\vec{a} \cdot \vec{x}) = \nabla(a_1 x + a_2 y + a_3 z) = (a_1, a_2, a_3) = \vec{a}$.
+      Alternatively, $\pderiv{ }{x_i} (a_j x_j) = a_j \delta_{i j} = a_i$.
+  \end{enumerate}
+\end{example}
+Similarly to $f'$ in 1D, if we need to specify where $\nabla f$ is evaluated at, we write $\nabla f(\vec{x}_1)$.
+\begin{example}
+  If $f(\vec{x}) = x + y^2 + z^{4}$ then $\nabla f(\vec{a}) = \nabla f(\vec{b})$ if and only if $\vec{a} - \vec{b}$ is parallel to the $x$-axis.
+
+  $\nabla f(\vec{x}) = (1, 2y, 4z^3)$ so $\nabla f(\vec{a}) = \nabla f(\vec{b}) \iff (1, 2a_2, 4a^{3}_{3}) = (1, 2b_2, 4b^{3}_{3})$, that is $a_2 = b_2$ and $b_3$, so $\vec{a} - \vec{b} = (a_1 - b_1, 0, 0) \parallel \vec{e}_1$.
+\end{example}
+\begin{remark}[Notation]
+  $\nabla f(2\vec{x})$ means find $\nabla f$ and then evaluate it at $2\vec{x}$, whereas $\nabla (f(2\vec{x}))$ means evaluate at $2\vec{x}$ and then find $\nabla$ of that.
+
+  It is often easier to avoid ambiguity by defining a new variable, for example, $\vec{y} = 2\vec{x}$ so $\nabla (f(2\vec{x})) = 2 \nabla f(\vec{y})$.
+
+  Similarly, in 2D we can unambiguously write:
+  \[
+    \at{\pderiv{}{u} f(u, v)}{u = 2x, v = 2y}
+  \]
+  instead of $f_x(2x, 2y)$ where it is ambiguous whether the partial is taken before or after substituting $(2x, 2y)$.
+\end{remark}
+We can rewrite the multivariate chain rule using grad:
+\[
+  \deriv{}{t}f(\vec{x}(t)) = \dot{\vec{x}} \cdot \nabla f
+\]
+and in terms of infinitesimals as:
+\[
+  \d{f} = \nabla f \cdot \d{\vec{x}}
+\]
+This gives us an alternative way to define $\nabla f$ that is coordinate independent, that is, we do not have to choose a particular basis before using it.
+Given a function $f$, we can define $\nabla f$ to be the unique vector such that satisfies the above for every possible choice of $\d{\vec{x}}$.
+\begin{example}
+  Suppose we want to find $\nabla f$ for $f(\vec{x}) = |\vec{x}|^2$, then:
+  \begin{align*}
+    \d{f} = f(x + \d{\vec{x}}) - f(\vec{x}) &= \vec{x} \cdot \vec{x} + 2\vec{x} \cdot \d{\vec{x}} + \cancelto{0}{\d{\vec{x}} \cdot \d{\vec{x}}} - |\vec{x}|^2 \\
+                                            &= 2\vec{x} \cdot \d{\vec{x}}
+  \end{align*}
+  so $\nabla f = 2\vec{x}$ by definition which agrees with \cref{gradExample}.
+\end{example}
+Sometimes we wish to differentiate with respect to the components of a vector other than $\vec{x}$.
+We denote this $\nabla_{\vec{y}} \equiv \vec{e}_i \pderiv{}{y_i}$.
+\begin{example}
+  Consider $f(\vec{x}, \vec{y}) = |\vec{x} - 2\vec{y}|^2$.
+  We know from \cref{gradExample} that $\nabla |\vec{x} - \vec{x}_0|^2 = 2(\vec{x} - \vec{x}_0)$ for a constant vector $\vec{x}_0$.
+  Since $\vec{y}$ is a constant vector with respect to $\vec{x}$, $\nabla f = 2(\vec{x} - 2\vec{y})$.
+
+  However if we are taking grad with respect to $\vec{y}$, $\vec{x}$ is a constant vector so:
+  \[
+    \nabla_{\vec{y}} |\vec{x} - 2\vec{y}|^2 = -2 \cdot 2 (\vec{x} - 2\vec{y}) = -4(\vec{x} - 2\vec{y})
+  \]
+  This can also be checked using suffix notation.
+\end{example}
+
+\section{Divergence}
+\begin{definition}[Divergence]
+If we take the dot product of del with a vector field $\vec{F}(\vec{x})$, then we get the \textit{divergence operator}:
+\[
+  \nabla \cdot \vec{F} = \begin{pmatrix}
+    \partial/\partial x_1 \\
+    \partial/\partial x_2 \\
+    \partial/\partial x_3 \\
+    \end{pmatrix} \cdot
+    \begin{pmatrix}
+    F_1 \\
+    F_2 \\
+    F_3 \\
+    \end{pmatrix} =
+    \pderiv{F_1}{x} + \pderiv{F_2}{y} + \pderiv{F_3}{z}
+\]
+or in suffix notation:
+\[
+  \nabla \cdot \vec{F} = \pderiv{F_i}{x_i}
+\]
+\end{definition}
+To obtain the suffix notation expression we can use:
+\begin{align*}
+  \nabla \cdot \vec{F} &= \left(\vec{e}_i \pderiv{}{x_i}\right) \cdot (F_j \vec{e}_j) \\
+                       &= \vec{e}_i \cdot \pderiv{F_j}{x_i} \vec{e}_j \\
+                       &= \pderiv{F_j}{x_i} \delta_{i j} = \pderiv{F_j}{x_i}\\
+\end{align*}
+$\partial/\partial x_i$ is a scalar operator so can be moved ``through'' the dot product as:
+\[
+  \left(\vec{a} \pderiv{}{x_i}\right) \cdot \vec{b} =
+  \left[\begin{pmatrix}
+  a_1 \\
+  a_2 \\
+  a_3 \\
+  \end{pmatrix} \pderiv{}{x_i}\right] \cdot \vec{b} =
+  \begin{pmatrix}
+  a_1 \pderiv{}{x_1} \\
+  a_2 \pderiv{}{x_2} \\
+  a_3 \pderiv{}{x_3} \\
+  \end{pmatrix} \cdot
+  \begin{pmatrix}
+  b_1 \\
+  b_2 \\
+  b_3 \\
+  \end{pmatrix}
+  = \vec{a} \cdot \begin{pmatrix}
+  \pderiv{b_1}{x_1} \\
+  \pderiv{b_2}{x_2} \\
+  \pderiv{b_3}{x_3} \\
+  \end{pmatrix} =
+  \vec{a} \cdot \left(\pderiv{}{x_i} \vec{b}\right)
+\]
+Roughly speaking, the divergence of a vector field at $\vec{x}$, measures the amount at which the field is expanding around $\vec{x}$.
+Later in the course we will derive a coordinate-independent definition of $\nabla \cdot \vec{F}$.
+\begin{example}[Using Divergence]
+  \begin{enumerate}
+    \item $F(\vec{x}) = \vec{x} = (x, y, z)$ so $\nabla \cdot \vec{F} = \pderiv{x}{x} + \pderiv{y}{y} + \pderiv{z}{z} = 3$, or using suffix notation, $F_i = x_i$ so $\nabla \cdot \vec{F} = \delta_{i i} = 3$.
+      \begin{center}
+      \begin{tikzpicture}[scale=1.13]
+        \begin{scope}
+          \clip (-2,-2) rectangle (2,2);
+          \foreach \x in {-2, -1.5, ..., 2} {
+              \foreach \y in {-2, -1.5, ..., 2} {
+                  \draw[-{Stealth[length=3pt,width=4.6pt]}] (\x, \y) -- (\x*1.5,\y*1.5);
+              }
+          }
+        \end{scope}
+      \end{tikzpicture}
+      \end{center}
+      We see that the vector field is expanding so agrees with our rough interpretation of the divergence.
+    \item $\vec{F}(\vec{x}) = (-y, x, 0)$ so $\nabla \cdot \vec{F} = -\pderiv{y}{x} + \pderiv{x}{y} = 0$.
+    \item If $A$ is a $3 \times 3$ matrix then.
+      \[
+        \nabla \cdot (A \vec{x}) = \pderiv{}{x_i}(A_{i j }x_j) = A_{i j}\delta_{i j} = \tr A
+      \]
+      This works as we are using $\vec{F}(\vec{x}) = A\vec{x}$ so it is acting on a vector field.
+      This means that the trace of a matrix loosely represents how much the vector field associated with $A$ is expanding around any point.
+  \end{enumerate}
+\end{example}
+\section{Curl}
+\begin{definition}[Curl]
+  The \textit{curl} of a vector field $\vec{F}(\vec{x})$ is defined as:
+  \[
+    \nabla \times \vec{F} = \begin{pmatrix}
+      \partial/\partial x_1 \\
+      \partial/\partial x_2 \\
+      \partial/\partial x_3 \\
+      \end{pmatrix} \times
+      \begin{pmatrix}
+      F_1 \\
+      F_2 \\
+      F_3 \\
+      \end{pmatrix} =
+      \begin{pmatrix}
+      \pderiv{F_3}{y} - \pderiv{F_2}{z} \\
+      \pderiv{F_1}{z} - \pderiv{F_3}{x} \\
+      \pderiv{F_2}{x} - \pderiv{F_1}{y} \\
+      \end{pmatrix}
+  \]
+  or in suffix notation:
+  \[
+    (\nabla \times \vec{F})_i = \levi_{i j k} \pderiv{}{x_j} F_k \text{ or equivalently } \nabla \times \vec{F} = \levi_{i j k} \pderiv{F_k}{x_j} \vec{e}_i
+  \]
+\end{definition}
+\begin{remark}
+  Curl is only defined in 3D due to the presence of a cross product, unlike grad and div which are defined in any dimension.
+\end{remark}
+We can also use the determinant form for the cross product to write:
+\[
+  \nabla \times \vec{F} = \begin{vmatrix}
+  \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+  \pderiv{}{x} & \pderiv{}{y} & \pderiv{}{z} \\
+  F_1 & F_2 & F_3 \\
+  \end{vmatrix}
+\]
+However, this only works if the determinant is expanded along the top row but is useful for memorisation nevertheless.
+
+Roughly speaking, the curl of a vector field at a point $\vec{x}$ measures the rotation of the field around $\vec{x}$ although this will be explored more rigorously later.
+The modulus $|\nabla \times \vec{F}|$ gives the magnitude of the rotation while its direction gives the axis.
+\begin{example}[Using Curl]
+  \begin{enumerate}
+    \item With $\vec{F}(\vec{x}) = (x, y, z)$:
+      \[
+        \nabla \times \vec{F} = \begin{pmatrix}
+        \pderiv{}{x} \\
+        \pderiv{}{y} \\
+        \pderiv{}{z} \\
+        \end{pmatrix} \times \begin{pmatrix}
+        x \\
+        y \\
+        z \\
+        \end{pmatrix} = \vec{0}
+      \]
+      or, $(\nabla \times \vec{F})_i = \levi_{i j k} \pderiv{}{x_j} x_k = \levi_{i j k} \delta_{j k} = 0$.
+    \item With $\vec{F}(\vec{x}) = (-y, x, 0)$, we have:
+      \[
+        \nabla \times \vec{F} = \begin{pmatrix}
+        \pderiv{}{y}(0) - \pderiv{}{z}(x) \\
+        \pderiv{}{z}(-y) - \pderiv{}{x}(0) \\
+        \pderiv{}{x}(x) - \pderiv{}{y}(-y) \\
+        \end{pmatrix} =
+        \begin{pmatrix}
+        0 \\
+        0 \\
+        2 \\
+        \end{pmatrix}
+      \]
+    \item If $A$ is a $3\times 3$ symmetric matrix then.
+      \[
+        (\nabla \times (A\vec{x}))_i = \levi_{i j k} \pderiv{}{x_j}A_{k l}x_l = \levi_{i j k} A_{k j}
+      \]
+      Since $A_{k j}$ is a symmetric and $\levi_{i j k}$ is anti-symmetric, $\levi_{i j k} A_{k j} = 0$ and thus $\nabla \times (A\vec{x}) = \vec{0}$.
   \end{enumerate}
 \end{example}
 \end{document}
