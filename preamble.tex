@@ -248,7 +248,8 @@
 }
 
 % Roman d for integrals
-\renewcommand{\d}[1]{\mathrm{d} #1}
+\letcs\originald{\encodingdefault\string\d}
+\DeclareRobustCommand*{\d}[1]{\ifmmode\mathop{}\!\mathrm{d} #1\else\expandafter\originald\fi}
 % Derivative, optional order argument
 \newcommand{\deriv}[3][\relax]{
   \ifstrempty{#1}{
