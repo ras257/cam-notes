@@ -40,7 +40,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \begin{remark}[Remarks]
   \begin{enumerate}
     \item We can make the modulus inequality non strict (i.e. $|x_n - x| \leq \varepsilon$ for convergence or $|x_n| \geq L$ for divergence to infinity) for an equivalent definition.
-    \item We can also replace $\varepsilon$ by any constant non-zero multiple of $\varepsilon$ for an equivalent definition.
+    \item We can also replace $\varepsilon$ by any constant positive multiple of $\varepsilon$ for an equivalent definition.
     \item If $(x_n)$ is real, then it diverges to infinity if either $(x_n)$ or $(-x_n)$ satisfy:
       \[
         \forall L > 0\ \exists N = N(L) \text{ s.t. } x_n > L\ \forall n \geq N
@@ -141,6 +141,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \begin{lemma}
   Let $(x_n)$ be a complex sequence.
   Then $x_n \to x$ if and only if $\Re(x_n) \to \Re(x)$ and $\Im(x_n) \to \Im(x)$.
+  \label{complexConvergence}
 \end{lemma}
 \begin{proof}
   Recall that for $z \in \C$, $|z| = \sqrt{(\Re(z))^2 + (\Im(z))^2}$.
@@ -174,7 +175,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \end{proofdirection}
 \end{proof}
 \begin{definition}[Bounded Sequence]
-  We say that $(x_n)$ is bounded if $\exists M > 0$ such that $|x_n| \leq M$ or equivalently $\sup\limits_{n \geq0} |x_n| \leq M$.
+  We say that $(x_n)$ is bounded if $\exists M > 0$ such that $|x_n| \leq M$ or equivalently $\sup\limits_{n \geq 1} |x_n| \leq M$.
 \end{definition}
 \begin{lemma}[Boundedness of Convergent Sequences]
   If $x_n \to x$ then $(x_n)$ must be bounded.
@@ -350,7 +351,175 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
 \begin{remark}[Notation]
   We write $\exists!$ to mean ``there exists unique'' and $\centernot \exists$ to mean ``there does not exist''.
 \end{remark}
-\begin{remark}
-  We see from $x_n = (-1)^{n}$ that there can be more than one convergent subsequence and their limits can disagree.
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We see from $x_n = (-1)^{n}$ that there can be more than one convergent subsequence and their limits can disagree.
+    \item The Bolzano-Weierstrass theorem also holds for complex sequences, see Q1b on Example Sheet 1.
+  \end{enumerate}
 \end{remark}
+\section{Cauchy Sequences}
+A Cauchy sequence is a sequence where the elements get closer together as the sequence progresses.
+\begin{definition}[Cauchy Sequence]
+  We say a sequence $(x_n)$ on $X \subseteq \C$ is \textit{Cauchy} if:
+  \label{cauchyDef}
+  \[
+    \forall \varepsilon > 0\ \exists N = N(\varepsilon) \text{ s.t. } |x_n - x_m| < \varepsilon\ \forall n, m \geq N
+  \]
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Note that the definition compares two elements that are arbitrarily far apart in the tail of the sequence, \textbf{not} just consecutive elements.
+
+      In fact, $|x_n - x_{n + 1}| \to 0$ as $n \to \infty$ is \textbf{not} enough to conclude that $(x_n)$ is Cauchy (See Q1c Example Sheet 1).
+    \item Similarly to the convergence definition, changing $\varepsilon$ to any positive multiple of $\varepsilon$ gives an equivalent definition.
+  \end{itemize}
+\end{remark}
+\begin{example}[Cauchy Sequences]
+  \label{cauchyExample}
+  \begin{enumerate}
+    \item $x_n = \frac{1}{n}$, assume WLOG $m \geq n$.
+      Then $\forall \varepsilon > 0$:
+      \[
+        \abs{\frac{1}{m} - \frac{1}{n}} = \frac{1}{n} - \frac{1}{m} = \left(1 - \frac{n}{m}\right) \frac{1}{n} \leq \frac{1}{n} < \varepsilon\ \forall n \geq N(\varepsilon) = \ceil{\frac{1}{\varepsilon}} + 1
+      \]
+      Since $m \geq n$, the above is true $\forall m, n \geq N(\varepsilon)$ so it is Cauchy.
+    \item $x_n = (-1)^{n}$ is not Cauchy.
+      If we take $n = 2k, m = 2k + 1$ for any $k \in \N$ then $|x_n - x_m| = 2$.
+      This violates the definition when $\varepsilon = 1$ so it cannot be Cauchy.
+    \item $(x_n)$ on $\Q$ defined by the truncation of the decimal expansion of $\sqrt{2}$, that is:
+      \[
+        x_1 = 1,\ x_2 = 1.4,\ x_3 = 1.41,\ x_4 = 1.414, \ldots
+      \]
+      This sequence is Cauchy.
+
+      Again, WLOG, assume $m \geq n$, then $|x_m - x_n| < 10^{-(n - 1)}$.
+      Note that $10^{-(n - 1)} \to 0 \text{ as } n \to \infty$, so for any fixed $\varepsilon > 0$, $\exists N$ s.t. $10^{-(n - 1)} < \varepsilon \forall n\ \geq N$.
+      For such $n$, $n, m \geq N$ and $|x_m - x_n| < 10^{- (n - 1)} < \varepsilon$ so $(x_n)$ is Cauchy.
+
+      However, this sequence does not converge over $\Q$, but it converges over $\R$ to $\sqrt{2}$).
+  \end{enumerate}
+\end{example}
+\begin{remark}[Advice]
+  In example \textbf{iii} above, we saw that we can show a sequence is Cauchy by showing that for $m \geq n$, $|x_m - x_n|$ is bounded by some positive real sequence $(a_n)$ that converges to 0 as $n \to \infty$.
+\end{remark}
+\begin{lemma}
+  If $(x_n)$ is Cauchy, then it is bounded.
+\end{lemma}
+\begin{proof}
+  Take \cref{cauchyDef} with $\varepsilon = 1$.
+  Then, $\exists N$ s.t. $|x_n - x_N| < 1\ \forall n \geq N$, by fixing $m = N$.
+  For such $n$, $|x_n| < 1 + |x_N|$ which is a finite number independent of $n$.
+  Therefore:
+  \[
+    \sup\limits_{n \geq 1} |x_n| \leq \max\{|x_1|, \ldots, |x_{N - 1}|, 1 + |x_N|\}
+  \]
+  so $(x_n)$ is bounded.
+\end{proof}
+\begin{lemma}
+  A complex sequence $(x_n)$ is Cauchy if and only if the real sequences $(\Re(x_n))$ and $(\Im(x_n))$ are Cauchy.
+  \label{complexCauchy}
+\end{lemma}
+\begin{proof}
+  This proof is very similar to the proof of \cref{complexConvergence}.
+  \begin{proofdirection}{Assume $(x_n)$ is Cauchy}
+    If we fix $\varepsilon > 0$, by definition of Cauchy sequences $\exists N \text{ s.t } |x_n - x_m| < \varepsilon\ \forall n, m \geq N$.
+    Note that $|\Re(z)| \leq |z|$ and $|\Im(z)| \leq |z|$.
+    Therefore for all $n, m \geq N$:
+    \begin{align*}
+      |\Re(x_n) - \Re(x_m)| &= |\Re(x_n - x_m)| \leq |x_n - x_m| < \varepsilon \\
+      |\Im(x_n) - \Im(x_m)| &= |\Im(x_n - x_m)| \leq |x_n - x_m| < \varepsilon
+    \end{align*}
+    So $(\Re(x_n))$ and $(\Im(x_n))$ are Cauchy.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $(\Re(x_n))$ and $(\Im(x_n))$ are Cauchy}
+    If we fix $\varepsilon > 0$, again, by definition:
+    \begin{align*}
+      \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |\Re(x_n) - \Re(x_m)| < \varepsilon\ \forall n, m \geq N_1 \\
+      \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |\Im(x_n) - \Im(x_n)| < \varepsilon\ \forall n, m \geq N_2
+    \end{align*}
+    Note that $|z| \leq |\Re(z)| + |\Im(z)|$ so:
+    \[
+      |x_n - x_m| \leq |\Re(x_n) - \Re(x_m)| + |\Im(x_n) - \Im(x_m)| < 2\varepsilon\ \forall n, m \geq \max\{N_1, N_2\}
+    \]
+    which is a constant multiple of $\varepsilon$ so $(x_n)$ is Cauchy.
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  If $x_n \to x$, then $(x_n)$ is Cauchy.
+\end{lemma}
+\begin{proof}
+  For fixed $\varepsilon > 0$ we have:
+  \begin{align*}
+    |x_n - x_m| &= |x_n - x + x - x_m| \\
+                &\leq |x_n  - x| + |x_m - x| \\
+                &< 2\varepsilon\ \forall n, m \geq N \text{ because $x_n \to x$}
+  \end{align*}
+  which is a constant multiple of $\varepsilon$ so $(x_n)$ is Cauchy.
+\end{proof}
+The \cref{cauchyExample} \textbf{iii} shows that there exists Cauchy sequences on $\Q$ that do not converge on $\Q$.
+So, if the converse of the above is true, it can only be true for certain ``nice'' subsets $X \subseteq \C$.
+\begin{theorem}[Completeness of $\R$ and $\C$]
+  Every cauchy sequence on $\R$ or $\C$ is convergent.
+\end{theorem}
+\begin{proof}
+  We have seen that if $(x_n)$ is Cauchy, then it is bounded.
+  So by the Bolzano Weierstrass Theorem (which also works for sequences on $\C$), we can find a subsequence $(x_{n_k})$ which converges to some $x \in \R$.
+  \begin{align*}
+    |x_n - x| &= |x_n - x_{n_k} + x_{n_k} - x| \\
+              &\leq \underbrace{|x_n - x_{n_k}|}_{\text{use Cauchy}} + \underbrace{|x_{n_k} - x|}_{\text{use convergence}}
+  \end{align*}
+  Take an $\varepsilon > 0$.
+  Since $(x_n)$ is Cauchy:
+  \[
+    \exists N_1 = N_1(\varepsilon) \text{ s.t. } |x_n - x_{n_k}| < \varepsilon\ \forall n, n_k \geq N_1
+  \]
+  Since $(x_{n_k})$ converges:
+  \[
+    \exists N_2 =  N_2(\varepsilon) \text{ s.t. } |x_{n_k} - x| < \varepsilon\ \forall k \geq N_2
+  \]
+  As $(x_{n_k})$ is a subsequence, $(n_k)$ must be a strictly monotonically increasing sequence on $\N$.
+  Therefore, we can always find a $k \geq N_2$ s.t. $n_k \geq N_1$ and thus:
+  \[
+    |x_n - x| < 2\varepsilon\ \forall n \geq N_1
+  \]
+  So $x_n \to x$.
+\end{proof}
+\begin{remark}[Alternative Proof]
+  We can do this without having to use the Bolzano-Weierstrass Theorem on $\C$ and just use the version on $\R$.
+
+  Recall that a sequence on $\C$ is convergent if and only if its real and imaginary parts are (\cref{complexConvergence}), and similarly, a sequence on $\C$ is Cauchy if and only if its imaginary parts are (\cref{complexCauchy}).
+
+  We can then carry out the same proof using a real sequence, since, if a sequence on $\C$ is Cauchy, its real and imaginary parts are cauchy, so converge, and so the original sequence must converge.
+\end{remark}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item We can use this to prove convergence of $\R$ or $\C$ sequences without having to guess what the limit is as we can just show that they are convergent.
+    \item Next year, in Analysis II, we will define ``completeness'' and we will see that $\Q$ is not complete, which matches with the discussed example.
+  \end{itemize}
+\end{remark}
+\section{Series and Convergence}
+\begin{definition}[Series and Convergence of Series]
+  Let $(a_n)_{n \in \N}$ be a sequence on $\R$ or $\C$.
+  We say that $\sum_{n=1}^{\infty} a_n$ is a \textit{series}.
+
+  We say a series converges if the sequence of \textit{partial sums} $(s_k)_{k \in \N}$, defined by $s_k = \sum_{n = 1}^{k} a_n$, converges to some finite $s \in \R$ or $\C$ as $k \to \infty$.
+  In this case, $s$ is called the sum of the series and we write $s = \sum_{n = 1}^{\infty} a_n$.
+\end{definition}
+\begin{example}[Examples of Series]
+  \begin{enumerate}
+    \item The series $\sum\limits_{n = 1}^{\infty} n$ does not converge as its partial sums diverge:
+      \[
+        s_k = \sum_{n = 1}^{k} n = \frac{1}{2}k(k + 1) \to \infty \text{ as } k \to \infty
+      \]
+    \item The geometric series is $\sum\limits_{n = 1}^{\infty} r^{n}$.
+      It converges if and only if $|r| < 1$, since its partial sums are:
+      \[
+        s_k = \begin{cases}
+        \frac{1 - r^{k}}{1 - r} & \text{ if } r\neq1 \\
+        k & \text{ if } r = 1
+        \end{cases}
+      \]
+      and $r^{k}$ converges if and only if $|r| < 1$.
+  \end{enumerate}
+\end{example}
 \end{document}

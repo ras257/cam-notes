@@ -44,6 +44,7 @@ The force cannot depend exclusively on time because there is no preferred time i
   The notation $\partial_i f$ is often used as a shorthand for $\pderiv{f}{x_i}$.
 \end{remark}
 \subsection{Gravitational Potential Energy}
+\label{gravity}
 The \textit{gravitational potential energy} of a particle of mass $m$ at $\vec{x}$ due to a particle of mass $M$ at $\vec{x}_0$ is:
 \[
   V = - \frac{GMm}{|\vec{x} - \vec{x}_0|}
@@ -106,7 +107,8 @@ where $z_0$ is the initial height and $v_0$ is the initial velocity.
   \end{itemize}
 \end{remark}
 \subsection{Energy}
-\begin{definition}[Energy]
+\label{energySec}
+\begin{definition}[Conserved Energy for Conservative Forces]
   Conservative forces have a \textit{conserved energy}:
   \begin{align*}
     E &= \frac{1}{2}m \dot{\vec{x}} \cdot \dot{\vec{x}} + V(\vec{x}) \\
@@ -156,9 +158,244 @@ It is useful to write $E = T + V$ where $T = \frac{1}{2} m \dot{\vec{x}} \cdot \
 \end{proposition}
 There are two ways to see this:
 \begin{proof}[1]
-  \[
-    W = \int_C \vec{F} \cdot \d{\vec{x}} = \int_{t_1}^{t_2} \underbrace{\vec{F} \cdot \deriv{\vec{x}}{t}}_{\text{Power}} \d{t}
-  \]
-  Continued next lecture.
+  \begin{align*}
+    W = \int_C \vec{F} \cdot \d{\vec{x}} &= \int_{t_1}^{t_2} \underbrace{\vec{F} \cdot \deriv{\vec{x}}{t}}_{\text{Power}} \d{t} \\
+                                         &= m \int_{t_1}^{t_2} \ddot{\vec{x}} \cdot \dot{\vec{x}} \d{t} \text{ by Newton's 2nd} \\
+                                         &= \frac{1}{2}m \int_{t_1}^{t_2} \deriv{}{t}(\dot{\vec{x}} \cdot \dot{\vec{x}}) \d{x} \\
+                                         &= T(t_2) - T(t_1) \text{ as $T(t) = \frac{1}{2} m (\dot{\vec{x}}(t) \cdot \dot{\vec{x}}(t))$}\\
+                                         &= V(t_1) - V(t_2) \text{ as $E_1 = V_1 + T_1 = V_2 + T_2 = E_2$}\\
+                                         &= V(\vec{x}(t_1)) - V(\vec{x}(t_2)) \\
+                                         &= V(\vec{x}_1) - V(\vec{x}_2)
+  \end{align*}
+  which only depends on the endpoints $\vec{x}_1$ and $\vec{x}_2$.
+
+  Writing $V(t_1)$ and $V(t_2)$ is an abuse of notation as $V$ is a function of $\vec{x}$ but we write this to mean the potential at $\vec{x}(t_1)$ and $\vec{x}(t_2)$ respectively.
 \end{proof}
+\begin{proof}[2]
+  Using the fundamental theorem of calculus for line integrals from Vector Calculus, we have:
+  \begin{align*}
+    T &= \int_{C} \vec{F} \cdot \d{\vec{x}} \\
+      &= - \int_{C} \nabla V \cdot \d{\vec{x}} \\
+      &= V(\vec{x}_1) - V(\vec{x}_2)
+  \end{align*}
+  which again only depends on the endpoints $\vec{x}_1$ and $\vec{x}_2$.
+\end{proof}
+\begin{definition}[Power]
+  The \textit{power} is defined as:
+  \[
+    P \equiv \vec{F} \cdot \dot{\vec{x}}
+  \]
+  It is the rate of doing work.
+\end{definition}
+\section{Electromagnetic Forces}
+\subsection{Lorentz Force}
+Forces that depend on the velocity typically do not have a conserved energy (e.g. frictional forces), however, the \textit{Lorentz force} is an exception.
+
+\begin{definition}[Lorentz Force]
+  Electromagnetic fields exert the following force on a particle with \textit{charge} $q$ at position $\vec{x}$:
+  \[
+    \vec{F} = q[\vec{E}(\vec{x}) + \dot{\vec{x}} \times \vec{B}(\vec{x})]
+  \]
+  where $\vec{E}$ is the \textit{electric field} and $\vec{B}$ is the \textit{magnetic field}.
+\end{definition}
+\begin{remark}[Charge]
+  \textit{Charge} is another property that point particles can have.
+  Unlike mass, it can be both positive or negative.
+  For an electron $q \approx \qty{-1.6e-19}{\coulomb}$ which is the negative of the \textit{elementary charge} $e$.
+\end{remark}
+For this course, we will only consider \textit{static} electric and magnetic fields that \textbf{are independent of time}.
+Static electric fields can be written in the form:
+\[
+  \vec{E} = -\nabla \phi(\vec{x})
+\]
+where $\phi$ is called the \textit{electric potential}.
+
+\begin{proposition}[Conserved Energy in Electromagnetic Field]
+  The conserved energy in an electromagnetic field is $E = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} + q\phi(\vec{x})$.
+\end{proposition}
+\begin{proof}
+  We can check that it is conserved by computing $\deriv{E}{t}$:
+  \begin{align*}
+    \deriv{E}{t} &= m \ddot{\vec{x}} \cdot \dot{\vec{x}} + q \nabla \phi \cdot \dot{\vec{x}} \\
+                 &= (\vec{F} + q\nabla\phi) \cdot \dot{\vec{x}} \text{ by Newton's 2nd} \\
+                 &= (\vec{F} - q\vec{E}) \\
+                 &= q(\dot{\vec{x}} \times \vec{B}) \cdot \dot{\vec{x}} \text{ using Lorentz force}\\
+                 &= 0
+  \end{align*}
+  So $\deriv{E}{t} = 0$ and thus $E = \text{constant}$.
+\end{proof}
+The velocity-dependent force ($\dot{\vec{x}} \times B$) is orthogonal to the trajectory of the particle so \textbf{does no work on the particle} and thus \textbf{energy is conserved}.
+This is unlike, for example, a frictional force, where the velocity-dependent force is not orthogonal to the trajectory so \textbf{work is done on the particle} and so \textbf{energy is not conserved}.
+
+\subsection{Electric Forces}
+Electric forces are similar to gravitational forces explored in \cref{gravity}.
+
+The potential $\phi$ at $\vec{x}$ due to another particle of charge $Q$ at $\vec{x}_0$ is:
+\[
+  \phi(\vec{x}) = \frac{Q}{4\pi \varepsilon_0} \frac{1}{|\vec{x} - \vec{x}_0|}
+\]
+where $\varepsilon_0 \approx \qty{8.85e-12}{\metre^{-3}\kilogram^{-1}\second^2\coulomb^2}$ is the \textit{permittivity of free space}.
+
+Like gravity, this leads to an inverse square law:
+\begin{align*}
+  \vec{E} = -\nabla \phi &= -\frac{Q}{4\pi\varepsilon_0} \nabla\left[\frac{1}{|\vec{x} - \vec{x}_0|}\right] \\
+                   &= \frac{Q}{4\pi\varepsilon_0} \frac{\vec{x} - \vec{x}_0}{|\vec{x} - \vec{x}_0|^3} \\
+                   &= \frac{Q}{4\pi\varepsilon_0 r^2} \uvec{r} \text{ where $\vec{r} = \vec{x} - \vec{x}_0$}
+\end{align*}
+The force acting on the particle of charge $q$ at $\vec{x}$ due to the electric field is then:
+\[
+  \vec{F} = q\vec{E} = \frac{Qq}{4\pi\varepsilon_0 r^2} \uvec{r}
+\]
+This is called the \textit{Coulomb force}.
+
+Similarly to with gravity, $\uvec{r}$ points from $\vec{x}_0$ of charge $Q$ to $\vec{x}$ of charge $q$.
+There are two cases:
+\begin{itemize}
+  \item If $Q$ and $q$ both share the same sign, $Qq > 0$ so the force is repulsive (like charges repel).
+  \item If $Q$ and $q$ have different signs, then $Qq < 0$ and so the force is attractive (opposite charges attract).
+\end{itemize}
+
+Since masses are always positive, this means that gravity generally dominates for large objects (e.g. planets), whilst electric forces tend to cancel out.
+
+\subsection{Magnetic Forces}
+Magnetic forces are very different to electric and gravitational forces.
+
+A charged particle in a magnetic field obeys:
+\[
+  \vec{F} = m \ddot{\vec{x}} = q \dot{\vec{x}} \times \vec{B}
+\]
+This is a \textit{vector differential equation}.
+The most direct way to solve is by equating the Cartesian components of both sides and then solving the system of couple differential equations.
+To simplify matters, take $\vec{B}$ to be constant and assume WLOG that it is pointing in the $z$ direction, that is, $\vec{B} = (0, 0, B) = B \uvec{z}$.
+\subsubsection{Solving Directly}
+Equating the Cartesian components, we have:
+\begin{align}
+  m \ddot{x} &= q \dot{y} B \label{mag1} \\
+  m \ddot{y} &= -q \dot{x} B \label{mag2} \\
+  m \ddot{z} &= 0 \label{mag3}
+\end{align}
+First, looking at \cref{mag3}:
+\[
+  m \ddot{z} = 0 \implies z = z_0 + v_0 t
+\]
+so the particle moves with a constant velocity $v_0$ in the $z$ direction.
+
+Differentiating \cref{mag1} and substituting in \cref{mag2}, we have:
+\[
+  m \dddot{x} = q \ddot{y}B = - \frac{q^2 \dot{x} B^2}{m} \implies \dddot{x} = - \left(\frac{q B}{m}\right)^2 \dot{x}
+\]
+We define $\omega = \frac{qB}{m}$ as the \textit{cyclotron frequency} and thus we have $\dddot{x} = -\omega^2 \dot{x}$, which is a second order equation for $\dot{x}$.
+This is the differential equation for harmonic motion with angular frequency $\omega$ so:
+\[
+  \dot{x} = \widetilde{A}\sin(\omega t + \phi)
+\]
+where $\widetilde{A}$ and $\phi$ are arbitrary constants.
+
+Integrating to obtain $x$, we have:
+\[
+  x = x_0 + A\cos(\omega t + \phi)
+\]
+It is faster to substitute back into \cref{mag1} so that we only have to integrate once to obtain $y$:
+\begin{align*}
+  \ddot{x} &= -A\omega^2 \cos(\omega t + \phi) \\
+  \implies \dot{y} &= \frac{m}{qB} \ddot{x} = \frac{1}{\omega} (-A\omega^2 \cos(\omega t + \phi)) = -A\omega\cos(\omega t + \phi)
+\end{align*}
+Integrating to obtain $y$, we have:
+\[
+  y = y_0 - A \sin(\omega t + \phi)
+\]
+So the final solution is:
+\[
+  \vec{x}(t) = \begin{pmatrix}
+  x_0 + A\cos(\omega t + \phi) \\
+  y_0 - A\sin(\omega t + \phi) \\
+  z_0 + v_0 t \\
+  \end{pmatrix} = \vec{x}_0 +
+  A \begin{pmatrix}
+  \cos(\omega t + \phi) \\
+  -\sin(\omega t + \phi) \\
+  0 \\
+  \end{pmatrix} + t \begin{pmatrix}
+  0 \\
+  0 \\
+  v_0 \\
+  \end{pmatrix}
+\]
+This has three parts:
+\begin{enumerate}
+  \item The initial position $\vec{x}_0$ (arbitrary constants $x_0, y_0, z_0$).
+  \item Circular motion amplitude $A$ and angular frequency $\omega$ in the $x$-$y$ plane (arbitrary constants $A$ and $\phi$).
+  \item Constant velocity $v_0$ in the $z$ direction (arbitrary constant $v_0$).
+\end{enumerate}
+\begin{remark}
+  There are six arbitrary constants in total, which is expected for a system of three second order differential equations.
+\end{remark}
+This motion is known as \textit{cyclotron motion} and follows a helical trajectory.
+The period of the cycle $T$ (i.e the time to complete a rotation cycle) is $T = \frac{2\pi}{\omega}$.
+
+Changing the sign of the charge $q$ changes the sign of $A$ and so reverses the direction of the circular motion.
+This means that positively charged particles will have circular motion in the opposite direction to negatively charged particles.
+
+\subsubsection{Alternative Method to Solve}
+If we let $\xi = x + iy$ and add \cref{mag1} and $i$ times \cref{mag2} we have:
+\begin{align*}
+  m \ddot{x} + im\ddot{y} &= qB(\dot{y} - i\dot{x}) = -iqB(\dot{x} + \dot{y}) \\
+  \iff m \ddot{\xi} &= -iqB \dot{\xi}
+\end{align*}
+This is a first order separable differential equation for $\dot{\xi}$ with solution:
+\[
+  \dot{\xi} = \widetilde{C_1} e^{- i\omega t} \implies \xi = C_1 e^{- i\omega t} + C_2
+\]
+for $C_1, C_2 \in \C$.
+
+We can have 4 arbitrary constants as it is a system of 2 second order differential equations so we can set $C_1 = Ae^{-i \phi}$, $C_2 = x_0 + iy_0$.
+Substituting these into the solution for $\xi$ and then taking real and imaginary parts, we obtain the same solution as the first method:
+\begin{align*}
+  x &= x_0 + A\cos(\omega t + \phi) \\
+  y &= y_0 - A\sin(\omega t + \phi)
+\end{align*}
+\begin{remark}
+  Cyclotron motion is inherently related to complex numbers, see the ``quantum hall effect''.
+\end{remark}
+\section{Motion in One Dimension}
+Often, problems in higher dimensions can be reduced to one-dimensional motion.
+In 1D, Newton's 2nd law reduces to:
+\[
+  m \ddot{x} = F_x
+\]
+If $F_x$ is independent of the velocity, then it can always be written in terms of a potential, $V$ defined as:
+\[
+  V(x) = - \int_{x_0}^{x} F_x(x') \d{x'}
+\]
+where $x_0$ is an arbitrary reference point and $x'$ is a dummy variable.
+If we differentiate this, using the fundamental theorem of calculus, we see that $F_x(x) = -\deriv{V}{x}$.
+This is the 1D analogue of $\vec{F} = - \nabla V$.
+The following energy is then conserved:
+\[
+  E = \frac{1}{2} m \dot{x}^2 + V(x)
+\]
+as we saw in \cref{energySec}.
+
+Since $E = \text{constant}$, this gives us a first order differential equation for $x(t)$.
+\[
+  \dot{x} = \pm \sqrt{\frac{2}{m}(E - V(x))}
+\]
+This is separable we can rearrange and integrate to yield:
+\begin{equation}
+  t - t_0 = \pm \int_{x_0}^{x} \frac{\d{x'}}{\sqrt{\frac{2}{m}(E - V(x'))}} \label{1dIntegral}
+\end{equation}
+where $x'$ is a dummy variable.
+\begin{remark}
+  Although we have both $t_0$ and $x_0$, there is only one constant here as changes to the integration bound $x_0$ can just be absorbed by $t_0$.
+
+  It is also normally clear from context which sign is appropriate to take for the $\pm$.
+\end{remark}
+If $x = x_0$, then $t = t_0$ so $t_0$ is the time when $x$ is at its initial position $x_0$.
+The quantity $t - t_0$ is then how long it takes for the particle to go from $x_0$ to $x$ if it has energy $E$.
+
+\begin{remark}[Summary]
+  In one dimension, solving Newton's equation for some force $F(x)$ (independent of velocity) amounts to whether you are able to compute the integral in \cref{1dIntegral}.
+
+  This kind of explicit solution is only possible in 1D.
+\end{remark}
 \end{document}
