@@ -25,6 +25,7 @@
       \[
         \P\left(\bigcup_{n} A_n\right) = \sum_{n} \P(A_n)
       \]
+      This is known as \textit{countable additivity}
   \end{enumerate}
   $\P(A)$ is then called the \textit{probability} of $A \in \salg$.
 \end{definition}
@@ -38,8 +39,8 @@ We talk about probabilities of events and \textbf{not} probabilities of outcomes
 \begin{remark}
   When $\Omega$ is countable, we take $\salg$ to be all subsets of $\Omega$, that is, $\salg = \powerset{\Omega}$.
 \end{remark}
-\subsection{Properties of Probability Spaces}
-We can derive some basic properties about probability spaces directly from the definitions:
+\subsection{Properties of Probability Measures}
+We can derive some basic properties about probability measures directly from the definitions:
 \begin{enumerate}
   \item $\P(A^{\comp}) = 1 - \P(A)$ as $\P(A \cup A^{\comp}) = \P(\Omega) = 1 = \P(A) + \P(A^{\comp})$.
   \item $\P(\emptyset) = 0$ as the probability of an empty union is an empty sum.
@@ -52,6 +53,78 @@ We can derive some basic properties about probability spaces directly from the d
                    &= \P(A) + \P(B) - \P(A \cap B)
     \end{align*}
 \end{enumerate}
+\begin{proposition}[Countable Subadditivity]
+  If $(A_n)$ is a countable collection of events in $\salg$, then:
+  \[
+    \P\left(\bigcup_{n \in \N} A_n\right) \leq \sum_{n \in \N} \P(A_n)
+  \]
+  \label{countableSub}
+\end{proposition}
+\begin{proof}
+  Define $B_1 = A_1$ and for $n \geq 2$ define:
+  \[
+    B_n = A_n \setminus (A_1 \cup \cdots \cup A_{n - 1})
+  \]
+  Then $(B_n)$ is a disjoint collection of sets in $\salg$ and $\bigcup\limits_{n \in \N} B_n = \bigcup\limits_{n \in \N} A_n$.
+  So
+  \[
+    \P\left(\bigcup_{n \in \N} A_n\right) = \P\left(\bigcup_{n \in \N} B_n\right) = \sum_{n \in \N} \P(B_n) \leq \sum_{n \in \N} \P(A_n)
+  \]
+  using countable additivity and $\P(B_n) \leq \P(A_n)$ as $B_n \subseteq A_n\ \forall n$.
+\end{proof}
+\subsection{Continuity of Probability Measures}
+\begin{definition}[Increasing and Decreasing Sequences in $\salg$]
+  A sequence of events $(A_n)_{n \in \N}$ in $\mathcal{F}$ is called:
+  \begin{itemize}
+    \item An \textit{increasing sequence of events} if $A_n \subseteq A_{n + 1}\ \forall n$
+    \item A \textit{decreasing sequence of events} if $A_{n + 1} \subseteq A_n\ \forall n$
+  \end{itemize}
+\end{definition}
+For an increasing sequence of events, $\P(A_n)$ is an increasing function of $n$ as $\P(A_n) \leq \P(A_{n + 1})\ \forall n$.
+Similarly, for a decreasing sequence of events, $\P(A_n)$ is decreasing function of $n$ as $\P(A_{n + 1}) \leq \P(A_n)\ \forall n$.
+
+We have a specific definition for continuity when considering probability measures:
+\begin{proposition}[Continuity of Probability Measures]
+  If $(A_n)$ is an increasing sequence of events in $\salg$, then:
+  \[
+    \P(A_n) \to \P\left(\bigcup_{k = 1}^{\infty} A_k\right) \text{ as $n \to \infty$}
+  \]
+\end{proposition}
+\begin{proof}
+  Similarly to in the proof of \cref{countableSub}, define $B_1 = A_1$, and, for $n \geq 2$ define:
+  \[
+    B_n = A_n \setminus (A_1 \cup \cdots \cup \cdots A_{n - 1})
+  \]
+  Then $(B_n)$ is disjoint collection of events and $A_n = \bigcup_{k = 1}^{n} B_k$
+  \[
+    \P(A_n) = \P\left(\bigcup_{k = 1}^{n} B_k\right) = \sum_{k = 1}^{n} \P(B_k) \to \sum_{k = 1}^{\infty} \P(B_k) \text{ as $n \to \infty$}
+  \]
+  We can then rewrite this infinite sum using countable additivity:
+  \[
+    \sum_{k = 1}^{\infty} \P(B_k) = \P\left(\bigcup_{k = 1}^{\infty} B_k\right)
+  \]
+  and since $\bigcup_{k = 1}^{\infty} B_k = \bigcup_{k = 1}^{\infty} A_k$:
+  \[
+    \P(A_n) \to \P\left(\bigcup_{k = 1}^{\infty} A_k\right)
+  \]
+  which is the desired result.
+\end{proof}
+\begin{corollary}
+  If $(A_n)$ is a decreasing sequence of events in $\salg$, then:
+  \[
+    \P(A_n) \to \P\left(\bigcap_{k = 1}^{\infty} A_k\right) \text{ as $n \to \infty$}
+  \]
+\end{corollary}
+\begin{proof}
+  $(A_n)$ is a decreasing sequence of events so $A_{n + 1} \subseteq A_{n}\ \forall n \iff  A^{\comp}_{n} \subseteq A^{\comp}_{n + 1}\  \forall n$.
+  Thus $(A^{\comp}_n)$ is an increasing sequence of events so we can apply the previous result.
+  \begin{align*}
+    \P(A^{\comp}_n) &\to \P\left(\bigcup_{k = 1}^{\infty} A^{\comp}_k\right) \\
+    \implies 1 - \P(A_n) &\to 1 - \P\left(\left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp}\right) \\
+    \implies \P(A_n) &\to \P\left(\left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp}\right) = \P\left(\bigcap_{k = 1}^{\infty} A_k\right)
+  \end{align*}
+  which is the desired result.
+\end{proof}
 \subsection{Examples of Probability Spaces}
 We will now look at some basic examples of probability spaces.
 \begin{example}[6-Sided Die]
@@ -138,6 +211,95 @@ We will now look at some basic examples of probability spaces.
   Surprisingly, for $n = 22$, $\P(A) \approx 0.476$, and for $n = 23$, $\P(A) \approx 0.507$.
   This means that we only need 23 people for the probability of two people sharing a birthday to be greater than $1/2$.
 \end{example}
+\subsection{Principle of Inclusion Exclusion}
+We saw that for two sets $A, B$, $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$.
+We can apply this result three times to extend it to three sets $A, B, C$:
+\begin{align*}
+  \P(A \cup B \cup C) &= \P(A \cup B) + \P(C) - \P((A \cup B) \cap C) \\
+                      &= \P(A) + \P(B) + \P(C) - \P(A \cap B) - \P((A \cap C) \cup (B \cap C)) \\
+                      &= \P(A) + \P(B) + \P(C) - \P(A \cap B) - \P(A \cap C) - \P (B \cap C) \\
+                      &\quad + \P((A \cap C) \cap (B \cap C)) \\
+                      &= \P(A) + \P(B) + \P(C) - \P(A \cap B) - \P(A \cap C) - \P(B \cap C) + \P(A \cap B \cap C)
+\end{align*}
+We can also use induction to extend this to the \textit{principle of inclusion exclusion}.
+\begin{proposition}[Inclusion-Exclusion Formula]
+  For $A_1, \ldots, A_n \in \salg$:
+  \[
+    \P\left(\bigcup_{i = 1}^{n} A_i\right) = \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \ldots < i_k \leq n} \P(A_{i_1} \cap \cdots \cap A_{i_k})
+  \]
+  \label{inclusionExclusion}
+\end{proposition}
+\begin{proof}
+  \induction
+  {$n = 2$}{
+    $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ as shown previously.
+  }
+  {$n - 1$ events}{}
+  {$n$ events}{
+    \begin{align*}
+      \P\left(\bigcup_{i = 1}^{n}  A_i\right) &= \P\left(\left[\bigcup_{i = 1}^{n - 1} A_i\right] \cup A_n\right) \\
+                                   &= \P\left(\bigcup_{i = 1}^{n - 1} A_i\right) + \P(A_n) - \P\left(\bigcup_{i = 1}^{n - 1} \underbrace{(A_i \cap A_n)}_{B_i}\right) \tag{$\dag$} \label{eqnDag}
+    \end{align*}
+    Let $B_i = A_i \cap A_n$.
+    Applying the induction hypothesis:
+    \[
+      \P\left(\bigcup_{i = 1}^{n - 1} A_i\right) = \sum_{k = 1}^{n - 1} (-1)^{k + 1} \sum_{1 \leq i_1 < \ldots < i_k \leq n - 1} \P(A_{i_1} \cap \cdots \cap A_{i_k}) \tag{$\star$} \label{eqnStar}
+    \]
+    \begin{align*}
+      \P\left(\bigcup_{i = 1}^{n - 1} B_i\right) &= \sum_{k = 1}^{n - 1} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots <i_k \leq n - 1} \P(B_{i_1}\cap \cdots \cap B_{i_k}) \\
+                                                 &= \sum_{k = 1}^{n - 1} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots <i_k \leq n - 1} \P(A_{i_1}\cap \cdots \cap A_{i_k} \cap A_n) \tag{$\ast$} \label{eqnAst}
+    \end{align*}
+    Combining the above into \cref{eqnDag}, the $\P(A_n)$ accounts for the additional single intersection when $k = 1$ in \cref{eqnStar} and \cref{eqnAst} accounts for all of the intersections that include the new event $A_n$.
+    The additional minus sign accounts for the fact that the terms of \cref{eqnAst} have an additional intersection so their signs need to be flipped to achieve the final result.
+  }
+\end{proof}
+If we have the probability space $(\Omega, \salg, \P)$ for finite $\Omega$ and define $\P(A) = |A|/|\Omega|$, then we can derive the set-theoretic version of inclusion exclusion that we saw in IA Numbers and Sets:
+\[
+  |A_1 \cup \cdots \cup A_n| = \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} |A_{i_1} \cap \cdots \cap A_{i_k}|
+\]
+\subsubsection{Boferroni Inequalities}
+Using the principle of inclusion exclusion in the cases of two and three sets, we see that:
+\begin{align*}
+  \P(A \cup B) &\leq \P(A) + \P(B) \\
+  \P(A \cup B \cup C) &\geq \P(A) + \P(B) + \P(C) - \P(A \cap B) - \P(A \cap C) - \P(B \cap C) \\
+\end{align*}
+The \textit{Bofferoni Inequalities} tell us if the truncation of the inclusion exclusion formula will be an overestimate or an underestimate based on if it finishes on an even or odd term.
+\begin{proposition}[Bofferoni Inequalities]
+  \[
+    \P\left(\bigcup_{i = 1}^{n} A_i\right) \begin{cases}
+    \leq \sum\limits_{k = 1}^{r} (-1)^{k + 1} \sum\limits_{1 \leq i_1 < \cdots < i_k \leq n} \P(A_i \cap \cdots \cap A_{i_k}) & \text{ if $r$ is odd} \\
+
+    \geq \sum\limits_{k = 1}^{r} (-1)^{k + 1} \sum\limits_{1 \leq i_1 < \cdots < i_k \leq n} \P(A_i \cap \cdots \cap A_{i_k}) & \text{ if $r$ is even} \\
+    \end{cases}
+  \]
+\end{proposition}
+\begin{proof}
+  \induction
+  {$n = 2$}{
+    For $r = 1$, $\P(A) + \P(B) \geq \P(A) + \P(B) - \P(A \cap B) = \P(A \cup B)$.\par
+    For $r = 2$, $\P(A) + \P(B) - \P(A \cap B) \leq \P(A \cup B)$, which are the correct inequalities.
+  }
+  {$n - 1$ events}{}
+  {$n$ events}{
+    Assume $r$ is odd.
+    \begin{align*}
+      \P\left(\bigcup_{i = 1}^{n} A_i\right) &= \P\left(\left[\bigcup_{i = 1}^{n - 1} A_i\right] \cup A_n\right) \\
+                                             &= \P\left(\bigcup_{i = 1}^{n - 1} A_i\right) + \P(A_n) - \P\left(\bigcup_{i = 1}^{n - 1} B_i\right) \tag{$\star$} \label{eqnStar2}
+    \end{align*}
+    where $B_i = A_i \cap A_n$.
+    By the induction hypothesis, since $r$ is odd:
+    \[
+      \P\left(\bigcup_{i = 1}^{n - 1} A_i\right) \leq \sum_{k = 1}^{r} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n - 1} \P(A_i \cap \cdots \cap A_{i_k})
+    \]
+    Since $r$ is odd $r - 1$ is even, using the induction hypothesis again:
+    \begin{align*}
+      \P\left(\bigcup_{i = 1}^{n - 1} B_i\right) &\geq \sum_{k = 1}^{r - 1} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n - 1} \P(B_{i_n} \cap \cdots \cap B_{i_k}) \\
+                                                 &= \sum_{k = 1}^{r - 1} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n - 1} \P(A_{i_n} \cap \cdots \cap A_{i_k} \cap A_n)
+    \end{align*}
+    Substituting back into \cref{eqnStar2} yields the desired result.
+    The proof for even $r$ is identical apart from the two inequalities above are flipped so the final inequality will also be flipped, giving the result for even $r$.
+  }
+\end{proof}
 \section{Combinatorial Analysis}
 \subsection{Multinomial Coefficients}
 Suppose $\Omega$ is a finite set with $|\Omega| = n$.
@@ -192,6 +354,46 @@ As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
     g_1 = g_2 \implies f_1(i) + i - 1 = f_2(i) + i - 1\ \forall i \implies f_1(i) = f_2(i)\ \forall i \implies f_1 = f_2
   \]
   Thus, the number of increasing $f$ is the same as the number of strictly increasing $g: \{1, \ldots, k\} \to \{1, \ldots, n + k - 1\}$, which is $\binom{n + k - 1}{k}$ by \cref{strictlyIncreasingF}.
+\end{proof}
+\subsection{Surjective Functions}
+\begin{proposition}
+  For $n \geq m$, the number of surjective $f: \{1, \ldots, n\} \to \{1, \ldots, m\}$ is:
+  \[
+    |A| = \sum_{k = 0}^{m} (-1)^{k} \binom{m}{k} (m - k)^{n}
+  \]
+\end{proposition}
+\begin{proof}
+  Consider $\Omega = \{f: \{1, \ldots, n\} \to \{1, \ldots, m\}\}$ and $A = \{f \in \Omega: f \text{ is a surjection}\}$.
+  Define:
+  \[
+    A_i = \{f \in \Omega: i \notin \{f(1), \ldots, f(n)\}\} \text{ for } i \in \{1, \ldots, m\}
+  \]
+  We can then derive the following chain of equivalence:
+  \begin{align*}
+    f \in A &\iff f \text{ is surjective} \\
+            &\iff \forall i \in \{1, \ldots, m\}, \exists j \in \{1, \ldots, n\} \text{ s.t. } f(j) = i \\
+            &\iff \centernot\exists i \in \{1, \ldots, m\} \text{ s.t. } \forall j \in \{1, \ldots, n\},\ f(j) \neq i \\
+            &\iff f \notin A_i\ \forall i \in \{1, \ldots, m\} \\
+            &\iff f \in A^{\comp}_i\ \forall i \in \{1, \ldots, m\} \\
+            &\iff f \in A^{\comp}_1 \cap \cdots \cap A^{\comp}_m
+  \end{align*}
+  Thus $A = A^{\comp}_1 \cap \cdots \cap A^{\comp}_m = (A_1 \cup \cdots \cup A_m)^{\comp}$ so $|A| = |\Omega| - |A_1 \cup \cdots \cup A_m|$.
+  $|\Omega| = m^{n}$ as this is the total number of functions $f: \{1, \ldots, n\} \to \{1, \ldots, m\}$.
+  Using inclusion exclusion (\cref{inclusionExclusion}), we have:
+  \[
+    |A_1 \cup \cdots \cup A_m| = \sum_{k = 1}^{m} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} |A_{i_1} \cap \cdots \cap A_{i_k}|
+  \]
+  $A_{i_1} \cap \cdots \cap A_{i_k}$ are all the functions in $\Omega$ that do not contain $i_1, \ldots, i_k$ in their image.
+  There are $(m - k)^{n}$ such functions as we are essentially counting the number of $g: \{1, \ldots, n\} \to \{1, \ldots, m - k\}$.
+  As there are $\binom{m}{k}$ ways to choose a subset $\{i_1, \ldots, i_k\}$ from $\{1, \ldots, m\}$:
+  \[
+    |A_1 \cup \cdots \cup A_m| = \sum_{k = 1}^{m} (-1)^{k + 1} \binom{m}{k}(m - k)^{n}
+  \]
+  Therefore:
+  \begin{align*}
+    |A| &= m^{n} - \sum_{k = 1}^{m} (-1)^{k + 1} \binom{m}{k}(m - k)^{n} \\
+        &= \sum_{k = 0}^{m} (-1)^{k} \binom{m}{k} (m - k)^{n}
+  \end{align*}
 \end{proof}
 \subsection{Stirling's Formula}
 \begin{remark}[Asymptotic Notation]
