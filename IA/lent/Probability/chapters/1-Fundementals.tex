@@ -65,8 +65,18 @@ We can derive some basic properties about probability measures directly from the
   \[
     B_n = A_n \setminus (A_1 \cup \cdots \cup A_{n - 1})
   \]
-  Then $(B_n)$ is a disjoint collection of sets in $\salg$ and $\bigcup\limits_{n \in \N} B_n = \bigcup\limits_{n \in \N} A_n$.
-  So
+  Consider $B_i$ and $B_j$ for $i \neq j$.
+  WLOG, assume that $i < j$.
+  $B_i \subseteq A_i$ as $B_i = A_i \setminus (\cdots)$ and $B_j \cap A_i = \emptyset$ as $i < j$ so $B_j$ has had all elements of $A_i$ removed from it.
+  Thus $B_i \cap B_j = \emptyset$ for $i \neq j$ so $(B_n)$ is a disjoint collection of sets in $\salg$.
+  Considering the union, we have:
+  \begin{align*}
+    \bigcup_{k = 1}^{n} B_k &= A_1 \cup (A_2 \setminus A_1) \cup (A_3 \setminus (A_1 \cup A_2)) \cup \cdots \cup( A_n \setminus (A_1 \cup \cdots \cup A_{n - 1})) \\
+                            &= (A_1 \cup A_2) \cup (A_3 \setminus (A_1 \cup A_2)) \cup \cdots \cup (A_n \setminus (A_1 \cup \cdots \cup A_{n - 1})) \\
+                            &\;\;\vdots \\
+                            &= A_1 \cup A_2 \cup \cdots \cup A_n = \bigcup_{k = 1}^{n} A_k
+  \end{align*}
+  Thus $\bigcup\limits_{n \in \N} B_n = \bigcup\limits_{n \in \N} A_n$:
   \[
     \P\left(\bigcup_{n \in \N} A_n\right) = \P\left(\bigcup_{n \in \N} B_n\right) = \sum_{n \in \N} \P(B_n) \leq \sum_{n \in \N} \P(A_n)
   \]
@@ -95,7 +105,8 @@ We have a specific definition for continuity when considering probability measur
   \[
     B_n = A_n \setminus (A_1 \cup \cdots \cup \cdots A_{n - 1})
   \]
-  Then $(B_n)$ is disjoint collection of events and $A_n = \bigcup_{k = 1}^{n} B_k$
+  Then $(B_n)$ is disjoint collection of events and $\bigcup_{k = 1}^{n} A_k = \bigcup_{k = 1}^{n} B_k$.
+  Since $A_n \subseteq A_{n + 1}\ \forall n$, $\bigcup_{k = 1}^{n} A_k = A_n$ so:
   \[
     \P(A_n) = \P\left(\bigcup_{k = 1}^{n} B_k\right) = \sum_{k = 1}^{n} \P(B_k) \to \sum_{k = 1}^{\infty} \P(B_k) \text{ as $n \to \infty$}
   \]
@@ -121,7 +132,14 @@ We have a specific definition for continuity when considering probability measur
   \begin{align*}
     \P(A^{\comp}_n) &\to \P\left(\bigcup_{k = 1}^{\infty} A^{\comp}_k\right) \\
     \implies 1 - \P(A_n) &\to 1 - \P\left(\left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp}\right) \\
-    \implies \P(A_n) &\to \P\left(\left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp}\right) = \P\left(\bigcap_{k = 1}^{\infty} A_k\right)
+    \implies \P(A_n) &\to \P\left(\left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp}\right)
+  \end{align*}
+  We can rewrite the complement of the union as the intersection of the complements:
+  \begin{align*}
+    \left[\bigcup_{k = 1}^{\infty} A^{\comp}_k\right]^{\comp} &= \Omega \setminus (A^{\comp}_1 \cup A^{\comp}_2 \cup \cdots) \\
+                                                   &= (\Omega \setminus A^{\comp}_1) \cap (\Omega \setminus A^{\comp}_2) \cap \cdots \\
+                                                   &= A_1 \cap A_2 \cap \cdots \\
+                                                   &= \bigcap_{k = 1}^{\infty} A_k
   \end{align*}
   which is the desired result.
 \end{proof}
