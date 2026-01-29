@@ -446,6 +446,7 @@ A Cauchy sequence is a sequence where the elements get closer together as the se
 \end{proof}
 \begin{lemma}
   If $x_n \to x$, then $(x_n)$ is Cauchy.
+  \label{convergenceCauchy}
 \end{lemma}
 \begin{proof}
   For fixed $\varepsilon > 0$ we have:
@@ -497,7 +498,8 @@ So, if the converse of the above is true, it can only be true for certain ``nice
     \item Next year, in Analysis II, we will define ``completeness'' and we will see that $\Q$ is not complete, which matches with the discussed example.
   \end{itemize}
 \end{remark}
-\section{Series and Convergence}
+\section{Series}
+\subsection{Basics of Series}
 \begin{definition}[Series and Convergence of Series]
   Let $(a_n)_{n \in \N}$ be a sequence on $\R$ or $\C$.
   We say that $\sum_{n=1}^{\infty} a_n$ is a \textit{series}.
@@ -506,6 +508,7 @@ So, if the converse of the above is true, it can only be true for certain ``nice
   In this case, $s$ is called the sum of the series and we write $s = \sum_{n = 1}^{\infty} a_n$.
 \end{definition}
 \begin{example}[Examples of Series]
+  \label{seriesConvExample}
   \begin{enumerate}
     \item The series $\sum\limits_{n = 1}^{\infty} n$ does not converge as its partial sums diverge:
       \[
@@ -520,6 +523,241 @@ So, if the converse of the above is true, it can only be true for certain ``nice
         \end{cases}
       \]
       and $r^{k}$ converges if and only if $|r| < 1$.
+    \item The series $\sum\limits_{n = 1}^{\infty} \frac{1}{n(n + 1)}$ converges to $1$.
+      \begin{align*}
+        s_k = \sum_{n = 1}^{k} \frac{1}{n(n + 1)} &= \sum_{n = 1}^{k} \left(\frac{1}{n} - \frac{1}{n + 1}\right) \\
+                                                  &= 1 - \cancel{\frac{1}{2}} + \cancel{\frac{1}{2}} + \cdots + \cancel{\frac{1}{k}} - \frac{1}{k + 1} \\
+                                                  &= 1 - \frac{1}{k + 1} \to 1
+      \end{align*}
+      Sums or series where terms cancel out like this are often referred to as \textit{telescoping}.
   \end{enumerate}
 \end{example}
+\begin{lemma}
+  Fix $\lambda \in \C$.
+  If $\sum_{n = 1}^{\infty} a_n$ and $\sum_{n = 1}^{\infty} b_n$ converge, then $\sum_{n = 1}^{\infty} (\lambda a_n + b_n)$ also converges.
+\end{lemma}
+\begin{proof}
+  Let $s_k$ and $r_k$ be the partial sums of $a_n$ and $b_n$ respectively.
+  Since both series converge, $s_k \to s$ and $r_k \to r$.
+  So using \cref{limitLaws}, $\lambda s_k + r_k \to \lambda s + r$.
+  If we let $t_k$ be the partial sums of $\lambda a_n + b_n$ then $t_k = \lambda s_k + r_k \to \lambda s + r$.
+  Therefore the partial sums $t_k$ converge and so the series converges.
+\end{proof}
+\begin{remark}
+  If $\sum_{n = 1}^{\infty} a_n$ and $\sum_{n = 1}^{\infty} b_n$ converge, then $\sum_{n = 1}^{\infty} a_n b_n$ need not converge.
+  See Q1d Example Sheet 1.
+\end{remark}
+Similarly to sequences, only the ``tail'' of the series matters for convergence:
+\begin{lemma}
+  If $a_n = b_n\ \forall n \geq N$ for some $N \in \N$, then $\sum_{n = 1}^{\infty} a_n$ and $\sum_{n = 1}^{\infty} b_n$ either both converge or both fail to converge.
+  \label{seriesTail}
+\end{lemma}
+\begin{proof}
+  Let $s_k$ and $r_k$ be the partial sums of $a_n$ and $b_n$ respectively.
+
+  For $k > N$, we can split up $r_k$ as:
+  \begin{align*}
+    r_k &= \sum_{n = 1}^{N} b_n + \sum_{n = N + 1}^{k} a_n \\
+        &= s_k + \sum_{n = 1}^{N} (b_n - a_n)
+  \end{align*}
+  $\sum_{n = 1}^{N} (b_n - a_n)$ is a finite number so has no effect on convergence.
+  If we take $k \to \infty$ we see that:
+  \[
+    \lim_{k \to \infty} s_k = \lim_{k \to \infty} s_k
+  \]
+  and thus they either both converge or both fail to converge.
+\end{proof}
+\subsection{Convergence Tests}
+Finding an explicit form for the partial sums of a series is often quite challenging or impossible so we often use a variety of tests to determine if a series converges.
+\subsubsection{$n$-th Term Test}
+\begin{proposition}[$n$-th term test]
+  If $a_n \centernot\to 0$ as $n \to \infty$, then  $\sum_{n = 1}^{\infty} a_n$ fails to converge
+\end{proposition}
+\begin{proof}
+  It is easier to prove the contrapositive of this, that is, we wish to show that if $\sum_{n = 1}^{\infty} a_n$ converges, then $a_n \to 0$ as $n \to \infty$.
+
+  By definition, $\sum_{n = 1}^{\infty} a_n$ converges if and only if its partial sums $s_k$ converge to some finite $s$ as $k \to \infty$.
+  Since $(s_k)$ converges, it must be Cauchy by \cref{convergenceCauchy}.
+  Since it is Cauchy, the difference between consecutive terms of $(s_k)$ must converge to 0, that is, $s_{k + 1} - s_k \to 0$ as $k \to \infty$.
+  Notice that $s_{k + 1} - s_k = a_{k + 1}$ and so $a_k \to \infty$ as $k \to \infty$.
+\end{proof}
+\begin{remark}
+  $a_n \to 0$ is \textbf{not} a sufficient condition for the series to converge.
+
+  Consider the \textit{harmonic series} defined by $a_n = \frac{1}{n}$.
+  We have $a_n \to 0$, and we claim that the partial sums $(s_k)$ diverge to $\infty$.
+  \begin{align*}
+    s_{2k} &= s_k + \frac{1}{n + 1} + \frac{1}{n + 2} + \cdots + \frac{1}{n + n} \\
+           &\geq s_k + n\left(\frac{1}{n + n}\right) \text{ as each fraction is $\geq \frac{1}{n + n}$}\\
+           &= s_k + \frac{1}{2}
+  \end{align*}
+  So $s_{2k} - s_k \geq \frac{1}{2}\ \forall k$.
+  Therefore, the sequence cannot be Cauchy and so it cannot converge by \cref{convergenceCauchy}.
+\end{remark}
+\subsubsection{Comparison Test}
+Creating convergence tests for $\sum_{n = 1}^{\infty} a_n$ is easier when $a_n \geq 0\ \forall n$, so we will focus on these tests first.
+\begin{proposition}[Comparison Test]
+  If $0 \leq b_n \leq a_n\ \forall n$ and $\sum_{n = 1}^{\infty} a_n$ converges, then $\sum_{n = 1}^{\infty} b_n$ converges.
+  \label{comparisonTest}
+\end{proposition}
+\begin{proof}
+  Let $s_k$ and $r_k$ be the partial sums of $a_n$ and $b_n$ respectively.
+  Because $a_n, b_n \geq 0$, $(s_k)$ and $(r_k)$ are monotonically increasing.
+  We also know that $s_k \to s$ for some finite $s$ so since it is increasing, $s_k \leq s\ \forall k$.
+
+  We know taking finite sums preserves inequalities so:
+  \begin{align*}
+    b_n \leq a_n &\implies \sum_{n = 1}^{k} b_k \leq \sum_{n = 1}^{k} a_k \\
+                 &\implies r_k \leq s_k \leq s
+  \end{align*}
+  Thus, $(r_k)$ is monotonically increasing and bounded above by $s$ so must converge by \cref{monotoneConvergence}.
+\end{proof}
+\begin{example}
+  The series $\sum_{n = 1}^{\infty} \frac{1}{n^2}$ converges.
+  We can pull out the first term and then re-index the sum to yield:
+  \begin{align*}
+    \sum_{n = 1}^{\infty} \frac{1}{n^2} &= 1 + \sum_{n = 2}^{\infty} \frac{1}{n^2} \\
+                                        &= 1 + \sum_{n = 1}^{\infty} \frac{1}{(n + 1)^2}
+  \end{align*}
+  We see that $0 \leq \frac{1}{(n + 1)^2} \leq \frac{1}{n(n + 1)}\ \forall n$ and in \cref{seriesConvExample} \textbf{iii} we saw that $\sum_{n = 1}^{\infty} \frac{1}{n(n + 1)} = 1 < \infty$ so by the comparison test, $\sum_{n = 1}^{\infty} \frac{1}{n^2}$ converges.
+\end{example}
+\subsubsection{Root Test and Ratio Test}
+The next two tests are about ``asymptotic comparison'' to the geometric series.
+\begin{proposition}[Root Test]
+  If $a_n \geq 0\ \forall n$ and $\exists a$ such that $a = \lim\limits_{n \to \infty} a^{\frac{1}{n}}_{n}$ then:
+  \begin{itemize}
+    \item If $a < 1$, then $\sum_{n = 1}^{\infty} a_n$ converges.
+    \item If $a > 1$, then $\sum_{n = 1}^{\infty} a_n$ diverges.
+    \item If $a = 1$, then the test is inconclusive.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$a > 1$}
+      Since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = a - 1 > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{a} - a| < a - 1\ \forall n \geq N$.
+      For such $n$, by the triangle inequality:
+      \begin{align*}
+        a^{\frac{1}{n}}_{n} = |a^{\frac{1}{n}}_{n}| &\geq |a| - |a^{\frac{1}{n}}_{n} - a| \\
+                                                    &> |a| - (a - 1) = 1 \text{ as $a \geq 0$}
+      \end{align*}
+      Therefore $a^{\frac{1}{n}}_{n} > 1\ \forall n \geq N \implies a_n > 1\ \forall n \geq N$.
+      So $a_n$ fails the $n$-th term test and so the series diverges.
+    \end{case}
+    \begin{case}{$a < 1$}
+      Since $0 \leq a < 1$, $\exists r$ s.t. $a < r < 1$.
+      Furthermore, since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = r - a > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{a} - a| < r - a$.
+      For such $n$, by the triangle inequality:
+      \begin{align*}
+        a^{\frac{1}{n}}_{n} = |a^{\frac{1}{n}}_n - a + a| &\leq |a^{\frac{1}{n}}_{n} - a| + |a| \\
+                                                          &< r - a + |a| = r
+      \end{align*}
+      Therefore $a^{\frac{1}{n}}_{n} < r\ \forall n \geq N \implies a_n < r^{n}\ \forall n \geq N$.
+      Since $|r| < 1$, the geometric series $\sum_{n = 1}^{\infty} r^{n}$ converges.
+      Therefore by the comparison test (\cref{comparisonTest}), the tail of the sequence converges and we know from \cref{seriesTail} that this means the whole series must converge.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\begin{remark}
+  In the above proof, we rigorously showed that:
+  \begin{itemize}
+    \item As $a^{\frac{1}{n}}_{n} \to a > 1$, for some $N$, $a^{\frac{1}{n}}_{n} > 1\ \forall n \geq N$.
+    \item As $a^{\frac{1}{n}}_n \to a < 1$, for any $r$ s.t. $a < r < 1$, $\exists N$ s.t. $a^{\frac{1}{n}}_n < r\ \forall n \geq N$.
+  \end{itemize}
+  From now on, we will jump straight to these conclusions as we are now sufficiently familiar with what it means for a series to converge.
+
+  It is often useful to draw a sketch to illustrate such bounds.
+  For example:
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[dotted] (-3, 0.4) node[left] {$1$} -- (3, 0.4);
+    \draw (-3, 0) -- (3, 0) node[right] {$r$};
+    \draw[dashed] (-3, -0.3) -- (3, -0.3) node[right] {$a + \varepsilon$};
+    \draw (-3, -0.6) -- (3, -0.6) node[right] {$a$};
+    \draw[dashed] (-3, -0.9) -- (3, -0.9) node[right] {$a - \varepsilon$};
+    \draw[dotted] (-3, -1.3) node[left] {$0$} -- (3, -1.3);
+
+    \draw[|-|] (-3.2, -0.9) -- (-3.2, -0.3) node[left, midway] {$A$};
+  \end{tikzpicture}
+  \end{center}
+  The sequence converges to $a$, so for an $0 < \varepsilon \leq r - a$, there exists $N$ s.t. $a_n$ is in region $A\ \forall n \geq N$.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item The series $\sum_{n = 1}^{\infty} \frac{1}{2^{n}}$ converges as $\sqrt[n]{\frac{1}{2^{n}}} = \frac{1}{2} < 1$.
+    \item The series $\sum_{n = 1}^{\infty} 4^{n}$ diverges as $\sqrt[n]{4^{n}} = 4 > 1$
+  \end{enumerate}
+\end{example}
+\begin{proposition}[Ratio Test]
+  If $a_n \geq 0\ \forall n$ and $\frac{a_{n + 1}}{a_n} \to a$ for some finite $a$, then:
+  \begin{itemize}
+    \item If $a < 1$, then $\sum_{n = 1}^{\infty} a_n$ converges.
+    \item If $a > 1$, then $\sum_{n = 1}^{\infty} a_n$ diverges.
+    \item If $a = 1$, then the test is inconclusive.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item We saw that $\sum_{n = 1}^{\infty} \frac{1}{n}$ diverges and $\sum_{n = 1}^{\infty} \frac{1}{n^2}$ converges.
+      Both of these have $a = 1$ in both the ratio and the root test so both fall into the ``inconclusive category'', despite their different behaviours.
+    \item Consider the series $\sum_{n = 1}^{\infty} \frac{n}{2^{n}}$.
+      Using the ratio test, we have:
+      \[
+        \frac{a_{n + 1}}{a_n} = \left. \frac{n + 1}{2^{n  + 1}}  \middle/ \frac{n}{2^{n}} \right. = \frac{n + 1}{2n} \to \frac{1}{2}
+      \]
+      so the series converges.
+
+      Using the root test:
+      \[
+        \left(\frac{n}{2^{n}}\right)^{\frac{1}{n}} = \frac{n^{\frac{1}{n}}}{2} \to \frac{1}{2}
+      \]
+      so the series converges which agrees with the root test.
+  \end{enumerate}
+\end{example}
+\begin{remark}[Note] Proof of $n^{\frac{1}{n}} \to 1$\par
+  We can rewrite:
+  \[
+    n^{\frac{1}{n}} = e^{\frac{1}{n}\log n} \to \exp\left[\lim\limits_{n \to \infty}  \frac{1}{n}\log n\right]
+  \]
+  by continuity of $\exp$.
+  Using L'H\^opital's rule, we have:
+  \[
+    \lim_{n \to \infty} \frac{\log n}{n} = \lim_{n \to \infty} \frac{1}{n} = 0
+  \]
+  so $n^{\frac{1}{n}} \to e^{0} = 1$.
+
+  These will both be covered later in the course.
+\end{remark}
+\begin{remark}
+  It can be shown that if the ratio test is conclusive, then so is the root test.
+  However, the converse of this is not true.
+  Consider the series defined by:
+  \[
+    a_n = \begin{cases}
+    2^{-n} & \text{ if $n$ is even} \\
+    2^{-(n + 1)} & \text{ if $n$ is odd}
+    \end{cases}
+  \]
+  Applying the root test:
+  \[
+    a^{\frac{1}{n}}_{n} = \begin{cases}
+    \frac{1}{2} & \text{ if $n$ is even} \\
+    \frac{1}{2} \cdot 2^{-\frac{1}{n}} & \text{ if $n$ is odd}
+    \end{cases}
+  \]
+  as $2^{-\frac{1}{n}} \to 1$, $a^{\frac{1}{n}}_{n} \to \frac{1}{2} < 1$ so the series converges by the root test.
+
+  Applying the ratio test:
+  \[
+    \frac{a_{n + 1}}{a_{n}} = \begin{cases}
+    \frac{2^{-(n + 2)}}{2^{-n}} = \frac{1}{4} & \text{ if $n$ is even} \\
+    \frac{2^{-(n + 1)}}{2^{-(n + 1)}} = 1 & \text{ if $n$ is odd}
+    \end{cases}
+  \]
+  which does not converge.
+
+  This means that the root test is stronger than the ratio test, however, in practice, the ratio test is often more convenient to apply, for example with power series and factorials.
+\end{remark}
 \end{document}

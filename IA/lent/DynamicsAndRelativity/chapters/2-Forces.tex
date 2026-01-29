@@ -358,6 +358,7 @@ Substituting these into the solution for $\xi$ and then taking real and imaginar
   Cyclotron motion is inherently related to complex numbers, see the ``quantum hall effect''.
 \end{remark}
 \section{Motion in One Dimension}
+\subsection{Explicit Solution}
 Often, problems in higher dimensions can be reduced to one-dimensional motion.
 In 1D, Newton's 2nd law reduces to:
 \[
@@ -397,5 +398,189 @@ The quantity $t - t_0$ is then how long it takes for the particle to go from $x_
   In one dimension, solving Newton's equation for some force $F(x)$ (independent of velocity) amounts to whether you are able to compute the integral in \cref{1dIntegral}.
 
   This kind of explicit solution is only possible in 1D.
+\end{remark}
+\subsection{Analysing Potential}
+Sometimes we might not be able to compute the integral in \cref{1dIntegral}.
+In this case we can still analyse the behaviour of the particle by considering the graph of the potential $V(x)$.
+
+Since $E = \frac{1}{2}m \dot{x}^2 + V(x)$ and $\dot{x}^2 \geq 0$, we must have $E \geq V(x)$.
+This restricts the ranges of $x$ where the particle can possibly be if it has energy $E$.
+\begin{center}
+\begin{tikzpicture}[scale=1.3]
+  \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
+  \draw[->] (0, -1) -- (7, -1) node[right] {$x$};
+  \draw[dashed] (0, 0) -- (7, 0) node[right] {$E$};
+
+
+  \draw[-|, thick] (0, 0.15) -- (2, 0.15) node[midway, above] {\small 1 -- Allowed};
+  \draw[|-|, thick] (2, -0.15) -- (4, -0.15) node[midway, below] {\small Disallowed};
+  \draw[|-|, thick] (4, 0.15) -- (6, 0.15) node[midway, above] {\small 2 -- Allowed};
+  \draw[|-, thick] (6, -0.15) -- (7, -0.15) node[midway, below] {\small Disallowed};
+
+  \fill (2, 0) circle (1.5pt);
+  \fill (4, 0) circle (1.5pt);
+  \fill (6, 0) circle (1.5pt);
+
+  \clip (0, -2) rectangle (7, 2);
+  \draw[thick, domain=0:7, smooth, samples=100] plot (\x,{0.2*(\x - 2)*(\x - 4)*(\x - 6)});
+\end{tikzpicture}
+\end{center}
+The points where $V(x) = E$ have $\dot{x} = 0$ and are called \textit{turning points}.
+Typically, particles ``bounce off'' the potential at turning points and turn around.
+
+Region 2 of the above graph is bounded so the particle bounces back and forth between turning points so its motion is bounded.
+However, region 1 of the above graph is unbounded so the particle bounces off the turning point and then flies off to $x \to -\infty$ so its motion is unbounded.
+
+A special cases occurs when $E = V(x_0)$ and $V'(x_0) = 0$:
+\begin{center}
+\begin{tikzpicture}[scale=1.3]
+  \begin{scope}[scale=0.5]
+    \node at (5, 2) {$V''(x_0) < 0$};
+    \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
+    \draw[->] (0, -1) -- (7, -1) node[right] {$x$};
+    \draw[dashed] (0, 0.62) -- (7, 0.62) node[right] {$E$};
+    \fill (2.85, 0.62) circle (3pt) node[above] {$x_0$};
+
+    \clip (0, -2) rectangle (7, 2);
+    \draw[thick, domain=0:7, smooth, samples=100] plot (\x,{0.2*(\x - 2)*(\x - 4)*(\x - 6)});
+  \end{scope}
+
+  \begin{scope}[scale=0.5, xshift=9cm]
+    \node at (5, 2) {$V''(x_0) > 0$};
+    \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
+    \draw[->] (0, -1) -- (7, -1) node[right] {$x$};
+    \draw[dashed] (0, -0.62) -- (7, -0.62) node[right] {$E$};
+    \fill (5.15, -0.62) circle (3pt) node[above] {$x_0$};
+
+    \clip (0, -2) rectangle (7, 2);
+    \draw[thick, domain=0:7, smooth, samples=100] plot (\x,{0.2*(\x - 2)*(\x - 4)*(\x - 6)});
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+Such $x_0$ are called \textit{equilibrium points}.
+Particles with energy $E$ will sit there indefinitely as at these points:
+\begin{align*}
+  m\ddot{x} &= -V'(x_0) = 0 \implies \ddot{x} = 0 \\
+  \frac{1}{2}m\dot{x}^2 &= V(x_0) - E = 0 \implies \dot{x} = 0
+\end{align*}
+So since $\dot{x} = \ddot{x} = 0$ at $x_0$, a particle of energy $E$ at $x_0$ stays at $x_0$.
+\subsubsection{Motion Close to Equilibrium Points}
+Motion close to an equilibrium point is especially simple.
+We can Taylor expand about $x \approx x_0$ as follows:
+\begin{align*}
+  V(x) &= V(x_0) + (x - x_0)\underbrace{V'(x_0)}_{=0} + \frac{1}{2}(x - x_0)^2 V''(x_0) + \cdots \\
+       &\approx V(x_0) + \frac{1}{2}(x - x_0)^2 V''(x_0)
+\end{align*}
+There are then three main cases:
+\begin{proofcases}
+  \begin{case}{$V''(x_0) > 0$}
+    If $V''(x_0) > 0$ (i.e. a minimum point of $V$), then $V$ is approximately the potential for a harmonic oscillator:
+    \begin{align*}
+      m\ddot{x} &= - V'(x) \approx -(x - x_0)V''(x_0) \\
+      \ddot{x} + \frac{V''(x_0)}{m}x &= x_0 V''(x_0) \\
+      \implies x &= x_0 + A\cos(\omega t + \phi)
+    \end{align*}
+    which are oscillations with frequency $\omega = \sqrt{\frac{V''(x_0)}{m}}$.
+    For small $A$, the amplitude is small so we stay close to the equilibrium point and so neglecting higher order terms in the Taylor expansion remains valid.
+    This is called a \textit{stable equilibrium point}.
+  \end{case}
+  \begin{case}{$V''(x_0) < 0$}
+    If $V''(x_0) < 0$ (i.e. a maximum point of $V$), then we get an \textit{unstable equilibrium point} and the solution looks like:
+    \[
+      x = x_0 + \widetilde{A}e^{\gamma t} + \widetilde{B}e^{-\gamma t}
+    \]
+    where $\gamma = \sqrt{\frac{-V''(x_0)}{m}}$.
+
+    If $\widetilde{A} \neq 0$, then we have exponential growth so the particle moves far away from the equilibrium point rapidly and so the Taylor expansion breaks down quickly.
+    The size of $\gamma$ tells us how quickly the particle moves away from the equilibrium point.
+
+    If $\widetilde{A} = 0$ and $\widetilde{B} \neq 0$, then this corresponds to ``rolling'' up the potential with just enough energy to reach the top as $t \to \infty$.
+    We can see this as when $t \to \infty$, $x \to x_0$ which is at the maximum.
+  \end{case}
+  \begin{case}{$V''(x_0) = 0$}
+    If $V''(x_0) = 0$, then we would need to Taylor expand to a higher order to analyse the system.
+  \end{case}
+\end{proofcases}
+\section{Dimensional Analysis}
+\textit{Dimensional Analysis} is a way to get information about solutions to equations without having to solve them.
+At a mathematical level, dimensional analysis the ability to rescale variables to remove certain constants from the equations.
+\begin{example}[Period of a Pendulum]
+  \label{pendulumDimensions}
+  Later in this course we will derive the equation for a pendulum of length $\ell$:
+  \[
+    \deriv[2]{\theta}{t} = - \frac{g}{\ell}\sin \theta
+  \]
+  Suppose we release it from rest at some angle $\theta_0$ and want to know its period.
+  That is, we wish to find the smallest positive $T$ such that $\theta(t + T) = \theta(t)\ \forall t$.
+
+  We can remove $g$ and $\ell$ from the equation by rescaling $t = \sqrt{\frac{\ell}{g}} \tau$ and, for convenience, let $\theta(t(\tau)) = F(\tau)$.
+  Using the chain rule we have:
+  \[
+    \deriv[2]{F}{\tau} = -\sin F
+  \]
+  This equation does not depend on $g$ and $\ell$ so neither can $F$.
+  Because of this, the period $\Delta \tau$ of $F(\tau)$ may depend on the initial condition $\theta_0$ but cannot depend $g$ or $\ell$.
+  \begin{align*}
+    F(\tau + \Delta \tau) = F(\tau) \implies \theta(t) &= F\left(\sqrt{\frac{g}{\ell}}t\right) = F\left(\sqrt{\frac{g}{\ell}}t + \Delta \tau\right) \\
+                                                       &= F\left(\sqrt{\frac{g}{\ell}}\left[t + \sqrt{\frac{\ell}{g}}\Delta \tau\right]\right) \\
+                                                       &= \theta\left(t + \sqrt{\frac{\ell}{g}} \Delta \tau\right)
+  \end{align*}
+  So the period is $T = \sqrt{\frac{\ell}{g}} \Delta \tau$.
+  Since we know that $\Delta \tau$ cannot depend on $\ell$ or $g$, this means that $T \propto \sqrt{\frac{\ell}{g}}$.
+  So, without solving the equation, we learnt that the period of a pendulum is proportional to $\sqrt{\frac{\ell}{g}}$.
+\end{example}
+In general, the necessary rescaling may not be obvious.
+We associate \textit{dimensions} to all constants and variables so that we do not have to manually carry out the rescaling process each time.
+\begin{definition}[Basic Dimensions]
+  The three basic dimensions are:
+  \begin{itemize}
+    \item \textit{Length} $L$
+    \item \textit{Time} $T$
+    \item \textit{Mass} $M$
+  \end{itemize}
+\end{definition}
+\begin{remark}[Notation]
+  We use the notation $[x]$ to mean the dimensions of $x$.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item $[\dot{x}] = LT^{-1}$, $[\ddot{x}] = LT^{-2}$ as they are derivatives of a length with respect to a time.
+    \item $F = m\ddot{x}$ so $[F] = MLT^{-2}$.
+    \item $E = \frac{1}{2}m\dot{x}^2$ so $[E] = ML^2T^{-2}$.
+  \end{enumerate}
+\end{example}
+It is sometimes useful to introduce additional dimension such as charge or temperature depending on the problem but length, time, and mass are usually sufficient.
+All arguments of non-trivial functions, that is, functions involving sums of different powers, must be dimensionless as we cannot sum quantities of different dimensions.
+For example, if we are taking $\sin \theta$, we must have $[\theta] = 1$.
+
+The fundamental rule of dimensional analysis is that for all equations, the dimensions on the right hand side and left hand side must be consistent.
+\begin{example}[Pendulum Revisited]
+  We first find the dimensions of all of the data (i.e. constants and variables) involved:
+  \[
+    [g] = LT^{-2},\ [\ell] = L,\ [m] = M,\ [\theta_0] = 1
+  \]
+  Note that we know that $\theta_0$ is dimensionless as it is the argument to a $\sin$ function.
+  We want $[T] = T$.
+  The choice of $T$ as a variable name here is a little confusing, we want the quantity $T$ to have dimensions of time.
+
+  $T$ can only depend on data that we have so must be in the form $T = f(\theta_0)g^{A}\ell^{B}M^{C}$ for constants $A, B, C, D$.
+  We use $f(\theta_0)$ since $\theta_0$ is dimensionless so any $f(\theta_0)$ is also dimensionless.
+
+  For the dimensions to be consistent we require:
+  \[
+    T = [T] = [g]^{A}[\ell]^{B}[m]^{C} = L^{A}T^{-2A}L^{B}M^{C}
+  \]
+  Therefore, we must have $C = 0$, $A = -\frac{1}{2}$, $B = \frac{1}{2}$ so:
+  \[
+    T = f(\theta_0) \sqrt{\frac{\ell}{g}} \implies T \propto \sqrt{\frac{\ell}{g}}
+  \]
+  which is consistent with our result from \cref{pendulumDimensions}.
+\end{example}
+\begin{remark}[Note]
+  When writing the form of the solution, we must include a function of any possible dimensionless combinations.
+  In the above example, the only dimensionless combination was $\theta_0$.
+  However, if the powers are not uniquely fixed by this process, we end up with dimensionless combinations of multiple constants and so we must include a function of any such combinations when formulating the trial solution.
+
+  See Q7 on Example Sheet 1 for an example of this.
 \end{remark}
 \end{document}
