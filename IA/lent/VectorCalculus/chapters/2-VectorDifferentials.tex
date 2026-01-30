@@ -42,7 +42,7 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
 \begin{example}[Using Grad]
   \label{gradExample}
   \begin{enumerate}
-    \item If $f(\vec{x}) = |\vec{x}| = x^2 + y^2 + z^2$, then $\nabla f = (2x, 2y, 2z) = 2\vec{x}$.
+    \item If $f(\vec{x}) = |\vec{x}|^2 = x^2 + y^2 + z^2$, then $\nabla f = (2x, 2y, 2z) = 2\vec{x}$.
 
       Alternatively, we can use suffix notation and summation convention:
       \[
@@ -54,7 +54,7 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
       \[
       \pderiv{}{x_i'} = \pderiv{x_j}{x_i'} \pderiv{}{x_j} = \pderiv{}{x_i'}(x'_j + {x_0}_j) \pderiv{}{x_j} = \delta_{i j} \pderiv{}{x_j} = \pderiv{}{x_i}
       \]
-      so $\nabla_{\vec{x}} |\vec{x} - \vec{x}_0|^2 = \nabla_{\vec{x}'} |\vec{x}'| = 2\vec{x}' = 2(\vec{x} - \vec{x}_0)$.
+      so $\nabla_{\vec{x}} |\vec{x} - \vec{x}_0|^2 = \nabla_{\vec{x}'} |\vec{x}'|^2 = 2\vec{x}' = 2(\vec{x} - \vec{x}_0)$.
     \item For constant $\vec{a}$, $\nabla(\vec{a} \cdot \vec{x}) = \nabla(a_1 x + a_2 y + a_3 z) = (a_1, a_2, a_3) = \vec{a}$.
       Alternatively, $\pderiv{ }{x_i} (a_j x_j) = a_j \delta_{i j} = a_i$.
   \end{enumerate}
@@ -164,6 +164,7 @@ $\partial/\partial x_i$ is a scalar operator so can be moved ``through'' the dot
 Roughly speaking, the divergence of a vector field at $\vec{x}$, measures the amount at which the field is expanding around $\vec{x}$.
 Later in the course we will derive a coordinate-independent definition of $\nabla \cdot \vec{F}$.
 \begin{example}[Using Divergence]
+  \label{divExample}
   \begin{enumerate}
     \item $F(\vec{x}) = \vec{x} = (x, y, z)$ so $\nabla \cdot \vec{F} = \pderiv{x}{x} + \pderiv{y}{y} + \pderiv{z}{z} = 3$, or using suffix notation, $F_i = x_i$ so $\nabla \cdot \vec{F} = \delta_{i i} = 3$.
       \begin{center}
@@ -412,10 +413,11 @@ Furthermore, since $\nabla f$ is normal to the level surfaces, the directional d
   For example, defining $g(\vec{x}) = h^3 + 1 - z^3$ and considering the level surface $g = 1$ defines exactly the same surface.
 \end{remark}
 \section{Vector Differential Identities}
+\subsection{Identities for Grad, Div, and Curl}
 For scalar fields $f, g$ and vector fields $\vec{F}, \vec{G}$, we have the following identities for grad, div, and curl:
 \begin{align*}
   \nabla(fg) &= f \nabla g + g \nabla f  \\
-  \nabla[f(g(\vec{x}))] &= f'(g(\vec{x})) \nabla g \\
+  \nabla[f(g(\vec{x}))] &= f'(g(\vec{x})) \nabla g \tag{$\ast$} \label{gradChain} \\
   \nabla \cdot (f\vec{F}) &= f (\nabla \cdot \vec{F}) + \vec{F} \cdot (\nabla f) \tag{$\dag$} \label{gradDotfF} \\
   \nabla \times (f\vec{F}) &= f (\nabla \times \vec{F}) + (\nabla f) \times \vec{F} \\
   \nabla (\vec{F} \cdot \vec{G}) &= \vec{F} \times (\nabla \times \vec{G}) + (\vec{F} \cdot \nabla)\vec{G} + \vec{G} \times (\nabla \times \vec{F}) + (\vec{G} \cdot \nabla)\vec{F} \tag{$\star$} \label{gradFG} \\
@@ -428,7 +430,7 @@ For example:
   \begin{align*}
     \nabla \cdot (f \vec{F}) &= \pderiv{}{x_i}(fF_i) \\
                              &= \pderiv{f}{x_i} F_i + f \pderiv{F_i}{x_i} \\
-                             &= \vec{F} \cdot (\nabla f) + f \nabla \cdot \vec{F}
+                             &= \vec{F} \cdot (\nabla f) + f (\nabla \cdot \vec{F})
   \end{align*}
 \end{proof}
 \begin{proof}[For \cref{gradFG}]
@@ -461,6 +463,7 @@ For example:
 
   When proving these identities, you need to make sure that operators and functions stay in the same order.
 \end{remark}
+\subsection{Identities for Radially Symmetric Fields}
 \begin{proposition}
   Another very useful identity is:
   \[
@@ -468,15 +471,15 @@ For example:
   \]
 \end{proposition}
 \begin{proof}
-  We defined $r = |\vec{x}|$ and know from \cref{gradExample} that $\nabla(|\vec{x}|) = \frac{\vec{x}}{|\vec{x}|}$ so:
   \[
-    \pderiv{r}{x_i} = [\nabla(r)]_i = \left[\frac{\vec{x}}{r}\right]_i = \frac{x_i}{r}
+    r^2 = x_j x_j \implies 2r \pderiv{r}{x_i} = 2x_j \delta_{i j} = 2x_i \implies \pderiv{r}{x_i} = \frac{x_i}{r}
   \]
 \end{proof}
 \begin{corollary}
   \[
     \nabla f(r) = f'(r)\vec{e}_r \text{ where } \vec{e}_r = \frac{\vec{x}}{r}
   \]
+  \label{rGrad}
 \end{corollary}
 \begin{proof}
   \[
@@ -484,8 +487,190 @@ For example:
   \]
   So $\nabla f(r) = \frac{\vec{x}}{r} = \vec{e}_r$ which is a unit vector in the radial direction of $\vec{x}$.
 \end{proof}
+Intuitively this makes sense as if we have a function of the radius, then grad is just $f'(r)$ (i.e. rate of change of radius in the outward direction) multiplied by a unit vector in the outward direction so points in the direction of the rate of change.
+\begin{example}
+  We can use this to find the divergence of the vector field $F(\vec{r}) = r^3 \vec{r}$.
+  We first use \cref{gradDotfF} to yield:
+  \[
+    \nabla \cdot (r^3 \vec{r}) = r^3 \nabla \cdot \vec{r} + \vec{r} \cdot \nabla r^3
+  \]
+  In \cref{divExample}, we saw that $\nabla \cdot \vec{x} = 3$ so $\nabla \cdot \vec{r} = 3$.
+  We can also apply \cref{rGrad} to compute $\nabla r^3 = 3r^2 \vec{e}_r$.
+  Combing these we have:
+  \begin{align*}
+    \nabla \cdot (r^3 \vec{r}) &= 3r^3 + \vec{r} \cdot (3r^2 \vec{e}_r) \\
+                               &= 3r^3 + \vec{r} \cdot (3r\vec{r}) \\
+                               &= 6r^3
+  \end{align*}
+\end{example}
+\subsection{Modulus of a Vector Field}
+To find grad of $|\vec{F}|$ for a vector field $\vec{F}$, we need to be able to differentiate the modulus of a vector field.
+\[
+  \pderiv{}{x_i}|\vec{F}| = \pderiv{}{x_i}\sqrt{F_jF_j} = \frac{1}{2\sqrt{F_j F_j}} \pderiv{}{x_i}(F_jF_j) = \frac{1}{2|\vec{F}|} \pderiv{}{x_i}(F_jF_j) = \frac{1}{|\vec{F}|} F_j \pderiv{F_j}{x_i}
+\]
+So $\nabla |\vec{F}|$ is:
+\[
+  \nabla |\vec{F}| = \frac{1}{|\vec{F}|} \begin{pmatrix}
+  F_1 \pderiv{F_1}{x} + F_2 \pderiv{F_2}{x} + F_3 \pderiv{F_3}{x} \\
+  F_1 \pderiv{F_1}{y} + F_2 \pderiv{F_2}{y} + F_3 \pderiv{F_3}{y} \\
+  F_1 \pderiv{F_1}{z} + F_2 \pderiv{F_2}{z} + F_3 \pderiv{F_3}{z} \\
+  \end{pmatrix}
+\]
 \section{Laplacian}
 \label{secLaplacian}
+\subsection{Laplacian for Scalar Fields}
+\begin{definition}[Laplacian for Scalar Fields]
+  The \textit{laplacian} of a \textbf{scalar field} $f(\vec{x})$ is:
+  \begin{align*}
+    \nabla^2 f &= \nabla \cdot (\nabla f)  \\
+               &= \pderiv[2]{f}{x} + \pderiv[2]{f}{y} + \pderiv[2]{f}{z} \\
+               &= \frac{\partial^2 f}{\partial x_i \partial x_i}
+  \end{align*}
+  This is pronounced ``del-squared $f$'' and is sometimes denoted $\Delta f$.
+\end{definition}
+\begin{remark}[Note]
+  When using suffix notation, $\frac{\partial^2 f}{\partial x^2_i}$ is \textbf{not} the same as $\frac{\partial^2 f}{\partial x_i \partial x_i}$ as $i$ is a free index in the first one but not the second one.
+\end{remark}
+\begin{example}
+  \label{laplacianEx}
+  \begin{enumerate}
+    \item If $f(\vec{x}) = \alpha x^2 + \beta y^2 + \gamma z^2$, then $\nabla^2 f$ is:
+      \begin{align*}
+        \nabla^2 f &= \left(\pderiv[2]{}{x} + \pderiv[2]{}{y} + \pderiv[2]{}{z}\right)(\alpha x^2 + \beta y^2 + \gamma z^2) \\
+                   &= 2(\alpha + \beta + \gamma)
+      \end{align*}
+    \item For $f = |\vec{x}|^2$, we know that $\nabla |\vec{x}|^2 = 2\vec{x}$ and $\nabla \cdot \vec{x} = 3$ so:
+      \begin{align*}
+        \nabla^2 |\vec{x}|^2 &= \nabla \cdot (2\vec{x}) \\
+                             &= 2 (\nabla \cdot \vec{x}) \\
+                             &= 2 \cdot 3 = 6
+      \end{align*}
+    \item If $f(\vec{x}) = (\vec{a} \cdot \vec{x})^2$, then $\nabla^2 f$ is:
+      \begin{align*}
+        \nabla^2 f &= \nabla \cdot (\nabla f)  \\
+                   &= \nabla \cdot (2 (\vec{a} \cdot \vec{x}) \nabla(\vec{a} \cdot \vec{x})) \text{ using \cref{gradChain}} \\
+                   &= \nabla \cdot (2(\vec{a} \cdot \vec{x}) \vec{a}) \\
+                   &= 2(\vec{a} \cdot \vec{x}) \underbrace{\nabla \cdot \vec{a}}_{=0} + 2\vec{a} \cdot \underbrace{\nabla(\vec{a} \cdot \vec{x})}_{\vec{a}} \\
+                   &= 2\vec{a} \cdot \vec{a} = 2|\vec{a}|^2
+      \end{align*}
+      We can also compute this more directly using components:
+      \begin{align*}
+        \nabla^2 f &= \nabla^2(a^2_1 x^2 + a^2_2 y^2 + a^2_3 z^2 + 2a_1a_2xy + 2a_1a_3xz + 2a_2a_3yz) \\
+                   &= 2(a^2_1 + a^2_2 + a^2_3) \\
+                   &= 2|\vec{a}|^2
+      \end{align*}
+      Using components is easy enough here but it is often preferable to use vector methods as they scales to arbitrary dimensions without the need to introduce fiddly suffix notation.
+  \end{enumerate}
+\end{example}
+Functions that satisfy $\nabla^2 f = 0$ (\textit{Laplace's Equation}) are called \textit{harmonic}.
+They are incredibly important in many fields so we will study these later in the course.
+
+\subsubsection{Spherical Symmetry}
+If we have spherical symmetry then we can write $f = f(r)$ for a scalar $r$.
+The laplacian is then:
+\begin{align*}
+  \nabla^2 f(r) &= \nabla \cdot (\nabla f(r)) \\
+                &= \nabla \cdot (f'(r) \vec{e}_r) \text{ using \cref{rGrad}} \\
+                &= \pderiv{}{x_i}\left(\frac{f'(r)}{r}x_i\right) \text{ as $\vec{e}_r = \frac{\vec{x}}{r}$}\\
+                &= \deriv{}{r}\left(\frac{f'(r)}{r}\right)\pderiv{r}{x_i}x_i + \frac{f'(r)}{r}\pderiv{x_i}{x_i} \\
+                &= \frac{r f''(r) - f'(r)}{r^2}\frac{x_i}{r}x_i + \frac{f'(r)}{r}\delta_{i i} \\
+                &= \frac{rf''(r) - f'(r)}{r^2} \frac{r^2}{r} + \frac{3f'(r)}{r} \\
+                &= f''(r) + \frac{2f'(r)}{r}
+\end{align*}
+This can also be written as:
+\[
+  \nabla^2 f(r) = \frac{1}{r^2} \deriv{}{r}(r^2 f'(r)) \text{ or } \frac{1}{r}\deriv[2]{}{r}(rf(r))
+\]
+\begin{example}[Using Spherical Symmetry]
+  $\nabla^2 |\vec{x}|^2$ is $\nabla^2 f$ for $f(r) = r^2$ so $\nabla^2 f = 2 + \frac{4r}{r} = 6$, which agrees with \cref{laplacianEx} \textbf{ii}.
+\end{example}
+In 2D, the equivalent formula is:
+\[
+  \nabla^2 f(r) = f''(r) + \frac{f'(r)}{r} \text{ or } \frac{1}{r} \deriv{}{r}(rf'(r))
+\]
+as the only difference is $\delta_{i i} = 2$ and not 3 as in the 3D case.
+\subsection{Laplacian for Vector Fields}
+For a vector field $\vec{F}$ we cannot define $\nabla^2 \vec{F}$ using $\nabla \cdot (\nabla \vec{F})$ since $\nabla \vec{F}$ is undefined.
+We instead have the following alternative definition.
+\begin{definition}[Laplacian for Vector Fields]
+  For a vector field $\vec{F}$, we define the \textit{laplacian} as:
+  \[
+    (\nabla^2 \vec{F})_i = \nabla^2(F_i)
+  \]
+  That is, we take the scalar laplacian of each component:
+  \[
+    \nabla^2 \vec{F} = (\nabla^2 F_1, \nabla^2 F_2, \nabla^2 F_3)
+  \]
+\end{definition}
+\begin{proposition}
+  The Laplacian has the following coordinate independent definition:
+  \[
+    \nabla^2 \vec{F} = \nabla(\nabla \cdot \vec{F}) - \nabla \times (\nabla \times \vec{F})
+  \]
+\end{proposition}
+\begin{proof}
+  We start from the cross product on the right hand side as this is easy to expand but would be difficult to spot had we started from the left hand side:
+  \begin{align*}
+    (\nabla \times (\nabla \times F))_i &= \levi_{i j k} \pderiv{}{x_j} \levi_{k l m} \pderiv{F_m}{x_l} \\
+                                        &= (\delta_{i l} \delta_{j m} - \delta_{i m}\delta_{j l})\frac{\partial^2 F_m}{\partial x_j \partial x_l}\\
+                                        &= \frac{\partial^2 F_j}{\partial x_i \partial x_j} - \frac{\partial^2 F_i}{\partial x_j \partial x_j} \\
+                                        &= \pderiv{}{x_i}(\nabla \cdot \vec{F}) - \nabla^2(F_i) \\
+                                        &= (\nabla(\nabla \cdot \vec{F}))_i  - (\nabla^2 (\vec{F}))_i
+  \end{align*}
+  Therefore, $\nabla^2 \vec{F} = \nabla(\nabla \cdot \vec{F}) - \nabla \times (\nabla \times \vec{F})$
+\end{proof}
+\section{Irrotational and Conservative Vector Fields}
+Consider a vector field $\vec{F}$ defined in a domain $\mathscr{D} \subseteq \R^3$.
+\begin{definition}[Irrotational]
+If $\vec{F}$ satisfies $\nabla \times \vec{F} = \vec{0}$ everywhere in $\mathscr{D}$, then it is said to be \textit{irrotational} in $\mathscr{D}$.
+\end{definition}
+\begin{definition}[Conservative]
+  If there exists a (single-valued) scalar field $f$ in $\mathscr{D}$ such that $\vec{F} = \nabla f$, then $\vec{F}$ is said to be \textit{conservative} in $\mathscr{D}$ and $f$ is known as \textit{a scalar potential} for $\vec{F}$.
+\end{definition}
+\begin{remark}[Applications]
+  Conservative fields arise in many physical situations (e.g. gravitation, electrostatics, and fluid dynamics) however sometimes the sign of $f$ is changed so that $\vec{F} = - \nabla f$.
+\end{remark}
+\begin{proposition}
+  Conservative fields are always irrotational.
+\end{proposition}
+\begin{proof}
+  As $\vec{F}$ is conservative if can be written as $\vec{F} = \nabla f$ for a scalar potential $f$ so:
+  \begin{align*}
+    (\nabla \times \vec{F})_i &= (\nabla \times (\nabla f))_i \\
+                              &= \levi_{i j k} \pderiv{}{x_j} \pderiv{f}{x_k} \\
+                              &= \levi_{i j k} \frac{\partial^2 f}{\partial x_j \partial x_k} \\
+                              &= 0
+  \end{align*}
+  as $\levi_{i j k}$ is antisymmetric and $\frac{\partial^2 f}{\partial x_j \partial x_k} = \frac{\partial^2 f}{\partial x_k \partial x_j}$ is symmetric.
+\end{proof}
+\begin{remark}
+  The above proof also shows that curl of grad $f$ is always 0 for any scalar $f$.
+\end{remark}
+
+The converse is also true but only if $\mathscr{D}$ is \textit{simply connected} (this will be proved later in the course after we have covered line integrals).
+That is, if $\nabla \times \vec{F} = \vec{0}$ in a simply connected domain $\mathscr{D}$, then there exists a single-valued potential function $f(\vec{x})$ in $\mathscr{D}$ s.t. $\vec{F} = \nabla f$.
+If $\mathscr{D}$ is not simply connected, then such a function $f(\vec{x})$ still exists, but it might not be single-valued and so $\vec{F}$ may not be conservative.
+
+\begin{remark}[Summary]
+  \begin{itemize}
+    \item If $\mathscr{D}$ is simply connected, then $\vec{F}$ is conservative $\iff$ $\vec{F}$ is irrotational.
+    \item If $\mathscr{D}$ is not simply connected, then $\vec{F}$ is conservative $\implies$ $\vec{F}$ is irrotational, but $\vec{F}$ is irrotational $\centernot\implies$ $\vec{F}$ is conservative.
+  \end{itemize}
+\end{remark}
+\begin{definition}[Path Connected]
+  A domain $\mathscr{D}$  is \textit{path connected} if every pair of points in $\mathscr{D}$ can be connected by a path contained within $\mathscr{D}$.
+\end{definition}
+\begin{definition}[Simply Connected]
+  A domain $\mathscr{D}$ is \textit{simply connected} if it is a path connected domain in which any closed curve can be shrunk continuously to a single point without ever leaving $\mathscr{D}$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item $\mathscr{D} = \R^3$ \textbf{is} simply connected
+    \item $\mathscr{D} = \R^3 \setminus \{(x, 0, 0): x \in \R\}$ (i.e. $\R^3$ without the $x$-axis) \textbf{is not} simply connected as a curve wrapped around the $x$-axis cannot be shrunk to a point without ever leaving $\mathscr{D}$.
+    \item $\mathscr{D} = \R^3 \setminus \{(x, 0, 0): x \geq 0\}$ (i.e. $\R^3$ without the positive $x$-axis) \textbf{is} simply connected as any curve wrapped around the positive $x$-axis can be moved along the $x$-axis, past the origin, and then shrunk to a point.
+    \item $\mathscr{D} = \R^3 \setminus \{\vec{0}\}$ \textbf{is} simply connected.
+  \end{enumerate}
+\end{example}
 \section{Summary}
 Here is a summary of the various vector differential operators and their actions on a scalar field $f$ and vector field $\vec{F}$:
 \begin{center}

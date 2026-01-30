@@ -413,6 +413,54 @@ As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
         &= \sum_{k = 0}^{m} (-1)^{k} \binom{m}{k} (m - k)^{n}
   \end{align*}
 \end{proof}
+\subsection{Derangements}
+\begin{definition}[Derangement]
+  A \textit{derangement} is a permutation with no fixed points.
+\end{definition}
+\begin{proposition}
+  Given a random permutation of $\{1, \ldots, n\}$, the probability that it is a derangement is:
+  \[
+    \sum_{k = 0}^{n} \frac{(-1)^{k}}{k!}
+  \]
+\end{proposition}
+\begin{proof}
+  Consider $\Omega = \{\text{permutations of } \{1, \ldots, n\}\}$ and $\P(\{\omega\}) = \frac{1}{n!}$.
+  Define the events:
+  \begin{align*}
+    A &= \{\text{derangements}\} = \{f \in \Omega: f(i) \neq i\ \forall i \in \{1, \ldots, n\}\} \\
+    A_i &= \{f \in \Omega: f(i) = i\} \text{ for $i \in \{1, \ldots, n\}$}
+  \end{align*}
+  We can rewrite $A$ as:
+  \[
+    A = A^{\comp}_1 \cap \cdots \cap A^{\comp}_n = \left(\bigcup_{i = 1}^{n} A_i\right)^{\comp}
+  \]
+  Since it is exactly the set of $f$ that are in none of the $A_i$.
+  So $\P(A) = 1 - \P\left(\bigcup_{i = 1}^{n} A_i\right)$.
+  By inclusion-exclusion (\cref{inclusionExclusion}):
+  \[
+    \P\left(\bigcup_{i = 1}^{n} A_i\right) = \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} \P(A_{i_1} \cap \cdots \cap A_{i_k})
+  \]
+  $\P(A_{i_1} \cap \cdots \cap A_{i_k})$ is the probability that a random permutation fixes $i_1, \ldots, i_k$.
+  If a permutation fixes $i_1, \ldots, i_k$, there are $(n - k)!$ ways to arrange the remaining elements so:
+  \[
+    \P(A_{i_1} \cap \cdots \cap A_{i_k}) = \frac{(n - k)!}{n!}
+  \]
+
+  Since there are $\binom{n}{k}$ ways to choose a subset $\{i_1, \ldots, i_k\}$ from $\{1, \ldots, n\}$:
+  \begin{align*}
+    \P\left(\bigcup_{i = 1}^{n} A_i\right) &= \sum_{k = 1}^{n} (-1)^{k + 1} \binom{n}{k} \frac{(n - k)!}{n!} \\
+                                           &= \sum_{k = 1}^{n} (-1)^{k + 1} \frac{1}{k!}
+  \end{align*}
+  So:
+  \[
+    \P(A) = 1 - \sum_{k = 1}^{n} (-1)^{k + 1}\frac{1}{k!} = \sum_{k = 0}^{n} \frac{(-1)^{k}}{k!}
+  \]
+  which is the desired result.
+\end{proof}
+\begin{remark}
+  As $n \to \infty$, $\P(A) \to \sum_{k = 0}^{\infty} \frac{(-1)^{k}}{k!} = e^{-1} \approx 0.368$.
+  So for large $n$, the probability of a random permutation being a derangement is approximately 37\%.
+\end{remark}
 \subsection{Stirling's Formula}
 \begin{remark}[Asymptotic Notation]
   If $(a_n)$ and $(b_n)$ are sequences then we write $a_n \sim b_n$ as $n \to \infty$ if $\frac{a_n}{b_n} \to 1$ as $n \to \infty$.
@@ -563,4 +611,156 @@ We can now prove the stronger asymptotic expression:
   \textbf{Conclusion}\par
   This forces $A = \sqrt{2\pi}$ and so $n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^{n}$.
 \end{proof}
+\section{Independence of Events}
+\subsection{Independence}
+\begin{definition}[Independent Events]
+  For $A, B \in \salg$, we say that $A$ is \textit{independent} of $B$ and write $A \perp B$ if:
+  \[
+    \P(A \cap B) = \P(A) \P(B)
+  \]
+  A countable collection of events $(A_n)_{n \in \N}$ is said to be independent if for any distinct $i_1, \ldots, i_k$:
+  \[
+    \P\left(\bigcap_{j = 1}^{k} A_{i_j}\right) = \prod_{j = 1}^{k} \P(A_{i_j})
+  \]
+\end{definition}
+\begin{remark}[Warning]
+  Pairwise independence of events is \textbf{not sufficient} to conclude that a collection of events is independent.
+\end{remark}
+\begin{example}
+  Consider tossing a fair coin twice, associating heads with 0 and tails with 1.
+  This has probability space:
+  \[
+    \Omega = \{(0, 0), (0, 1), (1, 0), (1, 1)\}, \salg = \powerset{(\Omega)},\ \P(\{\omega\}) = \frac{1}{4}
+  \]
+  Define the events $A = \{(0, 0), (0, 1)\}$, $B = \{(0, 0), (1, 0)\}$, and $C = \{(1, 0), (0, 1)\}$.
+
+  We see that $\P(A) = \P(B) = \P(C) = \frac{1}{2}$.
+  Since $\P(A \cap B) = \frac{1}{4} = \frac{1}{2} \cdot \frac{1}{2} = \P(A)\P(B)$, $A \perp B$.
+  Similarly, $A \perp C$ and $B \perp C$, so $A, B, C$ are pairwise independent.
+  However:
+  \[
+    \P(A \cap B \cap C) = \P(\emptyset) = 0 \neq \P(A)\P(B)\P(C)
+  \]
+  so $A, B, C$ is not an independent collection of events even though they are pairwise independent.
+\end{example}
+\begin{lemma}
+  If $A$ is independent of $B$, then $A \perp B^{\comp}$.
+\end{lemma}
+\begin{proof}
+  We wish to show that $\P(A \cap B^{\comp}) = \P(A)\P(B^{\comp})$.
+  \begin{align*}
+    \P(A \cap B^{\comp}) &= \P(A \setminus (A \cap B)) \\
+                         &= \P(A) - \P(A \cap B) \text{ as $A \cap B \subseteq A$} \\
+                         &= \P(A) - \P(A) \P(B) \text{ as $A \perp B$}\\
+                         &= \P(A)(1 - \P(B)) \\
+                         &= \P(A)\P(B^{\comp})
+  \end{align*}
+  Thus $A \perp B^{\comp}$.
+\end{proof}
+\subsection{Conditional Probability}
+For the following section, consider a probability space $(\Omega, \salg, \P)$.
+\begin{definition}[Conditional Probability]
+  For $A, B \in \salg$ with $\P(B) > 0$, we define the \textit{conditional probability of $A$ given $B$} as:
+  \[
+    \P(A \vert B) = \frac{\P(A \cap B)}{\P(B)}
+  \]
+\end{definition}
+\begin{lemma}
+  For $A, B \in \salg$ with $\P(B) > 0$, $A$ and $B$ are independent if and only if $\P(A \vert B) = \P(A)$
+\end{lemma}
+\begin{proof}
+\[
+  A \perp B \iff \P(A \cap B) = \P(A)\P(B) \iff \P(A) = \frac{\P(A \cap B)}{\P(B)} = \P(A \vert B)
+\]
+\end{proof}
+Intuitively this makes sense since if the event $B$ occurs, it does not change the probability of the event $A$ occurring as $A$ and $B$ are independent.
+\begin{proposition}[Countable Additivity for Conditional Probabilities]
+  Suppose $(A_n)_{n \in \N}$ is a disjoint sequence of events in $\salg$, then:
+  \[
+    \P\left(\left. \bigcup\nolimits_{n \in \N} A_n \middle\vert B \right.\right) = \sum_{n \in \N} \P(A_n \vert B)
+  \]
+  That is, countable additivity holds for conditional probabilities.
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    \P\left(\left. \bigcup\nolimits_{n \in \N} A_n \middle\vert B \right.\right) &= \frac{\P([\bigcup_{n \in \N} A_n] \cap B)}{\P(B)} \\
+                                                                                 &= \frac{\P(\bigcup_{n \in \N} (A_n \cap B))}{\P(B)}
+  \end{align*}
+  The sequence $(A_n)$ is disjoint, so for $i \neq j$, $A_i \cap A_j = \emptyset \implies (A_i \cap B) \cap (A_j \cap B) = \emptyset$.
+  So $(A_n \cap B)$ is a disjoint sequence, therefore, we can apply the countable additivity property of the normal probability measure:
+  \begin{align*}
+    \P\left(\left. \bigcup\nolimits_{n \in \N} A_n \middle\vert B \right.\right) &= \sum_{n \in \N} \frac{\P(A_n \cap B)}{\P(B)} \\
+                                                                                 &= \sum_{n \in \N} \P(A_n \vert B)
+  \end{align*}
+\end{proof}
+\begin{remark}
+  The above combined with $\P(B \vert B) = 1$ mean that $\P(\ \cdot\ \vert B)$ is a new probability measure that is related to the original probability measure by the definition of conditional probability.
+\end{remark}
+\begin{proposition}[Law of Total Probability]
+  If $(B_n)_{n \in \N}$ is a disjoint collection of events in $\salg$ such that $\bigcup_{n \in \N} B_n = \Omega$ and $\P(B_n) > 0\ \forall n$, then for any $A \in \salg$:
+  \[
+    \P(A) = \sum_{n \in \N} \P(A \vert B_n)\P(B_n)
+  \]
+  \label{lawOfTotalProb}
+\end{proposition}
+\begin{proof}
+  Since $A \in \salg$, $A \subseteq \Omega$ so $A \cap \Omega = A$.
+  Therefore, we have:
+  \begin{align*}
+    \P(A) = \P(A \cap \Omega) &= \P\left(A \cap \left[\bigcup_{n \in \N} B_n\right]\right) \\
+                              &= \P\left(\bigcup_{n \in \N} (B_n \cap A)\right) \\
+                              &= \sum_{n \in \N} \P(B_n \cap A) \text{ as $(B_n \cap A)$ are disjoint}\\
+                              &= \sum_{n \in \N} \P(A \vert B_n) \P(B_n) \text{ as $\P(A \vert B_n) = \frac{\P(B_n \cap A)}{\P(B_n)}$}
+  \end{align*}
+\end{proof}
+\subsection{Bayes' Formula}
+\begin{proposition}[Bayes' Formula]
+  If $(B_n)_{n \in \N}$ is a disjoint collection of events in $\salg$ such that $\bigcup_{n \in \N} B_n = \Omega$ and $\P(B_n) > 0\ \forall n$, then for any $A \in \salg$ with $\P(A) > 0$:
+  \[
+    \P(B_k \vert A) = \frac{\P(A \vert B_k)\P(B_k)}{\sum_{i \in \N} \P(A \vert B_i) \P(B_i)}
+  \]
+\end{proposition}
+\begin{proof}
+  We can write:
+  \[
+    \P(B_k \vert A) = \frac{\P(B_k \cap A)}{\P(A)} = \frac{\P(A \vert B_k)\P(B_k)}{\P(A)}
+  \]
+  and then use the law of total probability (\cref{lawOfTotalProb}) to rewrite $\P(A)$.
+\end{proof}
+This formula is the basis for Bayesian statistics.
+We call $(B_n)$ the \textit{parameters} and $A$ the \textit{evidence}.
+If we know the probabilities of each of the parameters, $\P(B_k)$, and we have a model which gives us $\P(A \vert B_k)$ (the probability of the evidence occurring given each of the parameters), then with this formula we can find the \textit{posterior probabilities}.
+These are the probabilities of a particular parameter $B_n$ occurring given the evidence $A$ occurs.
+\begin{example}[False Positives]
+  Suppose that condition $A$ affects 0.1\% of the population.
+  We have a test which is positive for 98\% of the affected population and 1\% of those unaffected.
+  Pick an individual at random.
+  What is the probability that they suffer from A given that they tested positive?
+
+  Define $A = \{\text{individual suffers from A}\}$, $P =\{\text{individual tests positive}\}$.
+  Our parameters are $A$ and $A^{\comp}$ and our evidence is $P$.
+  We want the probability $\P(A \vert P)$ and so need:
+  \[
+    \P(A) = 0.001,\ \P(A^{\comp}) = 0.999,\ \P(P \vert A) = 0.98,\ \P(P \vert A^{\comp}) = 0.01
+  \]
+  Using Bayes' formula:
+  \[
+    \P(A \vert P) = \frac{\P(P \vert A)\P(A)}{\P(P \vert A)\P(A) + \P(P \vert A^{\comp})\P(A^{\comp})} = 0.089 \approx 0.09
+  \]
+
+  This result seems counter-intuitive, however it can be more easily explained if we rewrite $P(A \vert P)$ as:
+  \[
+    \P(A \vert P) = \frac{1}{1 + \frac{\P(P \vert A^{\comp})\P(A^{\comp})}{\P(P \vert A)\P(A)}}
+  \]
+  $\P(A^{\comp})$ and $\P(P \vert A)$ are very close to 1 so the relevant ratio governing the size of $\P(A \vert P)$ is $\frac{\P(P \vert A^{\comp})}{\P(A)}$.
+
+  The probability of a false positive, is much higher than the probability of having the disease, that is, $\P(P \vert A^{\comp}) \gg \P(A)$.
+  This makes $\frac{\P(P \vert A^{\comp})}{\P(A)}$ large and therefore makes $\P(A \vert P)$ very small.
+
+  \textbf{Example on a population of size 1000}\par
+  Suppose we have a population of 1000 people with 1 suffering from A.
+  Amongst the 999 of those not suffering, about 10 people will test positive (i.e. 10 false positives).
+  In total there will be 11 people testing positive, but with only 1 of them actually suffering from A.
+  So if we pick one of the positive results at random, the probability that they are suffering from A is $\frac{1}{11} \approx 0.09$.
+\end{example}
 \end{document}
