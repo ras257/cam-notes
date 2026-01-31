@@ -572,6 +572,7 @@ Finding an explicit form for the partial sums of a series is often quite challen
 \subsubsection{$n$-th Term Test}
 \begin{proposition}[$n$-th term test]
   If $a_n \centernot\to 0$ as $n \to \infty$, then  $\sum_{n = 1}^{\infty} a_n$ fails to converge
+  \label{nthTermTest}
 \end{proposition}
 \begin{proof}
   It is easier to prove the contrapositive of this, that is, we wish to show that if $\sum_{n = 1}^{\infty} a_n$ converges, then $a_n \to 0$ as $n \to \infty$.
@@ -625,6 +626,7 @@ Creating convergence tests for $\sum_{n = 1}^{\infty} a_n$ is easier when $a_n \
 The next two tests are about ``asymptotic comparison'' to the geometric series.
 \begin{proposition}[Root Test]
   If $a_n \geq 0\ \forall n$ and $\exists a$ such that $a = \lim\limits_{n \to \infty} a^{\frac{1}{n}}_{n}$ then:
+  \label{rootTest}
   \begin{itemize}
     \item If $a < 1$, then $\sum_{n = 1}^{\infty} a_n$ converges.
     \item If $a > 1$, then $\sum_{n = 1}^{\infty} a_n$ diverges.
@@ -696,7 +698,28 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
   \end{itemize}
 \end{proposition}
 \begin{proof}
-  Covered next lecture.
+  \begin{proofcases}
+    \begin{case}{$a < 1$}
+      If $a < 1$, similarly to in the proof of \cref{rootTest}, then we can always fit in some $r \in \R$ s.t. $a < r < 1$.
+      Since $\frac{a_{n + 1}}{a_n} \to a$, $\exists N$ s.t. $\frac{a_{n + 1}}{a_n} < r\ \forall n \geq N$.
+      For all such $n$, we then have:
+      \begin{align*}
+        0 \leq a_n &= \frac{a_n}{a_{n - 1}} \frac{a_{n - 1}}{a_{n - 2}} \cdots \frac{a_{N + 1}}{a_N} \cdot a_N \\
+                                                     &< a_N \cdot r^{n - N} \text{ as each of the quotients is $< r$}\\
+                                                     &= \frac{a_N}{r^{N}} \cdot r^{n}
+      \end{align*}
+      $\frac{a_N}{r^{N}}$ is a constant (i.e it does not depend on $n$) so by the comparison test (\cref{comparisonTest}) with a geometric series, $\sum_{n = 1}^{\infty} a_n$ converges.
+    \end{case}
+    \begin{case}{$a > 1$}
+      If $a > 1$, we can similarly choose an $r$ s.t. $a > r > 1$.
+      Then since $\frac{a_{n + 1}}{a_n} \to a$, $\exists N$ s.t. $\frac{a_{n + 1}}{a_n} > r\ \forall n \geq N$.
+      Using the same type of argument as above yields:
+      \[
+        a_n > \frac{a_N}{r^{N}} r^{n}\ \forall n \geq N
+      \]
+      But since $r > 1$, this means that $a_n \centernot\to 0$ and so the series diverges by the $n$-th term test (\cref{nthTermTest}).
+    \end{case}
+  \end{proofcases}
 \end{proof}
 \begin{example}
   \begin{enumerate}
@@ -760,4 +783,143 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
 
   This means that the root test is stronger than the ratio test, however, in practice, the ratio test is often more convenient to apply, for example with power series and factorials.
 \end{remark}
+\subsubsection{Integral Test and Cauchy Condensation Test}
+\begin{proposition}[Integral Test]
+  Suppose $f: [1, \infty) \to [0, \infty)$ is a continuous decreasing function.
+  Then, if $a_n = f(n)$, $\sum_{n = 1}^{\infty} a_n$ converges if and only if $\int_{1}^{n} f(t) \d{t}$ has a limit as $n \to \infty$.
+
+  Furthermore:
+  \[
+    \sum_{n = 1}^{k} a_n - \int_{1}^{k} f(t) \d{t} \to \ell \in [0, a_1]
+  \]
+\end{proposition}
+\begin{proof}
+  We will see later in the course that such functions will be always be integrable in $[1, N]$ for all $N \in \N$.
+
+  If we consider the areas represented by the left sum, right sum, and integral:
+  \begin{center}
+   \begin{tikzpicture}[scale=1.2]
+    \draw[->] (0,0) -- (7.5,0) node[right] {$x$};
+    \draw[->] (0,0) -- (0,3) node[below right] {$f(x)$};
+
+    \node[below] at (1,-0.3) {$1$};
+    \draw[dashed] (1,-0.3) -- (1,3);
+    \node[below] at (7,-0.3) {$k$};
+    \draw[dashed] (7,-0.3) -- (7,3);
+
+    \def\dx{1}
+    \foreach \i in {0,1,2,3,4,5} {
+      \pgfmathsetmacro{\xleft}{1 + \i*\dx}
+      \pgfmathsetmacro{\height}{3/\xleft}
+      \filldraw[fill=gray!15] (\xleft,0) rectangle ({\xleft+\dx}, {\height});
+    }
+    \fill[fill=gray!45, domain=1:7, smooth, variable=\x] (1, 1) -- plot ({\x}, {3/\x}) -- (7, 0) -- (1, 0) -- cycle;
+    \foreach \i in {0,1,2,3,4,5} {
+      \pgfmathsetmacro{\xleft}{1 + \i*\dx}
+      \pgfmathsetmacro{\height}{3/(\xleft + \dx)}
+      \filldraw[fill=gray!80] (\xleft,0) rectangle ({\xleft+\dx}, {\height});
+    }
+    \draw[thick, domain=1:7, smooth, variable=\x] plot ({\x}, {3/\x});
+  \end{tikzpicture}
+  \end{center}
+  then we arrive at the following inequality:
+  \[
+    \text{Area of dark grey rectangles} \leq \text{Area under curve} \leq \text{Area of light grey rectangles}
+  \]
+  Translating this into sums of $a_n$ and integrals, we have:
+  \begin{equation}
+    s_k - a_1 = \sum_{n = 2}^{k} a_n \leq \int_{1}^{k} f(t) \d{t} \leq \sum_{n = 1}^{k - 1} a_n = s_{k - 1} \tag{$\ast$} \label{eqnAst1}
+  \end{equation}
+  Since $a_n \geq 0\ \forall n$, the partial sums $s_k$ must be monotonically increasing.
+  \begin{proofdirection}{Assume series converges}
+    As the series converges, we must have $s_k \to s$ for some finite $s$.
+    Since $(s_k)$ is increasing, we must have $s_k \leq s\ \forall k$.
+    We can then use \cref{eqnAst1} to bound the integral as $\int_{1}^{k} f(t) \d{t} \leq s_{k - 1} \leq s$.
+    Thus, $(\int_{1}^{k} f(t) \d{t})_{k \in \N}$ is an increasing bounded sequence and so by the monotone convergence theorem (\cref{monotoneConvergence}), it converges.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume integral converges}
+    As the limit of the integral exists, by \cref{convergenceBounded}, the sequence $(\int_{1}^{k} f(t) \d{t})_k$ is bounded, hence $s_k$ is also bounded as $s_k \leq (\int_{1}^{k} f(t) \d{t}) + a_1$ from \cref{eqnAst1}.
+    We also know that $(s_k)$ is increasing and so must converge by the monotone convergence theorem (\cref{monotoneConvergence}).
+  \end{proofdirection}\par
+  \textbf{Difference Between Sum and Integral}\par
+  For the limit of the difference between the sum and the integral, set $b_k = \sum_{n = 1}^{k} a_n - \int_{1}^{k} f(t) \d{t}$.
+  We then have:
+  \[
+    b_k - b_{k - 1} = a_k - \int_{k - 1}^{k} f(t) \d{t} = f(k) - \int_{k - 1}^{k} f(t) \d{t}
+  \]
+  For a decreasing function, we can visually see that $\int_{k - 1}^{k} f(t) \d{t} \geq \int_{k-1}^{k} f(k) \d{t} = f(k)$.
+  So $b_k - b_{k - 1} \leq 0 \implies b_k \leq b_{k - 1}$ and so $(b_k)$ is decreasing.
+  Furthermore, from the right inequality of \cref{eqnAst1}:
+  \begin{align*}
+    \sum_{n = 1}^{k - 1} a_n - \int_{1}^{k} f(t) \d{t} &\geq 0 \\
+    \implies b_k = \sum_{n = 1}^{k} a_n - \int_{1}^{k} f(t) \d{t} &\geq a_k
+  \end{align*}
+  So $b_k \geq a_k = f(k) \geq 0$.
+  Thus $(b_k)$ is bounded below by 0 so using the monotone convergence theorem, it converges to a limit $\ell$.
+
+  Using the left inequality of \cref{eqnAst1}:
+  \begin{align*}
+    \sum_{n = 2}^{k} a_n - \int_{1}^{k} f(t) \d{t} &\leq 0 \\
+    \implies b_k = \sum_{n = 1}^{k} a_n - \int_{1}^{k} f(t) \d{t} &\leq a_n
+  \end{align*}
+  Therefore, $0 \leq b_k \leq a_1$ so as we take the limit, the non strict inequalities are preserved by \cref{sandwichThm} so $0 \leq \ell \leq a_1$.
+\end{proof}
+\begin{remark}
+  \begin{enumerate}
+    \item $\lim_{n \to \infty} \int_{1}^{n} f(t) \d{t}$ is a type of \textit{improper integral}, these will be covered later in the course.
+    \item The limit of the difference between the integral and the sum being so well bounded tells us that the integral is quite sharp in estimating the sum of the series if it converges, or the rate of divergence if it diverges.
+  \end{enumerate}
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider the series $\sum_{n = 1}^{\infty} \frac{1}{n^{p}}$ for $p \in \R$.
+
+      Let $f(t) = t^{p}$, this is decreasing and continuous on $[1, \infty)$ and $f(t) \geq 0\ \forall t$ so we can apply the integral test.
+      \[
+        \lim_{n \to \infty}  \int_{1}^{n} \frac{1}{t^{p}} \d{t} = \lim_{n \to \infty} \begin{cases}
+        \log n & \text{ for $p = 1$} \\
+        \frac{1}{p - 1}(1 - n^{-p + 1}) & \text{ for $p \neq 1$}
+        \end{cases}
+      \]
+      For $p = 1$, $\log n$ diverges to $\infty$ as $n \to \infty$.
+      For $p \neq 1$:
+      \[
+        \frac{1}{p - 1}(1 - n^{-p + 1}) \to \begin{cases}
+          \frac{1}{p - 1} & p > 1 \\
+          \text{diverges to } \infty & p < 1
+        \end{cases}
+      \]
+      Thus, the integral converges if and only if $p > 1$ and so the series converges if and only if $p > 1$.
+    \item Consider the series $\sum_{n = 2}^{\infty} \frac{1}{n \log n}$.
+      Let $f(t) = \frac{1}{t \log t}$, this is decreasing and continuous on $[2, \infty)$ (note that the sum starts from 2) so we can use the integral test:
+      \[
+        \int_2^n \frac{1}{t \log t} \d{t} \stackrel{u = \log t} = \int_{\log 2}^{\log n} \frac{\d{u}}{u} = \eval{\log u}{\log 2}{\log n} = \log(\log n) - \log(\log(2)) \to \infty
+      \]
+      So the series must diverge.
+    \item $\sum_{n = 2}^{\infty} \frac{1}{n \log^2 n}$ converges by the integral test.
+      Let $f(t) = \frac{1}{t\log^2 t}$, this satisfies the requirements to use the integral test so consider:
+      \[
+        \int_2^n \frac{1}{t \log^2 t} \d{t} \stackrel{u = \log t} = \int_{\log 2}^{\log n} \frac{\d{u}}{u^2} = \eval{-\frac{1}{u}}{\log 2}{\log n} = \frac{1}{\log(2)} - \frac{1}{\log(n)} \to \frac{1}{\log(2)}
+      \]
+      So the series must converge.
+  \end{enumerate}
+\end{example}
+\begin{proposition}[Cauchy Condensation Test]
+  If $(a_n)$ is a decreasing sequence such that $a_n \geq 0\ \forall n$, then $\sum_{n = 1}^{\infty} a_n$ converges if and only if $\sum_{n = 1}^{\infty} 2^{n}a_{2^{n}}$ converges.
+\end{proposition}
+\begin{proof}
+  \nonexaminable
+\end{proof}
+\subsubsection{Alternating Series Test}
+What about sequences with with infinitely many negative terms?
+\begin{proposition}[Alternating Series Test]
+  If $(a_n)$ is a decreasing sequence where all of the terms are non-negative and $a_n \to 0$, then $\sum_{n = 1}^{\infty} (-1)^{n + 1}a_n$ converges.
+\end{proposition}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
+\begin{example}
+  We know that $\sum_{n = 1}^{\infty} \frac{1}{n}$ diverges, however, if we consider the series $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}$, then by the alternating series test, this converges.
+  In fact, it converges to $\log 2$.
+\end{example}
 \end{document}

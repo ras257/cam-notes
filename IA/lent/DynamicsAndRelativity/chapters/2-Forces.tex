@@ -122,6 +122,7 @@ We can check that it is constant by computing $\deriv{E}{t}$:
   &= 0 \text{ as $\vec{F} = m \ddot{\vec{x}} = -\nabla V$}
 \end{align*}
 \begin{example}[Escape Velocity]
+  \label{escapeVelocity}
   Suppose we throw an object into space and want it to never fall back down.
   The minimal velocity the object must have to achieve this is called the \textit{escape velocity}.
 
@@ -583,4 +584,158 @@ The fundamental rule of dimensional analysis is that for all equations, the dime
 
   See Q7 on Example Sheet 1 for an example of this.
 \end{remark}
+\section{Friction}
+\begin{remark}[Note]
+  In this section of the course, we will cover \textit{fluid drag} (friction due to an object moving through a fluid), however later in the course, we will study \textit{dry friction} (friction between two objects in contact with each other).
+\end{remark}
+When objects move from a medium (e.g. air or water) there are \textit{microscopic} forces between the object and the medium.
+These forces cause the momentum of the object to be carried off into the medium and lost.
+
+\textit{Friction} is a \textit{macroscopic} force that keeps track of the momentum lost due to the complicated microscopic effects.
+
+Friction has two important properties:
+\begin{enumerate}
+  \item Friction \textbf{does not conserve the energy} of the object as energy is lost to the medium.
+    This energy is lost as \textit{heat}.
+  \item Friction is \textbf{irreversible}.
+    That is, energy is lost by the object and never gained.
+    If you are ever in doubt about the sign of a friction force, it should always act in the opposite direction to velocity, in order to slow the object down.
+\end{enumerate}
+\subsection{Fluid Drag}
+There are two important cases of fluid drag.
+\begin{definition}[Linear Drag]
+  Linear drag is drag proportional to the speed of the object:
+  \[
+    \vec{F} = -k_1 \vec{v}
+  \]
+  for a \textit{coefficient of friction} $k_1$.
+\end{definition}
+Linear drag depends on \textit{viscous effects} (see IB Fluid Dynamics).
+This is when the object moves the medium close to the object along with it.
+
+Stokes' Law for a spherical object for radius $L$ tells us that:
+\[
+  k_1 = 6\pi \eta L
+\]
+where $\eta$ is the \textit{viscosity} of the fluid.
+\begin{definition}[Quadratic Drag]
+  Quadratic drag is drag proportional to the square of the speed of the object:
+  \[
+    \vec{F} = -k_2 |\vec{v}|\vec{v}
+  \]
+  for a \textit{coefficient of friction} $k_2$.
+  Note that we use the absolute value to ensure that always acts in the opposite direction to the velocity.
+\end{definition}
+Quadratic drag is the more intuitive of these two cases.
+The object bumps into molecules at a rate proportional to its velocity and the change in momentum per collision is also proportional to velocity, so it is reasonable to expect the drag to be proportional to the square of the velocity.
+
+The number of collisions should be proportional to the density of the medium $\rho$ and the cross-sectional area $A$, so we might expect that $k_2 \propto \rho A$.
+We can check the units of this using dimensional analysis:
+\[
+  [F] = MLT^{-2},\ [k_2 v^2] = ML^{-3}L^2L^2T^{-2} = MLT^{-2}
+\]
+which is consistent, so any other factors must be dimensionless.
+
+Both linear and quadratic drag are typically present, however, which one dominates depends on the \textit{Reynold's Number} $R$:
+\[
+  \frac{F_{\text{quad}}}{F_{\text{lin}}} \sim \frac{\rho A v^2}{\eta L v} \sim \frac{\rho L v}{\eta} = R
+\]
+This tells us the relative importance of quadratic and linear drag and will be covered further in IB Fluid Dynamics.
+\begin{remark}
+  $x$ and $\ddot{x}$ are invariant under a \textit{time reversal} $t \mapsto -t$, however, $\dot{x}$ is not.
+
+  As far as we know, the fundamental laws of nature are all invariant under \textit{CPT} (Charge reversal $q \mapsto -q$, Parity reversal $x \mapsto -x$, and Time reversal $t \mapsto -t$).
+
+  As $\dot{x}$ is not invariant under time reversal, friction forces are not invariant under time reversals and therefore they cannot be fundamental forces.
+\end{remark}
+\subsection{Terminal Velocity}
+Consider an object falling with quadratic friction under gravity:
+\begin{equation}
+  m \deriv{v}{t} = - mg + kv^2 \label{termDE}
+\end{equation}
+\begin{remark}[Note]
+  Here we are considering motion in one dimension, however, as we have seen, we can also have motion (and therefore friction) in different directions to gravity.
+  We can model such situations using a vector differential equation:
+  \[
+    m \dot{\vec{v}} = m\vec{g} - k|\vec{v}|\vec{v}
+  \]
+\end{remark}
+\subsubsection{Analysis Without Solving}
+We know that the friction needs to act in the opposite direction to the velocity.
+The object is falling downwards so we need the friction to act upwards, and hence it needs to have the opposite sign to $g$.
+
+If the object starts at rest, the initial acceleration of the object is exactly $-g$.
+As the velocity of the object increases, so does the magnitude of the drag force, so the downwards force, and therefore the acceleration, on the object decreases.
+As this continues, the downwards force asymptotically approaches 0, and so the acceleration approaches 0.
+This means that the velocity must approach a constant value.
+This is called the \textit{terminal velocity} of the object.
+
+Since we need the acceleration to be 0, we must have $kv^2_{\text{term}} = mg$ and so:
+\[
+  v_{\text{term}} = - \sqrt{\frac{mg}{k}}
+\]
+Unlike the escape velocity (see \cref{escapeVelocity}), this is dependant on mass.
+This means that heavier objects reach a greater terminal velocity than lighter ones.
+For a raindrop, $v_{\text{term}} \approx \qty{10}{\metre\second^{-1}}$.
+
+\subsubsection{Solving Directly}
+\Cref{termDE} is separable so we can solve for $t$ as a function of $v$ yielding:
+\begin{equation}
+  t = -\sqrt{\frac{m}{kg}}\artanh\left(\sqrt{\frac{k}{mg}}v\right) \label{eqnDragT}
+\end{equation}
+Rearranging for $v$, we have:
+\[
+  v = -\sqrt{\frac{mg}{k}}\tanh\left(\sqrt{\frac{kg}{m}}t\right)
+\]
+As $t \to \infty$, $\tanh\left(\sqrt{\frac{kg}{m}}t\right) \to 1$ and so $v \to -\sqrt{\frac{mg}{k}} = v_{\text{term}}$.
+\subsubsection{Approximate Timescale}
+We can use dimensional analysis to approximate the timescale with which the object reaches its terminal velocity.
+To find the units for $k$, we know that both terms of the right hand side of \cref{termDE} must be dimensionally consistent so:
+\[
+  [k][v]^2 = [m][g] \implies [k]L^2T^{-2} = MLT^{-2} \implies [k] = ML^{-1}
+\]
+The approximate timescale for it to reach terminal velocity can only depend on $m$, $g$ and $k$ so:
+\begin{align*}
+  t_0 &\propto m^{A}g^{B}k^{C} \\
+  \implies T &= M^{A}L^{B}T^{-2B}M^{C}L^{-C}
+\end{align*}
+So we must have $A = \frac{1}{2}$, $B = -\frac{1}{2}$, and $C = -\frac{1}{2}$.
+Therefore:
+\[
+  t_0 \propto \sqrt{\frac{m}{kg}}
+\]
+\begin{remark}
+  Since the terminal velocity is approached asymptotically, the velocity never actually reaches $v_0$ so $t_0$ is not ``the time to reach terminal velocity''.
+
+  We can however ask how long it takes for the object to get to some proportion $p$ of the terminal velocity.
+  If we substitute $-p \sqrt{\frac{mg}{k}}$ into \cref{eqnDragT}, we then have:
+  \[
+   t_0 = \sqrt{\frac{m}{kg}}\artanh(p) \implies t_0 \propto \sqrt{\frac{m}{kg}}
+  \]
+  which agrees with our result using dimensional analysis as $\tanh(p)$ must be dimensionless.
+\end{remark}
+\subsection{Damping}
+Drag also \textit{damps} the small oscillations about a stable equilibrium point.
+For small oscillations, typically linear drag is more important so we can approximate this as the damped harmonic oscillator:
+\[
+  \ddot{x} = -\omega^2_0 x - 2\alpha \dot{x}
+\]
+where $\omega_0$ is the angular frequency and $\alpha$ is a coefficient of friction.
+\[
+  x = e^{-\alpha t} (A_+ e^{i \Omega t} + A_- e^{-i\Omega t})
+\]
+where $\Omega = \sqrt{\omega^2_0 - \alpha^2}$ and we take the real part of $x$.
+There are three cases:
+\begin{proofcases}
+  \begin{case}{$\omega^2_0 > \alpha^2$ -- Underdamping}
+    This leads to decaying oscillations as $\Omega$ is real.
+  \end{case}
+  \begin{case}{$\omega^2_0 < \alpha^2$ -- Overdamping}
+    This leads to exponential decay back to equilibrium as $\Omega$ is imaginary.
+  \end{case}
+  \begin{case}{$\omega^2_0 = \alpha^2$ -- Critical Damping}
+    In this case, we get decay of form $x = (A + t)e^{-\alpha t}$ as $\Omega = 0$.
+  \end{case}
+\end{proofcases}
+We solved this in IA Differential Equations and it is discussed in further detail there.
 \end{document}
