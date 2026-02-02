@@ -1,0 +1,287 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Orthogonal Curvilinear Coordinate Systems}
+\section{General Curvilinear Coordinate Systems}
+\begin{definition}
+  A \textit{curvilinear coordinate system} in 3D is a parameterisation $(u, v, w)$ of $\R^3$.
+
+  In other words, it is a surjective map $\vec{x}(u, v, w)$ from a subset of $\R^3$ to $\R^3$.
+\end{definition}
+A well known example in $\R^2$ are \textit{plane polar coordinates}.
+These alternative coordinate systems are often useful when we wish to exploit a symmetry within a problem.
+\begin{remark}
+  Ideally $\vec{x}(u, v, w)$ would be invertible, however most coordinate systems have points where the map is not invertible.
+  For example, plane polar coordinates in $\R^2$ are not invertible at the origin as $\theta$ is undefined there.
+\end{remark}
+\begin{definition}[Scale Factors]
+  We define the \textit{scale factors} $h_u, h_v, h_w$ as:
+  \label{scaleFactors}
+  \[
+    h_u = \abs{\pderiv{\vec{x}}{u}},\ h_v = \abs{\pderiv{\vec{x}}{v}},\ h_w = \abs{\pderiv{\vec{x}}{w}}
+  \]
+  and their corresponding corresponding unit vectors:
+  \[
+    \vec{e}_u = \frac{1}{h_u} \pderiv{\vec{x}}{u},\ \vec{e}_v = \frac{1}{h_v} \pderiv{\vec{x}}{v},\ \vec{e}_w = \frac{1}{h_w} \pderiv{\vec{x}}{w}
+  \]
+\end{definition}
+\begin{remark}[Note]
+  Note that the scale factors and their corresponding unit vectors are all functions of $u, v, w$.
+\end{remark}
+\begin{definition}[Othogonal Curvilinear Coordinate System]
+  An \textit{orthogonal curvilinear coordinate system} is one in which $\vec{e}_u, \vec{e}_v, \vec{e}_w$ are mutually orthogonal.
+  We also typically reorder them so that $\{\vec{e}_v, \vec{e}_v, \vec{e}_w\}$ forms a right handed orthonormal set.
+\end{definition}
+This means we can use $\{\vec{e}_u, \vec{e}_v, \vec{e}_w\}$ as an orthonormal basis, but note that the basis is different at every $\vec{x}$ so it is only a \textit{local basis} about $\vec{x}$.
+
+When we say that is forma a local basis, we mean that any vector field $\vec{F}(\vec{x})$ can be expressed \textbf{at} $\vec{x}$ in terms of its components relative to the basis vectors $\{\vec{e}_u, \vec{e}_v, \vec{e}_w\}$ \textbf{at} $\vec{x}$, that is:
+\[
+  \vec{F}(\vec{x}) = F_u \vec{e}_u + F_v \vec{e}_v + F_w \vec{e}_w
+\]
+Even if $\vec{F}$ is a constant vector, its components wont be as the basis could be different at every $\vec{x}$.
+
+We can extend \cref{infinitesimalTaylor} to the vector function $\vec{x}(u, v, w)$.
+We then see that a small displacement $\d{\vec{x}}$ is given by:
+\begin{align}
+  \d{\vec{x}} &= \pderiv{\vec{x}}{\vec{u}} \d{u} + \pderiv{\vec{x}}{v} \d{v} + \pderiv{\vec{x}}{w} \d{w} \nonumber \\
+              &= h_u \d{u} \vec{e}_u + h_v \d{v} \vec{e}_v + h_w \d{w} \vec{e}_w \label{vectorInfinitesimal}
+\end{align}
+and not just $\d{u} \vec{e}_u + \d{v} \vec{e}_v + \d{w} \vec{e}_w$ as it would be if we were using Cartesian coordinates.
+
+Similarly, the position vector is \textbf{not} given by $u\vec{e}_u + v\vec{e}_v + w\vec{e}_w$ as it would be in Cartesian.
+There is a difference between the coordinates $(u, v, w)$, that are used to specify a point in this coordinate system, and the position vector $\vec{x}(u, v, w)$.
+For example, we represent a point in plane polar coordinates as $(r, \theta)$ but this is not the same as the position vector $
+\left(\begin{smallmatrix}
+r \\
+\theta \\
+\end{smallmatrix}\right)$
+
+\textbf{Constant Surfaces}\par
+Consider a displacement that keeps $u$ fixed but allows $v$ and $w$ can vary.
+Using \cref{vectorInfinitesimal} with $\d{u} = 0$:
+\[
+  \d{\vec{x}} = h_v \d{v} \vec{e}_v + h_w \d{w} \vec{e}_w
+\]
+Therefore, $\d{\vec{x}}$ is a linear combination of $\vec{e}_v$ and $\vec{e}_w$ only.
+Since $\vec{e}_v$ and $\vec{e}_w$ are orthogonal to $\vec{e}_u$, as it is an orthonormal basis, $\d{\vec{x}} \perp \vec{e}_u$ for all possible $\d{\vec{x}}$.
+
+As we have shown that any displacement that keeps $u$ fixed is orthogonal to $\vec{e}_u$, $\vec{e}_u$ is perpendicular to any surface of constant $u$ and similarly for $\vec{e}_v$ and $\vec{e}_w$.
+So the three surfaces of constant $u$, constant $v$, and constant $w$ all intersect orthogonally at any given point as the basis vectors are always orthogonal at any point.
+\section{Cylindrical Polar Coordinates}
+\begin{definition}
+  Cylindrical polar coordinates are defined by:
+  \[
+    x = \rho \cos \phi,\ y = \rho \sin \phi,\ z = z
+  \]
+  where $\rho \geq 0$ and, although it is not necessary, $\phi$ is usually restricted to $[0, 2\pi)$.
+
+  \begin{itemize}
+    \item $\rho$ is called the \textit{radial distance} and is the distance from the $z$ axis to $\vec{x}$.
+    \item $\phi$ is called the \textit{azimuth angle} and is the angle measured anticlockwise from the $x$-axis round to the $y$-axis of the projection of $\vec{x}$ onto the $x$-$y$ plane.
+    \item $z$ is called the \textit{height} and is the signed distance from the $x$-$y$ plane to $\vec{x}$.
+  \end{itemize}
+  We write the components in the order $(\rho, \phi, z)$.
+\end{definition}
+\begin{remark}[Alternative Notation]
+  Different notations are sometimes used.
+  Sometimes people use $r$ instead of $\rho$ and/or $\theta$ instead of $\phi$.
+\end{remark}
+\begin{remark}
+  If we restrict ourselves to $z = 0$ then we recover plane polar coordinates.
+\end{remark}
+\subsubsection{Visualisation}
+The following diagram illustrates cylindrical coordinates and their infinitesimal components:
+\begin{center}
+  \input{../figures/CylindricalCoordinates}\par
+  \footnotesize{Diagram from \url{https://tex.stackexchange.com/a/614355} -- Alexander Tsagkaropoulos}
+\end{center}
+\subsubsection{Inverting}
+\label{invertingCylindrical}
+Cylindrical polar coordinates can be inverted using:
+\[
+  \rho = \sqrt{x^2 + y^2},\ \tan \phi = \frac{y}{x},\ z = z
+\]
+$\rho$ and $z$ are easy to invert however some care needs to be taken with $\phi$ because of cases when $x = 0$.
+You may also need to add or subtract $\pi$ from $\arctan(y/x)$.
+It is advisable to draw a sketch in the $x$-$y$ to make this process simpler.
+\subsubsection{Constant Surfaces}
+\begin{itemize}
+  \item Surfaces of constant $\rho$ are cylinders with the $z$-axis as their axis.
+  \item Surfaces of constant $\phi$ are vertical planes through the $z$-axis orthogonal to the $x$-$y$ plane.
+  \item Surfaces of constant $z$ are horizontal planes parallel to the $x$-$y$ plane.
+\end{itemize}
+Note that these three constant surfaces always meet orthogonally, as expected.
+\subsubsection{Scale Factors and Basis Vectors}
+We can find the scale factors and basis vectors using \cref{scaleFactors}:
+\begin{align*}
+  \vec{x}(\rho, \phi, z) = \begin{pmatrix}
+  \rho \cos \phi \\
+  \rho \sin \phi \\
+  z \\
+  \end{pmatrix} &\implies
+  \pderiv{\vec{x}}{\rho} = \begin{pmatrix}
+  \cos \phi \\
+  \sin \phi \\
+  0 \\
+  \end{pmatrix},\
+  \pderiv{\vec{x}}{\phi} = \begin{pmatrix}
+  -\rho \sin \phi \\
+  \rho \cos \phi \\
+  0 \\
+  \end{pmatrix},\ \pderiv{\vec{x}}{z} = \begin{pmatrix}
+  0 \\
+  0 \\
+  1 \\
+  \end{pmatrix} \\
+  &\implies
+  h_\rho = 1,\
+  h_\phi = \rho,\
+  h_z = 1\\
+  &\ \text{ and }
+  \vec{e}_\rho = \begin{pmatrix}
+  \cos \phi \\
+  \sin \phi \\
+  0 \\
+  \end{pmatrix},\
+  \vec{e}_\phi = \begin{pmatrix}
+  -\sin \phi \\
+  \cos \phi \\
+  0 \\
+  \end{pmatrix},\
+  \vec{e}_z = \begin{pmatrix}
+  0 \\
+  0 \\
+  1 \\
+  \end{pmatrix}
+\end{align*}
+It is easy to check that $\{\vec{e}_\rho, \vec{e}_\phi, \vec{e}_z\}$ is orthonormal and right handed.
+Furthermore, we see that each of the basis vectors are orthogonal to their respective constant surfaces, as expected.
+
+Using these basis vectors, we can write $\vec{x}$ as:
+\[
+  \vec{x}(\rho, \phi, z) = \rho \begin{pmatrix}
+  \cos \phi \\
+  \sin \phi \\
+  0 \\
+  \end{pmatrix} + z \begin{pmatrix}
+  0 \\
+  0 \\
+  1 \\
+  \end{pmatrix} = \rho \vec{e}_\rho + z\vec{e}_z
+\]
+Note that we do not need a $\phi \vec{e}_\phi$ as $\vec{e}_\rho$ already points outwards in the correct direction.
+\subsubsection{Infinitesimals}
+Using \cref{vectorInfinitesimal}, we obtain:
+\begin{align*}
+  \d{\vec{x}} &= h_\rho \d{\rho} \vec{e}_\rho + h_\phi \d{\phi} \vec{e}_\phi + h_z \d{z} \vec{e}_z \\
+              &= \d{\rho} \vec{e}_\rho + \rho \d{\phi} \vec{e}_\phi + \d{z}\vec{e}_z
+\end{align*}
+Note that we have factor of $\rho$ in the second term because for a small change in $\phi$ of $\delta \phi$, the distance moved in the direction of $\vec{e}_\phi$ is $\rho \delta \phi$ up to a first order approximation and so becomes exactly $\rho \d{\phi}$ in infinitesimals.
+This can more clearly seen in the visualisation above.
+\section{Spherical Polar Coordinates}
+\begin{definition}
+  \textit{Spherical polar coordinates} are defined by:
+  \[
+    x = r \sin \theta \cos \phi,\ y = r \sin \theta \sin \phi,\ z = r \cos \theta
+  \]
+  where $r \geq 0$, $\theta$ is \textbf{always} restricted to $[0, \pi]$ and $\phi$ \textbf{can} be restricted to $[0, 2\pi)$.
+
+  \begin{itemize}
+    \item $r$ is called the \textit{radial distance} and is the distance the origin to $\vec{x}$.
+    \item $\theta$ is called the \textit{polar angle} and is the angle between the $z$-axis and $\vec{x}$ measured down from the $z$ axis towards the $x$-$y$ plane
+    \item $\phi$ is called the \textit{azimuth angle} and is the angle measured anticlockwise from the $x$-axis round to the $y$-axis of the projection of $\vec{x}$ onto the $x$-$y$ plane.
+  \end{itemize}
+  We write the components in the order $(r, \theta, \phi)$
+\end{definition}
+\begin{remark}[Alternative Notation]
+  \begin{itemize}
+    \item Some people order the coordinates $(r, \phi, \theta)$ instead.
+    \item Some people swap the definitions of $\theta$ and $\phi$.
+    \item Some people replace $\theta \mapsto \frac{\pi}{2} - \theta$.
+  \end{itemize}
+  This can all be quite confusing so beware when consulting other sources.
+\end{remark}
+\begin{remark}
+  When $\theta = \frac{\pi}{2}$, we recover plane polar coordinates.
+\end{remark}
+\subsubsection{Visualisation}
+The following diagram illustrates spherical polar coordinates and their infinitesimal components:
+\begin{center}
+  \input{../figures/SphericalCoordinates}\par
+  \footnotesize{Diagram from \url{https://tex.stackexchange.com/a/614355} -- Alexander Tsagkaropoulos}
+\end{center}
+\subsubsection{Inverting}
+Spherical polar coordinates can be inverted using:
+\[
+  r = \sqrt{x^2 + y^2 + z^2},\ \tan \theta = \frac{\sqrt{x^2 + y^2}}{z},\ \tan \phi = \frac{y}{x}
+\]
+Similarly to $\phi$ in cylindrical coordinates (\cref{invertingCylindrical}), care needs to be taken when inverting $\theta$ and $\phi$.
+\subsubsection{Constant Surfaces}
+\begin{itemize}
+  \item Surfaces of constant $r$ are spheres centered at the origin.
+  \item Surface of constant $\theta$ are cones with the $z$-axis as their axis and their apex at the origin.
+  \item Surfaces of constant $\phi$ are vertical planes through the $z$-axis orthogonal to the $x$-$y$ plane.
+\end{itemize}
+Note that these three constant surfaces always meet orthogonally, as expected.
+\subsubsection{Scale Factors and Basis Vectors}
+We can find the scale factors and basis vectors using \cref{scaleFactors}:
+\begin{align*}
+  &\vec{x}(r, \theta, \phi) = \begin{pmatrix}
+  r\sin \theta \cos \phi \\
+  r\sin \theta \sin \phi \\
+  r\cos \theta \\
+  \end{pmatrix} \\
+  &\implies
+  \pderiv{\vec{x}}{r} = \begin{pmatrix}
+  \sin \theta \cos \phi \\
+  \sin \theta \sin \phi \\
+  \cos \theta \\
+  \end{pmatrix},\
+  \pderiv{\vec{x}}{\theta} = \begin{pmatrix}
+  r\cos \theta \cos \phi \\
+  r\cos \theta \sin \phi \\
+  -r\sin \theta \\
+  \end{pmatrix},\ \pderiv{\vec{x}}{\phi} = \begin{pmatrix}
+  -r \sin \theta \sin \phi \\
+  r \sin \theta \cos \phi  \\
+  0 \\
+  \end{pmatrix} \\
+  &\implies
+  h_r = 1,\
+  h_\theta = r,\
+  h_\phi = r\sin\theta\\
+  &\ \text{ and }
+  \vec{e}_r = \begin{pmatrix}
+  \sin \theta \cos \phi \\
+  \sin \theta \sin \phi \\
+  \cos \theta \\
+  \end{pmatrix},\
+  \vec{e}_\theta = \begin{pmatrix}
+  \cos \theta \cos \phi \\
+  \cos \theta \sin \phi \\
+  -\sin \theta \\
+  \end{pmatrix},\
+  \vec{e}_\phi = \begin{pmatrix}
+  -\sin \phi \\
+  \cos \phi \\
+  0 \\
+  \end{pmatrix}
+\end{align*}
+Using these basis vectors, we can write $\vec{x}$ as:
+\[
+  \vec{x}(r, \theta, \phi) = r\begin{pmatrix}
+  \sin \theta \cos \phi \\
+  \sin \theta \sin \phi \\
+  \cos \theta \\
+  \end{pmatrix} = r \vec{e}_r
+\]
+Note that this matches the notation $\vec{e}_r = \frac{1}{r}\vec{r}$ that we used earlier in \cref{radialIndentities}.
+\subsubsection{Infinitesimals}
+Using \cref{vectorInfinitesimal}, we obtain:
+\begin{align*}
+  \d{\vec{x}} &= h_r \d{r} \vec{e}_r + h_\theta \d{\theta} \vec{e}_\rho + h_\phi \d{\phi} \vec{e}_\phi \\
+              &= \d{r} \vec{e}_r + r \d{\theta} \vec{e}_\theta + r \sin \theta \d{\phi} \vec{e}_\phi
+\end{align*}
+Again, the geometric intuition behind this can be seen in the above visualisation.
+\section{Vector Differential Operators in Curvilinear Systems}
+\subsection{General Orthogonal Curvilinear Coordinate Systems}
+\end{document}

@@ -320,6 +320,7 @@ The \textit{Bofferoni Inequalities} tell us if the truncation of the inclusion e
 \end{proof}
 \section{Combinatorial Analysis}
 \subsection{Multinomial Coefficients}
+\label{multinomialCoefficients}
 Suppose $\Omega$ is a finite set with $|\Omega| = n$.
 We want to partition $\Omega$ into $k$ disjoint subsets $\Omega_1, \ldots, \Omega_k$ with $|\Omega_i| = n_i$ and $n_1 + \cdots + n_k = n$.
 How many ways are there to do this?
@@ -676,6 +677,7 @@ For the following section, consider a probability space $(\Omega, \salg, \P)$.
 Intuitively this makes sense since if the event $B$ occurs, it does not change the probability of the event $A$ occurring as $A$ and $B$ are independent.
 \begin{proposition}[Countable Additivity for Conditional Probabilities]
   Suppose $(A_n)_{n \in \N}$ is a disjoint sequence of events in $\salg$, then:
+  \label{conditionalAdditivity}
   \[
     \P\left(\left. \bigcup\nolimits_{n \in \N} A_n \middle\vert B \right.\right) = \sum_{n \in \N} \P(A_n \vert B)
   \]
@@ -731,6 +733,7 @@ This formula is the basis for Bayesian statistics.
 We call $(B_n)$ the \textit{parameters} and $A$ the \textit{evidence}.
 If we know the probabilities of each of the parameters, $\P(B_k)$, and we have a model which gives us $\P(A \vert B_k)$ (the probability of the evidence occurring given each of the parameters), then with this formula we can find the \textit{posterior probabilities}.
 These are the probabilities of a particular parameter $B_n$ occurring given the evidence $A$ occurs.
+\subsection{Examples}
 \begin{example}[False Positives]
   Suppose that condition $A$ affects 0.1\% of the population.
   We have a test which is positive for 98\% of the affected population and 1\% of those unaffected.
@@ -762,5 +765,138 @@ These are the probabilities of a particular parameter $B_n$ occurring given the 
   Amongst the 999 of those not suffering, about 10 people will test positive (i.e. 10 false positives).
   In total there will be 11 people testing positive, but with only 1 of them actually suffering from A.
   So if we pick one of the positive results at random, the probability that they are suffering from A is $\frac{1}{11} \approx 0.09$.
+\end{example}
+\begin{example}
+  \textbf{What is the probability someone has 2 boys given that they have 2 children, one of whom is a boy?}\par
+  Since no further information is given, we take all outcomes to be equally likely, that is, a child is equally as likely to be either a boy or a girl.
+  We define the 4 disjoint events:
+  \begin{align*}
+    BG &= \{\text{elder child is a boy, younger is a girl}\} \\
+    GB &= \{\text{elder child is a girl, younger is a boy}\} \\
+    BB &= \{\text{both are boys}\} \\
+    GG &= \{\text{both are girls}\}
+  \end{align*}
+  One child is a boy is the event $BB \cup BG \cup GB$ and children are boys is the event $BB$.
+  Therefore we want $\P(BB \vert BB \cup BG \cup GB)$:
+  \begin{align*}
+    \P(BB \vert BB \cup BG \cup GB) &= \frac{\P(BB \cap (BB \cup BG \cup GB))}{\P(BB \cup BG \cup GB)} \\
+                                    &= \frac{\P(BB)}{\P(BB \cup BG \cup GB)} = \frac{1/4}{3/4} = \frac{1}{3}
+  \end{align*}
+
+  \textbf{What is the probability that they have two boys given the eldest child is a boy?}\par
+  $BB \cup BG$ is the event the eldest child is a boy so we want:
+  \[
+    \P(BB \vert BB \cup BG) = \frac{1}{2}
+  \]
+
+  \textbf{What is the probability we have two boys given that one of them is a boy born on a Thursday?}\par
+  We define the 5 disjoint events:
+  \begin{align*}
+    TG &= \{\text{eldest is a boy born on a Thursday, youngest is a girl}\} \\
+    GT &= \{\text{eldest is a girl, youngest is a boy born on Thursday}\} \\
+    TN &= \{\text{eldest is a boy born on a Thursday, youngest is a boy not born on a Thursday}\} \\
+    NT &= \{\text{eldest is a boy not born on a Thursday, youngest is a boy born on a Thursday}\} \\
+    TT &= \{\text{both are boys born on a Thursday}\}
+  \end{align*}
+  We assume, similarly to before, that there is an equal chance for a child to be born on a each of the days of the week.
+  We wish to find:
+  \begin{align*}
+    &\P(TT \cup TN \cup NT \vert TT \cup TG \cup GT \cup TN \cup NT) \\
+                                   &=\frac{\P((TT \cup TN \cup NT) \cap (TT \cup TG \cup GT \cup TN \cup NT))}{\P(TT \cup TG \cup GT \cup TN \cup NT)} \\
+                                   &= \frac{\P(TT \cup TN \cup NT)}{\P(TT \cup TG \cup GT \cup TN \cup NT)} \\
+                                   &= \frac{\frac{1}{2} \cdot \frac{1}{7}\cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{6}{7} + \frac{1}{2} \cdot \frac{6}{7} \cdot \frac{1}{2} \cdot \frac{1}{7}}{\frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} + \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{6}{7} \cdot 2} \\
+                                   &= \frac{13}{27} > \frac{1}{3}
+  \end{align*}
+
+  \textbf{Summary}\par
+  When conditioning, when we specified which one we know is a boy is we got $1/2$.
+  When did not specify which one was a boy we get $1/3$, and when we specify that one is a boy born on a Thursday (a relatively unlikely event), our probability moves back towards $1/2$.
+
+  In this case, if we condition on an event with probability $\alpha$, as $\alpha$ gets smaller and smaller, the conditional probability gets closer to $1/2$.
+\end{example}
+\begin{example}[Simpson's Paradox]
+  Consider the following example admissions data:
+  \begin{center}
+    \begin{tabular}{c|c|c|c}
+      \hline\hline
+      All Applicants & Admitted & Rejected & \% Admitted \\
+      \hline
+      State & 25 & 25 & 50\% \\
+      Independent & 28 & 22 & 56\% \\
+      \hline\hline
+      London Schools & Admitted & Rejected & \% Admitted \\
+      \hline
+      State & 15 & 22 & 41\% \\
+      Independent & 5 & 8 & 38\% \\
+      \hline\hline
+      Cambridge Schools & Admitted & Rejected & \% Admitted \\
+      \hline
+      State & 10 & 3 & 77\% \\
+      Independent & 23 & 14 & 62\% \\
+    \end{tabular}
+  \end{center}
+  Notice how when we look at all applicants, the acceptance rate is higher from independent schools than it is from state schools.
+  However, when we partition the data into two subcategories, we see that the acceptance rate from state schools is higher in both cases.
+
+  This phenomenon is called \textit{confounding} in statistics.
+  It arises when we aggregate data from two disparate populations.
+
+  Define the following events for a random individual:
+  \begin{align*}
+    A &= \{\text{individual is admitted}\} \\
+    B &= \{\text{individual is from London}\},\ B^{\comp} = \{\text{individual is from Cambridge}\} \\
+    C &= \{\text{individual is from a state school}\},\ C^{\comp} = \{\text{individual is from an independent school}\}
+  \end{align*}
+  For this set of data, we see from the second table that:
+  \[
+    \P(A \vert B \cap C) > \P(A \vert B \cap C^\comp)
+  \]
+  that is, the probability that a student is admitted given they are from a London state school is higher than the probability they are admitted given that they are from a London independent school.
+
+  We see from the third table that a similar thing can be said about admitted students from Cambridge:
+  \[
+    \P(A \vert B^{\comp} \cap C) > \P(A \vert B^{\comp} \cap C^\comp)
+  \]
+  However, as discussed, from the first table, we see that:
+  \[
+    \P(A \vert C) < \P(A \vert C^\comp)
+  \]
+  so when aggregated, the acceptance rate is higher from independent schools.
+
+  We can also get the inequality to go in the other direction.
+  This can be seen if we rewrite $\P(A \vert C)$ as follows:
+  \begin{align*}
+    \P(A \vert C) &= \P((A \cap B) \cup (A \cap B^{\comp}) \vert C)\\
+                  &= \P(A \cap B \vert C) + \P(A \cap B^{\comp} \vert C) \text{ using \cref{conditionalAdditivity}} \\
+                  &= \frac{\P(A \cap B \cap C)}{\P(C)} + \frac{\P(A \cap B^{\comp} \cap C)}{\P(C)} \text{ by definition} \\
+                  &= \frac{\P(A \vert B \cap C)\P(B \cap C)}{\P(C)} + \frac{\P(A \vert B^{\comp} \cap C)\P(B^{\comp} \cap C)}{\P(C)} \\
+                  &= \P(A \vert B \cap C)\P(B \vert C) + \P(A \vert B^{\comp} \cap C)\P(B^{\comp} \vert C) \\
+                  &> \P(A \vert B \cap C^\comp)\P(B \vert C) + \P(A \vert B^{\comp} \cap C^\comp)\P(B^{\comp} \vert C) \text{ by assumption}
+  \end{align*}
+  So if $\P(B \vert C) = \P(B \vert C^\comp)$ (which it is not here), then we would get that:
+  \begin{align*}
+    \P(A \vert C) &> \P(A \vert B \cap C^\comp)\P(B \vert C^\comp) + \P(A \vert B^{\comp} \cap C^\comp)\P(B^{\comp} \vert C^\comp) \\
+                  &= \P(A \vert C^\comp) \text{ by following the above backwards with $C \mapsto C^\comp$}
+  \end{align*}
+  so the inequality between $\P(A \vert C)$ and $\P(A \vert C^\comp)$ can go in both directions.
+
+  This boils down to that if we consider natural numbers $a_1, a_2, b_1, b_2, c_1, c_2, d_1, d_2$ where we know the ratios satisfy:
+  \[
+    \frac{a_1}{a_2} > \frac{b_1}{b_2} \text{ and } \frac{c_1}{c_2} > \frac{d_1}{d_2}
+  \]
+  then we do not know the relation between:
+  \[
+    \frac{a_1 + c_1}{a_2 + c_2}\ ? \ \frac{b_1 + d_1}{b_2 + d_2}
+  \]
+  unless we know the specific values of the numbers.
+
+  In the above example:
+  \[
+    \frac{a_1}{a_2} = \frac{15}{37} = 41\%,\ \frac{b_1}{b_2} = \frac{5}{13} = 38\%,\ \frac{c_1}{c_2} = \frac{10}{13} = 77\%,\ \frac{d_1}{d_2} = \frac{23}{37} = 62\%
+  \]
+  and so:
+  \[
+    50\% = \frac{15 + 10}{37 + 13} < \frac{5 + 23}{37 + 13} = 66\%
+  \]
 \end{example}
 \end{document}

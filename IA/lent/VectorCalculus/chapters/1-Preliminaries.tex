@@ -86,9 +86,9 @@ Infinitesimals also have their own product and quotient rules:
 In higher dimensions, an infinitesimal vector is one whose components are all infinitesimals.
 For example, $\d{\vec{x}} = (\d{x}, \d{y}, \d{z})$.
 Then we have:
-\[
-  \d{f} = \pderiv{f}{x_i}\d{x_i}
-\]
+\begin{equation}
+  \d{f} = \pderiv{f}{x_i}\d{x_i} \label{infinitesimalTaylor}
+\end{equation}
 The modulus of an infinitesimal vector can be calculated with:
 \[
   \abs{\d{\vec{x}}} = \abs{\d{x}}\sqrt{1 + \left(\deriv{y}{x}\right)^2 + \left(\deriv{z}{x}\right)^2}

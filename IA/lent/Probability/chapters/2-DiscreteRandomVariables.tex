@@ -1,0 +1,80 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Discrete Random Variables}
+\section{Definition}
+\begin{definition}[Discrete Probability Distribution]
+  Suppose we have a probability space $(\Omega, \salg, \P)$ where $\Omega$ is \textbf{finite or countable}:
+  \[
+    \Omega = \{\omega_1, \omega_2, \ldots\},\ \salg = \powerset{\Omega}
+  \]
+  If we know $\P(\{\omega_i\})$ for all $i$, then for any $A \in \salg$:
+  \[
+    \P(A) = \P\left(\bigcup_{\omega_i \in A} \{\omega_i\}\right) = \sum_{\omega_i \in A} \P(\{\omega_i\})
+  \]
+  We then call $(\P(\{\omega_i\}))_i$ a \textit{discrete probability distribution} and we write $p_i = \P(\{\omega_i\})$.
+\end{definition}
+Since the $p_i$ are all probabilities, we must have $p_i \geq 0\ \forall i$.
+Furthermore, since $\P(\Omega) = 1$, we must also have $\sum_{i} p_i = 1$
+\begin{remark}[Summary]
+   If we have a probability space $(\Omega, \salg, \P)$ where the $\Omega$ is at most countably infinite, then the \textit{discrete probability distribution} refers to the probabilities that $\P$ assigns to each singleton $\{\omega_i\}$ of $\Omega$.
+\end{remark}
+\section{Important Discrete Distributions}
+\subsection{Bernoulli Distribution}
+\begin{definition}[Bernoulli Distribution]
+  The \textit{Bernoulli distribution} with parameter $p \in [0, 1]$, models a probability space with two outcomes where:
+  \[
+    \Omega = \{0, 1\},\ p_0 = \P(\{0\}) = 1 - p,\ p_1 = \P(\{1\}) = p
+  \]
+\end{definition}
+This means Bernoulli distributions model the outcome of a single trial with two outcomes, for example the toss of a biased coin.
+If we associate tails with 0 and heads with 1 then:
+\[
+  \P(\text{Heads}) = p_1 = p,\ \P(\text{Tails}) = p_0 = 1 - p
+\]
+\begin{remark}
+  A coin with a probability $p$ of heads is sometimes called a $p$-coin.
+\end{remark}
+\subsection{Binomial Distribution}
+\begin{definition}
+  The \textit{binomial distribution} with parameters $n \in \N$ and $p \in [0, 1]$ is denoted $\binomial(n, p)$.
+
+  It models number of successes in $n$ independent trials, each with an outcome of either success, with probability $p$, or failure, with probability $1 - p$.
+
+  $\Omega$ all the possible numbers of trials where the outcome was success, i.e. $\Omega = \{1, \ldots, n\}$ as we can have anywhere from 1 to $n$ successful trials.
+
+  The probability $p_k = \P(\{k\})$ is:
+  \[
+    \P(\text{$k$ successes}) = \binom{n}{k}p^{k}(1 - p)^{n - k} \text{ for $k \in \Omega$}
+  \]
+  as there are $\binom{n}{k}$ choices for when the successes should be.
+\end{definition}
+\begin{remark}[Intuition]
+  We can think of the binomial distribution as modelling the number of heads we get if we toss a $p$-coin $n$ times.
+\end{remark}
+\subsection{Multinomial Distribution}
+\begin{definition}
+  The \textit{multinomial distribution} with parameters $n \in \N$ and $p_1, \ldots, p_k \in [0, 1]$ such that $\sum_{i = 1}^{k} p_i = 1$, is denoted $\multinomial(n, p_1, \ldots, p_k)$.
+
+  It models the outcome of $n$ independent trials, each with $k$ outcomes of probability $p_i$ for $1 \leq i \leq k$.
+
+  $\Omega$ is the set of all tuples whose entries are the number of times $n_i$ each of the $k$ outcomes occurred:
+  \[
+    \Omega = \left\{(n_1, \ldots, n_k) \in \N^{k} : \sum_{i = 1}^{k} n_i = n\right\}
+  \]
+  We require their sum to be $n$ as we did $n$ trials in total.
+
+  The probability of a particular tuple, $p_{n_1, \ldots, n_k} = \P(\{(n_1, \ldots, n_k)\})$ is:
+  \begin{align*}
+    p_{n_1, \ldots, n_k} &= \binom{n}{n_1}p^{n_1}_{1} \cdot \binom{n - n_1}{n_2}p^{n_2}_{2} \cdots \binom{n - n_1 - \cdots - n_{k - 1}}{n_k} p^{n_k}_{k} \\
+                         &= \binom{n}{n_1, \ldots, n_k} \cdot p^{n_1}_{1} \cdots p^{n_k}_{n}
+  \end{align*}
+  This uses the \textit{multinomial coefficient} that we saw in \cref{multinomialCoefficients}.
+\end{definition}
+\begin{remark}[Intuition]
+  We can think of the multinomial distribution as modelling the results of tossing $n$ balls independently into $k$ boxes where each ball goes into box $i$ with probability $p_i$.
+  Therefore:
+  \[
+    \P(n_1 \text{ balls in box 1}, \ldots, n_k \text{ balls in box $k$}) = p_{n_1, \ldots, n_k}
+  \]
+\end{remark}
+\end{document}

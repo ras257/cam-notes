@@ -464,6 +464,7 @@ For example:
   When proving these identities, you need to make sure that operators and functions stay in the same order.
 \end{remark}
 \subsection{Identities for Radially Symmetric Fields}
+\label{radialIdentities}
 \begin{proposition}
   Another very useful identity is:
   \[
@@ -644,7 +645,7 @@ If $\vec{F}$ satisfies $\nabla \times \vec{F} = \vec{0}$ everywhere in $\mathscr
   as $\levi_{i j k}$ is antisymmetric and $\frac{\partial^2 f}{\partial x_j \partial x_k} = \frac{\partial^2 f}{\partial x_k \partial x_j}$ is symmetric.
 \end{proof}
 \begin{remark}
-  The above proof also shows that curl of grad $f$ is always 0 for any scalar $f$.
+  The above proof also shows that curl of grad $f$ is always $\vec{0}$ for any scalar field $f$.
 \end{remark}
 
 The converse is also true but only if $\mathscr{D}$ is \textit{simply connected} (this will be proved later in the course after we have covered line integrals).
@@ -664,6 +665,7 @@ If $\mathscr{D}$ is not simply connected, then such a function $f(\vec{x})$ stil
   A domain $\mathscr{D}$ is \textit{simply connected} if it is a path connected domain in which any closed curve can be shrunk continuously to a single point without ever leaving $\mathscr{D}$.
 \end{definition}
 \begin{example}
+  \label{scdExample}
   \begin{enumerate}
     \item $\mathscr{D} = \R^3$ \textbf{is} simply connected
     \item $\mathscr{D} = \R^3 \setminus \{(x, 0, 0): x \in \R\}$ (i.e. $\R^3$ without the $x$-axis) \textbf{is not} simply connected as a curve wrapped around the $x$-axis cannot be shrunk to a point without ever leaving $\mathscr{D}$.
@@ -671,6 +673,49 @@ If $\mathscr{D}$ is not simply connected, then such a function $f(\vec{x})$ stil
     \item $\mathscr{D} = \R^3 \setminus \{\vec{0}\}$ \textbf{is} simply connected.
   \end{enumerate}
 \end{example}
+\begin{example}
+  Consider the vector field $\vec{F}(\vec{x}) = \frac{1}{x^2 + y^2}(-y, x, 0)$.
+  It can be easily checked that $\vec{F}$ is irrotational.
+  It is also easy to check that $f(\vec{x}) = \arctan(y/x)$ satisfies $\vec{F} = \nabla f$.
+  However, this $f$ is \textbf{not single valued}.
+  It is also not a conservative field as the domain is not simply connected as $\vec{F}$ is undefined anywhere on the $z$-axis (as we saw in \cref{scdExample}).
+  In fact, it can be shown that no scalar potential for $\vec{F}$ exists in a simply connected domain so it cannot be conservative, despite that it is irrotational.
+
+  We cannot just specify to use the principal branch of $\arctan$ as then $f(\vec{x})$ is no longer continuous, potential functions should be \textit{single-valued} and \textit{continuous} (otherwise $\nabla f$ is not defined).
+\end{example}
+\section{Solenoidal or Incompressible Vector Fields}
+\begin{definition}
+  If $\vec{F}$ satisfies $\nabla \cdot \vec{F} = 0$ everywhere in $\mathscr{D}$, then it is said to be \textit{solenoidal}, \textit{incompressible}, or \textit{divergence-free} in $\mathscr{D}$.
+\end{definition}
+\begin{remark}[Nomenclature]
+  The name ``solenoidal'' arises magnetic fields which are always solenoidal.
+  However, solenoidal fields are equally important in fluid dynamics, where they are instead known as ``incompressible''.
+\end{remark}
+\begin{proposition}
+  If there exists a vector field $\vec{A}$ in $\mathscr{D}$ such that $\vec{F} = \nabla \times \vec{A}$ then $\vec{F}$ is solenoidal.
+\end{proposition}
+\begin{proof}
+  We can write $\vec{F} = \nabla \times \vec{A}$ so:
+  \begin{align*}
+    \nabla \cdot (\nabla \times \vec{A}) &= \pderiv{}{x_i} \levi_{i j k} \pderiv{A_k}{x_j} \\
+                                         &= \levi_{i j k} \frac{\partial A_k}{\partial x_i \partial x_j} \\
+                                         &= 0
+  \end{align*}
+  as $\levi_{i j k}$ is antisymmetric and $\frac{\partial^2 A_k}{\partial x_i \partial x_j} = \frac{\partial^2 A_k}{\partial x_i \partial x_j}$ is symmetric.
+\end{proof}
+\begin{remark}
+  The above proof also shows that div of curl $\vec{F}$ is always 0 for any vector field $\vec{F}$.
+\end{remark}
+If such an $\vec{A}$ exists, then it is called a \textit{vector potential} for $\vec{F}$.
+
+The converse is also true in suitable domains, so any solenoidal field has a vector potential in a suitable domain $\mathscr{D}$.
+\begin{remark}
+  \nonexaminable
+  For the converse to hold, we not only require that $\mathscr{D}$ is simply connected, but we also require that any closed \textit{surface} in $\mathscr{D}$ can be shrunk continuously to a point in $\mathscr{D}$ without leaving $\mathscr{D}$.
+
+  So, for example, $\R^3 \setminus \{\vec{0}\}$ is not suitable as a unit sphere centred on the origin cannot be shrunk to a point without passing through the origin.
+  The proof for this is technical but there is a constructive proof for $\mathscr{D} = \R$ in Example Sheet 1 Q6.
+\end{remark}
 \section{Summary}
 Here is a summary of the various vector differential operators and their actions on a scalar field $f$ and vector field $\vec{F}$:
 \begin{center}
