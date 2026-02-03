@@ -291,13 +291,27 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
   Given a sequence $(x_n)$, a \textit{subsequence} of $(x_n)$ is a sequence of the form $(x_{n_k})_{k \in \N}$ where $(n_k)_{k \in \N}$ is a sequence of naturals satisfying $n_1 < n_2 < n_3 < \cdots$ (strictly monotonically increasing).
 \end{definition}
 \begin{lemma}[Convergence of Subsequences]
-  If $x_n \to x$ then any subsequence $(x_{n_k})_{k \in \N}$ must converge to the same limit.
+  If $x_n \to x$, then any subsequence $(x_{n_k})_{k \in \N}$ must converge to the same limit.
+  \label{subseqenceConvergence}
 \end{lemma}
 \begin{proof}
   Since $n_k < n_{k + 1} \implies n_{k + 1} \geq n_k + 1$, by induction $n_k \geq k$.
   If we take $\varepsilon > 0$, then $\exists N = N (\varepsilon) \text{ s.t. } |x_n - x| < \varepsilon\ \forall n \geq N$.
   So if $k \geq N$, then $n_k \geq k \geq N$ so $|x_{n_k} - x| < \varepsilon$.
   Hence $\lim\limits_{k \to \infty} x_{n_k} = x$.
+\end{proof}
+\begin{lemma}
+  If $x_{2n + 1} \to x$ and $x_{2n} \to x$, then $x_n \to x$.
+  That is, if the even and odd sub-sequences converge to the same limit, then the sequence converges to that limit.
+  \label{evenOddSubseq}
+\end{lemma}
+\begin{proof}
+  Using definitions, $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |x_{2n} - x| < \varepsilon\ \forall n \geq N_1 \\
+    \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |x_{2n + 1} - x| < \varepsilon\ \forall n \geq N_2
+  \end{align*}
+  Thus for all $n \geq 2\max\{N_1, N_2\} + 1$, we must have $|x_n - x| < \varepsilon$ and so $x_n \to n$.
 \end{proof}
 \begin{proposition}[Nested Interval Property]
   Let $(I_n)_{n \in \N}$ be a sequence of nested intervals in $\R$, that is, $\forall n\ I_{n + 1} \subseteq I_n$ and $I_n = [a_n, b_n]$ for $a_n \leq b_n$.
@@ -461,6 +475,7 @@ The \cref{cauchyExample} \textbf{iii} shows that there exists Cauchy sequences o
 So, if the converse of the above is true, it can only be true for certain ``nice'' subsets $X \subseteq \C$.
 \begin{theorem}[Completeness of $\R$ and $\C$]
   Every Cauchy sequence on $\R$ or $\C$ is convergent.
+  \label{completenessOfRC}
 \end{theorem}
 \begin{proof}
   We have seen that if $(x_n)$ is Cauchy, then it is bounded.
@@ -745,7 +760,7 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
     n^{\frac{1}{n}} = e^{\frac{1}{n}\log n} \to \exp\left[\lim\limits_{n \to \infty}  \frac{1}{n}\log n\right]
   \]
   by continuity of $\exp$.
-  Using L'H\^opital's rule, we have:
+  Using L'S\^opital's rule, we have:
   \[
     \lim_{n \to \infty} \frac{\log n}{n} = \lim_{n \to \infty} \frac{1}{n} = 0
   \]
@@ -911,16 +926,129 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
 \begin{proof}
   Not lectured.
 \end{proof}
-\subsubsection{Alternating Series Test}
+\subsubsection{Alternating Series Test and Dirichlet Test}
 What about sequences with with infinitely many negative terms?
 \begin{proposition}[Alternating Series Test]
   If $(a_n)$ is a decreasing sequence where all of the terms are non-negative and $a_n \to 0$, then $\sum_{n = 1}^{\infty} (-1)^{n + 1}a_n$ converges.
 \end{proposition}
 \begin{proof}
-  Covered next lecture.
+  Set $s_k = \sum_{n = 1}^{k} (-1)^{n + 1} a_n$. Then, for the even subsequence:
+  \[
+    s_{2k} = \underbrace{(a_1 - a_2)}_{\geq0} + \underbrace{(a_3 - a_4)}_{\geq 0} + \cdots + \underbrace{(a_{2k - 1} - a_{2k})}_{\geq 0}
+  \]
+  Therefore, $s_2 \leq s_4 \leq \cdots$, that is, $(s_{2k})$ is increasing.
+  We can do a similar thing with the odd subsequence:
+  \[
+    s_{2k + 1} = a_1 + \underbrace{(-a_2 + a_3)}_{\leq 0} + \underbrace{(-a_4 + a_5)}_{\leq 0} + \cdots \underbrace{(-a_{2k} + a_{2k + 1})}_{\leq 0}
+  \]
+  Therefore, $s_1 \geq s_3 \geq \cdots$, that is, $(s_{2k + 1})$ is decreasing.
+
+  Moreover, $s_{2k + 1} - s_{2k} = a_{2k + 1} \geq 0$ so we can create a chain of inequalities:
+  \[
+    a_1 - a_2 = s_2 \leq s_{2k} \leq s_{2k + 1} \leq s_1 = a_1
+  \]
+  Therefore $(s_{2k})$ is upper bounded by $a_1$ and $(s_{2k + 1})$ is lower bounded by $a_1 - a_2$.
+  Thus by monotone convergence theorem (\cref{monotoneConvergence}), both sequences converge.
+
+  Let $s = \lim_{k \to \infty} s_{2k}$ and $\widetilde{s} = \lim_{k \to \infty} s_{2k + 1}$.
+  Now note that since $a_n \to 0$, by \cref{subseqenceConvergence}, the subsequence $a_{2k + 1} \to 0$ as $k \to \infty$.
+  Therefore:
+  \[
+    s - \widetilde{s} = \lim_{k \to \infty} (s_{2k} - s_{2k + 1}) = \lim_{k \to \infty} a_{2k + 1} = 0
+  \]
+  So the odd and even sub-sequences of $(s_k)$ converge to the same limit.
+  Therefore, by \cref{evenOddSubseq}, $s_k \to s$ so the series converges.
 \end{proof}
 \begin{example}
+  \label{absoluteConvergenceCE}
   We know that $\sum_{n = 1}^{\infty} \frac{1}{n}$ diverges, however, if we consider the series $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}$, then by the alternating series test, this converges.
   In fact, it converges to $\log 2$.
 \end{example}
+\begin{proposition}[Dirichlet Test]
+  If $(a_n)$ is a decreasing sequence where $a_n \geq 0\ \forall n$ and $a_n \to 0$ and $(b_n)$ is a sequence such that $(s_k = \sum_{n = 1}^{k} b_n)_k$ is a bounded sequence, then $\sum_{n = 1}^{\infty} a_n b_n$ converges.
+\end{proposition}
+\begin{proof}
+  See Example Sheet 1 Q12.
+\end{proof}
+\begin{remark}
+  This is a more general result than the alternating series test as we can use $(b_n)$ to introduce more complicated sign patterns.
+\end{remark}
+\subsection{Absolute Convergence}
+\begin{definition}[Absolute Convergence]
+  We say that the series $\sum_{n = 1}^{\infty} a_n$ is \textit{absolutely convergent} if $\sum_{n = 1}^{\infty} |a_n|$ converges.
+\end{definition}
+\begin{remark}
+  Note that $|a_n| \geq 0\ \forall n$ so the convergence tests that require positive terms are useful for determining if a series is absolutely convergent.
+\end{remark}
+\begin{lemma}
+  If a series is absolutely convergent, then the original series converges.
+  \label{absoluteImpliesConvergence}
+\end{lemma}
+\begin{proof}
+  Let $s_k = \sum_{n = 1}^{k} a_n$ and $r_k = \sum_{n = 1}^{k} |a_n|$.
+  For all $k > l$:
+  \begin{align*}
+    |s_k - s_l| = \abs{\sum_{n = l + 1}^{k} a_n} \leq \sum_{n = l + 1}^{k} |a_n| = r_k - r_l
+  \end{align*}
+  as the triangle inequality extends to arbitrarily many terms.
+
+  By assumption, the series is absolutely convergent so $(r_k)$ is convergent and, by \cref{convergenceCauchy}, it must also be Cauchy.
+  Therefore, by the above inequality, $(s_k)$ is also Cauchy, and so by the completeness of $\R$ and $\C$ (\cref{completenessOfRC}), $(s_k)$ converges.
+\end{proof}
+\begin{remark}
+  We see that the converse of the above is false using \cref{absoluteConvergenceCE} so absolute convergence is stronger than convergence.
+
+  We sometimes call convergent sequences which are \textbf{not} absolutely convergent \textit{conditionally convergent}.
+\end{remark}
+\begin{example}[Rearranging a conditionally convergent series]
+  Consider again the series $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} = 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \cdots$.
+  This is conditionally convergent as $\sum_{n = 1}^{\infty} |a_n|$ diverges but $\sum_{n = 1}^{\infty} a_n = \log 2$.
+
+  We can rearrange the terms of the sum as:
+  \begin{align*}
+    &\left(1 - \frac{1}{2}\right) - \frac{1}{4} + \left(\frac{1}{3} - \frac{1}{6}\right) - \frac{1}{8} + \left(\frac{1}{5} - \frac{1}{10}\right) - \frac{1}{12} + \left(\frac{1}{7} - \frac{1}{14}\right) + \cdots \\
+    &= \frac{1}{2} - \frac{1}{4} + \frac{1}{6} - \frac{1}{8} + \frac{1}{10} - \frac{1}{12} + \frac{1}{14} + \cdots \\
+    &= \frac{1}{2}\left(1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \frac{1}{6} + \cdots\right) \\
+    &= \frac{1}{2}\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}
+  \end{align*}
+  This seems to suggest that $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} = \frac{1}{2} \sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}$ which is clearly \textbf{not true}.
+
+  If you have a conditionally convergent series, \textbf{the order of the sum matters}.
+  This is not the case for absolutely convergent series.
+\end{example}
+\begin{proposition}[Rearrangements under absolute convergence]
+  Let $\sigma: \N \to \N$ be a bijection (i.e. a permutation of $\N$) so that $a_n' = a_{\sigma(n)}$ is the rearranged sequence.
+  If $\sum_{n = 1}^{\infty} a_n$ is absolutely convergent, then $\sum_{n = 1}^{\infty} a_n = \sum_{n = 1}^{\infty} a_n'$.
+\end{proposition}
+\begin{proof}
+  Let $s_k = \sum_{n = 1}^{k} a_n$, $r_k = \sum_{n = 1}^{k} a_n'$ and $t_k = \sum_{n = 1}^{k} |a_n|$.
+  Since the series is absolutely convergent, $t_k \to t$ as $k \to \infty$.
+  Furthermore, by \cref{absoluteImpliesConvergence}, since it is absolutely convergent, the original series converges so $s_k \to s$ as $k \to \infty$.
+
+  Therefore, $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists N_1 \text{ s.t. } |s_k - s| &< \varepsilon\ \forall k \geq N_1 \\
+    \exists N_2 \text{ s.t. } |t_k - t| &< \varepsilon\ \forall k \geq N_2
+  \end{align*}
+  For $k \geq N_2$, we have:
+  \[
+    |t_k - t| = \sum_{n = 1}^{\infty} |a_n| - \sum_{n = 1}^{k} |a_n| = \sum_{n = k + 1}^{\infty} |a_n| < \varepsilon
+  \]
+  Note that we were able to subtract the first $k$ terms without affecting convergence by \cref{seriesTail}.
+  Taking $k = N_2$, we have $\sum_{n = N_2 + 1}^{\infty} |a_n| < \varepsilon$.
+  So, if we take $N = \max\{N_1, N_2\} + 1$, then $\sum_{n = N}^{\infty} |a_n| < \varepsilon$ and $|s_N - s| < \varepsilon$.
+
+  The sequence terms $a_1, \ldots, a_N$ are mapped to $a_{\sigma(1)}, \ldots, a_{\sigma(N)}$ under the rearrangement.
+  If we let $M = \max\{\sigma(1), \ldots, \sigma(N)\}$ then $a_1, \ldots, a_N$ must all be included in $a_1', \cdots, a_{M}'$ and the terms which are not from $a_1, \ldots, a_N$ must all have index $\geq N$ in the original series.
+  We must also have $M \geq N$ as it is the maximum of $N$ natural numbers.
+  Hence for $m \geq M \geq N$:
+  \begin{align*}
+    r_m = \sum_{n = 1}^{m} a_n' &= \underbrace{\sum_{n = 1}^{N} a_n}_{s_N} + (m - N \text{ terms of $(a_n)$ sequence with $n \geq N$}) \\
+    \implies r_m - s &= s_N - s + (m - N \text{ terms of $(a_n)$ sequence with $n \geq N$}) \\
+    \implies |r_m - s| &\leq |s_N - s| + (m - N \text{ terms of $(|a_n|)$ sequence with $n \geq N$}) \\
+                       &\leq |s_N - s| + \sum_{n = N}^{\infty} |a_n| \text{ as $|a_n| \geq 0\ \forall n$}\\
+                       &< \varepsilon + \varepsilon = 2\varepsilon
+  \end{align*}
+  Hence partial sums $(r_k)$ of the rearranged series converge to the value of the original series, and so the rearranged series and the original series converge to the same value.
+\end{proof}
 \end{document}

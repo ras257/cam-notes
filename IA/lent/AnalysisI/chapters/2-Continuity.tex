@@ -1,0 +1,45 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Continuity of Functions}
+\section{Limits of Functions}
+Consider a function $f: X \to \C$ for some $X \subseteq \C$.
+We want to define what we mean by $f(z) \to y$ as $z \to a$, even if $a \notin X$.
+\begin{example}
+  For example, consider $f: \R \setminus \{0\} \to \R,\ x \mapsto \frac{\sin x}{x}$.
+  \begin{center}
+  \begin{tikzpicture}[scale=1.13, >=stealth]
+    \draw[->] (-5, 0) -- (5, 0) node[right] {$x$};
+    \draw[->] (0, -0.8) -- (0, 2) node[above] {$f$};
+
+    \def\kconst{3}
+    \draw[thick, domain=0.01:5, smooth, samples=100] plot (\x,{1.5 * sin((\x * \kconst) r)/(\x * \kconst)});
+    \draw[thick, domain=-5:-0.01, smooth, samples=100] plot (\x,{1.5 * sin((\x * \kconst) r)/(\x * \kconst)});
+
+    \filldraw[fill=white, draw=black] (0, 1.5) circle (1.3pt);
+  \end{tikzpicture}
+  \end{center}
+  $0$ is not in the domain of $f$ as the function is undefined there.
+
+  We hope to make sense of ``$\lim_{x \to 0} \frac{\sin x}{x}$'' as there are points in the domain that are infinitely close to $0$.
+  We say that 0 is an \textit{accumulation point}, as for any threshold $\delta > 0$ we can always find an $x \in \R \setminus \{0\}$ such that $|x - 0| < \delta$.
+
+  We would quite like to be able to find this limit so that we can define a new function $g$ that is identical to $f$ but without the discontinuity at $x = 0$:
+  \[
+    g(x) = \begin{cases}
+    \frac{\sin x}{x} & x \neq 0 \\
+    \lim\limits_{x \to 0} \frac{\sin x}{x} & x = 0
+    \end{cases}
+  \]
+\end{example}
+\begin{definition}[Accumulation Point]
+  We say $a \in \C$ is a \textit{accumulation point} for $X \subseteq \C$ if for any threshold $\delta > 0$, $\exists z \in X \setminus \{a\}$ such that $|z - a| < \delta$.
+
+  If $a \in X$ and the above fails, then we say that $a$ is \textit{isolated}.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item Consider $X = \{0\} \cup [1, 2]$.
+      $0$ is an isolated point of $X$ and all of the points in $[1, 2]$ are accumulation points of $X$.
+  \end{enumerate}
+\end{example}
+\end{document}
