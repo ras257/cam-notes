@@ -1,7 +1,8 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Discrete Random Variables}
-\section{Definition}
+\section{Discrete Probability Distributions}
+\subsection{Definition}
 \begin{definition}[Discrete Probability Distribution]
   Suppose we have a probability space $(\Omega, \salg, \P)$ where $\Omega$ is \textbf{finite or countable}:
   \[
@@ -18,8 +19,9 @@ Furthermore, since $\P(\Omega) = 1$, we must also have $\sum_{i} p_i = 1$
 \begin{remark}[Summary]
    If we have a probability space $(\Omega, \salg, \P)$ where the $\Omega$ is at most countably infinite, then the \textit{discrete probability distribution} refers to the probabilities that $\P$ assigns to each singleton $\{\omega_i\}$ of $\Omega$.
 \end{remark}
-\section{Important Discrete Distributions}
+We will now cover some important discrete probability distributions.
 \subsection{Bernoulli Distribution}
+\label{bernoulliDist}
 \begin{definition}[Bernoulli Distribution]
   The \textit{Bernoulli distribution} with parameter $p \in [0, 1]$, models a probability space with two outcomes where:
   \[
@@ -35,7 +37,8 @@ If we associate tails with 0 and heads with 1 then:
   A coin with a probability $p$ of heads is sometimes called a $p$-coin.
 \end{remark}
 \subsection{Binomial Distribution}
-\begin{definition}
+\label{binomialDist}
+\begin{definition}[Binomial Distribution]
   The \textit{binomial distribution} with parameters $n \in \N$ and $p \in [0, 1]$ is denoted $\binomial(n, p)$.
 
   It models number of successes in $n$ independent trials, each with an outcome of either success, with probability $p$, or failure, with probability $1 - p$.
@@ -44,7 +47,7 @@ If we associate tails with 0 and heads with 1 then:
 
   The probability $p_k = \P(\{k\})$ is:
   \[
-    \P(\text{$k$ successes}) = \binom{n}{k}p^{k}(1 - p)^{n - k} \text{ for $k \in \Omega$}
+    p_k = \P(\text{$k$ successes}) = \binom{n}{k}p^{k}(1 - p)^{n - k} \text{ for $k \in \Omega$}
   \]
   as there are $\binom{n}{k}$ choices for when the successes should be.
 \end{definition}
@@ -52,7 +55,7 @@ If we associate tails with 0 and heads with 1 then:
   We can think of the binomial distribution as modelling the number of heads we get if we toss a $p$-coin $n$ times.
 \end{remark}
 \subsection{Multinomial Distribution}
-\begin{definition}
+\begin{definition}[Multinomial Distribution]
   The \textit{multinomial distribution} with parameters $n \in \N$ and $p_1, \ldots, p_k \in [0, 1]$ such that $\sum_{i = 1}^{k} p_i = 1$, is denoted $\multinomial(n, p_1, \ldots, p_k)$.
 
   It models the outcome of $n$ independent trials, each with $k$ outcomes of probability $p_i$ for $1 \leq i \leq k$.
@@ -77,4 +80,186 @@ If we associate tails with 0 and heads with 1 then:
     \P(n_1 \text{ balls in box 1}, \ldots, n_k \text{ balls in box $k$}) = p_{n_1, \ldots, n_k}
   \]
 \end{remark}
+\subsection{Geometric Distribution}
+\begin{definition}[Geometric Distribution]
+  The \textit{geometric distribution} with parameter $p \in [0, 1]$ is denoted $\geometric(p)$.
+  There are two ways to define the geometric distribution:
+
+  \textbf{Starting from 1}\par
+    When starting from 1, it models the number of \textit{Bernoulli trials} (success with probability $p$, failure with probability $1 - p$) \textbf{needed to get the first success}.
+
+    In this case $\Omega$ is the possible numbers of trials needed before a success first occurs so $\Omega = \N$.
+
+    The probability $p_k = \P(\{k\})$ is then:
+    \[
+      p_k = \P(\text{$k$ trials needed for the first success}) = (1-p)^{k - 1}p \text{ for } k \in \Omega
+    \]
+  \textbf{Starting from 0}\par
+    Starting from 0 is defined similarly, however, it now models the \textbf{number of failures before the first success}.
+    So $\Omega$ is instead $\N_0$ and $p_k = \P(\{k\})$ is:
+    \[
+      p_k = \P(\text{$k$ failures before the first success}) = (1-p)^{k}p \text{ for } k \in \Omega
+    \]
+\end{definition}
+\begin{remark}[Intuition]
+  Consider tossing a $p$-coin until you get heads.
+  We can think of the geometric distribution as modelling the number of tosses needed before the first head (if starting from 1), or the number of tails you would see before the first head (if starting from 0).
+\end{remark}
+\subsection{Poisson Distribution}
+\begin{definition}[Poisson Distibution]
+  The \textit{Poisson distribution} with parameter $\lambda > 0$ is denoted $\poisson(\lambda)$.
+
+  It models the probability of a given number of events occurring in a fixed interval of time if these events occur with a mean rate $\lambda$ per time interval and independently of the time since the last event.
+
+  $\Omega$ is all the possible numbers of times an event could occur in the interval, i.e., $\Omega = \N_0$.
+
+  The probability $p_k = \P(\{k\})$ is:
+  \[
+    p_k = \P(\text{$k$ events in one interval}) = \frac{\lambda^{k} e^{-\lambda}}{k!}
+  \]
+\end{definition}
+\begin{remark}
+  Although we defined the Poisson distribution using an interval of time, it can also be used with over intervals such as areas or volumes.
+\end{remark}
+\begin{remark}[Intuition]
+  Suppose customers arrive at a shop at a constant average rate of $\lambda$ customers per hour.
+  We can think of the Poisson distribution as modelling the number of customers that arrive in a given hour, assuming that they arrive independently of each other and that customers cannot arrive at exactly the same instant.
+\end{remark}
+\subsubsection{Limit of a binomial distribution}
+The Poisson distribution can be thought of as the limit of a binomial distribution (\cref{binomialDist}).
+
+Suppose that the events occur in the interval $[0, 1]$.
+We can discretise $[0, 1]$ as $[\frac{i - 1}{N}, \frac{i}{N}]$ for $i = 1, \ldots, N$ for some $N \in \N$.
+
+In each interval $[\frac{i - 1}{N}, \frac{i}{N}]$, suppose the event occurs with probability $p$ and does not occur with probability $1 - p$ independently for different intervals.
+\[
+  \widetilde{p}_k = \P(\text{event occurred $k$ times}) = \binom{N}{k} p^{k} (1 - p)^{N - k},\ k = 0, \ldots, N
+\]
+as we pick a subset of $k$ intervals for the event to occur in.
+This is $\binomial(N, p)$.
+
+As $\lambda$ is the rate of the event occurring over $[0, 1]$, the probability of it occurring in one of the $N$ intervals is approximately $p = \frac{\lambda}{N}$.
+Substituting this into $p_k$, we have:
+\[
+  \widetilde{p}_k = \frac{N!}{k!(N - k)!} \left(\frac{\lambda}{N}\right)^{k} \left(1-\frac{\lambda}{N}\right)^{N - k}
+\]
+Keeping $k$ fixed and taking the limit as $N \to \infty$ so that the intervals become infinitesimal and our approximation becomes exact:
+\[
+  \widetilde{p}_k = \frac{\lambda^{k}}{k!} \cancelto{1}{\frac{N(N - 1) \cdots (N - k + 1)}{N^{k}}} \cancelto{e^{-\lambda}}{\left(1 - \frac{\lambda}{N}\right)^{N - k}}
+\]
+So we see that $\widetilde{p}_k \to \frac{\lambda^{k} e^{-\lambda}}{k!} = p_k$ as $N \to \infty$.
+\section{Random Variables}
+\subsection{Definition}
+Consider a probability space $(\Omega, \salg, \P)$:
+\begin{definition}[Random Variable]
+  A \textit{random variable} is a function $X: \Omega \to \R$ with the property that for $\forall x \in \R$:
+  \[
+    \{\omega \in \Omega : X(\omega) \leq x\} \in \salg
+  \]
+\end{definition}
+We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \salg$ so that we are able to talk about the probability of it occurring as an event.
+\begin{remark}[Notation]
+  We write $\{X \leq x\} \equiv \{\omega \in \Omega: X(\omega) \leq x\}$ and for any $A \subseteq \R$, we write $\{X \in A\} \equiv \{\omega \in \Omega: X(\omega) \in A\}$.
+\end{remark}
+\begin{example}[Indicator Functions]
+  Let $A \in \salg$.
+  Define the \textit{indicator} of $A$ as:
+  \[
+    1_A: \Omega \to \{0, 1\},\ 1_A(\omega) = \begin{cases}
+      1 & \text{ if } \omega \in A \\
+      0 & \text{ if } \omega \in A^{\comp}
+    \end{cases}
+  \]
+  $1_A$ is a random variable as for $x \geq 1$, $\{\omega \in \Omega: 1_A(\omega) \leq x\} = \Omega \in \salg$, and for $x < 1$, $\{\omega \in \Omega: 1_A(\omega) \leq x\} = A^{\comp} \in \salg$ which is true as $A \in \salg$.
+\end{example}
+\begin{definition}[Probability Distribution Function]
+  For a random variable $X$, we define the \textit{probability distribution function of $X$} to be:
+  \[
+    F_X: \R \to [0, 1],\  F_X(x) = \P(X \leq x)
+  \]
+\end{definition}
+\begin{definition}[$n$-dimensional Random Variable]
+  $X = (X_1, \ldots, X_n)$ is called a \textit{random variable in $\R^{n}$} if $(X_1, \ldots, X_n): \Omega \to \R^{n}$ such that $\forall x_1, \ldots, x_n \in \R$:
+  \[
+    \{\omega: X(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\} \in \salg
+  \]
+  Equivalently, we require that all $X_i$ are real random variables so that:
+  \[
+    \{X_1 \leq x_1, \ldots, X_n \leq x_n\} = \{X_1 \leq x_1\} \cap \cdots \cap \{X_n \leq x_n\} \in \salg
+  \]
+  as $\{X_i \leq x_i\} \in \salg\ \forall i \in \{1, \ldots, n\}$ as all the $X_i$ are random variables.
+\end{definition}
+\begin{remark}[Notation]
+  We write $\{X_1 \leq x_1, \ldots, X_n \leq x_n\} \equiv \{\omega: X(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\}$.
+\end{remark}
+\subsection{Discrete Random Variables}
+\begin{definition}[Discrete Random Variable]
+  A random variable $X$ is called \textit{discrete} if it takes values in a countable set.
+
+  Suppose it takes values in a countable set $S$, then for every $x \in S$, we write:
+  We call $(p_x)_{x \in S}$ the \textit{probability mass function} or \textit{pmf} of $X$ or the \textit{distribution} of $X$.
+
+\end{definition}
+\begin{definition}[Probability Mass Function]
+  For a discrete random variable $X$ taking values in a countable set $S$, the \textit{probability mass function}, \textit{pmf}, or \textit{distribution} of $X$ is defined to be:
+  \[
+    p_X: X \to S,\ x \mapsto \P(X = x) = \P(\{\omega \in \Omega: X(\omega) = x\})\
+  \]
+\end{definition}
+If $A \subseteq S$, then $\P(X \in A) = \sum_{x \in A} p_X(x)$.
+
+If the $p_X(x)$ are the Bernoulli distribution, then we say that $X$ is a \textit{Bernoulli r.v. (random variable)}, or we say that \textit{$X$ is Bernoulli distributed}.
+For other discrete distributions, we use a similar convention, for example, we might say that $X$ is binomially distributed or that $X$ follows a Poisson distribution.
+\begin{remark}[Recap]
+Recall from \cref{independentEvents} that two events $A, B \in \salg$ are independent if $\P(A \cap B) = \P(A)\P(B)$.
+\end{remark}
+\begin{definition}[Independent Discrete Random Variables]
+  If $X_1, \ldots, X_n$ are discrete random variables with values in $S_1, \ldots, S_n$, then they are called \textit{independent random variables} if $\forall x_1 \in S_1, \ldots, x_n \in S_n$:
+  \[
+    \P(X_1 = x_1, \ldots, X_n = x_n) = \P(X_1 = x_1) \cdots \P(X_n = x_n)
+  \]
+\end{definition}
+This builds on our definition for independence of events.
+For discrete random variables $X_1, X_2$, we using the events $\{X_1 = x_1\}$ and $\{X_2 = x_2\}$ but require that these events are independent \textbf{for all} possible $x_1 \in S_1$ and $x_2 \in S_2$.
+If this is the case then:
+\begin{align*}
+  \P(X_1 = x_1, X_2 = x_2) &= \P(\{X_1 = x_1\} \cap \{X_2 = x_2\}) \\
+                           &= P(\{X_1 = x_1\})\P(\{X_2 = x_2\}) \text{ by independence of events} \\
+                           &= \P(X_1 = x_1)\P(X_2 = x_2)
+\end{align*}
+for all $x_1 \in S_1$ and $x_2 \in S_2$.
+\begin{example}
+  Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N}, \salg = \powerset{\Omega}$.
+  For some $\omega \in \Omega$, label the elements of $\omega$ as $(\omega_1, \ldots, \omega_n)$ where $\omega_i$ is the outcome of the $i$-th toss.
+
+  We calculate the probability of a singleton event $\{\omega\}$ as:
+  \[
+    p_\omega = \P(\{\omega\}) = \prod_{k = 1}^{N} p^{\omega_k} (1 - p)^{1 - \omega_k}
+  \]
+  The terms of the product give the correct probability for each toss as:
+  \[
+     p^{\omega_k} (1-p)^{1 - \omega_k}= \begin{cases}
+     p & \text{ if } \omega_k = 1 \\
+     1 - p & \text{ if } \omega_k = 0
+    \end{cases}
+  \]
+
+  For all $\forall k = 1, \ldots, N$, define the random variables $X_k: \Omega \to \{0, 1\}$, $X_k(\omega) = \omega_k$.
+  These are all random variable as for all $x \in \R$, $\{\omega \in \Omega: X_k(\omega) \leq x\} \in \powerset{\omega} = \salg$ and are all discrete r.v.s as they take values in the countable set $\{0, 1\}$.
+
+  As these are independent tosses, for any $k$ (i.e. the $k$-th toss):
+  \[
+    \P(X_k = 1) = \P(\omega_k = 1) = p \text{ and } \P(X_k = 0) = \P(\omega_k = 0) = 1 - p
+  \]
+  So $X_k$ is Bernoulli r.v. (see \cref{bernoulliDist}) with parameter $p$.
+
+  We can also show that $X_1, \ldots, X_n$ are independent r.v.s.
+  For $\forall x_1, \ldots, x_N \in \{0, 1\}$:
+  \begin{align*}
+    \P(X_1 = x_1, \ldots, X_n = x_n) &= \P(\{(x_1, \ldots, x_n)\})\\
+                                     &= \prod_{k = 1}^{N} p^{x_k}(1 - p)^{1 - x_k} \\
+                                     &= \prod_{k = 1}^{N} \P(X_k = x_k)
+  \end{align*}
+  so they are independent.
+\end{example}
 \end{document}

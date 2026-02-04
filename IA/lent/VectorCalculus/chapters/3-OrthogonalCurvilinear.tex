@@ -38,6 +38,9 @@ When we say that is forma a local basis, we mean that any vector field $\vec{F}(
   \vec{F}(\vec{x}) = F_u \vec{e}_u + F_v \vec{e}_v + F_w \vec{e}_w
 \]
 Even if $\vec{F}$ is a constant vector, its components wont be as the basis could be different at every $\vec{x}$.
+\begin{remark}
+  It is preferable to write $\vec{F} = 2 \vec{e}_u + \vec{e}_w$ instead of $\vec{F} = (2, 0, 1)$ as it is clearer to see that $\vec{F}$ is \textbf{not} a constant position vector.
+\end{remark}
 
 We can extend \cref{infinitesimalTaylor} to the vector function $\vec{x}(u, v, w)$.
 We then see that a small displacement $\d{\vec{x}}$ is given by:
@@ -67,6 +70,7 @@ Since $\vec{e}_v$ and $\vec{e}_w$ are orthogonal to $\vec{e}_u$, as it is an ort
 As we have shown that any displacement that keeps $u$ fixed is orthogonal to $\vec{e}_u$, $\vec{e}_u$ is perpendicular to any surface of constant $u$ and similarly for $\vec{e}_v$ and $\vec{e}_w$.
 So the three surfaces of constant $u$, constant $v$, and constant $w$ all intersect orthogonally at any given point as the basis vectors are always orthogonal at any point.
 \section{Cylindrical Polar Coordinates}
+\label{cylindricalPolar}
 \begin{definition}
   Cylindrical polar coordinates are defined by:
   \[
@@ -89,6 +93,7 @@ So the three surfaces of constant $u$, constant $v$, and constant $w$ all inters
   If we restrict ourselves to $z = 0$ then we recover plane polar coordinates.
 \end{remark}
 \subsubsection{Visualisation}
+\label{cylinderVisualisation}
 The following diagram illustrates cylindrical coordinates and their infinitesimal components:
 \begin{center}
   \input{../figures/CylindricalCoordinates}\par
@@ -111,6 +116,7 @@ It is advisable to draw a sketch in the $x$-$y$ to make this process simpler.
 \end{itemize}
 Note that these three constant surfaces always meet orthogonally, as expected.
 \subsubsection{Scale Factors and Basis Vectors}
+\label{scaleBasisCylindrical}
 We can find the scale factors and basis vectors using \cref{scaleFactors}:
 \begin{align*}
   \vec{x}(\rho, \phi, z) = \begin{pmatrix}
@@ -178,6 +184,7 @@ Using \cref{vectorInfinitesimal}, we obtain:
 Note that we have factor of $\rho$ in the second term because for a small change in $\phi$ of $\delta \phi$, the distance moved in the direction of $\vec{e}_\phi$ is $\rho \delta \phi$ up to a first order approximation and so becomes exactly $\rho \d{\phi}$ in infinitesimals.
 This can more clearly seen in the visualisation above.
 \section{Spherical Polar Coordinates}
+\label{sphericalPolar}
 \begin{definition}
   \textit{Spherical polar coordinates} are defined by:
   \[
@@ -223,6 +230,7 @@ Similarly to $\phi$ in cylindrical coordinates (\cref{invertingCylindrical}), ca
 \end{itemize}
 Note that these three constant surfaces always meet orthogonally, as expected.
 \subsubsection{Scale Factors and Basis Vectors}
+\label{scaleBasisSpherical}
 We can find the scale factors and basis vectors using \cref{scaleFactors}:
 \begin{align*}
   &\vec{x}(r, \theta, \phi) = \begin{pmatrix}
@@ -284,4 +292,175 @@ Using \cref{vectorInfinitesimal}, we obtain:
 Again, the geometric intuition behind this can be seen in the above visualisation.
 \section{Vector Differential Operators in Curvilinear Systems}
 \subsection{General Orthogonal Curvilinear Coordinate Systems}
+If we have a function expressed using $u, v, w$ instead of $x, y, z$, then we would like to express $\nabla f$ in terms of $u, v, w$ as well.
+Consider:
+\[
+  \nabla f \cdot \vec{e}_u = \pderiv{f}{x_i} \frac{1}{h_u} \pderiv{x_i}{u} = \frac{1}{h_u} \pderiv{f}{u}
+\]
+by the chain rule.
+Since $\{\vec{e}_u, \vec{e}_v, \vec{e}_v\}$ form an orthonormal basis, this gives us the component of $\nabla f$ along $\vec{e}_u$, and similarly for the components along $\vec{e}_v$ and $\vec{e}_w$.
+Combining these components, we have:
+\[
+  \nabla f = \frac{1}{h_u} \pderiv{f}{u} \vec{e}_u + \frac{1}{h_v} \pderiv{f}{v} \vec{e}_v + \frac{1}{h_w} \pderiv{f}{w} \vec{e}_w
+\]
+This is true for any function $f$ so we can rearrange the terms, enabling us to write it as an operator:
+\[
+  \nabla \equiv \frac{1}{h_u} \vec{e}_u \pderiv{}{u} + \frac{1}{h_v} \vec{e}_v \pderiv{}{v} + \frac{1}{h_w} \vec{e}_w \pderiv{}{w}
+\]
+Calculating the divergence, curl, and Laplacian of a vector field in these general coordinates is quite difficult.
+It can be done using the chain rule, however, this is quite a long process.
+It can however be done considerably more efficiently using the coordinate independent forms of div and curl that we will see later in the course.
+\begin{remark}[Reference]
+  You are not expected to memorise the following equations, however they are useful for reference and when deriving vector differential operators in different coordinate systems as we will do in \cref{cylindricalOperators} and \cref{sphericalOperators}.
+  \begin{align*}
+    \nabla \cdot \vec{F} &= \frac{1}{h_u h_v h_w} \left[\pderiv{}{u}(h_vh_wF_u) + \pderiv{}{v}(h_uh_wF_v) + \pderiv{}{w}(h_uh_vF_w)\right] \\
+    \nabla \times \vec{F} &= \frac{1}{h_u h_v h_w} \begin{vmatrix}
+    h_u \vec{e}_u & h_v \vec{e}_v & h_w \vec{e}_w \\
+    \pderiv{}{u} & \pderiv{}{v} & \pderiv{}{w} \\
+    h_uF_u & h_vF_v & h_wF_w \\
+    \end{vmatrix} \\
+      \nabla^2 f &= \frac{1}{h_u h_v h_w}\left[\pderiv{}{u}\left(\frac{h_v h_w}{h_u}\pderiv{f}{u}\right)+ \pderiv{}{v}\left(\frac{h_u h_w}{h_v}\pderiv{f}{v}\right) + \pderiv{}{w}\left(\frac{h_u h_v}{h_w} \pderiv{f}{w}\right)\right]
+  \end{align*}
+\end{remark}
+\subsection{Cylindrical Polar Coordinates}
+\label{cylindricalOperators}
+For a scalar field $f(\rho, \phi, z)$ and vector field $\vec{F} = F_\rho \vec{e}_\rho + F_\phi \vec{e}_\phi + F_z \vec{e}_z$ where each of $F_\rho, F_\phi, F_z$ is a function of $\rho, \phi, z$, we have:
+\begin{align*}
+  \nabla f &= \pderiv{f}{\rho} \vec{e}_\rho + \frac{1}{\rho}\pderiv{f}{\phi} \vec{e}_\phi + \pderiv{f}{z} \vec{e}_z \\
+  \nabla \cdot \vec{F} &= \frac{1}{\rho} \pderiv{}{\rho}(\rho F_\rho) + \frac{1}{\rho} \pderiv{F_\phi}{\phi} + \pderiv{F_z}{z} \\
+  \nabla \times \vec{F} &= \left(\frac{1}{\rho} \pderiv{F_z}{\phi} - \pderiv{F_\phi}{z}\right)\vec{e}_\rho + \left(\pderiv{F_\rho}{z} - \pderiv{F_z}{\rho}\right)\vec{e}_\phi + \frac{1}{\rho}\left(\pderiv{}{\rho}(\rho F_\phi) - \pderiv{F_\rho}{\phi}\right) \vec{e}_z \\
+  \nabla^2 f &= \pderiv[2]{f}{\rho} + \frac{1}{\rho} \pderiv{f}{\rho} + \frac{1}{\rho^2} \pderiv[2]{f}{\phi} + \pderiv[2]{f}{z}
+\end{align*}
+These are derived using the scale factors and basis vectors defined in \cref{scaleBasisCylindrical}.
+\begin{remark}
+  The results for plane polar coordinates in $\R^2$ can be obtained by ignoring $z$ throughout.
+\end{remark}
+\subsection{Spherical Polar Coordinates}
+\label{sphericalOperators}
+For $f(r, \theta, \phi)$ and $\vec{F} = F_r \vec{e}_r + F_\theta \vec{e}_\theta + F_\phi \vec{e}_\phi$, where each of $F_r, F_\theta, F_\phi$ is a function of $r, \theta, \phi$, we have:
+\begin{align*}
+  \nabla f &= \pderiv{f}{r} \vec{e}_r + \frac{1}{r} \pderiv{f}{\theta} \vec{e}_\theta + \frac{1}{r \sin \theta} \pderiv{f}{\phi} \vec{e}_\phi \\
+  \nabla \cdot \vec{F} &= \frac{1}{r^2} \pderiv{}{r}(r^2 F_r) + \frac{1}{r \sin \theta} \pderiv{}{\theta}(F_\theta \sin \theta) + \frac{1}{r \sin \theta} \pderiv{F_\phi}{\phi} \\
+  \nabla \times \vec{F} &= \frac{1}{\sin \theta} \left(\pderiv{}{\theta}(F_\phi \sin \theta) - \pderiv{F_\theta}{\phi}\right)\vec{e}_r \\
+                        &\ + \frac{1}{r}\left(\frac{1}{\sin \theta} \pderiv{F_r}{\phi} - \pderiv{}{r}(rF_\phi)\right) \vec{e}_\theta \\
+                        &\ + \frac{1}{r}\left(\pderiv{}{r}(r F_\theta) - \pderiv{F_r}{\theta}\right) \vec{e}_\phi \\
+  \nabla^2 f &= \pderiv[2]{f}{r} + \frac{2}{r} \pderiv{f}{r} + \frac{1}{r^2 \sin \theta} \pderiv{}{\theta}\left(\pderiv{f}{\theta} \sin \theta\right) + \frac{1}{r^2 \sin^2 \theta} \pderiv[2]{f}{\phi}
+\end{align*}
+These are derived using the scale factors and basis vectors defined in \cref{scaleBasisSpherical}.
+
+\begin{remark}[Note]
+  We have already seen the first two terms of $\nabla^2 f$ in spherical coordinates:
+  \[
+    \pderiv[2]{f}{r} + \frac{2}{r}\pderiv{f}{r}
+  \]
+  when looking at the laplacian of a radially symmetric $f(r)$ in \cref{laplacianSphericalSymmetry}.
+\end{remark}
+\subsection{Examples}
+\begin{example}[Comparison between spherical and clylindrical coordinates]
+  Let $f(\vec{x}) = |\vec{x}|^2$ and $F(\vec{x}) = \vec{x}$.
+  We have already used Cartesians to show $\nabla f = 2\vec{x}$ (\cref{gradExample}) and $\nabla \cdot \vec{F} = 3$ (\cref{divExample}).
+
+  \textbf{Using Cylindrical Polar Coordinates}\par
+  In cylindrical polar coordinates (\cref{cylindricalPolar}), we have $\vec{x} = \rho \vec{e}_r + z \vec{e}_z$ so $f(\rho, \phi, z) = \rho^2 + z^2$, which makes sense looking at the diagram for cylindrical coordinates in \cref{cylindricalPolar}.
+  Furthermore, $F_\rho = \rho, F_\phi = 0, F_z = z$.
+
+  We then have:
+  \begin{align*}
+    \nabla f &= \pderiv{f}{\rho} \vec{e}_\rho + \frac{1}{\rho}\pderiv{f}{\phi} \vec{e}_\phi + \pderiv{f}{z} \vec{e}_z \\
+             &= 2\rho \vec{e}_\rho + \frac{1}{\rho}(0)\vec{e}_\phi  + 2z \vec{e}_z \\
+             &= 2\vec{x}
+  \end{align*}
+  and:
+  \begin{align*}
+    \nabla \cdot \vec{F} &= \frac{1}{\rho} \pderiv{}{\rho}(\rho F_\rho) + \frac{1}{\rho} \pderiv{F_\phi}{\phi} + \pderiv{F_z}{z} \\
+                         &= \frac{1}{\rho}(2\rho) + \frac{1}{\rho}(0) + 1 = 2 + 1 = 3
+  \end{align*}
+  Unsurprisingly, using cylindrical coordinates did not make this any easier because there is no property of $|\vec{x}|^2$ or $\vec{x}$ that matches the symmetries of a cylinder.
+
+  \textbf{Using Spherical Polar Coordinates}\par
+  If we use spherical polar coordinates (\cref{sphericalPolar}) instead, then we have $\vec{x} = r\vec{e}_r$ so $f(r, \theta, \phi) = r^2$ and $F_r = r, F_\theta = F_\phi = 0$. We then have:
+  \begin{align*}
+    \nabla f &= \pderiv{f}{r} \vec{e}_r + \frac{1}{r} \pderiv{f}{\theta} \vec{e}_\theta + \frac{1}{r \sin \theta} \pderiv{f}{\phi} \vec{e}_\phi \\
+             &= 2r \vec{e}_r + \frac{1}{r} (0) \vec{e}_\theta + \frac{1}{r\sin \theta} (0) \vec{e}_\phi \\
+             &= 2r\vec{e}_r = 2\vec{x}
+  \end{align*}
+  and:
+  \begin{align*}
+    \nabla \cdot \vec{F} &= \frac{1}{r^2} \pderiv{}{r}(r^2 F_r) + \frac{1}{r \sin \theta} \pderiv{}{\theta}(F_\theta \sin \theta) + \frac{1}{r \sin \theta} \pderiv{F_\phi}{\phi} \\
+                         &= \frac{1}{r^2} (3r^2) + \frac{1}{r \sin \theta}(0) + \frac{1}{r \sin \theta}(0) \\
+                         &= 3
+  \end{align*}
+  Using spherical polar coordinates made this process easier because $|\vec{x}|^2$ and $\vec{x}$ have spherical symmetries.
+\end{example}
+\begin{example}[Gravitational Field]
+  Consider the gravitational force field $\vec{F} = - (GMm/r^2)\vec{e}_r$ of a fixed mass $M$ at the origin acting on another mass $m$:
+  \[
+    \nabla \cdot \vec{F} = - \frac{1}{r^2} \pderiv{}{r}\left(r^2 \frac{GMm}{r^2}\right) = 0
+  \]
+  In general, the divergence of a spherical inverse square law is 0 as for $\vec{F} = \frac{k}{r^2} \vec{e}_r$, we have:
+  \[
+    \nabla \cdot \vec{F} = \frac{1}{r^2} \pderiv{}{r}(r^2 F_r) = \frac{1}{r^2} \pderiv{}{r}\left(r^2 \frac{k}{r^2}\right) = 0
+  \]
+\end{example}
+\begin{example}
+  In spherical polars, consider a vector field $\vec{F} = \alpha(\theta)\vec{e}_\theta$.
+  We saw earlier that $\nabla$ is:
+  \[
+    \nabla \equiv \vec{e}_r \pderiv{}{r} + \frac{1}{r} \vec{e}_\theta \pderiv{}{\theta} + \frac{1}{\sin \theta}\vec{e}_\phi \pderiv{}{\phi}
+  \]
+  So to find the curl of $\vec{F}$:
+  \begin{align*}
+    \nabla \times \vec{F} &= \left(\vec{e}_r \pderiv{}{r} + \frac{1}{r} \vec{e}_\theta \pderiv{}{\theta} + \frac{1}{\sin \theta}\vec{e}_\phi \pderiv{}{\phi}\right) \times (\alpha(\theta) \vec{e}_\theta) \\
+                          &= \vec{e}_r \times \alpha(\theta) \pderiv{\vec{e}_\theta}{r} + \frac{1}{r} \vec{e}_\theta \times \pderiv{}{\theta}(\alpha(\theta)\vec{e}_\theta) + \frac{1}{r \sin \theta} \vec{e}_\phi \times \alpha (\theta) \pderiv{\vec{e}_\theta}{\phi}
+  \end{align*}
+  Note that we are able to move partial derivatives ``through'' the cross product because they are scalar operators, similarly to how we move them through the dot product in \cref{scalarOperatorMove}.
+
+  To proceed we need to compute the partial derivates of $\vec{e}_\theta$ with respect to $r$, $\theta$, and $\phi$:
+  \begin{align*}
+    \pderiv{\vec{e}_\theta}{r} &= \pderiv{}{r} \left[\begin{pmatrix}
+    \cos \theta \cos \phi \\
+    \cos \theta \sin \phi \\
+    -\sin \theta \\
+    \end{pmatrix}\right] = \vec{0}\\
+    \pderiv{\vec{e}_\theta}{\theta} &= \pderiv{}{\theta} \left[\begin{pmatrix}
+    \cos \theta \cos \phi \\
+    \cos \theta \sin \phi \\
+    -\sin \theta \\
+    \end{pmatrix}\right] = \begin{pmatrix}
+    -\sin \theta \cos \phi \\
+    -\sin \theta \sin \phi \\
+    -\cos \theta \\
+    \end{pmatrix} = -\vec{e}_r \\
+    \pderiv{\vec{e}_\theta}{\phi} &= \pderiv{}{\phi} \left[\begin{pmatrix}
+    \cos \theta \cos \phi \\
+    \cos \theta \sin \phi \\
+    -\sin \theta \\
+    \end{pmatrix}\right] = \begin{pmatrix}
+    -\cos \theta \sin \phi \\
+    \cos \theta \cos \phi \\
+    0 \\
+    \end{pmatrix} = \cos \theta \vec{e}_\phi
+  \end{align*}
+  Hence:
+  \begin{align*}
+    \nabla \times \vec{F} &= \vec{e}_r \times \alpha(\theta) (\vec{0}) + \frac{1}{r}\vec{e}_\theta \left(a'(\theta)\vec{e}_\theta + \alpha(\theta) \pderiv{\vec{e}_\theta}{\theta}\right) + \frac{1}{r \sin \theta} \vec{e}_\phi \times (\alpha(\theta) \cos \theta \vec{e}_\phi) \\
+                          &= \frac{1}{r}\vec{e}_\theta \times (\alpha'(\theta) \vec{e}_\theta - \alpha(\theta)\vec{e}_r) \\
+                          &= -\frac{1}{r} \alpha(r) \vec{e}_\theta \times \vec{e}_r \\
+                          &= \frac{1}{r}\alpha(\theta)\vec{e}_\phi \text{ as $\{\vec{e}_r, \vec{e}_\theta, \vec{e}_\phi\}$ is a right handed orthonormal set}
+  \end{align*}
+  This agrees with the result from the using the formula in \cref{sphericalOperators} with $F_\theta = \alpha(\theta), F_r = F_\phi = 0$:
+  \[
+    \nabla \times \vec{F} = \frac{1}{r\sin \theta} \left(- \pderiv{\alpha(\theta)}{\phi}\right)\vec{e}_r + \frac{1}{r} \pderiv{}{r}(r \alpha(\theta))\vec{e}_\phi = \frac{\alpha(\theta)}{r}\vec{e}_\phi
+  \]
+  The result for a more general $\vec{F}$ can be derived similarly, however, it is significantly more involved.
+\end{example}
+\subsection{Examinable Content}
+For the exams you need to know:
+\begin{itemize}
+  \item Scale factors for both spherical and cylindrical coordinates.
+  \item $\nabla f$ in a general coordinate system (which you can then use to find it for a specific coordinate system using its scale factors).
+  \item The first two terms of $\nabla^2 f$ in cylindrical coordinates, i.e. the radial terms (or be able to derive them quickly if $f$ is just a function of $\rho$).
+  \item The first two terms of $\nabla^2 f$ in spherical coordinates, i.e. the radial terms (or be able to derive them quickly if $f$ is just a function of $r$).
+\end{itemize}
+If you are required to use any of the other operators in a different coordinate system, then the relevant formula will be given to you in the question.
 \end{document}

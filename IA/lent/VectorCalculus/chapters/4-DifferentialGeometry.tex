@@ -1,0 +1,28 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Differential Geometry of Curves, Surfaces, and Volumes}
+\section{Curves and Arc Length}
+\begin{definition}[Curve]
+  A \textit{curve} $C$ is a map $x: [a, b] \subset \R \to \R^3$, that is, $\vec{x}(t) = (x(t), y(t), z(t))$ for $a \leq t \leq b$.
+  We say that the curve is \textit{parametrised by $t$}.
+\end{definition}
+\begin{remark}
+  In this course, we will require that curves are \textit{continuous}, and \textit{piecewise smooth} (i.e. we can split the curve up into pieces that are continuous and infinitely differentiable and continuous  where they are joined but not necessarily infinitely differentiable at the joins).
+\end{remark}
+When we refer to a ``curve'' we usually mean the image of the map $C$ instead of the map itself.
+\begin{definition}[Closed Curve]
+  A \textit{closed curve} is one where $\vec{x}(a) = \vec{x}(b)$, that is, the endpoints of the curve are in the same position.
+\end{definition}
+\begin{definition}[Arc Length]
+  The \textit{arc length} of a curve is defined to be:
+  \[
+    s = \int \d{s} = \int |\dot{x}(t)| \d{t}
+  \]
+\end{definition}
+This definition is motivated by the following:
+\begin{align*}
+  \delta s = |\delta \vec{x}| &= \sqrt{\delta x^2 + \delta y^2 + \delta z^2} \\
+                              &= \sqrt{\left(\frac{\delta x}{\delta t}\right)^2 + \left(\frac{\delta y}{\delta t}\right)^2 + \left(\frac{\delta z}{\delta t}\right)^2} \delta t \\
+                              &= \abs{\frac{\delta \vec{x}}{\delta t}} \delta t
+\end{align*}
+\end{document}
