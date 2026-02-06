@@ -210,6 +210,9 @@ If $A \subseteq S$, then $\P(X \in A) = \sum_{x \in A} p_X(x)$.
 
 If the $p_X(x)$ are the Bernoulli distribution, then we say that $X$ is a \textit{Bernoulli r.v. (random variable)}, or we say that \textit{$X$ is Bernoulli distributed}.
 For other discrete distributions, we use a similar convention, for example, we might say that $X$ is binomially distributed or that $X$ follows a Poisson distribution.
+\begin{remark}[Notation]
+  We use the notation $X \sim \binomial(n, p)$ to mean ``$X$ is binomially distributed'', and similarly for other distributions.
+\end{remark}
 \begin{remark}[Recap]
 Recall from \cref{independentEvents} that two events $A, B \in \salg$ are independent if $\P(A \cap B) = \P(A)\P(B)$.
 \end{remark}
@@ -224,12 +227,13 @@ For discrete random variables $X_1, X_2$, we using the events $\{X_1 = x_1\}$ an
 If this is the case then:
 \begin{align*}
   \P(X_1 = x_1, X_2 = x_2) &= \P(\{X_1 = x_1\} \cap \{X_2 = x_2\}) \\
-                           &= P(\{X_1 = x_1\})\P(\{X_2 = x_2\}) \text{ by independence of events} \\
+                           &= \P(\{X_1 = x_1\})\P(\{X_2 = x_2\}) \text{ by independence of events} \\
                            &= \P(X_1 = x_1)\P(X_2 = x_2)
 \end{align*}
 for all $x_1 \in S_1$ and $x_2 \in S_2$.
 \begin{example}
-  Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N}, \salg = \powerset{\Omega}$.
+  \label{binomialAsBernSum}
+  Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N},\ \salg = \powerset{\Omega}$.
   For some $\omega \in \Omega$, label the elements of $\omega$ as $(\omega_1, \ldots, \omega_n)$ where $\omega_i$ is the outcome of the $i$-th toss.
 
   We calculate the probability of a singleton event $\{\omega\}$ as:
@@ -261,5 +265,249 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
                                      &= \prod_{k = 1}^{N} \P(X_k = x_k)
   \end{align*}
   so they are independent.
+
+  We can also define a new discrete random variable $S_N: \Omega \to \N_0$:
+  \[
+    S_N(\omega) = X_1(\omega) + \cdots + X_N(\omega) = \text{\#(heads in $n$ tosses)}
+  \]
+  this again has to be a random variable as $\salg = \powerset{\Omega}$.
+  We then have:
+  \[
+    \P(S_N = k) = \binom{N}{k}p^{k}(1-p)^{N - k}
+  \]
+  which is $\binomial(N, p)$ so $S_N$ is a binomial r.v.
+  So a binomial r.v. with parameters $N$ and $p$ can also be though of as the sum of $N$ Bernoulli r.v.s with parameter $p$.
 \end{example}
+\subsection{Expectation}
+\begin{definition}[Non-negative Random Variable]
+  Let $X: \Omega \to \R$ be a random variable.
+  We say that $X$ is \textit{non-negative} if $X(\omega) \geq 0\ \forall \omega \in \Omega$.
+\end{definition}
+\begin{definition}[Expectation for non-negative discrete random variables]
+  For a \textbf{non-negative discrete random variable} $X$, we define the \textit{expectation} of $X$ to be:
+  \label{nonNegativeExpectation}
+  \[
+    \E[X] = \sum_{\omega \in \Omega} \P(\{\omega\})X(\omega)
+  \]
+  since $X$ is a discrete random variable, this is a finite or countable sum.
+\end{definition}
+Define $\Omega_X = \{X(\omega): \omega \in \Omega\}$, that is, the image of $\Omega$ under $X$.
+This allows us to partition $\Omega$ into the disjoint sets $\{\omega \in \Omega: X(\omega) = x\} = \{X = x\}$ for each $x \in \Omega_x$.
+We can therefore write $\Omega = \bigcup_{x \in \Omega_X} \{X = x\}$.
+Since they are disjoint, we can rewrite $\E[X]$ as follows:
+\begin{align*}
+  \E[X] &= \sum_{\omega \in \Omega} X(\omega) \P(\{\omega\}) \\
+        &= \sum_{x \in \Omega_X} \sum_{\omega \in \{X = x\}} X(\omega)\P(\{\omega\}) \\
+        &= \sum_{x \in \Omega_X} \sum_{\omega \in \{X = x\}} x \cdot \P(\{\omega\}) \text{ as $X(\omega) = x$ for $\omega \in \{X = x\}$} \\
+        &= \sum_{x \in \Omega_X} x \sum_{\omega \in \{X = x\}} \P(\{\omega\}) \\
+        &= \sum_{x \in \Omega_X} x \cdot \P(X = x) \text{ as $P(A) = \sum_{\omega \in A} \P(\{\omega\})$ for finite/countable $A$}
+\end{align*}
+So, the expectation of $X$ is a weighted average of the values taken by $X$ with weights given by $\P(X = x)$.
+This formula for expectation is used more often than the one in the definition.
+\begin{example}[Expectation of Binomial Distributed Variable]
+  \label{binomialExpectation}
+  Suppose $X \sim \binomial(N, p)$.
+  This means that:
+  \[
+    \P(X = k) = \binom{N}{k}p^{k}(1-p)^{N-k}\ \forall k \in \{0, \ldots, N\}
+  \]
+  To find the expected value, $\Omega_X = \{0, \ldots, N\}$ so:
+  \begin{align*}
+    \E[X] &= \sum_{k = 0}^{N} k \cdot \P(X = k) \\
+          &= \sum_{k = 1}^{N} k \cdot \frac{N!}{(N - k)!k!} p^{k}(1 - p)^{N - k}  \text{ discard first term as 0} \\
+          &= Np \cdot \sum_{k = 1}^{N} \frac{(N - 1)!}{(k - 1)!((N - 1) - (k - 1))!}p^{k - 1}(1 - p)^{(N - 1) - (k - 1)} \\
+          &= Np \cdot \sum_{k = 1}^{N} \binom{N-1}{k - 1}p^{k - 1}(1 - p)^{(N - 1) - (k - 1)} \\
+          &= Np \cdot \sum_{k = 0}^{N - 1} \binom{N - 1}{k}p^{k}(1 - p)^{(N - 1) - k} \text{ re-indexing $k \mapsto k + 1$}\\
+          &= Np (p + 1 - p)^{N - 1} = Np
+  \end{align*}
+  So the expected value of a random variable that is binomially distributed is the product of its parameters.
+\end{example}
+\begin{example}[Expectation of Poisson Distributed Variable]
+  Suppose $X \sim \poisson(\lambda)$, $\lambda > 0$.
+  This means that:
+  \[
+    \P(X = k) = \frac{e^{-\lambda} \lambda^{k}}{k!}\ \forall k \in \N_0
+  \]
+  To find the expected value, $\Omega_X = \N_0$ so:
+  \begin{align*}
+    \E[X] &= \sum_{k = 0}^{\infty} k \cdot \P(X = k) \\
+          &= \sum_{k = 1}^{\infty} k \cdot e^{-\lambda} \frac{\lambda^{k}}{k!} \text{ discard first terms as 0} \\
+          &= e^{-\lambda} \lambda \sum_{k = 1}^{\infty} \frac{\lambda^{k - 1}}{(k - 1)!} \\
+          &= e^{-\lambda} \lambda \sum_{k = 0}^{\infty} \frac{\lambda^{k}}{k!} \text{ re-indexing $k \mapsto k - 1$} \\
+          &= e^{-\lambda} \lambda e^{\lambda} = \lambda
+  \end{align*}
+  So the expected value of a random variable that follows a Poisson distribution is just the value of the parameter $\lambda$.
+\end{example}
+\subsubsection{Expectation for possibly negative discrete random variables}
+So far we have only defined expectation for \textbf{non-negative} discrete random variables in \cref{nonNegativeExpectation}.
+However we would like this to extend this to r.v.s which can take negative values.
+\begin{remark}[Notation]
+  For any random variable $X$, define the random variables $X^{+} = \max\{X, 0\}$ and $X^{-} = \max\{-X, 0\}$.
+
+  We can then write $X = X^{+} - X^{-}$ and $|X| = X^{+} + X^{-}$.
+\end{remark}
+Suppose $X$ is a discrete random variable.
+We can find $\E[X^{+}]$ and $\E[X^{-}]$, since they are non-negative.
+\begin{definition}[Expectation of a possibly negative discrete random variable]
+  If at least one of $\E[X^{+}]$ and $\E[X^{-}]$ is finite, then we define the expectation of $X$ to be:
+  \[
+    \E[X] = \E[X^{+}] - \E[X^{-}]
+  \]
+  If both $\E[X^{+}]$ and $\E[X^{-}]$ are infinite, then $\E[X]$ is not defined.
+  Whenever we write $\E[X]$, we imply that it is defined.
+\end{definition}
+When $\E[X]$ is well-defined, then we have the same formula as before:
+\[
+  \E[X] = \sum_{x \in \Omega_X} x \cdot \P(X = x)
+\]
+\begin{definition}[Integrable random variable]
+  If $\E[|X|] < \infty$, then we say that $X$ is \textit{integrable}.
+\end{definition}
+\subsubsection{Properties of Expectation}
+\begin{proposition}[Basic Properties of Expectation]
+\begin{enumerate}
+  \item If $X \geq 0$, then $\E[X] \geq 0$
+  \item If $X \geq 0$ and $\E[X] = 0$, then $\P(X = 0) = 1$.
+  \item If $c \in \R$, then $\E[cX] = c\E[X]$ and $\E[c + X] = c + \E[X]$.
+  \item If $X$ and $Y$ are integrable random variables, then:
+    \[
+      \E(X + Y) = \E(X) + \E(Y)
+    \]
+  \item Let $c_1, \ldots, c_n \in \R$ and $X_1, \ldots, X_n$ integrable random variables, then:
+    \[
+      \E\left[\sum_{i = 1}^{n} c_i X_i\right] = \sum_{i = 1}^{n} c_i \E[X_i]
+    \]
+    by combining \textbf{iii} and \textbf{iv}.
+    We require that they are integrable so that there is not issues with adding infinities.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item The sum only consists of non-negative terms as $\P: \salg \to [0, 1]$ and $X \geq 0$.
+    \item $\sum_{x \in \Omega_X} x \cdot \P(X = x) = 0 \implies x \cdot \P(X = x) = 0\ \forall x \implies \P(X = x) = 0\ \forall x \neq 0$.
+      So $\P(\Omega) = \sum_{x \in \Omega_x} \P(X = x) = \P(X = 0) \implies \P(X = 0) = 1$.
+    \item Let $Y(\omega) = cX(\omega)$.
+      \begin{align*}
+        \sum_{y \in \Omega_Y} y \cdot \P(Y = y) &= \sum_{x \in \Omega_X} cx \cdot \P(Y = cx) \\
+                                                &= c \cdot \sum_{x \in \Omega_X} \P(X = x) = \E[X]
+      \end{align*}
+      as $\{Y = cx\} = \{\omega \in \Omega: cX(\omega) = cx\} = \{X = x\}$.
+
+      Similarly, let $Z(\omega) = X(\Omega) + c$.
+      \begin{align*}
+        \sum_{z \in \Omega_Z} z \cdot \P(Z = z) &= \sum_{x \in \Omega_X} (x + c) \cdot \P(Z = x + c) \\
+                                                &= \sum_{x \in \Omega_X} (x + c) \cdot \P(X = x) \text{ as $\{Z = x + c\} = \{X = x\}$} \\
+                                                &= \sum_{x \in \Omega_X} x \cdot \P(X = x) + c\sum_{x \in \Omega_X} \P(X = x) \\
+                                                &= \E(X) + c \P(\Omega) = \E(X) + c
+      \end{align*}
+    \item Let $Z(\omega) = X(\omega) + Y(\omega)$.
+      \begin{align*}
+        \E(Z) &= \sum_{x \in \Omega_X} \sum_{y \in \Omega_y} (x + y) \P(X = x, y = Y) \\
+              &= \sum_{x \in \Omega_X} x \cdot \sum_{y \in \Omega_X} \P(X = x, y = Y) + \sum_{y \in \Omega_Y} y \cdot \sum_{x \in \Omega_X} \P(X = x, y = Y) \\
+              &= \sum_{x \in \Omega_X} x \cdot \P(X = x) + \sum_{y \in \Omega_y} y \cdot \P(Y = y) \\
+              &= \E[X] + \E[Y]
+      \end{align*}
+    \item Follows from using \textbf{iii} and induction with \textbf{iv}.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  Property \textbf{iv} above leads to an alternative proof for \cref{binomialExpectation}.
+
+  We saw in \cref{binomialAsBernSum} that we can express $X$ as $X = B_1 + \cdots B_N$ where $B_i$ are all independent Bernoulli r.v.s with parameter $p$.
+  We find that the expectation of a Bernoulli r.v. is:
+  \[
+    \E[B_i] = 0 \cdot \P(B_i = 0) + 1 \cdot \P(B_i = 1) = p
+  \]
+  since $\Omega_{B_i} = \{0, 1\}$.
+  The expectation of $X$ is then the sum of these expectations:
+  \[
+    \E[X] = \E\left[\sum_{i = 1}^{N} B_i\right] = \sum_{i = 1}^{N} \E[B_i] = \sum_{i = 1}^{N} p = Np
+  \]
+\end{remark}
+\begin{lemma}[Countably Infinite Expectation Sum]
+  If $X_1, X_2, \ldots$ are non-negative discrete r.v.s, then:
+  \label{sumExpectationSwap}
+  \[
+    \E\left[\sum_{n = 1}^{\infty} X_n\right] = \sum_{n = 1}^{\infty} \E[X_n]
+  \]
+\end{lemma}
+\begin{proof}
+  $\Omega$ is countable as they are discrete random variables.
+  \begin{align*}
+    \E\left[\sum_{n = 1}^{\infty} X_n\right] &= \sum_{\omega \in \Omega} \left(\sum_{n = 1}^{\infty} X_n(\omega)\right)\P(\{\omega\}) \\
+                                             &= \sum_{n = 1}^{\infty} \sum_{\omega \in \Omega} X_n(\omega)\P(\{\omega\}) \\
+                                             &= \sum_{n = 1}^{\infty} \E[X_n]
+  \end{align*}
+  We are able to swap the two sums without issues as the terms are non-negative.
+\end{proof}
+\begin{example}[Expectation of Indicator Function]
+  \label{expOfIndicator}
+  Let $A \in \salg$ and $X(\omega) = 1_A(\omega)$.
+  Calculating the expected value is easy as $\Omega_X = \{0, 1\}$ so:
+  \begin{align*}
+    \E[X] &= 0 \cdot \P(X = 0) + 1 \cdot \P(X = 1) \\
+          &= \P(X = 1) \\
+          &= \P(\{\omega \in \Omega: X(\omega) = 1_A(\omega) = 1\}) \\
+          &= \P(A)
+  \end{align*}
+  So $\E[X] = \P(A)$.
+\end{example}
+\begin{proposition}[Expectation of a function of a r.v.]
+  Let $g: \R \to \R$ and consider the discrete random variable $g(X)$ defined by $g(X)(\omega) = g(X(\omega))$.
+  \[
+    \E[g(X)] = \sum_{x \in \Omega_x} g(x) \cdot \P(X = x)
+  \]
+\end{proposition}
+\begin{proof}
+  Set $Y = g(X)$.
+  \[
+    \E[Y] = \sum_{y \in \Omega_Y} y \cdot \P(Y = y) \\
+  \]
+  We can rewrite the event $\{Y = y\}$ as:
+  \begin{align*}
+    \{Y = y\} &= \{\omega \in \Omega: Y(\omega) = y\} \\
+              &= \{\omega \in \Omega: g(X(\omega)) = y\} \\
+              &= \{\omega \in \Omega: X(\omega) \in g^{-1}(\{y\})\} \\
+              &= \{X \in g^{-1}(\{y\})\}
+  \end{align*}
+  So:
+  \begin{align*}
+    \E[Y] &= \sum_{y \in \Omega_y} y \cdot \P(X \in g^{-1}(\{y\})) \\
+          &= \sum_{y \in \Omega_y} y \cdot \sum_{x \in g^{-1}(\{y\})} \P(X = x) \\
+          &= \sum_{y \in \Omega_y} \sum_{x \in g^{-1}(\{y\})} g(x) \cdot \P(X = x) \text{ as $g(x) = y\ \forall x \in g^{-1}(\{y\})$}
+  \end{align*}
+  The sets $g^{-1}(\{y\})$ for all $y \in \Omega_Y$ just define a partition of $\Omega_x$ so summing over all elements of all partition is equivalent to summing over $\Omega_X$.
+  Thus:
+  \[
+    \E[Y] = \E[g(X)] = \sum_{x \in \Omega_X} g(x) \cdot \P(X = x)
+  \]
+\end{proof}
+\begin{lemma}[Expectation of a discrete r.v. in $\N$]
+  If $X$ is a discrete random variable that only takes values in $\N$, then:
+  \[
+    \E[X] = \sum_{k = 1}^{\infty} \P(X \geq k) = \sum_{k=0}^{\infty} \P(X > k)
+  \]
+\end{lemma}
+\begin{proof}
+  For any $n \in \N$:
+  \[
+    n = \sum_{k = 1}^{\infty} 1(n \geq k) = \sum_{k = 0}^{\infty} 1(n > k)
+  \]
+  As there are exactly $n$:
+  \begin{itemize}
+    \item $k \in \N$ such that $n \geq k$
+    \item  $k \in \N_0$ such that $n > k$
+  \end{itemize}
+  Therefore, since $X(\omega) \geq 0$ and $X(\omega) \in \N$ for all $\omega$, we have the following:
+  \[
+    X(\omega) = \sum_{k = 1}^{\infty} 1(X(\omega) \geq k) = \sum_{k = 0}^{\infty} 1(X(\omega) > k)
+  \]
+  for all $\omega$.
+
+  Taking the expectation, as they are non-negative, we can apply \cref{sumExpectationSwap}:
+  \[
+    \E[X] = \E\left[\sum_{k = 1}^{\infty} 1(X \geq k)\right] = \sum_{k = 1}^{\infty} \E[1(X \geq k)] = \sum_{k = 1}^{\infty} \P(X \geq k)
+  \]
+  using $\E[1_A] = \P(A)$ from \cref{expOfIndicator} and similarly for the sum starting from 0.
+\end{proof}
 \end{document}

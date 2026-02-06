@@ -16,7 +16,7 @@ When we refer to a ``curve'' we usually mean the image of the map $C$ instead of
 \begin{definition}[Arc Length]
   The \textit{arc length} of a curve is defined to be:
   \[
-    s = \int \d{s} = \int |\dot{x}(t)| \d{t}
+    s = \int \d{s} = \int |\dot{\vec{x}}(t)| \d{t}
   \]
 \end{definition}
 This definition is motivated by the following:
@@ -25,4 +25,195 @@ This definition is motivated by the following:
                               &= \sqrt{\left(\frac{\delta x}{\delta t}\right)^2 + \left(\frac{\delta y}{\delta t}\right)^2 + \left(\frac{\delta z}{\delta t}\right)^2} \delta t \\
                               &= \abs{\frac{\delta \vec{x}}{\delta t}} \delta t
 \end{align*}
+So if we split the curve into lots of tiny straight lines between $\vec{x}(t)$ and $\vec{x}(t + \delta t)$, then they each have length $\delta s = |\delta \vec{x}/\delta t|\delta t$.
+So as $\delta t \to 0$:
+\[
+  \deriv{s}{t} = |\dot{\vec{x}}|
+\]
+\label{naturalParam}
+We can integrate this to obtain $s$ as a function of $t$ and then, theoretically, invert this to obtain $t$ as a function of $s$ and therefore write $\vec{x}$ as a function of $s$.
+Parameterisation of the curve using arc length instead of $t$ is called the \textit{natural parameterisation} of the curve.
+\begin{definition}[Composite Curves]
+  For two curves $C_1$ and $C_2$ with matching endpoints, i.e. $\vec{x}_1(b_1) = \vec{x}_2(a_2)$, we define $C_1 + C_2$ to be the curve that is formed when the end of $C_1$ is joined to the start of $C_2$.
+
+  For a curve $C$, we define $-C$ to be the curve $C$ traversed in the opposite direction, that is $\vec{x}_{-C}(t) = \vec{x}_{C}(a + b - t)$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item The curve $\vec{x}(t) = (at^2, 2at, 0)$, $t \in [-1, 1]$, is a parameterisation of the parabola $y^2 = 4ax$ between $y = \pm2a$.
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+        \draw[->] (-0.2, 0) -- (3, 0) node[right] {$x$};
+
+        \fill (2, 0) circle (1pt) node[below] {\small$(a, 0)$};
+        \draw[dashed] (0, 1.41) node[left] {$2a$} -- (2, 1.41);
+        \draw[dashed] (0, -1.41) node[left] {$-2a$} -- (2, -1.41);
+        \draw[dashed] (2, 1.41) -- (2, -1.41);
+        \draw[very thick, rotate=-90,domain=-1.41:1.41, samples=50, postaction={decorate}, decoration={
+          markings,
+          mark=at position 0.2 with {\arrow{<}},
+          mark=at position 0.7 with {\arrow{<}}
+        }] plot ({\x}, {(\x)^2});
+      \end{tikzpicture}
+      \end{center}
+      We usually draw an arrow on the curve to indicate which direction the curve is traversed for increasing $t$.
+    \item The curve $\vec{x}(t) = (a \cos t, b \sin t, 0)$, $t \in [0, \pi]$, is a parameterisation of the upper half of the ellipse $x^2/a^2 + y^2/b^2 = 1$.
+    \item The curve $\vec{x}(t) = (\cos t, \sin t, t)$ is a helix.
+      In cylindrical polars, $\rho = 1$ , $\phi = t$, $z = t$ so the curve circles around the unit cylinder as it rises.
+    \item Let $R(t) = 2 \cos \alpha t$ and $\vec{x}(t) = (R(t)\cos \beta t, R(t)\sin \beta t, \sin \alpha t)$.
+
+      Comparing to $(\rho \cos \phi, \rho \sin \phi, z)$, we see that this curve is $\rho = R(t)$, $\phi = \beta t$, $z = \sin \alpha t$ in cylindrical polars.
+      This curve lies on the torus $(\rho - 2)^2 + z^2 = 1$.
+  \end{enumerate}
+\end{example}
+\section{Frenet-Serret Equations}
+\begin{remark}[Parameterisation]
+  In this section we will assume that $\vec{x}$ is \textbf{parameterised by arc length} $s$.
+
+  We will use primes to denote differentiation with respect to $s$.
+\end{remark}
+\subsection{Moving Trihedral, Curvature, and Torsion}
+\begin{definition}[Moving Trihedral]
+  For a curve $\vec{x}$ parameterised by arc length, we define the following three vectors:
+  \begin{itemize}
+    \item $\vec{t} = \vec{x}'$ is the \textit{tangent vector}.
+    \item $\vec{n} = \frac{1}{|\vec{x}''|}\vec{x}''$ is the \textit{principal normal vector}.
+    \item $\vec{b} = \vec{t} \times \vec{n}$ is the \textit{binormal vector}
+  \end{itemize}
+  This set of vectors is known as the \textit{moving trihedral}
+\end{definition}
+\begin{definition}[Curvature and Torsion]
+  We define the \textit{curvature} $\kappa$ of the curve at a point to be:
+  \[
+    \kappa \equiv |\vec{x}''|
+  \]
+  and the \textit{torsion} $\tau$ of the curve at a point to be:
+  \[
+    \tau \equiv -\vec{b}' \cdot \vec{n}
+  \]
+\end{definition}
+\begin{remark}[Special Cases]
+  At a point on the curve $\kappa = 0 \iff \vec{x}'' = \vec{t}' = \vec{0}$, at such points, $\vec{n}$, $\vec{b}$, and $\tau$ are all undefined.
+
+  If $\vec{t}' = \vec{0}$ everywhere, then $\vec{t}$ is constant so $\vec{t} = \vec{a} \implies \vec{x} = \vec{a}s + \vec{b}$ which is a straight line parametrised by arc length.
+\end{remark}
+\begin{proposition}
+  The moving trihedral, $\{\vec{t}, \vec{n}, \vec{b}\}$, is a right handed orthonormal set at every point on a curve (where it is well defined, i.e. at all points with $\kappa \neq 0$).
+  \label{trihedralOrthonormal}
+\end{proposition}
+\begin{proof}
+  Since $\d{s} = |d\vec{x}|$, we have $\abs{\deriv{\vec{x}}{s}} = |\vec{x}'| = 1$ so $|\vec{t}| = 1$.
+
+  Now $\kappa = |\vec{x}''| = |\vec{t}'|$ so:
+  \[
+    \vec{n} = \frac{1}{|\vec{x}''|} \vec{x}'' = \frac{\vec{t}'}{\kappa} \text{ as $\kappa \neq 0$}
+  \]
+  $|\vec{n}| = 1$ by definition.
+
+  Differentiating the equation $\vec{t} \cdot \vec{t} = 1$ gives $2\vec{t} \cdot \vec{t}' = 0 \implies \vec{t} \cdot \vec{n} = 0$ and so $\vec{t} \perp \vec{n}$.
+  Since $\vec{t}$ and $\vec{n}$ are orthonormal, the definition $\vec{b} = \vec{t} \times \vec{n}$ ensures that $\{\vec{t}, \vec{n}, \vec{b}\}$  is always orthonormal and right handed.
+\end{proof}
+\subsection{Frenet-Serret Equations}
+\begin{theorem}[Frenet-Serret Equations]
+  The moving trihedral satisfy the \textit{Frenet-Serret equations}:
+  \begin{align*}
+    \vec{t}' &= \kappa \vec{n} \\
+    \vec{n}' &= \tau \vec{b} - \kappa \vec{t} \\
+    \vec{b}' &= - \tau \vec{n}
+  \end{align*}
+  at all points where they are well defined.
+\end{theorem}
+\begin{proof}
+  Continuing from the proof of \cref{trihedralOrthonormal}.
+
+  \textbf{Equation 1}\par
+  $\vec{n} = \frac{\vec{t}'}{\kappa} \implies \vec{t}' = \kappa \vec{n}$ which is the first equation.
+
+  \textbf{Equation 3}\par
+  $|\vec{b}| = 1$ so $\vec{b} \cdot \vec{b} = 1$.
+  On differentiating, $2\vec{b} \cdot \vec{b}' = 0 \implies \vec{b}' \perp \vec{b}$.
+
+  $\vec{t}$ and $\vec{b}$ are orthogonal so $\vec{t} \cdot \vec{b} = 0$.
+  On differentiating:
+  \[
+    0 = \vec{t}' \cdot \vec{b} + \vec{t} \cdot \vec{b}' = \kappa \cancelto{0}{\vec{n} \cdot \vec{b}} + \vec{t} \cdot \vec{b}' = \vec{t} \cdot \vec{b}'
+  \]
+  so $\vec{b}' \perp \vec{t}$ also.
+
+  Since $\vec{b}' \perp \vec{t}$ and $\vec{b}' \perp \vec{b}$, we must have $\vec{b}' \parallel \vec{n}$.
+  By definition, $\tau = -\vec{b}' \cdot \vec{n}$ so $\vec{b}' = -\tau \vec{n}$.
+
+  \textbf{Equation 2}\par
+  $\vec{n} = \vec{b} \times \vec{t}$ as $\{\vec{t}, \vec{n}, \vec{b}\}$ is a right handed orthonormal set.
+  On differentiating:
+  \[
+    \vec{n}' = \vec{b}' \times \vec{t} + \vec{b} \times \vec{t}' = -\tau \vec{n} \times \vec{t} + \vec{b} \times \kappa \vec{n} = \tau \vec{b} - \kappa \vec{t}
+  \]
+  as required.
+\end{proof}
+\begin{remark}
+  \nonexaminable
+  Given functions $\kappa(s)$ and $\tau(s)$, there is a unique curve with that curvature and torsion up to translations and rotations of the entire curve.
+
+  This is because the equations $\vec{t}' = \kappa \vec{b} \times \vec{t}$ and $\vec{b}' = \tau \vec{t} \times \vec{b}$ constitute 6 simultaneous ODEs in 6 unknowns, which have a unique solution given initial values for $\vec{t}$ and $\vec{b}$ at $s = 0$.
+\end{remark}
+\subsection{Radius of Curvature and the Osculating Plane}
+\begin{definition}[Radius of Curvature]
+  The \textit{radius of curvature} is defined by $R = 1/\kappa$
+\end{definition}
+\begin{definition}[Osculating Plane]
+  At any point $\vec{x}$, the \textit{osculating plane} is the plane that passes through $\vec{x}$ and is spanned by $\vec{t}$ and $\vec{n}$.
+\end{definition}
+Consider a circle in the osculating plane with radius $R$ centered at $\vec{x} + R\vec{n}$:
+\begin{center}
+\begin{tikzpicture}[>=stealth,scale=1.4]
+  \draw[rotate=-90,domain=-1:1, samples=50, postaction={decorate}, decoration={
+    markings,
+    mark=at position 0.2 with {\arrow{<}},
+    mark=at position 0.7 with {\arrow{<}}
+  }] plot ({\x}, {(\x)^2});
+  \draw[dashed] (0.5, 0) -- (0.5, 0.5) node[midway, right] {\small$R$};
+  \draw[very thick, dashed, gray!80] (0.5, 0) circle (0.5);
+  \fill (0, 0) circle (1pt) node[below left] {$\vec{x}$};
+  \draw[->] (0, 0) -- (0.3, 0) node[below] {$\vec{n}$};
+  \draw[->] (0, 0) -- (0, 0.3) node[left] {$\vec{t}$};
+  \fill (0.5, 0) circle (0.5pt);
+\end{tikzpicture}
+\end{center}
+This circle is the closet possible circular approximation to the curve at $\vec{x}$.
+At $\vec{x}$, the circle has the same values of $\vec{x}$, $\vec{x}'$ and $\vec{x}''$ as the curve itself, and therefore also the same value of $\kappa$.
+
+Note that in the above diagram, $\vec{b}$ would be pointing into the plane of the page as $\{\vec{t}, \vec{n}, \vec{b}\}$ is right handed.
+\subsection{Using the Frenet-Serret Equations in Different Parameterisations}
+If $\vec{x}(t)$ is parameterised by something other than arc length then we need to take this into account before applying the Frenet-Serret equations.
+One way is to find $s(t)$ and then invert it to find $\vec{x}(s(t))$ as discussed in \cref{naturalParam}.
+However, we can use the chain rule to get a more direct result:
+\[
+  \vec{t} = \vec{x}' = \deriv{\vec{x}}{t} \deriv{t}{s} = \frac{\dot{\vec{x}}}{|\dot{\vec{x}}|}
+\]
+Similarly:
+\[
+  \vec{x}'' = \deriv{\vec{t}}{s} = \deriv{\vec{t}}{t} \deriv{t}{s} = \frac{\dot{\vec{t}}}{|\dot{\vec{x}}|}
+\]
+so
+\[
+  \kappa = |\vec{x}''| = \frac{|\dot{\vec{t}}|}{|\dot{\vec{x}}|} \text{ and } \vec{n} = \frac{1}{\kappa} \vec{x}'' =  \frac{\dot{\vec{t}}}{|\dot{\vec{t}}|}
+\]
+We can then use $\vec{b} = \vec{t} \times \vec{n}$ to find $\vec{b}$ and then $\tau$ can be found using:
+\begin{align*}
+  &\vec{b}' = (\dot{\vec{t}} \times \vec{n} + \vec{t} \times \dot{\vec{n}}) \deriv{t}{s} \\
+  \implies& \vec{b}' \cdot \vec{n} = \frac{\vec{n} \cdot (\vec{t} \times \dot{\vec{n}})}{|\dot{\vec{x}}|} \\
+  \implies& \tau = - \frac{\vec{n} \cdot (\vec{t} \times \dot{\vec{n}})}{|\dot{\vec{x}}|}
+\end{align*}
+\begin{example}
+  Consider the curve $\vec{x}(t) = \left(\frac{1}{\sqrt{2}}t^2, t, t\right)$.
+  We have $\dot{\vec{x}} = (\sqrt{2}t, 1, 1)$ so $\deriv{s}{t} = |\dot{\vec{x}}| = \sqrt{2}\sqrt{1 + t^2}$.
+  Hence, we can find $\vec{t}$, $\dot{\vec{t}}$ and $\kappa$:
+  \begin{align*}
+    \vec{t} &= \vec{x}' = \frac{\dot{\vec{x}}}{|\dot{\vec{x}}|} = \frac{1}{\sqrt{2}\sqrt{1 + t^2}}(\sqrt{2}t, 1, 1) \\
+    \dot{\vec{t}} &= \frac{1}{\sqrt{2}(1 + t^2)^{3/2}} (\sqrt{2}, -t, -t) \\
+    \kappa &= |\vec{t}'| = \frac{|\dot{\vec{t}}|}{|\dot{\vec{x}}|} = \frac{1}{\sqrt{2}(1 + t^2)^{3/2}}
+  \end{align*}
+\end{example}
 \end{document}
