@@ -40,6 +40,201 @@ We want to define what we mean by $f(z) \to y$ as $z \to a$, even if $a \notin X
   \begin{enumerate}
     \item Consider $X = \{0\} \cup [1, 2]$.
       $0$ is an isolated point of $X$ and all of the points in $[1, 2]$ are accumulation points of $X$.
+    \item The points on the circle $S = \{z \in \C: |z| = 1\}$ are accumulation points for $D = \{z \in \C : |z| < 1\}$.
+
+      All the points in $D$ are also accumulation points for $D$.
+    \item All points in the set $\{z \in \C: |z| \leq 1\}$ are accumulation points of the set itself.
   \end{enumerate}
+\end{example}
+\begin{lemma}
+  Let $X \subseteq \C$ and $a \in \C$.
+  $a$ is an accumulation point for $X$ if and only if there exists a sequence $(x_n)$ in $X \setminus \{a\}$ s.t. $\lim_{n \to \infty} x_n = a$.
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $a$ is an accumulation point}
+    Consider the sequence $(x_n)$ where each $x_n$ is defined to be some $z \in X \setminus \{a\}$ such that $|z - a| < \frac{1}{n}$.
+    Such a $z$ will always exist as $\delta = \frac{1}{n} > 0$ and $a$ is an accumulation point of $X$.
+
+    For any $\varepsilon > 0$, $\exists N \text{ s.t. } 0 < \frac{1}{N} < \varepsilon$.
+    For all $n \geq N$, $\frac{1}{n} \leq \frac{1}{N} < \varepsilon$ so by construction of the sequence $|x_n - a| < \frac{1}{n} < \varepsilon\ \forall n \geq N$.
+    Thus we have constructed a sequence $(x_n)$ in $X \setminus \{a\}$ s.t. $\lim_{n \to \infty} x_n = a$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume there is such a sequence}
+    Since $x_n \to a$, $\forall \delta > 0$, $\exists N$ s.t. $|x_n - a| < \delta\ \forall n \geq N$.
+    $x_N \in X \setminus \{a\}$ and satisfies $|x_N - a| < \delta$.
+    Therefore $a$ is an accumulation point.
+  \end{proofdirection}
+\end{proof}
+To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, we would like the following:
+\begin{itemize}
+  \item We either want $a \in X$, or if $a \notin X$, we want $a$ to be an accumulation point of $X$ so that we can get arbitrarily close to $x$.
+  \item Looking at points $z$ ``near'' $a$, no matter how small our threshold $\varepsilon > 0$, there must exists points in the image of $f$ which are $\varepsilon$-close to $y$.
+  That is, $\{z \in X: |f(z) - y| < \varepsilon\}$ must be non-empty.
+\item We also want it to contain all the points in the domain of $f$ which are sufficiently close $a$, i.e. $\delta = \delta(\varepsilon)$ close to $a$.
+\end{itemize}
+\begin{definition}[Limit of a function]
+  Let $f: X \subseteq \C \to \C$ and let $a \in X$ or let $a \in \C \setminus X$ such that $a$ is an accumulation point of $X$.
+
+  We say that \textit{$f$ tends to $y \in \C$ as $z$ tends to $a$} if:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon)
+  \]
+  and write $f(z) \to y$ as $z \to a$.
+\end{definition}
+\begin{remark}
+  If $a$ is an isolated point of $X$, then we can always find $\delta$ sufficiently small so that $|z - a| < \delta,\ z \in X \iff z = a$.
+  For such $\delta$, $|z - a| < \varepsilon \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon$ is vacuously true as there are no such $z \in X \setminus \{a\}$ satisfying $|z - a| < \varepsilon$.
+  Thus, $f(z) \to f(a)$ as $z \to a$ trivially.
+  So, the definition makes sense for isolated points, however, is not very interesting.
+\end{remark}
+\begin{definition}[Divergence to infinity of a function]
+  Let $a \in \C \setminus X$ be an accumulation point for $X$.
+  We say that $f$ diverges to $\infty$ if as $z \to a$ if $\lim\limits_{z \to a} \frac{f(z)}{|f(z)|}$ exists and:
+  \[
+    \forall L > 0,\ \exists \delta = \delta(L) \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \implies |f(z)| > L)
+  \]
+\end{definition}
+\begin{remark}
+  For $f(z)$ diverging to $\infty$ as $z \to a \in \C$ for finite $a$, we cannot have $a \in X$ otherwise $f$ would not be a well defined function, hence why the above definition only considers $a \in \C \setminus X$ which are accumulation points.
+\end{remark}
+\begin{example}
+  Consider again $f(x) = \frac{\sin x}{x}$ with domain $\R \setminus \{0\}$.
+  We claim that $\frac{\sin x}{x} \to 1$ as $x \to 0$.
+
+  We can show geometrically that:
+  \begin{equation}
+    \cos x < \frac{\sin x}{x} < 1 \label{trigBound}
+  \end{equation}
+  for all $x \in (0, \frac{\pi}{2})$ using a unit circle.
+  Therefore:
+  \[
+    \abs{\frac{\sin x}{x} - 1} < 1 - \cos x = 2 \sin^2 \left(\frac{x}{2}\right)
+  \]
+  Substituting $\frac{x}{2}$ into \cref{trigBound}, we have:
+  \[
+    2\sin\left(\frac{x}{2}\right) < x \implies 2\sin^2\left(\frac{x}{2}\right) < \frac{x^2}{2}
+  \]
+  Hence $\forall \varepsilon > 0$, we need to choose $\delta(\varepsilon)$ such that:
+  \[
+    |x - 0| < \delta \implies \abs{\frac{\sin x}{x} - 1} < \frac{x^2}{2} < \varepsilon
+  \]
+  Choosing $\delta = \sqrt{2\varepsilon}$ satisfies this so $f(x) \to 1$ as $x \to 0$.
+\end{example}
+\begin{lemma}
+  Let $f: X \subseteq \C \to \C$ and $a \in \C$ be either in $X$ or an accumulation point of $X$.
+  \begin{enumerate}
+    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$.
+    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  \begin{proofdirection}{Assume $f(z) \to y$ as $z \to a$}
+    Suppose we have a sequence $(z_n)$ on $X$ with $z_n \to a$.
+
+    Since $f(z) \to y$, $\forall \varepsilon > 0\ \exists \delta > 0$ s.t. $|z - a| < \delta \implies |f(z) - y| < \varepsilon$.
+    Since $z_n \to a$, for all such $\delta$, $\exists N$ s.t. $|z_n - a| < \delta\ \forall n \geq N$ and so $|f(z_n) - y| < \varepsilon\ \forall n \geq N$.
+
+    Thus given some $\varepsilon > 0$, $\exists N \text{ s.t. } |f(z_n) - y| < \varepsilon\ \forall n > N$ so $f(z_n) \to y$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f(z_n) \to y$ for every sequence with $z_n \to a$}
+    Unfinished. %TODO
+  \end{proofdirection}
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Unfinished. %TODO
+\end{proof}
+\begin{lemma}[Uniqueness of Limits]
+  If $f: X \subseteq \C \to \C$  has a limit at $a \in \C$, then this limit is unique.
+\end{lemma}
+\begin{proof}
+  Suppose $f(z) \to y$ as $z \to a$ and $f(z) \to x$ as $z \to a$.
+  Then $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
+    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - b| < \delta_2 \implies |f(z) - x| < \varepsilon
+  \end{align*}
+  Hence $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$:
+  \[
+    |x - y| = |(x - f(z)) - (y - f(z))| \leq |f(z) - x| + |f(z) - y| < 2\varepsilon
+  \]
+  Since $\varepsilon > 0$ is arbitrary, $|x - y| \leq 0$ so $x = y$.
+\end{proof}
+\begin{remark}
+  The limit is unique so we write $\lim\limits_{z \to a} f(z)$ to mean the unique limit of $f(z)$ as $z \to a$.
+\end{remark}
+\begin{lemma}[Limit Laws]
+  Let $f, g: X \subseteq \C \to \C$ and $a \in \C$ either in $X$ or an accumulation point.
+  Suppose $\lim_{z \to a} f(z) = y$ and $\lim_{z \to a} g(z) = x$ then:
+  \begin{enumerate}
+    \item $\lim_{z \to a} (f(z) + g(z)) = y + x$
+    \item $\lim_{z \to a} (f(z)g(z)) = yx$
+    \item If $g(z) \neq 0$ and $x \neq 0$, then $\lim_{z \to a} \frac{f(z)}{g(z)} = \frac{y}{x}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Suppose $f(z) \to y$ as $z \to a$ and $f(z) \to x$ as $z \to a$.
+  Then $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
+    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - x| < \varepsilon
+  \end{align*}
+  \textbf{(i)} $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$ we have:
+  \[
+    |f(z) + g(z) - (y + x)| \leq |f(z) - y| + |g(z) - x| < 2\varepsilon
+  \]
+  which is a constant multiple of $\varepsilon$, so as $\varepsilon$ is arbitrary, $\lim_{z \to a} (f(z) + g(z)) = y + x$.
+
+  \textbf{(ii)} We can also pick $\varepsilon = 1$ so that:
+  \[
+    \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - y| < \varepsilon \implies |f(z)| < 1 + |y|
+  \]
+  Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+  \begin{align*}
+    |f(z)g(z) - yx| &= |f(z)g(z) - f(z)x + f(z)x - yx| \\
+                    &\leq |f(z)||g(z) - x| + |x||f(z) - y| \\
+                    &< (1 + |y|)\varepsilon + |x|\varepsilon \\
+                    &= \varepsilon(1 + |y| + |x|)
+  \end{align*}
+  which is a constant multiple of $\varepsilon$, so $\lim_{z \to a} f(z)g(z) = yx$.
+
+  \textbf{(iii)} To show this, we can show that $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and then use \textbf{(ii)}.
+
+  We can pick $\varepsilon = \abs{\frac{x}{2}} > 0$ so that:
+  \[
+    \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |g(z) - x| < \abs{\frac{x}{2}} \implies |g(z)| > \abs{\frac{x}{2}} > 0
+  \]
+  Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+  \begin{align*}
+    \abs{\frac{1}{g(z)} - \frac{1}{x}} &= \frac{1}{|x||g(z)|}|g(z) - x| \\
+                                   &< \frac{\varepsilon}{|x||\frac{x}{2}|}
+  \end{align*}
+  Therefore, $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and so the result follows using \textbf{(ii)}.
+\end{proof}
+\begin{remark}
+  The strategies used here are similar to those used when proving \cref{limitLaws} and \cref{reciprocalConvergence}, however, instead of bounding the whole sequence, we just introduce a new threshold $\delta$ such that if $|z - a| < \delta$, then $|f(z)|$ is bounded by some constant.
+\end{remark}
+\section{Continuity of Functions}
+What does it mean for a function to be continuous at a point $a$?
+\begin{definition}[Continuity]
+  Let $f: X \subseteq \C \to \C$ and $a \in X$.
+  We say that $f$ is \textit{continuous} at $a$ if $\lim_{z \to a} f(z) = f(a)$
+
+  We say that $f$ is \textit{continuous on $X$} if it is continuous at every point $a \in X$.
+\end{definition}
+\begin{remark}
+  Tautologically, if $a \in X$ is an isolated point, then $f$ is continuous at $a$.
+\end{remark}
+\begin{example}
+  \begin{itemize}
+    \item The function $f(z) = z$, the identity function, is continuous.
+    \item The function defined by:
+      \[
+        f(x) = \begin{cases}
+          \sin\left(\frac{1}{x}\right) & x \neq 0 \\
+          0 & x = 0
+        \end{cases}
+      \]
+      is not continuous.
+  \end{itemize}
 \end{example}
 \end{document}

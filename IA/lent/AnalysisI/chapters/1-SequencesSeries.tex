@@ -32,7 +32,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
   We then write $x_n \to x$.
 \end{definition}
 \begin{definition}[Divergence to infinity]
-  We say that the sequence $(x_n)$ \textit{diverges to infinity} if:
+  We say that the sequence $(x_n)$ \textit{diverges to infinity} if $\frac{x_n}{|x_n|}$ converges and:
   \[
     \forall L > 0\ \exists N = N(L) \text{ s.t. } |x_n| > L\ \forall n \geq N
   \]
@@ -41,6 +41,8 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \begin{enumerate}
     \item We can make the modulus inequality non strict (i.e. $|x_n - x| \leq \varepsilon$ for convergence or $|x_n| \geq L$ for divergence to infinity) for an equivalent definition.
     \item We can also replace $\varepsilon$ by any constant positive multiple of $\varepsilon$ for an equivalent definition.
+    \item For divergence to infinity, we require that $\frac{x_n}{|x_n|}$ converges so that for a complex sequence, it diverges in a specific direction.
+      This excludes cases where the sequence could spiral outwards with increasing modulus.
     \item If $(x_n)$ is real, then it diverges to infinity if either $(x_n)$ or $(-x_n)$ satisfy:
       \[
         \forall L > 0\ \exists N = N(L) \text{ s.t. } x_n > L\ \forall n \geq N
@@ -228,6 +230,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \end{proof}
 \begin{lemma}[Convergence of Reciprocal Sequence]
   If $x_n \neq 0\ \forall n$ and $x_n \to x \neq 0$, then $\frac{1}{x_n} \to \frac{1}{x}$
+  \label{reciprocalConvergence}
 \end{lemma}
 \begin{proof}
   Since $x_n \to x$ and $x \neq 0$, we can take $\varepsilon = |x/2|$ so $\exists N$ s.t. $|x_n - x| < |x/2|\ \forall n \geq N$.
