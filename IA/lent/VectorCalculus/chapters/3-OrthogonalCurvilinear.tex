@@ -341,7 +341,7 @@ For $f(r, \theta, \phi)$ and $\vec{F} = F_r \vec{e}_r + F_\theta \vec{e}_\theta 
 \begin{align*}
   \nabla f &= \pderiv{f}{r} \vec{e}_r + \frac{1}{r} \pderiv{f}{\theta} \vec{e}_\theta + \frac{1}{r \sin \theta} \pderiv{f}{\phi} \vec{e}_\phi \\
   \nabla \cdot \vec{F} &= \frac{1}{r^2} \pderiv{}{r}(r^2 F_r) + \frac{1}{r \sin \theta} \pderiv{}{\theta}(F_\theta \sin \theta) + \frac{1}{r \sin \theta} \pderiv{F_\phi}{\phi} \\
-  \nabla \times \vec{F} &= \frac{1}{\sin \theta} \left(\pderiv{}{\theta}(F_\phi \sin \theta) - \pderiv{F_\theta}{\phi}\right)\vec{e}_r \\
+  \nabla \times \vec{F} &= \frac{1}{r \sin \theta} \left(\pderiv{}{\theta}(F_\phi \sin \theta) - \pderiv{F_\theta}{\phi}\right)\vec{e}_r \\
                         &\ + \frac{1}{r}\left(\frac{1}{\sin \theta} \pderiv{F_r}{\phi} - \pderiv{}{r}(rF_\phi)\right) \vec{e}_\theta \\
                         &\ + \frac{1}{r}\left(\pderiv{}{r}(r F_\theta) - \pderiv{F_r}{\theta}\right) \vec{e}_\phi \\
   \nabla^2 f &= \pderiv[2]{f}{r} + \frac{2}{r} \pderiv{f}{r} + \frac{1}{r^2 \sin \theta} \pderiv{}{\theta}\left(\pderiv{f}{\theta} \sin \theta\right) + \frac{1}{r^2 \sin^2 \theta} \pderiv[2]{f}{\phi}
