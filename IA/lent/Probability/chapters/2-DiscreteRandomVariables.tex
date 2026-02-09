@@ -163,6 +163,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
 \end{remark}
 \begin{example}[Indicator Functions]
   Let $A \in \salg$.
+  \label{indicatorFunction}
   Define the \textit{indicator} of $A$ as:
   \[
     1_A: \Omega \to \{0, 1\},\ 1_A(\omega) = \begin{cases}
@@ -218,6 +219,7 @@ Recall from \cref{independentEvents} that two events $A, B \in \salg$ are indepe
 \end{remark}
 \begin{definition}[Independent Discrete Random Variables]
   If $X_1, \ldots, X_n$ are discrete random variables with values in $S_1, \ldots, S_n$, then they are called \textit{independent random variables} if $\forall x_1 \in S_1, \ldots, x_n \in S_n$:
+  \label{independentDiscreteRV}
   \[
     \P(X_1 = x_1, \ldots, X_n = x_n) = \P(X_1 = x_1) \cdots \P(X_n = x_n)
   \]
@@ -231,6 +233,20 @@ If this is the case then:
                            &= \P(X_1 = x_1)\P(X_2 = x_2)
 \end{align*}
 for all $x_1 \in S_1$ and $x_2 \in S_2$.
+
+\begin{lemma}
+  If $X_1, X_2, X_3$ are independent discrete random variables, then $X_1$ is independent of $X_2$.
+\end{lemma}
+\begin{proof}
+  We can rewrite $\P(X_1 = x_1, X_2 = x_2)$ as a countable sum over the possible values for $X_3$:
+  \begin{align*}
+    \P(X_1 = x_1, X_2 = x_2) &= \sum_{x_3} \P(X_1 = x_1, X_2 = x_2, X_3 = x_3) \\
+                             &= \sum_{x_3} \P(X_1 = x_2)\P(X_2 = x_2)\P(X_3 = x_3) \\
+                             &= \P(X_1 = x_1)\P(X_2 = x_2) \sum_{x_3} \P(X_3 = x_3) \\
+                             &= \P(X_1 = x_1)\P(X_2 = x_2) \\
+  \end{align*}
+  Therefore, $X_1$ and $X_2$ are independent.
+\end{proof}
 \begin{example}
   \label{binomialAsBernSum}
   Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N},\ \salg = \powerset{\Omega}$.
@@ -323,6 +339,7 @@ This formula for expectation is used more often than the one in the definition.
   So the expected value of a random variable that is binomially distributed is the product of its parameters.
 \end{example}
 \begin{example}[Expectation of Poisson Distributed Variable]
+  \label{poissonExpectation}
   Suppose $X \sim \poisson(\lambda)$, $\lambda > 0$.
   This means that:
   \[
@@ -365,6 +382,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
 \end{definition}
 \subsubsection{Properties of Expectation}
 \begin{proposition}[Basic Properties of Expectation]
+\label{expectationProperties}
 \begin{enumerate}
   \item If $X \geq 0$, then $\E[X] \geq 0$
   \item If $X \geq 0$ and $\E[X] = 0$, then $\P(X = 0) = 1$.
@@ -454,6 +472,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
 \end{example}
 \begin{proposition}[Expectation of a function of a r.v.]
   Let $g: \R \to \R$ and consider the discrete random variable $g(X)$ defined by $g(X)(\omega) = g(X(\omega))$.
+  \label{expectationFunction}
   \[
     \E[g(X)] = \sum_{x \in \Omega_x} g(x) \cdot \P(X = x)
   \]
@@ -510,4 +529,286 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
   \]
   using $\E[1_A] = \P(A)$ from \cref{expOfIndicator} and similarly for the sum starting from 0.
 \end{proof}
+\subsection{Indicator Functions}
+We introduce the indicator in \cref{indicatorFunction} and found that $\E[1(A)] = \P(A)$ in \cref{expOfIndicator}.
+
+There are a few useful properties of the indicator function:
+\subsubsection{Properties of the Indicator}
+\begin{enumerate}
+  \item $1(A^{\comp}) = 1 - 1(A)$
+  \item $1(A \cap B) = 1(A)1(B)$
+  \item Since $(A \cup B)^{\comp} = A^{\comp} \cap B^{\comp}$:
+    \begin{align*}
+      1(A \cup B) &= 1 - 1((A^{\comp} \cap B^{\comp})) \\
+                  &= 1 - (1 - 1(A))(1 - 1(B)) \\
+                  &= 1(A) + 1(B) - 1(A)1(B)
+    \end{align*}
+\end{enumerate}
+We can also use indicator functions to provide an alternative proof for the Principle of Inclusion Exclusion (\cref{inclusionExclusion}):
+\subsubsection{Alternate proof for Inclusion Exclusion}
+\begin{proof}
+  We can extend property \textbf{iii} above to $n$ events $A_1, A_2, \ldots, A_n \in \salg$:
+  \begin{align*}
+    1(A_1 \cup \cdots \cup A_n) &= 1 - \prod_{i = 1}^{n} (1 - 1(A_i)) \\
+                                &= \sum_{i = 1}^{n} 1(A_i) - \sum_{i_1 < i_2} 1(A_{i_1} \cap A_{i_2}) + \cdots + (-1)^{n + 1}1(A_1 \cap \cdots \cap A_n) \\
+                                &= \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \ldots < i_k \leq n} 1(A_{i_1} \cap \cdots \cap A_{i_k})
+  \end{align*}
+  If we take expectations of both sides, we can split the expectation up using \cref{expectationProperties} and then use $\E[1(A)] = \P(A)$:
+  \[
+    \P(A_1 \cup \cdots \cup A_n) = \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \ldots < i_k \leq n} \P(A_{i_1} \cap \cdots \cap A_{i_k})
+  \]
+  which is the desired result:
+\end{proof}
+\subsection{Variance}
+\begin{definition}[$r$-th moment]
+  We call $\E[X^{r}]$ (provided it is well defined), the \textit{$r$-th moment of $X$}.
+\end{definition}
+\begin{remark}
+  Expectation is then the \textit{first moment of $X$}.
+\end{remark}
+\begin{definition}[Variance]
+  The \textit{variance} of $X$ is defined to be:
+  \[
+    \Var(X) = \E[(X - \E[X])^2]
+  \]
+\end{definition}
+\begin{remark}[Intuition]
+  The \textit{variance} is a measure of how well concentrated $X$ is around its expectation.
+  The smaller the variance, the more concentrated $X$ is around its expectation.
+\end{remark}
+\begin{definition}[Standard-Deviation]
+  The \textit{standard deviation} of $X$ is defined to be $\sqrt{\Var(X)}$.
+
+\end{definition}
+\begin{remark}[Notation]
+  Standard deviation is often denoted as $\sigma$ and so the variance is sometimes written as $\sigma^2$.
+\end{remark}
+\begin{proposition}[Properties of Variance]
+  \begin{enumerate}
+    \item $\Var(X) \geq 0$
+    \item If $\Var(X) = 0$, then $\P(X = \E[X]) = 1$.
+    \item If $c \in \R$, then $\Var(cX) = c^2 \Var(X)$ and $\Var(X + c) = \Var(X)$
+    \item $\Var(X) = \E[X^2] - (\E[X])^2$
+    \item $\Var(X) = \min\limits_{c \in \R} \E[(X - c)^2]$ and the minimum is attained when $c = \E[X]$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{enumerate}
+  \item $(X - \E[X])^2 \geq 0$ so by \cref{expectationProperties} \textbf{i}, $\Var(X) \geq 0$.
+  \item $(X - \E[X])^2 \geq 0$ so by \cref{expectationProperties} \textbf{ii}, $\Var(X) = \E[(X - \E[X])^2] = 0 \implies \P(X = \E[X]) = 1$.
+  \item
+    Using \cref{expectationProperties} \textbf{iii}, we have:
+    \begin{align*}
+      \Var(cX) &= \E[(cX - \E[cX])^2] \\
+               &= \E[c^2(X - \E[X])2] \\
+               &= c^2 \E[(X - \E[X])^2] = c^2 \Var(X)
+    \end{align*}
+    Similarly:
+    \begin{align*}
+      \Var(c + X) &= \E[((c + X) - \E[c + X])^2] \\
+                  &= \E[(c + X - c - \E[X])^2] \\
+                  &= \E[(X - \E[X])^2] = \Var(X)
+    \end{align*}
+  \item We can expand the expectation as:
+    \begin{align*}
+      \Var(X) &= \E[X^2 - 2X\E[X] + (\E[X])^2] \\
+              &= \E[X^2] - 2\E[X]\E[X] + (\E[X])^2 \\
+              &= \E[X^2] - (\E[X])^2
+    \end{align*}  %TODO note above positive
+  \item Define the function $f(c) = \E[(X - c)^2]$.
+    \begin{align*}
+      f(c) &= \E[X^2 - 2cX + c^2] \\
+           &= \E[X^2] - 2c\E[X] + c^2 \\
+      \implies \deriv{f}{c} &= -2\E[X] + 2c
+    \end{align*}
+    So $\min\limits_{c \in \R}f(c) = f(\E(X)) = \E[(X - \E[X])^2] = \Var(X)$.
+\end{enumerate}
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item For $X \sim \binomial(n, p)$.
+      We saw earlier in \cref{binomialExpectation} that $\E[X] = np$.
+      It is easier if we rewrite $\Var(X)$ as:
+      \begin{align*}
+        \Var(X) &= \E[X^2 - X + X] - (\E[X])^2 \\
+                &= \E[X(X - 1)] + \E[X] - (\E[X])^2
+      \end{align*}
+      Using \cref{expectationFunction}, we have:
+      \begin{align*}
+        \E[X(X-1)] &= \sum_{k = 2}^{n} k(k - 1) \frac{n!}{k!(n - k)!} p^{k}(1 - p)^{n - k} \\
+                   &= (n - 1)n\sum_{k = 2}^{n} \frac{(n - 2)!}{(k - 2)!((n - 2) - (k - 2))!} p^{k}(1 - p)^{n - k} \\
+                   &= (n - 1)np^2 \sum_{k = 2}^{n} \binom{n - 2}{k - 2}p^{k - 2}(1 - p)^{n - 2 - (k - 2)} \\
+                   &= (n - 1)np^2 \sum_{k = 0}^{n - 2} \binom{n - 2}{k}p^{k}(1 - p)^{n - 2 - k} \text{ re-indexing $k \mapsto k + 2$}\\
+                   &= (n - 1)np^2 (p + 1 - p)^{n - 2} \\
+                   &= (n - 1)np^2
+      \end{align*}
+      and so:
+      \[
+        \Var(X) = (n - 1)np^2 + np - (np)^2 = np(1- p)
+      \]
+    \item For $X \sim \poisson(\lambda)$.
+      We saw earlier \cref{poissonExpectation} that $\E[X] = \lambda$.
+      Using the same trick as above, we have:
+      \begin{align*}
+        \E[X(X - 1)] &= \sum_{k = 2}^{\infty} k(k - 1)e^{-\lambda} \frac{\lambda^{k}}{k!} \\
+                     &= e^{-\lambda} \lambda^2 \sum_{k = 2}^{\infty} \frac{\lambda^{k - 2}}{(k - 2)!} \\
+                     &= e^{-\lambda} \lambda^2 e^{\lambda} = \lambda^2
+      \end{align*}
+      and so:
+      \[
+        \Var(X) = \lambda^2 + \lambda - \lambda^2 = \lambda
+      \]
+  \end{enumerate}
+\end{example}
+\subsection{Covariance}
+\begin{definition}[Covariance]
+  For random variables $X$ and $Y$, we define their \textit{covariance} to be:
+  \[
+    \Cov(X, Y) = \E[(X - \E[X])(Y - \E[Y])]
+  \]
+\end{definition}
+\begin{remark}[Intuition]
+  The \textit{covariance} is a measure of ``how independent'' $X$ and $Y$ are.
+\end{remark}
+\begin{proposition}[Properties of Covariance]
+  \label{covarianceProperties}
+  \begin{enumerate}
+    \item $\Cov(X, Y) = \Cov(Y, X)$.
+    \item $\Cov(X, X) = \Var(X)$.
+    \item $\Cov(X, Y) = \E[XY] - \E[X]\E[Y]$
+    \item Let $c \in \R$, then $\Cov(cX, Y) = c\Cov(X, Y)$ and $\Cov(c + X, Y) = \Cov(X, Y)$
+    \item $\Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y)$
+    \item For random variables $X, Y, Z$:
+      \[
+        \Cov(X + Y, Z) = \Cov(X, Z) + \Cov(Y, Z)
+      \]
+    \item More generally, for $\forall c_1, \ldots, c_n, d_1, \ldots, d_n \in \R$ and random variables $X_1, \ldots, X_n, Y_1, \ldots, Y_n$:
+      \[
+        \Cov\left(\sum_{i = 1}^{n} c_iX_i, \sum_{i = 1}^{n} d_i Y_i\right) = \sum_{i, j = 1}^{n} c_id_j \Cov(X_i, Y_i)
+      \]
+    \item For random variables $X_1, \ldots, X_n$:
+      \[
+        \Var\left(\sum_{i = 1}^{n} X_i\right) = \sum_{i = 1}^{n} \Var(X_i) + \sum_{i \neq j} \Cov(X_i, X_j)
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item Follows immediately from the definition.
+    \item $\Cov(X, X) = \E[(X - \E[X])^2] = \Var(X)$.
+    \item We can expand the covariance as:
+      \begin{align*}
+        \Cov(X, Y) &= \E[XY - Y\E[X] - X\E[Y] + \E[X]\E[Y]] \\
+                   &= \E[XY] - \E[Y]\E[X] - \E[X]\E[Y] + \E[X]\E[Y] \\
+                   &= \E[XY] - \E[X]\E[Y]
+      \end{align*}
+    \item Using \textbf{iii} and \cref{expectationProperties}:
+      \[
+        \Cov(cX, Y) = \E[cXY] - \E[cX]\E[Y] = c(\E[XY] - \E[X]\E[Y]) = c\Cov(X, Y)
+      \]
+      Similarly:
+      \begin{align*}
+        \Cov(c + X, Y) &= \E[XY + cY] - (\E[X] + c)\E[Y] \\
+                       &= \E[XY] + c\E[Y] - \E[X]\E[Y] - c\E[Y] \\
+                       &= \E[XY] - \E[X]\E[Y] = \Cov(X, Y)
+      \end{align*}
+    \item We can expand the variance as:
+      \begin{align*}
+        \Var(X + Y) &= \E[((X + Y) - \E[X + Y])^2] \\
+                    &= \E[((X - \E[X]) + (Y - \E[Y]))^2] \\
+                    &= \E[(X - \E[X])^2] + 2\E[(X - \E[X])(Y - \E[Y])] + \E[(Y - \E[Y])^2] \\
+                    &= \Var(X) + 2\Cov(X, Y) + \Var(Y)
+      \end{align*}
+    \item We can expand this as:
+      \begin{align*}
+        \Cov(X + Y, Z) &= \E[(X + Y - \E[X + Y])(Z - \E[Z])] \\
+                       &= \E[((X - \E[X]) + (Y - \E[Y]))(Z - \E[Z])] \\
+                       &= \E[(X - \E[X])(Z - \E[Z])] + \E[(Y - \E[Y])(Z - \E[Z])] \\
+                       &= \Cov(X, Z) + \Cov(Y, Z)
+      \end{align*}
+    \item Follows from \textbf{iv} and induction using \textbf{vi}.
+    \item Using \textbf{ii} and \textbf{vii}:
+      \begin{align*}
+        \Var\left(\sum_{i = 1}^{n} X_i\right) &= \Cov\left(\sum_{i = 1}^{n} X_i, \sum_{i = 1}^{n} X_i\right) \\
+                                              &= \sum_{i, j = 1}^{n} \Cov(X_i, X_j) \\
+                                              &= \sum_{i = 1}^{n} \Cov(X_i, X_i) + \sum_{i \neq j}^{n} \Cov(X_i, X_j) \\
+                                              &= \sum_{i = 1}^{n} \Var(X_i) + \sum_{i \neq j}^{n} \Cov(X_i, X_j)
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+\begin{remark}[Recap]
+  Recall from \cref{independentDiscreteRV} that if $X_1, \ldots, X_n$ are discrete random variables, then they are called \textit{independent} if $\forall x_1, \ldots, x_n$:
+  \[
+    \P(X_1 = x_1, \ldots, X_n = x_n) = \prod_{i = 1}^{n} \P(X_i = x_i)
+  \]
+\end{remark}
+\begin{lemma}[Variance of Product]
+  Let $X$ and $Y$ be two independent random variables and let $f, g: \R \to \R^{+}$ then:
+  \[
+    \E[f(X)g(Y)] = \E[f(X)]\E[g(Y)]
+  \]
+\end{lemma}
+\begin{proof}
+  Let $Z = (X, Y)$ and define $h(Z) = f(X)g(Y)$.
+  Using \cref{expectationFunction}, we have:
+  \begin{align*}
+    \E(h(Z)) &= \sum_{(x, y)} h(x, y)\P(Z = (x, y)) \\
+             &= \sum_{(x, y)} f(X)g(Y)\P(X = x, Y = y) \\
+             &= \sum_{(x, y)} f(X)g(Y)\P(X = x)\P(Y = y) \text{ as $X \perp Y$}\\
+             &= \left[\sum_{x} f(X)\P(X = x)\right]\left[\sum_{y} g(Y)\P(Y = y)\right] \\
+             &= \E[f(X)]\E[g(Y)]
+  \end{align*}
+  Thus $\E[f(X)g(Y)] = \E[h(Z)] = \E[f(X)]\E[g(Y)]$.
+\end{proof}
+\begin{corollary}
+  If $X$ and $Y$ are independent, then $\Cov(X, Y) = 0$.
+\end{corollary}
+\begin{proof}
+  The covariance of $X$ and $Y$ is just the product of two functions of $X$ and $Y$ so:
+  \begin{align*}
+    \Cov(X, Y) &= \E[(X - \E[X])(Y - \E[Y])] \\
+               &= \E[X - \E[X]]\E[Y - \E[Y]] \\
+               &= (\E[X] - \E[X])(\E[Y] - \E[Y]) \\
+               &= 0
+  \end{align*}
+\end{proof}
+\begin{corollary}
+  If $X$ and $Y$ are independent random variables, then $\Var(X + Y) = \Var(X) + \Var(Y)$.
+\end{corollary}
+\begin{proof}
+  $X \perp Y$ so $\Cov(X, Y) = 0$.
+  Using \cref{covarianceProperties} \textbf{v}:
+  \[
+    \Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y) = \Var(X) + \Var(Y)
+  \]
+\end{proof}
+\begin{remark}
+  $\Cov(X, Y) = 0 \centernot \implies$ $X$ and $Y$ are independent.
+
+  For example, let $X_1, X_2, X_3$ be independent Bernoulli random variables with parameter $\frac{1}{2}$ and recall that $\E[X_i] = \frac{1}{2}$.
+
+  Set $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, $Z_1 = Y_1 X_3$, and $Z_2 = Y_2 X_3$.
+  We then have
+  \[
+    \E[Y_1] = \E[Y_2] = 2\left(\frac{1}{2}\right) - 1 = 0
+  \]
+  and
+  \[
+    \E[Z_1] = \E[Y_1 X_3] = \E[Y_1]\E[X_3] = 0
+  \]
+  so by the same argument $\E[Z_2] = 0$.
+
+  So $\Cov(Z_1, Z_2) = \E[Z_1Z_2] - \cancelto{0}{\E[Z_1]\E[Z_2]} = \E[Y_1 Y_2 X^2_3] = \E[Y_1]\E[Y_2]\E[X^2_3] = 0$.
+  Thus the covariance of $Z_1$ and $Z_2$ is 0.
+
+  However, $Z_1$ is not independent of $Z_2$ since:
+  \[
+    \P(Z_1 = 0, Z_2 = 0) = \P(X_3 = 0) = \frac{1}{2}
+  \]
+  but:
+  \[
+    \P(Z_1 = 0) = \P(Z_2 = 0) = \frac{1}{2} \implies \P(Z_1 = 0)\P(Z_2 = 0) = \frac{1}{4} \neq \frac{1}{2}
+  \]
+  so $Z_1$ and $Z_2$ are not independent, despite having 0 covariance.
+\end{remark}
 \end{document}

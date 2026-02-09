@@ -1,0 +1,104 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Line, Area, Surface, and Volume Integrals}
+\section{Line Integrals}
+\begin{definition}
+  Given a curve $C$ parameterised by $t \in [a, b]$, the \textit{line integral} of a vector field $\vec{F}$ along $C$ is:
+  \[
+    \int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{a}^{b} \vec{F}(\vec{x}(t)) \cdot \deriv{\vec{x}}{t} \d{t}
+  \]
+\end{definition}
+An alternative, but equivalent definition, is to split the curve up at points $\vec{x}_0, \ldots, \vec{x}_n$ on the curve in that order with $\vec{x}_0 = \vec{x}(a)$ and $\vec{x}_N = \vec{x}(b)$.
+We then let $\delta \vec{x}_n = \vec{x}_{n + 1} - \vec{x}_n$ for $n \in \{0, \ldots, N - 1\}$.
+Then we define the line integral as:
+\[
+  \int_{C} \vec{F} \cdot \d{\vec{x}} = \lim_{\Delta \to 0} \sum_{n = 0}^{N-1} \vec{F}(\vec{x}_n) \cdot \delta \vec{x}_n
+\]
+where $\Delta = \max\limits_{0 \leq n \leq N - 1}|\delta \vec{x}_n|$.
+Note that as $\Delta \to 0$, we must have $N \to \infty$ so that we still cover the whole curve.
+\begin{remark}
+  Less commonly, other types of line integral can also be used.
+  For example:
+  \[
+    \int_{C} f(\vec{x}) \d{s} = \int_{a}^{b} f(\vec{x}(t))\abs{\deriv{\vec{x}}{t}} \d{t}
+  \]
+  as $\deriv{s}{t} = \abs{\deriv{\vec{x}}{t}}$ from \cref{arcLength}.
+
+  Or:
+  \[
+    \int_{C} \vec{F} \times \d{\vec{x}} = \int_{a}^{b} \vec{F}(\vec{x}(t)) \times \deriv{\vec{x}}{t} \d{t}
+  \]
+\end{remark}
+\begin{remark}[Dynamics and Relativity]
+  We saw in Dynamics and Relativity that if $\vec{F}$ is a force being applied to a particle at $\vec{x}(t)$, then $\int_{C} \vec{F} \cdot \d{\vec{x}}$ is called the \textit{work done} by the force along $C$.
+\end{remark}
+\begin{definition}[Circulation]
+If $C$ is a closed curve, then the line integral around the whole curve is denoted:
+\[
+  \oint_C \vec{F} \cdot \d{\vec{x}}
+\]
+which is sometimes known as \textit{circulation} of $\vec{F}$ around $C$.
+\end{definition}
+\begin{remark}
+  It does not matter where we start a line integral over a closed loop, provided that we go all the way around.
+\end{remark}
+We can reverse line integrals using:
+\[
+  \int_{-C} \vec{F} \cdot \d{\vec{x}} = - \int_{C} \vec{F} \cdot \d{\vec{x}}
+\]
+and split them up using:
+\[
+  \int_{C_1 + C_2} \vec{F} \cdot \d{\vec{x}} = \int_{C_1} \vec{F} \cdot \d{\vec{x}} + \int_{C_2} \vec{F} \cdot \d{\vec{x}}
+\]
+\begin{example}[Examples of Line Integrals]
+  \begin{enumerate}
+    \item Integrate $\vec{F} = (y, -x, 0)$ on the straight line $C_1$ joining $(-1, 0, 0)$ and $(1, 0, 0)$.
+
+      We can parametrise the curve as $\vec{x} = (t, 0, 0)$ for $t \in [-1, 1]$.
+      Then:
+      \[
+        \vec{F}(\vec{x}(t)) = (0, -t, 0) \text{ and } \dot{\vec{x}} = (1, 0, 0)
+      \]
+      so
+      \[
+        \int_{C_1} \vec{F} \cdot \d{\vec{x}} = \int_{C_1} \vec{0} \cdot \d{\vec{x}} = 0
+      \]
+    \item Integrate $\vec{F} = (3x^2, 2y, 0)$ on $C_1$.
+
+      We have:
+      \[
+        \vec{F} \cdot \dot{\vec{x}} = (3t^2, 0, 0) \cdot (1, 0, 0) = (3t^2, 0, 0)
+      \]
+      so:
+      \[
+        \int_{C_1} \vec{F} \cdot \d{\vec{x}} = \int_{-1}^{1} 3t^2 \d{t} = \eval{x^3}{-1}{1} = 2
+      \]
+    \item Integrate $\vec{F} = (y, -x, 0)$ along the curve $C_2$ joining $(-1, 0, 0)$ to $(1, 0, 0)$ parameterised by $\vec{x} = (t - 1, t(t - 2), t(t^2 - 4))$ for $t \in [0, 2]$.
+
+      We have:
+      \[
+        \vec{F} = (t(t - 2), 1 - t, 0) \text{ and } \dot{\vec{x}} = (1, 2t - 2, 3t^2 - 4)
+      \]
+      so:
+      \[
+        \int_{C_2} \vec{F} \cdot \d{\vec{x}} = \int_{0}^{2} (t(t - 2) - 2(t - 1)^2) \d{t} = \eval{-\frac{1}{3}t^3 + t^2 - 2t}{0}{2} = -\frac{8}{3}
+      \]
+    \item Integrate $\vec{F} = (3x^2, 2y, 0)$ on $C_2$.
+
+      We have:
+      \begin{align*}
+        \vec{F} \cdot \dot{\vec{x}} &= (3(t - 1)^2, 2t(t - 2), 0) \cdot (1, 2t - 2, 3t^2 - 4) \\
+                                    &= 4t^3 - 9t^2 + 2t + 3
+      \end{align*}
+      so:
+      \[
+        \int_{C_2} \vec{F} \cdot \d{\vec{x}} = \int_{0}^{2} 4t^3 - 9t^2 + 2t + 3 \d{t} = \eval{t^4 - 3t^3 + t^2 + 3t}{0}{2} = 2
+      \]
+    \item What is the work done by a force field $\vec{F} = (y^2 e^{x}, e^{y} + 2ye^{x}, 0)$ moving a particle along $C_3$, which is the ellipse $x^2/a^2 + y^2/b^2 = 1$ in the $x$-$y$ plane starting at $(a, 0, 0)$ and going anticlockwise to $(0, b, 0)$.
+
+      We can parametrise this ellipse as $\vec{x}(\theta) = (a \cos \theta, b \sin \theta, 0)$ for $\theta \in [0, \frac{\pi}{2}]$.
+
+      Continued next lecture.
+  \end{enumerate}
+\end{example}
+\end{document}

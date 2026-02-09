@@ -25,6 +25,7 @@ This definition is motivated by the following:
                               &= \sqrt{\left(\frac{\delta x}{\delta t}\right)^2 + \left(\frac{\delta y}{\delta t}\right)^2 + \left(\frac{\delta z}{\delta t}\right)^2} \delta t \\
                               &= \abs{\frac{\delta \vec{x}}{\delta t}} \delta t
 \end{align*}
+\label{arcLength}
 So if we split the curve into lots of tiny straight lines between $\vec{x}(t)$ and $\vec{x}(t + \delta t)$, then they each have length $\delta s = |\delta \vec{x}/\delta t|\delta t$.
 So as $\delta t \to 0$:
 \[
@@ -216,4 +217,85 @@ We can then use $\vec{b} = \vec{t} \times \vec{n}$ to find $\vec{b}$ and then $\
     \kappa &= |\vec{t}'| = \frac{|\dot{\vec{t}}|}{|\dot{\vec{x}}|} = \frac{1}{\sqrt{2}(1 + t^2)^{3/2}}
   \end{align*}
 \end{example}
+\section{Surfaces, Surface Elements and Normals}
+\subsection{Surfaces}
+\begin{definition}[Surface]
+  For the purposes of this course, a \textit{surface} is a map from a subset $\mathcal{U}$ of $\R^2$ to $\R^3$, that is, a map $\vec{x}(u, v)$ for $(u, v) \in \mathcal{U} \subseteq \R^2$.
+\end{definition}
+As with curves, when we refer to a surface, we mean the image of the map rather than the map itself.
+We call $u, v$ the \textit{parameterisation} of the surface, and for any particular surface, this parameterisation is not unique.
+\begin{example}
+  The surface $H_R = \{\vec{x}: |\vec{x}| = R, z < 0\}$ is a hemispherical shell below the $x$-$y$ plane.
+
+  We can parameterise this using spherical polar coordinates from \cref{sphericalPolar} with $(\theta, \phi)$ and fix $r = R$ so that:
+  \[
+    \vec{x}(\theta, \phi) = \begin{pmatrix}
+    R\sin\theta\cos\phi \\
+    R\sin\theta\sin\phi \\
+    R\cos\theta \\
+    \end{pmatrix}
+  \]
+  for $\theta \in (\frac{\pi}{2}, \pi], \phi \in [0, 2\pi)$ so that we only get the lower half of the sphere's surface.
+\end{example}
+\subsection{Surface Elements}
+\label{surfaceElements}
+We can map constant lines of $u$ and $v$, which are straight in $\R^2$, onto the surface and they do not necessarily have to remain straight on the surface.
+Given a surface $S$, we can then divide it up into small regions lying between curves of constant $u$ and curves of constant $v$.
+It would be useful to know what the area of such regions are.
+\begin{lemma}
+  Given a parallelogram with two sides $\vec{a}$ and $\vec{b}$, its area is $|\vec{a} \times \vec{b}|$.
+  \label{areaParallelogram}
+\end{lemma}
+\begin{proof}
+  The area is given by $||\vec{a}||\vec{b}|\sin\theta|$.
+\end{proof}
+Consider two particular curves with constant $u$ and constant $v$ meeting at $\vec{x}(u, v)$ and the nearby curves of values $u + \delta u$ and $v + \delta v$ respectively.
+The part of $S$ bounded by these curves forms, to a lowest order approximation, a small planar parallelogram with one side given by the vector:
+\[
+  \vec{x}(u + \delta u, v) - \vec{x}(u, v) = \pderiv{\vec{x}}{u} \delta + O(\delta u^2) \text{ using Taylor's Theorem}
+\]
+and the other side being given by:
+\[
+  \vec{x}(u, v + \delta v) - \vec{x}(u, v) = \pderiv{\vec{x}}{v} \delta v + O(\delta v^2)
+\]
+As $\delta u$ and $\delta v$ get very small, this approaches an exact parallelogram so by \cref{areaParallelogram}, the area of the region for infinitesimal $\d{u}$, $\d{v}$ is:
+\[
+  \d{S} = \abs{\pderiv{\vec{x}}{u} \times \pderiv{\vec{x}}{v}}\d{u}\d{v}
+\]
+This infinitesimal region $\d{S}$ is called a \textit{surface element}.
+
+Furthermore, the normal to the surface at $\vec{x}$ is parallel to $\pderiv{\vec{x}}{u} \times \pderiv{\vec{x}}{v}$ as it has to be orthogonal to both $\pderiv{\vec{x}}{u}$ and $\pderiv{\vec{x}}{v}$.
+\section{Volumes and Volume Elements}
+\subsection{Volumes}
+\begin{definition}[Volume]
+  For the purposes of this course, a \textit{volume} is a parameterised region of $\R^3$, that is, a map $\vec{x}(u, v, w)$ from a subset of $\R^3$ to $\R^3$.
+\end{definition}
+\begin{example}
+  We can parameterise the sphere $V_R = \{\vec{x}: |\vec{x}| \leq R\}$ using spherical polar coordinates $r, \theta, \phi$:
+  \[
+    \vec{x}(\theta, \phi, r) = \begin{pmatrix}
+    r\sin\theta\cos\phi \\
+    r\sin\theta\sin\phi \\
+    r\cos\theta \\
+    \end{pmatrix}
+  \]
+  where $r \in [0, R], \theta \in [0, \pi]$, and $\phi \in [0, 2\pi)$.
+\end{example}
+\subsection{Volume Elements}
+Similarly to with surface elements (\cref{surfaceElements}), we can divide a volume $V$ into small regions lying between \textbf{surfaces} of constant $u$, constant $v$, and constant $w$.
+When we traverse along the side of a parallelepiped, two of the parameters stay constant whilst the other changes so these regions are, to a lowest order approximation, parallelepipeds with sides:
+\[
+  \pderiv{\vec{x}}{u}\delta u,\ \pderiv{\vec{x}}{v}\delta v,\ \pderiv{\vec{x}}{w}\delta w
+\]
+\begin{lemma}
+  Given a parallelepiped with sides $\vec{a}, \vec{b}, \vec{c}$, its volume is $|\vec{a} \cdot (\vec{b} \times \vec{c})|$.
+\end{lemma}
+\begin{proof}
+  See IA Vectors and Matrices.
+\end{proof}
+Therefore, for infinitesimal $\d{u}, \d{v}, \d{w}$, the volume of such a region is exactly the area of the parallelepiped so:
+\[
+  \d{V} = \abs{\pderiv{\vec{x}}{u} \cdot \left(\pderiv{\vec{x}}{v} \times \pderiv{\vec{x}}{w}\right)} \d{u}\d{v}\d{w}
+\]
+The infinitesimal volume $\d{V}$ is called a \textit{volume element}.
 \end{document}
