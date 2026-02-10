@@ -1,0 +1,29 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Systems of Particles}
+\section{General Systems of Particles}
+Suppose we have $N$ particles indexed by $i = 1, \ldots, N$ with momenta $\vec{p}_i = m_i x_i$ and all obeying Newton's law individually, that is, for each particle:
+\[
+  \dot{\vec{p}}_i = \vec{F}_i
+\]
+The force $F_i$ on the $i$-th particle can be \textbf{external} or \textbf{due to the other particles}:
+\[
+  \vec{F}_i = \vec{F}^{\text{ext}}_i + \sum_{j \neq i} \vec{F}_{ij}
+\]
+where $\vec{F}^{\text{ext}}_i$ is the external force on the $i$-th particle and $\vec{F}_{ij}$ is the force on the $i$-th particle due to the $j$-th particle.
+
+\begin{law}[Newton's 3rd Law]
+  The forces between particles are found to obey:
+  \[
+    \vec{F}_{ij} = - \vec{F}_{ji}
+  \]
+  This is often stated as:
+  \[
+    \text{``Every action has an equal an opposite reaction''}
+  \]
+\end{law}
+\begin{remark}
+  An example of Newton's 3rd law can be seen in \cref{gravity}.
+  If we swap the roles of the two particles around, all that changes is the direction with which the force acts in.
+\end{remark}
+\end{document}

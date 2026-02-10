@@ -53,6 +53,7 @@ We define the \textit{torque} to be $\vec{G} \equiv \vec{x} \times \vec{F}$.
 \begin{remark}
   $\deriv{\vec{L}}{t} = \vec{G}$ is analogous to Newton's 2nd Law (\cref{newton2}), but for angular momentum.
 \end{remark}
+\label{angularConserved}
 For a central force, $\vec{F} \parallel \vec{x} \implies \vec{x} \times \vec{F} = \vec{0} \implies \deriv{\vec{L}}{t} = 0$ and thus angular momentum is conserved by central forces.
 
 Because $\vec{L}$ is a constant vector and obeys $\vec{L} \cdot \vec{x} = 0$ and $\vec{L} \cdot \dot{\vec{x}} = 0$, both the position and velocity are contained to a plane perpendicular to $\vec{L}$ and so 3D dynamics reduce to 2D dynamics on a plane.
@@ -345,6 +346,7 @@ There are then four cases, corresponding to those in \cref{potentialOrbitMotions
 \subsubsection{Circular Orbit -- $e = 0$}
 As $e = 0$, \cref{keplerProblem} reduces to $r = r_0$, which describes a circle.
 \subsubsection{Elliptical Orbit -- $0 < e < 1$}
+\label{rMinMax}
 We can see that this is bounded as $\frac{1}{1 + e} \leq \frac{r}{r_0} \leq \frac{1}{1-e}$ and $0 < e < 1$.
 To convert back to Cartesian coordinates, we rearrange and then square both sides, regrouping terms:
 \begin{align*}
@@ -353,10 +355,10 @@ To convert back to Cartesian coordinates, we rearrange and then square both side
   (r_0 - ex)^2 &= x^2 + y^2 \\
   x^2(1 - e^2) + y^2 + 2r_0 ex &= r^2_0 \\
   \left(x - \frac{r_0 e}{e^2 - 1}\right)^2 + \frac{y^2}{1 - e^2} &= \frac{r^2_0}{(1 - e^2)^2} \\
-  \frac{(x - x_c)^2}{\frac{r^2_0}{(1 - e^2)^2}} + \frac{y^2}{\frac{r^2_0}{(1 - e^2)^3}} &= 1
+  \frac{(x - x_c)^2}{\frac{r^2_0}{(1 - e^2)^2}} + \frac{y^2}{\frac{r^2_0}{(1 - e^2)}} &= 1
 \end{align*}
 Where $x_c = \frac{r_0 e}{e - 1}$.
-As $0 < e < 1 \implies 1 - e^2 > 0$ so we can define $a^2 = \frac{r^2_0}{(1 - e^2)^2}$ and $b^2 = \frac{r^2_0}{(1 - e^2)^3}$ so that the equation becomes:
+As $0 < e < 1 \implies 1 - e^2 > 0$ so we can define $a^2 = \frac{r^2_0}{(1 - e^2)^2}$ and $b^2 = \frac{r^2_0}{(1 - e^2)}$ so that the equation becomes:
 \[
   \frac{(x - x_c)^2}{a^2} + \frac{y^2}{b^2} = 1
 \]
@@ -434,6 +436,7 @@ which is a hyperbola.
 \end{center}
 
 \subsection{Energy of Solutions}
+\label{keplerEnergy}
 There are many results relating to conic sections, which can all be derived using formulae above (see Example Sheet 2).
 Using the solved form is not always the best way to derive a result, using the conservation of energy often leads to a more elegant solution.
 
@@ -485,6 +488,164 @@ A consequence of the above are \textit{Kepler's laws of planetary motion}.
   This only used the conservation of angular momentum and so holds for \textbf{any} central force.
 \end{remark}
 \begin{law}[Kepler's 3rd Law]
-  Covered next lecture.
+  The period of the orbit is proportional to $\text{radius}^{3/2}$.
 \end{law}
+It is natural for us to use dimensional analysis for this as we just need to show that it is proportional, not find any coefficients.
+\begin{proof}[Dimensional Analysis]
+  The only parameter in Newton's equation is $k = GM$ as the mass $m$ cancels on both sides.
+  Therefore we can write $T = cR^{A}k^{B}$ for some coefficient $c$.
+  $\frac{km}{r^2}$ is a force so we can find the units of $k$ as:
+  \[
+    \frac{[k]M}{L^2} = [F] = MLT^{-2} \implies [k] = L^3T^{-2}
+  \]
+  We can then equate units for $T$:
+  \begin{align*}
+    T = [T] &= [R]^{A}[k]^{B} \\
+            &= L^{A}L^{3B}T^{-2B}
+  \end{align*}
+  Solving, we have $B = -\frac{1}{2}$ and $A = \frac{3}{2}$, so:
+  \[
+    T = c \frac{R^{\frac{3}{2}}}{k^{\frac{1}{2}}} \implies T \propto R^{\frac{3}{2}}
+  \]
+  as required.
+\end{proof}
+\begin{remark}[Notes]
+  \begin{itemize}
+    \item There is no unique radius associated to an ellipse but since we just require proportionality, any radius of the ellipse works.
+    \item Kepler's 3rd law requires an inverse square force and so does not work with every central force.
+  \end{itemize}
+\end{remark}
+We can also find the coefficient, provided that we exactly specify which radius we are using.
+\begin{proof}
+  Starting from Kepler's 2nd Law:
+  \[
+    \dot{A} = \frac{\ell}{2}
+  \]
+  A full period is therefore the area of the ellipse:
+  \[
+    T = \int_{0}^{T}  \d{t} = \int_{0}^{A_e} \frac{2}{\ell} \d{A} = \frac{2}{\ell}A_e
+  \]
+  where $A_e$ is the area of the ellipse.
+
+  Recall from \cref{rMinMax} that for an elliptical orbit, $a^2 = \frac{r^2_0}{(1 - e^2)^2}$ and $b^2 = \frac{r^2_0}{(1 - e^2)}$.
+  The area of an ellipse is $\pi ab$ so:
+  \[
+    A_e = \pi ab = \pi\frac{r^2_0}{(1 - e^2)^{3/2}}
+  \]
+  We defined $r_0 = \ell^2/k  \implies \ell = \sqrt{GMr_0}$ so:
+  \[
+    T = \frac{2}{\ell}A_e = \frac{2\pi}{\sqrt{GM}}\left[\frac{r_0}{(1 - e^2)}\right]^{\frac{3}{2}} = \frac{2\pi}{\sqrt{GM}}R^{\frac{3}{2}}_{\text{av}}
+  \]
+  where $R_{\text{av}}$ is the average radius as:
+  \begin{align*}
+    R_{\text{av}} &= \frac{r_0}{(1 - e^2)} \\
+                  &= \frac{1}{2}\left(\frac{r_0}{1 + e} + \frac{r_0}{1 - e}\right) \\
+                  &= \frac{1}{2}(r_{\text{min}} + r_{\text{max}})
+  \end{align*}
+  where $r_{\text{min}}$ and $r_{\text{max}}$ are from \cref{rMinMax}.
+\end{proof}
+\section{Repulsive Potentials and Scattering}
+\subsection{Impact Parameter}
+Given a central potential $V(r)$ such that $V \to 0$ as $r \to \infty$, one can perform \textit{scattering experiments}.
+This is when we shoot in a particle from a large $r$ and see how it flies out again.
+One important concept for this is the \textit{impact parameter}.
+\begin{definition}[Impact Paramter]
+  The \textit{impact parameter} $b$ is defined to be the closet the particle would have come to the target in the absence of any forces.
+\end{definition}
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.2]
+  \node[left] at (4.5, 1.2) {\tiny Interacting Trajectory};
+  \draw[dashed, ->] (-4, 0) -- (4, 0) node[above left] {\tiny Non-interacting Trajectory};
+  \fill (0, -0.7) circle (1.5pt) node[below] {Target};
+  \draw (0, 0) -- (0, -0.7) node[midway, right] {$b$};
+  \draw[very thick, postaction={decorate}, decoration={
+          markings,
+          mark=at position 0.2 with {\arrow{>}},
+          mark=at position 0.4 with {\arrow{>}},
+          mark=at position 0.6 with {\arrow{>}},
+          mark=at position 0.8 with {\arrow{>}},
+        }] plot [smooth, tension=0.5] coordinates { (-4, 0) (-3, 0) (-2, 0.1) (0, 0.6) (2, 1.3) };
+\end{tikzpicture}
+\end{center}
+The impact parameter is related to the angular momentum $\ell$ by:
+\[
+  \ell = bv
+\]
+Consider first the non-interacting particle.
+At the point closest, the velocity of the particle, $\dot{\vec{x}}$, and the position vector between the particle and the target (as the target it the origin), $\vec{x}$, are orthogonal so the angular momentum is $\ell = |\vec{x} \cdot \dot{\vec{x}}| = |\vec{x}| |\dot{\vec{x}}| = bv$.
+The non-interacting particle has a conserved angular momentum and constant velocity so at all points $\ell = bv$.
+So if we go very far back in the non-interacting particle's path, $\ell = bv$ still holds.
+
+Now thinking about the interacting particle, the initial angular momentum $\ell$ is the same for the interacting and non-interacting particles because they both start far away from the target with the same velocity.
+The interacting case also has a conserved angular momentum (as it only experiences a central force, see \cref{angularConserved}) and so always has $\ell = bv$.
+\subsection{Rutherford Scattering}
+Rutherford showed that certain scattering experiments of atoms could be explained if all the positive charge of the atom was contained in the nucleus.
+
+Scattering by a \textbf{repulsive interaction} for two positively charged particles has the potential:
+\[
+  V(r) = \frac{\kappa}{r} \text{ where } \kappa = \frac{qQ}{4\pi\varepsilon_0}
+\]
+This is the potential for the Coulomb force from \cref{electricForces}.
+
+We can reuse the results from the Kepler problem by mapping $-km \mapsto \kappa$.
+In the Kepler problem, $r_0 = \frac{\ell^2}{k} \mapsto \widetilde{r}_0 = -\frac{\ell^2m}{\kappa}$ so:
+\[
+  r = \frac{\widetilde{r}_0}{\widetilde{e} \cos \theta - 1}
+\]
+where $\widetilde{r}_0 = \frac{\ell^2 m}{\kappa}$ and $\widetilde{e} = -e$.
+
+We wish to find the angle $\phi$ through which the particle is scattered, as seen below:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.3]
+  \draw[dotted] (-4, 0) -- (4, 0) node[right] {$\theta = 0$};
+
+  \fill (-1, 0) circle (1.5pt) node[above left] {\small Target};
+  \begin{scope}
+    \clip (-4, -3) rectangle (4, 3);
+    \draw[very thick, domain=-1.4:1.4, smooth, variable=\t, postaction={decorate}, decoration={
+          markings,
+          mark=at position 0.4 with {\arrow{<}},
+          mark=at position 0.6 with {\arrow{<}},
+        }] plot ({sec(\t r)},{tan(\t r)});
+  \end{scope}
+
+  \draw (-0.354, -0.354) arc [start angle=-135,end angle=-45,radius=0.5] node[midway, below] {$\phi$};
+  \draw (-0.354, 0.354) arc [start angle=135,end angle=45,radius=0.5] node[midway, above] {$\phi$};
+  \draw (0.4, 0) arc [start angle=0,end angle=45,radius=0.4] node[midway, right] {$\alpha$};
+  \draw (0.4, 0) arc [start angle=0,end angle=-45,radius=0.4] node[midway, right] {$\alpha$};
+
+  \draw (-1, 0) -- (-0.5, -0.5) node[midway, below left] {$b$};
+  \draw (-1, 0) -- (-0.5, 0.5) node[midway, above left] {$b$};
+
+  \node at (0, -1.2) {\tiny Scattering Angle};
+
+  \draw[dashed] (-3, -3) -- (3, 3);
+  \draw[dashed] (-3, 3) -- (3, -3);
+\end{tikzpicture}
+\end{center}
+Energy is conserved so the incoming velocity has the same magnitude as the outgoing velocity.
+Since angular momentum is also conserved, the impact parameters for a particle from the incoming direction and for a particle from the outgoing direction.
+This gives rise to the symmetry in the diagram above.
+
+Using this symmetry, we have that $\pi = \phi + 2\alpha$.
+Furthermore, since $\alpha$ is the angle with which $r \to \infty$, $\alpha$ satisfies $\widetilde{e}\cos \alpha = 1$ so that the denominator vanishes.
+
+The initial and final energies of the particle are $E = \frac{1}{2}mv^2$ since $V \to 0$ as $r \to \infty$.
+Then, using conservation of energy and the energy of solutions to the Kepler problem found in \cref{keplerEnergy}, we have:
+\begin{align*}
+  E = \frac{1}{2}mv^2 &= \frac{\kappa^2}{2\ell^2 m}(\widetilde{e}^2 - 1) \\
+                      &= \frac{\kappa^2}{2mb^2v^2}(\sec^2\alpha - 1) \\
+                      &= \frac{\kappa^2}{2mb^2v^2}\tan^2\alpha
+\end{align*}
+We can rewrite $\tan \alpha = \tan(\frac{\pi - \phi}{2}) = \frac{\sin(\pi/2 - \phi/2)}{\cos(\pi/2 - \phi/2)} = \frac{1}{\tan(\phi/2)}$ so:
+\[
+  E = \frac{1}{2}mv^2 = \frac{\kappa^2}{2mb^2v^2}\frac{1}{\tan^2(\phi/2)}
+\]
+Rearranging for $\phi$, we have:
+\begin{align*}
+  \tan^2(\phi/2) &= \frac{\kappa^2}{m^2b^2v^4} \\
+  \implies \phi &= 2 \arctan\left(\frac{\kappa}{bmv^2}\right)
+\end{align*}
+For paths where the non-interacting trajectory would pass very close to the target, the impact parameter is very small and so we get large scattering angles.
+This allows us to use scattering to find subatomic distances by measuring relatively large $\phi$ and then finding $b$.
 \end{document}
