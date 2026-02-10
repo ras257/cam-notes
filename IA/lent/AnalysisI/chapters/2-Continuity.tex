@@ -31,6 +31,7 @@ We want to define what we mean by $f(z) \to y$ as $z \to a$, even if $a \notin X
     \end{cases}
   \]
 \end{example}
+\subsection{Accumulation Points}
 \begin{definition}[Accumulation Point]
   We say $a \in \C$ is a \textit{accumulation point} for $X \subseteq \C$ if for any threshold $\delta > 0$, $\exists z \in X \setminus \{a\}$ such that $|z - a| < \delta$.
 
@@ -73,6 +74,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   That is, $\{z \in X: |f(z) - y| < \varepsilon\}$ must be non-empty.
 \item We also want it to contain all the points in the domain of $f$ which are sufficiently close $a$, i.e. $\delta = \delta(\varepsilon)$ close to $a$.
 \end{itemize}
+\subsection{Limit Definition}
 \begin{definition}[Limit of a function]
   Let $f: X \subseteq \C \to \C$ and let $a \in X$ or let $a \in \C \setminus X$ such that $a$ is an accumulation point of $X$.
 
@@ -121,6 +123,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   \]
   Choosing $\delta = \sqrt{2\varepsilon}$ satisfies this so $f(x) \to 1$ as $x \to 0$.
 \end{example}
+\subsection{Limit Properties}
 \begin{lemma}
   Let $f: X \subseteq \C \to \C$ and $a \in \C$ be either in $X$ or an accumulation point of $X$.
   \begin{enumerate}
@@ -215,6 +218,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   The strategies used here are similar to those used when proving \cref{limitLaws} and \cref{reciprocalConvergence}, however, instead of bounding the whole sequence, we just introduce a new threshold $\delta$ such that if $|z - a| < \delta$, then $|f(z)|$ is bounded by some constant.
 \end{remark}
 \section{Continuity of Functions}
+\subsection{Continuity Definition}
 What does it mean for a function to be continuous at a point $a$?
 \begin{definition}[Continuity]
   Let $f: X \subseteq \C \to \C$ and $a \in X$.
@@ -259,6 +263,7 @@ What does it mean for a function to be continuous at a point $a$?
       and so $f$ is continuous at every $a \in \R$.
   \end{enumerate}
 \end{example}
+\subsection{Sequential Continuity}
 There is also another notion of continuity using sequences.
 \begin{definition}[Sequential Continuity]
   Let $f: X \subseteq \C \to \C$ and $a \in X$.
@@ -325,6 +330,7 @@ There is also another notion of continuity using sequences.
       This can also be shown using the non sequential definition of continuity, again utilising that both irrational and rational numbers are dense in the reals.
   \end{enumerate}
 \end{example}
+\subsection{Continuity Properties}
 \begin{lemma}[Continuity Laws]
   If $f, g: X \subseteq \C \to \C$ are continuous at $a \in X$, then so are:
   \begin{enumerate}
