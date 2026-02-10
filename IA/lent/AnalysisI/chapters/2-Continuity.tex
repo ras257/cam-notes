@@ -49,6 +49,7 @@ We want to define what we mean by $f(z) \to y$ as $z \to a$, even if $a \notin X
 \begin{lemma}
   Let $X \subseteq \C$ and $a \in \C$.
   $a$ is an accumulation point for $X$ if and only if there exists a sequence $(x_n)$ in $X \setminus \{a\}$ s.t. $\lim_{n \to \infty} x_n = a$.
+  \label{accumulationSequence}
 \end{lemma}
 \begin{proof}
   \begin{proofdirection}{Assume $a$ is an accumulation point}
@@ -123,8 +124,8 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 \begin{lemma}
   Let $f: X \subseteq \C \to \C$ and $a \in \C$ be either in $X$ or an accumulation point of $X$.
   \begin{enumerate}
-    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$.
-    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$.
+    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$ for a non-constant $z_n$
+    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$ for a non-constant $z_n$
   \end{enumerate}
 \end{lemma}
 \begin{proof}[\textbf{i}]
@@ -165,6 +166,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 \begin{lemma}[Limit Laws]
   Let $f, g: X \subseteq \C \to \C$ and $a \in \C$ either in $X$ or an accumulation point.
   Suppose $\lim_{z \to a} f(z) = y$ and $\lim_{z \to a} g(z) = x$ then:
+  \label{limitLaws}
   \begin{enumerate}
     \item $\lim_{z \to a} (f(z) + g(z)) = y + x$
     \item $\lim_{z \to a} (f(z)g(z)) = yx$
@@ -178,37 +180,36 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
     \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
     \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - x| < \varepsilon
   \end{align*}
-  \textbf{(i)} $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$ we have:
-  \[
-    |f(z) + g(z) - (y + x)| \leq |f(z) - y| + |g(z) - x| < 2\varepsilon
-  \]
-  which is a constant multiple of $\varepsilon$, so as $\varepsilon$ is arbitrary, $\lim_{z \to a} (f(z) + g(z)) = y + x$.
-
-  \textbf{(ii)} We can also pick $\varepsilon = 1$ so that:
-  \[
-    \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - y| < \varepsilon \implies |f(z)| < 1 + |y|
-  \]
-  Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
-  \begin{align*}
-    |f(z)g(z) - yx| &= |f(z)g(z) - f(z)x + f(z)x - yx| \\
-                    &\leq |f(z)||g(z) - x| + |x||f(z) - y| \\
-                    &< (1 + |y|)\varepsilon + |x|\varepsilon \\
-                    &= \varepsilon(1 + |y| + |x|)
-  \end{align*}
-  which is a constant multiple of $\varepsilon$, so $\lim_{z \to a} f(z)g(z) = yx$.
-
-  \textbf{(iii)} To show this, we can show that $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and then use \textbf{(ii)}.
-
-  We can pick $\varepsilon = \abs{\frac{x}{2}} > 0$ so that:
-  \[
-    \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |g(z) - x| < \abs{\frac{x}{2}} \implies |g(z)| > \abs{\frac{x}{2}} > 0
-  \]
-  Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
-  \begin{align*}
-    \abs{\frac{1}{g(z)} - \frac{1}{x}} &= \frac{1}{|x||g(z)|}|g(z) - x| \\
-                                   &< \frac{\varepsilon}{|x||\frac{x}{2}|}
-  \end{align*}
-  Therefore, $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and so the result follows using \textbf{(ii)}.
+  \begin{enumerate}
+    \item $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$ we have:
+      \[
+        |f(z) + g(z) - (y + x)| \leq |f(z) - y| + |g(z) - x| < 2\varepsilon
+      \]
+      which is a constant multiple of $\varepsilon$, so as $\varepsilon$ is arbitrary, $\lim_{z \to a} (f(z) + g(z)) = y + x$.
+    \item We can also pick $\varepsilon = 1$ so that:
+      \[
+        \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - y| < \varepsilon \implies |f(z)| < 1 + |y|
+      \]
+      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      \begin{align*}
+        |f(z)g(z) - yx| &= |f(z)g(z) - f(z)x + f(z)x - yx| \\
+                        &\leq |f(z)||g(z) - x| + |x||f(z) - y| \\
+                        &< (1 + |y|)\varepsilon + |x|\varepsilon \\
+                        &= \varepsilon(1 + |y| + |x|)
+      \end{align*}
+      which is a constant multiple of $\varepsilon$, so $\lim_{z \to a} f(z)g(z) = yx$.
+    \item To show this, we can show that $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and then use \textbf{(ii)}.
+      We can pick $\varepsilon = \abs{\frac{x}{2}} > 0$ so that:
+      \[
+        \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |g(z) - x| < \abs{\frac{x}{2}} \implies |g(z)| > \abs{\frac{x}{2}} > 0
+      \]
+      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      \begin{align*}
+        \abs{\frac{1}{g(z)} - \frac{1}{x}} &= \frac{1}{|x||g(z)|}|g(z) - x| \\
+                                       &< \frac{\varepsilon}{|x||\frac{x}{2}|}
+      \end{align*}
+      Therefore, $\lim_{z \to a} \frac{1}{g(z)} = \frac{1}{x}$ and so the result follows using \textbf{(ii)}.
+      \end{enumerate}
 \end{proof}
 \begin{remark}
   The strategies used here are similar to those used when proving \cref{limitLaws} and \cref{reciprocalConvergence}, however, instead of bounding the whole sequence, we just introduce a new threshold $\delta$ such that if $|z - a| < \delta$, then $|f(z)|$ is bounded by some constant.
@@ -217,17 +218,79 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 What does it mean for a function to be continuous at a point $a$?
 \begin{definition}[Continuity]
   Let $f: X \subseteq \C \to \C$ and $a \in X$.
-  We say that $f$ is \textit{continuous} at $a$ if $\lim_{z \to a} f(z) = f(a)$
-
+  We say that $f$ is \textit{continuous} at $a$ if:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) \text{ s.t. } |z - a| < \delta \text{ for } z \in X \implies |f(z) - f(a)| < \varepsilon
+  \]
   We say that $f$ is \textit{continuous on $X$} if it is continuous at every point $a \in X$.
 \end{definition}
 \begin{remark}
-  Tautologically, if $a \in X$ is an isolated point, then $f$ is continuous at $a$.
+  For any $a \in X$, either:
+  \begin{itemize}
+    \item $a$ is an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
+    \item $a$ is an accumulation point, then $f$ is continuous if and only if $\lim\limits_{z \to a} f(z) = f(a)$.
+  \end{itemize}
 \end{remark}
 \begin{example}
-  \begin{itemize}
-    \item The function $f(z) = z$, the identity function, is continuous.
-    \item The function defined by:
+  \begin{enumerate}
+    \item The function $f(z) = z$, the identity function, is continuous at any $a \in \C$ as $\forall \varepsilon > 0$:
+      \[
+        |z - a| < \delta(\varepsilon) \implies |f(z) - f(a)| = |z - a| < \varepsilon
+      \]
+      by picking $\delta(\varepsilon) = \varepsilon$.
+    \item The function $f(z) = |z|$ is continuous  at any $a \in \C$ as $\forall \varepsilon > 0$:
+      \[
+        |z - a| < \delta(\varepsilon) \implies |f(z) - f(a)| = ||z| - |a|| \leq |z - a| < \varepsilon
+      \]
+      by picking $\delta(\varepsilon) = \varepsilon$.
+    \item The function $f(x) = \sin x$ is continuous as a real function.
+
+      Fix some arbitrary $a \in \R$, then for any $x \in \R$:
+      \begin{align*}
+        |f(x) - f(a)| &= |\sin x - \sin a| \\
+                      &= 2 \abs{\cos\left(\frac{x+a}{2}\right)\sin\left(\frac{x - a}{2}\right)} \\
+                      &\leq 2 \abs{\sin\left(\frac{x - a}{2}\right)} \\
+                      &\leq |x - a| \text{ as $\sin x \leq |x|\ \forall x \in \R$}
+      \end{align*}
+      Again, picking $\delta(\varepsilon) = \varepsilon$, we have $\forall \varepsilon > 0$:
+      \[
+        |x - a| < \delta \implies |f(x) - f(a)| \leq |x - a| < \delta = \varepsilon
+      \]
+      and so $f$ is continuous at every $a \in \R$.
+  \end{enumerate}
+\end{example}
+There is also another notion of continuity using sequences.
+\begin{definition}[Sequential Continuity]
+  Let $f: X \subseteq \C \to \C$ and $a \in X$.
+  We say that $f$ is sequentially continuous at $a$ if $f(z_n) \to f(a)$ for every sequence $(z_n)$ on $X$ with $z_n \to a$.
+\end{definition}
+\begin{proposition}[Equivalence of Sequential and Standard Continuity]
+  Let $f: X \subseteq \C \to \C$.
+  $f$ is continuous at $a \in X$ if and only if it is sequentially continuous at $a$.
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is continuous}
+    By continuity of $f$, $\forall \varepsilon > 0,\ \exists \delta = \delta(\varepsilon) \text{ s.t. } |z - a| < \delta \implies |f(z) - f(a)| < \varepsilon$.
+
+    Take any sequence $(z_n)$ on $X$ with $z_n \to a$.
+    Since it converges to $a$, $\exists N = N(\delta(\varepsilon)) \text{ s.t. } |z_n - a| < \delta\ \forall n \geq N \implies |f(z_n) - f(a)| < \varepsilon\ \forall n \geq N$.
+
+    Thus for arbitrary $\varepsilon > 0,\ \exists N(\varepsilon) \text{ s.t. } |f(z_n) - f(a)| < \varepsilon \ \forall n \geq n$ so $f(z_n) \to f(a)$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f$ is sequentially continuous}
+    For the purposes of contradiction, assume that $f$ is not continuous at $a$.
+    Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } |z - a| < \delta$ but $|f(z) - f(a)| \geq \varepsilon$.
+
+    Consider $\delta = \frac{1}{n}$.
+    As in the proof for \cref{accumulationSequence}, we can find always find $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$ since $a$ is an accumulation point.
+    We define the sequence $(z_n)$ to be all such $z_n$ for $n \in \N$.
+    Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - f(a)| \geq \varepsilon$ so $f(z_n) \centernot\to f(a)$.
+    Hence $(z_n)$ contradicts sequential continuity at $a$.
+  \end{proofdirection}
+\end{proof}
+\begin{example}[Using Sequential Continuity]
+  \begin{enumerate}
+    \item The function:
       \[
         f(x) = \begin{cases}
           \sin\left(\frac{1}{x}\right) & x \neq 0 \\
@@ -235,6 +298,144 @@ What does it mean for a function to be continuous at a point $a$?
         \end{cases}
       \]
       is not continuous.
-  \end{itemize}
+
+      Consider the sequence $(x_n)$ on $\R$ given by:
+      \[
+        x_n = \frac{1}{(2n + \frac{1}{2})\pi}
+      \]
+      $x_n \to 0$, so if $f$ is sequentially continuous, then we would expect $f(x_n) \to 0$.
+      However, $f(x_n) = \sin((2n + \frac{1}{2})\pi) = 1\ \forall n \implies f(x_n) \to 1$ and so $f$ is not sequentially continuous and therefore also not continuous.
+    \item The \textit{Dirichlet function}:
+      \[
+        f(x) = 1_\Q(x) = \begin{cases}
+        1 & \text{ if } x \in \Q \\
+        0 & \text{ if } x \notin \Q
+        \end{cases}
+      \]
+      is discontinuous at every point in $\R$.
+
+      \begin{itemize}
+        \item For $a \in \Q$, there exists a sequence $(x_n)$ on $\R$ with $x_n \to a$.
+          But $f(x_n) = 0\ \forall n \implies f(x_n) \to 0$ but $0 \neq 1 = f(a)$ and so $f$ is not continuous at $a$.
+        \item For $a \in \R \setminus \Q$, there exists a sequence $(x_n)$ on $\R \setminus \Q$ with $x_n \to a$.
+          But $f(x_n) = 1\ \forall n \implies f(x_n) \to 1$ but $1 \neq 0 = f(a)$ and so $f$ is not continuous at $a$
+      \end{itemize}
+      Therefore it is not continuous for all points in $\Q \cup (\R \setminus \Q) = \R$.
+
+      This can also be shown using the non sequential definition of continuity, again utilising that both irrational and rational numbers are dense in the reals.
+  \end{enumerate}
 \end{example}
+\begin{lemma}[Continuity Laws]
+  If $f, g: X \subseteq \C \to \C$ are continuous at $a \in X$, then so are:
+  \begin{enumerate}
+    \item $\lambda f + g$ for fixed $\lambda \in \C$
+    \item $fg$
+    \item $\frac{1}{f}$ provided that $f(z) \neq 0\ \forall z \in X$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Since $f$ and $g$ are continuous at $a$, $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - f(a)| < \varepsilon \\
+    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - f(a)| < \varepsilon
+  \end{align*}
+  \begin{enumerate}
+    \item $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$, we have:
+      \begin{align*}
+        |\lambda f(z) + g(z) - \lambda f(a) - g(a)| &\leq |\lambda||f(z) - f(a)| + |g(z) - g(a)| \\
+                                                    &< \varepsilon(|\lambda| + 1)
+      \end{align*}
+      This is a constant multiple of $\varepsilon$, so $\lambda f + g$ is continuous at $a$.
+    \item We can also pick $\varepsilon = 1$ so that:
+      \[
+        \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - f(a)| < \varepsilon \implies |f(z)| < 1 + |f(a)|
+      \]
+      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      \begin{align*}
+        |f(z)g(z) - f(a)g(a)| &= |f(z)g(z) - f(z)g(a) + f(z)g(a) - f(a)g(a)| \\
+                        &\leq |f(z)||g(z) - f(a)| + |g(a)||f(z) - f(a)| \\
+                        &< (1 + |f(a)|)\varepsilon + |g(a)|\varepsilon \\
+                        &= \varepsilon(1 + |f(a)| + |g(a)|)
+      \end{align*}
+      which is a constant multiple of $\varepsilon$, so $fg$ is continuous at $a$.
+    \item We can pick $\varepsilon = \abs{\frac{f(a)}{2}} > 0$ so that:
+      \[
+        \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - f(a)| < \abs{\frac{f(a)}{2}} \implies |f(z)| > \abs{\frac{f(a)}{2}} > 0
+      \]
+      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      \begin{align*}
+        \abs{\frac{1}{f(z)} - \frac{1}{f(a)}} &= \frac{1}{|f(a)||f(z)|}|f(z) - f(a)| \\
+                                       &< \frac{\varepsilon}{|f(a)||\frac{f(a)}{2}|}
+      \end{align*}
+      which is a constant multiple of $\varepsilon$, so $\frac{1}{f}$ is continuous at $a$.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  The above proof is very similar to the proof of limit laws in \cref{limitLaws}.
+\end{remark}
+Function composition also preserves continuity.
+\begin{lemma}[Continuity Under Composition]
+  Let $U, V \subseteq \C$ and $f: U \to V$ and $g: V \to \C$.
+  If $f$ is continuous at $a \in U$ and $g$ is continuous at $f(a) \in V$, then $g \circ f: U \to \C$ is continuous at $a$.
+\end{lemma}
+\begin{proof}
+  For arbitrary $\varepsilon > 0$, since $g$ is continuous at $f(a)$:
+  \[
+    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |y - f(a)| < \delta_1 \text{ for } y \in V \implies |g(y) - g(f(a))| < \varepsilon
+  \]
+  Since $f$ is continuous at $a$, using $\delta_1$ in place of $\varepsilon$ in the definition:
+  \[
+    \exists \delta_2(\delta_1) = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \text{ for } z \in U \implies |f(z) - f(a)| < \delta_1
+  \]
+  Bringing this all together, $\forall \varepsilon > 0$:
+  \begin{align*}
+    \exists \delta_2 = \delta_2(\varepsilon&) \text{ s.t. } |z - a| < \delta_2 \text{ for } z \in U \\
+    &\implies |f(z) - f(a)| < \delta_1 \text{ for $f(z) \in V$} \\
+    &\implies |g(f(z)) - g(f(a))| < \varepsilon
+  \end{align*}
+  Thus, $g \circ f$ is continuous at $a$.
+\end{proof}
+\section{Extreme Value Theorem}
+\begin{definition}[Closed Set]
+  A set $X \subseteq \C$ is \textit{closed} if all the sequences $(x_n)$ in $X$ which converge in $\C$ have their limit in $X$.
+\end{definition}
+\begin{remark}
+  We use this definition here as it applies to $\C$ and any arbitrarily defined set, however, it is often useful to relate this definition to the real interval $[a, b]$ because that is what we will be primarily using.
+\end{remark}
+\begin{example}
+  The interval $[0, 1]$ is closed whereas the interval $(0, 1)$ is no.
+  Neither are mixed intervals like $[0, 1)$ or $(0, 1]$.
+
+  Intervals with infinite endpoints can be closed, for example, $[0, \infty)$ is closed while $(0, \infty)$ is not.
+\end{example}
+\begin{definition}[Bounded Set]
+  A set $X \subseteq \C$ is \textit{bounded} if there exists $\exists M > 0$ such that:
+  \[
+    X \subseteq \{z \in \C: |z| \leq M\}
+  \]
+  or equivalently, if $\exists M > 0$ such that:
+  \[
+    \sup_{z \in X} |z| \leq M
+  \]
+\end{definition}
+\begin{example}
+  The intervals $[0, 1], (0, 1), [0, 1), [0, 1]$ are all bounded but $[0, \infty)$ and $(0, \infty)$ are not bounded.
+\end{example}
+\begin{proposition}[Continuity Preserves Bounded Closed Sets]
+  Let $X \subseteq \C$ be a bounded closed set.
+  If $f: X \to \C$ is continuous, then $f(X) \subseteq \C$ is also a bounded closed set.
+\end{proposition}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
+\begin{theorem}[Extreme Value Theorem]
+  Let $X \subseteq \R$ be a bounded closed set.
+  If $f: X \to \R$ is continuous, then $\exists a, b \in X$ such that:
+  \[
+    f(a) = \sup f(X) = \sup_{z \in X} f(z),\ f(b) = \inf f(X) = \inf_{z \in X} f(z)
+  \]
+\end{theorem}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
 \end{document}
