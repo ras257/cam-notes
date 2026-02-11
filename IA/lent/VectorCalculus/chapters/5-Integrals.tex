@@ -2,6 +2,7 @@
 \begin{document}
 \chapter{Line, Area, Surface, and Volume Integrals}
 \section{Line Integrals}
+\subsection{Definitions}
 \begin{definition}
   Given a curve $C$ parameterised by $t \in [a, b]$, the \textit{line integral} of a vector field $\vec{F}$ along $C$ is:
   \[
@@ -50,7 +51,9 @@ and split them up using:
 \[
   \int_{C_1 + C_2} \vec{F} \cdot \d{\vec{x}} = \int_{C_1} \vec{F} \cdot \d{\vec{x}} + \int_{C_2} \vec{F} \cdot \d{\vec{x}}
 \]
+\subsection{Examples}
 \begin{example}[Examples of Line Integrals]
+  \label{lineIntegralExamples}
   \begin{enumerate}
     \item Integrate $\vec{F} = (y, -x, 0)$ on the straight line $C_1$ joining $(-1, 0, 0)$ and $(1, 0, 0)$.
 
@@ -97,8 +100,168 @@ and split them up using:
     \item What is the work done by a force field $\vec{F} = (y^2 e^{x}, e^{y} + 2ye^{x}, 0)$ moving a particle along $C_3$, which is the ellipse $x^2/a^2 + y^2/b^2 = 1$ in the $x$-$y$ plane starting at $(a, 0, 0)$ and going anticlockwise to $(0, b, 0)$.
 
       We can parametrise this ellipse as $\vec{x}(\theta) = (a \cos \theta, b \sin \theta, 0)$ for $\theta \in [0, \frac{\pi}{2}]$.
+      We then have:
+      \[
+        \vec{F}(\vec{x}(\theta)) = (b^2 \sin^2 \theta e^{a \cos \theta}, e^{b \sin \theta} + 2b\sin\theta e^{a \cos \theta}, 0)
+      \]
+      and:
+      \[
+        \deriv{\vec{x}}{\theta} = (-a \sin \theta, b \cos \theta, 0)
+      \]
+      so:
+      \[
+        \vec{F} \cdot \deriv{\vec{x}}{\theta} = -ab^2 \sin^3 \theta e^{a \cos \theta} + b \cos \theta e^{b \sin \theta} + 2b^2 \sin \theta \cos \theta e^{a \cos \theta}
+      \]
+      We can now evaluate the integral:
+      \begin{align*}
+        \int_{C_3} \vec{F} \cdot \d{\vec{x}} &= \eval{e^{b \sin \theta}}{0}{\pi/2} + \int_{0}^{\pi/2} b^2 \sin \theta e^{a \cos \theta} (-a + 2\cos \theta + a \cos^2 \theta) \d{\theta} \\
+                                             &= e^{b} - 1 + \int_{1}^{0} b^2e^{ai}(1 - 2u - au^2) \d{u} \text{ using $u = \cos \theta$}\\
+                                             &= e^{b} - 1 + \eval{b^2 e^{au}(1 - u^2)}{1}{0} \\
+                                             &= e^{b} - 1 + b^2
+      \end{align*}
+      If we instead went around the whole ellipse, starting at $(a, 0, 0)$ and going anticlockwise all the way around, we would find that $\oint \vec{F} \cdot \d{\vec{x}} = 0$.
+    \item We can also integrate along a path parameterised in a different coordinate system, for example, cylindrical polar coordinates (\cref{cylindricalPolar}).
 
-      Continued next lecture.
+      Integrate $\vec{F} = z \vec{e}_\phi$ on the path $C_4$ given by $\rho = z^2$, $\phi = \pi z$ for $z = 0$ to $z = 1$.
+
+      We know from \cref{cylindricalInfinitesimals} that:
+      \[
+        \d{\vec{x}} = \d{\rho}\vec{e}_\rho + \rho \d{\phi}\vec{e}_\phi + \d{z}\vec{e}_z
+      \]
+      so:
+      \[
+        \d{\vec{x}} = (2z\vec{e}_\rho + \pi \rho \vec{e}_\phi + \vec{e}_z) \d{z}
+      \]
+      as $\deriv{\rho}{z} = 2z$ and $\deriv{\phi}{z} = \pi$.
+      We then have $\vec{F} \cdot \d{\vec{x}} = \pi \rho z \d{z} = \pi z^3 \d{z}$ and so:
+      \[
+        \int_{C_4} \vec{F} \cdot \d{\vec{x}} = \int_{0}^{1} \pi z^3 \d{z} = \frac{\pi}{4}
+      \]
   \end{enumerate}
 \end{example}
+\subsection{Path Independence}
+\begin{definition}[Exact Differential]
+  We say that the differential form $\vec{F} \cdot \d{\vec{x}}$ is \textit{exact} if there exists a single valued scalar field $f(\vec{x})$ such that:
+  \[
+    \vec{F} \cdot \d{\vec{x}} = F_i \d{x_i} = \d{f}
+  \]
+  for all $\d{\vec{x}}$.
+\end{definition}
+\begin{remark}[Recap]
+  We saw exact differentials in 2D in IA Differential Equations.
+\end{remark}
+We also know from \cref{infinitesimalsGrad} that $\d{f} = \nabla f \cdot \d{\vec{x}}$ and so $\vec{F} \cdot \d{\vec{x}}$ is exact if and only if there exists a single valued function such that $\vec{F} = \nabla f$, that is, it is exact if and only if $\vec{F}$ is a conservative (\cref{conservativeField}) field.
+
+\begin{proposition}
+  If $\vec{F} = \nabla f$ is a conservative vector field and $C$ is a path from $a$ to $b$, then:
+  \[
+    \int_{C} \vec{F} \cdot \d{\vec{x}} = f(\vec{b}) - f(\vec{a})
+  \]
+  So the line integral depends only on the endpoints of the path.
+\end{proposition}
+\begin{proof}
+  We can write $\vec{F} = \nabla f$ and so $\d{f} = \nabla f \cdot \d{\vec{x}} = \vec{F} \cdot \d{\vec{x}}$.
+  Substituting this into the integral:
+  \[
+    \int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{C} \d{f} = \eval{f}{\vec{a}}{\vec{b}} = f(\vec{b}) - f(\vec{a})
+  \]
+\end{proof}
+\begin{proof}[Alternative]
+Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have:
+\[
+  \int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{C} \nabla f \cdot \dot{\vec{x}} \d{t} = \int \deriv{f}{t} \d{t} = f(\vec{b}) - f(\vec{a})
+\]
+\end{proof}
+\begin{remark}[Notation]
+  Since the value of the line integral is independent of the particular path $C$ between $\vec{a}$ and $\vec{b}$, we can write  $\int_{\vec{a}}^{\vec{b}} \vec{F} \cdot \d{\vec{x}}$ without ambiguity.
+  We usually would not be able to do this as different paths would result in different values, hence why we usually specific a path $C$.
+\end{remark}
+\begin{corollary}
+  If $\vec{F}$ is conservative and $C$ is a closed curve, then $\oint_C \vec{F} \cdot \d{\vec{x}} = 0$.
+\end{corollary}
+\begin{proof}
+  Since $\vec{F}$ is conservative, we can write $F = \nabla f$ for a \textbf{single valued} $f$.
+  The curve is closed so the value of the integral is $f(\vec{a}) - f(\vec{a})$ which is zero since $f$ is single valued.
+\end{proof}
+\begin{proposition}
+  In a \textbf{simply connected domain}, the following are equivalent:
+  \begin{enumerate}
+    \item $\vec{F}$ is a conservative vector field.
+    \item There exists a single valued $f(\vec{x})$ such that $\vec{F} = \nabla f$.
+    \item $\vec{F} \cdot \d{\vec{x}}$ is an exact differential.
+    \item $\vec{F}$ is irrotational.
+    \item $\nabla \times \vec{F} = \vec{0}$.
+    \item $\pderiv{F_i}{x_j} = \pderiv{F_j}{x_i}$ for all $i, j$
+    \item For any $\vec{a}, \vec{b}$ in the domain of $\vec{F}$, $\int_{\vec{a}}^{\vec{b}} \vec{F} \cdot \d{\vec{x}}$ is path independent.
+    \item $\oint_C \vec{F} \cdot \d{\vec{x}} = 0$ for all closed curves $C$ in the domain.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{i} $\iff$ \textbf{ii} and \textbf{iv} $\iff$ \textbf{v} by definition.
+    \item \textbf{i} $\iff$ \textbf{iii} was shown above.
+    \item \textbf{i} $\iff$ \textbf{iv}, see \cref{conservativeFields}.
+    \item \textbf{v} $\iff$ \textbf{vi} by considering components of $\nabla \times \vec{F}$:
+      \[
+        [\nabla \times \vec{F}]_k = \levi_{i j k} \pderiv{F_j}{x_i} = 0
+      \]
+      which is true for all $k$ if and only if $\pderiv{F_j}{x_i}$ is symmetric in $i$ and $j$.
+    \item \textbf{ii} $\implies$ \textbf{vii} was shown above.
+    \item \textbf{vii} $\implies$ \textbf{viii}, given any closed curve $C$ we can split it into two parts, $C_1$ from $\vec{a}$ to $\vec{b}$, then $C_2$ from $\vec{b}$ back to $\vec{a}$ so that $C = C_1 + C_2$, but, by assumption, since $C_1$ and $-C_2$ have the same endpoints:
+      \[
+        \int_{C_1} \vec{F} \cdot \d{\vec{x}} = \int_{-C_2} \vec{F} \cdot \d{\vec{x}} = - \int_{C_2} \vec{F} \cdot \d{\vec{x}}
+      \]
+      and so:
+      \[
+        \oint_C \vec{F} \cdot \d{\vec{x}} = \int_{C_1} \vec{F} \cdot \d{\vec{x}} + \int_{C_2} \vec{F} \cdot \d{\vec{x}} = 0
+      \]
+  \end{itemize}
+  This leaves \textbf{viii} $\implies$ \textbf{vii} and \textbf{vii} $\implies$ \textbf{ii} which will be proved in the next chapter.
+\end{proof}
+\begin{example}[Revisiting \cref{lineIntegralExamples}]
+  \begin{itemize}
+    \item In \textbf{i} and \textbf{iii}, we integrated $\vec{F} = (y, -x, 0)$ along two different paths.
+      We see that $\vec{F}$ is not conservative as $\nabla \times \vec{F} = (0, 0, -2) \neq \vec{0}$.
+      This agrees with how we got two different values for the line integral on the two different paths, despite the fact that they had the same end points.
+    \item In \textbf{ii} and \textbf{iv} we integrated $\vec{F} = (3x^2, 2y, 0)$ along two different paths.
+      Here $\vec{F}$ is conservative as $\nabla \times \vec{F} = \vec{0}$.
+      We can also just spot that $\vec{F} = \nabla (x^3 + y^2)$, and so it follows that $\vec{F}$ is conservative as it has a single valued scalar potential.
+
+      Therefore the value of the integral is path independent so:
+      \[
+        \int_{(-1, 0, 0)}^{(1, 0, 0)} \vec{F} \cdot \d{\vec{x}} = \eval{x^3 + y^2}{(-1, 0, 0)}{(1, 0, 0)} = 2
+      \]
+      which agrees with our answers, despite the different paths.
+    \item In \textbf{v}, we integrated $\vec{F} = (y^2 e^{x}, e^{y} + 2ye^{x}) = \nabla(e^{y}, y^2e^{x})$ which is conservative and so we can shortcut the rather involved integration to obtain:
+      \[
+        \int_{C_3} \vec{F} \cdot \d{\vec{x}} = \eval{e^{y} + y^2e^{x}}{(a, 0, 0)}{(0, b, 0)} = e^{b} + b^2 - 1
+      \]
+      which agrees with our answer.
+    \item In \textbf{vi}, we integrated $F = z \vec{e}_\phi$.
+      Using \cref{cylindricalOperators}, we see that $\nabla \times (z \vec{e}_\phi) = -\vec{e}_\rho \neq \vec{0}$ and so $\vec{F}$ is not conservative.
+
+      Suppose that $\nabla \times \vec{F}$ had actually been $\vec{0}$, we could not have concluded that $\vec{F}$ would be conservative as the domain of $\vec{F}$ is not simply connected.
+      This is because the domain does not include the $z$-axis as $\vec{e}_\phi$ is not defined there.
+  \end{itemize}
+\end{example}
+\section{Area Integrals}
+To integrate over a region $A \subset \R^2$, we cover $A$ with a large number $N$ of small disjoint subsets $\delta A_i \subset A$ for $i \in \{1, \ldots, N\}$.
+Then:
+\[
+  \int_A f(x, y) \d{x} = \lim_{\Delta \to 0} \sum_{i = 1}^{N} f(x_i, y_i) \delta A_i
+\]
+where $(x_i, y_i) \in \delta A_i$ and $\Delta$ is the maximum linear dimension of all the $\delta A_i$, and as $\Delta \to 0$, $N \to \infty$ so that the shrinking subsets still cover the entirety of $A$.
+
+Informally, we can think of $\int_A f(x, y) \d{A}$ is the volume under the graph of $z = f(x, y)$, similarly to how we can think of $\int_{a}^{b} f(x) \d{x}$ as the area under the graph $y = f(x)$.
+\begin{remark}[Note]
+  $A$ refers to both the region itself and its area so:
+  \[
+    A = \int_A 1 \d{A}
+  \]
+\end{remark}
+\begin{remark}
+  It does not matter how we divide $A$ up, every different way will lead to the same answer as $\Delta \to 0$.
+
+  If it doesn't give the same answer, then we say that $f$ is not integrable of $A$ but for most reasonable functions $f$ and regions $A$, it will be integrable.
+\end{remark}
 \end{document}

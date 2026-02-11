@@ -625,6 +625,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
 \end{enumerate}
 \end{proof}
 \begin{example}
+  \label{varianceExample}
   \begin{enumerate}
     \item For $X \sim \binomial(n, p)$.
       We saw earlier in \cref{binomialExpectation} that $\E[X] = np$.
@@ -782,6 +783,17 @@ We can also use indicator functions to provide an alternative proof for the Prin
     \Var(X + Y) = \Var(X) + \Var(Y) + 2\Cov(X, Y) = \Var(X) + \Var(Y)
   \]
 \end{proof}
+\begin{corollary}
+  If $X_1, \ldots, X_n$ are independent random variables then $\Var(\sum_{i = 1}^{n} X_i) = \sum_{i = 1}^{n} \Var(X_i)$.
+\end{corollary}
+\begin{proof}
+  Using \cref{covarianceProperties} \textbf{vii}:
+  \begin{align*}
+    \Var\left(\sum_{i = 1}^{n} X_i\right) &= \sum_{i = 1}^{n} \Var(X_i) + \sum_{i \neq j}^{n} \Cov(X_i, X_j) \\
+                                          &= \sum_{i = 1}^{n} \Var(X_i)
+  \end{align*}
+  Since $\Cov(X_i, X_j) = 0$ for $i \neq j$ as the $X_i$ are independent.
+\end{proof}
 \begin{remark}
   $\Cov(X, Y) = 0 \centernot \implies$ $X$ and $Y$ are independent.
 
@@ -811,4 +823,238 @@ We can also use indicator functions to provide an alternative proof for the Prin
   \]
   so $Z_1$ and $Z_2$ are not independent, despite having 0 covariance.
 \end{remark}
+\begin{example}
+  Take $S_n \sim \binomial(n, p)$.
+  From \cref{binomialAsBernSum}, we saw that we can express $S_n$ as a sum of independent Bernoulli random variables with parameter $p$:
+  \[
+    S_n = X_1 + \cdots + X_n
+  \]
+  For each Bernoulli random variable:
+  \[
+    \Var(X_i) = \E[X^2] - (\E[X])^2 = \E[X] - (\E[X])^2 = p - p^2 = p(1 - p)
+  \]
+  as $X^2 = X$ since $X \in \{0, 1\}$.
+
+  We can therefore find $\Var(S_n)$ using:
+  \[
+    \Var(S_n) = \sum_{i = 1}^{n} \Var(X_i) = np(1-p)
+  \]
+  which agrees with the result from \cref{varianceExample}.
+\end{example}
+\section{Probabilistic Inequalities}
+\subsection{Markov's Inequality}
+\begin{proposition}[Markov's Inequality]
+  If $X$ is a non-negative random variable and $a > 0$, then $\P(X \geq a) \leq \frac{\E[X]}{a}$.
+\end{proposition}
+\begin{proof}
+  We have that:
+  \[
+    X \geq a \cdot 1(X \geq a)
+  \]
+  as either $X \geq a$, in which case $X \geq a \cdot 1$ which is true, or $X < a$, in which case $X \geq a \cdot 0 = 0$, which is also true.
+  Taking expectations and using \cref{expOfIndicator} we get that:
+  \[
+    \E[X] \geq a \cdot \P(X \geq a)
+  \]
+  and the result follows.
+\end{proof}
+\subsection{Chebyshev's Inequality}
+\begin{proposition}[Chebyshev's Inequality]
+  If $X$ is a random variable with $\E[X] < \infty$, then $\forall a > 0$:
+  \[
+    \P(|X - \E[X]| \geq a) \leq \frac{\Var(X)}{a^2}
+  \]
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    \P(|X - \E[X]| \geq a) &= \P(|X - \E[X]|^2 \geq a^2) \\
+                           &\leq \frac{\E[(X - \E[X])^2]}{a^2} \text{ by Markov's Inequality} \\
+                           &= \frac{\Var(X)}{a^2}
+  \end{align*}
+\end{proof}
+\subsection{Cauchy-Schwarz Inequality}
+\begin{proposition}[Cauchy-Schwarz Inequality]
+  If $X$ and $Y$ are discrete random variables, then:
+  \[
+    \E[|XY|] \leq \sqrt{\E[X^2]\E[Y^2]}
+  \]
+\end{proposition}
+\begin{proof}
+  If both $\E[X^2]$ and $\E[Y^2]$ are infinite, then there is nothing to prove so assume that that $\E[X^2] < \infty$ and $\E[Y^2] < \infty$.
+
+  In this case, we can check that $\E[|XY|]$ is also finite
+  \[
+    |XY| \leq \frac{1}{2}(X^2 + Y^2) \implies \E[|XY|] \leq \frac{1}{2}(\E[X^2] + \E[Y^2]) < \infty
+  \]
+  If $\E[X^2] = 0$ or $\E[Y^2] = 0$, then at least one of $X$ or $Y$ would have to be identically 0 so there would be nothing left to prove so assume that $\E[X^2] > 0$ and $\E[Y^2] > 0$.
+  Since we have $|XY|$, $X^2$ and $Y^2$, it is also enough to show that this holds for $X, Y \geq 0$.
+
+  Let $t \in \R$ and consider the random variable $(X - tY)^2$.
+  Since this is non-negative, $\E[(X - tY)^2] \geq 0$ and so:
+  \[
+    \E[(X - tY)^2] = \E[X^2] - 2t\E[XY] + t^2 \E[Y^2] \geq 0
+  \]
+  We know wish to find some $t$ which leads to the inequality.
+  To do this, let $f(t) = \E[X^2] -2t\E[XY] + t^2 \E[Y^2]$.
+  We then have $f'(t) = -2\E[XY] + 2t\E[Y^2]$ and so the minimum of $f(t)$ is attained at $t_{*} = \frac{\E[XY]}{\E[Y^2]}$.
+  Evaluating $f$ at $t_{*}$, we must get a non-negative value so:
+  \[
+    \E[X^2] - 2 \frac{(\E[XY])^2}{\E[Y^2]} + \frac{(\E[XY])^2}{\E[Y^2]} \geq 0 \implies (\E[XY])^2 \leq \E[X^2]\E[Y^2]
+  \]
+\end{proof}
+\begin{lemma}
+  We get equality in Cauchy-Schwarz if and only if one random variable is a constant multiple of the other.
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume we have equality}
+    $\E[|XY|] = \sqrt{\E[X^2]\E[Y^2]}$ so must have $f(t_*) = 0$, therefore:
+    \begin{align*}
+      f(t_*) = \E[(X - t_*Y)^2] = 0 \implies& \P(X - t_*Y = 0) = 1 \\
+      \implies& \P(X = t_*Y) = 1
+    \end{align*}
+    So $X$ is a constant multiple of $Y$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume one is a multiple of the other}
+    For the converse, if $X = cY$, then:
+    \[
+      \E[|XY|] = |c|\E[Y^2] = \sqrt{c^2\E[Y^2]^2} = \sqrt{c^2\E[Y^2]\E[Y^2]} = \sqrt{\E[X^2]\E[Y^2]}
+    \]
+  \end{proofdirection}
+\end{proof}
+\subsection{Jensen's Inequality}
+\begin{definition}[Convex Function]
+  A function $f: \R \to \R$ is called \textit{convex} if $\forall x, y \in \R$ and $\forall t \in [0, 1]$:
+  \[
+    f(tx + (1 - t)y) \leq tf(x) + (1 - t)f(y)
+  \]
+\end{definition}
+That is, a function is convex if it lies below the chord between any two points on the curve:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.4]
+  \draw[->] (0, 0) -- (0, 3);
+  \draw[->] (0, 0) -- (3, 0);
+
+  \begin{scope}
+    \clip (0, 0) rectangle (3, 3);
+    \draw[thick, domain=0:3, smooth, samples=100] plot (\x,{(0.6 * \x)^2});
+  \end{scope}
+  \draw[dashed] (1, 0) node[below] {$x$} -- (1, 0.36);
+  \draw[dashed] (2.5, 0) node[below] {$y$} -- (2.5, 2.25);
+  \draw[dotted, thick] (1.75, 0) node[below] {$\scriptstyle t = 0.5$} -- (1.75, 1.3);
+  \draw (1, 0.36) -- (2.5, 2.25);
+\end{tikzpicture}
+\end{center}
+\begin{lemma}
+  Let $f: \R \to \R$ be a convex function.
+  $f$ is the supremum of all the lines lying below it.
+  That is, $\forall m \in \R,\ \exists a, b \in \R$ such that:
+  \label{convexLemma}
+  \[
+    f(m) = am + b \text{ and } f(x) \geq ax + b\ \forall x
+  \]
+  So the entire curve lies above the tangent at a given point:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (0, 0) -- (0, 3);
+    \draw[->] (0, 0) -- (3, 0);
+
+    \begin{scope}
+      \clip (0, 0) rectangle (3, 3);
+      \draw[thick, domain=0:3, smooth, samples=100] plot (\x,{(0.6 * \x)^2});
+    \end{scope}
+    \draw (0.875, 0) -- (3, 2.677);
+    \draw[dashed] (1.75, 0) node[below] {$m$} -- (1.75, 1.10);
+    \fill (1.75, 1.10) circle (1.5pt);
+  \end{tikzpicture}
+  \end{center}
+\end{lemma}
+\begin{proof}
+  Let $m \in \R$ and $x < m < y$.
+  To use convexity, since $x < m < y$, we can write:
+  \[
+    m = tx + (1 - t)y
+  \]
+  for some $t \in [0, 1]$.
+  Rearranging, we also have:
+  \[
+    t(m - x) = (1 - t)(y - m)
+  \]
+  Using convexity:
+  \[
+    f(m) = f(tx + (1 - t)y) \leq tf(x) + (1 - t)f(y)
+  \]
+  We can then rearrange and use the above equality:
+  \begin{align*}
+    t(f(m) - f(x)) &\leq (1 - t)(f(y) - f(m)) \\
+    t(m - x)(f(m) - f(x)) &\leq (1 - t)(m - x)(f(y) - f(m)) \\
+    (1 - t)(y - m)(f(m) - f(x)) &= (1 - t)(m - x)(f(y) - f(m)) \\
+    \frac{f(m) - f(x)}{m - x} &\leq \frac{f(y) - f(m)}{y- m}
+  \end{align*}
+  Since this is for any $m$, this tells us that the slope at $y$ is grater than the slope at $x$:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (0, 0) -- (0, 3);
+    \draw[->] (0, 0) -- (3, 0);
+
+    \begin{scope}
+      \clip (0, 0) rectangle (3, 3);
+      \draw[thick, domain=0:3, smooth, samples=100] plot (\x,{(0.6 * \x)^2});
+    \end{scope}
+    \draw (0.875, 0) -- (3, 2.677);
+    \draw[dashed] (1.75, 0) node[below] {$x$} -- (1.75, 1.10);
+    \fill (1.75, 1.10) circle (1.5pt);
+
+    \draw (1.25, 0) -- (2.91, 3);
+    \draw[dashed] (2.5, 0) node[below] {$y$} -- (2.5, 2.25);
+    \fill (2.5, 2.25) circle (1.5pt);
+  \end{tikzpicture}
+  \end{center}
+  Let $a = \sup\limits_{x < m}\frac{f(m) - f(x)}{m - x}$ and so $\frac{f(m) - f(x)}{m - x} \leq a$ $\forall x < m$.
+
+  Combining this with the other inequality, $\forall x < m < y$:
+  \[
+    \frac{f(m) - f(x)}{m - x} \leq a \leq \frac{f(y) - f(m)}{y - m}
+  \]
+  If $z < m$, then we use the left hand inequality to yield $f(z) \geq a(z - m) + f(m)$.
+  If $z > m$, then we use the right hand inequality to yield the same result.
+  Therefore, $f(z) \geq az + (f(m) - am)\ \forall z$ and we get equality when $z = m$, as required.
+\end{proof}
+\begin{proposition}[Jensen's Inequality]
+  Let $X$ be a random variable and $f: \R \to \R$ a convex function.
+  \[
+    \E[f(X)] \geq f(\E[X])
+  \]
+\end{proposition}
+\begin{proof}
+  Let $m = \E[X]$, as $f$ is convex, by \cref{convexLemma}, $\exists a, b \in \R$ such that:
+  \[
+    f(m) = am + b \text{ and } f(x) \geq ax + b\ \forall x
+  \]
+  Thus $f(X) \geq aX + b$, so taking expectations of both sides:
+  \[
+    \E[f(X)] \geq a\E[X] + b = am + b = f(m) = f(\E[X])
+  \]
+  as taking expectations preserves inequalities.
+\end{proof}
+\begin{remark}[Memorisation]
+  To remember which way the inequality goes, consider $f(x) = x^2$.
+  We already know that $\Var(X) = \E[X^2] - (\E[X])^2 \geq 0$ so we need $\E[X^2] \geq (\E[X])^2$ in Jensen's Inequality.
+\end{remark}
+\subsubsection{Cases of equality in Jensen's Inequality}
+Let $f: \R \to \R$ be convex with the extra property that for $m = \E[X]$, $\exists a, b \in \R$ such that:
+\[
+  f(m) = am + b \text{ and } f(x) > ax + b\ \forall x \neq m
+\]
+What should $X$ satisfy so that $\E[f(X)] = f(\E[X])$?
+We have that $f(X) \geq aX + b \implies f(X) - (aX + b) \geq 0$ so we can construct a new non-negative random variable $f(X) - (aX + b)$.
+
+Taking expectations, we have:
+\[
+  \E[f(X)] \geq a \E[X] + b = am + b = f(m) = f(\E[X])
+\]
+We want $\E[f(X)] = f(\E[X])$ so this forces $\E[f(X)] = a \E[X] + b = \E[aX + b]$ and so:
+\begin{align*}
+  \E[f(X) - (aX + b)] = 0 &\implies \P(f(X) = aX + b) = 1 \\
+\end{align*}
+Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so $\P(f(X) = aX + b) = 1 \implies \P(X = \E[X]) = 1$.
 \end{document}
