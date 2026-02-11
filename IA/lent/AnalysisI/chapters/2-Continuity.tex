@@ -127,8 +127,8 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 \begin{lemma}
   Let $f: X \subseteq \C \to \C$ and $a \in \C$ be either in $X$ or an accumulation point of $X$.
   \begin{enumerate}
-    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$ for a non-constant $z_n$
-    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$ for a non-constant $z_n$
+    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$ for a non-constant $z_n$.
+    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$ for a non-constant $z_n$.
   \end{enumerate}
 \end{lemma}
 \begin{proof}[\textbf{i}]
@@ -141,7 +141,15 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
     Thus given some $\varepsilon > 0$, $\exists N \text{ s.t. } |f(z_n) - y| < \varepsilon\ \forall n > N$ so $f(z_n) \to y$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $f(z_n) \to y$ for every sequence with $z_n \to a$}
-    Unfinished. %TODO
+    %TODO Check constant sequences
+    For the purposes of contradiction, assume that $f(z) \centernot\to y$ as $z \to a$.
+    Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } |z - a| < \delta$ but $|f(z) - y| \geq \varepsilon$.
+
+    Consider $\delta = \frac{1}{n}$.
+    As in the proof for \cref{accumulationSequence}, we can find always find $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$ since $a$ is an accumulation point.
+    We define the sequence $(z_n)$ a sequence of such $z_n$.
+    Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - y| \geq \varepsilon$ so $f(z_n) \centernot\to y$.
+    This is a contradiction so we must have $f(z) \to y$.
   \end{proofdirection}
 \end{proof}
 \begin{proof}[\textbf{ii}]
@@ -303,6 +311,19 @@ There is also another notion of continuity using sequences.
         \end{cases}
       \]
       is not continuous.
+
+      \begin{center}
+      \begin{tikzpicture}[scale=1.13, >=stealth]
+        \draw[->] (-5, 0) -- (5, 0) node[right] {$x$};
+        \draw[->] (0, -0.8) -- (0, 2) node[above] {$f$};
+
+        \def\functionplot{plot (\x,{1.5 * sin((1/\x) r)})}
+        \draw[thick, domain=0.01:0.2, samples=1000] \functionplot;
+        \draw[thick, domain=0.2:5, smooth, samples=50] \functionplot;
+        \draw[thick, domain=-0.2:-0.01, samples=1000] \functionplot;
+        \draw[thick, domain=-5:-0.2, smooth, samples=50] \functionplot;
+      \end{tikzpicture}
+    \end{center}
 
       Consider the sequence $(x_n)$ on $\R$ given by:
       \[
