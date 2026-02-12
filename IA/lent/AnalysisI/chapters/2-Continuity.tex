@@ -276,6 +276,7 @@ There is also another notion of continuity using sequences.
 \begin{definition}[Sequential Continuity]
   Let $f: X \subseteq \C \to \C$ and $a \in X$.
   We say that $f$ is sequentially continuous at $a$ if $f(z_n) \to f(a)$ for every sequence $(z_n)$ on $X$ with $z_n \to a$.
+  \label{sequentialContinuity}
 \end{definition}
 \begin{proposition}[Equivalence of Sequential and Standard Continuity]
   Let $f: X \subseteq \C \to \C$.
@@ -430,7 +431,7 @@ Function composition also preserves continuity.
   We use this definition here as it applies to $\C$ and any arbitrarily defined set, however, it is often useful to relate this definition to the real interval $[a, b]$ because that is what we will be primarily using.
 \end{remark}
 \begin{example}
-  The interval $[0, 1]$ is closed whereas the interval $(0, 1)$ is no.
+  The interval $[0, 1]$ is closed whereas the interval $(0, 1)$ is not.
   Neither are mixed intervals like $[0, 1)$ or $(0, 1]$.
 
   Intervals with infinite endpoints can be closed, for example, $[0, \infty)$ is closed while $(0, \infty)$ is not.
@@ -451,9 +452,33 @@ Function composition also preserves continuity.
 \begin{proposition}[Continuity Preserves Bounded Closed Sets]
   Let $X \subseteq \C$ be a bounded closed set.
   If $f: X \to \C$ is continuous, then $f(X) \subseteq \C$ is also a bounded closed set.
+  \label{boundedClosedPreserved}
 \end{proposition}
-\begin{proof}
-  Covered next lecture.
+\begin{proof}\par
+  \textbf{$f(X)$ is bounded}\par
+  For the purposes of contradiction, suppose $f(X)$ is not bounded, then for each $n \in \N$, we can find $x_n \in X$ such that $|f(x_n)| > n$.
+  We can use this to construct a sequence $(x_n)$ on $X$.
+  $X$ is bounded by assumption so the sequence must also be bounded.
+  This means that we can apply the Bolzano Weierstrass theorem (\cref{BWT}), so there exists a convergent subsequence $(x_{n_k})$ where $x_{n_k} \to x$ for some $x \in \C$.
+  Since $X$ is closed, all convergent sequences in $X$ must converge to a value in $X$ and so $x \in X$.
+
+  On the other hand, $|f(x_{n_k})| > n_k \geq k$ since $n_k$ is strictly increasing.
+  Thus $f(x_{n_k})$ cannot converge as $k \to \infty$.
+  This contradicts the sequential continuity of $f$ (\cref{sequentialContinuity}) as $x \in X$ and so $f(X)$ must be bounded.
+
+  \textbf{$f(X)$ is closed}\par
+  Take any convergent sequence $(y_n)$ in $f(X)$ and suppose that it converges to some $y \in \C$.
+  By definition, to show that $f(X)$ is closed, we need to show that $y \in f(X)$.
+
+  Since $y_n \in f(X)$, $\exists x_n \in X$ such that $f(x_n) = y_n$.
+  Similarly to before, we can use this construct a sequence $(x_n)$ in $X$.
+  Since $X$ is bounded, $(x_n)$ must also be bounded and so as in the previous argument, we can construct a sequence $x_{n_k} \to x \in X$.
+  $f$ is continuous by assumption so:
+  \[
+    \lim_{k \to \infty} f(x_{n_k}) = f\left(\lim_{k \to \infty} x_{n_k}\right) = f(x)
+  \]
+  Therefore, $y_{n_k} = f(x_{n_k}) \to f(x) \in f(X)$ and so $(y_{n_k})$ converges to a limit in $f(X)$.
+  Since $y_n \to y$ and all subsequences must converge to the same limit (\cref{subseqenceConvergence}), we have $y = f(x) \in f(X)$, which is the required result.
 \end{proof}
 \begin{theorem}[Extreme Value Theorem]
   Let $X \subseteq \R$ be a bounded closed set.
@@ -462,6 +487,103 @@ Function composition also preserves continuity.
     f(a) = \sup f(X) = \sup_{z \in X} f(z),\ f(b) = \inf f(X) = \inf_{z \in X} f(z)
   \]
 \end{theorem}
+\begin{remark}
+  We know from \cref{boundedClosedPreserved} that $f(X)$ must be bounded so by the axioms of the real numbers there always exists supremum and infimum for $f(X)$.
+  The important distinction of the extreme value theorem is that it shows us that such values are actually attained and so they are really maximum and minimum of $f(X)$.
+\end{remark}
+\begin{proof}
+  We will prove the first equality as the other is proved analogously.
+
+  By \cref{boundedClosedPreserved}, $f(X)$ is closed and bounded so we can let $M = \sup f(X)$.
+  By definition of supremum $M - \frac{1}{n}$ cannot be an upper bound for $f(X)$ for any $n \in \N$.
+  Therefore, for each $n$, there exists $y_n \in f(X)$ such that $M - \frac{1}{n} < y_n \leq M$.
+  We can use this to construct a sequence $(y_n)$ on $f(X)$.
+
+  Taking limits, $M \leq \lim_{n \to \infty} y_n \leq M$ and so $y_n \to M$.
+  Since $f(X)$ is closed, $M \in f(X)$ and so $\sup f(X) \in f(X) \implies \exists a \in X \text{ s.t. } f(a) = \sup f(X)$ as required.
+\end{proof}
+\section{Intermediate Value Theorem}
+\begin{theorem}[Intermediate Value Theorem]
+  If $f: [a, b] \to \R$ is continuous and WLOG, then given any $y$ between $f(a)$ and $f(b)$ there exists $c \in [a, b]$ such that $f(c) = y$.
+
+  More generally, $f([a, b])$ is a closed interval containing the interval:
+  \[
+    [\min\{f(a), f(b)\}, \max\{f(a), f(b)\}]
+  \]
+\end{theorem}
+\begin{remark}
+  Although this guarantees the existence of such a $c$, it is not necessarily unique as there could be multiple points whose image is $y$.
+\end{remark}
+\begin{proof}
+  If $f$ is constant, then the result follows trivially, if not, WLOG, $f(a) \leq f(b)$.
+  Consider the set $S = \{x \in [a, b]: f(x) \leq y\}$.
+  Then $a \in S \implies$ S is non empty.
+  $S$ is also bounded above by $b$ so $\exists d = \sup S \in [a, b]$.
+  It would be reasonable to guess that $d$ is a point satisfying $f(d) = y$.
+
+  \textbf{Claim $f(d) \leq y$}\par
+  Suppose, for contradiction, that $f(d) > y$.
+  We can then pick $\varepsilon = f(d) - y > 0$ and so by continuity of $f$, $\exists \delta > 0 \text{ s.t. } |x - d| < \delta \text{ for $x \in [a, b]$} \implies |f(x) - f(d)| <\varepsilon$.
+  We also have that:
+  \[
+    |f(x) - f(d)| < \varepsilon \iff - \varepsilon < f(x) - f(d) < \varepsilon \implies f(x) > f(d) - \varepsilon = y \implies x \notin S
+  \]
+  So $\forall x \in [a, b] \text{ s.t. } |x - d| < \delta \implies x \notin S$, therefore $S \cap (d - \delta, d) = \emptyset$ which contradicts that $d$ is the supremum of $S$.
+
+  \textbf{Claim $f(d) \geq y$}\par
+  Suppose, for contradiction, that $f(d) < y$.
+  We can then pick $\varepsilon = y - f(d) > 0$.
+  By continuity of $f$, $\exists \delta > 0 \text{ s.t. } |x - d| < \delta \text{ for $x \in [a, b]$} \implies |f(x) - f(d)| < \varepsilon$.
+  We also have that:
+  \[
+    |f(x) - f(d)| < \varepsilon \iff - \varepsilon < f(x) - f(d) < \varepsilon \implies f(x) < f(d) + \varepsilon = y
+  \]
+  However, if we consider $x = d + \frac{\delta}{2}$, $|d + \frac{\delta}{2} - d| < \varepsilon \implies f(d + \frac{\delta}{2}) < y$ and so $d + \frac{\delta}{2} \in S$ but $d + \frac{\delta}{2} > d$ which contradicts the fact that $d$ is an upper bound for $S$.
+
+
+  Thus $f(d) \leq y$ and $f(d) \geq y$ so $f(d) = y$.
+
+  \textbf{Intervals}\par
+  For the more general statement, set $J = f([a, b])$ and take any $y_1, y_2 \in J$.
+  Since $y_1, y_2 \in f([a, b])$, there exists $x_1, x_2 \in I$ with $f(x_1) = y_1$ and $f(x_2) = y_2$.
+
+  Since $[a, b]$ is an interval, $x_1, x_2 \in [a,b] \implies [x_1, x_2] \subseteq [a, b]$.
+  By the above, given $y$ between $y_1$ and $y_2$, there exists a $c \in [x_1, x_2]$ such that $y = f(c) \in f(I) = J$.
+  Therefore, any point between $y_1$ and $y_2$ is also in $J$ and so $J$ is an interval.
+\end{proof}
+\begin{example}[$n$-th Roots]
+  We can apply the intermediate value theorem to show the existence of $n$-th roots.
+
+  Take $t > 0$ and consider $f: [0, 1 + t] \to \R, x \mapsto x^{N}$ for some $N \in \N$.
+  This is a continuous function and since $(1 + t)^{N} \geq t$ using binomial theorem, we have:
+  \[
+    0 = f(0) < t < (1 + t)^{N} = f(1 + t)
+  \]
+  Applying the intermediate value theorem, we conclude that $\exists c \in [0, 1 + t]$ such that $f(c) = t \iff c^{N} = t$.
+  Hence $c$ is an $N$-th root of $t$.
+\end{example}
+\begin{definition}[Monotone Function]
+  We say that a function $f: [a, b] \to \R$ is \textit{monotone} if either:
+  \begin{itemize}
+    \item It is \textit{increasing}: $a \leq x_1 \leq x_2 \leq b \implies f(x_1) \leq f(x_2)$.
+    \item It is \textit{decreasing}: $a \leq x_1 \leq x_2 \leq b \implies f(x_1) \leq f(x_2)$.
+  \end{itemize}
+\end{definition}
+\begin{remark}
+  A function is \textit{strictly increasing} if:
+  \[
+    a \leq x_1 < x_2 \leq b \implies f(x_1) < f(x_2)
+  \]
+  and \textit{strictly decreasing} if:
+  \[
+    a \leq x_1 < x_2 \leq b \implies f(x_1) > f(x_2)
+  \]
+\end{remark}
+\begin{proposition}[Inverse function theorem for monotone functions]
+  Let $f: [a, b] \to \R$ be a continuous function that is strictly decreasing or strictly increasing and let $c = \min\{f(a), f(b)\}, d = \max\{f(a), f(b)\}$.
+
+  Then $f: [a, b] \to [c, d]$ is a bijection and there exists a continuous inverse $f^{-1} [c, d] \to [a, b]$ which is strictly increasing if $f$ is and strictly decreasing if $f$ is.
+\end{proposition}
 \begin{proof}
   Covered next lecture.
 \end{proof}

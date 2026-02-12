@@ -2,7 +2,7 @@
 \begin{document}
 \chapter{Systems of Particles}
 \section{General Systems of Particles}
-Suppose we have $N$ particles indexed by $i = 1, \ldots, N$ with momenta $\vec{p}_i = m_i x_i$ and all obeying Newton's law individually, that is, for each particle:
+Suppose we have $N$ particles indexed by $i = 1, \ldots, N$ with momenta $\vec{p}_i = m_i \dot{\vec{x}}_i$ and all obeying Newton's law individually, that is, for each particle:
 \[
   \dot{\vec{p}}_i = \vec{F}_i
 \]
@@ -14,6 +14,7 @@ where $\vec{F}^{\text{ext}}_i$ is the external force on the $i$-th particle and 
 
 \begin{law}[Newton's 3rd Law]
   The forces between particles are found to obey:
+  \label{newtonsThird}
   \[
     \vec{F}_{ij} = - \vec{F}_{ji}
   \]
@@ -26,4 +27,182 @@ where $\vec{F}^{\text{ext}}_i$ is the external force on the $i$-th particle and 
   An example of Newton's 3rd law can be seen in \cref{gravity}.
   If we swap the roles of the two particles around, all that changes is the direction with which the force acts in.
 \end{remark}
+\subsection{Centre of Mass}
+\begin{definition}[Total Mass and Momentum]
+  The \textit{total mass $M$} is:
+  \[
+    M = \sum_{i = 1}^{N} m_i
+  \]
+  The \textit{total momentum $\vec{P}$} is:
+  \[
+    \vec{P} = \sum_{i = 1}^{N} \vec{p}_i
+  \]
+\end{definition}
+\begin{definition}[Centre of Mass]
+  The \textit{centre of mass} of a system of particles is:
+  \[
+    \vec{R} = \frac{1}{M}\sum_{i = 1}^{N} m_i\vec{x}_i
+  \]
+  It is often abbreviated as \textit{CoM}.
+\end{definition}
+We can relate the total momentum to the centre of mass:
+\begin{align*}
+  \vec{P} &= \sum_{i = 1}^{N} \vec{p}_i \\
+          &= \sum_{i = 1}^{N} m_i \vec{x}_i \\
+          &= M \dot{\vec{R}}
+\end{align*}
+So the centre of mass of a system of particle is like a single particle of mass $M$.
+
+Furthermore, if we find $\dot{\vec{P}}$:
+\begin{align*}
+  \dot{\vec{P}} = \sum_{i = 1}^{N} \dot{\vec{p}}_i &= \sum_{i = 1}^{N} \left(\vec{F}^\text{ext}_i + \sum_{j = 1, j \neq i}^N \vec{F}_{i j}\right) \\
+                                                   &= \sum_{i = 1}^{N} \vec{F}^\text{ext}_i + \sum_{i < j} (\underbrace{\vec{F}_{i j} + \vec{F}_{j i}}_{0}) \text{ using \cref{newtonsThird}}\\
+                                                   &= \sum_{i = 1}^{N} \vec{F}^{\text{ext}}_i
+\end{align*}
+\begin{definition}[Total External Force]
+  The \textit{total external force} $\vec{F}$ of a system of particles is:
+  \[
+    \vec{F} = \sum_{i = 1}^{N}  \vec{F}^{\text{ext}}_i
+  \]
+\end{definition}
+Thus, $\dot{\vec{P}} = \vec{F}$ and since $\vec{P} = M \dot{\vec{R}}$, we then have:
+\[
+  M \ddot{\vec{R}} = \vec{F} = \sum_{i = 1}^{N} \vec{F}^\text{ext}_i
+\]
+So the centre of mass accelerates just like a point particle subject to an external force $\vec{F}$.
+\begin{remark}
+  This property of systems of particle is what allows us to treat the Earth as a point particle as all the internal forces between individual particles cancel each other out when considering the centre of mass of the whole system.
+\end{remark}
+In particular, if $\vec{F} = \vec{0}$, then $\dot{\vec{P}} = 0$ and so the total momentum is conserved.
+\subsection{Total Angular Momentum}
+A similar result also holds for the total angular momentum.
+\begin{definition}[Total Angular Momentum]
+  The \textit{total angular momentum} $\vec{L}$ of a system of particles about a fixed point $\vec{a}$ is:
+  \[
+    \vec{L} = \sum_{i = 1}^{N} (\vec{x}_i - \vec{a})\times \vec{p}_i
+  \]
+\end{definition}
+\begin{remark}
+  Previously in \cref{angularMomentum}, we used $\vec{a} = \vec{0}$ (i.e. about the origin) but here we are using an arbitrary point $\vec{a}$.
+\end{remark}
+To find the torque of the system $\dot{\vec{L}}$, we take the derivative with respect to $t$:
+\begin{align*}
+  \dot{\vec{L}} &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \times \vec{p}_i + (\vec{x}_i - \vec{a}) \times \dot{\vec{p}}_i \\
+                &= \sum_{i = 1}^{N} \cancelto{\vec{0}}{\dot{\vec{x}}_i \times m \dot{\vec{x}}_i} + (\vec{x}_i - \vec{a}) \times \dot{\vec{p}}_i \\
+                &= \sum_{i = 1}^{N} (\vec{x}_i - \vec{a}) \times \left(\vec{F}^{\text{ext}}_i + \sum_{j = 1, j\neq i}^N \vec{F}_{i j}\right) \\
+                &= \sum_{i = 1}^{N} (\vec{x}_i - \vec{a}) \times \vec{F}^{\text{ext}}_i + \sum_{i < j} [(\vec{x}_i - \vec{a}) \times \vec{F}_{i j} + (\vec{x}_j - \vec{a}) \times \vec{F}_{j i}]
+\end{align*}
+We then define the total external torque as:
+\begin{definition}[Total Torque]
+  The \textit{total external torque} $\vec{G}$ of a system of particles is:
+  \[
+    \vec{G} = \sum_{i = 1}^{N} (\vec{x}_i - \vec{a}) \times \vec{F}^{\text{ext}}_i
+  \]
+\end{definition}
+Since $\vec{F}_{i j} = -\vec{F}_{j i}$ from \cref{newtonsThird}:
+\begin{align*}
+  (\vec{x}_i - \vec{a}) \times \vec{F}_{i j} + (\vec{x}_j - \vec{a}) \times \vec{F}_{j i} &= (\vec{x}_i - \vec{a}) \times \vec{F}_{i j} - (\vec{x}_j - \vec{a}) \times \vec{F}_{i j} \\
+                                                                                          &= [\vec{x}_i - \vec{x}_j]\times\vec{F}_{i j}
+\end{align*}
+We then have:
+\begin{equation}
+  \dot{\vec{L}} = \vec{G} + \sum_{i < j} [\vec{x}_i - \vec{x}_j]\times\vec{F}_{i j} \label{rateOfTotalAngular}
+\end{equation}
+We would like to show that $\dot{\vec{L}} = \vec{G}$ so that the rate of change of the total angular momentum is just the external torque, however, we cannot just use Newtons 3rd Law to show that the sum in \cref{rateOfTotalAngular} vanishes.
+
+If the force $\vec{F}_{i j}$ between particles $i$ and $j$ comes from a potential that depends on the distance from $\vec{x}_i$ to $\vec{x}_j$ then:
+\begin{align*}
+  \vec{F}_{i j} &= -\nabla_{\vec{x}_i} (V(|\vec{x}_i - \vec{x}_j|)) \\
+                &= -V' (|\vec{x}_i - \vec{x}_j|) \frac{\vec{x}_i - \vec{x}_j}{|\vec{x}_i - \vec{x}_j|}
+\end{align*}
+as from Vector Calculus: $\nabla_{\vec{u}} f(|\vec{u} - \vec{v}|) = f'(|\vec{u} - \vec{v}|) \nabla_{\vec{u}} |\vec{u} - \vec{v}| = f'(|\vec{u} - \vec{v}|) \frac{\vec{u} - \vec{v}}{|\vec{u} - \vec{v}|}$.
+
+Thus, $\vec{F}_{i j}$ is parallel to $\vec{x}_i - \vec{x}_j$ and so $(\vec{x}_i - \vec{x}_j) \times \vec{F}_{i j} = \vec{0}$.
+Therefore, in this case $\dot{\vec{L}} = \vec{G}$.
+
+It turns out that the sum in \cref{rateOfTotalAngular} does indeed vanish for all known forces, however this is more technical for other forces and is not covered in this course.
+Since the final sum vanishes, we always have $\dot{\vec{L}} = \vec{G}$, that is, the total torque of the system $\dot{\vec{L}}$ is equal to the external torque.
+This means that a system of particles cannot spin itself and needs an external torque to change its total angular momentum $\vec{L}$.
+\begin{remark}
+  It is natural to take $\vec{a} = \vec{R}$ (i.e. the centre of mass).
+  In general, $\vec{R}$ depends on $t$, however, the above proof assumed that $\vec{a}$ was constant, see Example Sheet 3 Q1 for a proof when $\vec{a} = \vec{R}(t)$.
+\end{remark}
+\subsection{Total Energy}
+The \textit{total energy} of the system can also be split up nicely.
+
+It is often convenient to think of a particles position \textit{relative to the centre of mass}.
+To do this, we define $\vec{y}_i$ to be such that:
+\[
+  \vec{x}_i = \vec{R} + \vec{y}_i
+\]
+We know that:
+\begin{align*}
+  M\vec{R} &= \sum_{i = 1}^{N} m_i \vec{x}_i \\
+           &= \sum_{i = 1}^{N} m_i\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \\
+           &= \vec{R}\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \vec{y}_i \\
+           &= M\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \implies \sum_{i = 1}^{N} \vec{y}_i = \vec{0}
+\end{align*}
+The total kinetic energy $T$ is then:
+\begin{align*}
+  T &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \\
+    &= \sum_{i = 1}^{N} \frac{1}{2} m_i (|\dot{\vec{R}}|^2 + |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot \dot{\vec{y}}_i) \\
+    &= \frac{1}{2} |\dot{\vec{R}}|^2\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \frac{1}{2} m_i |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot\cancelto{\vec{0}}{\left(\sum_{i = 1}^{N} \dot{\vec{y}}_i\right)} \\
+    &= \underbrace{\frac{1}{2}M |\dot{\vec{R}}|^2}_{\text{CoM K.E.}} + \underbrace{\sum_{i = 1}^{n} \frac{1}{2}m_i |\dot{\vec{y}}_i|^2}_{\text{Internal K.E.}}
+\end{align*}
+So we have split the kinetic energy into a centre of mass kinetic energy and sum of ``internal'' kinetic energies with respect to the centre of mass.
+
+To have a conserved total energy $E$, all forces must be conservative.
+Here, we will take forces between particles to depend on their separation only:
+\begin{align*}
+  \vec{F}^{\text{ext}}_i &= -\nabla_{\vec{x}_i} V_i(\vec{x}_i) \\
+  \vec{F}_{i j} &= -\nabla_{\vec{x}_i} V_{i j}(|\vec{x}_i  - \vec{x}_j|)
+\end{align*}
+\begin{remark}[Note]
+  We must have $V_{i j} = V_{j i}$, so that Newtons 3rd Law (\cref{newtonsThird}) is obeyed:
+  \begin{align*}
+    \vec{F}_{i j} &= - \nabla_{\vec{x}_i} V_{i j}(|\vec{x}_i - \vec{x}_j|) \\
+                  &= - V_{i j}(|\vec{x}_i - \vec{x}_j|)\frac{\vec{x}_i - \vec{x}_j}{|\vec{x}_i - \vec{x}_j|} \\
+                  &= V_{j i}(|\vec{x}_j - \vec{x}_i|)\frac{\vec{x}_j - \vec{x}_i}{|\vec{x}_j - \vec{x}_i|} \\
+                  &= \nabla_{\vec{x}_j}V_{i j}(|\vec{x}_j - \vec{x}_i|) = -\vec{F}_{j i} \\
+  \end{align*}
+\end{remark}
+\begin{definition}[Total Energy]
+  The \textit{total energy of the system} is defined to be the sum of the total kinetic energy $T$ from above plus the sum of all of the potentials:
+  \[
+    E = T + \sum_{i = 1}^{N} V_i(\vec{x}_i) + \sum_{i < j} V_{i j}(|\vec{x}_i - \vec{x}_j|)
+  \]
+\end{definition}
+\begin{remark}[Note]
+  For each pair of particles, there are two associated forces $\vec{F}_{ij}$ and $\vec{F}_{ji}$, however there is only a single potential $V_{i j} = V_{j i}$ which is why we only take the sum over $i < j$ to avoid double counting potentials.
+\end{remark}
+
+We can check that the total energy is conserved by finding $\dot{E}$.
+
+Differentiating $T$ we have:
+\[
+  \deriv{T}{t} = \sum_{i = 1}^{N} \frac{1}{2} \deriv{}{t}(\dot{\vec{x}}_i \cdot \dot{\vec{x}}_i) = \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \ddot{\vec{x}}_i
+\]
+To differentiate the potential $V_{i j}(|\vec{x}_i - \vec{x}_j|)$ with respect to $t$, we think of it as a function of 6 variables (i.e. three from $\vec{x}_i$ and three from $\vec{x}_j$) and so using the multivariate chain rule:
+\begin{align*}
+  \deriv{V_{i j}}{t} &= \pderiv{V_{i j}}{(x_i)_p}\deriv{(x_i)_p}{t} + \pderiv{V_{i j}}{(x_j)_q}\deriv{(x_j)_q}{t} \text{ ($\Sigma$ convention on $p$ and $q$)}\\
+                     &= \dot{\vec{x}}_i \cdot \nabla_{\vec{x}_i} V_{i j} + \dot{\vec{x}}_j \cdot \nabla_{\vec{x}_j} V_{i j}
+\end{align*}
+Combining these results, we have:
+\begin{align*}
+  \deriv{E}{t} &= \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \ddot{\vec{x}}_i + \sum_{i = 1}^{N} [\dot{\vec{x}}_i \cdot \nabla_{\vec{x}_i} V_i] + \sum_{i < j} [\dot{\vec{x}}_i \cdot \nabla_{\vec{x}_i}V_{i j} + \dot{\vec{x}}_j \cdot \nabla_{\vec{x}_j}V_{i j}] \\
+               &= \sum_{i = 1}^{N}  m_i \dot{\vec{x}}_i \cdot \ddot{\vec{x}}_i - \sum_{i = 1}^{N} \vec{F}^{\text{ext}}_i \cdot \dot{\vec{x}}_i - \sum_{i < j} [\vec{F}_{i j} \cdot \dot{\vec{x}}_i + \vec{F}_{ji} \cdot \dot{\vec{x}}_j]
+\end{align*}
+We can rewrite the final sum as:
+\begin{align*}
+  \sum_{i < j} [\vec{F}_{i j} \cdot \dot{\vec{x}}_i + \vec{F}_{ji} \cdot \dot{\vec{x}}_j] &= \sum_{i < j} \vec{F}_{i j} \cdot \dot{\vec{x}}_i + \sum_{i < j} \vec{F}_{j i} \cdot \dot{\vec{x}}_j \\
+                                                                                          &= \sum_{i < j} \vec{F}_{i j} \cdot \dot{\vec{x}}_i + \sum_{j < i} \vec{F}_{i j} \cdot \dot{\vec{x}}_i \\
+                                                                                          &= \sum_{i \neq j} \vec{F}_{i j} \cdot \dot{\vec{x}}_i
+\end{align*}
+Therefore:
+\begin{align*}
+  \deriv{E}{t} &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot (m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i) - \sum_{i \neq j} F_{i j} \cdot \dot{\vec{x}}_i \\
+               &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot \left[m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i - \sum_{j = 1, j \neq i}^n F_{i j}\right] \\
+               &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot [\vec{F}_i - \vec{F}_i] = 0
+\end{align*}
+and so the total energy of the system $E$ is conserved.
 \end{document}
