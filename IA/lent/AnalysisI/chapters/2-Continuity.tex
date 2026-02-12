@@ -515,11 +515,13 @@ Function composition also preserves continuity.
   Although this guarantees the existence of such a $c$, it is not necessarily unique as there could be multiple points whose image is $y$.
 \end{remark}
 \begin{proof}
-  If $f$ is constant, then the result follows trivially, if not, WLOG, $f(a) \leq f(b)$.
+  If $f$ is constant or $y \in \{f(a), f(b)\}$, then the result follows trivially, if not, assume WLOG that $f(a) < y < f(b)$.
+
   Consider the set $S = \{x \in [a, b]: f(x) \leq y\}$.
-  Then $a \in S \implies$ S is non empty.
+  $a \in S$ so $S \neq \emptyset$.
   $S$ is also bounded above by $b$ so $\exists d = \sup S \in [a, b]$.
   It would be reasonable to guess that $d$ is a point satisfying $f(d) = y$.
+  To show this, we can show both $f(d) \leq y$ and $f(d) \geq y$.
 
   \textbf{Claim $f(d) \leq y$}\par
   Suppose, for contradiction, that $f(d) > y$.
@@ -540,16 +542,18 @@ Function composition also preserves continuity.
   \]
   However, if we consider $x = d + \frac{\delta}{2}$, $|d + \frac{\delta}{2} - d| < \varepsilon \implies f(d + \frac{\delta}{2}) < y$ and so $d + \frac{\delta}{2} \in S$ but $d + \frac{\delta}{2} > d$ which contradicts the fact that $d$ is an upper bound for $S$.
 
-
-  Thus $f(d) \leq y$ and $f(d) \geq y$ so $f(d) = y$.
-
   \textbf{Intervals}\par
-  For the more general statement, set $J = f([a, b])$ and take any $y_1, y_2 \in J$.
-  Since $y_1, y_2 \in f([a, b])$, there exists $x_1, x_2 \in I$ with $f(x_1) = y_1$ and $f(x_2) = y_2$.
+  For the more general statement, let $I = [a, b]$ and $J = f([a, b])$ and take any $y_1, y_2 \in J$.
+  Since $y_1, y_2 \in f(I)$, there exists $x_1, x_2 \in I$ with $f(x_1) = y_1$ and $f(x_2) = y_2$.
 
-  Since $[a, b]$ is an interval, $x_1, x_2 \in [a,b] \implies [x_1, x_2] \subseteq [a, b]$.
+  Since $[a, b]$ is an interval, $x_1, x_2 \in I \implies [x_1, x_2] \subseteq I$.
   By the above, given $y$ between $y_1$ and $y_2$, there exists a $c \in [x_1, x_2]$ such that $y = f(c) \in f(I) = J$.
   Therefore, any point between $y_1$ and $y_2$ is also in $J$ and so $J$ is an interval.
+  Finally, $f(a) \in J$ and $f(b) \in J$ so:
+  \[
+    [\min\{f(a), f(b)\}, \max\{f(a), f(b)\}] \subseteq J
+  \]
+  since $J$ is an interval.
 \end{proof}
 \begin{example}[$n$-th Roots]
   We can apply the intermediate value theorem to show the existence of $n$-th roots.
