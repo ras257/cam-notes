@@ -311,6 +311,7 @@ Define $\Omega_X = \{X(\omega): \omega \in \Omega\}$, that is, the image of $\Om
 This allows us to partition $\Omega$ into the disjoint sets $\{\omega \in \Omega: X(\omega) = x\} = \{X = x\}$ for each $x \in \Omega_x$.
 We can therefore write $\Omega = \bigcup_{x \in \Omega_X} \{X = x\}$.
 Since they are disjoint, we can rewrite $\E[X]$ as follows:
+\label{expectationPartition}
 \begin{align*}
   \E[X] &= \sum_{\omega \in \Omega} X(\omega) \P(\{\omega\}) \\
         &= \sum_{x \in \Omega_X} \sum_{\omega \in \{X = x\}} X(\omega)\P(\{\omega\}) \\
@@ -1057,4 +1058,187 @@ We want $\E[f(X)] = f(\E[X])$ so this forces $\E[f(X)] = a \E[X] + b = \E[aX + b
   \E[f(X) - (aX + b)] = 0 &\implies \P(f(X) = aX + b) = 1 \\
 \end{align*}
 Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so $\P(f(X) = aX + b) = 1 \implies \P(X = \E[X]) = 1$.
+\begin{example}[AM-GM Inequality]
+  Let $f$ be a convex function.
+  Then $\forall x_1, \ldots, x_n \in \R$ we have:
+  \[
+    \frac{1}{n} \sum_{k = 1}^{n} f(x_k) \geq f\left(\frac{1}{n}\sum_{k = 1}^{n} x_k\right)
+  \]
+  This follows from that if we define $X$ as a r.v. with $P(X = x_i) = \frac{1}{n}$.
+  \[
+    \frac{1}{n}\sum_{k = 1}^{n} f(x_k) = \E[f(X)] = \sum_{i = 1}^{k} f(x)\P(X = x)
+  \]
+
+  If we now set $f(x) = -\log x$, this is convex so for all $x_1, \ldots, x_n$:
+  \begin{align*}
+    -\frac{1}{n} \sum_{k = 1}^{n} \log x_k &\geq - \log\left(\frac{1}{n} \sum_{k = 1}^{n} x_k\right) \\
+    \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} &\leq \frac{1}{n} \sum_{k = 1}^{n} x_k
+  \end{align*}
+\end{example}
+\section{Joint Distributions and Conditional Expectation}
+\subsection{Joint and Conditional Distributions}
+\begin{remark}[Recap]
+  Recall that if $X$ is a discrete r.v. then the distribution of $X$ is $(\P(X = x))_x$.
+\end{remark}
+\begin{definition}[Joint Distribution]
+  Let $X_1, \ldots, X_n$ be discrete random variables.
+  Their \textit{joint distribution} is defined to be:
+  \[
+    \P(X_1 = x_1, \ldots, X_n = x_n)\ \forall x_1, \ldots, x_n
+  \]
+\end{definition}
+\begin{definition}[Marginal Distribution]
+  Given the joint distribution, we can obtain the \textit{marginal distribution} for a single random variable $X_1$ by summing over all the possibilities for $x_2, \ldots, x_n$.
+  \[
+    \P(X_1 = x_1) = \sum_{x_2, \ldots, x_n} \P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)
+  \]
+\end{definition}
+\begin{definition}[Conditional Distribution]
+  Let $X$ and $Y$ be random variables.
+  The \textit{conditional distribution} of $X$ given $Y = y$ for $\P(Y = y) > 0$ is defined to be:
+  \[
+    \P(X = x \vert Y = y) = \frac{\P(X = x, Y = y)}{\P(Y = y)}
+  \]
+\end{definition}
+We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X = x)$ if we know the conditional distribution $\P(X = x \vert Y = y)$ and the distribution of $Y$:
+\[
+  \P(X = x) = \sum_{y} \P(X = x \vert Y = y) \P(Y = y)
+\]
+\subsection{Convolutions}
+\begin{proposition}[Convolution]
+  If $X$ and $Y$ be independent discrete random variables, then random variable $X + Y$ follows a distribution which is the \textit{convolution} of the distributions of $X$ and $Y$.
+
+  That is:
+  \[
+    \P(X + Y = z) = \sum_{y} \P(X = z - y) \P(y = y)
+  \]
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    \P(X + Y = z) &= \sum_{y} \P(X + Y = z, Y = y) \text{ by law of total probability} \\
+                  &= \sum_{y} \P(X = z - y, Y = y) \\
+                  &= \sum_{y} \P(X = z - y)\P(Y = y) \text{ by independence}
+  \end{align*}
+\end{proof}
+\begin{example}[Convolution of Poisson r.v.s]
+  Let $X$ and $Y$ be independent Poisson r.v.s with parameters $\lambda$ and $\mu$  respectively:
+  \begin{align*}
+    \P(X + Y = n) &= \sum_{k = 0}^{n} \P(X = n - k) \P(Y = k) \\
+                  &= \sum_{k = 0}^{n} e^{-\lambda} \frac{\lambda^{n-k}}{(n - k)!} e^{-\mu} \frac{\mu^{k}}{k!} \\
+                  &= \frac{e^{-(\lambda + \mu)}}{n!} \sum_{k = 0}^{n} \binom{n}{k} \lambda^{n - k}\mu^{k}  \\
+                  &= e^{-(\lambda + \mu)}\frac{(\lambda + \mu)^{n}}{n!}
+  \end{align*}
+  So $X + Y \sim \poisson(\lambda + \mu)$.
+\end{example}
+\subsection{Conditional Expectation}
+\begin{definition}[Conditional Expectation]
+  Let $X$ be a random variable and let $B \in \salg$ be an event with $\P(B) > 0$.
+  The \textit{conditional expectation of $X$ given $B$} is:
+  \[
+    \E[X \vert B] = \frac{\E[X \cdot I_B]}{\P(B)}
+  \]
+  where $I_B$ is the indicator of $B$.
+\end{definition}
+\begin{remark}[Note]
+  All of the properties that we showed for normal expectation in \cref{expectationProperties} apply to conditional expectation, provided that we are always conditioning using the same event.
+\end{remark}
+\begin{remark}
+  If we set $X = 1_A$, then we obtain the formula for conditional probability.
+  \[
+    \E[1_A \vert B] = \frac{\E[1_A 1_B]}{\P(B)} = \frac{\E[1(A \cap B)]}{\P(B)} = \frac{\P(A \cap B)}{\P(B)}
+  \]
+\end{remark}
+\begin{proposition}[Law of Total Expectation]
+  If $X$ be a discrete random variable and $(\Omega_n)$ is a partition of $\Omega$ into disjoint sets all with $\P(\Omega_n) > 0$, then:
+  \[
+    \E[X] = \sum_{n} \E[X \vert \Omega_n]\P(\Omega_n)
+  \]
+\end{proposition}
+\begin{proof}
+  We have that $1(\Omega): \Omega \to \{0, 1\}$ is identically $1$ and $1(\Omega) = \sum_{n} 1(\Omega_n)$ since $(\Omega_n)$ is a partition, so:
+  \begin{align*}
+    \E[X] &= \E[X \cdot 1(\Omega)] \\
+          &= \E\left[X \cdot \sum_{n} 1(\Omega_n)\right] \\
+          &= \sum_{n} \E[X \cdot 1(\Omega_n)] \\
+          &= \sum_{n} \E[X \vert \Omega_n]\P(\Omega_n)
+  \end{align*}
+\end{proof}
+Consider discrete random variables $X$ and $Y$.
+Since $\{Y = y\}$ is just an event, we can find the conditional expectation of $X$ given $Y = y$:
+\[
+  \E[X \vert Y = y] = \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)}
+\]
+We can also use the formula for expectation from \cref{expectationPartition} to expand this:
+\begin{align*}
+  \E[X \vert Y = y] &= \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)} \\
+                    &= \sum_{x} x \cdot \frac{\P(X = x, Y = y)}{\P(Y = y)} \\
+                    &= \sum_{x} x \cdot \P(X = x \vert Y = y)
+\end{align*}
+So we see that it is the expectation of the conditional distribution of $X$ given $Y = y$.
+
+$\E[X \vert Y = y]$ is a function of $y$ so we can define $g(y) = \E[X \vert Y = y]$.
+We can then use this to define the expectation of one discrete random variable given another discrete random variable:
+\begin{definition}[Expectation of $X$ given $Y$]
+  Let $X$ and $Y$ be two discrete random variables and let $g(y) = \E[X \vert Y = y]$.
+  The \textit{expectation of $X$ given $Y$} is another discrete random variable that is a function of $Y$ defined as:
+  \[
+    \E[X \vert Y] = g(Y)
+  \]
+\end{definition}
+\begin{remark}
+  We can also express this as:
+  \[
+    \E[X \vert Y] = \sum_{y} g(y) \cdot 1(Y = y)
+  \]
+  Since for any $\omega \in \Omega$, $1(Y(\omega) = y)$ will be 1 exactly once in this sum and 0 otherwise.
+\end{remark}
+\begin{example}
+  Suppose we toss a $p$-coin $n$ times independently.
+  Let $X_i = 1(\text{$i$-th toss is heads})$ for $i = 1, \ldots, n$ and let:
+  \[
+    Y_n = X_1 + \cdots + X_n
+  \]
+  What is $\E[X_1 \vert Y_n]$?
+  Let $g(y) = \E[X_1 \vert Y_n = y]$, then:
+  \begin{align*}
+    g(y) &= \frac{\E[X_1 \cdot 1(Y_n = y)]}{\P(Y_n = y)} \\
+         &= \frac{\P(X_1 = 1, Y_n = y)}{\P(Y_n = y)} \\
+         &= \frac{p \cdot \binom{n - 1}{y - 1}p^{y - 1} (1 - p)^{n - y}}{\binom{n}{y} p^{y}(1-p)^{n-y}} \\
+         &= \frac{y}{n}
+  \end{align*}
+  and so $\E[X_1 \vert Y_n] = \frac{Y_n}{n}$.
+\end{example}
+\begin{proposition}[Properties of conditional expectation of 2 r.v.s]
+  \begin{enumerate}
+    \item For $c \in \R$, $\E[cX \vert Y] = c \E[X \vert Y]$, $\E[c + X \vert Y] = c + \E[X \vert Y]$
+    \item $\E[c \vert Y] = c$.
+    \item If $X_1, \ldots, X_n$ and $Y$ are discrete random variables then:
+      \[
+        \E\left[\left. \sum_{i = 1}^{n} X_i \middle\vert Y \right.\right] = \sum_{i = 1}^{n} \E[X_i \vert Y]
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item Let $g(y) = \E[X \vert Y = y]$.
+      $\E[cX \vert Y = y] = c g(y)$ so:
+      \[
+        \E[cX \vert Y] = c g(Y) = \E[X \vert Y]
+      \]
+      Similarly $\E[X + c \vert Y = y] = c + g(y)$ so:
+      \[
+        \E[X + c \vert Y] = c + g(Y) = c + \E[X \vert Y]
+      \]
+    \item $g(y) = \E[c \vert Y = y] = \frac{\E[c I(Y = y)]}{\P(Y = y)} = c$ and so $\E[c \vert Y] = g(Y) = c$.
+    \item Let:
+      \[
+        g(y) = \E\left[\left. \sum_{i = 1}^{n} X_i \middle\vert Y = y \right.\right] = \sum_{i = 1}^{n} \E[X_i \vert Y = y] \\
+      \]
+      Let $g_i(y) = \E[X_i \vert Y = y]$, so that $\E[X_i \vert Y] = g_i(Y)$.
+      Therefore:
+      \[
+        \E\left[\left. \sum_{i = 1}^{n} X_i \middle\vert Y \right.\right] = g(Y) = \sum_{i = 1}^{n} g_i(Y) = \sum_{i = 1}^{n} \E[X_i \vert Y]
+      \]
+  \end{enumerate}
+\end{proof}
 \end{document}

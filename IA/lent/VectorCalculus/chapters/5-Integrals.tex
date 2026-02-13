@@ -240,11 +240,13 @@ Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have
     \item In \textbf{vi}, we integrated $F = z \vec{e}_\phi$.
       Using \cref{cylindricalOperators}, we see that $\nabla \times (z \vec{e}_\phi) = -\vec{e}_\rho \neq \vec{0}$ and so $\vec{F}$ is not conservative.
 
-      Suppose that $\nabla \times \vec{F}$ had actually been $\vec{0}$, we could not have concluded that $\vec{F}$ would be conservative as the domain of $\vec{F}$ is not simply connected.
-      This is because the domain does not include the $z$-axis as $\vec{e}_\phi$ is not defined there.
+      Suppose that $\nabla \times \vec{F}$ had actually been $\vec{0}$, we could not have concluded that $\vec{F}$ would be conservative.
+      The domain of $\vec{F}$ does not include the $z$-axis apart from $\vec{0}$ as $\vec{e}_\phi$ is not defined there.
+      So we could shrink a curve around the $z$ axis to a point by passing it through the ``gap'' at the origin, however, the derivatives of $F$ are not defined at the origin and so $\nabla \times \vec{F}$ is also not defined there so we are not working in a simply connected domain.
   \end{itemize}
 \end{example}
 \section{Area Integrals}
+\subsection{Definition}
 To integrate over a region $A \subset \R^2$, we cover $A$ with a large number $N$ of small disjoint subsets $\delta A_i \subset A$ for $i \in \{1, \ldots, N\}$.
 Then:
 \[
@@ -264,4 +266,205 @@ Informally, we can think of $\int_A f(x, y) \d{A}$ is the volume under the graph
 
   If it doesn't give the same answer, then we say that $f$ is not integrable of $A$ but for most reasonable functions $f$ and regions $A$, it will be integrable.
 \end{remark}
+The most obvious way to divide $A$ up is to use rectangles parallel to the $x$ and $y$ axes with area $\delta x \delta y$.
+
+If we first sum over a horizontal strip of $y$ with constant height $\delta y$ and let $\delta x \to 0$ then we obtain:
+\[
+  \left(\int_{X(y)} f(x, y) \d{x}\right)\delta y
+\]
+where for each $y$, $X(y) = \{x: (x, y) \in A\}$.
+We then sum these over the range of $y$ and let $\delta y \to 0$ to obtain:
+\[
+  \int_{y_{\text{min}}}^{y_{\text{max}}} \left(\int_{X(y)} f(x, y) \d{x}\right) \d{y}
+\]
+
+We could also sum vertical strips to obtain:
+\[
+  \int_{x_{\text{min}}}^{x^{\text{max}}} \left(\int_{Y(x)} f(x, y) \d{y}\right) \d{x}
+\]
+where $Y(x) = \{y: (x, y) \in A\}$.
+
+\textit{Fubini's Theorem} tells us that both of these are equal to $\int_A f(x, y) \d{A}$ for any reasonable $f$ and $A$.
+That is, taking the limits in $x$ and then $y$, is the same as taking the limits in $y$ and then $x$, and the same as taking $\Delta \to 0$.
+\begin{remark}[Restrictions on Fubini's Theorem]
+  \nonexaminable
+  When we mean reasonable $f$ and $A$, the restrictions are quite loose, if $f$ is piecewise continuous and the boundary of $A$ is a finite piecewise smooth curve then Fubini's Theorem holds.
+\end{remark}
+\begin{remark}[Notation]
+  Some other notation for $\int_A f(x, y) \d{A}$  include:
+  \[
+    \int_A f(x, y) \d{x} \d{y},\ \int_A f(\vec{x}) \d^2{\vec{x}},\ \iint\limits_A f(x, y) \d{A},\ \int_A f(x, y) \d{S},\ \int\d{x}\int\d{y} f(x, y)
+  \]
+\end{remark}
+\begin{example}
+  Integrate $f(x, y) = xy^2$ over $A$, a triangle with vertices at $(0, 0), (1, 1)$ and $(1, -1)$.
+
+  \begin{center}
+  \begin{tikzpicture}
+    \filldraw[fill=gray!20, draw=black, thick] (0, 0) node[above left] {\small$(0, 0)$} -- (1, 1) node[above right] {\small$(1, 1)$} -- (1, -1) node[below right] {\small$(1, -1)$} -- cycle;
+    \node[above] at (0.7, 0) {$A$};
+    \draw[->] (-0.5, 0) -- (2, 0) node[right] {$x$};
+    \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
+  \end{tikzpicture}
+  \end{center}
+
+  We can integrate over $y$ first:
+  \begin{align*}
+    \int_A f(x, y) \d{A} &= \int_{0}^{1} \int_{-x}^{x} xy^2 \d{y} \d{x} \\
+                         &= \int_{0}^{1} x \eval{\frac{1}{3} y^3}{-x}{x} \d{x} \\
+                         &= \int_{0}^{1} \frac{2}{3}x^{4} \d{x} \\
+                         &= \frac{2}{15}
+  \end{align*}
+  We can also integrate over $x$ first, although the bounds are a bit more fiddly:
+  \begin{align*}
+    \int_A f(x, y) \d{A} &= \int_{-1}^{1} \int_{|y|}^{1} xy^2 \d{x} \d{y} \\
+                         &= \int_{-1}^{1} y^2 \eval{\frac{1}{2}x^2}{|y|}{1} \d{y} \\
+                         &= \int_{-1}^{1} \frac{1}{2}y^2(1 - y^2) \d{y} \\
+                         &= \frac{1}{3} - \frac{1}{5} = \frac{2}{15}
+  \end{align*}
+\end{example}
+\begin{remark}[Warning]
+  Make sure that you determine the inner limits in terms of the outer variable.
+  A common mistake is to just make both limits run between the min and max of $x$ and $y$, however, this means that you will always be integrating over a rectangle.
+\end{remark}
+\begin{remark}[Special Case]
+  If $A$ is a rectangle, i.e. $A = \{(x, y): x \in [a, b], y \in [c, d]\}$, and $f$ is \textit{separable} so it can be written as $f(x, y) = g(x)h(y)$, then we can do the $x$-integral first, pulling out $h(y)$:
+  \[
+    \int_{X(y)} f(x, y) \d{x} = h(y) \int_{a}^{b} g(x) \d{x}
+  \]
+  Now when we do the outer integral, $\int_{a}^{b} g(x) \d{x}$ is just a constant so can be pulled out so:
+  \[
+    \int_A f(x, y) \d{A} = \left(\int_{a}^{b} g(x) \d{x}\right)\left(\int_{c}^{d} h(y) \d{y}\right)
+  \]
+\end{remark}
+\subsection{Change of Variables}
+\begin{proposition}[Change of variables for area integrals]
+  If $(u, v) \mapsto (x, y)$ is a bijection from a region $A'$ in the $(u, v)$-plane to the region $A$ in the $(x, y)$-plane, then:
+  \[
+    \int_A f(x, y) \d{x} \d{y} = \int_{A'} F(u, v) \abs{\frac{\partial(x, y)}{\partial(u, v)}} \d{u}\d{v}
+  \]
+  where $F(u, v) = f(x(u, v), y(u, v))$ and:
+  \[
+    J = \frac{\partial(x, y)}{\partial(u, v)} \equiv \det \begin{pmatrix}
+    \pderiv{x}{u} & \pderiv{x}{v} \\
+    \pderiv{y}{u} & \pderiv{y}{v} \\
+    \end{pmatrix}
+  \]
+  is called the \textit{Jacobian} of the transformation.
+\end{proposition}
+\begin{remark}[Note]
+  It is the \textbf{modulus} of $J = \frac{\partial(x, y)}{\partial(u, v)}$ that appears in this rule, not a determinant.
+  That is, we have a factor of $|J|$ where $J$ is the \textbf{determinant} of a matrix.
+\end{remark}
+\begin{remark}[Notation]
+  We often just call $F$ just $f$ so the right hand side reads:
+  \[
+    \int_{A'} f(u, v) |J| \d{u} \d{v}
+  \]
+  which is clearly incorrect but regardless it is usually clear what is meant.
+\end{remark}
+\begin{proof}
+  We can choose how we want to divide $A$ up and so we choose to divide $A$ up into small regions between curves of constant $u$ and constant $v$.
+  In \cref{surfaceElements}, we saw how we can find the area of such a region on a 2D surface, so, as we can consider $A$ a flat surface in the $(x, y)$-plane, the area of each region is given by:
+  \[
+    \abs{\pderiv{\vec{x}}{u} \times \pderiv{\vec{x}}{v}} \d{u} \d{v} = \abs{\begin{pmatrix}
+    \pderiv{x}{u} \\
+    \pderiv{y}{u} \\
+    0 \\
+    \end{pmatrix} \times \begin{pmatrix}
+    \pderiv{x}{v} \\
+    \pderiv{y}{v} \\
+    0 \\
+    \end{pmatrix}} \d{u} \d{v} =
+    \abs{\pderiv{x}{u}\pderiv{y}{v} - \pderiv{x}{v}\pderiv{y}{u}}\d{u}\d{v} = |J| \d{u}\d{v}
+  \]
+  The contribution of this particular region to the sum defining $\int_A f \d{A}$ is therefore $f(\vec{x}(u, v))|J| \d{u} \d{v} = F(u, v) |J| \d{u} \d{v}$.
+  Integrating over the values of $(u, v) \in A'$, we have:
+  \[
+    \int_A f \d{x} \d{y} = \int_{A'} F |J|\d{u} \d{v}
+  \]
+\end{proof}
+\begin{remark}
+  The goal of using such a transform is either to simplify the region of integration and/or the integrand.
+\end{remark}
+\begin{example}
+  Evaluate the integral $\int_A y^2 \d{A}$ where $A$ is the semicircular domain $\{(x, y): x^2 + y^2 < R^2,\ y > 0\}$.
+
+  We choose plane polar coordinates $(r, \theta)$ defined by $x = r\cos \theta$, $y = r\sin\theta$.
+  Then in the $(r, \theta)$-plane, we see that there is a bijection between the rectangle $A' = \{(r, \theta): r < R,\ 0 < \theta < \pi\}$ and $A$.
+
+  We first find the Jacobian of the transformation:
+  \[
+    |J| = \det \begin{pmatrix}
+    \pderiv{x}{r} & \pderiv{x}{\theta} \\
+    \pderiv{y}{r} & \pderiv{y}{\theta} \\
+    \end{pmatrix} = \det \begin{pmatrix}
+    \cos \theta & -r\sin \theta \\
+    \sin \theta & r\cos \theta \\
+    \end{pmatrix} = r
+  \]
+  We also find that $F(r, \theta) = f(r \cos \theta, r \sin \theta) = r^2 \sin^2 \theta$ and so:
+  \[
+    \int_A y^2 \d{A} = \int_{A'} r^2 \sin^2 \theta |r| \d{r} \d{\theta}
+  \]
+  Since $F$ separable and we are integrating over the rectangle $A'$, we obtain:
+  \[
+    \int_{0}^{R} r^3 \d{r} \int_{0}^{\pi} \sin^2\theta \d{\theta} = \frac{1}{8}\pi R^4
+  \]
+
+  In this example, the area element was $\d{A'} = r \d{r} \d{\theta}$:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=1.5]
+    \begin{scope}
+      \clip (0, 0) -- (3, 3) -- (2.165, 1.25);
+      \fill[gray!50] (0, 0) circle (2.5);
+      \fill[white] (0, 0) circle (1.7);
+    \end{scope}
+    \begin{scope}
+      \clip (0, 0) rectangle (3, 3);
+      \draw[thick] (0, 0) circle (2.5);
+      \draw[thick] (0, 0) circle (1.7);
+    \end{scope}
+    \draw[->] (-0.5, 0) -- (3, 0) node[right] {$x$};
+    \draw[->] (0, -0.5) -- (0, 3) node[above] {$y$};
+    \draw[rotate = 45, thick] (0, 0) -- (4, 0);
+    \draw[rotate = 30, thick] (0, 0) -- (4, 0);
+    \node[below] at (2.5, 0) {\small$r$};
+    \node[below] at (1.7, 0) {\small$r + \delta r$};
+    \node[below] at (1.9, 1.1) {\small$\delta r$};
+    \node[below] at (1.2, 1.1) {\small$r \delta \theta$};
+    \node at (1.65, 1.3) {\small$\delta A'$};
+
+    \draw (0.4, 0) arc [start angle=0,end angle=30,radius=0.4] node[midway, right] {\small$\theta$};
+    \draw (0.48, 0.27) arc [start angle=30,end angle=45,radius=0.6] node[midway, above right] {\small$\delta\theta$};
+  \end{tikzpicture}
+  \end{center}
+  As $\delta r$ and $\delta \theta$ become infinitesimal, the region $\delta A'$ becomes a rectangle and so $\d{A} = (r \d{\theta}) \d{r}$.
+\end{example}
+\subsection{Properties of the Jacobian}
+Let $J_1$ be the Jacobian for $(u, v) \mapsto (x, y)$ and $J_2$ for $(\xi, \eta) \mapsto (u, v)$.
+Consider the matrix product:
+\begin{align*}
+  J_1 J_2 &= \begin{pmatrix}
+  \pderiv{x}{u} & \pderiv{x}{v} \\
+  \pderiv{y}{u} & \pderiv{y}{v} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  \pderiv{u}{\xi} & \pderiv{u}{\eta} \\
+  \pderiv{v}{\xi} & \pderiv{v}{\eta} \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+  \pderiv{x}{u} \pderiv{u}{\xi} + \pderiv{x}{v} \pderiv{v}{\xi} & \pderiv{x}{u} \pderiv{u}{\eta} + \pderiv{x}{v} \pderiv{v}{\eta} \\
+  \pderiv{y}{u} \pderiv{u}{\xi} + \pderiv{x}{v} \pderiv{y}{\xi} & \pderiv{y}{u} \pderiv{u}{\eta} + \pderiv{y}{v} \pderiv{v}{\eta} \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+  \pderiv{x}{\xi} & \pderiv{x}{\eta} \\
+  \pderiv{y}{\xi} & \pderiv{y}{\eta} \\
+  \end{pmatrix}
+\end{align*}
+Since $\det(J_1 J_2) = \det(J_1)\det(J_2)$, we see that:
+\[
+  \frac{\partial(x, v)}{\partial(u, v)} \frac{\partial(u, v)}{\partial(\xi, \eta)} = \frac{\partial(x, y)}{\partial(\xi, \eta)}
+\]
+So the Jacobian of a composition of maps is the product of the Jacobians.
 \end{document}
