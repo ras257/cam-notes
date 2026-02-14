@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Systems of Particles}
+\label{systemsOfParticles}
 \section{General Systems of Particles}
 Suppose we have $N$ particles indexed by $i = 1, \ldots, N$ with momenta $\vec{p}_i = m_i \dot{\vec{x}}_i$ and all obeying Newton's law individually, that is, for each particle:
 \[
@@ -66,10 +67,11 @@ Furthermore, if we find $\dot{\vec{P}}$:
   \]
 \end{definition}
 Thus, $\dot{\vec{P}} = \vec{F}$ and since $\vec{P} = M \dot{\vec{R}}$, we then have:
-\[
-  M \ddot{\vec{R}} = \vec{F} = \sum_{i = 1}^{N} \vec{F}^\text{ext}_i
-\]
+\begin{equation}
+  M \ddot{\vec{R}} = \vec{F} = \sum_{i = 1}^{N} \vec{F}^\text{ext}_i \label{comN2}
+\end{equation}
 So the centre of mass accelerates just like a point particle subject to an external force $\vec{F}$.
+The system cannot accelerate itself without an external force.
 \begin{remark}
   This property of systems of particle is what allows us to treat the Earth as a point particle as all the internal forces between individual particles cancel each other out when considering the centre of mass of the whole system.
 \end{remark}
@@ -136,19 +138,19 @@ To do this, we define $\vec{y}_i$ to be such that:
   \vec{x}_i = \vec{R} + \vec{y}_i
 \]
 We know that:
-\begin{align*}
-  M\vec{R} &= \sum_{i = 1}^{N} m_i \vec{x}_i \\
-           &= \sum_{i = 1}^{N} m_i\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \\
-           &= \vec{R}\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \vec{y}_i \\
-           &= M\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \implies \sum_{i = 1}^{N} \vec{y}_i = \vec{0}
-\end{align*}
+\begin{align}
+  M\vec{R} &= \sum_{i = 1}^{N} m_i \vec{x}_i \nonumber \\
+           &= \sum_{i = 1}^{N} m_i\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \nonumber \\
+           &= \vec{R}\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \vec{y}_i \nonumber \\
+           &= M\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \implies \sum_{i = 1}^{N} \vec{y}_i = \vec{0} \label{relativeSum}
+\end{align}
 The total kinetic energy $T$ is then:
-\begin{align*}
-  T &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \\
-    &= \sum_{i = 1}^{N} \frac{1}{2} m_i (|\dot{\vec{R}}|^2 + |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot \dot{\vec{y}}_i) \\
-    &= \frac{1}{2} |\dot{\vec{R}}|^2\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \frac{1}{2} m_i |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot\cancelto{\vec{0}}{\left(\sum_{i = 1}^{N} \dot{\vec{y}}_i\right)} \\
-    &= \underbrace{\frac{1}{2}M |\dot{\vec{R}}|^2}_{\text{CoM K.E.}} + \underbrace{\sum_{i = 1}^{n} \frac{1}{2}m_i |\dot{\vec{y}}_i|^2}_{\text{Internal K.E.}}
-\end{align*}
+\begin{align}
+  T &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \nonumber \\
+    &= \sum_{i = 1}^{N} \frac{1}{2} m_i (|\dot{\vec{R}}|^2 + |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot \dot{\vec{y}}_i) \nonumber \\
+    &= \frac{1}{2} |\dot{\vec{R}}|^2\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \frac{1}{2} m_i |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot\cancelto{\vec{0}}{\left(\sum_{i = 1}^{N} \dot{\vec{y}}_i\right)} \nonumber \\
+    &= \underbrace{\frac{1}{2}M |\dot{\vec{R}}|^2}_{\text{CoM K.E.}} + \underbrace{\sum_{i = 1}^{n} \frac{1}{2}m_i |\dot{\vec{y}}_i|^2}_{\text{Internal K.E.}} \label{totalKE}
+\end{align}
 So we have split the kinetic energy into a centre of mass kinetic energy and sum of ``internal'' kinetic energies with respect to the centre of mass.
 
 To have a conserved total energy $E$, all forces must be conservative.
@@ -184,7 +186,7 @@ Differentiating $T$ we have:
 \]
 To differentiate the potential $V_{i j}(|\vec{x}_i - \vec{x}_j|)$ with respect to $t$, we think of it as a function of 6 variables (i.e. three from $\vec{x}_i$ and three from $\vec{x}_j$) and so using the multivariate chain rule:
 \begin{align*}
-  \deriv{V_{i j}}{t} &= \pderiv{V_{i j}}{(x_i)_p}\deriv{(x_i)_p}{t} + \pderiv{V_{i j}}{(x_j)_q}\deriv{(x_j)_q}{t} \text{ ($\Sigma$ convention on $p$ and $q$)}\\
+  \deriv{V_{i j}}{t} &= \pderiv{V_{i j}}{(\vec{x}_i)_p}\deriv{(\vec{x}_i)_p}{t} + \pderiv{V_{i j}}{(\vec{x}_j)_q}\deriv{(\vec{x}_j)_q}{t} \text{ ($\Sigma$ convention on $p$ and $q$)}\\
                      &= \dot{\vec{x}}_i \cdot \nabla_{\vec{x}_i} V_{i j} + \dot{\vec{x}}_j \cdot \nabla_{\vec{x}_j} V_{i j}
 \end{align*}
 Combining these results, we have:
@@ -205,4 +207,101 @@ Therefore:
                &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot [\vec{F}_i - \vec{F}_i] = 0
 \end{align*}
 and so the total energy of the system $E$ is conserved.
+\section{The Two Body Problem}
+An important special case of a system of particles is the \textit{two body problem}.
+This is when we have two particles with \textbf{no external forces}.
+
+Let $\vec{r} = \vec{x}_1 - \vec{x}_2$ be the relative separation of the two particles.
+Their centre of mass $\vec{R}$ satisfies:
+\[
+  M \vec{R} = m_1 \vec{x}_1 + m_2 \vec{x}_2
+\]
+and so we can write the positions of the particles as:
+\begin{align*}
+  \vec{x}_1 &= \vec{R} + \frac{m_2}{M}\vec{r} = \vec{R} + \vec{y}_1 \\
+  \vec{x}_2 &= \vec{R} - \frac{m_1}{M}\vec{r} = \vec{R} + \vec{y}_2
+\end{align*}
+where $M = m_1 + m_2$.
+
+The second terms in each of these expressions are then the positions of the particles relative to the centre of mass of the system (i.e. $\vec{y}_1$ and $\vec{y}_2$ from the last section).
+We see that they obey $m_1\vec{y}_1 + m_2\vec{y}_2 = \vec{0}$, which is consistent with \cref{relativeSum}.
+
+Using \cref{totalKE}, we can find the total kinetic energy of the system:
+\begin{align}
+  T &= \frac{1}{2}M |\dot{\vec{R}}|^2 + \frac{1}{2}m_1 |\dot{\vec{y}}_1|^2 + \frac{1}{2}m_2 |\vec{y}_2|^2 \nonumber \\
+    &= \frac{1}{2}M |\dot{\vec{R}}|^2 + \frac{m_1}{2} \frac{m^2_2}{M^2} |\dot{\vec{r}}|^2 + \frac{m_2}{2} \frac{m^2_1}{M^2} |\dot{\vec{r}}|^2 \nonumber \\
+    &= \frac{1}{2}M |\dot{\vec{R}}|^2 + \frac{1}{2}\left[\frac{m_1m^2_2 + m^2_1m_2}{(m_1 + m_2)^2}\right]|\dot{\vec{r}}|^2 \nonumber \\
+    &= \frac{1}{2}M |\dot{\vec{R}}|^2 + \frac{1}{2} \mu |\dot{\vec{r}}|^2 \label{totalKE2Body}
+\end{align}
+where $\mu = \frac{m_1 m_2}{m_1 + m_2}$ is the \textit{reduced mass}.
+So the kinetic energy of the system can be separated into kinetic energy for the centre of mass with mass $M$, and kinetic energy for the relative separation with effective mass $\mu$.
+We have seen already that the centre of mass acts like a point particle of mass $M$ and this calculation suggests that the relative separation $\vec{r}$ acts like a point particle of mass $\mu$.
+
+With no external forces, we know from \cref{comN2} that $\ddot{\vec{R}} = \vec{0}$.
+But what about $\ddot{r}$?
+If we treat $\vec{r}$ like a particle with mass $\mu$ as suggested by \cref{totalKE2Body}, then we see that:
+\begin{align*}
+  \mu \ddot{\vec{r}} &= \mu (\ddot{\vec{x}}_1 - \ddot{\vec{x}}_2) \\
+                     &= \mu \left(\frac{\vec{F}_{1 2}}{m_1} - \frac{\vec{F}_{2 1}}{m_2}\right) \text{ using N2 (\cref{newton2})}\\
+                     &= \mu \left(\frac{1}{m_1} + \frac{1}{m_2}\right)\vec{F}_{1 2} \text{ using N3 (\cref{newtonsThird})}\\
+                     &= \frac{\mu}{\mu}\vec{F}_{1 2} = \vec{F}_{1 2}
+\end{align*}
+So the relative separation also behaves like a single particle problem with force $\vec{F}_{1 2}$.
+This means we can use the methods we have already developed throughout the course to analyse this.
+
+If one mass is much larger than the other, then we see that the reduced mass is approximately the smaller mass.
+That is, if $m_1 \gg m_2$, then:
+\[
+  \mu = \frac{m_1 m_2}{m_1 + m_2} \approx \frac{m_1m_2}{m_1} = m_2
+\]
+So in this limit, the more massive object is essentially stationary and the lighter object orbits around it and so we have reduced the problem to the one body Kepler problem (\cref{keplerSection}) for the relative position $\vec{r}$.
+\begin{remark}
+  We see that the two body problem can be reduced to the Kepler problem, however, the \textit{three body problem} does not have a closed form solution.
+  It is a chaotic system and very small perturbations to the initial conditions grow exponentially.
+
+  Surprisingly enough, when the number of particles is very large, the problem simplifies and can be analysed using statistical physics.
+\end{remark}
+\section{Rocket Equation and Variable Mass}
+The relation $\dot{\vec{P}} = \vec{F}^{\text{ext}}$ from \cref{comN2} is useful when the internal forces of the system are complicated as we know only external forces change the total momentum $\dot{\vec{P}}$ of the system.
+
+Consider a rocket that ejects fuel with speed $u$ relative to the rocket.
+So far in the course, we have only considered constant masses, however the mass of this rocket depends on time as the longer the rocket has been in flight for, the more fuel it has ejected.
+
+For ease, consider only motion in the $z$-direction so that we use the scalar quantities $\dot{p}$ and $F^{\text{ext}}$.
+We don't care about the mechanics of how the fuel is ejected but the total momentum must obey:
+\[
+  \dot{p} = \frac{p(t + \delta t) - p(t)}{\delta t} = F^{\text{ext}}
+\]
+for small $\delta t$.
+
+The total momentum of the system at time $t$ is:
+\[
+  p(t) = m(t) v(t)
+\]
+and at time $t + \delta t$:
+\begin{align*}
+  p(t + \delta t) &= \overbrace{m(t + \delta t)v(t + \delta t)}^{\text{momentum of rocket}} + \overbrace{(m(t) - m(t + \delta t))}^{\text{ejected fuel}}\overbrace{(v(t) - u)}^{\text{ejection velocity}} \\
+                  &= m(t)v(t) + [m'(t)v(t) + m(t)v'(t)] \delta t - m'(t)(v(t) - u) \delta t \\
+                  &= m(t)v(t) + m(t)v'(t)\delta t + um'(t)\delta t
+\end{align*}
+\begin{remark}[Note]
+  To first order, it does not matter if we consider the fuel having velocity $v(t) - u$ (at the start of the time step) or $v(t + \delta t) - u$ (at the end of the time step).
+\end{remark}
+Subsisting back into $\dot{p}$, we have:
+\[
+  \frac{p(t + \delta t) - p(t)}{\delta t} = \frac{mv + m\dot{v}\delta t + u\dot{m}\delta t - mv}{\delta t} = m\dot{v} + u\dot{m}
+\]
+We then obtain the \textit{Tsiolkovsky Rocket Equation}:
+\[
+  m \dot{v} + u \dot{m} = F^{\text{ext}}
+\]
+\begin{remark}[Note]
+  There are several examples using this on Example Sheet 3.
+\end{remark}
+
+We can rearrange this as:
+\[
+  m \dot{v} = F^{\text{ext}} - u\dot{m}
+\]
+This is just Newton's equation for the rocket, we can think of the $-u\dot{m}$ as a \textit{thrust force} on the rocket from the fuel which acts to increase velocity as $\dot{m} < 0$.
 \end{document}
