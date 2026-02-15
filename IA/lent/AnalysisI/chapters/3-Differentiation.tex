@@ -1,0 +1,103 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Differentiation}
+\section{Basics}
+What is the derivative of a function at a point?
+\begin{definition}[Differentiable]
+  Let $f: X \subseteq \C \to \C$ and let $a \in X$.
+  We say that $f$ is \textit{differentiable} at $a$ if the limit:
+  \[
+    \lim_{x \to a} \frac{f(x) - f(a)}{x - a} = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}
+  \]
+  exists.
+
+  The value of this limit is then called the \textit{derivative} of $f$ at $a$ and is denoted $f'(a)$ or $\deriv{f}{x}(a)$.
+\end{definition}
+\begin{remark}[Note]
+  Here both $x \in X$ and $a + h \in X$, we cannot approach it from outside of the domain.
+\end{remark}
+\begin{remark}
+  We can't make sense of the derivative at an isolated point of the domain.
+  We \textit{could} define it to have a particular value but it would not lead to any interesting behaviour.
+\end{remark}
+For accumulation points, we can distinguish how we approach $a$:
+\begin{itemize}
+  \item For interior points, we can approach in any direction.
+    If the limits from different direction disagree, then the limit does not exist.
+  \item For non-interior points, the domain restricts how we can approach $a$.
+\end{itemize}
+We need to be careful about non-interior points however most of the theory for this course will build on the first case.
+\begin{example}
+  \begin{enumerate}
+    \item Consider $f(z) = z$.
+      This is differentiable at all points as:
+      \[
+        f'(z) = \lim_{h \to 0} \frac{f(z + h) - f(h)}{h} = \lim_{h \to 0} 1 =1
+      \]
+    \item Consider $f(z) = \overline{z}$.
+      This is not differentiable at any point.
+
+      If we approach it along the real line by setting $h = \lambda \in \R$:
+      \[
+        \lim_{\lambda \to 0} \frac{f(z + \lambda) - f(z)}{\lambda} = \lim_{\lambda \to 0} \frac{\lambda}{\lambda} = 1
+      \]
+      But if we approach it along the imaginary axis by setting $h = i\lambda$:
+      \[
+        \lim_{\lambda \to 0} \frac{f(z + \lambda) - f(z)}{i\lambda} = \lim_{\lambda \to 0} \frac{-i\lambda}{\lambda} = -1
+      \]
+      So the limit from different directions disagrees and so does not exist.
+    \item Consider $f(x) = \sin x$. This is differentiable at all points on $\R$:
+      \begin{align*}
+        f'(x) &= \lim_{h \to 0} \frac{\sin(x + h) - \sin(x)}{h} \\
+              &= \lim_{h \to 0} \frac{\sin h\cos x}{h} + \lim_{h \to 0} \frac{\sin x (\cos h - 1)}{h} \\
+              &= \cos x \cancelto{1}{\lim_{h \to 0} \frac{\sin h}{h}} + \sin x \cancelto{0}{\lim_{h \to 0} \frac{\cos h - 1}{h}} \\
+              &= \cos x
+      \end{align*}
+  \end{enumerate}
+\end{example}
+We can derive some properties of derivatives from the properties of limits (\cref{limitLaws}).
+\begin{lemma}
+  Let $f, g: X \subseteq \C \to \C$ be differentiable at $a \in X$, then so are:
+  \begin{enumerate}
+    \item $f + g$ with $(f + g)' = f' + g'$
+    \item $fg$ with $(fg)' = fg' + f'g$ (\textit{Product Rule})
+    \item $\frac{1}{f}$ provided $f(z) \neq 0\ \forall z \in X$ and $\left(\frac{1}{f}\right)' = - \frac{f'}{f^2}$ (\textit{Reciprocal Rule})
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item Since we know that $f$ and $g$ are differentiable at $a$, we can split up the limit as follows:
+      \begin{align*}
+        (f + g)'(a) &= \lim_{h \to 0} \frac{1}{h} [f(a + h) + g(a + h) - f(a) - g(a)] \\
+                    &= \lim_{h \to 0} \frac{1}{h} [f(a + h) - f(a)] + \lim_{h \to 0} \frac{1}{h} [g(a + h) - g(a)] \\
+                    &= f'(a) + g'(a)
+      \end{align*}
+    \item
+      To show that it is differentiable, we can show that the limit exists at $a$ by finding its value:
+      \begin{align*}
+        (fg)'(a) &= \lim_{h \to 0} \frac{1}{h}[f(a + h)g(a + h) - f(a)g(a)] \\
+                 &= \lim_{h \to 0} \frac{1}{h}[(f(a + h) - f(a))g(a + h) + (g(a + h) - g(a))f(a))] \\
+                 &= \lim_{h \to 0} \frac{1}{h}[(f(a + h) - f(a))g(a + h)] + f(a) \lim_{h \to 0} \frac{1}{h}[g(a + h) - g(a)] \\
+                 &= \lim_{h \to 0} g(a + h) \lim_{h \to 0} \frac{1}{h}[f(a + h) - f(a)] + f(a)g'(a) \\
+                 &= g(a) f'(a) + f(a)g'(a) \text{ since $g$ is continuous at $a$}
+      \end{align*}
+      We know that $g$ is continuous at $a$ since it is differentiable there and we will prove this later.
+    \item
+      Proceeding similarly to above, we have:
+      \begin{align*}
+        \left(\frac{1}{f}\right)'(a) &= \lim_{h \to 0} \frac{1}{h} \left[\frac{1}{f(a + h)} - \frac{1}{f(a)}\right] \\
+                                     &= \lim_{h \to 0} \frac{1}{h} \left[\frac{f(a) - f(a + h)}{f(a + h)f(a)}\right] \\
+                                     &= -\lim_{h \to 0} \frac{1}{h} [f(a + h) - f(a)] \lim_{h \to 0} \frac{1}{f(a + h)f(a)} \\
+                                     &= -\frac{f'(a)}{(f(a))^2} \text{since $f$ is continuous at $a$}
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Using induction and the product rule, we can show that $f(z) = z^{n}$ is differentiable with $f'(z) = nz^{n - 1}$.
+      Combining this with the addition of derivatives, this means that polynomials are always differentiable.
+    \item $f(z) = \frac{1}{z}$ is differentiable on $\C \setminus \{0\}$ with $f'(z) = - \frac{1}{z^2}$ and, by induction, the derivative of $\frac{1}{z^{n}}$ is $-\frac{n}{z^{n + 1}}$.
+      More generally, we see that rational functions $\frac{p(z)}{q(z)}$ where $p, q$ are polynomials are differentiable away from the zeros of $q(z)$.
+  \end{enumerate}
+\end{example}
+\end{document}

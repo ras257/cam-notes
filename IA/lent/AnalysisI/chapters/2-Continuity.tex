@@ -505,6 +505,7 @@ Function composition also preserves continuity.
 \section{Intermediate Value Theorem}
 \begin{theorem}[Intermediate Value Theorem]
   If $f: [a, b] \to \R$ is continuous and WLOG, then given any $y$ between $f(a)$ and $f(b)$ there exists $c \in [a, b]$ such that $f(c) = y$.
+  \label{IVT}
 
   More generally, $f([a, b])$ is a closed interval containing the interval:
   \[
@@ -586,9 +587,65 @@ Function composition also preserves continuity.
 \begin{proposition}[Inverse function theorem for monotone functions]
   Let $f: [a, b] \to \R$ be a continuous function that is strictly decreasing or strictly increasing and let $c = \min\{f(a), f(b)\}, d = \max\{f(a), f(b)\}$.
 
-  Then $f: [a, b] \to [c, d]$ is a bijection and there exists a continuous inverse $f^{-1} [c, d] \to [a, b]$ which is strictly increasing if $f$ is and strictly decreasing if $f$ is.
+  Then $f: [a, b] \to [c, d]$ is a bijection and there exists a continuous inverse $f^{-1}: [c, d] \to [a, b]$ which is strictly increasing if $f$ is and strictly decreasing if $f$ is.
 \end{proposition}
-\begin{proof}
-  Covered next lecture.
+\begin{proof}\par
+  WLOG assume that $f$ is strictly increasing as if it was strictly decreasing, we can just use the strictly increasing case on $-f$.
+  \textbf{Bijection --} Since $f$ is strictly monotone, it maps $[a, b] \to [c, d]$ as the extreme values must occur at the endpoints of the codomain.
+  Since it is strictly monotone, it must also be injective.
+
+  It is also surjective by the intermediate value theorem (\cref{IVT}) as for any $y \in [c, d]$, there exists $c \in [a, b]$ such that $f(c) = y$.
+
+  \textbf{Strictly Monotone --}
+
+  Suppose $f^{-1}: [c, d] \to [a, b]$ is not strictly increasing, then $\exists y_1, y_2 \in [c, d]$ with $y_1 < y_2$ but $f^{-1}(y_1) \geq f^{-1}(y_2)$.
+
+  Since $f$ is strictly increasing, it preserves inequalities and so $f(f^{-1}(y_1)) \geq f(f^{-1}(y_2))$.
+  But we now know that $f$ is a bijection so this implies that $y_1 \geq y_2$ which is a contradiction, thus $f^{-1}$ must be strictly increasing.
+
+  \textbf{Continuity --} Consider a fixed $y_0 \in [c, d]$ and let $x_0 = f^{-1}(y_0)$.
+  There are three cases to consider as we need to ensure that adding or subtracting $\delta$ does not cause us to stray outside the domain of $f$.
+  \begin{proofcases}
+    \begin{case}{$x_0 \in (a, b)$}
+      Since $(a, b)$ does not include its endpoints, for fixed $\varepsilon > 0$, we can choose $\eta \in (0, \varepsilon]$ to be sufficiently small so that $[x_0 - \eta, x_0 + \eta] \subseteq [a, b]$.
+      Since $f$ is strictly increasing, applying $f$ preserves inequalities so:
+      \[
+        x_0 - \eta < x_0 < x_0 + \eta \implies f(x_0 - \eta) < y_0 < f(x_0 + \eta)
+      \]
+
+      We can use this inequality to construct two positive quantise that we can try to use as a $\delta$:
+      \[
+        \delta(\varepsilon) = \min\{f(x_0 + \eta) - y_0, y_0 - f(x_0 - \eta)\}
+      \]
+      Then, to show continuity, consider:
+      \begin{align*}
+        |y -  y_0| < \delta,\ y \in [c, d] &\implies y_0 - \delta < y < y_0 + \delta \\
+                                           &\implies f(x_0 - \eta) \leq y_0 - \delta < y < y_0 + \delta \leq f(x_0 + \eta) \\
+                                           &\implies f(x_0 - \eta) < y < f(x_0 + \eta) \\
+                                           &\implies x_0 - \eta < f^{-1}(y) < x_0 + \eta \\
+                                           &\implies |f^{-1}(y) - x_0| < \eta < \varepsilon \\
+                                           &\implies |f^{-1}(y) - f^{-1}(y_0)| < \varepsilon
+      \end{align*}
+      Thus $f^{-1}(y)$ is continuous at $y_0$.
+    \end{case}
+    \begin{case}{$x_0 = a$}
+      For fixed $\varepsilon > 0$, we choose $\eta = \min\{\varepsilon, b - a\}$ so that $a + \eta \in [a, b]$.
+      Since $f$ is strictly monotone increasing, $f(a + \eta) > f(a) \implies f(a + \eta) - f(a) > 0$ so we can set $\delta(\eta) = f(a + \eta) - f(a)$.
+
+      To show continuity, we can utilise the fact that because $a = \min [a, b]$ and $f$ is monotone increasing $y \geq f(a) = y_0\ \forall y \in [c, d]$
+      \begin{align*}
+        |y - y_0| < \delta,\ y \geq y_0 &\implies y_0 \leq y < y_0 + \delta = f(a) + \delta \\
+                                        &\implies f(a) \leq f(a) + \delta = f(a + \eta) \\
+                                        &\implies a \leq f^{-1}(y) \leq a + \eta \\
+                                        &\implies |f^{-1}(y) - a| < \eta \leq \varepsilon \\
+                                        &\implies |f^{-1}(y) - f^{-1}(y_0)| \leq \varepsilon
+      \end{align*}
+      and so $f^{-1}(y)$ is continuous at $y_0$.
+    \end{case}
+    \begin{case}{$x_0 = b$}
+      This case is performed analogously to $x_0 = a$ apart from now $\eta = \min\{\varepsilon, b - a\}$ ensures that $b - \eta \in [a, b]$ and we utilise the fact that $y \leq y_0\ \forall y \in [c, d]$.
+    \end{case}
+  \end{proofcases}
+  So $f^{-1}$ is continuous at any $y_0 \in [c, d]$ and so $f^{-1}$ is continuous over its domain.
 \end{proof}
 \end{document}
