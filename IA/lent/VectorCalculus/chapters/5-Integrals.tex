@@ -337,9 +337,10 @@ That is, taking the limits in $x$ and then $y$, is the same as taking the limits
     \int_A f(x, y) \d{A} = \left(\int_{a}^{b} g(x) \d{x}\right)\left(\int_{c}^{d} h(y) \d{y}\right)
   \]
 \end{remark}
-\subsection{Change of Variables}
+\subsection{Change of Variables and the Jacobian}
 \begin{proposition}[Change of variables for area integrals]
-  If $(u, v) \mapsto (x, y)$ is a bijection from a region $A'$ in the $(u, v)$-plane to the region $A$ in the $(x, y)$-plane, then:
+  If $(u, v) \mapsto (x, y)$ is a bijection (apart from perhaps at a set of points with measure zero) from a region $A'$ in the $(u, v)$-plane to the region $A$ in the $(x, y)$-plane, then:
+  \label{areaCoV}
   \[
     \int_A f(x, y) \d{x} \d{y} = \int_{A'} F(u, v) \abs{\frac{\partial(x, y)}{\partial(u, v)}} \d{u}\d{v}
   \]
@@ -443,7 +444,7 @@ That is, taking the limits in $x$ and then $y$, is the same as taking the limits
   As $\delta r$ and $\delta \theta$ become infinitesimal, the region $\delta A'$ approaches a rectangle and so $\d{A} = (r \d{\theta}) \d{r}$.
 \end{example}
 \subsection{Properties of the Jacobian}
-Let $J_1$ be the Jacobian for $(u, v) \mapsto (x, y)$ and $J_2$ for $(\xi, \eta) \mapsto (u, v)$.
+Let $J_1$ be the Jacobian matrix for $(u, v) \mapsto (x, y)$ and $J_2$ for $(\xi, \eta) \mapsto (u, v)$.
 Consider the matrix product:
 \begin{align*}
   J_1 J_2 &= \begin{pmatrix}
@@ -467,5 +468,233 @@ Since $\det(J_1 J_2) = \det(J_1)\det(J_2)$, we see that:
 \[
   \frac{\partial(x, v)}{\partial(u, v)} \frac{\partial(u, v)}{\partial(\xi, \eta)} = \frac{\partial(x, y)}{\partial(\xi, \eta)}
 \]
-So the Jacobian of a composition of maps is the product of the Jacobians.
+So, the Jacobian of a composition of maps is the product of their Jacobians.
+
+\begin{proposition}[Jacobian Reciprocal Rule]
+  \[
+    \frac{\partial(x, y)}{\partial(u, v)} = \frac{1}{\frac{\partial(u, v)}{\partial(x, y)}}
+  \]
+  \label{JacobianReciprocal}
+\end{proposition}
+\begin{proof}
+  Consider the case where $(\xi, \eta) = (x, y)$ (i.e. we have not done a transformation):
+  \[
+    \frac{\partial(x, y)}{\partial(u, v)} \frac{\partial(u, v)}{\partial(x, y)} = \frac{\partial(x, y)}{\partial(x, y)} = \det I
+  \]
+  and so:
+  \[
+    \frac{\partial(x, y)}{\partial(u, v)} = \frac{1}{\frac{\partial(u, v)}{\partial(x, y)}}
+  \]
+\end{proof}
+For some transformations, it is considerably easier to find $\pderiv{u}{x}$, $\pderiv{v}{x}$, etc, instead of $\pderiv{x}{u}$, $\pderiv{x}{v}$, etc.
+In this case, we should instead find the Jacobian $\partial(u, v)/\partial(x, y)$ for the inverse transformation and then use the above formula to find $J$.
+\begin{example}[Example of Area Change of Variables]
+  Compute $\int_{A} x^3y \d{A}$ where $A$ is the area between the hyperbolas $x^2 - y^2 = 1$ and $x^2 - y^2 = 2$, enclosed within the circle $x^2 + y^2  = 4$ with $x, y > 0$.
+
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=1.5]
+    \draw[->] (-0.5, 0) -- (2.5, 0) node[right] {$x$};
+    \draw[->] (0, -0.5) -- (0, 2.5) node[above] {$y$};
+    \clip (-0.5, -0.5) rectangle (2.5, 2.5);
+    \begin{scope}
+      \clip (0, 0) circle (2);
+      \fill[gray!50, domain=0:1.4, smooth, variable=\t] (1, 0) -- plot ({sec(\t r)},{tan(\t r)}) -- (2, 3) -- (2, 0) -- cycle;
+      \fill[white, domain=0:1.4, smooth, variable=\t] (1, 0) -- plot ({1.41 * sec(\t r)},{1.41 * tan(\t r)}) -- (2, 3) -- (2, 0) -- cycle;
+    \end{scope}
+    \draw[thick] (0, 0) circle (2);
+    \draw[thick, domain=-1.4:1.4, smooth, variable=\t] plot ({sec(\t r)},{tan(\t r)});
+    \draw[thick, domain=-1.4:1.4, smooth, variable=\t] plot ({1.41 * sec(\t r)},{1.41 * tan(\t r)});
+
+    \node at (1.3, 0.5) {$A$};
+    \node[below right] at (2, 0) {2};
+    \node[below right] at (1.41, 0) {$\sqrt{2}$};
+    \node[below left] at (1, 0) {1};
+  \end{tikzpicture}
+  \end{center}
+
+  \textbf{Change of Variables}\par
+  We first need to choose our change of variables.
+  We have a circle and hyperbolas, so it might be a good idea to try $u = x^2 + y^2$ and $v = x^2 - y^2$.
+  With this change of variables, it is fiddly to calculate $\pderiv{x}{u}$, $\pderiv{x}{v}$ etc, and it is much easier to calculate $\pderiv{u}{x}$, $\pderiv{u}{x}$, etc, so we apply \cref{JacobianReciprocal} to yield:
+  \[
+    \frac{\partial(u, v)}{\partial(x, y)} = \det \begin{pmatrix}
+    2x & 2y \\
+    2x & -2y \\
+    \end{pmatrix} = -8xy
+  \]
+  thus:
+  \[
+    J = \frac{\partial(x, y)}{\partial(u, v)} = -\frac{1}{8xy}
+  \]
+
+  \textbf{Finding $A'$}\par
+  We now need to find the corresponding area $A'$.
+
+  There are a couple strategies to do this, although it is often easiest to find the images of the boundary curves of $A$.
+  The left and right boundaries of $A$ correspond to $v = 1$ with $1 < u < 4$ and $v = 2$ with $2 < u  < 4$ respectively.
+  The lower boundary corresponds to $u = v$ with $1 < u < 2$, and the upper boundary corresponds to $u = 3$ with $1 < v < 2$.
+  Thus we have a bijection between $A$ and $A'$ given by:
+  \[
+    A' = \{(u, v): 1 < v < 2, v < u < 4\}
+  \]
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=1.5]
+    \draw[->] (0, 0) -- (2.5, 0) node[right] {$u$};
+    \draw[->] (0, 0) -- (0, 2.5) node[above] {$v$};
+    \clip (-0.5, -0.5) rectangle (2.5, 2.5);
+
+    \filldraw[fill=gray!50, draw=black, thick] (0.5, 0.5) -- (1, 1) -- (2, 1) -- (2, 0.5) -- cycle;
+
+    \begin{scope}[dashed]
+      \draw (0, 0) -- (2.5, 2.5);
+      \draw (2, 0) -- (2, 2.5);
+      \draw (0, 0.5) node[left] {1} -- (2.5, 0.5);
+      \draw (0, 1) node[left] {2} -- (2.5, 1);
+    \end{scope}
+
+    \node at (1.3, 0.75) {$A'$};
+    \node[below] at (1, 0) {2};
+    \node[below] at (2, 0) {4};
+    \node[below] at (0.5, 0) {1};
+  \end{tikzpicture}
+  \end{center}
+  We can also more directly reach this result by considering where the entire $x$-axis, full hyperbolas and full circles map to and then $A'$ must be the unique region enclosed by all four of the images:
+  \begin{align*}
+    y = 0 &\mapsto u = v \\
+    x^2 + y^2 = 4 &\mapsto u = 4 \\
+    x^2 - y^2 = 1 &\mapsto v = 1 \\
+    x^2 - y^2 = 2 &\mapsto v = 2
+  \end{align*}
+  \textbf{Computing Integral}\par
+  Finally, we can use \cref{areaCoV} to compute the integral:
+  \begin{align*}
+    \int_{A} x^3y \d{x} &= \int_{A'} x^3y \abs{-\frac{1}{8xy}} \d{u}\d{v} \\
+                        &= \frac{1}{8} \int_{A'} \frac{x^3y}{|xy|} \d{u}\d{v} \\
+                        &= \frac{1}{8} \int_{A'} x^2 \d{u}\d{v} \text{ as $x , y > 0$} \\
+                        &= \frac{1}{8} \int_{A'} \frac{1}{2}(u + v) \d{u}\d{v} \text{ as $u + v = 2x^2$} \\
+                        &= \frac{1}{8} \int_{v = 1}^{2} \left(\int_{u = v}^{4} \frac{1}{2}(u + v) \d{u}\right) \d{v} \\
+                        &= \frac{1}{16} \int_{1}^{2} (8 + 4v - \frac{3}{2}v^2)\d{v} \\
+                        &= \frac{21}{32}
+  \end{align*}
+\end{example}
+\begin{remark}[Advice]
+  It is often a good idea to keep $f(x, y)$ in there for as long as possible to see if anything cancels out with the Jacobian before swapping to $u, v$.
+\end{remark}
+\section{Volume Integrals}
+\subsection{Definition}
+Volume integrals are fundamentally the same as area integrals, just in a higher dimension.
+So to integrate $f(\vec{x}),\ \vec{x} \in \R^3$ over a volume $V \subset \R^3$, we covering $V$ with a large number $N$ of small disjoint subsets $\delta V_i \subset V,\ i \in \{1, \ldots, n\}$ and define:
+\[
+  \int_{V} f(\vec{x}) \d{V} = \lim_{\Delta \to 0} \sum_{i = 1}^{N} f(\vec{x}_i)\delta V_i
+\]
+where $\vec{x}_i \in \delta V_i$ and $\Delta$ is the maximum linear dimension of all the $\delta V$, and as $\Delta \to 0$, $N \to \infty$ so that the shrinking volumes still fill the entirety of $V$.
+
+Similarly to area integrals, for reasonable functions, it does not matter how we divide $V$ up, however the obvious way is to use cuboids of volume $\delta x \delta y \delta z$ that are parallel to the axes:
+\[
+  \int_{x_{\text{min}}}^{x_{\text{max}}} \left(\int_{Y(x)} \left(\int_{Z(x, y)} f(x, y, z) \d{z}\right) \d{y}\right) \d{x}
+\]
+where $Y(x)$ is the range for each $x$, and $Z(x, y)$ is the range of $z$ for each $x$ and $y$.
+Again, similarly to area integrals, we can do the integrals in a different order and still get the same result.
+\begin{remark}[Notation]
+  Some other notation for $\int_V f(\vec{x}) \d{V}$  include:
+  \[
+    \int_V f(x, y, z) \d{x} \d{y} \d{z},\ \iiint\limits_V f(x, y, z) \d{V},\ \int_V f(\vec{x}) \d^3{\vec{x}},\ \int\d{x}\int\d{y} \int \d{z} f(x, y, z)
+  \]
+\end{remark}
+\begin{example}[Example Volume Integral]
+  Let $V$ be the cuboid $x \in [-a, a],\ y \in [-b, b],\ z \in [-c, c]$.
+  Compute $\int_{V} \vec{F} \d{V}$ for $\vec{F} = (z^2, 0, yz)$.
+
+  The recall from \cref{integralVector} that the integral of a vector is just computed by taking component-wise scalar integrals so:
+  \[
+    \int_{V} \vec{F} \d{V} = \left(\int_{V} z^2 \d{V}, 0, \int_{V} yz \d{V}\right)
+  \]
+  For the first component, $z^2$ is a separable function so:
+  \begin{align*}
+    \int_{V} z^2 \d{V} &= \int_{-a}^{a} \int_{-b}^{b} \int_{-c}^{c} z^2 \d{z} \d{y} \d{x} \\
+                       &= \int_{-a}^{a} \d{x} \int_{-b}^{b} \d{y} \int_{-c}^{c} z^2 \d{z}  \\
+                       &= 2a \cdot 2b \cdot \eval{\frac{1}{3}z^3}{-c}{c} = \frac{8}{3}abc^3
+  \end{align*}
+  Similarly, for the third component:
+  \begin{align*}
+    \int_{V} yz \d{V} &= \int_{-a}^{a} 1 \d{x} \int_{-b}^{b} y \d{y} \int_{-c}^{c} z \d{z} \\
+                      &= 2a \cdot 2b \cdot \eval{\frac{1}{2}z^2}{-c}{c} = 0
+  \end{align*}
+  Thus $\int_{V} \vec{F} \d{V} = \frac{8}{3}abc^3(1, 0, 0)$.
+
+  We could have seen that $\int_{V} yz \d{V} = 0$ directly from the symmetry of the cuboid as for each $y \in [-b, b]$, $-y \in [-b, b]$ which has an opposite contribution to the integrand $yz$ and so they cancel out.
+\end{example}
+\subsection{Change of Variables}
+\begin{proposition}[Change of variables for volume integrals]
+  If $(u, v, w) \mapsto (x, y, z)$ is a bijection (apart from perhaps at a set of points with measure zero) from a volume $V'$ in the $(u, v, w)$-plane to the volume $V$ in the $(x, y, z)$-plane, then:
+  \[
+    \int_V f(x, y, z) \d{x} \d{y} \d{z} = \int_{V'} F(u, v, w) \abs{\frac{\partial(x, y, z)}{\partial(u, v, w)}} \d{u}\d{v}\d{w}
+  \]
+  where $F(u, v, w) = f(x(u, v, w), y(u, v, w), z(u, v, w))$ and:
+  \[
+    J = \frac{\partial(x, y, z)}{\partial(u, v, w)} \equiv \det \begin{pmatrix}
+      \pderiv{x}{u} & \pderiv{x}{v} & \pderiv{x}{w} \\
+      \pderiv{y}{u} & \pderiv{y}{v} & \pderiv{y}{w} \\
+      \pderiv{z}{u} & \pderiv{z}{v} & \pderiv{z}{w} \\
+    \end{pmatrix}
+  \]
+  is called the \textit{Jacobian} of the transformation.
+\end{proposition}
+\begin{proof}
+  Similarly to the proof of \cref{areaCoV}, but instead in 3D, we divide $V$ into small regions between surfaces of constant $u$, constant $v$, and constant $w$.
+  In \cref{volumeElements}, we saw that the volume of each volume element is:
+  \[
+    \d{V} = \abs{\pderiv{\vec{x}}{u} \cdot \left(\pderiv{\vec{x}}{v} \times \pderiv{\vec{x}}{w}\right)}\d{u}\d{v}\d{w} = \abs{\det\left( \pderiv{\vec{x}}{u} \middle\vert \pderiv{\vec{x}}{v} \middle\vert \pderiv{\vec{x}}{w} \right) \d{u}\d{v}\d{w}} = |J| \d{u}\d{v}\d{w}
+  \]
+  Where $\det(\vec{u}_1 | \vec{u}_2 | \vec{u}_3)$ is the determinant of the matrix with columns $\vec{u}_1$, $\vec{u}_2$, and $\vec{u}_3$.
+
+  The contribution of this particular volume to the sum defining $\int_V f \d{V}$ is therefore $f(\vec{x}(u, v, w))|J| \d{u} \d{v} \d{w} = F(u, v, w) |J| \d{u} \d{v} \d{w}$.
+  Integrating over the values of $(u, v, w) \in V'$, we have:
+  \[
+    \int_V f \d{x} \d{y} \d{z} = \int_{V'} F |J|\d{u} \d{v} \d{w}
+  \]
+  Integrating all the contributions of $F(u, v, w) \d{V}$ gives the result.
+\end{proof}
+The reciprocal rule for the Jacobian (\cref{JacobianReciprocal}) also extends to 3D so:
+\[
+  \frac{\partial(x, y, z)}{\partial(u, v, w)} = \frac{1}{\frac{\partial(u, v, w)}{\partial(x, y, z)}}
+\]
+
+The most common changes of variables for volume integrals are to either cylindrical or spherical polar coordinates.
+\subsubsection{Jacobian for Cylindrical Polars}
+From \cref{cylindricalPolar}:
+\[
+  \vec{x} = \begin{pmatrix}
+  \rho \cos \phi \\
+  \rho \sin \phi \\
+  z \\
+  \end{pmatrix}
+\]
+The Jacobian for this change of variables is then:
+\[
+  J = \det \begin{pmatrix}
+  \cos \phi & -\rho \sin \phi & 0 \\
+  \sin \phi & \rho \cos \phi & 0 \\
+  0 & 0 & 1 \\
+  \end{pmatrix} = \rho
+\]
+By definition, $\rho \geq 0$ so $|J| = |\rho| = \rho$.
+\subsubsection{Jacobian for Spherical Polars}
+From \cref{sphericalPolar}:
+\[
+  \vec{x} = \begin{pmatrix}
+  r \sin \theta \cos \phi \\
+  r \sin \theta \sin \phi \\
+  r \cos \theta \\
+  \end{pmatrix}
+\]
+The Jacobian for this change of variables is then:
+\[
+  J = \det \begin{pmatrix}
+  \sin \theta \cos \phi & r \cos \theta \cos \phi & -r \sin \theta \sin \phi \\
+  \sin \theta \sin \phi & r \cos \theta \sin \phi & r \sin \theta \cos \phi \\
+  \cos \theta & -r \sin \theta & 0 \\
+  \end{pmatrix} = r^2 \sin \theta
+\]
+By definition, $\theta \in [0, \pi]$ so $\sin \theta \geq 0$ and thus $|J| = |r^2 \sin \theta| = r^2 \sin \theta$.
 \end{document}

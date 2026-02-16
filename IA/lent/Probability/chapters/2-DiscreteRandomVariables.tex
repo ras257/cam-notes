@@ -247,6 +247,20 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
   \end{align*}
   Therefore, $X_1$ and $X_2$ are independent.
 \end{proof}
+\begin{lemma}
+  If $X$ and $Y$ are independent discrete random variables and $g: \R \to \R$, then $g(X)$ and $Y$ are independent.
+  \label{rvFunctionIndependence}
+\end{lemma}
+\begin{proof}
+  We can partition $\{g(X) = w, Y = y\}$ up as:
+  \begin{align*}
+    \P(g(X) = w, Y = y) &= \sum_{x \in g^{-1}(\{w\})} \P(X = x, Y = y) \\
+                        &= \sum_{x \in g^{-1}(\{w\})} \P(X = x)\P(Y = y) \text{ as $X \perp Y$}\\
+                        &= \P(Y = y) \sum_{x \in g^{-1}(\{w\})} \P(X = x) \\
+                        &= \P(Y = y)\P(g(X) = w)
+  \end{align*}
+  so $g(X) \perp Y$.
+\end{proof}
 \begin{example}
   \label{binomialAsBernSum}
   Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N},\ \salg = \powerset{\Omega}$.
@@ -1150,6 +1164,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
 \end{remark}
 \begin{proposition}[Law of Total Expectation]
   If $X$ be a discrete random variable and $(\Omega_n)$ is a partition of $\Omega$ into disjoint sets all with $\P(\Omega_n) > 0$, then:
+  \label{lawOfTotalExp}
   \[
     \E[X] = \sum_{n} \E[X \vert \Omega_n]\P(\Omega_n)
   \]
@@ -1169,11 +1184,11 @@ Since $\{Y = y\}$ is just an event, we can find the conditional expectation of $
   \E[X \vert Y = y] = \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)}
 \]
 We can also use the formula for expectation from \cref{expectationPartition} to expand this:
-\begin{align*}
-  \E[X \vert Y = y] &= \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)} \\
-                    &= \sum_{x} x \cdot \frac{\P(X = x, Y = y)}{\P(Y = y)} \\
-                    &= \sum_{x} x \cdot \P(X = x \vert Y = y)
-\end{align*}
+\begin{align}
+  \E[X \vert Y = y] &= \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)} \nonumber \\
+                    &= \sum_{x} x \cdot \frac{\P(X = x, Y = y)}{\P(Y = y)} \nonumber \\
+                    &= \sum_{x} x \cdot \P(X = x \vert Y = y) \label{conditionalExpectationSum}
+\end{align}
 So we see that it is the expectation of the conditional distribution of $X$ given $Y = y$.
 
 $\E[X \vert Y = y]$ is a function of $y$ so we can define $g(y) = \E[X \vert Y = y]$.
@@ -1190,9 +1205,14 @@ We can then use this to define the expectation of one discrete random variable g
   \[
     \E[X \vert Y] = \sum_{y} g(y) \cdot 1(Y = y)
   \]
-  Since for any $\omega \in \Omega$, $1(Y(\omega) = y)$ will be 1 exactly once in this sum and 0 otherwise.
+  If we take a sample $\omega \in \Omega$, $Y(\omega)$ takes a specific value and so $1(Y(\omega) = y)$ will be 1 exactly once in this sum and 0 otherwise:
+  \[
+    \E[X \vert Y](\omega) = \E[X \vert Y = Y(\omega)] = g(Y(\omega))
+  \]
+  So we see that it is a random variable depending on the random variable $Y$ only.
 \end{remark}
-\begin{example}
+\begin{example}[Conditonal Expectation of r.v.]
+  \label{coinExpectationEx}
   Suppose we toss a $p$-coin $n$ times independently.
   Let $X_i = 1(\text{$i$-th toss is heads})$ for $i = 1, \ldots, n$ and let:
   \[
@@ -1209,15 +1229,29 @@ We can then use this to define the expectation of one discrete random variable g
   and so $\E[X_1 \vert Y_n] = \frac{Y_n}{n}$.
 \end{example}
 \begin{proposition}[Properties of conditional expectation of 2 r.v.s]
+  For discrete random variables $X$, $Y$, $Z$ and $c \in \R$:
   \begin{enumerate}
-    \item For $c \in \R$, $\E[cX \vert Y] = c \E[X \vert Y]$, $\E[c + X \vert Y] = c + \E[X \vert Y]$
+    \item $\E[cX \vert Y] = c \E[X \vert Y]$, $\E[c + X \vert Y] = c + \E[X \vert Y]$
     \item $\E[c \vert Y] = c$.
-    \item If $X_1, \ldots, X_n$ and $Y$ are discrete random variables then:
+    \item If $X_1, \ldots, X_n$ are discrete random variables then:
       \[
         \E\left[\left. \sum_{i = 1}^{n} X_i \middle\vert Y \right.\right] = \sum_{i = 1}^{n} \E[X_i \vert Y]
       \]
+    \item $\E[\E[X \vert Y]] = \E[X]$.
+    \item If $X$ and $Y$ are independent, then $\E[X \vert Y] = \E[X]$.
+    \item If $Y$ and $Z$ are independent, then $\E[\E[X \vert Y] \vert Z] = \E[X]$
+    \item If $h: \R \to \R$, then $\E[h(Y) \cdot X \vert Y] = h(Y) \cdot \E[X \vert Y]$.
+    \item $\E[\E[X \vert Y] \vert Y] = \E[X \vert Y]$
+    \item $\E[X \vert X] = X$
   \end{enumerate}
 \end{proposition}
+\begin{remark}
+  Property \textbf{vii} captures that we can ``take out what we know'', as when conditioning on $Y$, $h(Y)$ effectively is a constant and so we can take it out.
+\end{remark}
+\begin{remark}[Note]
+  In property \textbf{v}, we have $\E[X \vert Y] = \E[X]$.
+  Here, $\E[X \vert Y]$ is still a random variable that is a function of $Y$, however it is a constant function that always takes the value $\E[X]$.
+\end{remark}
 \begin{proof}
   \begin{enumerate}
     \item Let $g(y) = \E[X \vert Y = y]$.
@@ -1239,6 +1273,99 @@ We can then use this to define the expectation of one discrete random variable g
       \[
         \E\left[\left. \sum_{i = 1}^{n} X_i \middle\vert Y \right.\right] = g(Y) = \sum_{i = 1}^{n} g_i(Y) = \sum_{i = 1}^{n} \E[X_i \vert Y]
       \]
+    \item
+      Taking expectations of the definition:
+      \begin{align*}
+        \E[\E[X \vert Y]] &= \sum_{y} \E[X \vert Y = y]\E[1(Y = y)] \\
+                          &= \sum_{y} \E[X \vert Y = y]\P(Y = y) \\
+                          &= \E[X] \text{ by law of total expectation (\cref{lawOfTotalExp})}
+      \end{align*}
+    \item
+      Using the definition:
+      \begin{align*}
+        \E[X \vert Y] &= \sum_{y} 1(Y = y)\E[X \vert Y = y] \\
+                      &= \sum_{y} 1(Y = y)\sum_{x} x \cdot \P(X = x \vert Y = y) \text{ using \cref{conditionalExpectationSum}} \\
+                      &= \sum_{y} 1(Y = y)\sum_{x} x \cdot \P(X = x) \text{ by independence} \\
+                      &= \sum_{y} 1(Y = y) \E[X] \\
+                      &= \E[X] \text{ as indicator is 1 for exactly one $y$ given any $\omega$}
+      \end{align*}
+    \item Set $g(Y) = \E[X \vert Y]$, where $g(y) = \E[X \vert Y = y]$.
+      From \cref{rvFunctionIndependence}, we know that $Y \perp Z \implies g(Y) \perp Z$.
+      Thus we can apply \textbf{v} and \textbf{iv} to yield:
+      \[
+        \E[g(Y) \vert Z] =  \E[g(Y)] = \E[\E[X \vert Y]] = \E[X]
+      \]
+    \item
+      \begin{align*}
+        \E[h(Y) \cdot X \vert Y] &= \sum_{y} 1(Y = y) \E[h(Y) \cdot X \vert Y = y] \\
+                                 &= \sum_{y} 1(Y = y) h(y) \E[X \vert Y = y] \text{ as $Y$ is known in conditioning}\\
+                                 &= \sum_{y} h(Y) 1(Y = y) \E[X \vert Y = y] \text{ as $1(Y = y)h(y) = 1(Y = y)h(Y)$} \\
+                                 &= h(Y) \sum_{y} 1(Y = y) \E[X \vert Y = y] \\
+                                 &= h(Y) \E[X \vert Y]
+      \end{align*}
+    \item Using \textbf{vii} and \textbf{ii}, we have:
+      \[
+        \E[\E[X \vert Y] \vert Y] = \E[g(Y) \vert Y] = g(Y) \E[1 \vert Y] = 1
+      \]
+    \item Using \textbf{vii} and \textbf{ii}, $\E[X \vert X] = X\E[1 \vert X] = X$.
   \end{enumerate}
 \end{proof}
+\begin{example}[\Cref{coinExpectationEx} revisited]
+  In \cref{coinExpectationEx}, we found $\E[X_1 \vert Y_n]$ by finding $g(y) = \E[X_1 \vert Y = y]$ and then evaluating $g(Y)$.
+
+  We can instead use property \textbf{ix} so:
+  \[
+    \E[X_1 + \cdots + X_n \vert Y_n] = \E[Y_n \vert Y_n] = Y_N
+  \]
+  By symmetry $\E[X_i \vert Y_n] = \E[X_1 \vert Y_n]$ as all $X_i$ are independent and identically distributed.
+  So using property \textbf{iii}:
+  \[
+    \E[X_1 + \cdots X_n \vert Y_n] = \sum_{i = 1}^{n} \E[X_y \vert Y_n] = n \E[X_1 \vert Y_n]
+  \]
+  Thus, $\E[X_1 \vert Y_n] = \frac{Y_n}{n}$ which agrees with our original answer in \cref{coinExpectationEx}.
+\end{example}
+\section{Random Walks}
+\subsection{Definitions}
+\begin{definition}[Stochastic Process]
+  A \textit{random/stochastic process} is a sequence of random variables $(X_n)_{n \in \N}$.
+\end{definition}
+\begin{definition}[Random Walk]
+  A \textit{random walk} is a stochastic process that can be represented as:
+  \[
+    X_n = x + Y_1 + \cdots + Y_n
+  \]
+  where $x$ is \textit{deterministic} (i.e. not a function of $\omega$) and $(Y_i)$ are \textit{independent and identically distributed (i.i.d.)} and are known as the \textit{steps} of the random walk.
+\end{definition}
+\subsection{Gambler's Ruin}
+\begin{definition}[Simple Random Walk on $\Z$]
+  A \textit{simple random walk on $\Z$ starting at $x$} is a random walk with:
+  \[
+    \P(Y_i = 1) = p \text{ and } \P(Y_i = -1) = 1 - p = q
+  \]
+  and so:
+  \[
+    X_n = x + Y_1 + \cdots + Y_n
+  \]
+  for some $x \in \Z$.
+\end{definition}
+We can think of $(X_n)$ as the fortune of a gambler who starts with £$x$ at time 0 and at every time step, bets £$1$ which they lose with probability with $1 - p$ or win it back doubled with probability $p$.
+The game ends if they goes bankrupt, i.e. they reach 0, or if they reach £$a$, whichever happens first.
+\begin{remark}[Notation]
+  We introduce the shorthand notation $\P_x(A) = \P(A \vert X_0 = x)$ as this depends on their starting wealth.
+\end{remark}
+Let $h(x) = \P_x((X_n) \text{ reaches $a$ before reaching $0$})$.
+We can split $h(x)$ up using the law of total probability \cref{lawOfTotalProb}:
+\begin{align*}
+  h(x) &= \P_x((X_n) \text{ reaches $a$ before 0}) \\
+       &= \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = 1) + \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = -1) \\
+       &= p \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = 1) + (1 - p) \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = -1) \\
+       &= p \cdot h(x + 1) + (1 - p) h(x - 1)
+\end{align*}
+Thus we have the recurrence relation:
+\[
+  h(x) = p \cdot h(x + 1) + (1 - p) h(x - 1)
+\]
+To solve this, we need two boundary conditions.
+If they start with £$0$, then the game ends immediately with bankruptcy so $h(0) = 0$.
+Conversely, if they start with £$a$, then the game ends immediately with £$a$ so $h(a) = 1$.
 \end{document}
