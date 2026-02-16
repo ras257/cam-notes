@@ -80,7 +80,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 
   We say that \textit{$f$ tends to $y \in \C$ as $z$ tends to $a$} if:
   \[
-    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon)
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon)
   \]
   and write $f(z) \to y$ as $z \to a$.
 \end{definition}
@@ -145,8 +145,8 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
     For the purposes of contradiction, assume that $f(z) \centernot\to y$ as $z \to a$.
     Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } |z - a| < \delta$ but $|f(z) - y| \geq \varepsilon$.
 
-    Consider $\delta = \frac{1}{n}$.
-    As in the proof for \cref{accumulationSequence}, we can find always find $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$ since $a$ is an accumulation point.
+    For some such $\varepsilon$, consider $\delta = \frac{1}{n}$.
+    By the above, we can always find some $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$.
     We define the sequence $(z_n)$ a sequence of such $z_n$.
     Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - y| \geq \varepsilon$ so $f(z_n) \centernot\to y$.
     This is a contradiction so we must have $f(z) \to y$.
@@ -232,7 +232,7 @@ What does it mean for a function to be continuous at a point $a$?
   Let $f: X \subseteq \C \to \C$ and $a \in X$.
   We say that $f$ is \textit{continuous} at $a$ if:
   \[
-    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) \text{ s.t. } |z - a| < \delta \text{ for } z \in X \implies |f(z) - f(a)| < \varepsilon
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } |z - a| < \delta \text{ for } z \in X \implies |f(z) - f(a)| < \varepsilon
   \]
   We say that $f$ is \textit{continuous on $X$} if it is continuous at every point $a \in X$.
 \end{definition}
@@ -295,9 +295,9 @@ There is also another notion of continuity using sequences.
     For the purposes of contradiction, assume that $f$ is not continuous at $a$.
     Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } |z - a| < \delta$ but $|f(z) - f(a)| \geq \varepsilon$.
 
-    Consider $\delta = \frac{1}{n}$.
-    As in the proof for \cref{accumulationSequence}, we can find always find $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$ since $a$ is an accumulation point.
-    We define the sequence $(z_n)$ to be all such $z_n$ for $n \in \N$.
+    For some such $\varepsilon$, consider $\delta = \frac{1}{n}$.
+    By the above, we can always find some $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$.
+    We define the sequence $(z_n)$ a sequence of such $z_n$.
     Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - f(a)| \geq \varepsilon$ so $f(z_n) \centernot\to f(a)$.
     Hence $(z_n)$ contradicts sequential continuity at $a$.
   \end{proofdirection}
