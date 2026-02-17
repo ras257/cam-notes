@@ -2,6 +2,7 @@
 \begin{document}
 \chapter{Differentiation}
 \section{Basics}
+\subsection{Definition of Differentiability}
 What is the derivative of a function at a point?
 \begin{definition}[Differentiable]
   Let $f: X \subseteq \C \to \C$ and let $a \in X$.
@@ -32,7 +33,7 @@ We need to be careful about non-interior points however most of the theory for t
     \item Consider $f(z) = z$.
       This is differentiable at all points as:
       \[
-        f'(z) = \lim_{h \to 0} \frac{f(z + h) - f(h)}{h} = \lim_{h \to 0} 1 =1
+        f'(z) = \lim_{h \to 0} \frac{f(z + h) - f(z)}{h} = \lim_{h \to 0} 1 =1
       \]
     \item Consider $f(z) = \overline{z}$.
       This is not differentiable at any point.
@@ -43,7 +44,7 @@ We need to be careful about non-interior points however most of the theory for t
       \]
       But if we approach it along the imaginary axis by setting $h = i\lambda$:
       \[
-        \lim_{\lambda \to 0} \frac{f(z + \lambda) - f(z)}{i\lambda} = \lim_{\lambda \to 0} \frac{-i\lambda}{\lambda} = -1
+        \lim_{\lambda \to 0} \frac{f(z + i\lambda) - f(z)}{i\lambda} = \lim_{\lambda \to 0} \frac{-i\lambda}{\lambda} = -1
       \]
       So the limit from different directions disagrees and so does not exist.
     \item Consider $f(x) = \sin x$. This is differentiable at all points on $\R$:
@@ -55,8 +56,9 @@ We need to be careful about non-interior points however most of the theory for t
       \end{align*}
   \end{enumerate}
 \end{example}
+\subsection{Rules for Differentiation}
 We can derive some properties of derivatives from the properties of limits (\cref{limitLaws}).
-\begin{lemma}
+\begin{lemma}[Differentiation Rules]
   Let $f, g: X \subseteq \C \to \C$ be differentiable at $a \in X$, then so are:
   \begin{enumerate}
     \item $f + g$ with $(f + g)' = f' + g'$
@@ -81,7 +83,7 @@ We can derive some properties of derivatives from the properties of limits (\cre
                  &= \lim_{h \to 0} g(a + h) \lim_{h \to 0} \frac{1}{h}[f(a + h) - f(a)] + f(a)g'(a) \\
                  &= g(a) f'(a) + f(a)g'(a) \text{ since $g$ is continuous at $a$}
       \end{align*}
-      We know that $g$ is continuous at $a$ since it is differentiable there and we will prove this later.
+      We know that $g$ is continuous at $a$ since it is differentiable there, a proof of which will be given later in \cref{diffCont}.
     \item
       Proceeding similarly to above, we have:
       \begin{align*}
@@ -100,4 +102,179 @@ We can derive some properties of derivatives from the properties of limits (\cre
       More generally, we see that rational functions $\frac{p(z)}{q(z)}$ where $p, q$ are polynomials are differentiable away from the zeros of $q(z)$.
   \end{enumerate}
 \end{example}
+We would like to know the derivative of $f \circ g$ but it is not possible to do this using limit definition so we would like to introduce an alternative characterisation of the derivative to make this easier:
+\begin{lemma}
+  Let $f: X \subseteq \C \to \C$.
+  \label{derivativeAlternative}
+  $f$ is differentiable at $a \in X$ if and only if there exists $A \in \C$ and function:
+  \[
+    \varepsilon: \{z: z + a \in X\} \subseteq \C \to \C
+  \]
+  satisfying $\varepsilon(h) \to 0$ as $h \to 0$ s.t.
+  \[
+    f(a + h) = f(a) + Ah + \varepsilon(h)|h|
+  \]
+\end{lemma}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item This says that $f(a + h) \approx f(a) + Ah$ and the function $\varepsilon(h)$ quantifies the error we make in this approximation.
+    \item We can also write $f(a + h) = f(a) + Ah + o(|h|)$ to mean the same thing using \textit{little-}$o$ notation from IA Differential Equations.
+    \item In the proof we see that in both directions, $A = f'(a)$.
+  \end{enumerate}
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Suppose $f$ is differentiable at $a$}
+    Set $A = f'(a)$ so that:
+    \[
+      A = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h} \implies \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{h} = 0
+    \]
+    Then if we define:
+    \[
+      \varepsilon(h) = \begin{cases}
+      \frac{f(a + h) - f(a) - Ah}{|h|} & \text{ if }h\neq0 \\
+      0 & \text{ if } h = 0
+      \end{cases}
+    \]
+    The value of $\varepsilon(0)$ is irrelevant as we are taking the limit but we choose it to be $0$ so that $\varepsilon$ is continuous.
+    $\varepsilon(h) \to 0$ as $h \to 0$ and we see that $\varepsilon(h)$ satisfies:
+    \[
+      \varepsilon(h)|h| = f(a + h) - f(a) - Ah
+    \]
+    for all $h$.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose we have such an $\varepsilon$ and $A$}
+    We can try and compute the derivative of $f$ at $A$:
+    \begin{align*}
+      \lim_{h \to 0} \frac{f(a + h) - f(a)}{h} &= \lim_{h \to 0} \frac{f(a) + Ah + \varepsilon(h)|h| - f(a)}{h} \\
+                                               &= \lim_{h \to 0} \frac{Ah + \varepsilon(h)|h|}{h} \\
+                                               &= A + \lim_{h \to 0} \left(\varepsilon(h) \frac{h}{|h|}\right) \\
+                                               &= A \text{ since $\frac{h}{|h|}$ is bounded and $\varepsilon(h) \to 0$}
+    \end{align*}
+    We see that the limit exists and so $f$ is differentiable at $a$ with $f'(a) = A$.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}[Chain Rule]
+  Let $U, V \subseteq \C$ and $f: U \to V$ and $g: V \to \C$.
+  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \C$ is differentiable at $a \in U$ and $(g \circ f)'(a) = g'(f(a))f'(a)$.
+\end{proposition}
+\begin{proof}
+  Using \cref{derivativeAlternative}, since $f$ is differentiable at $a$, $\exists \varepsilon_f(h)$ with $\varepsilon_f \to 0$ as $h \to 0$ such that:
+  \[
+    f(a + h) = f(a) + hf'(a) + \varepsilon_f(h)|h|
+  \]
+  and since $g$ is differentiable at $f(a)$, $\exists \varepsilon_g(k)$ with $\varepsilon_g \to 0$ as $k \to 0$ such that:
+  \[
+    g(f(a) + k) = g(f(a)) + kg'(f(a)) + \varepsilon_g(k)|k|
+  \]
+  We can now compute the difference between $(g \circ f)(a + h)$ and $(g \circ f)(a)$ and then use the reverse direction of \cref{derivativeAlternative} to find the derivative of $g \circ f$.
+  \begin{align*}
+    (g \circ f)(a + h) - (g \circ f)(a) &= g(f(a + h)) - g(f(a)) \\
+                                        &= g(f(a) + \underbrace{hf'(a) + \varepsilon_f(h)|h|}_{k}) - g(f(a)) \\
+                                        &= g(f(a)) + kg'(f(a)) + \varepsilon_g(k)|k| - g(f(a)) \\
+                                        &= kg'(f(a)) + \varepsilon_g(k)|k| \\
+                                        &= (hf'(a) + \varepsilon_f(h)|h|)g'(f(a)) + \varepsilon_g(k)|k| \\
+                                        &= hf'(a)g'(f(a)) + \varepsilon_f(h)|h|g'(f(a)) + \varepsilon_g(k)|k|
+  \end{align*}
+  We see $hf'(a)g'(f(a))$ so our goal is to make the last two terms of this the error term, we can rewrite them as:
+  \[
+    \varepsilon_f(h)|h|g'(f(a)) + \varepsilon_g(hf'(a) + \varepsilon_f(h)|h|)|hf'(a) + \varepsilon_f(h)|h||
+  \]
+  and then define:
+  \[
+    \varepsilon(h) = \varepsilon_f(h)g'(f(a)) + \varepsilon_g(hf'(a) + \varepsilon_f(h)|h|)|f'(a) + \varepsilon_f(h)|
+  \]
+  and so $(g \circ f)(a + h) - (g \circ f)(a) = hf'(a)g'(f(a)) + \varepsilon(h)|h|$.
+
+  We now just need to check that $\varepsilon(h) \to 0$ as $h \to 0$.
+
+  Considering the first term of $\varepsilon(h)$:
+  \[
+    \lim_{h \to 0} [\varepsilon_f(h)g'(f(a))] = g'(f(a)) \lim_{h \to 0} \varepsilon_f(h) = 0
+  \]
+  and the second term is:
+  \begin{align*}
+    \lim_{h \to 0} \varepsilon_g(hf'(a) + \varepsilon_f(h)|h|)|f'(a) + \varepsilon_f(h)| &= \lim_{h \to 0} \varepsilon_g(hf'(a) + \varepsilon_f(h)|h|) \lim_{h \to 0} |f'(a) + \varepsilon_f(h)| \\
+                                                                                         &= f'(a) \lim_{h \to 0} \varepsilon_g(hf'(a) + \varepsilon_f(h)|h|) \\
+                                                                                         &= f'(a) \cdot 0 = 0
+  \end{align*}
+  So $\varepsilon(h) \to 0$ and so $(g \circ f)'(a)$ must be the coefficient of $h$ and so $(g \circ f)'(a) = g'(f(a))f'(a)$.
+\end{proof}
+\begin{example}
+  Consider the function:
+  \[
+    f(x) = \begin{cases}
+    x \sin\left(\frac{1}{x}\right) & x \neq 0 \\
+    0 & x =0
+    \end{cases}
+  \]
+  At $x \neq 0$, we can use the product and chain rule to find the derivative:
+  \begin{align*}
+    f'(x) &= 1 \cdot \sin\left(\frac{1}{x}\right) + x \cos \left(\frac{1}{x}\right) \cdot\left(-\frac{1}{x^2}\right) \\
+          &= \sin\left(\frac{1}{x}\right) - \frac{1}{x} \cos\left(\frac{1}{x}\right)
+  \end{align*}
+  At $x = 0$, the function is not differentiable as the limit:
+  \[
+    \lim_{h \to 0} \frac{f(h) - f(0)}{h} = \lim_{h \to 0} \frac{f(h)}{h} = \lim_{h \to 0} \sin\left(\frac{1}{h}\right)
+  \]
+  does not exist.
+\end{example}
+There is also a relationship between the differentiability and continuity of a function.
+\begin{lemma}
+  If $f: X \subseteq \C \to \C$ is differentiable at $a \in X$, then it must also be continuous at $a$.
+  \label{diffCont}
+\end{lemma}
+\begin{proof}
+  Since $f$ is differentiable at $a$, by \cref{derivativeAlternative}, $\exists \varepsilon_f(h)$ such that $f(a + h) = f(a) + Ah + \varepsilon_f(h)$ and $\varepsilon_f(h) \to 0$ as $h \to 0$.
+
+  We can then write:
+  \begin{align*}
+    \lim_{x \to a} f(x) &= \lim_{h \to 0} f(a + h) \\
+                        &= \lim_{h \to 0} (f(a) + Ah + \varepsilon_f(h)|h|) \\
+                        &= f(a) + A \lim_{h \to 0} h + \lim_{h \to 0} \varepsilon_f(h)|h| \\
+                        &= f(a)
+  \end{align*}
+  and so $f$ is continuous at $a$ by \cref{continuityLimit}.
+\end{proof}
+\section{Mean Value Theorems}
+  We can think of derivatives as \textit{instantaneous rates of change} and in this section we will relate these to \textit{average rates of change} over an interval.
+  \begin{proposition}[Rolle's Theorem]
+    If $f: [a, b] \to \R$ is continuous on $[a, b]$, differentiable on $(a, b)$ and satisfies $f(a) = f(b)$, then $\exists c \in (a, b)$ such that $f'(c) = 0$.
+    \label{rollesTheorem}
+  \end{proposition}
+  \begin{remark}[Intuition]
+    This tells us that such a function must have a \textit{stationary point} (where $f'(c) = 0$) at some $c \in (a, b)$.
+  \end{remark}
+  \begin{proof}
+    Covered next lecture.
+  \end{proof}
+  \begin{theorem}[Mean Value Theorem]
+    If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
+    \[
+      f'(c) = \frac{f(b) - f(a)}{b - a}
+    \]
+  \end{theorem}
+  \begin{remark}[Intuition]
+    We can think of $\frac{f(b) - f(a)}{b - a}$ as the average rate of change of $f$ over $[a, b]$ and so the mean value theorem tells us that at some point in $(a, b)$, the instantaneous rate of change (i.e. the derivative) must be equal to this average rate of change.
+  \end{remark}
+  \begin{proof}
+    We would like to be able to use Rolle's Theorem to prove this and so we wish to construct a function $\phi$ satisfying $\phi(a) = \phi(b)$.
+
+    A natural way to do this to use the line $\ell(x)$ that passes through $(a, f(a))$ and $(b, f(b))$:
+    \[
+      \ell(x) = f(a) + \frac{f(b) - f(a)}{b - a}(x - a)
+    \]
+    We then set $\phi(x) = f(x) - \ell(x)$ so that $\phi(a) = \phi(b) = 0$.
+    Furthermore, $\ell$ and $f$ are continuous on $[a, b]$ so since addition preserves continuity (\cref{continuityLaws}), $\phi$ is also continuous on $[a, b]$.
+    Thus, by Rolle's Theorem (\cref{rollesTheorem}), $\exists c \in (a, b)$ such that $\phi'(c) = 0$.
+
+    Computing $\phi'(x)$ we have:
+    \[
+      \phi'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}
+    \]
+    Therefore:
+    \[
+      \phi'(c) = 0  \implies f'(c) = \frac{f(b) - f(a)}{b - a}
+    \]
+    and so we are done.
+  \end{proof}
 \end{document}

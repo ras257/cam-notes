@@ -237,6 +237,7 @@ What does it mean for a function to be continuous at a point $a$?
   We say that $f$ is \textit{continuous on $X$} if it is continuous at every point $a \in X$.
 \end{definition}
 \begin{remark}
+  \label{continuityLimit}
   For any $a \in X$, either:
   \begin{itemize}
     \item $a$ is an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
@@ -355,6 +356,7 @@ There is also another notion of continuity using sequences.
 \subsection{Continuity Properties}
 \begin{lemma}[Continuity Laws]
   If $f, g: X \subseteq \C \to \C$ are continuous at $a \in X$, then so are:
+  \label{continuityLaws}
   \begin{enumerate}
     \item $\lambda f + g$ for fixed $\lambda \in \C$
     \item $fg$
