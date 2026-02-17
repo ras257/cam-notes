@@ -506,7 +506,7 @@ Function composition also preserves continuity.
 \end{proof}
 \section{Intermediate Value Theorem}
 \begin{theorem}[Intermediate Value Theorem]
-  If $f: [a, b] \to \R$ is continuous and WLOG, then given any $y$ between $f(a)$ and $f(b)$ there exists $c \in [a, b]$ such that $f(c) = y$.
+  If $f: [a, b] \to \R$ is continuous, then given any $y$ between $f(a)$ and $f(b)$ there exists $c \in [a, b]$ such that $f(c) = y$.
   \label{IVT}
 
   More generally, $f([a, b])$ is a closed interval containing the interval:
@@ -593,14 +593,13 @@ Function composition also preserves continuity.
 \end{proposition}
 \begin{proof}\par
   WLOG assume that $f$ is strictly increasing as if it was strictly decreasing, we can just use the strictly increasing case on $-f$.
+
   \textbf{Bijection --} Since $f$ is strictly monotone, it maps $[a, b] \to [c, d]$ as the extreme values must occur at the endpoints of the codomain.
   Since it is strictly monotone, it must also be injective.
 
   It is also surjective by the intermediate value theorem (\cref{IVT}) as for any $y \in [c, d]$, there exists $c \in [a, b]$ such that $f(c) = y$.
 
-  \textbf{Strictly Monotone --}
-
-  Suppose $f^{-1}: [c, d] \to [a, b]$ is not strictly increasing, then $\exists y_1, y_2 \in [c, d]$ with $y_1 < y_2$ but $f^{-1}(y_1) \geq f^{-1}(y_2)$.
+  \textbf{Strictly Monotone --} Suppose $f^{-1}: [c, d] \to [a, b]$ is not strictly increasing, then $\exists y_1, y_2 \in [c, d]$ with $y_1 < y_2$ but $f^{-1}(y_1) \geq f^{-1}(y_2)$.
 
   Since $f$ is strictly increasing, it preserves inequalities and so $f(f^{-1}(y_1)) \geq f(f^{-1}(y_2))$.
   But we now know that $f$ is a bijection so this implies that $y_1 \geq y_2$ which is a contradiction, thus $f^{-1}$ must be strictly increasing.
