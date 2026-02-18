@@ -27,6 +27,7 @@
 \usepackage{siunitx} % Used for SI units
 \usepackage{mathrsfs} % Used for script calligraphic font
 \usepackage{bm} % Used for bold Greek characters
+\usepackage{esint} % Used for alternative integrals
 \pgfplotsset{compat=newest}
 \usepackage[skip=5pt, indent=0em]{parskip} % Removes first line indentation
 \usepackage[a4paper, top=1in, bottom=1in, left=1.4in, right=1.4in]{geometry} % Page geometry
@@ -233,14 +234,19 @@
 
 %%% NEW COMMANDS
 \newcommand{\induction}[6]{
-  Proceed via induction.\par\noindent
+  Proceed via induction.\par
+  \quietinduction{#1}{#2}{#3}{#4}{#5}{#6}
+  Thus proven by mathematical induction.
+}
+
+\newcommand{\quietinduction}[6]{
+  \par\noindent
   \textbf{Base case} (#1):\nopagebreak[4]
   \begin{indentenvironment}#2\end{indentenvironment}
   \textbf{Assume} true for #3\ifstrempty{#4}{.}{:}
   \ifstrempty{#4}{\par\noindent\nopagebreak}{\begin{indentenvironment}#4\end{indentenvironment}}
   \textbf{RTP} true for #5:
   \begin{indentenvironment}#6\end{indentenvironment}
-  Thus proven by mathematical induction.
 }
 
 \newcommand{\nonexaminable}{

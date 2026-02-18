@@ -203,13 +203,15 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
 \end{definition}
 \begin{definition}[Probability Mass Function]
   For a discrete random variable $X$ taking values in a countable set $S$, the \textit{probability mass function}, \textit{pmf}, or \textit{distribution} of $X$ is defined to be:
+  \label{pmf}
   \[
     p_X: X \to S,\ x \mapsto \P(X = x) = \P(\{\omega \in \Omega: X(\omega) = x\})\
   \]
+  We also use the notation $p_x$ to mean $\P(X = x)$ if it is clear what distribution we are referencing.
 \end{definition}
 If $A \subseteq S$, then $\P(X \in A) = \sum_{x \in A} p_X(x)$.
 
-If the $p_X(x)$ are the Bernoulli distribution, then we say that $X$ is a \textit{Bernoulli r.v. (random variable)}, or we say that \textit{$X$ is Bernoulli distributed}.
+If the $p_x$ are the Bernoulli distribution, then we say that $X$ is a \textit{Bernoulli r.v. (random variable)}, or we say that \textit{$X$ is Bernoulli distributed}.
 For other discrete distributions, we use a similar convention, for example, we might say that $X$ is binomially distributed or that $X$ follows a Poisson distribution.
 \begin{remark}[Notation]
   We use the notation $X \sim \binomial(n, p)$ to mean ``$X$ is binomially distributed'', and similarly for other distributions.
@@ -758,8 +760,9 @@ We can also use indicator functions to provide an alternative proof for the Prin
     \P(X_1 = x_1, \ldots, X_n = x_n) = \prod_{i = 1}^{n} \P(X_i = x_i)
   \]
 \end{remark}
-\begin{lemma}[Variance of Product]
+\begin{lemma}[Expectation of Product]
   Let $X$ and $Y$ be two independent random variables and let $f, g: \R \to \R^{+}$ then:
+  \label{expectationProduct}
   \[
     \E[f(X)g(Y)] = \E[f(X)]\E[g(Y)]
   \]
@@ -1121,6 +1124,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
 \subsection{Convolutions}
 \begin{proposition}[Convolution]
   If $X$ and $Y$ be independent discrete random variables, then random variable $X + Y$ follows a distribution which is the \textit{convolution} of the distributions of $X$ and $Y$.
+  \label{convolution}
 
   That is:
   \[
@@ -1135,6 +1139,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
   \end{align*}
 \end{proof}
 \begin{example}[Convolution of Poisson r.v.s]
+  \label{poissonConvolution}
   Let $X$ and $Y$ be independent Poisson r.v.s with parameters $\lambda$ and $\mu$  respectively:
   \begin{align*}
     \P(X + Y = n) &= \sum_{k = 0}^{n} \P(X = n - k) \P(Y = k) \\
@@ -1356,7 +1361,7 @@ The game ends if they goes bankrupt, i.e. they reach 0, or if they reach £$a$, 
 Let $h(x) = \P_x((X_n) \text{ reaches $a$ before reaching $0$})$.
 We can split $h(x)$ up using the law of total probability \cref{lawOfTotalProb}:
 \begin{align*}
-  h(x) &= \P_x((X_n) \text{ reaches $a$ before 0}) \\
+  h(x) &= \P_x((X_n) \text{ hits $a$ before 0}) \\
        &= \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = 1) + \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = -1) \\
        &= p \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = 1) + (1 - p) \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = -1) \\
        &= p \cdot h(x + 1) + (1 - p) h(x - 1)
@@ -1368,4 +1373,271 @@ Thus we have the recurrence relation:
 To solve this, we need two boundary conditions.
 If they start with £$0$, then the game ends immediately with bankruptcy so $h(0) = 0$.
 Conversely, if they start with £$a$, then the game ends immediately with £$a$ so $h(a) = 1$.
+
+\begin{proofcases}
+  \begin{case}{$p = q = 0.5$}
+    If $p = q = 0.5$ then this is a \textit{simple symmetric random walk} (SSRW) and the recurrence becomes:
+    \[
+      h(x) = \frac{1}{2}h(x + 1) + \frac{1}{2}h(x - 1) \implies h(x + 1) - h(x) = h(x) - h(x - 1)
+    \]
+    So the difference between consecutive terms is a constant, say $c$, and so:
+    \[
+      h(x) = h(0) + \sum_{i = 1}^{x} c = c \cdot x
+    \]
+    We can then use the other boundary condition to determine $c$:
+    \[
+      h(a) = 1 = a \cdot c \implies c = \frac{1}{a}
+    \]
+    and so $h(x) = \frac{x}{a}$.
+  \end{case}
+  \begin{case}{$p \neq q$}
+    In the general case, we try a solution of the form $\lambda^{x}$ for some constant $\lambda$:
+    \begin{equation}
+      \lambda^{x} = p \lambda^{x + 1} + q \lambda^{x - 1} \implies \lambda = 1 \text{ or } \frac{q}{p} \label{homogenousRecurrence}
+    \end{equation}
+    and so the general solution is:
+    \[
+      h(x) = A + B \left(\frac{q}{p}\right)^{x}
+    \]
+    Applying the boundary conditions:
+    \begin{align*}
+      &h(0) = 0 \implies A = -B,\ h(a) = 1 \implies A + B\left(\frac{q}{p}\right)^{a} = 1 \\
+      \implies& A = -\frac{1}{(q/p)^{a} - 1},\ B = \frac{1}{(q/p)^{a} - 1}
+    \end{align*}
+    Therefore, the final solution is:
+    \[
+      h(x) = \frac{(q/p)^{x} - 1}{(q/p)^{a} - 1}
+    \]
+    So if $q > p$, then it is exponentially unlikely for the gambler to hit £$a$ before £0 as we have a drift towards 0.
+  \end{case}
+\end{proofcases}
+\subsubsection{Time to Absorption}
+\begin{definition}[Time to Absorption]
+  The \textit{time to absorption} $T$ of a random walk between 0 and $a$ is the first $n$ such that $X_n \in \{0, a\}$, that is, the duration of the random walk:
+  \[
+    T = \min\{n \geq 0: X_n \in \{0, a\}\}
+  \]
+\end{definition}
+For the gambler, we would like to know the expected length of the game if they start with £$x$, i.e. $\E[T \vert X_0 = x]$.
+\begin{remark}[Notation]
+  We introduce the shorthand notation $\E_x[T] = \E[T \vert X_0 = x] = k(x)$.
+\end{remark}
+Using the law of total expectation (\cref{lawOfTotalExp}), we have:
+\begin{align*}
+  k(x) &= \E_x[T \vert Y_1 = 1]\P(Y_1 = 1) + \E_x[T \vert Y_1 = -1]\P(Y_1 = - 1) \\
+       &= p \cdot (k(x + 1) + 1) + (1 - p) \cdot (k(x - 1) + 1) \\
+       &= 1 + p \cdot k(x  +1) + q \cdot k(x - 1)
+\end{align*}
+If we start at $0$ or $a$ then the game ends immediately and so we have the boundary conditions $k(0) = k(a) = 0$.
+\begin{proofcases}
+  \begin{case}{$p = q = 0.5$}
+    We try a solution of the form $Ax^2$:
+    \[
+      Ax^2 = 1 + \frac{1}{2}A(x + 1)^2 + \frac{1}{2}A(x - 1)^2 \implies A = -1
+    \]
+    and so the general solution is of the form:
+    \[
+      k(x) = -x^2 + Bx + C
+    \]
+    Applying the boundary conditions:
+    \begin{align*}
+      k(0) = 0 \implies C = 0,\ k(a) = 0 \implies -a^2 + Ba = 0
+    \end{align*}
+    Therefore, the final solution is:
+    \[
+      k(x) = x(a - x)
+    \]
+  \end{case}
+  \begin{case}{$p \neq q$}
+    We try a solution of the form $Cx$:
+    \[
+      Cx = 1 + Cp(x + 1) + Cq(x - 1) \implies C = \frac{1}{q - p}
+    \]
+    The homogeneous recurrence relation is the same as that in \cref{homogenousRecurrence} so the general solution is of the form:
+    \[
+      h(x) = A + \frac{1}{q - p} \cdot x + B \cdot \left(\frac{q}{p}\right)^{x}
+    \]
+    and after applying the boundary conditions, the final solution is:
+    \[
+      h(x) = \frac{1}{q - p} \cdot x - \frac{a}{q - p} \cdot \frac{(q/p)^{x} - 1}{(q/p)^{a} - 1}
+    \]
+  \end{case}
+\end{proofcases}
+\begin{remark}
+  Here we calculated the expected number of steps to reach \textit{either} 0 or $a$.
+  In the case of a simple symmetric random walk, the number of steps to reach 0 is finite with probability one, however, the expected number of steps to reach 0 for the first time is infinite.
+\end{remark}
+\section{Probability Generating Functions}
+\begin{remark}[Recap]
+  Recall from \cref{pmf} that, if $X$ is a discrete random variable with values in $\N$ then $p_r = \P(X = r),\ r \in \N$ is the \textit{probability mass function of $X$}.
+\end{remark}
+\begin{definition}[Probability Generating Function]
+  The \textit{probability generating function} or \textit{pgf} of a discrete random variable $X$ is defined to be:
+  \[
+    p(z) = \E[z^{X}] = \sum_{r = 0}^{\infty} p_r z^{r} = p_0 + p_1 \cdot z + p_2 \cdot z^2 + \cdots
+  \]
+  for $|z| \leq 1$.
+  Note that we are able to expand this expectation to this sum using \cref{expectationFunction}.
+\end{definition}
+To check convergence, we see that:
+\[
+  |p(z)| = \abs{\sum_{r=0}^{\infty} p_r z^{r}} \leq \sum_{r = 0}^{\infty} p_r |z|^{r} \leq \sum_{r  = 0}^{\infty} p_r = 1
+\]
+Thus $p(z)$ converges absolutely for $|z| \leq 1$ and with a radius of convergence of at least 1.
+This means that $p(z)$ is well defined as we specify that it only takes $|z| \leq 1$.
+\begin{theorem}[Uniqueness of pgfs]
+  The probability generating function of $X$ uniquely determines the distribution of $X$.
+\end{theorem}
+\begin{proof}
+  Let $(p_r)$ and $(q_r)$ be two probability distributions with the same pgf, that is:
+  \[
+    \sum_{r = 0}^{\infty} p_r z^{r} = \sum_{r = 0}^{\infty} q_r z^{r} \quad \forall z \text{ s.t. } |z| \leq 1\
+  \]
+  Our goal is to show that $p_r  = q_r\ \forall r \in \N$.
+  \quietinduction
+  {$r = 0$}{
+    By setting $z = 0$, we see that $p_0 = q_0$ \tick
+  }
+  {$r \leq n$}{}
+  {$r = n + 1$}{
+    We need to show that $p_{n + 1} = q_{n + 1}$.
+    Since the first $n$ terms of the sum are equal:
+    \[
+      \sum_{r = 0}^{\infty} p_r z^{r} = \sum_{r = 0}^{\infty} q_r z^{r} \implies \sum_{r = n + 1}^{\infty} p_r z^{r} = \sum_{r = n + 1}^{\infty} q_r z^{r}
+    \]
+    We can then divide by $z^{n + 1}$ and take the limit as $z \to 0$ to yield $p_{n + 1} = q_{n + 1}$.
+  }
+\end{proof}
+\begin{example}[pgf for a binomial distribution]
+  Consider $X \sim \binomial(n, p)$
+  \begin{align*}
+    p(z) = \E[z^{X}] &= \sum_{k = 0}^{n} z^{k} \cdot \binom{n}{k} p^{k} (1 - p)^{n - k} \\
+                     &= \sum_{k = 0}^{n} \binom{n}{k} (pz)^{k} (1 - p)^{n - k} \\
+                     &= (pz + 1 - p)^{n}
+  \end{align*}
+  So if we find a random variable with this pgf, then it must follow $\binomial(n, p)$.
+\end{example}
+\begin{lemma}
+  If $X_1, \ldots, X_n$ are independent r.v.s with pgfs $q_i(z) = \E[z^{X_i}]$, then the pgf $p(z)$ of $X_1 + \cdots + X_n$ is:
+  \[
+    p(z) = q_1(z) \cdots q_n(z)
+  \]
+\end{lemma}
+\begin{proof}
+  Recall from \cref{expectationFunction} that if $X \perp Y$, $\E[f(X)g(Y)] = \E[f(X)]\E[g(Y)]$.
+  Therefore:
+  \[
+    p(z) = \E[z^{X_1 + \cdots + X_n}] = \E[z^{X_1}] \cdots \E[z^{X_n}] = q_1(z) \cdots q_n(z)
+  \]
+\end{proof}
+\begin{remark}
+  We can use this along with the uniqueness of pgfs to more efficiently determine the distribution of the sum of multiple discrete random variables instead of having to use a convolution.
+\end{remark}
+\begin{example}[Using pgfs to determine distributions]
+  \begin{enumerate}
+    \item Suppose $X \sim \binomial(n, p)$ and $Y \sim \binomial(m, p)$ where $X \perp Y$.
+      If we think of $X$ and $Y$ as sums of $n$ and $m$ independent Bernoulli random variables respectively then we can see that $X + Y \sim \binomial(n + m, p)$, however, we can also find the distribution of $X + Y$ by finding its pgf:
+      \begin{align*}
+        \E[z^{X+Y}] &= \E[z^{X}]\E[z^{Y}] \\
+                    &= (pz + 1 - p)^{n} \cdot (pz + 1 - p)^{m} \\
+                    &= (pz + 1 - p)^{n + m}
+      \end{align*}
+      So $X + Y \sim \binomial(n + m, p)$, as expected.
+    \item Suppose $X \sim \geometric(p)$, the pgf of $X$ is then:
+      \[
+        \E[z^{X}] = \sum_{ r=r 0}^{\infty} z^{r}(1- p)^{r} \cdot p = \frac{p}{1 - z(1 - p)}
+      \]
+    \item Suppose $X \sim \poisson(\lambda)$, the pgf of $X$ is then:
+      \[
+        \E[z^{X}] = \sum_{r = 0}^{\infty} z^{r} \cdot e^{-\lambda} \frac{\lambda^{r}}{r!} = e^{-\lambda} e^{\lambda z} = e^{\lambda(z - 1)}
+      \]
+      Suppose we have a second r.v. $Y \sim \poisson(\mu)$ where $X \perp Y$.
+      We used a convolution in \cref{poissonConvolution} to show that $X + Y \sim \poisson(\lambda + \mu)$, however we can more efficiently determine the distribution of $X + Y$ using its pgf:
+      \[
+        \E[z^{X + Y}] = \E[z^{X}]\E[z^{Y}] = e^{\lambda(z - 1)}e^{\mu(z  - 1)} = e^{(\lambda + \mu)(z - 1)}
+      \]
+      and so $X + Y \sim \poisson(\lambda + \mu)$, as expected.
+  \end{enumerate}
+\end{example}
+\begin{remark}[Notation]
+  The notation $\lim_{z \to 1^{-}} f(z)$ and $f(1-)$ both mean the limit as $z$ approaches $1$ from below.
+\end{remark}
+\begin{theorem}
+  If $X$ is a random variable with pgf $p(z)$, then:
+  \label{pgfDerivative}
+  \[
+    \lim_{z \to 1^-} p'(z) = p'(1-) =\E[X]
+  \]
+\end{theorem}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$\E[X] < \infty$}
+      Since we want to take the limit as $z \to 1$ it is enough to look at $0 < z < 1$.
+
+      We can differentiate $p(z)$ and then upper bound this by $\E[X]$:
+      \[
+        p'(z) = \sum_{r = 1}^{\infty} r p_r z^{r - 1} \leq \sum_{r = 1}^{\infty} r p_r = \E[X]
+      \]
+      So $p'(z)$ is increasing and bounded above and thus the limit exists:
+      \[
+        \lim_{z \to 1^-} p'(z) \leq \E[X]
+      \]
+      We now need to show that the limit is $\E[X]$.
+      For $\varepsilon > 0$, there exists $N$ sufficiently large such that:
+      \[
+        \sum_{r = 1}^{N} r p_r \geq \E[X] - \varepsilon
+      \]
+      since the series converges.
+
+      Since we have truncated the sum for $p'(z)$, we also have:
+      \[
+        p'(z) \geq \sum_{r = 1}^{N} rp_r z^{r - 1}
+      \]
+      Taking limits we have:
+      \[
+        \lim_{z \to 1^-} p'(z) \geq \lim_{z \to 1^-} \sum_{r = 1}^{N} r p_r z^{r - 1} = \sum_{r = 1}^{N} r p_r \geq \E[X] - \varepsilon
+      \]
+      and so:
+      \[
+        \E[X] - \varepsilon \leq \lim_{z \to 1^-} p'(z) \leq \E[X]
+      \]
+      for any $\varepsilon > 0$.
+      Therefore, $\lim_{z \to 1^-} p'(z) = \E[X]$.
+    \end{case}
+    \begin{case}{$\E[X] = \infty$}
+      Since $\E[X] = \infty$, $\forall M > 0\ \exists N$ such that:
+      \[
+        \sum_{r = 1}^{N} rp_r \geq M
+      \]
+      From before:
+      \[
+        \lim_{z \to 1^-} p'(z) \geq \lim_{z \to 1^-} \sum_{r = 1}^{N}  rp_r z^{r - 1} = \sum_{r = 1}^{N} r p_r \geq M
+      \]
+      So $\lim_{z \to 1^-} p'(z) = \infty = \E[X]$.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\begin{theorem}
+  If $X$ is a random variable with pgf $p(z)$, then:
+  \[
+    \lim_{z \to 1^-} p''(z) = p''(1-) = \E[X(X - 1)]
+  \]
+\end{theorem}
+\begin{proof}
+  Proved in exactly the same way as \cref{pgfDerivative}.
+\end{proof}
+More generally, it can be shown that $\forall k \geq 0$:
+\[
+  \lim_{z \to 1^-} p^{(k)}(z) = p^{(k)}(1-) = \E[X(X - 1) \cdots (X - k + 1)]
+\]
+We can then use this to find the variance from the pgf:
+\begin{align*}
+  \Var(X) &= \E[X^2] - (\E[X])^2 \\
+          &= \E[X(X - 1)] + \E[X] - (\E[X])^2 \\
+          &= p''(1-) + p'(1-) - (p'(1-))^2
+\end{align*}
+We can also extract the distribution of $X$ from the pgf:
+\[
+  \P(X = n) = \frac{1}{n!}\at{\deriv[n]{p}{z}}{z = 0}
+\]
 \end{document}
