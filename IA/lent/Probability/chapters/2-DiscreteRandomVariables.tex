@@ -1075,22 +1075,40 @@ We want $\E[f(X)] = f(\E[X])$ so this forces $\E[f(X)] = a \E[X] + b = \E[aX + b
   \E[f(X) - (aX + b)] = 0 &\implies \P(f(X) = aX + b) = 1 \\
 \end{align*}
 Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so $\P(f(X) = aX + b) = 1 \implies \P(X = \E[X]) = 1$.
-\begin{example}[AM-GM Inequality]
-  Let $f$ be a convex function.
-  Then $\forall x_1, \ldots, x_n \in \R$ we have:
+\begin{corollary}
+  If $f$ be a convex function, then $\forall x_1, \ldots, x_n \in \R$:
+  \label{jensenCorollary}
   \[
     \frac{1}{n} \sum_{k = 1}^{n} f(x_k) \geq f\left(\frac{1}{n}\sum_{k = 1}^{n} x_k\right)
   \]
-  This follows from that if we define $X$ as a r.v. with $P(X = x_i) = \frac{1}{n}$.
+\end{corollary}
+\begin{proof}
+  Let $X$ be a discrete random variable taking values from $\{x_1, \ldots, x_n\}$ with $\P(X = x_i) = \frac{1}{n}$.
+  We can use \cref{expectationFunction} to find $\E[f(X)]$:
   \[
-    \frac{1}{n}\sum_{k = 1}^{n} f(x_k) = \E[f(X)] = \sum_{i = 1}^{k} f(x)\P(X = x)
+    \E[f(X)] = \sum_{k = 1}^{n} f(x_k)\P(X = x_k) = \frac{1}{n}\sum_{k = 1}^{n} f(x_k)
   \]
+  We also have $\E[X] = \frac{1}{n}\sum_{k = 1}^{n} f(x_k)$ and as $f$ is convex $\E[f(X)] \geq f(\E[X])$, so:
+  \[
+    \frac{1}{n} \sum_{k = 1}^{n} f(x_k) \geq f\left(\frac{1}{n}\sum_{k = 1}^{n} x_k\right)
+  \]
+\end{proof}
+\begin{example}[AM-GM Inequality]
+  We want to show that the arithmetic mean of $n$ non-negative numbers $\{x_1, \ldots, x_n\}$ is less than or equal to their geometric mean.
 
-  If we now set $f(x) = -\log x$, this is convex so for all $x_1, \ldots, x_n$:
-  \begin{align*}
-    -\frac{1}{n} \sum_{k = 1}^{n} \log x_k &\geq - \log\left(\frac{1}{n} \sum_{k = 1}^{n} x_k\right) \\
-    \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} &\leq \frac{1}{n} \sum_{k = 1}^{n} x_k
-  \end{align*}
+  Let $f(x) = -\log x$.
+  This is a convex function so applying \cref{jensenCorollary}, we have:
+  \[
+    -\frac{1}{n} \sum_{k = 1}^{n} \log x_k \geq - \log\left(\frac{1}{n} \sum_{k = 1}^{n} x_k\right) \\
+  \]
+  Using logarithm laws, we can rewrite the left hand side as:
+  \[
+    \frac{1}{n} \sum_{k = 1}^{n} \log x_k = \sum_{k = 1}^{n} \log x^{\frac{1}{n}}_{k} = \log \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}}
+  \]
+  and since exponentiating preserves inequalities:
+  \[
+    \text{Geometric mean} = \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} \geq \frac{1}{n} \sum_{k = 1}^{n} x_k = \text{Arithmetic mean}
+  \]
 \end{example}
 \section{Joint Distributions and Conditional Expectation}
 \subsection{Joint and Conditional Distributions}
