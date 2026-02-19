@@ -95,6 +95,7 @@ We can derive some properties of derivatives from the properties of limits (\cre
   \end{enumerate}
 \end{proof}
 \begin{example}
+  \label{powerRule}
   \begin{enumerate}
     \item Using induction and the product rule, we can show that $f(z) = z^{n}$ is differentiable with $f'(z) = nz^{n - 1}$.
       Combining this with the addition of derivatives, this means that polynomials are always differentiable.
@@ -236,45 +237,225 @@ There is also a relationship between the differentiability and continuity of a f
   and so $f$ is continuous at $a$ by \cref{continuityLimit}.
 \end{proof}
 \section{Mean Value Theorems}
-  We can think of derivatives as \textit{instantaneous rates of change} and in this section we will relate these to \textit{average rates of change} over an interval.
-  \begin{proposition}[Rolle's Theorem]
-    If $f: [a, b] \to \R$ is continuous on $[a, b]$, differentiable on $(a, b)$ and satisfies $f(a) = f(b)$, then $\exists c \in (a, b)$ such that $f'(c) = 0$.
-    \label{rollesTheorem}
-  \end{proposition}
-  \begin{remark}[Intuition]
-    This tells us that such a function must have a \textit{stationary point} (where $f'(c) = 0$) at some $c \in (a, b)$.
-  \end{remark}
-  \begin{proof}
-    Covered next lecture.
-  \end{proof}
-  \begin{theorem}[Mean Value Theorem]
-    If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
-    \[
-      f'(c) = \frac{f(b) - f(a)}{b - a}
-    \]
-  \end{theorem}
-  \begin{remark}[Intuition]
-    We can think of $\frac{f(b) - f(a)}{b - a}$ as the average rate of change of $f$ over $[a, b]$ and so the mean value theorem tells us that at some point in $(a, b)$, the instantaneous rate of change (i.e. the derivative) must be equal to this average rate of change.
-  \end{remark}
-  \begin{proof}
-    We would like to be able to use Rolle's Theorem to prove this and so we wish to construct a function $\phi$ satisfying $\phi(a) = \phi(b)$.
+We can think of derivatives as \textit{instantaneous rates of change} and in this section we will relate these to \textit{average rates of change} over an interval.
+\begin{proposition}[Rolle's Theorem]
+  If $f: [a, b] \to \R$ is continuous on $[a, b]$, differentiable on $(a, b)$ and satisfies $f(a) = f(b)$, then $\exists c \in (a, b)$ such that $f'(c) = 0$.
+  \label{rollesTheorem}
+\end{proposition}
+\begin{remark}[Intuition]
+  This tells us that such a function must have a \textit{stationary point} (where $f'(c) = 0$) at some $c \in (a, b)$.
+\end{remark}
+\begin{proof}
+  Intuitively, we want to look for $c$ that are local maxima/minima we can show that these have $f'(c) = 0$.
 
-    A natural way to do this to use the line $\ell(x)$ that passes through $(a, f(a))$ and $(b, f(b))$:
-    \[
-      \ell(x) = f(a) + \frac{f(b) - f(a)}{b - a}(x - a)
-    \]
-    We then set $\phi(x) = f(x) - \ell(x)$ so that $\phi(a) = \phi(b) = 0$.
-    Furthermore, $\ell$ and $f$ are continuous on $[a, b]$ so since addition preserves continuity (\cref{continuityLaws}), $\phi$ is also continuous on $[a, b]$.
-    Thus, by Rolle's Theorem (\cref{rollesTheorem}), $\exists c \in (a, b)$ such that $\phi'(c) = 0$.
+  By the extreme value theorem (\cref{EVT}), $f$ attains its minimum and maximum on $[a, b]$, that is, $\exists x_{\text{min}}, x_{\text{max}} \in [a, b]$ such that:
+  \[
+    f(x_{\text{min}}) = \inf_{z \in [a, b]} f(z) \text{ and } f(x_{\text{max}}) = \sup_{z \in [a, b]} f(z)
+  \]
 
-    Computing $\phi'(x)$ we have:
-    \[
-      \phi'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}
-    \]
-    Therefore:
-    \[
-      \phi'(c) = 0  \implies f'(c) = \frac{f(b) - f(a)}{b - a}
-    \]
-    and so we are done.
-  \end{proof}
+  Let $h_n$ be a sequence that decreases to $0$ from above.
+  If $x_{\text{min}} \in (a, b)$, then:
+  \[
+   \frac{f(x_{\text{min}} + h_n) - f(x_{\text{min}})}{h_n} \geq 0 \text{ and }
+   \frac{f(x_{\text{min}} - h_n) - f(x_{\text{min}})}{-h_n} \leq 0
+  \]
+  since $f(x_{\text{min}})$ is a minimum.
+  So as $h_n \to 0$, the derivative of $f$ at $x_{\text{min}}$ is trapped below by 0 and above by $0$ and so $f'(x_{\text{min}}) = 0$.
+
+  Similarly, if $x_{\text{max}} \in (a, b)$, then:
+  \[
+   \frac{f(x_{\text{max}} + h_n) - f(x_{\text{max}})}{h_n} \leq 0 \text{ and }
+   \frac{f(x_{\text{max}} - h_n) - f(x_{\text{max}})}{-h_n} \geq 0
+  \]
+  since $f(x_{\text{max}})$ is a maximum and so by the same argument, $f'(x_{\text{max}}) = 0$.
+
+  So if either of $x_{\text{min}}$ or $x_{\text{max}}$ is in $(a, b)$, then we have found $c$ such that $f'(c) = 0$.
+
+  If $f$ is constant, then $f'(c) = 0\ \forall c \in (a, b)$ and so we are done.
+  Otherwise, either $f(x_{\text{max}}) > f(a)$, which means that $x_{\text{max}} \in (a, b)$, or $f(x_{\text{min}}) < f(a)$, which means that $x_{\text{min}} \in (a, b)$, in either case, we are done by the above.
+\end{proof}
+\begin{theorem}[Mean Value Theorem]
+  If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
+  \label{MVT}
+  \[
+    f'(c) = \frac{f(b) - f(a)}{b - a}
+  \]
+\end{theorem}
+\begin{remark}[Intuition]
+  We can think of $\frac{f(b) - f(a)}{b - a}$ as the average rate of change of $f$ over $[a, b]$ and so the mean value theorem tells us that at some point in $(a, b)$, the instantaneous rate of change (i.e. the derivative) must be equal to this average rate of change.
+\end{remark}
+\begin{proof}
+  We would like to be able to use Rolle's Theorem to prove this and so we wish to construct a function $\phi$ satisfying $\phi(a) = \phi(b)$.
+
+  A natural way to do this to use the line $\ell(x)$ that passes through $(a, f(a))$ and $(b, f(b))$:
+  \[
+    \ell(x) = f(a) + \frac{f(b) - f(a)}{b - a}(x - a)
+  \]
+  We then set $\phi(x) = f(x) - \ell(x)$ so that $\phi(a) = \phi(b) = 0$.
+  Furthermore, $\ell$ and $f$ are continuous on $[a, b]$ so since addition preserves continuity (\cref{continuityLaws}), $\phi$ is also continuous on $[a, b]$.
+  Thus, by Rolle's Theorem (\cref{rollesTheorem}), $\exists c \in (a, b)$ such that $\phi'(c) = 0$.
+
+  Computing $\phi'(x)$ we have:
+  \[
+    \phi'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}
+  \]
+  Therefore:
+  \[
+    \phi'(c) = 0  \implies f'(c) = \frac{f(b) - f(a)}{b - a}
+  \]
+  and so we are done.
+\end{proof}
+\begin{remark}
+  We can alternatively think of this as given $h$ such that $a + h \in [a, b]$, $\exists \theta = \theta(h) \in (0, 1)$ such that $f(a + h) = f(a) + hf'(a + \theta h)$ by setting $b = a + h$ above.
+\end{remark}
+\begin{corollary}
+  If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then:
+  \label{derivativeIncreasingRelation}
+  \begin{enumerate}
+    \item $f' \geq 0$ on $(a, b) \implies f$ is increasing.
+    \item $f' > 0$ on $(a, b) \implies f$ is strictly increasing.
+    \item $f' \leq 0$ on $(a, b) \implies f$ is decreasing.
+    \item $f' < 0$ on $(a, b) \implies f$ is strictly decreasing.
+    \item $f' = 0$ on $(a, b) \implies f$ is constant.
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  See Example Sheet 2 Q1e.
+\end{proof}
+\begin{remark}[Warning]
+  We cannot just replace $[a, b]$ with any arbitrary $X \subseteq \R$.
+
+  For instance, consider the function:
+  \[
+    f: \Q \to \R,\
+    x \mapsto \begin{cases}
+    0 & \text{ if } x^2 > 2 \\
+    1 & \text{ if } x^2 < 2
+    \end{cases}
+  \]
+  This is a continuous function and, since $\sqrt{2}$ is not in the domain of $f$, $f'(x) = 0\ \forall x \in \Q$.
+  However, this function is not constant.
+\end{remark}
+We can generalise the relation between $f'(z) = 0$ and constant functions into $\C$:
+\begin{corollary}
+  If $f: \C \to \C$ is differentiable in $\C$ and $f'(z) = 0\ \forall z \in \C$, then $f$ is constant.
+\end{corollary}
+\begin{proof}
+  Fix some arbitrary $z \in \C$ and define:
+  \[
+    g: [0, 1] \to \C, t \mapsto f(tz)
+  \]
+  Since $f$ is continuous and differentiable, $g$ is continuous on $[0, 1]$ and $g$ is differentiable on $(0, 1)$ since it is a composition of $f$ and $tz$.
+  We can therefore apply the MVT to the real and imaginary parts of $g$ separately.
+
+  If we differentiate $g$, we see that:
+  \[
+    g'(t) = z f'(tz) = 0 \implies \Re(g'(t)) = 0,\ \Im(g'(t)) = 0
+  \]
+  and so the real and imaginary parts of $g$ are constant, i.e. $g$ is constant $\forall t \in [0, 1]$.
+  Setting $t = 1$ and then $t = 0$ yields $f(z) = g(1) = g(0) = f(0)$.
+  Therefore, since $z$ was arbitrary, $f(z) = f(0)\ \forall z \in \C$.
+\end{proof}
+Now that we have introduced differentiation and some associated theorems, we can prove the full inverse function theorem that we saw a more basic version of in \cref{inverseFunctionMonotone}.
+\begin{theorem}[Inverse Function Theorem -- Version 2]
+  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $f'(x) > 0\ \forall x \in (a, b)$, then $f: [a, b] \to [f(a), f(b)]$ is bijective and $f^{-1} : [f(a), f(b)] \to [a, b]$ is continuous and differentiable in $(f(a), f(b))$ with derivative:
+  \[
+    (f^{-1})'(y) = \frac{1}{f'(f^{-1}(y))}
+  \]
+\end{theorem}
+\begin{proof}
+  By \cref{derivativeIncreasingRelation}, since $f'(x) > 0\ \forall x \in (a, b)$, $f$ is strictly increasing and so our previous version of the inverse function theorem (\cref{inverseFunctionMonotone}) tells us that $f$ is a bijection to its image and $f^{-1}$ is continuous.
+
+  We just need to show the differentiability of $f^{-1}$.
+  Consider any arbitrary $y \in (f(a), f(b))$, since $f$ is a bijection there is a unique $x \in [a, b]$ such that $x = f^{-1}(y)$.
+
+  Given arbitrary $h$ such that $y + h \in (f(a), f(b))$, define $k(h)$ such that $y + h = f(x + k)$.
+  Doing this allows us to utilise the differentiability of $f$.
+
+  Noting that $k = f^{-1}(y + h) - x$, we can attempt to find the derivative of $f^{-1}$:
+  \[
+    \frac{f^{-1}(y + h) - f^{-1}(y)}{h} = \frac{x + k - x}{f(x + k) - y} = \frac{k}{f(x + k) - f(x)} = \left[\frac{f(x + k) - f(x)}{k}\right]^{-1}
+  \]
+  Since we want to take the limit of the left hand side of this as $h \to 0$, we want to know what happens to $k(h)$ as $h \to 0$.
+  \[
+    \lim_{h \to 0} k(h) = \lim_{h \to 0} (f^{-1}(y + h) - f^{-1}(y)) = f^{-1}(y) - f^{-1}(y) = 0
+  \]
+  as $f^{-1}$ is continuous.
+
+  Taking the limit of the derivative expression, we have:
+  \[
+    \lim_{h \to 0} \frac{f^{-1}(y + h) - f^{-1}(y)}{h} = \lim_{k \to 0}  \left[\frac{f(x + k) - f(x)}{k}\right]^{-1} = \frac{1}{f'(x)}
+  \]
+  The limit exists so $f^{-1}$ is differentiable with derivative:
+  \[
+    (f^{-1})'(y) = \frac{1}{f'(x)} = \frac{1}{f'(f^{-1}(y))}
+  \]
+  so we are done.
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Fix some $R > 0$ and define $f: [0, R] \to \R$, $x \mapsto x^{N}$ for some $N \in \N$.
+      $f$ is continuous on $[0, R]$ and differentiable on $(0, R)$ with $f'(x) = N x^{N - 1} > 0\ \forall x \in (0, R)$.
+      Thus by the inverse function theorem, $f: [0, R] \to [0, R^{N}]$ is a bijection and $f^{-1}(y) = y^{\frac{1}{N}}$ is differentiable with derivative:
+      \[
+        (f^{-1})'(y) =  \frac{1}{f'(f^{-1}(y))} = \frac{1}{N(f^{-1}(y))^{N - 1}} = \frac{1}{N}y^{\frac{1}{N} - 1}
+      \]
+      Combining this with \cref{powerRule}, we have that for any $q \in \Q$:
+      \[
+        f(x) = x^{q} \implies f'(x) = qx^{q - 1}
+      \]
+    \item $f(x) = e^{x}$ is continuous and differentiable on $\R$ with $f'(x) =  e^{x} > 0\ \forall x \in \R$.
+      So, using the inverse function theorem, there exists inverse $f^{-1}(y)$, which we will call $\log y$, such that:
+      \[
+        (f^{-1})'(y) = \frac{1}{e^{f^{-1}(y)}} = \frac{1}{e^{\log y}} = \frac{1}{y}
+      \]
+  \end{enumerate}
+\end{example}
+\begin{proposition}[Cauchy Mean Value Theorem]
+  If $f, g: [a, b] \to \R$  are continuous and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
+  \[
+    g'(c)[f(b) - f(a)] = f'(c)[g(b) - g(a)]
+  \]
+\end{proposition}
+\begin{remark}
+  If we take $g(x) = x$, then we recover the standard MVT.
+
+  Geometrically, this tells us that if we consider a line between two points on a parametric plot $(f(t), g(t))$, then there is some point between those two which has the same derivative as the gradient of the line.
+\end{remark}
+\begin{proof}
+  We want to reduce to Rolle's Theorem (\cref{rollesTheorem}) as we did for the proof of MVT \cref{MVT}.
+
+  Consider $\phi(x)$ defined by:
+  \[
+    \phi(x) = [g(x) - g(a)][f(b) - f(a)] - [g(b) - g(a)][f(x) - f(a)] \\
+  \]
+  Since $f, g$ are continuous and differentiable, so is $\phi$.
+  Computing its derivative, we have:
+  \[
+    \phi'(x) = g'(x)[f(b) - f(a)] - f'(x)[g(b) - g(a)]
+  \]
+  We also see that $\phi(a) = \phi(b) = 0$, thus we can apply Rolle's theorem and so $\exists c \in (a, b)$ such that:
+  \[
+    \phi'(c) = 0 \implies g'(c)[f(b) - f(a)] - f'(c)[g(b) - g(a)] = 0
+  \]
+\end{proof}
+\begin{proposition}[L' H\^opital's Rule]
+  Let $-\infty \leq a < b \leq \infty$ and let $f, g: [a, b] \to \R$ be continuous and differentiable on $(a, b)$.
+  Suppose $g(x) \neq 0\ \forall x \in (a, b)$ and $\lim_{x \to a} \frac{f'(x)}{g'(x)} = A$ for some $-\infty \leq A \leq \infty$ (where the cases of $\pm \infty$ are suitably interpreted).
+
+  If either $f(x), g(x) \to 0$ as $x \to a$ or $f(x), g(x) \to \pm \infty$ as $x \to a$, then:
+  \[
+    \lim_{x \to a} \frac{f(x)}{g(x)} = A
+  \]
+\end{proposition}
+\begin{proof}
+  See Example Sheet 3.
+\end{proof}
+\begin{example}
+  In \cref{sinxExample}, we saw that $\lim_{x \to 0} \frac{\sin x}{x} = 1$.
+  Since $\sin x \to 0$ and $x \to 0$ as $x \to 0$, we can apply L' H\^opital's rule:
+  \[
+    \lim_{x \to 0} \frac{\sin x}{x} = \lim_{x \to 0} \frac{\cos x}{1} = 1
+  \]
+\end{example}
 \end{document}

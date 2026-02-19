@@ -101,6 +101,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   For $f(z)$ diverging to $\infty$ as $z \to a \in \C$ for finite $a$, we cannot have $a \in X$ otherwise $f$ would not be a well defined function, hence why the above definition only considers $a \in \C \setminus X$ which are accumulation points.
 \end{remark}
 \begin{example}
+  \label{sinxExample}
   Consider again $f(x) = \frac{\sin x}{x}$ with domain $\R \setminus \{0\}$.
   We claim that $\frac{\sin x}{x} \to 1$ as $x \to 0$.
 
@@ -485,6 +486,7 @@ Function composition also preserves continuity.
 \begin{theorem}[Extreme Value Theorem]
   Let $X \subseteq \R$ be a bounded closed set.
   If $f: X \to \R$ is continuous, then $\exists a, b \in X$ such that:
+  \label{EVT}
   \[
     f(a) = \sup f(X) = \sup_{z \in X} f(z),\ f(b) = \inf f(X) = \inf_{z \in X} f(z)
   \]
@@ -586,8 +588,9 @@ Function composition also preserves continuity.
     a \leq x_1 < x_2 \leq b \implies f(x_1) > f(x_2)
   \]
 \end{remark}
-\begin{proposition}[Inverse function theorem for monotone functions]
+\begin{proposition}[Inverse Function Theorem -- Version 1]
   Let $f: [a, b] \to \R$ be a continuous function that is strictly decreasing or strictly increasing and let $c = \min\{f(a), f(b)\}, d = \max\{f(a), f(b)\}$.
+  \label{inverseFunctionMonotone}
 
   Then $f: [a, b] \to [c, d]$ is a bijection and there exists a continuous inverse $f^{-1}: [c, d] \to [a, b]$ which is strictly increasing if $f$ is and strictly decreasing if $f$ is.
 \end{proposition}
