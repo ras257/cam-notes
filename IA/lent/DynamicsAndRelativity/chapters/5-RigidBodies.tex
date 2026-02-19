@@ -10,6 +10,7 @@ Such a system of particles is known as a \textit{rigid body}.
 
 The only motions a rigid body can experience are \textbf{translations of the centre of mass}, which we covered in \cref{systemsOfParticles}, and \textbf{rotations}, which we will cover now.
 \section{Rotations}
+\label{rigidRotations}
 \subsection{Angular Velocity}
 In three dimensions, rotations are described by a vector quantity $\vec{\omega}$ called the \textit{angular velocity}.
 \begin{definition}[Angular Velocity]
@@ -17,7 +18,7 @@ In three dimensions, rotations are described by a vector quantity $\vec{\omega}$
   \[
     \vec{\omega} = \omega \uvec{n}
   \]
-  where $\uvec{n}$ points along the axis of rotation and $\omega = |\vec{\omega}| = \dot{\theta}$ is the angular speed of rotation.
+  where $\uvec{n}$ points along the axis of rotation and $\omega = |\vec{\omega}| = |\dot{\theta}|$ is the angular speed of rotation.
 \end{definition}
 \begin{remark}[Right Hand Rule]
   We define $\uvec{n}$ so that it always points in the direction where if you align you right hand thumb along the positive direction of the axis of rotation, the rotation is in the direction that your fingers curl.
@@ -83,11 +84,11 @@ and so $|\vec{x}_i - \vec{x}_j|$ is constant for all pairs of particles $i, j$ a
   where $d_i$ is the perpendicular distance of the $i$-th particle from the axis of rotation.
 \end{definition}
 The total kinetic energy of a rigid body is then:
-\begin{align*}
-  T &= \frac{1}{2} \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \\
-    &= \frac{1}{2} \omega^2 \sum_{i = 1}^{N} m_i d^2_i \\
-    &= \frac{1}{2} I \omega^2
-\end{align*}
+\begin{align}
+  T &= \frac{1}{2} \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \nonumber \\
+    &= \frac{1}{2} \omega^2 \sum_{i = 1}^{N} m_i d^2_i \nonumber \\
+    &= \frac{1}{2} I \omega^2 \label{totalRotationalKE}
+\end{align}
 \begin{remark}
   We see that $I$ is like the ``rotational mass'', the larger it is, the harder it is to rotate the rigid body.
 \end{remark}
@@ -138,6 +139,7 @@ Similarly, for the moment of inertia, we set $f(\vec{x}) = x^2_{\perp}$ where $x
   I = \int \rho(\vec{x}) x^2_\perp \d^3{\vec{x}}
 \]
 \begin{example}[Moments of Inertia for Basic Shapes]
+  \label{basicInertia}
   Consider the following rigid bodies with a constant density $\rho$.
   \begin{enumerate}
     \item Consider a 1D ring $R$ of radius $a$:
@@ -240,6 +242,7 @@ Similarly, for the moment of inertia, we set $f(\vec{x}) = x^2_{\perp}$ where $x
 \subsubsection{Parallel Axis Theorem}
 \begin{lemma}[Parallel Axis Theorem]
   If we know the moment of inertia of a 3D rigid body about some axis through the CoM, then the moment of inertia $I_{\text{para}}$ about any other axis parallel to that axis is given by:
+  \label{parallelAxisTheorem}
   \[
     I_{\text{para}} = I_{\text{CoM}} + Mh^2
   \]
@@ -254,10 +257,251 @@ Similarly, for the moment of inertia, we set $f(\vec{x}) = x^2_{\perp}$ where $x
   \[
     \sum_{i = 1}^{N} m_i \vec{y}_i = \vec{0}
   \]
-  By definition, the moment of inertia is:
-  \[
-    I = \sum_{i = 1}^{N} m_i (\uvec{n} \times \vec{x}_i) \cdot (\uvec{n} \times \vec{x}_i)
-  \]
-  Continued next lecture.
+  Here we have chosen the origin to be \textbf{on the parallel axis} as we are finding the moment of inertia about this axis.
+
+  The moment of inertia is:
+  \begin{align*}
+    I_{\text{para}} &= \sum_{i = 1}^{N} m_i (\uvec{n} \times \vec{x}_i) \cdot (\uvec{n} \times \vec{x}_i) \\
+                    &= \sum_{i = 1}^{N} m_i (\uvec{n} \times [\vec{R} + \vec{y}_i]) \cdot (\uvec{n} \times [\vec{R} + \vec{y}_i]) \\
+                    &= \sum_{i = 1}^{N} m_i [(\uvec{n} \times \vec{R}) \cdot (\uvec{n} \times \vec{R}) + (\uvec{n} \times \vec{y}_i) \cdot (\uvec{n} \times \vec{y}_i) + 2(\uvec{n} \times \vec{R}) \cdot (\uvec{n} \times \vec{y}_i)] \\
+                    &= \sum_{i = 1}^{N} m_i [h^2 + (\uvec{n} \times \vec{y}_i) \cdot (\uvec{n} \times \vec{y}_i)] + 2(\uvec{n} \times \vec{R}) \cdot \left(\cancelto{\vec{0}}{\uvec{n} \times \sum_{i = 1}^{N} m_i \vec{y}_i}\right) \\
+                    &= Mh^2 + \sum_{n = 1}^{N} m_i (\uvec{n} \times \vec{y}_i) \cdot (\uvec{n} \times \vec{y}_i) \\
+                    &= Mh^2 + I_{\text{CoM}}
+  \end{align*}
+  Since $(\uvec{n} \times \vec{y}_i) \cdot (\uvec{n} \times \vec{y}_i)$ is the perpendicular distance of the $i$-th particle to the CoM axis.
 \end{proof}
+\begin{example}
+  Revisiting the 2D disc from \cref{basicInertia} but now with the axis on the edge of the disc.
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \filldraw[fill=gray!20, draw=black, thick] (0, 0) circle (1);
+    \draw[dashed] (0, 0) -- (1, 0) node[midway, above] {$a$};
+    \fill (1, 0) circle (2pt) node[below right, scale=0.7] {axis};
+    \fill (0, 0) circle (2pt) node[above left, scale=0.7] {CoM};
+    \draw[->] (1.35, 0) arc [start angle=0,end angle=300,radius=0.4];
+  \end{tikzpicture}
+  \end{center}
+  So the moment of inertia about this parallel axis is:
+  \[
+    I = I_{\text{CoM}} + Ma^2 = \frac{1}{2}Ma^2 + Ma^2 = \frac{3}{2}Ma^2
+  \]
+  We see that it is harder to rotate the disc when the axis is positioned at the edge of the disc than when it is in the centre.
+\end{example}
+\section{Motion of Rigid Bodies}
+\subsection{Translational Motion}
+We can also allow the centre of mass to move as the body rotates so $\vec{R}$ becomes $\vec{R}(t)$.
+\[
+  \vec{x}_i = \vec{R}(t) + \vec{y}_i
+\]
+Since the particles cannot move relative to each other, the behaviour of the $\vec{y}_i$ will capture the rotation of the body about the CoM, provided $\dot{\vec{y}}_i = \vec{\omega} \times \vec{y}_i$
+
+We can differentiate to find the velocity $\dot{\vec{x}}_i$:
+\[
+  \dot{\vec{x}}_i = \dot{\vec{R}} + \dot{\vec{y}}_i
+\]
+We saw in \cref{totalKE} that the kinetic energy can be split up as as:
+\[
+  T = \frac{1}{2}M|\dot{\vec{R}}|^2 + \frac{1}{2} \sum_{i = 1}^{N} m_i |\dot{\vec{y}}_i|^2
+\]
+Since this is a rigid body, the only allowed motion for $\vec{y}_i$ is rotation so $\dot{\vec{y}}_i = \vec{\omega} \times \vec{y}_i$.
+Using \cref{totalRotationalKE} with the axis through the CoM and using the relative positions $\vec{y}_i$, we have:
+\begin{equation}
+  T = \underbrace{\frac{1}{2}M|\dot{\vec{R}}|}_{\text{translational}} + \underbrace{\frac{1}{2} I_{\text{CoM}} \omega^2}_{\text{rotational}} \label{rigidKESplit}
+\end{equation}
+So we have split the kinetic energy into translational and rotational kinetic energies.
+
+Recall from \cref{totalEnergy} that:
+\[
+  V = \sum_{i = 1}^{N}  V_i(\vec{x}_i) + \sum_{i < j} V_{ij}(|\vec{x}_i -  \vec{x}_j|)
+\]
+Since we are working with rigid bodies, the distances between particles are fixed and so the second sum is just a constant.
+This means that it will disappear when differentiated to find the force and so can be ignored.
+
+One nice case is constant gravitational field, $V_i(\vec{x}_i) = m_i gz_i$ and so:
+\begin{equation}
+  V = \sum_{i = 1}^{N} V_i(\vec{x}_i) = g \sum_{i = 1}^{N} m_i z_i(t) = gMR_z(t) \label{rigidPotential}
+\end{equation}
+where $R_z(t)$ is the $z$-component of the CoM.
+This means that the rigid body acts just like a point particle with mass $M$ at the CoM.
+\begin{remark}[Note]
+  Here we used an axes that passes through the CoM, however, in some cases it may be easiest to consider an axis that does not pass through the CoM.
+\end{remark}
+\subsection{Motion of a Pendulum}
+Consider a uniform rigid rod pendulum of mass $M$ and length $L$:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \fill (0, 0) circle (2pt) node[above left, scale=0.7] {Fixed Pivot};
+  \draw[dashed]  (0, 0) -- (0, -3);
+  \draw[rotate=30, thick] (0, 0) -- (0, -3) node[midway, below left, scale=0.7] {CoM} node[midway, fill=black, circle, inner sep=1.5pt] {};
+  \draw[rotate=30, |<->|] (0.1, 0) -- (0.1, -1.5) node[midway, above right] {$\frac{L}{2}$};
+  \draw[rotate=30, |<->|] (0.1, -1.5) -- (0.1, -3) node[midway, above right] {$\frac{L}{2}$};
+  \draw (0, -0.6) arc [start angle=-90,end angle=-60,radius=0.6] node[midway, below] {$\theta$};
+\end{tikzpicture}
+\end{center}
+This is considerably easier to approach if we find the energy of the system and then differentiate this, knowing that $\deriv{E}{t} = 0$, to find the equations of motion.
+We first need to find the kinetic energy and there are two important ways that we can do this.
+
+\subsubsection{Using the Pivot}
+The pivot point is fixed and so we get \textbf{only rotational motion} that we studied in \cref{rigidRotations}.
+Recall from \cref{totalRotationalKE} that:
+\[
+  T = \frac{1}{2}I \dot{\theta}^2
+\]
+where $\omega = \dot{\theta}$ and, from \cref{basicInertia}, we know that the moment of inertia about one end of the rod is $I = \frac{1}{3}ML^2$.
+
+\subsubsection{Using the CoM}
+We have both \textbf{rotational and translational motion} as the CoM is moving and the rigid body is rotating around the CoM and so we can apply the methods we just developed.
+
+Firstly, the CoM is moving with velocity $v_{\text{CoM}} = \frac{L}{2} \dot{\theta}$ since velocity is just angular velocity multiplied by the distance from the pivot.
+
+We can also see that the angular velocity of the rigid body about the CoM is the same as the angular velocity of the rigid body about the pivot:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \fill (0, 0) circle (2pt) node[above left, scale=0.7] {Fixed Pivot};
+  \draw[dashed]  (0, 0) -- (0, -3);
+  \draw[rotate=30, thick] (0, 0) -- (0, -3) node[midway, fill=black, circle, inner sep=1.5pt] {} node[right] {2};
+  \draw[rotate=30, dotted, xshift=0.75cm, very thick] (0, 0) -- (0, -3);
+  \draw[rotate=60, thick] (0, 0) -- (0, -3) node[midway, fill=black, circle, inner sep=1.5pt] {} node[right] {1};
+  \draw[rotate=30] (0, -0.6) arc [start angle=-90,end angle=-60,radius=0.6] node[pos=0, right] {\small$\delta\theta$};
+  \draw[rotate=30] (0.75, -1.9) arc [start angle=-90,end angle=-60,radius=0.6] node[pos=0, right] {\small$\delta\theta$};
+\end{tikzpicture}
+\end{center}
+We see that the change in the angle $\theta$ at the pivot between positions 1 and 2 is the same as the change in the angle of the rod about the centre of mass and so the rate of change of both angles is equal.
+
+More generally, the angular velocity is the same about any point on the body and so we can use $\dot{\theta}$ as angular velocity, even though $\theta$ is about a different point.
+
+Using \cref{rigidKESplit}, we have:
+\[
+  T = \frac{1}{2} M v^{2}_{\text{CoM}} + \frac{1}{2} I_{\text{CoM}}\dot{\theta}^2 \\
+\]
+Since the axis through the pivot and the axis through the CoM are parallel, we can parallel axis theorem (\cref{parallelAxisTheorem}) and so:
+\[
+  I = I_{\text{CoM}} + M\left(\frac{L}{2}\right)^2
+\]
+Subsisting back in along with $v_{\text{CoM}}$ yields:
+\begin{align*}
+  T &= \frac{1}{2} M \left(\frac{L^2}{4}\right) \dot{\theta}^2 + \frac{1}{2}[I - M(L/2)^2]\dot{\theta}^2 \\
+    &= \frac{1}{2} I \dot{\theta}^2
+\end{align*}
+which agrees with the first method.
+
+\subsubsection{Finding the Equation of Motion}
+Since we have the kinetic energy $T$, we just need the potential $V$.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \fill (0, 0) circle (2pt) node[above left, scale=0.7] {Fixed Pivot};
+  \draw[dashed]  (0, 0) -- (0, -3);
+  \draw[dashed] (-1, 0) -- (3, 0);
+  \draw[rotate=30, thick] (0, 0) -- (0, -3) node[midway, below left, scale=0.7] {CoM} node[midway, fill=black, circle, inner sep=1.5pt] {};
+  \draw (0, -0.6) arc [start angle=-90,end angle=-60,radius=0.6] node[midway, below] {$\theta$};
+  \draw[dotted, very thick] (0.76, 0) -- (0.76, -1.3) node[midway, right] {$\frac{L}{2} \cos \theta$};
+\end{tikzpicture}
+\end{center}
+Using \cref{rigidPotential} with $R_z(t) = -\frac{L}{2} \cos \theta(t)$:
+\[
+  V = -Mg \left(\frac{L}{2} \cos \theta\right)
+\]
+Note that we need the minus sign so that as $\theta$ increases, the potential energy increases (i.e. becomes less negative).
+
+The total energy $E$ is then:
+\[
+  E = \frac{1}{2}I \dot{\theta}^2 - Mg \frac{L}{2} \cos \theta
+\]
+The energy is conserved and so we impose that $\deriv{E}{t} = 0$:
+\[
+  \deriv{E}{t} = \frac{1}{2} I \cdot 2 \dot{\theta} \ddot{\theta} + Mg \frac{L}{2} \dot{\theta} \sin \theta = 0
+\]
+If we assume that the pendulum is not constantly at rest (i.e. $\dot{\theta}$ is not identically 0) then:
+\[
+  I \ddot{\theta} = - Mg \frac{L}{2} \sin \theta
+\]
+Again, this is like a rotational equation of motion using $I$ like the ``rotational mass''.
+\subsection{Slipping and Rolling}
+One type of motion that we have seen before is \textit{frictionless sliding}.
+This is when there is translational motion but no rotational motion.
+
+Another type of motion is \textit{no-slip rolling}.
+This is when there is rotational motion with the additional requirement that $v = a \dot{\theta}$ and occurs when the friction between the ball and the ground is is so strong that the point of contact between the ball and the ground has zero velocity between the ground at the instant of contact.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node at (2.5, 2.2) {Frictionless Sliding};
+  \draw (0, 0) -- (5, 0);
+  \draw[thick] (1, 0.7) circle (0.7);
+  \draw[thick] (4, 0.7) circle (0.7);
+  \draw (1, 1) arc [start angle=90,end angle=40,radius=0.3] node[midway, above, scale=0.8] {$\theta$};
+  \draw[dashed] (1, 0.7) -- (1, 1.7);
+  \draw (1, 0.7) -- (1.53, 1.15) node[pos=1, fill=black, circle, inner sep=1pt] {};
+  \begin{scope}[xshift=3cm]
+    \draw (1, 1) arc [start angle=90,end angle=40,radius=0.3] node[midway, above, scale=0.8] {$\theta$};
+    \draw[dashed] (1, 0.7) -- (1, 1.7);
+    \draw (1, 0.7) -- (1.53, 1.15) node[pos=1, fill=black, circle, inner sep=1pt] {};
+  \end{scope}
+  \draw[->, thick] (2, 0.7) -- (3, 0.7) node[midway, above] {$v$};
+  \node[below] at (2.5, 0) {$\dot{\theta} = 0$};
+
+  \begin{scope}[xshift=6cm]
+    \node at (2.5, 2.2) {No-Slip Rolling};
+    \draw (0, 0) -- (5, 0);
+    \draw[thick] (1, 0.7) circle (0.7);
+    \draw[thick] (4, 0.7) circle (0.7);
+    \draw (1, 1) arc [start angle=90,end angle=40,radius=0.3] node[midway, above, scale=0.8] {$\theta$};
+    \draw[dashed] (1, 0.7) -- (1, 1.7);
+    \draw (1, 0.7) -- (1.53, 1.15) node[midway, below right, scale=0.8] {$a$} node[pos=1, fill=black, circle, inner sep=1pt] {};
+
+    \fill (1, 0) circle (1.5pt);
+    \node[below] at (1, 0) {$P$};
+    \draw[thick, ->] (1, 0) -- (0.5, 0) node[below, scale=0.8] {$a \dot{\theta}$};
+    \draw[thick, ->] (1, 0) -- (1.5, 0) node[below, scale=0.8] {$v$};
+    \begin{scope}[xshift=3cm]
+      \draw (1, 1) arc [start angle=90,end angle=-40,radius=0.3] node[midway, right, scale=0.8] {$\theta$};
+      \draw[dashed] (1, 0.7) -- (1, 1.7);
+      \draw (1, 0.7) -- (1.54, 0.25) node[midway, below, scale=0.8] {$a$} node[pos=1, fill=black, circle, inner sep=1pt] {};
+    \end{scope}
+    \draw[->, thick] (2, 0.7) -- (3, 0.7) node[midway, above] {$v$};
+    \node[below] at (2.5, 0) {$v = a \dot{\theta}$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+If we consider the point point of contact $P$, it has velocity $v$ to the right from the translational motion of the rigid body (it is being pulled along since distances between particles must remain constant), but also has velocity $a \dot{\theta}$ to the left from the rotational motion of the rigid body.
+Since we have imposed the restriction that $v = a \dot{\theta}$, $P$ has no velocity relative to the ground at the instant it contacts the ground.
+
+In the case of non-slip rolling, The kinetic energy is:
+\begin{align*}
+  T &= \frac{1}{2} M v^2 + \frac{1}{2}I\omega^2 \\
+    &= \frac{1}{2} \left(M + \frac{I}{a^2}\right)v^2 \text{ as $\omega = \dot{\theta} = \frac{v}{a}$}
+\end{align*}
+We can interpret this as rolling increasing the ``effective mass'' of the ball.
+
+Friction is needed for this kind of motion to happen, however, because there is no relative velocity between the point of contact and the ground, no work is done by the friction force and thus energy is conserved when a body is no-slip rolling.
+The only role of friction here is to impose the no-slip condition.
+\begin{example}[Ball Rolling on a Slope]
+  Consider a ball no-slip rolling down a slope that makes an angle $\alpha$ with the horizontal:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[dashed] (-1, 0) -- (5.5, 0);
+    \draw (0.8, 0) arc [start angle=0,end angle=30,radius=0.8] node[midway, right] {$\alpha$};
+    \draw[rotate=30, thick] (3, 0.8) circle (0.8);
+    \draw[rotate=30] (3, 0.8) node[fill=black, circle, inner sep=1pt] {} -- (3, 0) node[midway, above right] {$a$};
+    \draw[rotate=30, ->] (3, 0.8) ++ (90:1) arc (90:135:1) node[midway, above left] {$\omega$};
+    \draw[rotate=30] (0, 0) -- (5, 0);
+    \draw[rotate=30, ->] (1.8, 0.8) -- (1, 0.8) node[midway, above] {$v$};
+    \draw[rotate=30, |->] (4, -0.1) node[below right, scale=0.7] {$x_0$} -- (2.5, -0.1) node[midway, below] {$x$};
+    \draw[rotate=30, thick, dotted] (2.5, -0.1) -- (3, 0.8);
+    \draw[rotate=30, dotted] (4, -0.1) -- (0.15, -0.1);
+  \end{tikzpicture}
+  \end{center}
+  We know the kinetic energy so just need the potential energy.
+  Using \cref{rigidPotential} with $R_z(t) = -x(t)\sin\alpha$:
+  \[
+    V = -Mgx\sin\alpha
+  \]
+  Thus the conserved energy is:
+  \[
+    E = \frac{1}{2} \left(M + \frac{I}{a^2}\right) \dot{x}^2 - Mgx\sin\alpha
+  \]
+  Since $\deriv{E}{t} = 0$, the equation of motion is:
+  \[
+    \left(M + \frac{I}{a^2}\right) \ddot{x} = Mg\sin\alpha
+  \]
+\end{example}
 \end{document}
