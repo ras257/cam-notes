@@ -1,0 +1,116 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Integral Theorems}
+\section{Green's Theorem in the Plane}
+\begin{theorem}[Green's Theorem]
+  Given an area $A \subset \R^2$ with piecewise smooth boundary $C = \partial A$ and continuously differentiable functions $P(x, y)$ and $Q(x, y)$, then:
+  \[
+    \int_{A} \left(\pderiv{Q}{x} - \pderiv{P}{y}\right) \d{x} \d{y} = \oint_{C} (P \d{x} + Q \d{y})
+  \]
+  where $C$ is traversed in the ``positive sense''.
+
+  The ``positive sense'' usually means anti-clockwise, however there are some edge cases involving multiple boundary curves that will be discussed later.
+\end{theorem}
+\begin{proof}
+  Initially, we assume that $A$ is a simple shape.
+  This means that for each $y$ there is a single range of values of $x$, namely $x^{-}(y) \leq x \leq x^{+}(y)$.
+  Likewise, for each $x$ there is a range $y^{-1}(x) \leq y \leq y^{+}(x)$.
+  The diagram below shows an example $y$ and its associated range of values of $x$.
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[thick, fill=gray!50, postaction={decorate}, decoration={
+          markings,
+          mark = between positions 0 and 1 step 0.2 with {\arrow{<}}
+        }] (-1,1) to[closed, curve through = { (-0.5, 1.3) (0, 1.8) (1, 1.9) (2.5, 0) (1.2, -1.9) (0, -1.6) }] (-1, -1);
+    \draw (0, -2) -- (0, 2);
+    \draw (-2, 0) -- (3, 0);
+    \draw[dotted, thick] (-2, -1.9) -- (3, -1.9) node[right, scale=0.8] {$y_{\text{min}}$};
+    \draw[dotted, thick] (-2, 1.97) -- (3, 1.97) node[right, scale=0.8] {$y_{\text{max}}$};
+    \filldraw[fill=white, draw=black] (0.55, 1.97) circle (1.5pt) node[above] {$P_1$};
+    \filldraw[fill=white, draw=black] (1.1, -1.9) circle (1.5pt) node[below] {$P_2$};
+    \node at (2.5, 1.3) {$C^{+}$};
+    \node at (-1.3, 1.2) {$C^{-}$};
+    \node at (0.6, 0.5) {$A$};
+
+    \draw[dashed] (-0.65, 1.2) -- (2.02, 1.2);
+    \fill (0, 1.2) circle (1.5pt) node[below right, scale=0.8] {$y$};
+    \draw[dashed] (-0.65, 1.2) -- (-0.65, 0) node[below, scale=0.8] {$x^{-}(y)$};
+    \draw[dashed] (2.02, 1.2) -- (2.02, 0) node[below, scale=0.8] {$x^{+}(y)$};
+  \end{tikzpicture}
+  \end{center}
+  We can then divide $C$ into a right hand part $C^{+}$, on which $x = x^{+}(y)$ for each $y$ in the range $y_{\text{min}} \leq y \leq y_{\text{max}}$ and left hand part $C^{-}$ on which $x = x^{-}(y)$.
+  In the above diagram, $C^{+}$ goes from $P_2 \to P_1$ and $C^{-}$ goes from $P_1 \to P_2$.
+
+  We can now evaluate the area integral of $\pderiv{Q}{x}$:
+  \begin{align*}
+    \int_{A} \pderiv{Q}{x} \d{x} \d{y} &= \int_{y_{\text{min}}}^{y_{\text{max}}} \left(\int_{x^{-}(y)}^{x^{+}(y)} \pderiv{Q}{x} \d{x}\right) \d{y} \text{ by definition of area integrals} \\
+                                       &= \int_{y_{\text{min}}}^{y_{\text{max}}} [Q(x^{+}(y), y) - Q(x^{-}(y), y)] \d{y} \text{ using FTC} \\
+                                       &= \int_{y_{\text{min}}}^{y_{\text{max}}} Q(x^{+}(y), y) \d{y} + \int_{y_{\text{max}}}^{y_{\text{min}}} Q(x^{-}(y), y) \d{y} \\
+                                       &= \int_{C^{+}} Q(x, y) \d{y} + \int_{C^{-}} Q(x, y) \d{y} \\
+                                       &= \oint Q \d{y}
+  \end{align*}
+  Similarly, for $\pderiv{P}{y}$:
+  \begin{align*}
+    \int_{A} \pderiv{P}{y} \d{y} \d{x} &= \int_{x_{\text{min}}}^{x_{\text{max}}} \left(\int_{y^{-}(x)}^{y^{+}(x)} \pderiv{P}{y} \d{y}\right) \d{x} \\
+                                       &= \int_{x_{\text{min}}}^{x_{\text{max}}} [P(x, y^{+}(x)) - P(x, y^{-}(x))] \d{x} \text{ using FTC} \\
+                                       &= -\int_{x_{\text{max}}}^{x_{\text{min}}} P(x, y^{-}(x)) \d{x} - \int_{x_{\text{min}}}^{x_{\text{max}}} P(x, y^{+}(x)) \d{x} \\
+                                       &= -\int_{C^{+}} P(x, y) \d{x} - \int_{C^{-}} P(x, y) \d{x} \\
+                                       &= -\oint P \d{x}
+  \end{align*}
+  So for simple shapes, we are done.
+
+  If $A$ is a more complicated shape (i.e. multiple ranges of $x$ for each $y$ and/or vice versa), then we can split it up into multiple areas $A_i$, each of which is a simple shape, and apply the calculation above to each part to obtain the same result.
+  The details of this will be explained below.
+\end{proof}
+\begin{remark}[Result for non-simple shapes]
+  \nonexaminable
+  If we have split $A_i$ into disjoint areas then:
+  \[
+    \int_{A} \pderiv{Q}{x} \d{x} \d{y} = \sum_{i} \int_{A_i} \pderiv{Q}{x} \d{x} \d{y}
+  \]
+  Furthermore:
+  \[
+    \oint_{\partial A} Q \d{y} = \sum_{i} \oint_{\partial A_i} Q \d{y}
+  \]
+  Although each $\partial A_i$ contains a segment not part of the full $\partial A$, these parts cancel out as we have the same segment traversed in different directions in different parts of the shape.
+
+  For example, the following shape has been split into two simple shapes that are infinitesimally close:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[thick, fill=gray!50, postaction={decorate}, decoration={
+          markings,
+          mark = between positions 0.2 and 0.8 step 0.2 with {\arrow{<}}
+        }] (0.1, -0.1) to[curve through = { (-0.2, -0.5) (-1, -1) (-1.5, 0) (-0.5, 1.3) (0, 1.8) }] (0.5, 1.9);
+    \draw[thick, postaction={decorate}, decoration={
+          markings,
+          mark = between positions 0.2 and 0.8 step 0.3 with {\arrow{>}}
+        }] (0.1, -0.1) -- (0.5, 1.9);
+
+    \begin{scope}[xscale=-1, rotate=23, xshift=-0.4cm, yshift=0.08cm]
+      \draw[thick, fill=gray!50, postaction={decorate}, decoration={
+            markings,
+            mark = between positions 0.2 and 0.8 step 0.2 with {\arrow{>}}
+          }] (0.1, -0.1) to[curve through = { (-0.2, -0.5) (-1, -1) (-1.5, 0) (-0.5, 1.3) (0, 1.8) }] (0.5, 1.9);
+      \draw[thick, postaction={decorate}, decoration={
+            markings,
+            mark = between positions 0.2 and 0.8 step 0.3 with {\arrow{<}}
+          }] (0.1, -0.1) -- (0.5, 1.9);
+    \end{scope}
+    \draw (0, -2) -- (0, 2);
+    \draw (-2, 0) -- (3, 0);
+    \node at (0, 0.9) {$L_1$};
+    \node at (-0.9, -0.3) {$A_1$};
+    \node at (0.75, 0.8) {$L_2$};
+    \node at (0.9, -0.6) {$A_2$};
+    \node[scale=0.5] at (0.8, 2.1) {Infinitesimally close};
+  \end{tikzpicture}
+  \end{center}
+  So the sum of the integrals around the boundary of each half is:
+  \begin{align*}
+    \oint_{\partial A_1} Q \d{y} + \oint_{\partial A_2} Q \d{y} &= \oint_{\partial A} Q \d{y} + \int_{L_1} Q \d{y} + \int_{L_2} Q \d{y} \\
+                                                                &= \oint_{\partial A} Q \d{y} + \int_{L_1} Q \d{y} - \int_{L_1} Q \d{y} \\
+                                                                &= \oint_{\partial A} Q \d{y}
+  \end{align*}
+  We can split up $\int_{A} \pderiv{P}{y} \d{x} \d{y}$ using a similar technique and so the result follows for non-simple shapes too.
+\end{remark}
+\end{document}

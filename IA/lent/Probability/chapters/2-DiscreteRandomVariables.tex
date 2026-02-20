@@ -1253,6 +1253,7 @@ We can then use this to define the expectation of one discrete random variable g
 \end{example}
 \begin{proposition}[Properties of conditional expectation of 2 r.v.s]
   For discrete random variables $X$, $Y$, $Z$ and $c \in \R$:
+  \label{conditionalExpectationProp}
   \begin{enumerate}
     \item $\E[cX \vert Y] = c \E[X \vert Y]$, $\E[c + X \vert Y] = c + \E[X \vert Y]$
     \item $\E[c \vert Y] = c$.
@@ -1486,11 +1487,13 @@ If we start at $0$ or $a$ then the game ends immediately and so we have the boun
   In the case of a simple symmetric random walk, the number of steps to reach 0 is finite with probability one, however, the expected number of steps to reach 0 for the first time is infinite.
 \end{remark}
 \section{Probability Generating Functions}
+\subsection{Definition and Properties}
 \begin{remark}[Recap]
   Recall from \cref{pmf} that, if $X$ is a discrete random variable with values in $\N$ then $p_r = \P(X = r),\ r \in \N$ is the \textit{probability mass function of $X$}.
 \end{remark}
 \begin{definition}[Probability Generating Function]
-  The \textit{probability generating function} or \textit{pgf} of a discrete random variable $X$ is defined to be:
+  The \textit{probability generating function} or \textit{pgf} of a discrete random variable $X$ taking values in $\N_0$ is defined to be:
+  \label{pgfDefinition}
   \[
     p(z) = \E[z^{X}] = \sum_{r = 0}^{\infty} p_r z^{r} = p_0 + p_1 \cdot z + p_2 \cdot z^2 + \cdots
   \]
@@ -1537,6 +1540,7 @@ This means that $p(z)$ is well defined as we specify that it only takes $|z| \le
 \end{example}
 \begin{lemma}
   If $X_1, \ldots, X_n$ are independent r.v.s with pgfs $q_i(z) = \E[z^{X_i}]$, then the pgf $p(z)$ of $X_1 + \cdots + X_n$ is:
+  \label{pgfProduct}
   \[
     p(z) = q_1(z) \cdots q_n(z)
   \]
@@ -1563,7 +1567,7 @@ This means that $p(z)$ is well defined as we specify that it only takes $|z| \le
       So $X + Y \sim \binomial(n + m, p)$, as expected.
     \item Suppose $X \sim \geometric(p)$, the pgf of $X$ is then:
       \[
-        \E[z^{X}] = \sum_{ r=r 0}^{\infty} z^{r}(1- p)^{r} \cdot p = \frac{p}{1 - z(1 - p)}
+        \E[z^{X}] = \sum_{r = 0}^{\infty} z^{r}(1- p)^{r} \cdot p = \frac{p}{1 - z(1 - p)}
       \]
     \item Suppose $X \sim \poisson(\lambda)$, the pgf of $X$ is then:
       \[
@@ -1588,6 +1592,8 @@ This means that $p(z)$ is well defined as we specify that it only takes $|z| \le
   \]
 \end{theorem}
 \begin{proof}
+  If $p'(1)$ exists, then the result follows immediately from differentiating the power series.
+  Otherwise, we can take the limit as follows:
   \begin{proofcases}
     \begin{case}{$\E[X] < \infty$}
       Since we want to take the limit as $z \to 1$ it is enough to look at $0 < z < 1$.
@@ -1649,13 +1655,255 @@ More generally, it can be shown that $\forall k \geq 0$:
   \lim_{z \to 1^-} p^{(k)}(z) = p^{(k)}(1-) = \E[X(X - 1) \cdots (X - k + 1)]
 \]
 We can then use this to find the variance from the pgf:
-\begin{align*}
-  \Var(X) &= \E[X^2] - (\E[X])^2 \\
-          &= \E[X(X - 1)] + \E[X] - (\E[X])^2 \\
-          &= p''(1-) + p'(1-) - (p'(1-))^2
-\end{align*}
+\begin{align}
+  \Var(X) &= \E[X^2] - (\E[X])^2 \nonumber \\
+          &= \E[X(X - 1)] + \E[X] - (\E[X])^2 \nonumber \\
+          &= p''(1-) + p'(1-) - (p'(1-))^2 \label{pgfVariance}
+\end{align}
 We can also extract the distribution of $X$ from the pgf:
 \[
   \P(X = n) = \frac{1}{n!}\at{\deriv[n]{p}{z}}{z = 0}
 \]
+\subsection{Random Length Sums}
+\label{randomLengthSums}
+For this section, let $X_1, X_2, \ldots$ be independent and identically distributed random variables taking values in $\N_0$ and let $N$ be another independent random variable taking values in $\N_0$.
+
+Define the sum of the first $n$ of $(X_n)$ as $S_n$:
+\[
+  S_n(\omega) = \sum_{i = 1}^{n} X_i(\omega) \\
+\]
+and then define $S_N(\omega)$ to be the sum of the first $N(\omega)$:
+\[
+  S_N(\omega) = S_{N(\omega)}(\omega) = \sum_{i = 1}^{N(\omega)} X_i(\omega)
+\]
+where we treat the case of $N = 0$ as an empty sum.
+\begin{lemma}
+  If $q(z) = \E[z^{N}]$ is the pgf of $N$ and $p(z) = \E[z^{X_1}]$ is the pgf of $X_1$, then:
+  \[
+    r(z) = \E[z^{S_N}] = q(p(z))
+  \]
+\end{lemma}
+\begin{proof}[1 -- Using Law of Total Probability]
+  \begin{align*}
+    r(z) &= \E[z^{S_N}] \\
+         &= \sum_{n = 0}^{\infty} \E[z^{S_N} \cdot 1(N = n)] \text{ by law of total expectation (\cref{lawOfTotalExp})} \\
+         &= \sum_{n = 0}^{\infty} \E[z^{S_n} \cdot 1(N = n)] \text{ as $N = n$ for the indicator to be 1} \\
+         &= \sum_{n = 0}^{\infty} \E[z^{X_1 + \cdots + X_n} \cdot 1(N = n)] \\
+         &= \sum_{n = 0}^{\infty} \E[z^{X_1 + \cdots + X_n}] \P(N = n) \text{ using \cref{expectationProduct}} \\
+         &= \sum_{n = 0}^{\infty} (p(z))^{n} \P(N = n) \text{ using \cref{pgfProduct}} \\
+         &= \E[(p(z))^{N}] = q(p(z))
+  \end{align*}
+\end{proof}
+\begin{proof}[2 -- Using Conditional Expectation]\par
+  Recall from \cref{conditionalExpectationProp} that $\E[\E[X \vert Y]] = \E[X]$.
+  We can use this to introduce conditioning on $N$:
+  \[
+    r(z) = \E[z^{S_N}] = \E[\E[z^{S_N} \vert N]] = g(N)
+  \]
+  where $g(n) = \E[z^{S_N} \vert N = n]$
+  \begin{align*}
+    g(n) &= \E[z^{S_N} \vert N = n] \\
+         &= \E[z^{S_n} \vert N = n] \\
+         &= \E[z^{S_n}] \text{ by independence of $N$ and $(X_n)$} \\
+         &= \E[z^{X_1 + \cdots + X_n}] \\
+         &= (p(z))^{n} \text{ using \cref{pgfProduct}}
+  \end{align*}
+  Therefore, $\E[z^{S_N} \vert N] = g(N) = p(z)^{N}$ and so:
+  \[
+    r(z) = \E[p(z)^{N}] = q(p(z))
+  \]
+\end{proof}
+\begin{corollary}
+  The expected value of $S_N$ is:
+  \[
+    \E[S_N] = \E[N] \cdot \E[X_1]
+  \]
+  and the variance is:
+  \[
+    \Var(S_n) = \E[N] \cdot \Var(X_1) + \Var(N) (\E[X_1])^2
+  \]
+\end{corollary}
+\begin{proof}
+  Taking the derivative of the pgf, we have:
+  \[
+    r'(z) = q'(p(z)) p'(z)
+  \]
+  and so using \cref{pgfDerivative}, we have:
+  \begin{align*}
+    \E[S_N] = r'(1-) &= \lim_{z \to 1^{-}} q'(p(z)) \cdot p'(z) \\
+                     &= \lim_{u \to 1^{-}} q'(u) \cdot \E[X_1] \text{ as $p(1) = 1$} \\
+                     &= \E[N] \cdot \E[X_1]
+  \end{align*}
+  Differentiating the pgf again yields:
+  \[
+    r''(z) = q''(p(z)) (p'(z))^2 + q'(p(z)) p''(z)
+  \]
+  and so using \cref{pgfVariance}:
+  \begin{align*}
+    \Var(S_N) &= r''(1-) + r'(1-) - (r'(1-))^2 \\
+              &= r''(1-) + \E[S_N] - \E[S_N]^2 \\
+              &= q''(p(1-)) (p'(1-))^2 + q'(p(1-)) p''(1-) + \E[N]\E[X_1] - \E[N]^2\E[X_1]^2 \\
+              &= q''(1-) \E[X_1]^2 + q'(1-) \E[X_1(X_1 - 1)] + \E[N]\E[X_1] - \E[N]^2\E[X_1]^2 \\
+              &= \E[N(N - 1)] \E[X_1]^2 + \E[N] \E[X_1(X_1 - 1)] + \E[N]\E[X_1] - \E[N]^2\E[X_1]^2 \\
+              &= \E[N](\E[X_1(X_1 - 1)] - \E[X_1]^2 + \E[X_1]) + \E[X_1]^2(\E[N^2] - \E[N]^2) \\
+              &= \E[N]\Var(X_1) + \E[X_1]^2\Var(N)
+  \end{align*}
+\end{proof}
+\section{Branching Processes}
+\textit{Branching processes} or \textit{Galton-Watson processes} were developed to model population growth.
+\subsection{Setup}
+Let $X_n$ be a random variable for the number of individuals in generation $n$ of the population.
+In generation zero, we start with a single individual and so $X_0 = 1$.
+$X_1$ is then the number of offspring of this individual and follows the distribution:
+\[
+  \P(X_1 = k) = g_k \text{ for }k \in \N_0
+\]
+These people in the first generation will then each independently produce offspring with the same distribution as $X_1$, resulting in $X_2$ people in generation 2.
+This process repeats until $X_n = 0$ for some $n$.
+
+Let $(Y_{k, n}, k \geq 1, n \geq 0)$ be independent and identically distributed random variables with the same distribution as $X_1$.
+$Y_{k, n}$ is the number of offspring that the $k$-th individual of generation $n$ produces.
+
+We can then express $X_{n + 1}$ as:
+\[
+  X_{n + 1} = \begin{cases}
+  Y_{1, n} + \cdots + Y_{X_n, n} & \text{ if } X_n \geq 1 \\
+  0 & \text{ if } X_n = 0
+  \end{cases}
+\]
+This involves a sum of a random number of independent random variables and so we can apply techniques from \cref{randomLengthSums}.
+\subsection{Properties}
+\begin{theorem}
+  \[
+    \E[X_n] = (\E[X_1])^{n}
+  \]
+\end{theorem}
+\begin{proof}
+  \induction
+  {$n = 1$}{
+    $\E[X_1] = \E[X_1]$ \tick
+  }
+  {$n$}{}
+  {$n + 1$}{
+    We can again utilise that $\E[X_{n + 1}] = \E[\E[X_{n + 1} \vert X_n]]$ to introduce conditioning on $X_n$.
+    We see that:
+    \begin{align*}
+      \E[X_{n + 1} \vert X_n = m] &= \E[Y_{1, n} + \cdots + Y_{X_n, n} \vert X_n = m] \\
+                                  &= \E[Y_{1, n} + \cdots + Y_{m, n} \vert X_n = m] \\
+                                  &= \E[Y_{1, n} + \cdots + Y_{m, n}] \text{ by independence} \\
+                                  &= m \cdot \E[X_1] = g(m)
+    \end{align*}
+    So $\E[X_{n + 1} \vert X_n] = g(X_n) = X_n \cdot \E[X_1]$.
+    Thus:
+    \[
+      \E[X_{n + 1}] = \E[X_n \cdot \E[X_1]] = \E[X_1] \cdot \E[X_n]
+    \]
+    So using the induction hypothesis, $\E[X_{n + 1}] = (\E[X_1])^{n}$
+  }
+\end{proof}
+\begin{remark}
+  If $\E[X_1] < 1$, then we expect the process to go extinct, if $\E[X_1] > 1$, then we expect it to survive, and if $\E[X_1] = 1$, then this does not tell us what happens to the population (this is the critical case which we will explore later).
+\end{remark}
+\begin{theorem}
+  Let $G(z) = \E[z^{X_1}]$ and $G_n(x) = \E[z^{X_n}]$.
+  We then have:
+  \label{GRecurrence}
+  \[
+    G_{n + 1}(z) = G(G_{n}(z)) = G_n(G(z)) = \cdots = \underbrace{G(G(\cdots G(z) \cdots))}_{n + 1 \text{ compositions}}
+  \]
+\end{theorem}
+\begin{proof}
+  Using the same trick again to condition on $X_n$, we have:
+  \begin{align*}
+    G_{n + 1}(z) &= \E[z^{X_{n + 1}}] \\
+                 &= \E[\E[z^{X_{n + 1}} \vert X_n]] \\
+                 &= \E[\E[z^{Y_{1, n} + \cdots + Y_{X_n, n}} \vert X_n]]
+  \end{align*}
+  Calculating the inner expectation, we see that:
+  \begin{align*}
+    \E[z^{Y_{1, n} + \cdots + Y_{X_n, n}} \vert X_n = m] &= \E[z^{Y_{1, n} + \cdots + Y_{m, n}} \vert X_n = m]\\
+                                                         &= \E[z^{Y_{1, n} + \cdots + Y_{m, n}}] \text{ by independence}\\
+                                                         &= (G(z))^{m} \text{ using \cref{pgfProduct}}
+  \end{align*}
+  and so $\E[z^{Y_{1, n} + \cdots + Y_{X_n, n}} \vert X_n] = (G(z))^{X_n}$.
+
+  Therefore:
+  \[
+    G_{n + 1}(z) = \E[(G(z))^{X_n}] = G_n(G(z))
+  \]
+\end{proof}
+\begin{definition}[Extinction Probability]
+  We define the \textit{extinction probability} $q$ as:
+  \[
+    q = \P(X_n = 0 \text{ for some $n \geq 0$})
+  \]
+  and the probability of extinction at generation $n$ as:
+  \[
+    q_n = \P(X_n = 0)
+  \]
+\end{definition}
+\begin{remark}[Recap]
+  Recall from \cref{continuityProbMeasures} that if $(A_n)$ is an increasing sequence of events ($A_n \subseteq A_{n + 1}\ \forall n$), then $\P(A_n) \to \P(\bigcup_{n = 1}^{\infty}  A_n)$.
+\end{remark}
+We see that:
+\[
+  \{X_n = 0\} \subseteq \{X_{n + 1} = 0\}\ \forall n
+\]
+Since if the process is extinct in generation $n$, it must also be in generation $n + 1$.
+So $(\{X_n = 0\})$ is an increasing sequence of events.
+This means that $q_n$ is increasing, and since we can write $q$ as:
+\[
+  q = \P\left(\bigcup_{n = 0}^{\infty} \{X_n = 0\}\right)
+\]
+we have that $q_n \to q$ by continuity of probability measures.
+\begin{proposition}
+  Reusing $G(z) = \E[z^{X_1}]$, we have:
+  \[
+    q_{n + 1} = G(q_n)
+  \]
+\end{proposition}
+\begin{proof}[1 -- Using pgf properties]
+  \begin{align*}
+    q_{n + 1} &= \P(X_{n + 1} = 0) \\
+              &= G_{n + 1}(0) \text{ as $p(0) = p_0$ from \cref{pgfDefinition}} \\
+              &= G(G_n(0)) \text{ using \cref{GRecurrence}} \\
+              &= G(\P(X_n = 0)) \\
+              &= G(q_n)
+  \end{align*}
+\end{proof}
+\begin{proof}[2 -- Conditioning on $X_1 = m$]\par
+  Suppose $X_1 = m$.
+  We can treat each each of the $m$ individuals of generation 1 as the generation zero of a new branching process.
+  Define the $m$ random variables $X^{(1)}_{n}, \ldots, X^{(m)}_{n}$ to be independent and identically distributed branching processes using same offspring distribution as $X_1$.
+
+  We then have:
+  \[
+    X_{n + 1} = X^{(1)}_n + \cdots + X^{(m)}_n
+  \]
+  So to find $q_{n + 1}$:
+  \begin{align*}
+    q_{n + 1} &= \P(X_{n + 1} = 0) \\
+              &= \sum_{m = 0}^{\infty} \P(X_{n + 1} = 0 \vert X_1 = m) \P(X_1 = m) \text{ by law of total probability} \\
+              &= \sum_{m = 0}^{\infty} \P(X^{(1)}_n + \cdots + X^{(m)}_n = 0 \vert X_1 = m)\P(X_1 = m) \\
+              &= \sum_{m = 0}^{\infty} \P(X^{(1)}_n + \cdots + X^{(m)}_n = 0)\P(X_1 = m) \text{ by independence} \\
+              &= \sum_{m = 0}^{\infty} \P(X^{(1)}_n = 0, \cdots, X^{(m)}_n = 0)\P(X_1 = m) \text{ as all non-negative} \\
+              &= \sum_{m = 0}^{\infty} (\P(X^{(1)}_n = 0))^{m} \P(X_1 = m) \text{ by independence} \\
+              &= \sum_{m = 0}^{\infty} (q_n)^{m} \P(X_1 = m) \text{ as $X^{(1)}_n$ is an identical branching process} \\
+              &= G(q_n)
+  \end{align*}
+\end{proof}
+\begin{corollary}
+  The extinction probability $q$ satisfies:
+  \[
+    q = G(q)
+  \]
+\end{corollary}
+\begin{proof}
+  Since $G$ is continuous and $q_n \to q$ as $n \to \infty$:
+  \begin{align*}
+    q &= \lim_{n \to \infty} q_{n + 1} \\
+      &= \lim_{n \to \infty} G(q_n) \text{ by continuity}\\
+      &= G\left(\lim_{n \to \infty} q_n\right) = G(q)
+  \end{align*}
+\end{proof}
 \end{document}
