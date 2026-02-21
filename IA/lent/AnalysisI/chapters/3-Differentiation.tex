@@ -118,7 +118,7 @@ We would like to know the derivative of $f \circ g$ but it is not possible to do
 \end{lemma}
 \begin{remark}[Remarks]
   \begin{enumerate}
-    \item This says that $f(a + h) \approx f(a) + Ah$ and the function $\varepsilon(h)$ quantifies the error we make in this approximation.
+    \item This tells us that $f(a + h) \approx f(a) + Ah$ and the function $\varepsilon(h)$ quantifies the error we make in this approximation.
     \item We can also write $f(a + h) = f(a) + Ah + o(|h|)$ to mean the same thing using \textit{little-}$o$ notation from IA Differential Equations.
     \item In the proof we see that in both directions, $A = f'(a)$.
   \end{enumerate}
@@ -392,6 +392,18 @@ Now that we have introduced differentiation and some associated theorems, we can
   \]
   so we are done.
 \end{proof}
+\begin{remark}
+  It is crucial that we have $f'(x) > 0\ \forall x \in [a, b]$ for the above.
+\end{remark}
+\begin{proposition}[Local Inverse Function Theorem]
+  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $\exists x_0 \in (a, b)$ such that $f'(x_0) \neq 0$, then in some region around $x_0$ there is an inverse function $f^{-1}$ that is differentiable.
+\end{proposition}
+\begin{proof}
+  See Example Sheet 3.
+\end{proof}
+\begin{remark}
+  This local inverse function theorem can be generalised into $\C$, we will see this in Analysis II.
+\end{remark}
 \begin{example}
   \begin{enumerate}
     \item Fix some $R > 0$ and define $f: [0, R] \to \R$, $x \mapsto x^{N}$ for some $N \in \N$.
@@ -458,4 +470,184 @@ Now that we have introduced differentiation and some associated theorems, we can
     \lim_{x \to 0} \frac{\sin x}{x} = \lim_{x \to 0} \frac{\cos x}{1} = 1
   \]
 \end{example}
+\section{Higher Derivatives}
+\begin{definition}[$n$-times differentiable]
+  Suppose $f: X \subseteq \C \to \C$ is differentiable on $X$.
+  We say that $f$ is \textit{twice differentiable} on $X$ if $f': X \to \R$ is differentiable on $X$ and denote the \textit{second derivative} as $f''$ or $f^{(2)}$.
+
+  Iterating this, we obtain the notion of an \textit{$n$-times differentiable} function, whose \textit{$n$-th derivative} is denoted $f^{(n)}$.
+\end{definition}
+\begin{definition}[Continiously Differentiable]
+  We say that $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous.
+\end{definition}
+\begin{remark}
+  Recall from \cref{diffCont} that if $f$ is differentiable at $a$, then it is also continuous at $a$.
+  This means that if $f$ is $n$-times differentiable, then $f^{(j)}$ is continuous for all $j \in \{0, \ldots, k - 1\}$.
+\end{remark}
+\begin{definition}[Smooth]
+  We say that $f: X \to \C$ is \textit{smooth} if $f$ is $n$-times differentiable for every $n \in \N$ and denote this $f \in C^{\infty}(X)$.
+\end{definition}
+We saw in \cref{derivativeAlternative} that if $f$ is differentiable at $a$, then it can be well approximated by a linear function near $a$:
+\[
+  f(x) \approx f(a) + f'(a)(x - a)
+\]
+If $f$ is twice differentiable, then we can do use a similar approximation for $f'$ and so:
+\begin{align*}
+  &f'(x) \approx f'(a) + f''(a)(x - a) \\
+  \implies& f(x) \approx C + f'(a)(x - a) + \frac{1}{2} f''(a)(x - a)^2
+\end{align*}
+for some constant $C$, which by substituting $x = a$, we see $C = f(a)$ and so:
+\[
+  f(x) \approx f(a) + f'(a)(x - a) + \frac{1}{2} f''(a)(x - a)^2
+\]
+So we might be led to think that if $f$ is $n$ times differentiable then:
+\[
+  f(x) \approx \sum_{k = 0}^{n} \frac{f^{(k)}(a)}{k!}(x - a)^{k}
+\]
+We would like to know how good of an approximation we can make using this under appropriate conditions and quantify the error that we are making.
+\begin{definition}[Taylor Polynomial and Series]
+  For $f: X \to \C$ that are $n$-times differentiable and $x_0 \in X$, we define the \textit{degree $n$ Taylor polynomial for $f$ about $x_0$} as:
+  \[
+    T_{n, f, x_0}(x) = \sum_{k = 0}^{n} \frac{f^{(n)}(x_0)}{k!}(x - x_0)^{k}
+  \]
+  and, if $f$ is smooth, then the \textit{Taylor Series} of $f$ about $x_0$ is:
+  \[
+    \sum_{k = 0}^{\infty} \frac{f^{(n)}(x_0)}{k!}(x - x_0)^{k}
+  \]
+\end{definition}
+\begin{definition}[Taylor Remainder]
+  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$ and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as:
+  \begin{align*}
+    R_{n, f, x_0}(h) &= f(x_0 + h) - T_{n - 1, f, x_0}(x_0 + h) \\
+                     &= f(x_0 + h) - \sum_{k = 0}^{n - 1} \frac{f^{(k)}(x_0)}{k!}h^{k}
+  \end{align*}
+\end{definition}
+\begin{theorem}[Taylor's Theorem -- Lagrange Remainder]
+  If $f: [a, a + h]$ is continuous and $n$ times differentiable on $(a, a + h)$ with its first $n - 1$ derivatives also continuous, then $\exists \theta \in (0, 1)$ such that:
+  \label{lagrangeRemainder}
+  \[
+    R_{n, f, a}(h) = \frac{h^{n}}{n!}f^{(n)}(a + \theta h)
+  \]
+  or equivalently:
+  \[
+    f(a + h) = \sum_{k = 0}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + \frac{h^{n}}{n!}f^{(n)}(a + \theta h)
+  \]
+\end{theorem}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item All of the requirements above are satisfied if $f \in C^{n}((c, d))$ and $[a, a + h] \subset (c, d)$.
+      This is usually true when we are using Taylor's theorem and the above statement requires as little as possible about the function.
+    \item For $n = 1$ this reduces to the mean value theorem (\cref{MVT}).
+    \item We do not need $h > 0$, as if $h = -t < 0$ and $f$ has $n - 1$ derivatives that are continuous on $[a - t, a]$ and is $n$ times differentiable on $(a - t, a)$, then we can apply the above to $g(x) = f(-x)$:
+      \begin{align*}
+        f(a + h) = g(-a + t) &= \sum_{n=0}^{n - 1} \frac{g^{(k)}(-a)}{k!} t^{k} + \frac{t^{n}}{n!}g^{(n)}(-a + \theta t) \\
+                             &= \sum_{n=0}^{n - 1} \frac{(-1)^{k}f^{(k)}(a)}{k!} t^{k} + \frac{(-1)^{n}t^{n}}{n!}f^{(n)}(a - \theta t) \\
+                             &= \sum_{n=0}^{n - 1} \frac{f^{(k)}(a)}{k!} (-t)^{k} + \frac{(-t)^{n}}{n!}f^{(n)}(a - \theta t) \\
+                             &= \sum_{n=0}^{n - 1} \frac{f^{(k)}(a)}{k!} (h)^{k} + \frac{(-t)^{n}}{n!}f^{(n)}(a + \theta h)
+      \end{align*}
+    \item If $f \in C^{n}((c, d))$, with $[a, a + h] \subset (c, d)$, then $f^{(n)}$ is continuous and hence bounded on $[a, a + h]$ and so $\exists M_n$ s.t. $M_n = \sup\limits_{x \in [a, a + h]} |f^{(n)}(x)|$.
+
+      The taylor remainder then satisfies:
+      \[
+        |R_{n, f, a}(h)| \leq M_n \cdot \frac{h^{n}}{n!}
+      \]
+      So $R_{n, f, a}(n) = O(h^{n})$ as $h \to 0$.
+      Note that this does not tell us that $R_{n, f, a}(h) \to 0$ as $n \to \infty$, even if $f \in C^{\infty}$ as we do not know how $M_n$ behaves with $n$.
+  \end{itemize}
+\end{remark}
+\begin{proof}[1 -- Similarly to MVT (\cref{MVT})]\par
+  WLOG take $a = 0$, as if $a \neq 0$, then we can just apply the theorem to $g(x) = f(x + a)$.
+
+  Similarly to the proof of the MVT, we would like to construct a function that we can apply Rolle's Theorem (\cref{rollesTheorem}) and so we define:
+  \[
+    \phi: [0, h] \to \R,\ t \mapsto f(t) - T_{n - 1, f, 0}(t) - \frac{t^{n}}{n!} B
+  \]
+  We see that $\phi(0) = 0$ and we want some $\theta h \in (0, h)$ so pick $B$ to be such that $\phi(h) = 0$ so that when we apply Rolle's Theorem, we find some $\theta h \in (0, h)$.
+
+  We know that $\phi$ and its first $n - 1$ derivatives are continuous because they are for $f$.
+  So by Rolle's Theorem:
+  \[
+    \phi(0) = \phi(h) = 0 \implies \exists \theta_1 \in (0, 1) \text{ s.t. } \phi'(\theta_1 h) = 0
+  \]
+  To apply Rolle's theorem again on $\phi$, we already known that $\phi'(\theta_1 h) = 0$ so we need another point where $\phi' = 0$.
+  By differentiating $\phi$, we see that $\phi^{(k)}(0) = 0\ \forall k \in \{0, \ldots, n - 1\}$.
+  So applying Rolle's theorem again:
+  \[
+    \phi'(0) = \phi'(\theta_1h) = 0 \implies \exists \theta_2 \in (0, 1) \text{ s.t. } \phi''(\theta_2 \theta_1h) = 0
+  \]
+  Since we know that $\phi^{(k)}(0) = 0\ \forall k \in \{0, \ldots, n - 1\}$ and that $\phi$ is $n$ times differentiable on $(0, h)$,  we can repeat this $n$ times total and so:
+  \[
+    \phi^{(n - 1)}(0) = \phi^{(n - 1)}(\theta_{n-1} \cdots \theta_1 h) = 0 \implies \exists \theta_n \in (0, 1) \text{ s.t. } \phi^{(n)}(\theta_n \cdots \theta_1 h) = 0
+  \]
+  We now define $\theta = \theta_{n} \cdots \theta_1 \in (0, 1)$ and so we have shown that:
+  \[
+    \exists \theta \in (0, 1) \text{ s.t. } \phi^{(n)}(\theta h) = 0
+  \]
+  The $n$-th derivative of $\phi$ is:
+  \[
+    \phi^{(n)}(t) = f^{(n)}(t) - B \implies B = f^{(n)}(\theta h)
+  \]
+  and since we constructed $B$ such that $\phi(h) = 0$, we see that:
+  \[
+    f(h) = T_{n - 1, f, 0}(h) + \frac{h^{n}}{n!} f^{(n)}(\theta h)
+  \]
+  which is the desired result.
+\end{proof}
+\begin{proof}[2 -- Using a clever function]
+  Again, WLOG, take $a = 0$.
+  We want to reduce to Rolle's Theorem again, but there is a cleverer choice for our function.
+
+  First, define:
+  \[
+    g: [0, h] \to \R,\ t \mapsto f(h) - \sum_{k = 0}^{n - 1} \frac{f^{(k)}(t)}{k!}(h - t)^{k}
+  \]
+  and note that:
+  \[
+    g(0) = f(h) - T_{n - 1, f, 0} (h)
+  \]
+  Here, $g$ is differentiable only once on $(0, h)$ since $g$ includes $f^{(n - 1)}$ and $f$ is only $n$ times differentiable on $(0, h)$.
+  The derivative of $g$ is:
+  \begin{align*}
+    g'(t) &= -\sum_{n=0}^{n - 1} \left(\frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} - \frac{f^{(k)}(t)}{k!}k(h - t)^{k}\right) \\
+          &= \sum_{k = 1}^{n - 1} \frac{f^{(k)}(t)}{(k - 1)!}(h - t)^{k - 1} - \sum_{n=0}^{n - 1} \frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} \\
+          &= \sum_{k = 0}^{n - 2} \frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} - \sum_{n=0}^{n - 1} \frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} \\
+          &= -\frac{f^{(n)}(t)}{(n - 1)!}(h - t)^{n - 1}
+  \end{align*}
+  Now, we need to construct a function to apply Rolle's theorem (\cref{rollesTheorem}) on, so, for $p = 1, \ldots, n$ define:
+  \[
+    \phi_p(t) = g(t) - \frac{(h - t)^{p}}{h^{p}}g(0)
+  \]
+  then since $\phi_p$ is continuous on $[0, h]$ and differentiable on $(0, h)$:
+  \[
+    \phi_p(h) = \phi_p(0) = 0 \implies \exists \theta \in (0, 1) \text{ s.t. } \phi_p'(\theta h) = 0
+  \]
+  but $\phi_p'(\theta h)$ is:
+  \begin{align*}
+    \phi'_p(\theta h) &= g'(\theta h) + \frac{p(h - \theta h)^{p - 1}}{h^{p}}g(0)\\
+                      &= g'(\theta h) + \frac{p(1 - \theta)^{p - 1}}{h}g(0) = 0
+  \end{align*}
+  So using our expression for $g'(t)$:
+  \begin{align*}
+    &-\frac{h^{n - 1}(1 - \theta)^{n - 1}}{(n - 1)!} f^{(n)}(\theta h) + \frac{p(1 - \theta)^{p - 1}}{h}g(0) = 0 \\
+    &\implies g(0) = \frac{h^{n}(1 - \theta)^{n - p}}{p(n - 1)!}f^{(n)}(\theta h)
+  \end{align*}
+  Finally, since $g(0) = f(h) - T_{n - 1, f, 0}(h)$, we see that:
+  \[
+    f(h) = T_{n - 1, f, 0}(h) \frac{h^{n}}{p(n - 1)!}(1 - \theta)^{n - p}f^{(n)}(\theta h)
+  \]
+  so taking $p = n$ yields the desired result.
+\end{proof}
+\begin{theorem}[Taylors Theorem -- Cauchy Remainder]
+  Suppose we have $f$ satisfying the requirements from \cref{lagrangeRemainder}, then $\exists \theta \in (0, 1)$ such that:
+  \[
+    R_{n, f, a}(h) =  \frac{h^{n - 1}}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
+  \]
+  or equivalently:
+  \[
+    f(a + h) = \sum_{k = 0}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + \frac{h^{n - 1}}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
+  \]
+\end{theorem}
+\begin{proof}
+  Covered next lecture.
+\end{proof}
 \end{document}
