@@ -112,9 +112,9 @@ In this course, we will only consider the component of $\vec{L}$ along the axis 
 Recall from \cref{totalAngularMomentum}, that external the \textit{torque} $\vec{G}$ changes angular momentum, that is, $\dot{\vec{L}} = \vec{G}$.
 If the torque is along the axis of rotation, then $\vec{G} = G\uvec{n}$ for some scalar $G$.
 If we dot both sides of $\dot{\vec{L}} = \vec{G}$  to compare components along the axis, we have:
-\[
-  \dot{\vec{L}} \cdot \uvec{n} = \vec{G} \cdot \uvec{n} \implies \dot{L} = G \implies \dot{\omega}I = G
-\]
+\begin{equation}
+  \dot{\vec{L}} \cdot \uvec{n} = \vec{G} \cdot \uvec{n} \implies \dot{L} = G \implies \dot{\omega}I = \ddot{\theta}I = G \label{torqueMomentOfInertia}
+\end{equation}
 \begin{remark}[Note]
   So far, all of this depends on the axis of rotation that we choose and is not an intrinsic property of the body.
 
@@ -474,10 +474,24 @@ We can interpret this as rolling increasing the ``effective mass'' of the ball.
 
 Friction is needed for this kind of motion to happen, however, because there is no relative velocity between the point of contact and the ground, no work is done by the friction force and thus energy is conserved when a body is no-slip rolling.
 The only role of friction here is to impose the no-slip condition.
+
+To check that energy is conserved when rolling when a frictional force $f$ acts at the contact point, we can differentiate the kinetic energy:
+\[
+  E = \frac{1}{2}M \dot{x}^2 + \frac{1}{2} I \dot{\theta}^2 \implies \deriv{E}{T} = M \dot{x}\ddot{x} + I \dot{\theta}\ddot{\theta}
+\]
+Recall from \cref{torqueMomentOfInertia} that the torque is $G = I \dot{\omega} = I \ddot{\theta}$.
+Since the frictional force $f$ is acting at a perpendicular distance $a$, the torque $G = af$ and so $I \ddot{\theta} = af$.
+Furthermore, using Newton's equation $M\ddot{x}$ is the force $f$ acting on the ball and so:
+\begin{align*}
+  \deriv{E}{t} &= \dot{x}(-f) + \dot{\theta}af \\
+               &= f(-\dot{x} + a \dot{\theta}) \text{ as rolling: $\dot{x} = v = a \dot{\theta}$} \\
+               &= 0
+\end{align*}
+So the energy is conserved, despite the presence of a frictional force.
 \begin{example}[Ball Rolling on a Slope]
-  Consider a ball no-slip rolling down a slope that makes an angle $\alpha$ with the horizontal:
+  Consider a ball \textbf{no-slip rolling} down a slope that makes an angle $\alpha$ with the horizontal:
   \begin{center}
-  \begin{tikzpicture}[>=stealth]
+  \begin{tikzpicture}[>=stealth, scale=1.3]
     \draw[dashed] (-1, 0) -- (5.5, 0);
     \draw (0.8, 0) arc [start angle=0,end angle=30,radius=0.8] node[midway, right] {$\alpha$};
     \draw[rotate=30, thick] (3, 0.8) circle (0.8);
@@ -485,9 +499,11 @@ The only role of friction here is to impose the no-slip condition.
     \draw[rotate=30, ->] (3, 0.8) ++ (90:1) arc (90:135:1) node[midway, above left] {$\omega$};
     \draw[rotate=30] (0, 0) -- (5, 0);
     \draw[rotate=30, ->] (1.8, 0.8) -- (1, 0.8) node[midway, above] {$v$};
-    \draw[rotate=30, |->] (4, -0.1) node[below right, scale=0.7] {$x_0$} -- (2.5, -0.1) node[midway, below] {$x$};
-    \draw[rotate=30, thick, dotted] (2.5, -0.1) -- (3, 0.8);
+    \draw[rotate=30, |->] (5, -0.1) node[below right, scale=0.7] {$x_0$} -- (3, -0.1) node[midway, below] {$x$};
     \draw[rotate=30, dotted] (4, -0.1) -- (0.15, -0.1);
+    \draw[rotate=30, dashed]  (3, -0.1) -- (4.5, -0.966);
+    \draw[rotate=30, dashed] (4.5, -0.966) -- (5, -0.1) node[midway, right] {$x \sin \alpha$};
+    \draw[rotate=30] (3, -0.1) ++ (0:0.5) arc (0:-30:0.5) node[midway, right] {$\alpha$};
   \end{tikzpicture}
   \end{center}
   We know the kinetic energy so just need the potential energy.
@@ -495,6 +511,8 @@ The only role of friction here is to impose the no-slip condition.
   \[
     V = -Mgx\sin\alpha
   \]
+  It is irrelevant that we did not measure from the CoM as the difference would be just a constant offset that would disappear during differentiation.
+
   Thus the conserved energy is:
   \[
     E = \frac{1}{2} \left(M + \frac{I}{a^2}\right) \dot{x}^2 - Mgx\sin\alpha
@@ -504,4 +522,117 @@ The only role of friction here is to impose the no-slip condition.
     \left(M + \frac{I}{a^2}\right) \ddot{x} = Mg\sin\alpha
   \]
 \end{example}
+\section{Normal Forces and Dry Friction}
+\label{dryFriction}
+\subsection{Normal Forces}
+Objects do not fall through each other because they exert a \textit{normal force} on each other.
+Similarly to friction, this is not a fundamental force, but is a manifestation of various microscopic forces between molecules, however, in Newtonian mechanics, we model the overall effect as force normal to the contact surface between the objects.
+
+For example, the block has a downward force of magnitude $mg$ acting on it due to gravity and so the block exerts a normal force of magnitude $mg$ on the table.
+The table then exerts a normal force of the same magnitude but in the opposite direction:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \begin{scope}
+    \clip (-3 , -0.7) rectangle (3, 0);
+    \draw[very thick] (-3, -1) rectangle (3, 0);
+  \end{scope}
+  \draw[thick] (-1.5, 0) rectangle (1.5, 1);
+  \draw[->] (0, 0.5) -- (0, 1.5) node[right] {$F_N = -mg$};
+  \draw[->] (0, 0) -- (0, -1) node[right] {$F_g = mg$};
+  \node[below left] at (-1.9, 0) {Table};
+  \node[above right] at (-1.5, 0) {Block};
+\end{tikzpicture}
+\end{center}
+On a slope, we have to resolve the gravitational force on the block into two components as the normal force only acts normal to the surface:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.5]
+  \draw[dashed] (-1, 0) -- (5.5, 0);
+  \draw (0, 0) ++ (0:0.8) arc (0:30:0.8) node[midway, right] {$\theta$};
+  \draw[rotate=30] (3, 0.5) ++ (-90:0.4) arc (-90:-120:0.4) node[midway, below] {$\theta$};
+  \draw[rotate=30] (2.28, -0.75) ++ (90:0.4) arc (90:60:0.4) node[midway, above] {$\theta$};
+  \draw[rotate=30, thick] (2.5, 0) rectangle (3.5, 1);
+  \fill[rotate=30] (3, 0.5) circle (1pt);
+  \draw[rotate=30, ->, dashed, thick] (3, 0.5) -- (3, -0.75) node[right] {$mg \cos \theta$};
+  \draw[rotate=30, ->] (3, 0.5) -- (3, 1.75) node[right] {$F_N = mg\cos\theta$};
+  \draw[rotate=30, ->, dashed, thick] (3, 0.5) -- (2.28, 0.5) node[left] {$mg\sin\theta$};
+  \draw[rotate=30, ->] (3, 0.5) -- (2.28, -0.75) node[below] {$mg$};
+  \draw[rotate=30, dotted, thick] (2.28, 0.5) -- (2.28, -0.75) -- (3, -0.75);
+  \draw[rotate=30, ->] (3, 0.5) -- (3.72, 0.5) node[right] {$F_F$};
+  \draw[rotate=30] (0, 0) -- (5, 0);
+\end{tikzpicture}
+\end{center}
+The normal force does not prevent the object from sliding down the slope, this is instead due to the \textit{dry friction force}, $F_F$.
+Similarly to fluid drag from \cref{frictionDrag}, dry friction always acts to oppose motion, however, dry friction is independent of speed.
+
+The frictional force takes the minimal value required to stop the object from moving but is limited by:
+\[
+  F_{F} \leq \mu F_N
+\]
+where $\mu$ is the \textit{coefficient of friction} which is typically close to, but less than 1.
+If the object is at the \textit{point of slipping} or has started to move then $F_F$ takes its maximal value:
+\[
+  F_{F} = \mu F_n
+\]
+\subsection{Elastic Bounces}
+Normal forces also produce \textit{elastic bounces}.
+\begin{definition}[Elastic Collision]
+  An \textit{elastic collision} is a collision in which energy is conserved.
+\end{definition}
+Consider a ball with incoming momentum $\vec{p}$ that bounces off a wall elastically resulting in an outgoing momentum $\vec{q}$:
+\begin{center}
+\begin{tikzpicture}[>=stealth, decoration={
+      markings,
+      mark=at position 0.3 with {\arrow{>}},
+      mark=at position 0.6 with {\arrow{>}},
+      mark=at position 0.9 with {\arrow{>}}
+    }
+  ]
+  \draw[thick] (-3, -0.5) -- (3, -0.5);
+  \draw (0, 0) circle (0.5);
+  \draw[dashed] (-3, 0) -- (3, 0);
+  \draw (0, 0) ++ (0:1) arc (0:30:1) node[midway, right] {$\beta$};
+  \draw (0, 0) ++ (150:1) arc (150:180:1) node[midway, left] {$\alpha$};
+  \draw[rotate=30] (2.5, 0) circle (0.5);
+  \draw[rotate=30, postaction={decorate}] (0, 0) -- (2.5, 0) node[midway, above left] {$\vec{q}$};
+
+  \draw[rotate=150] (2.5, 0) circle (0.5);
+  \draw[rotate=150, postaction={decorate}] (2.5, 0) -- (0, 0) node[midway, above right] {$\vec{p}$};
+
+  \draw[->] (0, 0) -- (0, 1) node[above] {$F_N$};
+  \begin{scope}[xshift=3.4cm]
+    \draw[->] (-0.1, 0)  -- (1, 0) node[right] {$x$};
+    \draw[->] (0, -0.1)  -- (0, 1) node[above] {$y$};
+  \end{scope}
+  \node[below right] at (-3, -0.5) {Wall};
+\end{tikzpicture}
+\end{center}
+The normal force on impact is in the direction normal to the surface at the point of impact, i.e. in the $y$ direction above
+
+The total momentum is conserved and so the total momentum of the wall and the wall before the collision must be same the same as afterwards.
+There is no external force acting on the ball in $x$ direction so the component velocity in the $x$ direction is unchanged and so we consider only the $y$ component of the momentum.
+
+Assuming that the wall is stationary before the collision, we have:
+\[
+  p_y = q_y + Q_y
+\]
+where $Q_y$ is the momentum of the wall after the collision.
+
+Since we know velocity in the $x$ direction is conserved, we only need to worry about energy being conserved in the $y$ direction:
+\[
+  \frac{p^2_y}{2m} = \frac{q^2_y}{2m} + \frac{Q^2_y}{2M}
+\]
+where $m$ is the mass of the ball and $M$ is the mass of the wall.
+Substituting $p_y$ in, we see that:
+\[
+  \frac{1}{2m}(\cancel{q^2_y} + Q^2_y + 2Q_y q_y) = \cancel{\frac{q^2_y}{2m}} + \frac{Q^2_y}{2M}
+\]
+Since, $M \gg m$, we have that $\frac{Q^2_y}{2M} \ll \frac{Q^2_y}{2m}$ so $\frac{Q^2_y}{2M}$ is negligible and can be ignored.
+Therefore:
+\[
+  \frac{1}{2m}(Q^2_y + 2Q_yq_y) = 0 \implies Q_y = -2q_y
+\]
+so $p_y = q_y - 2q_y = -q_y$.
+That is, the $y$ component of the momentum is flipped by the collision and so $\alpha = \beta$.
+
+This change in momentum $\Delta p$ of the ball over a short time is called an \textit{impulse} $I$.
 \end{document}

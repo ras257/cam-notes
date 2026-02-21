@@ -1,0 +1,70 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Rotating Reference Frames}
+\begin{remark}[Recap]
+  Recall from \cref{referenceFrames} that a reference frame is \textit{inertial} if any free particle (one experiencing no forces) has constant velocity in that reference frame.
+\end{remark}
+Rotating reference frames are important examples of \textbf{non-inertial reference frames}.
+\section{Newton's Equations in a Rotating Frame}
+Suppose we have an inertial frame with $S$ with Cartesian axes $\vec{e}_1, \vec{e}_2, \vec{e}_3$ and a rotating frame $S'$ with axes $\vec{e}_1', \vec{e}_2', \vec{e}_3'$.
+
+From the perspective of the inertial frame, the $\vec{e}_i'$ axes rotate with angular velocity $\omega$ and so each axis obeys \cref{angularVelocityCross}, that is:
+\[
+  \dot{\vec{e}}_i' = \vec{\omega} \times \vec{e}_i'
+\]
+In the two frames, the position of a particle is, respectively:
+\[
+  \vec{x} = x_i \vec{e}_i = x_i' \vec{e}_i' \quad \text{(using $\Sigma$ convention)}
+\]
+\begin{remark}[Notation]
+  We use the notation $\left(\deriv{\vec{x}}{t}\right)_S$ to mean the derivative of the Cartesian components in $S$, that is:
+  \[
+    \left(\deriv{\vec{x}}{t}\right)_S = \dot{x}_i \vec{e}_i
+  \]
+  and the notation $\left(\deriv{\vec{x}}{t}\right)_{s'}$ to mean the derivative of the components in $S'$, that is:
+  \[
+    \left(\deriv{\vec{x}}{t}\right)_{S'} = \dot{x}'_i \vec{e}_i'
+  \]
+\end{remark}
+We want to know how the laws of physics appear in the rotating frame and we do this by relating the components of $\vec{x}$ in each frame and then applying Newton's equation to the inertial frame.
+
+To relate the velocities, we can differentiate $\dot{\vec{x}}$ in two ways to yield:
+\begin{align*}
+  \dot{\vec{x}} &= \dot{x}_i \vec{e}_i \\
+                &= \dot{x}_i' \vec{e}_i' + x_i' \dot{\vec{e}}_i' \\
+                &= \dot{x}_i' \vec{e}_i' + x_i' (\vec{\omega} \times \vec{e}_i') \\
+                &= \dot{x}_i' \vec{e}_i' + \vec{\omega} \times (x_i' \vec{e}_i') \\
+                &= \left(\deriv{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times \vec{x}
+\end{align*}
+Therefore, we have:
+\[
+  \left(\deriv{\vec{x}}{t}\right)_{S} = \left(\deriv{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times \vec{x}
+\]
+This intuitively makes sense as we expect the velocity of the particle in the inertial frame to be the velocity of the particle in the non-inertial frame plus the velocity due to the rotation $\vec{\omega} \times \vec{x}$.
+
+To use Newton's 2nd law we need the acceleration:
+\begin{align*}
+  \ddot{\vec{x}} &= \ddot{x}_i \vec{e}_i \\
+                 &= \deriv{}{t}(\dot{x}_i' \vec{e}_i' + \vec{\omega} \times \vec{x}) \\
+                 &= \ddot{x}_i' \vec{e}_i' + \dot{x}_i' \dot{\vec{e}}_i' + \dot{\vec{\omega}} \times \vec{x} + \vec{\omega} \times \dot{\vec{x}} \\
+                 &= \left(\deriv[2]{\vec{x}}{t}\right)_{S'} + \dot{x}_i' (\vec{\omega} \times \vec{e}_i') + \dot{\vec{\omega}} \times \vec{x} + \vec{\omega} \times \left[\left(\deriv{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times \vec{x}\right]\\
+                 &= \left(\deriv[2]{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times \left(\deriv{\vec{x}}{t}\right)_{S'} + \dot{\vec{\omega}} \times \vec{x} + \vec{\omega} \times \left(\deriv{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times (\vec{\omega} \times \vec{x})
+\end{align*}
+and so:
+\[
+  \left(\deriv[2]{\vec{x}}{t}\right)_{S} = \left(\deriv[2]{\vec{x}}{t}\right)_{S'} + \dot{\vec{\omega}} \times \vec{x} + 2 \vec{\omega} \times \left(\deriv{\vec{x}}{t}\right)_{S'} + \vec{\omega} \times (\vec{\omega} \times \vec{x})
+\]
+This is the key relation between the acceleration in a rotating frame an in an inertial frame.
+
+We can now apply Newton's 2nd law to the inertial frame, so suppose that:
+\[
+  m \left(\deriv[2]{\vec{x}}{t}\right) = \vec{F}
+\]
+Therefore, in the rotating frame:
+\[
+  m \left(\deriv[2]{\vec{x}}{t}\right)_{S'} = \vec{F} -\underbrace{m \dot{\vec{\omega}} \times \vec{x}}_{\text{Euler Force}} - \underbrace{2 m \vec{\omega} \times \left(\deriv{\vec{x}}{t}\right)_{S'}}_{\text{Coriolis Force}} - \underbrace{m \vec{\omega} \times (\vec{\omega} \times \vec{x})}_{\text{Centrifugal Force}}
+\]
+The \textit{Euler Force}, \textit{Coriolis Force}, and \textit{Centrifugal Force} are all ``\textit{fictitious forces}''.
+
+A free particle (i.e. $\vec{F} = \vec{0}$) does not move in a straight line in the rotating frame due to these fictitious forces.
+\end{document}
