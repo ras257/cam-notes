@@ -516,7 +516,7 @@ We would like to know how good of an approximation we can make using this under 
   \]
 \end{definition}
 \begin{definition}[Taylor Remainder]
-  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$ and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as:
+  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$, and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as:
   \begin{align*}
     R_{n, f, x_0}(h) &= f(x_0 + h) - T_{n - 1, f, x_0}(x_0 + h) \\
                      &= f(x_0 + h) - \sum_{k = 0}^{n - 1} \frac{f^{(k)}(x_0)}{k!}h^{k}
@@ -640,14 +640,18 @@ We would like to know how good of an approximation we can make using this under 
 \begin{theorem}[Taylors Theorem -- Cauchy Remainder]
   Suppose we have $f$ satisfying the requirements from \cref{lagrangeRemainder}, then $\exists \theta \in (0, 1)$ such that:
   \[
-    R_{n, f, a}(h) =  \frac{h^{n - 1}}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
+    R_{n, f, a}(h) =  \frac{h^n}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
   \]
   or equivalently:
   \[
-    f(a + h) = \sum_{k = 0}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + \frac{h^{n - 1}}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
+    f(a + h) = \sum_{k = 0}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + \frac{h^n}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
   \]
 \end{theorem}
 \begin{proof}
-  Covered next lecture.
+  In the 2nd proof of \cref{lagrangeRemainder} above, taking $p = 1$ yields:
+  \[
+    f(h) = T_{n - 1, f, 0}(h) + \frac{h^{n}}{(n - 1)!}(1 - \theta)^{n - 1}f^{(n)}(\theta h)
+  \]
+  which is the desired result.
 \end{proof}
 \end{document}
