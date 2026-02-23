@@ -1,0 +1,43 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Continuous Random Variables}
+\section{Introducing Continuous Probability}
+\begin{remark}[Recap]
+  Back in \cref{probabilitySpaceDef}, we stared by defining a probability space $(\Omega, \salg, \P)$.
+  We then moved on to random variables.
+  These are functions $X: \Omega \to \R$ that satisfy:
+  \[
+    \forall x \in \R,\ \{X \leq x\} = \{\omega \in \Omega: X(\omega) \leq x\} \in \salg
+  \]
+  We also defined the \textit{probability distribution function} (pdf) (\cref{pdfDefinition}) of $X$ as:
+  \[
+    F: \R \to [0, 1],\ F(x) = \P(X \leq x)
+  \]
+\end{remark}
+In the case of a discrete random variables, the pdf is just a sum of probabilities and so is a \textit{step function}:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0) -- (5.5, 0);
+  \draw[->] (0, 0) -- (0, 5);
+
+  \filldraw[fill=white, draw=black] (1, 1) circle (1.5pt);
+  \clip (0, -0.5) rectangle (5.2, 5.2);
+  \foreach \i in {1, 2, 3, 4, 5} {
+    \draw[dashed] (\i, \i + 1) -- (\i, 0) node[below] {$x_\i$};
+    \draw (\i-1, \i) -- (\i, \i);
+    \filldraw[fill=white, draw=black] (\i, \i) circle (1.5pt);
+    \fill[black] (\i, \i + 1) circle (1.5pt);
+  }
+\end{tikzpicture}
+\end{center}
+We can show some properties of pdfs that hold regardless of if we are working with discrete random variables.
+\begin{proposition}[Properties of PDFs]
+  \begin{enumerate}
+    \item If $x \geq y$, then $F(x) \leq F(y)$.
+    \item $\forall a, b \in \R$, if $a < b$ then $\P(a < X \leq b) = F(b) - F(a)$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\end{document}

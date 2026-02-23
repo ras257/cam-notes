@@ -175,6 +175,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
 \end{example}
 \begin{definition}[Probability Distribution Function]
   For a random variable $X$, we define the \textit{probability distribution function of $X$} to be:
+  \label{pdfDefinition}
   \[
     F_X: \R \to [0, 1],\  F_X(x) = \P(X \leq x)
   \]
@@ -1774,6 +1775,8 @@ We can then express $X_{n + 1}$ as:
 This involves a sum of a random number of independent random variables and so we can apply techniques from \cref{randomLengthSums}.
 \subsection{Properties}
 \begin{theorem}
+  The expected  number of individuals in the $n$-th generation is:
+  \label{expectationBranching}
   \[
     \E[X_n] = (\E[X_1])^{n}
   \]
@@ -1858,6 +1861,7 @@ This means that $q_n$ is increasing, and since we can write $q$ as:
 we have that $q_n \to q$ by continuity of probability measures.
 \begin{proposition}
   Reusing $G(z) = \E[z^{X_1}]$, we have:
+  \label{extinctionRecurrence}
   \[
     q_{n + 1} = G(q_n)
   \]
@@ -1894,6 +1898,7 @@ we have that $q_n \to q$ by continuity of probability measures.
 \end{proof}
 \begin{corollary}
   The extinction probability $q$ satisfies:
+  \label{qFormula}
   \[
     q = G(q)
   \]
@@ -1905,5 +1910,166 @@ we have that $q_n \to q$ by continuity of probability measures.
       &= \lim_{n \to \infty} G(q_n) \text{ by continuity}\\
       &= G\left(\lim_{n \to \infty} q_n\right) = G(q)
   \end{align*}
+\end{proof}
+We would like to know when $q = 1$ (i.e. the process will die out for sure) and when $q < 1$ (i.e. the process could survive forever).
+
+Recall from \cref{expectationBranching} that $\E[X_n] = (\E[X_1])^{n}$.
+We then have three cases:
+\begin{itemize}
+  \item $\E[X_1] < 1 \implies \E[X_n] \to 0$ as $n \to \infty$ so it would be reasonable to expect $q = 1$ in this case.
+  \item $\E[X_1] > 1 \implies \E[X_n] \to \infty$ as $n \to \infty$ so it would be reasonable to expect $q < 1$ in this case.
+  \item $\E[X_1] = 1 \implies \E[X_n] = 1\ \forall n$.
+    This is the critical case as we have differing behaviour below and above it.
+    It is not clear what we should intuitively expect for $q$ in this case.
+\end{itemize}
+As we saw in \cref{qFormula}, to find $q$, we need to find the solutions to $x = G(x)$ where $G$ is the pgf of $X_1$, that is:
+\[
+  G(z) = \E[z^{X_1}] = \sum_{r = 0}^{\infty} g_r z^{r}
+\]
+$G(1) = \sum_{r = 0}^{\infty} g_r = 1$ and so $1 = G(1)$.
+Thus $x = 1$ is always a solution to $x = G(x)$.
+
+Consider what the graphs of $y = G(x)$ and $y = x$ look like depending on if we have two intersections or one intersection:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node at (2, 5) {Two Intersections};
+  \draw[->] (0, 0) -- (0, 4) node[right] {$y$};
+  \draw[->] (0, 0) -- (4, 0) node[right] {$x$};
+  \draw[dotted] (0, 3) node[left] {$1$} -- (3, 3) -- (3, 0) node[below] {$1$};
+  \fill (3, 3) circle (1.5pt);
+
+  \node[left] at (0, 1) {$g_0$};
+  \fill (1.1, 1.1) circle (1.5pt);
+  \draw[thick] (0, 0) -- (4, 4) node[right, scale=0.7] {$y = x$};
+  \draw[dashed] (1.5, 0) -- (3.5, 4);
+  \node[above, scale=0.7] at (3.4, 4) {$y = G(x)$};
+  \begin{scope}
+    \clip (0, 0) rectangle (4, 4);
+    \draw[thick, domain=0:4, smooth, samples=100] plot (\x,{(2 * \x^3)/27 + 1});
+  \end{scope}
+
+  \begin{scope}[xshift=6cm]
+    \node at (2, 5) {One Intersection};
+    \draw[->] (0, 0) -- (0, 4) node[right] {$y$};
+    \draw[->] (0, 0) -- (4, 0) node[right] {$x$};
+    \draw[dotted] (0, 3) node[left] {$1$} -- (3, 3) -- (3, 0) node[below] {$1$};
+    \fill (3, 3) circle (1.5pt);
+
+    \node[left] at (0, 1) {$g_0$};
+    \draw[thick] (0, 0) -- (4, 4) node[right, scale=0.7] {$y = x$};
+    \node[above, scale=0.7] at (3.4, 4) {$y = G(x)$};
+    \draw[dashed] (0, 0.5) -- (4, 3.83);
+    \clip (0, 0) rectangle (4, 4);
+    \draw[thick, domain=0:4, smooth, samples=100] plot (\x,{\x^2/18 + \x/2 + 1});
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+The tangent at the point $x = 1$ has gradient $G'(1-) = \E[X_1]$ so, if we have two intersections, we expect $\E[X] < 1$, and if we have one intersection, we expect $\E[X_1] \leq 1$.
+We also see that if we have two intersections, then the other intersection occurs at $x < 1$.
+This isn't a rigorous proof for the relation between $q$ and $\E[X_1]$, but leads us to the next theorem about the extinction probability.
+\begin{theorem}
+  To avoid the trivial case where the process is deterministic, we assume that $\P(X_1 = 1) < 1$.
+
+  In nontrivial case, the extinction probability $q$ is the minimal non-negative solution to $x = G(x)$.
+  Moreover, $q < 1$ if and only if $\E[X_1] > 1$ or equivalently, $q  = 1$ if and only if $\E[X_1] \leq 1$.
+\end{theorem}
+\begin{proof}[Minimality of solution]
+  We know already from \cref{qFormula} that $q$ is a solution to $x = G(x)$.
+  Since we know $1 = G(1)$, there will always be at least 1 non-negative solution and so let $t$ be the smallest non-negative solution to $x = G(x)$,
+
+  If we can show that $q_n \leq t\ \forall n$, then taking $n \to \infty$ we would have have $q \leq t$, but since $t$ is the minimal solution and $q$ is a solution, $q = t$.
+  \quietinduction
+  {$n = 0$}{
+    $q_0 = \P(X_0 = 0) = 0$ as $\P(X_0 = 0) = 1$ since we always start with one individual in generation zero.
+  }
+  {$n$}{So $q_n \leq t$.}
+  {$n + 1$}{
+    We know that $q_{n + 1} = G(q_n)$ from \cref{extinctionRecurrence}.
+    It also follows from the definition of a pgf (\cref{pgfDefinition}) that $G$ is increasing on $[0, 1]$.
+    Since $q_n \leq t$, we have:
+    \[
+      q_{n + 1} = G(q_{n}) \leq G(t) = t
+    \]
+    and so $q_{n + 1} \leq t$
+  }
+  Therefore $q$ is the minimal non-negative solution to $x = G(x)$.
+\end{proof}
+\begin{proof}[Relation to expectation]
+  We want to show that $q < 1$ if and only if $\E[X_1] > 1$.
+
+  \textbf{Easy Case --} Suppose that $\P(X_1 \leq 1) = 1$.
+  We then have $1 = \P(X_1 \leq 1) = g_0 + g_1$.
+  Since $\sum_{r = 0}^{\infty} g_r = 1$, $g_r = 0 \forall r \geq 2$.
+  Thus $\E[X_1] = 0 \cdot g_0 + 1 \cdot g_1 = g_1$.
+  We can then rewrite $G(z)$ as:
+  \[
+    G(z) = g_0 + g_1 z = 1 - \E[X_1] + \E[X_1] \cdot z
+  \]
+  and so:
+  \[
+    G(z) = z \implies (1 - \E[X_1]) \cdot z = 1 - \E[X_1]
+  \]
+  By assumption $\E[X_1] = g_1 = \P(X_1 = 1) < 1$, $1 - \E[X_1] \neq 0$.
+  Therefore the only solution to $G(z) = z$ is $z = 1$.
+  This means that $q = 1$ and $\E[X_1] \leq 1$, so the theorem is valid in this case \tick
+
+  \textbf{Complicated Case --}
+  From now on assume instead that $\P(X_1 \leq 1) < 1$.
+  So $g_0 + g_1 < 1$, and by assumption of the theorem, $g_1 < 1$.
+
+  Define:
+  \[
+    H(z) = G(z) - z = -\sum_{r = 0}^{\infty} g_r z^{r} - z
+  \]
+  Note that $H(1) = 0$ as $z = 1$ is always a solution to $G(z) = z$.
+
+  We first want to show that $H$ can have at most one more root in $[0, 1]$.
+  Differentiating twice yields:
+  \[
+    H''(z) = \sum_{r = 2}^{\infty} r(r - 1)g_r z^{r - 2}
+  \]
+  Since $g_0 + g_1 < 1$ and $\sum_{r = 0}^{\infty} g_r = 1,\ \exists r \geq 2 \text{ s.t. } g_r \neq 0$ and so $H''(z) > 0\ \forall z \in (0, 1)$.
+  Thus $H'(z)$ is strictly increasing on $(0, 1)$.
+
+  Suppose that $H$ has at least 2 more roots in $(0, 1)$, say $z_1 < z_2 < 1$.
+  By Rolle's Theorem (See Analysis I), since $H(z_1) = H(z_1) = H(1)$, we would have to have $H' = 0$ at some point between $z_1$ and $z_2$ and again at some point between $z_2$ and $1$.
+  This contradicts $H'$ being strictly increasing on $(0, 1)$ and so we can have at most one more root along with $1$.
+  \begin{proofcases}
+    \begin{case}{$H$ has no root other than $1$}
+      Since $q$ is the smallest root, we must have $q = 1$ and so we need to show that $\E[X_1] \leq 1$.
+
+      Taking the limit as $z \to 1^{-}$ of $H'$, we see that:
+      \[
+        H'(1-) = G'(1-) - 1 = \E[X_1] - 1
+      \]
+      using \cref{pgfDerivative}.
+      So we need to show that $H'(1-) \leq 0$.
+
+      We see that $H(0) = G(0) = g_0 \geq 0$ and $H(1) = 0$, since there is no other root, we must have $H(z) \geq 0\ \forall z \in [0, 1]$.
+
+      We can compute $H'(1-)$ using:
+      \[
+        H'(1-) = \lim_{z \to 1^{-}} \frac{H(z) - \cancelto{0}{H(1)}}{z - 1} \leq 0
+      \]
+      as $H(z) \geq 0$ and $z - 1 \leq 0\ \forall z \in [0, 1]$ as we approach from below.
+
+      Thus $q = 1$ and $\E[X_1] \leq 1$, so the theorem is valid in this case \tick
+    \end{case}
+    \begin{case}{$H$ has a root other than $1$}
+      Call this root $r$.
+      Since $r < 1$, it has to be the extinction probability.
+      This means that $q < 1$ so we need to show that $\E[X_1] > 1$.
+
+      Since $r$ is a root, $H(r) = 0$.
+      Again, we know that $H(1) = 0$, so by Rolle's Theorem, $\exists c \in (r, 1)$ such that $H'(c) = 0$.
+
+      From the previous case $H'(1-) = \E[X_1] - 1$ and we also saw that $H'$ is strictly increasing so, as $c < 1$, $H'(c) < H'(1-)$.
+      Therefore:
+      \[
+        H'(c) = 0 < H'(1-) \implies \E[X_1] > 1
+      \]
+      Thus $q < 1$ and $\E[X_1] > 1$, so the theorem is valid in this case \tick
+    \end{case}
+  \end{proofcases}
 \end{proof}
 \end{document}
