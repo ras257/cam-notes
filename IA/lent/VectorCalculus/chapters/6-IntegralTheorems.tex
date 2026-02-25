@@ -458,8 +458,337 @@ If we pick a larger $z = c$, then $1 + c^2$ increases and so the size of the ell
     { \b*sin(x) },
     { 0 }
   );
+  \addplot3[
+      mesh,
+      domain=0:360,
+      samples=20,
+      very thick,
+      black
+  ]
+  (
+    { \a*cosh(\umax)*cos(x) },
+    { \b*cosh(\umax)*sin(x) },
+    { \c*sinh(\umax) }
+  );
 \end{axis}
 \end{tikzpicture}
 \end{center}
+\subsubsection{Flux Integral}
+Since the normal direction was not specified, we will choose the normal to the surface that points away from the axis.
+
+We would try cylindrical polar coordinates, but then the ranges of $\phi$ would depend on $\rho$ in a complicated way.
+Instead, to parameterise the surface, we consider parametrising an ellipse for each $z$.
+For $z = c$, the ellipse was:
+\[
+  \frac{x^2}{1 + c^2} + \frac{y^2}{\frac{1 + c^2}{4}} = 1 \to \left(\sqrt{1 + c^2}\cos \alpha, \frac{1}{2}\sqrt{1 + c^2} \sin \alpha\right),\ \alpha \in [0, 2\pi)
+\]
+and so we can parameterise the surface as:
+\[
+  \vec{x}(z, \alpha) = \left(\sqrt{z^2 + 1}\cos \alpha, \frac{1}{2}\sqrt{z^2 + 1} \sin \alpha, z\right)
+\]
+for $z \in [0, \sqrt{3}]$ and $\alpha \in [0, 2\pi)$.
+
+Next, we need to find the vector surface element using \cref{dSFormula}:
+\[
+  \d{\vec{S}} = \pm \begin{pmatrix}
+  \frac{z}{\sqrt{z^2 + 1}} \cos \alpha \\
+  \frac{z}{2\sqrt{z^2 + 1}} \sin \alpha \\
+  1 \\
+  \end{pmatrix} \times \begin{pmatrix}
+  - \sqrt{z^2 + 1} \sin \alpha \\
+  \frac{1}{2} \sqrt{z^2 + 1} \cos \alpha \\
+  0 \\
+  \end{pmatrix} \d{z}\d{\alpha} = \pm \begin{pmatrix}
+  -\frac{1}{2}\sqrt{z^2 + 1} \cos \alpha \\
+  - \sqrt{z^2 + 1} \sin \alpha \\
+  \frac{1}{2} z \\
+  \end{pmatrix} \d{z} \d{\alpha}
+\]
+\begin{remark}[Advice]
+  It is really worth double checking that you have taken this cross product correctly as any errors will cascade very far into your answer.
+\end{remark}
+We decided to use the normals pointing away from the axis, visually, we see these should all have negative $z$ component and we take the normal corresponding to the $-$ sign.
+
+$\nabla \times \vec{F} = (2y - 1, -2x, -1)$, so on the surface:
+\[
+  \nabla \times \vec{F} = \left(\sqrt{z^2 + 1} \sin \alpha - 1, -2 \sqrt{z^2 + 1} \cos \alpha, -1\right)
+\]
+So the flux of $\nabla \times \vec{F}$ over $S$ is:
+\begin{align*}
+  \int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}} &= \int_{z = 0}^{\sqrt{3}} \int_{\alpha = 0}^{2\pi} \left(-\frac{3}{2}(z^2 + 1)\sin \alpha \cos \alpha - \frac{1}{2}\sqrt{z^2 + 1}\cos \alpha + \frac{1}{2}z\right) \d{\alpha} \d{z} \\
+                                                   &= \int_{z = 0}^{\sqrt{3}}\left[ -\frac{3}{2}(z^2 + 1)\cancelto{0}{\int_{\alpha = 0}^{2\pi} \sin \alpha \cos \alpha \d{\alpha}} - \frac{1}{2}\sqrt{z^2 + 1} \cancelto{0}{\int_{\alpha = 0}^{2\pi} \cos\alpha \d{\alpha}} + \pi z\right] \d{z} \\
+                                                   &= \pi \int_{0}^{\sqrt{3}} z \d{z} = \frac{3\pi}{2}
+\end{align*}
+\subsubsection{Boundary Integral}
+The boundary curves are:
+\begin{align*}
+  C_1:&\ x^2 + 4y^2 = 1 \text{ on } z = 0 \\
+  C_2:&\ x^2 + 4y^2 = 4 \text{ on } z = \sqrt{3}
+\end{align*}
+On $C_2$, the right hand rule tells us that we need to move in the direction of decreasing decreasing cylindrical polar angle $\phi$.
+We can parameterise this as:
+\[
+  \vec{x}(t) = (2 \cos t, \sin t , \sqrt{3})
+\]
+where $t$ decreases from $2\pi$ to $0$.
+On $C_2$, $\vec{F}(\vec{x}(t)) = (\sin t, \sqrt{3}, 4\cos^2 t + \sin^2 t)$.
+So the line integral over $C_2$ is:
+\[
+  \int_{C_2} \vec{F} \cdot \d{\vec{x}} = \int_{2\pi}^{0} (-2\sin^2 t + \sqrt{3} \cos t) \d{x} = 2\pi
+\]
+On $C_1$, we need the direction of increasing $\phi$ so we parameterise $C_1$ as:
+\[
+  \vec{x}(t) = (\cos t, \frac{1}{2} \sin t, 0)
+\]
+where $t$ increases from $0$ to $2\pi$.
+On $C_1$, $\vec{F}(\vec{x}(t)) = (\frac{1}{2} \sin t, 0, \cos^2 t + \frac{1}{2} \sin^2 t)$.
+So the line integral over $C_1$ is:
+\[
+  \int_{C_1} \vec{F} \cdot \d{\vec{x}} = \int_{0}^{2\pi} \left(-\frac{1}{2}\sin^2 t\right) \d{t} = -\frac{\pi}{2}
+\]
+To verify Stokes' Theorem, we need to add the two boundary integrals together and so:
+\[
+  \int_{C_2} \vec{F} \cdot \d{\vec{x}} + \int_{C_1} \vec{F} \cdot \d{\vec{x}} = 2\pi - \frac{\pi}{2} = \frac{3\pi}{2} = \int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}}
+\]
+as expected.
+\begin{remark}[Advice]
+  In an exam, if you are confused about the traversal directions of the boundaries, you can just calculate the line integrals and then figure out and \textbf{justify} the directions after based on that you know Stokes' Theorem will hold.
+\end{remark}
+\section{The Divergence Theorem}
+\subsection{Statement and Proof}
+\begin{theorem}[The Divergence Theorem]
+  If $\vec{F}(\vec{x})$ is a continuously differentiable vector field and $V$ is a volume enclosed by a piecewise smooth orientable \textbf{closed} surface $S = \partial V$, then:
+  \[
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int \vec{F} \cdot \d{\vec{S}}
+  \]
+  where the normal $S$ points \textit{outwards} from $V$.
+\end{theorem}
+\begin{remark}[Nomenclature]
+  This is sometimes known as Gauss's Theorem or occasionally Green's Theorem (Not to be confused with \textit{Green's Theorem on the plane} -- \cref{greensTheorem}).
+\end{remark}
+\begin{proof}
+  \nonexaminable
+  To prove this we use a similar approach to how we proved Greens Theorem in the plane (\cref{greensTheorem}), but now over a volume in 3D.
+
+  Initially, we assume that $V$ is a simple shape.
+  This means we have a single range of $x$ for each fixed $y, z$, namely $x^{-}(y, z) < x < x^{+}(y, z)$.
+  $S$ can then be divided into a right-hand part $S^{+}$, on which $x = x^{+}(y, z)$, and a left hand part $S^{-}$, on which $x = x^{-}(y, z)$.
+
+  We want to find $\int_{V} \pderiv{F_i}{x_i} \d{V}$, so we will start by integrating over $\pderiv{F_1}{x}$:
+  \begin{align*}
+    \int_{V} \pderiv{F_1}{x} \d{V} &= \int_{z} \int_{y} \left(\int_{x^{-}(y, z)}^{x^{+}(y, z)} \pderiv{F_1}{x} \d{x}\right) \d{y} \d{z} \\
+    &= \int_{z} \int_{y} (F_1(x^{+}(y, z), y, z) - F_1(x^{-}(y, z), y, z)) \d{y} \d{z} \\
+    &= \int_{S^{+}} F_1(\vec{x}) \d{y} \d{z} - \int_{S^{-}} F_1(\vec{x}) \d{y}\d{z}
+  \end{align*}
+  We then choose to parameterise $S^{+}$ using $y$ and $z$ so that $\vec{x} = (x^{+}(y, z), y, z)$ on $S^{+}$.
+
+  Calculating the vector surface element using \cref{dSFormula}, we have:
+  \[
+    \d{\vec{S}} = \pm \begin{pmatrix}
+    \pderiv{x^{+}}{y} \\
+    1 \\
+    0 \\
+    \end{pmatrix} \times \begin{pmatrix}
+    \pderiv{x^{+}}{z} \\
+    0 \\
+    1 \\
+    \end{pmatrix} \d{y}\d{z} = \pm \begin{pmatrix}
+    1 \\
+    -\pderiv{x^{+}}{y} \\
+    -\pderiv{x^{+}}{z} \\
+    \end{pmatrix} \d{y}\d{z}
+  \]
+  Therefore, $\vec{e}_1 \cdot \d{\vec{S}} = \pm \d{y} \d{z}$.
+  Since we require the outward normal, we must take the $+$ sign.
+  Carrying out a similar process on $S^{-}$, we have $\vec{e}_1 \cdot \d{S} = - \d{y}\d{z}$.
+  Thus:
+  \[
+    \int_{V} \pderiv{F_1}{x} \d{V} = \int_{S+} F_1 \vec{e}_1 \cdot \d{\vec{S}} \d{S} + \int_{S-} F_1 \vec{e}_1 \cdot \d{\vec{S}} \d{S} = \int_{S} F_1 \vec{e}_1 \cdot \d{\vec{S}}
+  \]
+  Similarly for the other components of $\vec{F}$, we have:
+  \[
+    \int_{V} \pderiv{F_2}{y} \d{V} = \int_{S} F_2 \vec{e}_2 \cdot \d{\vec{S}} \text{ and } \int_{V} \pderiv{F_3}{z} \d{V} = \int_{S} F_3 \vec{e}_3 \cdot \d{\vec{S}}
+  \]
+  Combining these we have:
+  \begin{align*}
+    \int_{V} \nabla \cdot \vec{F} \d{V} &= \int_{V} \left(\pderiv{F_1}{x} + \pderiv{F_2}{y} + \pderiv{F_3}{z}\right) \d{x} \\
+                                        &= \int_{S} (F_1 \vec{e}_1 + F_2 \vec{e}_2 + F_3 \vec{e}_3) \cdot \d{\vec{S}} \\
+                                        &=\int_{S} \vec{F} \cdot \d{\vec{S}}
+  \end{align*}
+  which is the desired result for simple shapes.
+
+  For more complicated shapes, we can just use the same shape splitting technique as in the proof for Green's Theorem in the plane.
+\end{proof}
+\begin{example}
+  What is the flux of the vector field $\vec{F} = (y, x, z^6)$ through the surface of the sphere $V_r = \{\vec{x} : |\vec{x}| < R\}$?
+
+  By the divergence theorem, it is $\int_{V_R} 6z^{5} \d{V}$ which is $0$ since we are integrating a function which is odd in $z$ over a sphere.
+
+  We will now check that we get the same answer if we find the flux directly.
+  We know from \cref{sphericalSurfaceVector} that the vector surface element on a sphere is
+  \[
+    \d{\vec{S}} = + R^2 \sin \theta \begin{pmatrix}
+    \sin \theta \cos \phi \\
+    \sin \theta \sin \phi \\
+    \cos \theta \\
+    \end{pmatrix} \d{\theta} \d{\phi}
+  \]
+  So:
+  \begin{align*}
+    \int_{\partial V_R} \vec{F} \cdot \d{\vec{S}} &= \int_{\partial V_R} \begin{pmatrix}
+    R \sin \theta \sin \phi \\
+    R \sin \theta \cos \phi \\
+    R^{6} \cos^{6} \theta \\
+    \end{pmatrix} \cdot R^2 \sin \theta \begin{pmatrix}
+    \sin \theta \cos \phi \\
+    \sin \theta \sin \phi \\
+    \cos \theta \\
+    \end{pmatrix} \d{\theta} \d{\phi} \\
+                                                  &= \int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} (2R^3 \sin^2 \theta \sin \phi \cos \phi + R^{8} \cos^7 \theta) \sin \theta \d{\theta} \d{\phi}
+  \end{align*}
+  Both of these terms vanish to $0$.
+  Firstly:
+  \[
+    \int_{0}^{2\pi} \sin \phi \cos \phi \d{\phi} = -\int_{-\pi}^{\pi} \sin(\pi - x)\cos(\pi - x) \d{x} = \int_{-\pi}^{\pi} \sin x \cos x \d{x} = 0
+  \]
+  as it is an odd function and the bounds are symmetric about $0$.
+  Secondly:
+  \[
+    \int_{0}^{\pi} \cos^{7} \theta \sin \theta \d{\theta} = 0
+  \]
+  as the integrand is odd about $\pi/2$ and the bounds are symmetric about $\pi/2$.
+\end{example}
+\begin{remark}[Advice]
+  In exam questions, look out for cases where integrals vanish due to symmetry.
+
+  For $m, n \in \N_0$, we have:
+  \begin{align*}
+    \int_{0}^{2\pi} \sin^{2m + 1} \phi \d{\phi} = \int_{0}^{2\pi} \cos^{2m + 1} \phi \d{\phi} &= 0 \\
+    \int_{0}^{2\pi} \sin^{2m + 1} \cos^n \phi \d{\phi} = \int_{0}^{2\pi} \sin^{m} \phi \cos^{2n + 1} \phi \d{\phi} &= 0 \\
+    \int_{0}^{\pi} \sin^{m} \theta \cos^{2n + 1}\theta \d{\theta} &= 0
+  \end{align*}
+  For example, if presented with:
+  \[
+    \int_{\theta = 0}^{\pi} \int_{0}^{1} \rho^3(1 - \rho^2)^3 e^{-\rho} \sin^2 \theta \cos \theta \d{\rho} \d{\theta}
+  \]
+  you might be tempted to separate and start integrating over $\rho$ without considering that the $\theta$ integral is just $0$.
+\end{remark}
+\subsection{Extended Example}
+\begin{remark}[Question]
+  Find the flux of $\vec{F}(\vec{x}) = \vec{x}$ through the surface $S$ given by:
+  \[
+    y^2 + z^2 = \beta^2 (x + 1)^2
+  \]
+  where $\beta$ is a positive constant, $x$ takes values in the range $1 \leq x \leq 2$ and the normal points away from the $x$-axis.
+
+  Confirm your result for the flux result using the divergence theorem.
+\end{remark}
+We first observe that for each fixed $x$, we have $y^2 + z^2 = c^2$ where $c = \beta(x + 1)$.
+This means for each fixed $x$, we have a circle, and as $x$ increase, the radius of this circle increases linearly.
+So $S$ is an open cone with apex at $(-1, 0, 0)$ with the $x$-axis as its axis, restricted to $1 \leq x \leq 2$.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  view={135}{20},
+  axis lines=center,axis on top,
+  ticks=none,set layers=default,axis equal,
+  xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+  xlabel style={anchor=south east},
+  ylabel style={anchor=south west},
+  zlabel style={anchor=south west},
+  enlargelimits,
+  tick align=inside,
+  domain=0:2.00,
+  samples=20,
+  z buffer=sort,
+]
+  \def\a{0.8}
+  \def\b{0.5}
+  \def\c{0.5}
+  \def\umax{1}
+
+  \addplot3[
+      mesh,
+      samples=15,
+      samples y=30,
+      domain=1:2,
+      domain y=0:360,
+      draw=black,
+      line width=0.1pt,
+  ]
+  (
+      {x},
+      {(x + 1)*cos(y)},
+      {(x + 1)*sin(y)}
+  );
+  \addplot3[
+      mesh,
+      domain=0:360,
+      samples=20,
+      very thick,
+      black
+  ]
+  (
+    { 1 },
+    { 2*cos(x) },
+    { 2*sin(x) }
+  );
+  \addplot3[
+      mesh,
+      domain=0:360,
+      samples=20,
+      very thick,
+      black
+  ]
+  (
+    { 2 },
+    { 3*cos(x) },
+    { 3*sin(x) }
+  );
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Because of the cylindrical symmetry around the $x$-axis, we would like to use cylindrical polars.
+To do this, we can either relabel the axis as $(z, x, y)$ (noting that these should remain right handed), or we can just modify our definition of cylindrical polars to:
+\[
+  x = x,\ y = \rho \cos \phi,\ z = \rho \sin \phi
+\]
+We choose to parameterise the cone using $x,\ \phi$ with $\rho = \beta(x + 1)$ so:
+\[
+  \vec{x}(x, \phi) = (x, \beta(x + 1)\cos \phi, \beta(x + 1)\sin \phi)
+\]
+Note that although we are using cylindrical polars here, since this is a surface, it is parameterised by $x$ and $\phi$ only, $\rho$ is not an independent variable.
+
+Using \cref{dSFormula}, the vector surface element is:
+\[
+  \d{\vec{S}} = \pm \begin{pmatrix}
+  1 \\
+  \beta \cos \phi \\
+  \beta \sin \phi \\
+  \end{pmatrix} \times \begin{pmatrix}
+  0 \\
+  -\beta(x + 1)\sin \phi \\
+  \beta(x + 1) \cos \phi \\
+  \end{pmatrix} \d{x}\d{\phi} = \pm \begin{pmatrix}
+  \beta^2(x + 1) \\
+  -\beta(x + 1)\cos \phi \\
+  -\beta(x + 1)\sin \phi \\
+  \end{pmatrix} \d{x}\d{\phi}
+\]
+We need the $-$ sign to ensure that $\d{\vec{S}}$ points away from the $x$-axis.
+
+Therefore, the flux $\mathscr{F}_S$ is:
+\begin{align*}
+  \mathscr{F}_S &= \int_{x = 1}^{2} \int_{\phi = 0}^{2\pi} \begin{pmatrix}
+  x \\
+  \beta(x + 1)\cos \phi \\
+  \beta(x + 1)\sin \phi \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+  -\beta^2 (x + 1) \\
+  \beta(x + 1)\cos \phi \\
+  \beta(x + 1)\sin \phi \\
+  \end{pmatrix} \d{x} \d{\phi} \\
+                &= \int_{x = 1}^{2} \int_{\phi = 0}^{2\pi} \beta^2(x + 1) \d{x} \d{\phi} = 5 \pi \beta^2
+\end{align*}
 Continued next lecture.
 \end{document}
