@@ -405,6 +405,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   This local inverse function theorem can be generalised into $\C$, we will see this in Analysis II.
 \end{remark}
 \begin{example}
+  \label{smoothRational}
   \begin{enumerate}
     \item Fix some $R > 0$ and define $f: [0, R] \to \R$, $x \mapsto x^{N}$ for some $N \in \N$.
       $f$ is continuous on $[0, R]$ and differentiable on $(0, R)$ with $f'(x) = N x^{N - 1} > 0\ \forall x \in (0, R)$.
@@ -547,9 +548,9 @@ We would like to know how good of an approximation we can make using this under 
       \end{align*}
     \item If $f \in C^{n}((c, d))$, with $[a, a + h] \subset (c, d)$, then $f^{(n)}$ is continuous and hence bounded on $[a, a + h]$ and so $\exists M_n$ s.t. $M_n = \sup\limits_{x \in [a, a + h]} |f^{(n)}(x)|$.
 
-      The taylor remainder then satisfies:
+      The Taylor remainder then satisfies:
       \[
-        |R_{n, f, a}(h)| \leq M_n \cdot \frac{h^{n}}{n!}
+        |R_{n, f, a}(h)| \leq M_n \cdot \frac{|h|^{n}}{n!}
       \]
       So $R_{n, f, a}(n) = O(h^{n})$ as $h \to 0$.
       Note that this does not tell us that $R_{n, f, a}(h) \to 0$ as $n \to \infty$, even if $f \in C^{\infty}$ as we do not know how $M_n$ behaves with $n$.
@@ -639,6 +640,7 @@ We would like to know how good of an approximation we can make using this under 
 \end{proof}
 \begin{theorem}[Taylors Theorem -- Cauchy Remainder]
   Suppose we have $f$ satisfying the requirements from \cref{lagrangeRemainder}, then $\exists \theta \in (0, 1)$ such that:
+  \label{cauchyRemainder}
   \[
     R_{n, f, a}(h) =  \frac{h^n}{(n - 1)!} (1 - \theta)^{n - 1}f^{(n)}(a + \theta h)
   \]
@@ -654,4 +656,101 @@ We would like to know how good of an approximation we can make using this under 
   \]
   which is the desired result.
 \end{proof}
+\begin{remark}
+  If $f \in C^{n}([c, d])$ with $[a + h] \subset (c, d)$, then as we did for the Lagrange remainder, we can set:
+  \[
+    M_{n} = \sup_{x \in [a, a + h]} |f^{(n)}(x)|
+  \]
+  Then using the Cauchy remainder:
+  \[
+    |R_{n, f, a}(h)| \leq M_n \cdot \frac{|h|^{n}}{(n - 1)!}
+  \]
+  This doesn't look any better than the estimate that we get from the Lagrange remainder as we now have $(n - 1)!$ instead of $n!$, however, the Cauchy remainder is sometimes more useful in a different way as we will see below.
+\end{remark}
+\begin{example}[Lagrange vs Cauchy Remainder]
+  Consider $f(x) = x^{q}$ for $q \in \Q$.
+  From \cref{smoothRational}, we know that this is smooth on $(0, \infty)$ with $k$-th derivative:
+  \begin{align*}
+    f^{(k)}(x) &= q(q - 1)(q - 2) \cdots (q - k + 1) x^{k} \\
+    \implies f^{(k)}(1) &= q(q - 1)(q - 2) \cdots (q - k + 1)
+  \end{align*}
+  Thus, the $n - 1$ degree Taylor polynomial of $f$ about $1$ is:
+  \begin{align*}
+    T_{n - 1, f, 1}(1 + x) &= \sum_{k = 0}^{n - 1} \frac{q(q - 1) \cdots (q - k + 1)}{k!} x^{q - k} \\
+                           &= \sum_{k = 0}^{n - 1} \binom{q}{k} x^{q - k}
+  \end{align*}
+  where $\binom{q}{k} = \frac{1}{k!} \prod_{r = 0}^{k - 1} (q - r)$ is the \textit{generalised binomial coefficient}.
+
+  We would like to bound the Taylor remainder $R_{n, f, 1}$ of this for $x \in (-1, 1)$.
+  \[
+    R_{n, f, 1}(x) = (1 + x)^{q} - \sum_{k = 0}^{n - 1} \binom{q}{k}x^{k}
+  \]
+
+  \textbf{Using Lagrange Remainder}\par
+  If we use the Lagrange remainder (\cref{lagrangeRemainder}), $\exists \theta \in (0, 1)$ such that:
+  \begin{align*}
+    R_{n, f, 1}(x) &= \frac{x^{n}}{n!}f^{(n)}(1 + \theta x) \\
+                   &= \frac{q(q - 1) \cdots (q - n + 1)}{n!} (1 + \theta x)^{q - n} x^{n} \\
+                   &= \binom{q}{n} (1 + \theta x)^{q - n} x^{n}
+  \end{align*}
+  If $n \geq q$, then $(1 + \theta x)^{q - n} \leq 1$ for $x \in [0, 1)$ and so:
+  \[
+    |R_{n, f, 1}(x)| = |\binom{q}{n}x^{n}||(1 + \theta x)^{q-n}| \leq \abs{\binom{q}{n}x^{n}}
+  \]
+  If we let $a_n = \binom{q}{n}x^{n}$, we see that:
+  \[
+    \abs{\frac{a_{n + 1}}{a_{n}}} = \abs{\frac{r - n}{n + 1}}|x| \to |x|
+  \]
+  Since $x \in [0, 1)$, by the ratio test (\cref{ratioTest}), $\sum_{n = 0}^{\infty} |a_n|$ converges.
+  Thus the $n$-th term test (\cref{nthTermTest}) tells us that $a_n \to 0$ as $n \to \infty$.
+  So we get that $R_{n, f, 1}(x) \to 0$ as $n \to \infty$ for $x \in [0, 1)$
+
+  This argument fails for $x \in (-1, 0)$ because $(1 + \theta x)^{q - n} \geq 1$ for $n \geq 1$, so we cant bound the remainder in this range using the Lagrange remainder.
+
+  \textbf{Using Cauchy Remainder}\par
+  If we instead use the Cauchy remainder (\cref{cauchyRemainder}), $\exists \theta \in (0, 1)$ such that:
+  \begin{align*}
+    R_{n, f, 1}(x) &= \frac{x^{n}}{(n - 1)!}(1 - \theta)^{n - 1}f^{(n)}(1 + \theta x) \\
+                   &= n \cdot \frac{x^{n}}{n!} \cdot (1 - \theta)^{n - 1} q(q - 1) \cdots (q - n + 1)(1 + \theta x)^{q - n} \\
+                   &= (1 - \theta)^{n - 1}n\binom{q}{n}(1 + \theta x)^{q - n} x^{n} \\
+                   &= (1 - \theta)^{n - 1}q \binom{q - 1}{n-1} (1 + \theta x)^{q - n}x^{n} \\
+                   &= q \binom{q - 1}{n - 1} \left(\frac{1 - \theta}{1 + \theta x}\right)^{n - 1} (1 + \theta x)^{q - 1} x^{n}
+  \end{align*}
+  We see that $1 + \theta x - (1 - \theta) = \theta (x + 1) \geq 0$ as $x > -1$ so $1 - \theta \leq 1 + \theta x$.
+  Therefore, provided that $n \geq 1$:
+  \[
+    \left(\frac{1 - \theta}{1 + \theta x}\right)^{n - 1}  \leq 1
+  \]
+
+  We would like also like a term similar to $\binom{q}{n}x^{n}$ from the previous case so we rewrite:
+  \[
+    R_{n, f, a}(x) = qx \cdot \binom{q - 1}{n - 1}x^{n - 1} \cdot (1 + \theta x)^{q - 1} \cdot \left(\frac{1 - \theta}{1 + \theta x}\right)^{n - 1}
+  \]
+  Hence:
+  \begin{align*}
+    |R_{n, f, 1}(x)| &= |qx| \abs{\binom{q - 1}{n - 1}x^{n - 1}} |1 + \theta x|^{q - 1}\abs{\frac{1 - \theta}{1 + \theta x}}^{n - 1} \\
+                     &\leq |qx| \abs{\binom{q - 1}{n - 1} x^{n - 1}}|1 + \theta x|^{q - 1}
+  \end{align*}
+  This is similar to the previous case, however, here the term with $1 + \theta x$ does not have any $n$ dependence so we can define the constant $C = |qx||1 + \theta x|^{q - 1}$ for a given $x$.
+  We then have the bound:
+  \[
+    |R_{n, f, 1}(x)| \leq C \abs{\binom{q - 1}{n - 1}x^{n - 1}} \to 0 \text{ as $n \to \infty$}
+  \]
+  and this is true for every $x \in (-1, 1)$.
+
+  Thus, the Cauchy remainder gives us that the remainder is exponentially small as $n \to \infty$ for all $x \in (-1, 1)$, however, the Lagrange remainder could only guarantee this for $x \in [0, 1)$.
+\end{example}
+\begin{definition}[Analytic Function]
+  We say that $f: (c, d) \to \R$ with $f \in C^{\infty}$ is \textit{analytic} if for every $a \in (c, d)$, there exists an $r > 0$ such that $\forall h \in \R \text{ with } |h| < r$:
+  \[
+    f(a + h) = \sum_{k = 0}^{\infty} \frac{f^{(k)}(a)}{k!}h^{k} = \lim_{n \to \infty} T_{n, f, a}(a + h)
+  \]
+  That is, for such $h$, $R_{n, f, a}(h) \to 0$ as $n \to \infty$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item There are lots of other definitions of what an analytic function is, none of which are ``canonical'' and so the above definition is \textbf{non-examinable}.
+    \item $R_{n, f, a}(h) \centernot\to 0$ as $n \to \infty$ does not mean that the Taylor series does not converge, just that it does not equal $f(h)$.
+  \end{itemize}
+\end{remark}
 \end{document}
