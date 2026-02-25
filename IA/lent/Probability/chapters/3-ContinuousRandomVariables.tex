@@ -212,6 +212,12 @@ Therefore:
   \[
     \P(T_n \geq k) = \P(nT \geq k) = \P\left(T \geq \frac{k}{n}\right) = e^{-\lambda \cdot \frac{k}{n}} = \left(e^{-\frac{\lambda}{n}}\right)^{k}
   \]
+  So $\P(T_n = k)$ for $k \in \N$ is then:
+  \begin{align*}
+    \P(T_n = k) &= \P(T_n \geq k) - \P(T_n \geq k + 1) \\
+                &= \left(e^{-\frac{\lambda}{n}}\right)^{k} - \left(e^{-\frac{\lambda}{n}}\right)^{k + 1} \\
+                &= \left(1 - e^{-\frac{\lambda}{n}}\right)\left(e^{-\frac{\lambda}{n}}\right)^{k}
+  \end{align*}
   So $T_n \sim \geometric(1 - e^{-\frac{\lambda}{n}})$.
   For large $n$, $1 - e^{-\frac{\lambda}{n}} \approx \frac{\lambda}{n}$ and:
   \[
