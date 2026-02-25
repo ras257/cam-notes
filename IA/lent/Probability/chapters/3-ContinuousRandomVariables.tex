@@ -2,6 +2,7 @@
 \begin{document}
 \chapter{Continuous Random Variables}
 \section{Introducing Continuous Probability}
+\subsection{Probability Distribution Functions}
 \begin{remark}[Recap]
   Back in \cref{probabilitySpaceDef}, we stared by defining a probability space $(\Omega, \salg, \P)$.
   We then moved on to random variables.
@@ -32,12 +33,252 @@ In the case of a discrete random variables, the pdf is just a sum of probabiliti
 \end{center}
 We can show some properties of pdfs that hold regardless of if we are working with discrete random variables.
 \begin{proposition}[Properties of PDFs]
+  \label{pdfProperties}
   \begin{enumerate}
-    \item If $x \geq y$, then $F(x) \leq F(y)$.
+    \item If $x \leq y$, then $F(x) \leq F(y)$, i.e. $F$ is increasing.
     \item $\forall a, b \in \R$, if $a < b$ then $\P(a < X \leq b) = F(b) - F(a)$
+    \item $F$ is always right continuous.
+    \item $F$ always has left limits:
+      \[
+        F(x-) = \lim_{y \to x^{-}} F(y) \leq F(x)
+      \]
+    \item $F(x-) = \P(X < x)$.
+    \item $\lim_{x \to \infty} F(x) = 1$ and $\lim_{x \to -\infty} F(x) = 0$
   \end{enumerate}
 \end{proposition}
 \begin{proof}
-  Continued next lecture.
+ \begin{enumerate}
+   \item $\{X \leq x\} \subseteq \{X \leq y\}$ and so using properties of probability measures (\cref{propertiesOfProbMeasure}):
+     \[
+       F(x) = \P(X \leq x) \leq \P(X \leq y) = F(y)
+     \]
+   \item From the law of total probability \cref{lawOfTotalProb}, we have that $\P(A \cap B) = \P(A) - \P(A \cap B^{\comp})$ and so:
+     \begin{align*}
+       \P(a < X \leq b) &= \P(X \leq b, X > a) \\
+                        &= \P(X \leq b) - \P(X \leq b, X \leq a) \\
+                        &= \P(X \leq b) - \P(X \leq a) \\
+                        &= F(b) - F(a)
+     \end{align*}
+   \item Let $(x_n)$ be a sequence on $\R$ decreasing to $x$ as $n \to \infty$.
+     Since sequential continuity is equivalent to continuity, we need to show that $F(x_n) \to F(x)$.
+
+     Define the sequence of events $A_n = \{x < X \leq x_n\}$.
+     By property \textbf{ii}, $\P(A_n) = F(x_n) - F(x)$.
+
+     Since $A_{n + 1} \subseteq A_n\ \forall n$, $(A_n)$ is a deceasing sequence of events, thus, by continuity of probability measures (\cref{continuityProbMeasures}), we have that $\P(A_n) \to \P\left(\bigcap_{n = 1}^{\infty} A_n\right)$ as $n \to \infty$.
+     Finally, since $\bigcap_{n = 1}^{\infty} A_n = \emptyset$:
+     \[
+       \P(A_n) = F(x_n) - F(x) \to 0 \implies F(x_n) \to F(x) \text{ as $n \to \infty$}
+     \]
+     So $F$ is right continuous.
+   \item By property \textbf{i} we know that $F$ is increasing, so left limits always exist because:
+     \[
+       F(x-) = \lim_{y \to x^{-}} F(y) \leq F(x)
+     \]
+   \item $F(x-)$ can be written as:
+     \[
+       F(x-) = \lim_{n \to \infty} F\left(x - \frac{1}{n}\right)
+     \]
+     Since $x - \frac{1}{n}$ increases to $x$ from below.
+
+     Define $B_n = \{X \leq x - \frac{1}{n}\}$.
+     We see that $B_{n} \subseteq B_{n + 1}\ \forall n$, so $B_n$ is an increasing sequence of events.
+
+     Again, using the continuity of probability measures:
+     \[
+       \P(B_n) \to \P\left(\bigcap_{n = 1}^{\infty} B_n\right) = \P(X < x)
+     \]
+     since $\bigcap_{n = 1}^{\infty} B_n = \{X < x\}$.
+   \item By property \textbf{v}, we have:
+     \[
+       \lim_{x \to \infty} F(x) = \P(X < \infty) = 1  \text{ and } \lim_{x \to -\infty} F(x) = \P(X < - \infty) = 0
+     \]
+ \end{enumerate}
+\end{proof}
+\subsection{Continuous Random Variables and Density Functions}
+\begin{definition}[Continuous Random Variable]
+  A random variable $X$ is called \textit{continuous} if its pdf $F$ is a continuous function.
+\end{definition}
+The following are also equivalent:
+\begin{align*}
+  & X \text{ is a continuous r.v.} \\
+  \iff& F(x-) = F(x)\ \forall x \in \R \\
+  \iff& P(X < x) = \P(X \leq x)\ \forall x \in \R \\
+  \iff& \P(X = x) = 0\ \forall x \in \R
+\end{align*}
+From now on, we will work only with continuous random variables for which $F$ is also \textit{differentiable}.
+These random variables are called \textit{absolutely continuous} but we will just refer to them as continuous from now on.
+\begin{definition}[Probability Density Function]
+  For a continuous random variable, we define the \textit{probability density} function $f$ of $X$ as:
+  \[
+    f(x) = F'(x)
+  \]
+\end{definition}
+\begin{proposition}[Properties of probability density functions]
+  For $f(x) = F'(x)$ where $F$ is a probability density function:
+  \begin{enumerate}
+    \item $f(x) \geq 0\ \forall x$ \\
+    \item
+      \[
+        \int_{-\infty}^{\infty} f(x) \d{x} = 1
+      \]
+      \\
+    \item
+      \[
+        F(x) = \int_{-\infty}^{x} f(t) \d{t}
+      \]
+    \item More generally, for every $A \subseteq \R$:
+      \[
+        \P(X \in A) = \int_{A} f(x) \d{x}
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item $F$ is increasing so $f(x) = F'(x) \geq 0\ \forall x$.
+    \item Using \cref{pdfProperties}, we have:
+      \[
+        \int_{-\infty}^{\infty} f(x) \d{x} = \int_{-\infty}^{\infty} F'(x) \d{x} = \lim_{x \to \infty} F(x) - \lim_{x \to -\infty} F(x) = 1 - 0 = 1
+      \]
+    \item Similarly to above, we have:
+      \[
+        \int_{-\infty}^{x} f(t) \d{t} = F(x) - \lim_{x \to -\infty} F(x) = F(x)
+      \]
+  \end{enumerate}
+\end{proof}
+\begin{remark}[Intuition]
+  If $X$ is discrete, then $F(x) = \P(X \leq x) = \sum_{a \leq x} \P(X = a)$.
+
+  If $X$ is continuous and we take a small $\Delta x$:
+  \begin{align*}
+    \P(x < X \leq x + \Delta x) &= \int_{x}^{x + \Delta x} f(t) \d{t} \approx f(x) \Delta x
+  \end{align*}
+  so we can think of $f(x)$ as being proportional to the probability that $X$ is close to $x$.
+\end{remark}
+\section{Basic Continuous Distributions}
+\subsection{Uniform Distribution}
+\begin{definition}[Uniform Distribution]
+  The \textit{uniform distribution} on $[a, b]$ where $a > b$ is defined using its probability density function as:
+  \[
+    f(x) = \begin{cases}
+    \frac{1}{b - a} & \text{ if } x \in [a, b] \\
+    0 & \text{otherwise}
+    \end{cases}
+  \]
+  It is denoted as $\uniform[a, b]$
+\end{definition}
+We need to check that $f$ is indeed a probability density function.
+We see that $f(x) \geq 0\ \forall x$ and $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ and so it is a valid density function.
+
+Suppose $X \sim \uniform[a, b]$.
+Its probability distribution function is then:
+\[
+  \P(X \leq x) = \int_{-\infty}^{x} f(t) \d{t} = \frac{x - a}{b - a} \text{ for $x \in [a, b]$}
+\]
+If $x > b$, then $\P(X \leq x) = 1$ and if $X < a$, $\P(X \leq x) = 0$.
+
+A special case of the uniform distribution is $X \sim \uniform[0, 1]$.
+In this case, for $x \in [0, 1]$, $\P(X \leq x) = x$ and for $0 \leq a \leq b \leq 1$, $\P(a \leq X \leq b) = b - a$.
+\subsection{Exponential Distribution}
+\begin{definition}[Exponential Distribution]
+  The \textit{exponential distribution} with parameter $\lambda > 0$ is defined using its probability density function as:
+  \[
+    f(x) = \begin{cases}
+    \lambda e^{-\lambda x} & x > 0 \\
+    0 & \text{otherwise}
+    \end{cases}
+  \]
+  It is denoted as $\Exponential(\lambda)$.
+\end{definition}
+Clearly $f(x) \geq 0\ \forall x$ and we see that:
+\[
+  \int_{-\infty}^{\infty} f(x) \d{x} = \int_{0}^{\infty} \lambda e^{-\lambda x} \d{x} = 1
+\]
+so $f$ is a valid probability density.
+
+Suppose $X \sim \Exponential(\lambda)$.
+Its probability distribution function for $x > 0$ is:
+\[
+  \P(X \leq x) = \int_{0}^{x} f(t) \d{t} = 1 - e^{-\lambda x}
+\]
+Therefore:
+\[
+  \P(X \geq x) = 1 - (1 - e^{-\lambda x}) = e^{-\lambda x}
+\]
+\begin{example}[Relation to Geometric Distribution]
+  Let $T \sim \Exponential(\lambda)$ and for $n \in \N$, define $T_n = \floor{nT}$.
+
+  For $k \in \N$:
+  \[
+    \P(T_n \geq k) = \P(nT \geq k) = \P\left(T \geq \frac{k}{n}\right) = e^{-\lambda \cdot \frac{k}{n}} = \left(e^{-\frac{\lambda}{n}}\right)^{k}
+  \]
+  So $T_n \sim \geometric(1 - e^{-\frac{\lambda}{n}})$.
+  For large $n$, $1 - e^{-\frac{\lambda}{n}} \approx \frac{\lambda}{n}$ and:
+  \[
+    \frac{T_n}{n} \to T \text{ as $n \to \infty$}
+  \]
+  So we can think of the exponential distribution as a scaled limit of geometric distributions.
+\end{example}
+\begin{definition}[Memorylessness Property]
+  We say that a random variable $T$ is \textit{memoryless} if for any $t, s \in \R^{+}$:
+  \[
+    \P(T \geq s + t \vert T \geq s) = \P(T \geq t)
+  \]
+\end{definition}
+\begin{remark}
+  In the discrete case, the geometric distribution (\cref{geometricDist}) has an analogous property as knowing that there was not a success does not change the probability of one occurring in a future trial.
+\end{remark}
+\begin{theorem}
+  Let $T$ be a positive random variable which is not 0 or $\infty$ identically.
+  Then $T$ follows an exponential distribution if and only if $T$ has the memoryless property.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $T$ has the exponential distribution}
+    So $T \sim \Exponential(\lambda)$ for some $\lambda > 0$.
+
+    Let $t, s \in \R^{+}$, using the definition of conditional probability:
+    \begin{align*}
+      \P(T \geq s + t \vert T \geq s) &= \frac{\P(T \geq s + t, T \geq s)}{\P(T \geq s)} \\
+                                      &= \frac{\P(T \geq s + t)}{\P(T \geq s)} \\
+                                      &= \frac{e^{-\lambda(s + t)}}{e^{-\lambda s}} \\
+                                      &= e^{-\lambda t} = \P(T \geq t)
+    \end{align*}
+    So $\P(T \geq s + t \vert T \geq s) = \P(T \geq t)$ and so $T$ is memoryless.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $T$ has the memoryless property}
+    We need to show that $\P(T \geq t) = e^{-\lambda t}$ for some $\lambda > 0$.
+
+    Let $g(t) = \P(T \geq t)$.
+    The memoryless property tells us that:
+    \[
+      \P(T\geq s + t \vert T \geq s) = \frac{\P(T \geq s + t)}{\P(T \geq s)} = \P(T \geq t)
+    \]
+    Therefore, $g(t + s) = g(t)g(s)$.
+    So by induction, if we take $t > 0$ and $m \in \N$, then $g(mt) = (g(t))^{m}$.
+
+    Taking $t = 1$, we see that $g(m) = (g(1))^{m}$.
+    Now define $g(1) = \P(T \geq 1) = e^{-\lambda}$ where $\lambda = - \log(\P(T \geq 1))$, noting that $\lambda$ is well defined and $\lambda > 0$ as $T$ is not identically 0 or $\infty$.
+
+    So $g(m) = e^{-\lambda m}\ \forall m \in \N$.
+
+    Now taking $m, n \in \N$, since $g(nt) = (g(t))^{n}$ for $t > 0$:
+    \begin{align*}
+      \left(g\left(\frac{m}{n}\right)\right)^{n} = g(m) &= e^{-\lambda m} \\
+      \implies g\left(\frac{m}{n}\right) &= e^{-\lambda \cdot \frac{m}{n}}
+    \end{align*}
+    \[
+    \]
+    Therefore, $g(r) = e^{-\lambda r}\ \forall r \in \Q^{+}$.
+
+    Now let $t \in \R$ such that $t > 0$ be arbitrary.
+    Since $\Q$ is dense in $\R$, for any $\varepsilon > 0,\ \exists r, s \in \Q^{+}$ such that $s < t < r$ and $|s - r| < \varepsilon$.
+
+    Since $g$ is an increasing function:
+    \[
+      e^{-\lambda r} = g(r) \leq g(t) \leq g(s) = e^{-\lambda s}
+    \]
+    As we take $\varepsilon \to 0$, utilising squeeze theorem and since $\exp$ is continuous, $g(t) = e^{-\lambda t}$.
+    Thus $\P(T \leq t) = 1 - e^{-\lambda t}$ and so $T \sim \Exponential(\lambda)$.
+  \end{proofdirection}
 \end{proof}
 \end{document}
