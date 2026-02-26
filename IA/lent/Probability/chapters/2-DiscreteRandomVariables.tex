@@ -1096,7 +1096,7 @@ Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so 
   \]
 \end{proof}
 \begin{example}[AM-GM Inequality]
-  We want to show that the arithmetic mean of $n$ non-negative numbers $\{x_1, \ldots, x_n\}$ is less than or equal to their geometric mean.
+  We want to show that the arithmetic mean of $n$ non-negative numbers $\{x_1, \ldots, x_n\}$ is greater than or equal to their geometric mean.
 
   Let $f(x) = -\log x$.
   This is a convex function so applying \cref{jensenCorollary}, we have:
@@ -1107,9 +1107,10 @@ Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so 
   \[
     \frac{1}{n} \sum_{k = 1}^{n} \log x_k = \sum_{k = 1}^{n} \log x^{\frac{1}{n}}_{k} = \log \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}}
   \]
-  and since exponentiating preserves inequalities:
+  After negating both sides, we have $\log \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} \leq \log\left(\frac{1}{n} \sum_{k = 1}^{n} x_k\right)$.
+  Therefore, since exponentiating preserves inequalities:
   \[
-    \text{Geometric mean} = \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} \geq \frac{1}{n} \sum_{k = 1}^{n} x_k = \text{Arithmetic mean}
+    \text{Geometric mean} = \left(\prod_{k = 1}^{n} x_k\right)^{\frac{1}{n}} \leq \frac{1}{n} \sum_{k = 1}^{n} x_k = \text{Arithmetic mean}
   \]
 \end{example}
 \section{Joint Distributions and Conditional Expectation}
