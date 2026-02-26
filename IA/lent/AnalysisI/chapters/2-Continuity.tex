@@ -76,29 +76,44 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 \end{itemize}
 \subsection{Limit Definition}
 \begin{definition}[Limit of a function]
-  Let $f: X \subseteq \C \to \C$ and let $a \in X$ or let $a \in \C \setminus X$ such that $a$ is an accumulation point of $X$.
+  Let $f: X \subseteq \C \to \C$ and let $a \in \C$ be an accumulation point of $X$.
 
   We say that \textit{$f$ tends to $y \in \C$ as $z$ tends to $a$} if:
+  \label{limitDef}
   \[
-    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon)
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } (0 < |z - a| < \delta \text{ for } z \in X \implies |f(z) - y| < \varepsilon)
   \]
   and write $f(z) \to y$ as $z \to a$.
 \end{definition}
+\begin{remark}[Note]
+  We can also equivalently define $f(z) \to y$ as $z \to a$ as:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon)
+  \]
+  Note how here we restrict to $z \in X \setminus \{a\}$ so that $z = a$ is not considered, whereas above, we achieve the same thing by restricting to $0 < |z - a|$.
+
+  The important intuition here is how the \textbf{limit does not care about what the function does at $a$}, hence why we can take the limit to a point outside the domain of the function.
+\end{remark}
 \begin{remark}
   If $a$ is an isolated point of $X$, then we can always find $\delta$ sufficiently small so that $|z - a| < \delta,\ z \in X \iff z = a$.
-  For such $\delta$, $|z - a| < \varepsilon \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon$ is vacuously true as there are no such $z \in X \setminus \{a\}$ satisfying $|z - a| < \varepsilon$.
-  Thus, $f(z) \to f(a)$ as $z \to a$ trivially.
-  So, the definition makes sense for isolated points, however, is not very interesting.
+  This means that for such $\delta$:
+  \[
+    |z - a| < \delta \text{ for } z \in X \setminus \{a\} \implies |f(z) - y| < \varepsilon
+  \]
+  is vacuously true as there are no such $z \in X \setminus \{a\}$ satisfying $|z - a| < \delta$.
+
+  This means that if we included isolated points in the definition, $f(z) \to y$ as $z \to a$ for any $y \in \C$ trivially.
+  So, the definition would make sense for isolated points, however, is not very interesting and leads to non-unique limits, hence why we exclude isolated points from the definition.
 \end{remark}
 \begin{definition}[Divergence to infinity of a function]
-  Let $a \in \C \setminus X$ be an accumulation point for $X$.
+  Let $a \in \C$ be an accumulation point for $X$.
   We say that $f$ diverges to $\infty$ if as $z \to a$ if $\lim\limits_{z \to a} \frac{f(z)}{|f(z)|}$ exists and:
   \[
-    \forall L > 0,\ \exists \delta = \delta(L) \text{ s.t. } (|z - a| < \delta \text{ for } z \in X \implies |f(z)| > L)
+    \forall L > 0,\ \exists \delta = \delta(L) \text{ s.t. } (0 < |z - a| < \delta \text{ for } z \in X \implies |f(z)| > L)
   \]
 \end{definition}
-\begin{remark}
-  For $f(z)$ diverging to $\infty$ as $z \to a \in \C$ for finite $a$, we cannot have $a \in X$ otherwise $f$ would not be a well defined function, hence why the above definition only considers $a \in \C \setminus X$ which are accumulation points.
+\begin{remark}[Note]
+  Again, we can choose to exclude $0$ by restricting to $0 < |z - a|$ as above, or by restricting to $z \in X \setminus \{a\}$.
 \end{remark}
 \begin{example}
   \label{sinxExample}
@@ -241,8 +256,10 @@ What does it mean for a function to be continuous at a point $a$?
   \label{continuityLimit}
   For any $a \in X$, either:
   \begin{itemize}
-    \item $a$ is an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
-    \item $a$ is an accumulation point, then $f$ is continuous if and only if $\lim\limits_{z \to a} f(z) = f(a)$.
+    \item Unlike in the definition for a limit (\cref{limitDef}), we do not require that $0 < |z - a|$ or $z \in X \setminus \{a\}$, this is because at $z = a$, we clearly have $0 = |f(z) - f(a)| < \varepsilon$ as a function can take only a single value for each input.
+      Thus, it makes no difference to the definition of continuity whether we choose to include $z = a$ for consideration.
+    \item If $a$ is an accumulation point (so attempting to $z \to a$ is valid), then $f$ is continuous if and only if $\lim\limits_{z \to a} f(z) = f(a)$.
+    \item If $a$ is an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
   \end{itemize}
 \end{remark}
 \begin{example}
