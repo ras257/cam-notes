@@ -1143,12 +1143,12 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
 \]
 \subsection{Convolutions}
 \begin{proposition}[Convolution]
-  If $X$ and $Y$ be independent discrete random variables, then random variable $X + Y$ follows a distribution which is the \textit{convolution} of the distributions of $X$ and $Y$.
+  If $X$ and $Y$ are independent discrete random variables, then the random variable $X + Y$ follows a distribution which is the \textit{convolution} of the distributions of $X$ and $Y$.
   \label{convolution}
 
   That is:
   \[
-    \P(X + Y = z) = \sum_{y} \P(X = z - y) \P(y = y)
+    \P(X + Y = z) = \sum_{y} \P(X = z - y) \P(Y = y)
   \]
 \end{proposition}
 \begin{proof}
@@ -1230,7 +1230,8 @@ We can then use this to define the expectation of one discrete random variable g
   \[
     \E[X \vert Y] = \sum_{y} g(y) \cdot 1(Y = y)
   \]
-  If we take a sample $\omega \in \Omega$, $Y(\omega)$ takes a specific value and so $1(Y(\omega) = y)$ will be 1 exactly once in this sum and 0 otherwise:
+  If we take a sample $\omega \in \Omega$, $Y(\omega)$ takes a specific value and so $1(Y(\omega) = y)$ will be 1 exactly once in this sum and 0 otherwise.
+  Therefore:
   \[
     \E[X \vert Y](\omega) = \E[X \vert Y = Y(\omega)] = g(Y(\omega))
   \]
@@ -1341,7 +1342,7 @@ We can then use this to define the expectation of one discrete random variable g
 
   We can instead use property \textbf{ix} so:
   \[
-    \E[X_1 + \cdots + X_n \vert Y_n] = \E[Y_n \vert Y_n] = Y_N
+    \E[X_1 + \cdots + X_n \vert Y_n] = \E[Y_n \vert Y_n] = Y_n
   \]
   By symmetry $\E[X_i \vert Y_n] = \E[X_1 \vert Y_n]$ as all $X_i$ are independent and identically distributed.
   So using property \textbf{iii}:
@@ -1384,7 +1385,8 @@ We can split $h(x)$ up using the law of total probability \cref{lawOfTotalProb}:
 \begin{align*}
   h(x) &= \P_x((X_n) \text{ hits $a$ before 0}) \\
        &= \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = 1) + \P_x((X_n) \text{ hits $a$ before 0}, Y_1 = -1) \\
-       &= p \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = 1) + (1 - p) \cdot \P_X((X_n) \text{ hits $a$ before 0}\vert Y_1 = -1) \\
+       &= p \cdot \P_x((X_n) \text{ hits $a$ before 0}\vert Y_1 = 1) + (1 - p) \cdot \P_x((X_n) \text{ hits $a$ before 0}\vert Y_1 = -1) \\
+       &= p \cdot \P_{x + 1}((X_n) \text{ hits $a$ before 0}\vert Y_1 = 1) + (1 - p) \cdot \P_{x - 1}((X_n) \text{ hits $a$ before 0}\vert Y_1 = -1) \\
        &= p \cdot h(x + 1) + (1 - p) h(x - 1)
 \end{align*}
 Thus we have the recurrence relation:
