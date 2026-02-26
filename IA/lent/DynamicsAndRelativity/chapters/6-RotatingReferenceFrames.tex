@@ -214,6 +214,7 @@ This is in the same form as the magnetic force from the Lorentz force (\cref{lor
 This means that moving particles will turn in circles as the force is always orthogonal to the direction of motion so makes the particle turn without changing its speed/doing work on the particle.
 
 This makes sense as if a particle is not moving in an inertial frame, then it should be moving in a circle in a rotating frame and so the Coriolis force is the fictitious force responsible for this.
+\subsection{Examples of the Coriolis Force}
 \begin{example}[Formation of Hurricanes]
   The Coriolis force is responsible for the formation of hurricanes.
   If a low pressure region forms in the atmosphere, particles will move in and so the Coriolis force ``bends'' their trajectory.
@@ -310,4 +311,134 @@ This makes sense as if a particle is not moving in an inertial frame, then it sh
   The third component is just the standard equation of motion under gravity.
   We hit the ground when $\frac{1}{2}gt^2 = h$, and at this time, $-\frac{1}{3} \omega g t^3 < 0$ and so the ball lands to the east, in front of the tower.
 \end{example}
+\subsection{Foucault's Pendulum}
+Foucault's pendulum is an experiment that demonstrates the rotation of Earth.
+Consider a pendulum suspended from a point above the surface of the earth.
+If the pendulum is above the North pole, since there is no friction at the pivot, the Earth rotates under the pendulum, so from the point of view of someone on Earth, it will look like the pendulum rotates.
+
+At a general latitude angle $\theta$, define the orthonormal basis $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ where $\vec{e}_1$ is tangent to the Earth pointing North, $\vec{e}_2$ is tangent to the Earth pointing West, and $\vec{e}_3$ is normal to the Earth, pointing outwards.
+\begin{center}
+\begin{tikzpicture}[>=stealth, decoration={
+        markings,
+        mark = at position 0.5 with {\arrow{>}}
+      }]
+  \begin{scope}
+    \clip (0, 0) rectangle (3, 3);
+    \draw (0, 0) circle (2);
+  \end{scope}
+  \coordinate (A) at (1.41, 1.41);
+  \draw (0, 0) -- (A);
+  \fill (A) circle (1.5pt);
+
+  \draw[thick, ->] (A) -- ($(A) + (0.71, 0.71)$) node[right] {$\vec{e}_3$};
+  \draw[thick, ->] (A) -- ($(A) + (-0.71, 0.71)$) node[right] {$\vec{e}_1$};
+  \node[right] at (A) {$\vec{e}_2$};
+  \node[below right, scale=0.5, yshift=-5, xshift=12] at (A) {(Into plane of page)};
+
+  \draw[dashed] (0, 0) -- (2, 0) node[right, scale=0.6] {Equator};
+  \draw (0, 0) ++ (0:0.6) arc (0:45:0.6) node[midway, right] {$\theta$};
+
+
+  \draw[dashed] (0, 0) -- (0, 2);
+  \draw[->] (0, 2) -- (0, 2.5) node[right] {$\vec{\omega}$};
+\end{tikzpicture}
+\end{center}
+In this basis, we can represent $\vec{x}$ and $\vec{g}$ as just:
+\begin{align*}
+  \vec{x} &= (x, y, z) \\
+  \vec{g} &= (0, 0, -g)
+\end{align*}
+For $\vec{\omega}$, we need to split it into two components:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0)  -- (1, 1) node[right] {$\vec{e}_3$};
+  \draw[dashed] (1, 1)  -- (1.5, 1.5);
+  \draw[->] (0, 0)  -- (-1, 1) node[left] {$\vec{e}_1$};
+  \draw[dashed] (-1, 1)  -- (-1.5, 1.5);
+  \draw (0, 0) ++ (0:0.6) arc (0:45:0.6) node[midway, right] {$\theta$};
+  \draw (0, 0) ++ (45:0.4) arc (45:90:0.4) node[midway, above, scale=0.6, xshift=5] {$\frac{\pi}{2} - \theta$};
+  \draw (0, 0) ++ (90:0.4) arc (90:135:0.4) node[midway, above, scale=0.6] {$\theta$};
+  \draw[->] (0, 0) -- (0, 1.5) node[right] {$\vec{\omega}$};
+  \draw[dashed] (-0.75, 0.75) -- (0, 1.5) -- (0.75, 0.75);
+
+  \draw[dashed] (0, 0) -- (2, 0);
+\end{tikzpicture}
+\end{center}
+and so:
+\[
+  \vec{\omega} = (\omega \cos \theta, 0, \omega \cos (\pi/2 - \theta)) = (\omega \cos \theta, 0, \omega \sin \theta)
+\]
+
+We will position the pivot of the pendulum so that when the pendulum hangs directly down, the particle is at the origin:
+\begin{center}
+\tdplotsetmaincoords{70}{30}
+\begin{tikzpicture}[>=stealth, tdplot_main_coords, decoration={
+        markings,
+        mark = at position 0.5 with {\arrow{>}}
+      }]
+  \draw[->]  (0, 0, 0) -- (3, 0, 0) node[right] {$\vec{e}_1$};
+  \draw[->]  (0, 0, 0) -- (0, 3, 0) node[right] {$\vec{e}_2$};
+  \draw[->]  (0, 0, 0) -- (0, 0, 3) node[right] {$\vec{e}_3$};
+
+  \def\px{0.866}
+  \def\py{1}
+  \def\pz{0.5}
+  \coordinate (A) at (0, 0, 2);
+  \coordinate (B) at (\px, \py, \pz);
+  \coordinate (C) at (\px, \py, 0);
+  \fill (A) circle (1pt);
+  \fill (B) circle (1pt);
+
+  \draw[|<->|] (-0.1, -0.1, 0) -- (-0.1, -0.1, 2) node[midway, left] {$\ell$};
+  \draw[postaction={decorate}] (B) -- (A) node[midway, above right] {$\vec{T}$};
+  \draw[dotted] (C) -- (\px, 0, 0) node[below] {$x$};
+  \draw[dotted] (C) -- (0, \py, 0) node[left] {$y$};
+  \draw[dotted] (C) -- (B) node[midway, right] {$z$};
+\end{tikzpicture}
+\end{center}
+The string does not stretch or break so the length $\ell$ is constant.
+Therefore, the following constraint must always be satisfied:
+\[
+  x^2 + y^2 + (\ell - z)^2 = \ell^2
+\]
+
+The final force acting on the particle is the tension $\vec{T}$ from the string.
+Tension acts in the direction of $(-x, -y, \ell - z)$.
+Since $x^2 + y^2 + (\ell - z)^2 = \ell^2$, $\left(-\frac{x}{\ell}, -\frac{y}{\ell}, \frac{\ell - z}{\ell}\right)$ is a unit vector in the direction of $\vec{T}$.
+Therefore:
+\[
+  \vec{T} = T\left(-\frac{x}{\ell}, -\frac{y}{\ell}, \frac{\ell - z}{\ell}\right)
+\]
+where $T = |\vec{T}|$ is the magnitude of the tension.
+
+We can now form the equation of motion for the particle, accounting for the Coriolis force:
+\[
+  m \ddot{\vec{x}} = \vec{T} + m \vec{g} - 2m \vec{\omega} \times \dot{\vec{x}}
+\]
+With all quantities defined, we have three ODEs (one of each of $x$, $y$, and $z$) and one constraint.
+We also have only four unknowns, $x$, $y$, $z$ and $T$.
+This means we have four equations and four unknowns and so we can solve.
+
+Our strategy to solve is as follows:
+\begin{itemize}
+  \item Use the constraint to obtain $z(x, y)$.
+  \item Substitute $z(x, y)$ into the ODEs.
+  \item Eliminate $T$ from one ODE.
+  \item Solve remaining two ODEs for $x(t)$ and $y(t)$
+\end{itemize}
+After solving, we see that, in general, the pendulum follows an ellipse in the $x, y$ plane that slowly rotates:
+\[
+  x + iy = e^{-i \omega t \sin \theta} \left[a \cos \left(\sqrt{\frac{g}{\ell}}t\right) + b \sin \left(\sqrt{\frac{g}{\ell}}t\right)\right]
+\]
+for arbitrary constants $a, b \in \C$.
+
+Suppose we have $b = 0$ and $a \in \R$.
+If $\omega = 0$, i.e. the Earth is not rotating, then $x = a \cos(\sqrt{g/\ell}t)$ so the pendulum swings back and forth along a straight line.
+However, if $\omega \neq 0$, then the exponential term at the front causes the trajectory to be rotated in the $(x, y)$-plane.
+
+Since the exponential term at the front governs the rotation of the ellipse, its period is:
+\[
+  T = \frac{24}{\sin \theta} \text{ hours}
+\]
+The period of the rotation does not depend on the length of the string, $\ell$ only changes how quickly the pendulum swings back and forth.
 \end{document}

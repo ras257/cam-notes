@@ -1,0 +1,66 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Special Relativity}
+\section{Basic Postulates of Relativity}
+In 1862, Maxwell's equations predicted the existence of electromagnetic waves that travel in a vacuum at the \textit{speed of light}.
+The speed of light $c$ is \textbf{exactly equal to}:
+\[
+  c = \qty{299792458}{\metre\second^{-1}} \approx \qty{3e8}{\metre\second^{-1}}
+\]
+\begin{remark}[Note]
+  The speed of light is exactly this value because one metre is defined as the distance travelled by light in a vacuum during a time of $1/299792458$ seconds.
+\end{remark}
+
+A theory with a ``preferred velocity'' cannot be Galilean invariant.
+Galilean theories can only have \textbf{relative velocities}.
+In principal, a definite velocity could be acceptable, for example, sound in air also travels at a definite speed $v_{s} \approx \qty{300}{\metre\second^{-1}}$, however, this is \textbf{relative to the air} which is at rest.
+So, if you move towards a sound wave with speed $v$, you would measure sound travelling at a speed $v_s + v$.
+This lead us to assume that light must also be travelling in some fixed medium, this was called the \textit{ether}.
+
+However, there was an experiments in 1881 by Michelson and Morley that effectively showed that, regardless of the velocity of the observer, you always measure light travelling at the same speed $c$.
+
+This caused a massive crisis in physics, until, in 1905, Einstein postulated that there was no ether and two other postulates:
+\begin{enumerate}
+  \item The laws of physics are the same in all inertial frames -- This is the same as what Galileo postulated (\cref{galileanRelativity}) and is called the \textit{principal of relativity}.
+  \item The speed of light $c$ is the same in \textbf{all inertial frames} -- This is incompatible with inertial frames being related by Galilean transformations as velocities add under Galilean transformations.
+\end{enumerate}
+\section{Lorentz Transformations}
+\subsection{Derivation}
+We need to change the rules for transforming between frames to ensure that the speed of light is the same in all frames.
+We will start with a single spatial dimension $x$ and then build up to higher dimensions later.
+
+Suppose we have frame $S$ with coordinates $(x, t)$ and a frame $S'$ with coordinates $(x', t')$ that moves at a constant velocity $v$ relative to $S$.
+
+According to Galileo, the frames should be related by:
+\begin{align*}
+  x' &= x - vt \\
+  t' &= t
+\end{align*}
+However, under Einsteins postulates, this is not possible as the speed of light will be different in each frame.
+
+We will start from a general relation:
+\begin{align*}
+  x' &= f(x, t) \\
+  t' &= g(x, t)
+\end{align*}
+and then show that this leads to a \textit{Lorentz Transformation}.
+From the first postulate, the law of inertia is still true, that is, a particle experiencing no forces moves at a constant velocity in all frames.
+For such a particle:
+\begin{align*}
+  \text{In $S$: }& x = A + Bt \\
+  \text{In $S'$: }& x' = A' + B't
+\end{align*}
+Transformations that achieve this are called \textit{affine transformations} which are a linear transformation composed with a translation.
+Here, we will choose our frames to share a common origin, i.e. $x = t = 0 \iff x' = t' = 0$ and so $A = A' = 0$.
+We can do this as we can always just shift $x$ and $x'$ by constants.
+Therefore, the transformation must map all lines passing through the origin in the $(x, t)$-plane to lines passing through the origin in the $(x', t')$-planes, these are precisely linear transformations.
+
+Thus, the transformation must have the form:
+\begin{align*}
+  x' &= ax + bt \\
+  t' &= cx + dt
+\end{align*}
+where $a, b, c, d$ are constants that do not depend on $x$ or $t$ but can depend on the relative velocity between frames, since it is constant.
+
+Continued next lecture.
+\end{document}
