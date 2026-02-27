@@ -157,6 +157,7 @@ These random variables are called \textit{absolutely continuous} but we will jus
 \end{remark}
 \section{Basic Continuous Distributions}
 \subsection{Uniform Distribution}
+\label{uniformDist}
 \begin{definition}[Uniform Distribution]
   The \textit{uniform distribution} on $[a, b]$ where $a > b$ is defined using its probability density function as:
   \[
@@ -180,6 +181,7 @@ If $x > b$, then $\P(X \leq x) = 1$ and if $X < a$, $\P(X \leq x) = 0$.
 A special case of the uniform distribution is $X \sim \uniform[0, 1]$.
 In this case, for $x \in [0, 1]$, $\P(X \leq x) = x$ and for $0 \leq a \leq b \leq 1$, $\P(a \leq X \leq b) = b - a$.
 \subsection{Exponential Distribution}
+\label{exponentialDist}
 \begin{definition}[Exponential Distribution]
   The \textit{exponential distribution} with parameter $\lambda > 0$ is defined using its probability density function as:
   \[
@@ -272,8 +274,6 @@ Therefore:
       \left(g\left(\frac{m}{n}\right)\right)^{n} = g(m) &= e^{-\lambda m} \\
       \implies g\left(\frac{m}{n}\right) &= e^{-\lambda \cdot \frac{m}{n}}
     \end{align*}
-    \[
-    \]
     Therefore, $g(r) = e^{-\lambda r}\ \forall r \in \Q^{+}$.
 
     Now let $t \in \R$ such that $t > 0$ be arbitrary.
@@ -287,4 +287,291 @@ Therefore:
     Thus $\P(T \leq t) = 1 - e^{-\lambda t}$ and so $T \sim \Exponential(\lambda)$.
   \end{proofdirection}
 \end{proof}
+\section{Expectation and Variance}
+\subsection{Expectation}
+\begin{remark}[Recap]
+  Recall from \cref{discreteExpectation} and \cref{expDiscreteN}, that in the discrete case, for a random variable taking values in $\N_0$, we have:
+  \[
+    \E[X] = \sum_{n = 1}^{\infty} n \P(X = n) = \sum_{n = 1}^{\infty} \P(X \geq n)
+  \]
+\end{remark}
+\begin{definition}
+  For a \textbf{non-negative} continuous random variable $X$ with density $f$, its \textit{expectation} is defined as:
+  \[
+    \E[X] = \int_{0}^{\infty} xf(x) \d{x}
+  \]
+\end{definition}
+Similarly to with discrete random variables, if we want to take the expectation of a function of a random variable:
+\begin{theorem}
+  For a continuous random variable and function $g(x) \geq 0\ \forall x$, the expected valued of $g(X)$ is:
+  \label{expFunctionContinuous}
+  \[
+    \E[g(X)] = \int_{0}^{\infty} g(x)f(x) \d{x}
+  \]
+\end{theorem}
+\begin{remark}[Recap]
+  Recall from \cref{negativeExpectation} that we defined $X_{+} = \max\{X, 0\}$ and $X_{-} = \max\{-X, 0\}$ so that $X = X_{+} - X_{-}$.
+\end{remark}
+Suppose $X$ is a continuous random variable.
+Both $X_{+}$ and $X_{-}$ are non-negative continuous random variables and so we can take their expectation.
+Exactly as in the discrete case, if at least one of $\E[X_{+}]$ and $\E[X_{-}]$ are finite, then we define the expectation of $X$ to be:
+\[
+  \E[X] = \E[X_{+}] - \E[X_{-}] = \int_{-\infty}^{\infty} xf(x) \d{x}
+\]
+and if both are infinite, then $\E[X]$ is undefined.
+
+\begin{remark}
+  As in the discrete case, provided $X_1, \ldots, X_n$ are integrable random variables:
+  \[
+    \E\left[\sum_{i = 1}^{n} a_iX_i\right] = \sum_{i = 1}^{n} a_i \E[X_i]
+  \]
+  for coefficients $a_i \in \R$.
+\end{remark}
+\begin{lemma}
+  If $X$ is a non-negative continuous random variable, then:
+  \label{expectationCDF}
+  \[
+    \E[X] = \int_{0}^{\infty} \P(X\geq x) \d{x}
+  \]
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    \E[X] &= \int_{0}^{\infty} xf(x) \d{x} \\
+          &= \int_{0}^{\infty} \left(\int_{0}^{x} 1 \d{y}\right) f(x) \d{x} \\
+          &= \int_{0}^{\infty} \int_{0}^{x} f(x) \d{y}\d{x}
+  \end{align*}
+  Note how we integrating over the region $x \geq 0$, $0 \leq y \leq x$.
+  We can therefore change the order of integration by equivalently characterising this region as $y \geq 0$ and $y \geq x$.
+  Therefore:
+  \begin{align*}
+    \E[X] &= \int_{0}^{\infty} \int_{y}^{\infty} f(x) \d{x} \d{y} \\
+          &= \int_{0}^{\infty} \P(X \geq y) \d{y}
+  \end{align*}
+\end{proof}
+\begin{remark}
+  To prove this in the discrete case (\cref{expDiscreteN}), we utilised that:
+  \[
+    X = \sum_{n = 1}^{\infty} 1(X\geq n)
+  \]
+  and then took expectations, noting that $\E[1(X \geq n)] = \P(X \geq n)$.
+
+  We can do a similar thing here:
+  \begin{align*}
+    X(\omega) = \int_{0}^{\infty} 1(X(\omega) \geq x) \d{x}
+  \end{align*}
+  It is out of scope here to justify why we can swap the expectation and the integral, however:
+  \begin{align*}
+    \E[X] &= \E\left[\int_{0}^{\infty} 1(X \geq x) \d{x}\right] \\
+          &= \int_{0}^{\infty} \P(X \geq x) \d{x}
+  \end{align*}
+\end{remark}
+\subsection{Variance}
+\begin{definition}[Variance]
+  Exactly as in the discrete case (\cref{varianceDef}), we define the \textit{variance} of a continuous random variable $X$ as:
+  \[
+    \Var(X) = \E[(X - \E[X])^2] = \E[X^2] - (\E[X])^2
+  \]
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item Suppose $X \sim \uniform[a, b]$ for $a < b$, we saw in \cref{uniformDist} that this has density:
+      \[
+        f(x) = \begin{cases}
+        \frac{1}{b-a} & \text{ if } x \in [a, b] \\
+        0 & \text{otherwise}
+        \end{cases}
+      \]
+      So its expected value is:
+      \[
+        \E[X] = \int_{a}^{b} xf(x) \d{x} = \int_{a}^{b} \frac{x}{b - a} \d{x} = \frac{a + b}{2}
+      \]
+      To find the variance, we use \cref{expFunctionContinuous}:
+      \[
+        \E[X^2] = \int_{a}^{b} \frac{x^2}{b - a} \d{x} = \frac{b^2 + ab + a^2}{3}
+      \]
+      so:
+      \[
+        \Var(X) = \frac{b^2 + ab + a^2}{3} - \frac{a^2 + 2ab + b^2}{4} = \frac{1}{12} (b - a)^2
+      \]
+    \item Suppose $X \sim \Exponential(\lambda)$ for $\lambda > 0$, we saw in \cref{exponentialDist} that this has density:
+      \[
+        f(x) = \begin{cases}
+        \lambda e^{-\lambda x} & \text{ if } x > 0 \\
+        0 & \text{otherwise}
+        \end{cases}
+      \]
+      We can use either the definition or \cref{expectationCDF} to find its expected value:
+      \begin{align*}
+        \E[X] &= \int_{0}^{\infty} xf(x) \d{x}=\int_{0}^{\infty} x\cdot\lambda e^{-\lambda x} \d{x} = \frac{1}{\lambda} \\
+              &= \int_{0}^{\infty} \P(X \geq x) \d{x} = \int_{0}^{\infty} e^{-\lambda x} \d{x} = \frac{1}{\lambda}
+      \end{align*}
+      To find the variance, we can integrate by parts to yield:
+      \[
+        \E[X^2] = \int_{-\infty}^{\infty} x^2 \cdot \lambda e^{-\lambda x} \d{x} = \frac{2}{\lambda^2}
+      \]
+      so:
+      \[
+        \Var(X) = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}
+      \]
+  \end{enumerate}
+\end{example}
+\section{The Normal Distribution}
+\subsection{Definition}
+\begin{definition}
+  For parameters $\mu, \sigma \in \R$ satisfying $-\infty < \mu < \infty$ and $\sigma > 0$, we define the \textit{Normal Distribution} with parameters $\mu$ and $\sigma$ by the density function:
+  \[
+    f(x) = \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left[- \frac{(x - \mu)^2}{2 \sigma^2}\right]
+  \]
+  We then denote this distribution as $\normal(\mu, \sigma^2)$.
+  If $X \sim \normal(\mu, \sigma^2)$, then we say $X$ is a \textit{normal random variable}.
+\end{definition}
+\begin{lemma}
+  The density function for the normal distribution is a valid density.
+\end{lemma}
+\begin{proof}
+  Clearly $f(x) \geq 0\ \forall x$, so we just need to check that $\int_{-\infty}^{\infty} f(x) \d{x} = 1$.
+
+  Define $I$ as:
+  \begin{align*}
+    I = \int_{-\infty}^{\infty} f(x) \d{x} &= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left[- \frac{(x - \mu)^2}{2 \sigma^2}\right] \d{x} \\
+                                       &= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{u^2}{2}\right) \d{u} \text{ using $u = \frac{x - \mu}{\sigma}$}\\
+                                       &= \sqrt{\frac{2}{\pi}} \cdot \int_{0}^{\infty} \exp\left(-\frac{u^2}{2}\right) \d{u}
+  \end{align*}
+  Consider the integral $I^2$:
+  \begin{align*}
+    I^2 &= \frac{2}{\pi} \int_{0}^{\infty} \exp\left(-\frac{u^2}{2}\right) \d{u} \cdot \int_{0}^{\infty} \exp\left(-\frac{v^2}{2}\right) \d{v} \\
+        &= \frac{2}{\pi} \int_{0}^{\infty} \int_{0}^{\infty} \exp\left(-\frac{u^2 + v^2}{2}\right) \d{u} \d{v}
+  \end{align*}
+  Since it this has radial symmetry, it is advisable to change into polar coordinates $u = r \cos \theta$, $v = r \sin \theta$.
+  Noting that $|J| = r$ and that we are only integrating over the 1st quadrant, we have:
+  \begin{align*}
+    I^2 &= \frac{2}{\pi} \int_{0}^{\infty} \int_{0}^{\frac{\pi}{2}} r e^{-\frac{r^2}{2}} \d{r} \d{\theta} \\
+        &= \int_{0}^{\infty} r e^{-\frac{r^2}{2}} \d{r} = 1
+  \end{align*}
+  So $I^2 = 1$ and since $f(x) \geq 0\ \forall x$, $I = 1$ and hence $f$ is a valid density.
+\end{proof}
+\begin{lemma}
+  If $X \sim \normal(\mu, \sigma^2)$, then $\E[X] = \mu$ and $\Var(X) = \sigma^2$
+\end{lemma}
+\begin{proof}
+  For the expected value, we can rewrite the integral as follows to reduce its complexity:
+  \begin{align*}
+    \E[X] &= \int_{-\infty}^{\infty} x f(x) \d{x} \\
+          &= \int_{-\infty}^{\infty} (x - \mu)f(x) \d{x} + \mu \int_{-\infty}^{\infty} f(x) \d{x} \\
+          &= \int_{-\infty}^{\infty} (x - \mu) \cdot \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right] \d{x} + \mu \text{ as $f$ is a density} \\
+          &= \int_{-\infty}^{\infty} \frac{u}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{u^2}{2\sigma^2}\right) \d{x} + \mu  \text{ using $u = x- \mu$} \\
+          &= 0 + \mu \text{ as $u e^{-u^2}$ is an odd function and the bounds are symmetric}
+  \end{align*}
+  For the variance, it is faster to work from $\E[(X - \E[X])^2]$:
+  \begin{align*}
+    \Var(X) &= \E[(X - \mu)^2] \\
+            &= \int_{-\infty}^{\infty} (x - \mu)^2 \cdot \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\d{x} \\
+            &= \sigma^2 \int_{-\infty}^{\infty} \frac{u^2}{\sqrt{2\pi}}\cdot \exp\left(-\frac{u^2}{2}\right) \d{x} \text{ using $u = x - \mu$}\\
+            &= \sigma^2 \text{ after integrating by parts}
+  \end{align*}
+\end{proof}
+\subsection{Transforming Distributions}
+\begin{theorem}
+  If $X$ has density $f$ and $g$ is a function which is either strictly increasing or strictly decreasing where we further require that $g^{-1}$ is differentiable, then the random variable $Y = g(X)$ has density $f_Y$ given by:
+  \label{transformingDistributions}
+  \[
+    f_{Y}(x) = f(g^{-1}(x)) \cdot \abs{\deriv{}{x} g^{-1}(x)}
+  \]
+\end{theorem}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$g$ is strictly increasing}
+      We first need to find the probability distribution function of $Y$.
+      Noting that, since $g$ is strictly increasing, so is $g^{-1}$, we have:
+      \begin{align*}
+        \P(g(X) \leq x) &= \P(X \leq g^{-1}(x)) \text{ since $g^{-1}$ is increasing}\\
+                     &= F(g^{-1}(x))
+      \end{align*}
+      Differentiating with respect to $x$ and utilising that, by definition, $f_Y(x) = F_Y'(x)$ and $f(x) = F'(x)$:
+      \[
+        f_{Y}(x) = \deriv{}{x}\P(g(X) \leq x) = f(g^{-1}(x)) \deriv{}{x} g^{-1}(x)
+      \]
+      Since $g^{-1}(x)$ is increasing, $|\deriv{}{x}g^{-1}(x)| = \deriv{}{x}g^{-1}(x)$ so we have the result.
+    \end{case}
+    \begin{case}{$g$ is strictly decreasing}
+      Similarly to the previous case, since $g$ is strictly decreasing, so is $g^{-1}$ and so:
+      \begin{align*}
+        \P(g(X) \leq x) &= \P(X \geq g^{-1}(x)) \\
+                        &= 1 - \P(X \leq g^{-1}(x)) \\
+                        &= 1 - F(g^{-1}(x))
+      \end{align*}
+      Differentiating with respect to $x$, we have:
+      \[
+        f_{Y}(x) = \deriv{}{x}\P(g(X) \leq x) = -f(g^{-1}(x)) \cdot \deriv{}{x} g^{-1}(x)
+      \]
+      Since $g^{-1}(x)$ is decreasing, $|\deriv{}{x}g^{-1}(x)| = - \deriv{}{x}g^{-1}(x)$ so we have the result.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\subsection{Transformations of Normal Distributions}
+\begin{proposition}
+  If $X \sim \normal(\mu, \sigma^2)$, $a, b \in \R$, $a \neq 0$ and $g(x) = ax + b$, then the random variable $Y = g(X)$ follows $\normal(a\mu + b, (a\sigma)^2)$.
+  \label{normalTransform}
+\end{proposition}
+\begin{proof}
+  Let $f_{Y}(y)$ be the density of $Y$.
+  $g$ is either strictly increasing depending on the sign of $a$ and so we can apply \cref{transformingDistributions}.
+  We see that:
+  \[
+    g^{-1}(x) = \frac{x - b}{a} \text{ and } \deriv{}{x}g^{-1}(x) = \frac{1}{a}
+  \]
+  Therefore, the density of $Y$ is:
+  \begin{align*}
+    f_{Y}(y) &= f_{X}(g^{-1}(y)) \cdot \abs{\deriv{}{x}g^{-1}(y)} \\
+             &= \frac{1}{\sqrt{2\pi \sigma^2}} \cdot \exp\left[-\frac{\left(\frac{y - b}{a} - \mu\right)^2}{2 \sigma^2}\right] \cdot \frac{1}{|a|} \\
+             &= \frac{1}{\sqrt{2\pi (a \sigma)^2}} \cdot \exp\left[-\frac{(y - (a \mu + b)^2)}{2 a^2 \sigma^2}\right]
+  \end{align*}
+  Thus $Y \sim N(a\mu + b, (a\sigma)^2)$.
+\end{proof}
+\begin{definition}[Standard Normal]
+  The \textit{Standard Normal Distribution} is $\normal(0, 1)$.
+  If $X \sim \normal(0, 1)$, then we say that $X$ is a \textit{standard normal random variable}.
+
+  The standard normal has density function $\varphi(x)$:
+  \[
+    \varphi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}
+  \]
+  and probability distribution function:
+  \[
+    \Phi(x) = \P(\normal(0, 1) \leq x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{u^2}{2}\right) \d{u}
+  \]
+\end{definition}
+\begin{remark}
+  If we start with $X \sim \normal(\mu, \sigma^2)$, then by \cref{normalTransform}, $\frac{X - \mu}{\sigma} \sim \normal(0, 1)$ is always a standard normal.
+\end{remark}
+\begin{lemma}
+  If $\Phi$ is the probability distribution function of a standard normal random variable, then:
+  \[
+    \Phi(x) + \Phi(-x) = 1\ \forall x \in \R
+  \]
+\end{lemma}
+\begin{proof}
+  Noting that $\phi(x) = \Phi'(x)$ and $\phi(-x) = \phi(x)$ since $\phi$ is an even function:
+  \[
+    \deriv{}{x}(\Phi(x) + \Phi(-x)) = \phi(x) - \phi(-x) = \phi(x) - \phi(x) = 0
+  \]
+  So $\Phi(x) + \Phi(-x) = C\ \forall x$ for some constant $C$ since $\Phi$ is continuous.
+  Setting $x = 0$, we have $\Phi(0) = \frac{1}{2}$ and so $\Phi(x) + \Phi(-x) = 1$
+\end{proof}
+\begin{example}
+  If $X \sim \normal(\mu, \sigma^2)$, what is the probability that $X$ is within 2 standard deviations of its mean?
+
+  We want to find:
+  \begin{align*}
+    \P(-2 \sigma < X - \mu < 2\sigma) &= \P\left(-2 < \frac{X-\mu}{\sigma} < 2\right) \\
+                                      &= \P\left(\frac{X - \mu}{\sigma} < 2\right) - \P\left(\frac{X - \mu}{\sigma} < -2\right) \\
+                                      &= \Phi(2) - \Phi(-2) \\
+                                      &= 2\Phi(2) - 1
+  \end{align*}
+  Since we are now just working with the standard normal, values for $\Phi$ are readily available in statistical tables.
+  We can check that $\Phi(2) \approx 0.977$ and so:
+  \[
+    \P\left(\abs{\frac{X - \mu}{\sigma}} < 2\right) \geq 0.95
+  \]
+\end{example}
 \end{document}

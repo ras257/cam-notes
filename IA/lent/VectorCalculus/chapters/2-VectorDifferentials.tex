@@ -331,6 +331,7 @@ Regardless, we often just write $\vec{u} \cdot \nabla \vec{F}$ because $(\vec{u}
   Given a unit vector $\vec{n}$, the \textit{directional derivative} $D_{\vec{n}} f$ of $f$ at $\vec{x}$ is defined to be the one-dimensional derivative of $f$ along the line in the direction of $\vec{n}$ from $\vec{x}$.
 
   That is, if we define $g(t) = f(\vec{x} + t\vec{n})$, then:
+  \label{directionalDerivative}
   \[
     D_{\vec{n}} f(\vec{x}) = g'(0)
   \]
@@ -414,6 +415,7 @@ Furthermore, since $\nabla f$ is normal to the level surfaces, the directional d
   For example, defining $g(\vec{x}) = h^3 + 1 - z^3$ and considering the level surface $g = 1$ defines exactly the same surface.
 \end{remark}
 \section{Vector Differential Identities}
+\label{vectorIdentities}
 \subsection{Identities for Grad, Div, and Curl}
 For scalar fields $f, g$ and vector fields $\vec{F}, \vec{G}$, we have the following identities for grad, div, and curl:
 \begin{align*}
@@ -652,7 +654,7 @@ If $\vec{F}$ satisfies $\nabla \times \vec{F} = \vec{0}$ everywhere in $\mathscr
   The above proof also shows that curl of grad $f$ is always $\vec{0}$ for any scalar field $f$.
 \end{remark}
 
-The converse is also true but only if $\mathscr{D}$ is \textit{simply connected} (this will be proved later in the course after we have covered line integrals).
+The converse is also true but only if $\mathscr{D}$ is \textit{simply connected} (this will be proved later in the course after we have covered line integrals, see \cref{scalarPotentials}).
 That is, if $\nabla \times \vec{F} = \vec{0}$ in a simply connected domain $\mathscr{D}$, then there exists a single-valued potential function $f(\vec{x})$ in $\mathscr{D}$ s.t. $\vec{F} = \nabla f$.
 If $\mathscr{D}$ is not simply connected, then such a function $f(\vec{x})$ still exists, but it might not be single-valued and so $\vec{F}$ may not be conservative.
 

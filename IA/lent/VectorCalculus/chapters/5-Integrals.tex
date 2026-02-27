@@ -216,7 +216,7 @@ Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have
         \oint_C \vec{F} \cdot \d{\vec{x}} = \int_{C_1} \vec{F} \cdot \d{\vec{x}} + \int_{C_2} \vec{F} \cdot \d{\vec{x}} = 0
       \]
   \end{itemize}
-  This leaves \textbf{viii} $\implies$ \textbf{vii} and \textbf{vii} $\implies$ \textbf{ii} which will be proved in the next chapter.
+  This leaves \textbf{viii} $\implies$ \textbf{vii} and \textbf{vii} $\implies$ \textbf{ii} which will be proved in the next chapter in \cref{scalarPotentials}.
 \end{proof}
 \begin{example}[Revisiting \cref{lineIntegralExamples}]
   \begin{itemize}
@@ -791,9 +791,10 @@ Which normal direction we choose depends on the application as we will see in th
 \begin{definition}[Flux]
   If $\vec{F}(\vec{x})$ is a vector field, then the  surface integral $\int_{S} \vec{F}(\vec{x}) \cdot \vec{n} \d{S}$ is the \textit{flux} of $\vec{F}$ through $S$.
 
-  This is just a surface integral with $\vec{f}(\vec{x}) = \vec{F}(\vec{x}) \cdot \vec{n}$.
+  This is just a surface integral with $f(\vec{x}) = \vec{F}(\vec{x}) \cdot \vec{n}$.
 \end{definition}
 \begin{remark}[Notation]
+  \label{vectorSurfaceElement}
   We also introduce the notation:
   \[
     \d{\vec{S}} = \vec{n} \d{S}

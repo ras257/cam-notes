@@ -129,6 +129,7 @@
   Thus the area of $A$ is $\pi ab$.
 \end{example}
 \subsection{Multiple Boundary Curves}
+\label{greensMultipleBoundaries}
 Sometimes an area might have two more more boundary curves.
 In this case, we can express $A$ as:
 \[
@@ -251,6 +252,7 @@ In the limit as these cross cuts approach each other, $\widetilde{A}$ becomes th
 \subsection{Statement and Proof}
 \begin{theorem}[Stokes' Theorem]
   If $\vec{F}(\vec{x})$ is continuously differentiable vector field and $S$ is a piecewise smooth orientable \textbf{open} surface with piecewise smooth boundary curve $C= \partial S$, then:
+  \label{stokesTheorem}
   \[
     \int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}} = \oint_{C} \vec{F} \cdot \d{\vec{x}}
   \]
@@ -558,8 +560,9 @@ as expected.
 \subsection{Statement and Proof}
 \begin{theorem}[The Divergence Theorem]
   If $\vec{F}(\vec{x})$ is a continuously differentiable vector field and $V$ is a volume enclosed by a piecewise smooth orientable \textbf{closed} surface $S = \partial V$, then:
+  \label{divergenceTheorem}
   \[
-    \int_{V} \nabla \cdot \vec{F} \d{V} = \int \vec{F} \cdot \d{\vec{S}}
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int_{S} \vec{F} \cdot \d{\vec{S}}
   \]
   where the normal $S$ points \textit{outwards} from $V$.
 \end{theorem}
@@ -748,6 +751,7 @@ So $S$ is an open cone with apex at $(-1, 0, 0)$ with the $x$-axis as its axis, 
 \end{axis}
 \end{tikzpicture}
 \end{center}
+\subsubsection{Finding the Flux}
 Because of the cylindrical symmetry around the $x$-axis, we would like to use cylindrical polars.
 To do this, we can either relabel the axis as $(z, x, y)$ (noting that these should remain right handed), or we can just modify our definition of cylindrical polars to:
 \[
@@ -790,5 +794,280 @@ Therefore, the flux $\mathscr{F}_S$ is:
   \end{pmatrix} \d{x} \d{\phi} \\
                 &= \int_{x = 1}^{2} \int_{\phi = 0}^{2\pi} \beta^2(x + 1) \d{x} \d{\phi} = 5 \pi \beta^2
 \end{align*}
-Continued next lecture.
+\subsubsection{Verifying Result}
+To verify this result using the divergence theorem, we need to turn $S$ into a \textit{closed surface} since it currently is not.
+We can do this by adding two planar caps at $x = 1$ and $x = 2$.
+Let $V$ be the enclosed volume by the caps and the original surface.
+Luckily, the direction of the normals/$\d{\vec{S}}$ we used earlier are outwards from $V$ which is consistent with what we require for the divergence theorem.
+
+Let the fluxes through the caps be $\mathscr{F}_1$ and $\mathscr{F}_2$ for the cap at $x = 1$ and $x = 2$ respectively.
+Using the divergence theorem, since $\nabla \vec{F} = 3$, we have:
+\[
+  \int_{V} \nabla \cdot \vec{F} \d{V} = \mathscr{F}_{S} + \mathscr{F}_1 + \mathscr{F}_2 \implies \mathscr{F}_S = \int_{V} 3 \d{V} - \mathscr{F}_1 - \mathscr{F}_2
+\]
+For the first integral, we can either find three times the volume of the frustum or evaluate it directly, noting that $|J| = \rho$:
+\begin{align*}
+  \int_{V} 3 \d{V} &= \int_{x = 1}^{2} \int_{\rho = 0}^{\beta(x + 1)} \int_{\phi = 0}^{2\pi} 3\rho \d{\phi} \d{\rho} \d{x} \\
+                   &= 6\pi \int_{1}^{2} \frac{1}{2}\beta^2(x + 1)^2 \d{x} = 19\pi \beta^2
+\end{align*}
+To find $\mathscr{F}_1$, the normal of the end cap at $x = 1$ is $\vec{n} = (-1, 0, 0)$ and so:
+\[
+  \mathscr{F}_1 = \int\limits_{\substack{x = 1 \\ y^2 + z^2 \leq 4\beta^2}} \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+  -1 \\
+  0 \\
+  0 \\
+  \end{pmatrix} \d{y} \d{z} = -\int\limits_{y^2 + z^2 \leq 4\beta^2}  \d{y} \d{z} = -\pi(2\beta)^2
+\]
+since the area of the cap is $\pi(2\beta)^2$.
+
+Similarly for the other cap, however here $\vec{n} = (1, 0, 0)$:
+\[
+  \mathscr{F}_2 = \int\limits_{\substack{x = 2 \\ y^2 + z^2 \leq 9\beta^2}} \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+  1 \\
+  0 \\
+  0 \\
+  \end{pmatrix} \d{y} \d{z} = \int\limits_{y^2 + z^2 \leq 9\beta^2} 2 \d{y} \d{z} = 2\pi(3\beta)^2
+\]
+Finally:
+\[
+  \mathscr{F}_S = \pi \beta^2(19 - 4 - 19) = 5\pi \beta^2
+\]
+which is the same result as calculating the flux directly.
+\subsection{Multiple Boundary Surfaces}
+If $V$ contains one or more holes, then $\partial V$ will consist of two or more boundary surfaces.
+To apply the divergence theorem, we need the normals to point outwards of $V$, so the normals will point into the holes.
+For example, in this cross-section of a volume $V$ with boundary surfaces $S_1$ and $S_2$:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[thick, fill=gray!50] (-1,1) to[closed, curve through = { (-0.5, 1.3) (0, 1.8) (1, 1.9) (2.5, 0) (1.2, -1.9) (0, -1.6) }] (-1, -1);
+
+  \draw[thick, fill=white, scale=0.3] (-1,1) to[closed, curve through = { (-0.5, 1.3) (0, 1.8) (1, 1.9) (2.5, 0) (1.2, -1.9) (0, -1.6) }] (-1, -1);
+
+  \node at (2, 1.8) {$S_1$};
+  \node at (0.7, 0.7) {$S_2$};
+  \node at (1.5, -0.6) {$V$};
+  \draw[thick, ->] (-0.45, 0) -- (-0, 0) node[below] {$\vec{n}$};
+  \draw[thick, ->] (2.15, 1) -- (2.8, 1.45) node[right] {$\vec{n}$};
+\end{tikzpicture}
+\end{center}
+We saw in \cref{greensMultipleBoundaries} that having multiple boundaries can allow us to traverse around a discontinuity in the domain.
+A similar technique can also be applied using the divergence theorem by removing a small volume around the singularity to avoid integrating over it.
+\begin{example}[Spherical Annulus]
+  Apply the divergence theorem to a spherical annulus $V = \{\vec{x} \in \R^3: a < |\vec{x}| < b\}$.
+
+  $\partial V$ consists of two spheres, $|\vec{x}| = a$ and $|\vec{x}| = b$.
+  For the normals to point outwards of $V$, we need $\d{\vec{S}} = \vec{e}_r \d{S}$ on $|\vec{x}| = b$ but $\d{\vec{S}} = -\vec{e}_r \d{S}$ on $|\vec{x}| = a$.
+
+  Hence:
+  \[
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int_{|\vec{\vec{x}}| = b} \vec{F}(\vec{x}) \cdot \vec{e}_r \d{S} - \int_{|\vec{x}| = a} \vec{F}(\vec{x}) \cdot \vec{e}_r \d{S}
+  \]
+\end{example}
+\begin{remark}[Warning]
+  Suppose we have a volume $V$ with outer surface $S_1$ and inner surface $S_2$.
+
+  Some people would write the divergence theorem as:
+  \[
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int_{S_1} \vec{F}\cdot \d{\vec{S}} + \int_{S_2} \vec{F} \cdot \d{\vec{S}}
+  \]
+  with $\d{\vec{S}}$ pointing out of $V$ in both cases, that is outwards for $S_1$ and inwards for $S_2$.
+
+  Whereas others would write:
+  \[
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int_{S_1} \vec{F} \cdot \d{\vec{S}} - \int_{S_2} \vec{F} \cdot \d{\vec{S}}
+  \]
+  with $\d{\vec{S}}$ being outwards from both $S_1$ and $S_2$.
+
+  It is important to make sure you specify what convention your are using.
+\end{remark}
+\subsection{Connection to Other Integral theorems}
+\nonexaminable
+We can show that Green's Theorem in the plane \cref{greensTheorem} is a special case in 2D of the Divergence theorem.
+If we let $\vec{F} = (Q, -P, 0)$, then the left hand side of Green's Theorem in the plane is:
+\[
+  \int_{A} \left(\pderiv{Q}{x} - \pderiv{P}{y}\right) \d{A} = \int_{A} \nabla \cdot \vec{F} \d{A}
+\]
+The right hand side is:
+\[
+  \oint_{C} (P \d{x} + Q \d{y}) = \oint_{C} \vec{F} \cdot \begin{pmatrix}
+  \d{y} \\
+  -\d{x} \\
+  0 \\
+  \end{pmatrix} = \oint \vec{F} \cdot \vec{n} \d{s}
+\]
+where $\vec{n} \d{s} = (\d{y, -\d{x}, 0})$ and $\d{s}$ is the infinitesimal arc length (i.e. the equivalent of $\d{S}$ in 1D).
+Since $\vec{n}$ is perpendicular to $\d{\vec{x}} = (\d{x}, \d{y}, 0)$, and points in the correct direction, it is an outwards normal.
+So by the divergence theorem, both sides are equal.
+
+So the Divergence Theorem implies Greens Theorem in the plane, which in turn implies Stokes' Theorem.
+In fact, they are all the same theorem in the differential geometry of manifolds, confusingly, also called Stokes' Theorem that states:
+\[
+  \int_{\Omega}  \d{\eta} = \int_{\partial \Omega} \eta
+\]
+where $\eta$ is a differential form, $\d{\eta}$ its exterior derivative and $\Omega$ an orientable manifold.
+\section{Scalar Potentials for Irrotational Vector Fields}
+\label{scalarPotentials}
+In \cref{conservativeFields}, we stated that in a simply connected domain, an irrotational vector field is conservative.
+That is, if $\nabla \cdot \vec{F} = \vec{0}$ everywhere in a simply connected domain $\mathscr{D}$, then there exists a single valued scalar potential $f$ such that $\vec{F} = \nabla f$.
+We now have the tools to prove this assertion.
+\begin{proof}
+  We first need to show that if $\oint \vec{F} \cdot \d{\vec{x}} = 0$ for all closed curves $C$ then $\int_{\vec{a}}^{\vec{b}} \vec{F} \cdot  \d{\vec{x}}$ is path independent.
+  Consider two any two possible paths $C_1$, $C_2$ from $\vec{a}$ to $\vec{b}$ and let $C = C_1 - C_2$.
+  Since $C$ is a closed curve, we have:
+  \[
+    \oint \vec{F} \cdot \d{\vec{x}} = 0 \implies \int_{C_1} \vec{F} \cdot \d{\vec{x}} - \int_{C_2} \vec{F} \cdot  \d{\vec{x}} = 0
+  \]
+  and so the integrals over any two possible paths must be the same, as required.
+
+  We can now prove the main result.
+  Given an irrotational vector field $\vec{F}$, and an arbitrary closed curve $C$, let $S$ be a surface that spans $C$, that is, $C = \partial S$.
+  By Stokes' Theorem $\int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}} = \oint \vec{F} \cdot \d{\vec{x}} = 0$, and so by the above, the line integral of $\vec{F}$ is path independent.
+
+  Since the line integral is path independent, we can define the single valued the scalar function:
+  \[
+    f(\vec{x}) = \int_{\vec{x}_0}^{\vec{x}} \vec{F} \cdot \d{\vec{x}}
+  \]
+  Where $\vec{x}_0$ is an arbitrary fixed point within the domain.
+  Changing $\vec{x}_0$ would just shift $f$ by a constant which would just disappear upon taking grad.
+
+  Consider:
+  \[
+    f(\vec{x} + \delta \vec{x}) - f(\vec{x}) = \int_{\vec{x}}^{\vec{x} + \delta \vec{x}}  \vec{F} \cdot \d{\vec{x}} = \vec{F}(\vec{x}) \cdot \delta \vec{x} + O(|\delta \vec{x}|^2)
+  \]
+  So in the limit as $\delta \vec{x} \to \vec{0}$, $\d{f} = f(\vec{x} + \d{\vec{x}}) - f(\vec{x}) = \vec{F} \cdot \d{\vec{x}}$.
+  In \cref{infinitesimalsGrad}, we saw that we can define $\nabla f$ to be the unique vector such that $\d{f} = (\nabla f) \cdot \d{\vec{x}}$ for all $\d{x}$, therefore, we have $\vec{F} = \nabla f$, as required.
+\end{proof}
+\begin{remark}[Use of Simply Connectedness]
+  \nonexaminable
+  Here, we used simply connectedness to guarantee the existence of a surface $S$ that span $C$.
+  If the domain $\mathscr{D}$ is not simply connected, then there are some closed curves that cannot be spanned by a surface lying entirely in $\mathscr{D}$.
+\end{remark}
+\section{Coordinate Independent Definitions of Vector Differential Operators}
+\nonexaminable
+Earlier, we defined grad with respect to the standard basis, but also in a coordinate independent way, using $\d{f} = \nabla f \cdot \d{\vec{x}}$.
+However, we still only have definitions for div and curl using the standard basis.
+
+\subsubsection{Divergence}
+It can be shown using the Divergence Theorem (\cref{divergenceTheorem}) that:
+\[
+  \at{\nabla \cdot \vec{F}}{\vec{x}} = \lim_{\varepsilon \to 0} \frac{1}{V_\varepsilon} \int_{\partial V_\varepsilon} \vec{F}\cdot \d{\vec{S}}
+\]
+where $V_\varepsilon$ is a small volume (or the volume of such a volume) of maximum linear dimension $\varepsilon$ that contains $\vec{x}$.
+\subsubsection{Curl}
+It can be shown using Stokes' Theorem (\cref{stokesTheorem}) that:
+\[
+  \at{\vec{k} \cdot (\nabla \times \vec{F})}{\vec{x}} = \lim_{\varepsilon \to 0} \frac{1}{S_\varepsilon(\vec{k})} \oint_{\partial S_\varepsilon(\vec{k})} \vec{F} \cdot \d{\vec{x}}
+\]
+where $S_\varepsilon(\vec{k})$ is a small open surface (or the area of such a surface) of maximum linear dimension $\varepsilon$ that contains $\vec{x}$ and has normal $\vec{n} = \vec{k}$ at $\vec{x}$.
+We can then find the components with respect to an arbitrary orthonormal basis by taking $\vec{k}$ to be each of the basis vectors in turn.
+\subsubsection{Finding Div and Curl in Orthogonal Curvilinear Coordinate Systems}
+In \cref{generalCurvilinearOperators}, we saw divergence and curl for an arbitrary orthogonal curvilinear coordinate system.
+The above two coordinate independent forms can be used to derive these identities, the details of which are not included in this course.
+\section{Green's Identities and Other Corollaries}
+\subsection{Green's Identities}
+\begin{theorem}[Green's First Identity]
+  If $\phi$ and $\psi$ are scalar fields defined in a closed volume $V$ with surface $\partial V$ and outward normal $\vec{n}$, then:
+  \label{greensFirst}
+  \[
+    \int_{V} (\phi \nabla^2 \psi + \nabla \phi \cdot \nabla \psi) \d{V} = \int_{\partial V} \phi \nabla \psi \cdot \d{\vec{S}}
+  \]
+\end{theorem}
+\begin{proof}
+  Let $\vec{F} = \phi \nabla \psi$ using an identity from \cref{vectorIdentities}, we have:
+  \begin{align*}
+    \nabla \cdot \vec{F} = \nabla \cdot (\phi \nabla \psi) &= \phi (\nabla \cdot (\nabla \psi)) + \nabla \psi \cdot \nabla \phi \\
+                                                           &= \phi \nabla^2 \psi + \nabla \phi \cdot \nabla \psi
+  \end{align*}
+  So the result follows using the divergence theorem (\cref{divergenceTheorem}).
+\end{proof}
+\begin{theorem}[Green's Second Identity]
+  If $\phi$ and $\psi$ are scalar fields defined in a closed volume $V$ with surface $\partial V$ and outward normal $\vec{n}$, then:
+  \label{greensSecond}
+  \[
+    \int_{V} (\phi \nabla^2 \psi - \psi \nabla^2 \phi) \d{V} = \int_{\partial V} (\phi \nabla \psi - \psi \nabla \phi) \cdot \d{\vec{S}}
+  \]
+\end{theorem}
+\begin{proof}
+  Proved in a similar fashion to Greens first identity, see Example Sheet 3.
+\end{proof}
+\begin{remark}[Notation]
+  In these identities, since $\d{\vec{S}} = \vec{n} \d{S}$ (see \cref{vectorSurfaceElement}), multiple terms of the form $\nabla f \cdot \vec{n}$ appear, so we introduce the following notation for convenience:
+  \[
+    \pderiv{f}{\vec{n}} \equiv \nabla f \cdot \vec{n}
+  \]
+  This is the same as the directional derivative $D_{\vec{n}}f$ from \cref{directionalDerivative}.
+  It is also sometimes written as $\pderiv{f}{n}$, that is, without notating $\vec{n}$ as a vector.
+\end{remark}
+Using this notation, Green's first identity (\cref{greensFirst}) becomes:
+\[
+  \int_{V} (\phi \nabla^2 \psi + \nabla \phi \cdot \nabla \psi) \d{V} = \int_{\partial V} \phi \pderiv{\psi}{\vec{n}} \d{S}
+\]
+Similarly, Green's second identity (\cref{greensSecond}) becomes:
+\[
+  \int_{V} (\phi \nabla^2 \psi - \psi \nabla^2 \phi) \d{V} = \int_{\partial V} \left(\phi \pderiv{\psi}{\vec{n}} - \psi \pderiv{\phi}{\vec{n}}\right) \d{S}
+\]
+\subsection{A Corollary of the Divergence Theorem}
+We first need a lemma about dot products:
+\begin{lemma}
+  If $\vec{a} \cdot \vec{b} = \vec{a} \cdot \vec{c}$ for all $\vec{a} \in \R^3$, then $\vec{b} = \vec{c}$.
+  \label{dotProdLemma}
+\end{lemma}
+\begin{proof}
+  First, for any vectors $\vec{a}, \vec{b}, \vec{c}$ we have:
+  \[
+    \vec{a} \cdot \vec{b} = \vec{a} \cdot \vec{c} \implies \vec{a} \cdot (\vec{b} - \vec{c}) = 0 \implies \vec{a} \perp (\vec{b} - \vec{c})
+  \]
+  Suppose now that $\vec{a} \cdot \vec{b} = \vec{a} \cdot \vec{c}$ for all $\vec{a}$.
+  This means that $(\vec{b} - \vec{c}) \perp \vec{a}$ for all $\vec{a}$, but the only vector orthogonal to every vector is $\vec{0}$ and so $\vec{b} = \vec{c}$.
+\end{proof}
+\begin{proposition}
+  If $f$ is a scalar field then:
+  \[
+    \int_{V} \nabla f \d{V} = \int_{\partial V} f \d{\vec{S}}
+  \]
+\end{proposition}
+\begin{remark}[Note]
+  Although it may at first not look like it, both sides of this are vectors in $\R^3$, this is because $\nabla f \in \R^3$ and $\d{\vec{S}} \in \R^3$ as $\d{\vec{S}} = \vec{n}\d{S}$.
+\end{remark}
+\begin{proof}
+  Consider the vector field $\vec{F} = f \vec{a}$ where $f$ is a scalar field and $\vec{a}$ is an arbitrary constant vector.
+  Using an identity from \cref{vectorIdentities}, we have:
+  \[
+    \nabla \cdot \vec{F} = f \cancelto{0}{\nabla \cdot \vec{a}} + \vec{a} \cdot \nabla f = \vec{a} \cdot \nabla f
+  \]
+  and so, applying divergence theorem (\cref{divergenceTheorem}), we have:
+  \begin{align*}
+    \int_{V} \vec{a} \cdot \nabla f \d{V} &= \int_{\partial V} f \vec{a} \cdot \d{\vec{S}} \\
+    \implies \vec{a} \cdot \int_{V} \nabla f \d{V} &= \vec{a} \cdot \int_{\partial V} f \d{\vec{S}} \text{ since $\vec{a}$ is constant}
+  \end{align*}
+  Since $\vec{a}$ was arbitrary, we can use \cref{dotProdLemma} to yield the result.
+\end{proof}
+\begin{example}
+  Integrate $\nabla f$ where $f(\vec{x}) = xyz$ in the cube $V: 0 \leq x, y, z \leq 2$ and confirm the result using the above identity.
+
+  Firstly, $\nabla f = (yz, xz, xy)$.
+  We can then integrate component-wise:
+  \[
+    \int_{V} \nabla f \d{V} = \begin{pmatrix}
+    \int_{V} yz \d{V} \\
+    \int_{V} xz \d{V} \\
+    \int_{V} xy \d{V} \\
+    \end{pmatrix} = \begin{pmatrix}
+    8 \\
+    8 \\
+    8 \\
+    \end{pmatrix}
+  \]
+  Since $\int_{V} yz \d{V} = \int_{0}^{2} \int_{0}^{2} \int_{0}^{2} yz \d{x} \d{y} \d{z} = 8$ and similarly for the other components by symmetry.
+
+  Continued next lecture.
+\end{example}
 \end{document}

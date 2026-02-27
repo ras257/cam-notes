@@ -313,6 +313,7 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
   So a binomial r.v. with parameters $N$ and $p$ can also be though of as the sum of $N$ Bernoulli r.v.s with parameter $p$.
 \end{example}
 \subsection{Expectation}
+\label{discreteExpectation}
 \begin{definition}[Non-negative Random Variable]
   Let $X: \Omega \to \R$ be a random variable.
   We say that $X$ is \textit{non-negative} if $X(\omega) \geq 0\ \forall \omega \in \Omega$.
@@ -375,6 +376,7 @@ This formula for expectation is used more often than the one in the definition.
   So the expected value of a random variable that follows a Poisson distribution is just the value of the parameter $\lambda$.
 \end{example}
 \subsubsection{Expectation for possibly negative discrete random variables}
+\label{negativeExpectation}
 So far we have only defined expectation for \textbf{non-negative} discrete random variables in \cref{nonNegativeExpectation}.
 However we would like this to extend this to r.v.s which can take negative values.
 \begin{remark}[Notation]
@@ -522,6 +524,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
 \end{proof}
 \begin{lemma}[Expectation of a discrete r.v. in $\N$]
   If $X$ is a discrete random variable that only takes values in $\N$, then:
+  \label{expDiscreteN}
   \[
     \E[X] = \sum_{k = 1}^{\infty} \P(X \geq k) = \sum_{k=0}^{\infty} \P(X > k)
   \]
@@ -587,6 +590,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
 \end{remark}
 \begin{definition}[Variance]
   The \textit{variance} of $X$ is defined to be:
+  \label{varianceDef}
   \[
     \Var(X) = \E[(X - \E[X])^2]
   \]
