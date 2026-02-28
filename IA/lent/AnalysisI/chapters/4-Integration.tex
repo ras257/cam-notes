@@ -240,7 +240,8 @@ Intuition suggests that a finer partition leads to a better estimate for the are
 \begin{remark}
   This means that $f$ is integrable if and only if $I_{*}(f) \geq I^{*}(f)$ since we always have $I_{*}(f) \leq I^{*}(f)$ for bounded $f$.
 \end{remark}
-\subsection{Integrability of General Functions}
+\section{Integrability of General Functions}
+\subsection{Integrability Criterion}
 Is there another definition for Riemann integrability that is more akin of the others we have seen so far in the course such as those for continuity and limits?
 
 We would like to show that for any threshold, we can always find a partition of $[a, b]$ so that the difference between the upper and lower Riemann sums is below the threshold.
@@ -373,16 +374,208 @@ We would like to show that for any threshold, we can always find a partition of 
       So by \cref{integrableSequence}, $f$ is integrable.
   \end{enumerate}
 \end{example}
+\subsection{Monotone Functions}
 It is quite tedious to check if a function is integrable using these methods so it would be useful to know what classes of functions are integrable.
 \begin{proposition}[Monotone $\implies$ Integrable]
-  If $f: [a, b] \to \R$ is monotone, then $f$ is integrable.
+  If $f: [a, b] \to \R$ is monotone, then it is integrable.
+  \label{motoneIntegrable}
 \end{proposition}
 \begin{proof}
-  Since $f$ is monotone, $f$ is bounded by $\max\{f(a), f(b)\}$.
+  We need to show that $f$ is bounded for it to be able to be integrable but since $f$ is monotone, $f$ is bounded by $\max\{f(a), f(b)\}$.
+
   By definition:
   \[
     U(f, \mathcal{P}) -L(f, \mathcal{P}) = \sum_{j = 1}^{n} \left[\sup_{x \in I_{j}} f(x) - \inf_{x \in I_j} f(x)\right]|I_j|
   \]
+  where $I_j = [x_{j - 1}, x_j]$ and $|I_j| = x_j - x_{j - 1}$.
+  Since $f$ is monotone, the supremum/infimum over an interval $I_j$ are easy to find.
+  WLOG assume $f$ to be increasing as the proof is almost identical for decreasing $f$.
+  Therefore:
+  \[
+    \sup_{x \in I_j} f(x) = f(x_j) \text{ and } \inf_{x \in I_j}  f(x) = f(x_{j - 1})
+  \]
+  Hence:
+  \[
+    U(f, \mathcal{P}) - L(f, \mathcal{P}) = \sum_{j = 1}^{n} [f(x_j) - f(x_{j - 1})]|I_j|
+  \]
+  for any partition $\mathcal{P}$ of $[a, b]$.
+
+  Let $\mathcal{P}_n = \{a, a + \frac{b - a}{n}, \ldots, a + \frac{n - 1}{n}(b - a), b\}$ so that $|I_j| = \frac{b - a}{n}$.
+  For this partition, we have:
+  \begin{align*}
+    U(f, \mathcal{P}_n) - L(f, \mathcal{P}_n) &= \frac{b - a}{n} \sum_{j = 1}^{n} \left[f\left(a + j \cdot \frac{b - a}{n}\right) - f\left(a + (j - 1) \cdot\frac{b - a}{n}\right)\right] \\
+                                              &= \frac{b - a}{n} (f(b) - f(a)) \text{ by telescoping} \\
+                                              &\to 0 \text{ as } n \to \infty
+  \end{align*}
+  So by \cref{integrableSequence}, $f$ is integrable.
+\end{proof}
+\subsection{Continuous Functions}
+\begin{proposition}[Continious $\implies$ Integrable]
+  If $f: [a, b] \to \R$ is continuous, then it is integrable.
+\end{proposition}
+\begin{proof}
+  Again, we first need to check that $f$ is bounded.
+  Since $f$ is continuous and $[a, b]$ is a closed and bounded set, by extreme value theorem (\cref{EVT}), $f$ is bounded.
+
+  Suppose, for contradiction, that $f$ is not integrable.
+  Then by negating \cref{integrabilityCritereon}, $\exists \varepsilon > 0$ such that $\forall \mathcal{P}$ that are partitions of $[a, b]$ we have:
+  \[
+    U(f, \mathcal{P}) - L(f, \mathcal{P}) \geq \varepsilon
+  \]
+  Using the definition of the upper and lower sums:
+  \begin{align*}
+    U(f, \mathcal{P}) - L(f, \mathcal{P}) &= \sum_{j = 1}^{n} |I_j|\left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \\
+                                          &\leq \left[\sum_{j = 1}^{n} |I_j|\right] \max\limits_{1 \leq j \leq n}\left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \\
+                                          &= (b - a)\max\limits_{1 \leq j \leq n}\left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right)
+  \end{align*}
+  Therefore:
+  \[
+    \max\limits_{1 \leq j \leq n}\left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \geq \frac{1}{b - a}(U(f, \mathcal{P}) - L(f, \mathcal{P})) \geq \frac{\varepsilon}{b - a}
+  \]
+  So $\exists j \in \{1, \ldots, n\}$ such that $\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x) \geq \frac{\varepsilon}{b - a}$.
+  By extreme value theorem since $I_j$ is closed and bounded, $\exists y, z \in [x_{j - 1}, x_j]$ such that $f(y) = \sup_{x \in I_j} f(x)$ and $f(z) = \inf_{x \in I_j} f(x)$ and so $f(y) - f(z) \geq \frac{\varepsilon}{b - a}$.
+
+  Since this is true for all partitions, it should also be true for $\mathcal{P}_n$ as defined in the proof for \cref{motoneIntegrable}.
+  Repeating the above process for each $n$, we get sequences $(y_n)$ and $(z_n)$ with $|f(y_n) - f(z_n)| \geq \frac{\varepsilon}{b - a}$.
+  Furthermore, since $|I_j| = \frac{b - a}{n}\ \forall j$ and $y_n, z_n$ are in the same interval, $|y_n - z_n| \leq \frac{b - a}{n}$.
+
+  We want to use this to conclude that $f$ cannot be sequentially continuous, the problem is that we do not know if $(z_n)$ and $(y_n)$ are convergent sequences.
+  However, we do know that both are bounded sequences, so we can apply the Bolzano Weierstrass theorem, and so there is a convergent subsequence $(y_{n_k})$ which converges to $y$.
+  Since $(y_{n_k})$ is a sequence on $[a, b]$ which is closed, $y \in [a, b]$.
+
+  We want to show that $z_{n_k}$ convergences to the same limit:
+  \[
+    |z_{n_k} - y_{n_k}| < \frac{b - a}{n_{k}} \to 0 \text{ as } k \to \infty
+  \]
+  thus $z_{n_k} \to y$ too.
+
+  Therefore $y_{n_k}, z_{n_k} \to y$ but for some $\varepsilon > 0$:
+  \[
+    |f(z_{n_k}) - f(y_{n_k})| > \frac{\varepsilon}{b - a}\ \forall k \implies f(z_{n_k}) - f(y_{n_k}) \centernot\to 0
+  \]
+  Thus $f(y_{n_k}))_k$ and $(f(y_{n_k}))_k$ cannot have the same limit.
+  Hence $f$ cannot be sequentially continuous and so by \cref{sequentialContinuityEquivalence} $f$ is not continuous, which is a contradiction.
+  Therefore, $f$ must be integrable, as required.
+\end{proof}
+\subsection{Piecewise Continuous Functions}
+\begin{definition}[Piecewise Continuous]
+  We say that a function $f: [a, b] \to \R$ is \textit{piecewise continuous} if there is a partition $\mathcal{P}$ of $[a, b]$ such that for all $j \in \{1, \ldots, n\}$, the function with its domain restricted to $(x_{j - 1}, x_{j})$, i.e $\at{f}{(x_{j - 1}, x_j)}$, satisfies:
+  \begin{itemize}
+    \item It is continuous.
+    \item The limit as $x \to x_j^{-}$ exists and is finite.
+    \item The limit as $x \to x_{j - 1}^{+}$ exists and is finite.
+  \end{itemize}
+\end{definition}
+Before showing that piecewise continuous functions are integrable, we need to show that if two functions disagree on a finite set of points, and one is integrable, then both are integrable and their integrals have the same value.
+\begin{lemma}
+  Let $f, g: [a, b] \to \R$ be bounded functions.
+  If $g$ is integrable and the set of points on which $f$ and $g$ disagree is finite, that is:
+  \label{integrabilityFiniteDifference}
+  \[
+    \{x \in [a, b]: f(x) \neq g(x)\} = \{z_1, \ldots, z_N\}
+  \]
+  for some finite $N$, then $f$ is integrable and:
+  \[
+    \int_{a}^{b} f(x) \d{x} = \int_{a}^{b} g(x) \d{x}
+  \]
+\end{lemma}
+\begin{proof}\par
+  \textbf{Integrability --} Since $f$ is bounded, $\exists M = \sup_{x \in [a, b]} f(x)$.
+  If we fix an $\varepsilon > 0$, then by \cref{integrabilityCritereon} $\exists \mathcal{P}$ a partition of $[a, b]$ such that:
+  \[
+    U(g, \mathcal{P}) - L(g, \mathcal{P}) < \varepsilon
+  \]
+  The goal here is to construct a refinement of $\mathcal{P}$ which isolates the problematic points and gives them very little ``weight'' by putting them in arbitrarily small intervals.
+
+  Construct the intervals $J_{k} = [z_k - r_k, z_k + r_k]$ for $r_k > 0$ satisfying:
+  \[
+    \sum_{k = 1}^{N} |J_k| = 2 \sum_{k = 1}^{N} r_k < \varepsilon
+  \]
+  Define the refinement $\mathcal{P}'$ of $\mathcal{P}$ as:
+  \[
+    \mathcal{P}' = \mathcal{P} \cup \{z_1 \pm r_1, \ldots, z_N \pm r_N\}
+  \]
+
+  Since $\mathcal{P}'$ is a refinement of $\mathcal{P}$, by \cref{refinementInequality}, we have:
+  \[
+    U(g, \mathcal{P}') - L(g, \mathcal{P}') \leq U(g, \mathcal{P}) - L(g, \mathcal{P}) < \varepsilon
+  \]
+  We now need to compare this to $U(f, \mathcal{P}') - L(f, \mathcal{P}')$.
+  For convince, define $J = \bigcup_{k = 1}^{N} J_k$.
+  We can first split the sum into two parts, one over the intervals that do not contain any disagreement points ($I_j \centernot\subset J$), and one over the intervals that contain a disagreement point ($I_j \subset J$):
+  \begin{align*}
+    U(f, \mathcal{P}') - L(f, \mathcal{P}') &= \sum_{j = 1}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \\
+                                            &= \sum_{\substack{j = 1\\I_j \subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \\&+ \sum_{\substack{j = 1\\I_j \centernot\subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right)
+  \end{align*}
+  If $I_j \centernot\subset J$, then $f = g$ everywhere in $I_j$, and so:
+  \begin{align*}
+    \sum_{\substack{j = 1\\I_j \centernot\subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) &= \sum_{\substack{j = 1\\I_j \centernot\subset J}}^{n} |I_j| \left(\sup_{x \in I_j} g(x) - \inf_{x \in I_j} g(x)\right) \\
+                                                                                                                          &\leq \sum_{j = 1}^{n} |I_j| \left(\sup_{x \in I_j} g(x) - \inf_{x \in I_j} g(x)\right) \\
+                                                                                                                          &= U(g, \mathcal{P}') - L(g, \mathcal{P}') < \varepsilon
+  \end{align*}
+
+  If $I_j \subset J$, then the only thing we know about $f$ is that it is bounded and so:
+  \[
+    \sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x) \leq 2M
+  \]
+  Hence:
+  \[
+    \sum_{\substack{j = 1\\I_j \subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \leq 2 M \sum_{\substack{j = 1\\I_j \subset J}}^{n} |I_j| \leq 2M \cdot \sum_{k = 1}^{N} |J_k| < 2M \varepsilon
+  \]
+  since there are $N$ intervals such that $I_j \subset J$ and for each of these, their length must be less than the corresponding $J_k$.
+  Thus for any $\varepsilon > 0$, $\exists \mathcal{P}'$ such that $U(f, \mathcal{P}') - L(f, \mathcal{P}') \leq (2M + 1)\varepsilon$ and so $f$ is integrable.
+
+  \textbf{Equality of Integrals --} Finally, since $f$ is integrable also $\int_{a}^{b} f(x) \d{x}$ is well defined and so:
+  \[
+    L(f, \mathcal{P}') \leq \int_{a}^{b} f(x) \d{x} \leq U(f, \mathcal{P}')
+  \]
+  and:
+  \[
+    L(g, \mathcal{P}') \leq \int_{a}^{b} g(x) \d{x} \leq U(g, \mathcal{P}')
+  \]
+  Therefore:
+  \begin{align*}
+    \int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x} &\leq U(f, \mathcal{P}') - L(g, \mathcal{P}') \\
+                                                      &= U(f, \mathcal{P}') - U(g, \mathcal{P}') + U(g, \mathcal{P}') - L(g, \mathcal{P}') \\
+                                                      &< 2\varepsilon
+  \end{align*}
+  Continued next lecture.
+\end{proof}
+We also need to show that adding two integrals acts as we would expect.
+\begin{proposition}[Additivity of the Integral]
+  If $f: [a, b] \to \R$ and $c \in (a, b)$, then $f$ is integrable if and only if $\at{f}{[a, c]}$ and $\at{f}{[c, b]}$ are integrable.
+
+  Furthermore:
+  \[
+    \int_{a}^{b} f(x) \d{x} = \int_{a}^{c} \at{f}{[a, c]}(x) \d{x} + \int_{c}^{b} \at{f}{[c, b]}(x) \d{x}
+  \]
+\end{proposition}
+\begin{proof}
+  Proved next lecture.
+\end{proof}
+We can now show that piecewise continuous functions are integrable.
+\begin{proposition}[Piecewise Continiuous $\implies$ Integrable]
+  If $f: [a, b] \to \R$ is a piecewise continuous function, then it is integrable and:
+  \[
+    \int_{a}^{b} f(x) \d{x} = \sum_{j = 1}^{n} \int_{x_{j - 1}}^{x_j} \overline{f}_j(x)  \d{x}
+  \]
+  where:
+  \[
+    \overline{f}_j(x) = \begin{cases}
+    f(x) & \text{ if } x \in (x_{j - 1}, x_j) \\
+    \lim_{x \to x_j^-} f(x) & \text{ if } x = x_j  \\
+    \lim_{x \to x_{j - 1}^{+}} f(x) & \text{ if } x=x_{j - 1}
+    \end{cases}
+  \]
+  Note that the limits always exist since $f$ is piecewise continuous.
+\end{proposition}
+\begin{proof}
+  By \cref{integrabilityFiniteDifference}, we have that $\at{f}{(x_{j - 1}, x_j)}$ are integrable and that:
+  \[
+    \int_{x_{j - 1}}^{x_j} f(x) \d{x} = \int_{x_{j - 1}}^{x_j} \overline{f}_j(x) \d{x}
+  \]
+  since $f$ and $\overline{f}_j$ differ only by a finite number of points.
+
   Continued next lecture.
 \end{proof}
 \end{document}
