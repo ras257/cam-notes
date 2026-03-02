@@ -703,7 +703,7 @@ We would like to know how good of an approximation we can make using this under 
   \]
   Since $x \in [0, 1)$, by the ratio test (\cref{ratioTest}), $\sum_{n = 0}^{\infty} |a_n|$ converges.
   Thus the $n$-th term test (\cref{nthTermTest}) tells us that $a_n \to 0$ as $n \to \infty$.
-  So we get that $R_{n, f, 1}(x) \to 0$ as $n \to \infty$ for $x \in [0, 1)$
+  So we get that $R_{n, f, 1}(x) \to 0$ as $n \to \infty$ for $x \in [0, 1)$.
 
   This argument fails for $x \in (-1, 0)$ because $(1 + \theta x)^{q - n} \geq 1$ for $n \geq 1$, so we cant bound the remainder in this range using the Lagrange remainder.
 
@@ -722,7 +722,7 @@ We would like to know how good of an approximation we can make using this under 
     \left(\frac{1 - \theta}{1 + \theta x}\right)^{n - 1}  \leq 1
   \]
 
-  We would like also like a term similar to $\binom{q}{n}x^{n}$ from the previous case so we rewrite:
+  We would like also like a term similar to $\binom{q}{n}x^{n}$ from the previous case so we reorganise the terms as:
   \[
     R_{n, f, a}(x) = qx \cdot \binom{q - 1}{n - 1}x^{n - 1} \cdot (1 + \theta x)^{q - 1} \cdot \left(\frac{1 - \theta}{1 + \theta x}\right)^{n - 1}
   \]
@@ -750,7 +750,7 @@ We would like to know how good of an approximation we can make using this under 
 \begin{remark}[Remarks]
   \begin{itemize}
     \item There are lots of other definitions of what an analytic function is, none of which are ``canonical'' and so the above definition is \textbf{non-examinable}.
-    \item $R_{n, f, a}(h) \centernot\to 0$ as $n \to \infty$ does not mean that the Taylor series does not converge, just that it does not equal $f(h)$.
+    \item $R_{n, f, a}(h) \centernot\to 0$ as $n \to \infty$ does not mean that the Taylor series does not converge, just that it does not equal $f(a + h)$.
   \end{itemize}
 \end{remark}
 \end{document}

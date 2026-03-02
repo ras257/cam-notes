@@ -198,7 +198,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \end{proof}
 \begin{lemma}[Addition and Multiplication of Limits]
   If $x_n \to x$ and $y_n \to y$, then:
-  \label{limitLaws}
+  \label{sequenceLimitLaws}
   \begin{enumerate}
     \item $x_n + y_n \to x + y$
     \item $x_n y_n \to xy$
@@ -336,7 +336,7 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
   Thus $a \in I_n\ \forall n$ so $a \in \bigcap_{n \in \N} I_n$.
 
   \textbf{Uniqueness}\par
-  By \cref{limitLaws}, $b_n - a_n \to b - a$.
+  By \cref{sequenceLimitLaws}, $b_n - a_n \to b - a$.
   By assumption, $b_n - a_n \to 0$ and limits are unique, therefore $b - a = 0 \implies b = a$.
 
   Hence $x \in \bigcap_{n} I_n \iff x \in I_n\ \forall n \iff a_n \leq x \leq b_n\ \forall n$.
@@ -558,7 +558,7 @@ So, if the converse of the above is true, it can only be true for certain ``nice
 \begin{proof}
   Let $s_k$ and $r_k$ be the partial sums of $a_n$ and $b_n$ respectively.
   Since both series converge, $s_k \to s$ and $r_k \to r$.
-  So using \cref{limitLaws}, $\lambda s_k + r_k \to \lambda s + r$.
+  So using \cref{sequenceLimitLaws}, $\lambda s_k + r_k \to \lambda s + r$.
   If we let $t_k$ be the partial sums of $\lambda a_n + b_n$ then $t_k = \lambda s_k + r_k \to \lambda s + r$.
   Therefore the partial sums $t_k$ converge and so the series converges.
 \end{proof}
