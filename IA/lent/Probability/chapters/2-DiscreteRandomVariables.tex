@@ -1119,6 +1119,7 @@ Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so 
 \end{example}
 \section{Joint Distributions and Conditional Expectation}
 \subsection{Joint and Conditional Distributions}
+\label{jointConditionalDiscrete}
 \begin{remark}[Recap]
   Recall that if $X$ is a discrete r.v. then the distribution of $X$ is $(\P(X = x))_x$.
 \end{remark}
@@ -1147,6 +1148,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
   \P(X = x) = \sum_{y} \P(X = x \vert Y = y) \P(Y = y)
 \]
 \subsection{Convolutions}
+\label{discreteConvolutions}
 \begin{proposition}[Convolution]
   If $X$ and $Y$ are independent discrete random variables, then the random variable $X + Y$ follows a distribution which is the \textit{convolution} of the distributions of $X$ and $Y$.
   \label{convolution}

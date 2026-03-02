@@ -574,4 +574,203 @@ and if both are infinite, then $\E[X]$ is undefined.
     \P\left(\abs{\frac{X - \mu}{\sigma}} < 2\right) \geq 0.95
   \]
 \end{example}
+\subsection{The Median}
+\begin{definition}[Median]
+  Let $X$ be a continuous random variable.
+  The \textit{median of $X$}, denoted by $m$, is defined to be the real number satisfying:
+  \[
+    \P(X \leq m) = \P(X \geq m) = \frac{1}{2}
+  \]
+  or equivalently:
+  \[
+    \int_{-\infty}^{m} f(x) \d{x} = \int_{m}^{\infty} f(x) \d{x} = \frac{1}{2}
+  \]
+\end{definition}
+\begin{example}
+  For $X \sim \normal(\mu, \sigma^2)$, we see that:
+  \[
+    \P(X \leq \mu) = \P\left(\frac{X - \mu}{\sigma} \leq 0\right) = \P(\normal(0, 1) \leq 0) = \frac{1}{2}
+  \]
+  So the median of any normally distributed random variable is $\mu$.
+\end{example}
+\section{Multivariate Density Functions}
+\subsection{Multivariate Distributions}
+\begin{remark}[Recap]
+  Recall from \cref{jointConditionalDiscrete} that for discrete random variables $X_1, \ldots, X_n$, their \textit{joint distribution} is:
+  \[
+    \P(X_1 = x_1, \ldots, X_n = x_n)\ \forall x_1, \ldots, x_n
+  \]
+\end{remark}
+It is not useful to talk about the probability of a continuous random variable taking a particular value because this happens with probability 0.
+We can instead generalise this to continuous random variables as follows:
+\begin{definition}[Multivariate Distribution]
+  We say that the $n$-dimensional random vector $X = (X_1, \ldots, X_n) \in \R^{n}$ has \textit{multivariate/joint} density $f$ if $\forall x_1, \ldots, x_n$:
+  \[
+    \P(X_1 \leq x_1, \ldots, X_n \leq x_n) = \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_n} f(y_1, \ldots, y_n) \d{y_n} \cdots \d{y_1}
+  \]
+  and define the probability distribution of function of $X$ as:
+  \[
+    F(x_1, \ldots, x_n) = \P(X \leq x_1, \ldots, X_n \leq x_n)
+  \]
+\end{definition}
+To recover $f$, we can take $n$ partial derivatives:
+\[
+  f(x_1, \ldots, x_n) = \frac{\partial^{n}F}{\partial x_1 \cdots \partial x_n}(x_1, \ldots, x_n)
+\]
+Furthermore, to find the probability $X$ is in a set $B \subseteq \R^{n}$:
+\[
+  \P((X_1, \ldots, X_n) \in B) = \int_{B} f(y_1, \ldots, y_n) \d{y_1} \cdots \d{y_n}
+\]
+\begin{definition}[Indepdendet ]
+  Let $X_1, \ldots, X_n$ be random variables.
+  We say that $X_1, \ldots, X_n$ are \textit{independent} if $\forall x_1, \ldots, x_n$:
+  \[
+    \P(X_1 \leq x_1, \ldots, X_n \leq x_n) = \P(X_1 \leq x_1) \cdots \P(X_n \leq x_n)
+  \]
+\end{definition}
+\begin{remark}
+  If the random variables above are discrete, then this is equivalent to \cref{independentDiscreteRV}.
+\end{remark}
+\begin{theorem}
+  Let $X = (X_1, \ldots, X_n)$ be an $n$-dimensional vector of continuous random variables with multivariate density $f$.
+
+  If the random variables $X_1, \ldots, X_n$ are independent and have densities $f_1, \ldots, f_n$ respectively, then:
+  \[
+    f(x_1, \ldots, x_n) = f_1(x_1) \ldots f_n(x_n)\ \forall x_1, \ldots, x_n
+  \]
+  Conversely, if $f$ can be factorised as above for non-negative functions $f_1, \ldots, f_n$, then $X_1, \ldots, X_n$ are independent with densities \textbf{proportional to} $f_1, \ldots, f_n$ respectively.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume the random variables are independent}
+    By definition of independence, we can factorise the probability distribution function $\forall x_1, \ldots, x_n$ as:
+    \begin{align*}
+      \P(X_1 \leq x_1, \ldots, X_n \leq x_n) &= \P(X_1 \leq x_1) \cdots \P(X_n \leq x_n) \\
+                                             &= \int_{-\infty}^{x_1} f_1(y_1) \d{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \d{y_n} \\
+                                             &= \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_n} f_1(y_1) \cdots f_n(y_n) \d{y_n} \cdots \d{y_1}
+    \end{align*}
+    Since we defined the density of $X$ as the function satisfying the above $\forall x_1, \ldots, x_n$, we see that $f(x_1, \ldots, x_n) = f_1(x_1) \cdots f_n(x_n)$, as required.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the density can be factorised}
+    Using the definition of the distribution function of $X$, $\forall x_1, \ldots, x_n$, we have:
+    \begin{align*}
+      \P(X_1 \leq x_1, \ldots, X_n \leq x_n) &= \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_1} f(y_1, \ldots, y_n) \d{y_n} \cdots \d{y_1} \\
+                                             &= \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_1} f_1(y_1) \cdots f_n(y_n) \d{y_n} \cdots \d{y_1} \\
+                                             &= \int_{-\infty}^{x_1} f_1(y_1) \d{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \d{y_n}
+    \end{align*}
+    At this point, we do not necessarily know that $\int_{-\infty}^{\infty} f_i(y_i) \d{y_i} = 1$, we do however know that:
+    \[
+      \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f_1(y_1) \cdots f_n(y_n) \d{y_1} \cdots\d{y_n} = 1
+    \]
+    So we can divide our expression for $\P(X_1 \leq x_1, \ldots, X_n \leq x_n)$ by this to yield:
+    \begin{align*}
+      \P(X_n \leq x_1, \cdots, X_n \leq x_n) &= \frac{\int_{-\infty}^{x_1} f_1(y_1) \d{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \d{y_n}}{\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f_1(y_1) \cdots f_n(y_n) \d{y_1} \cdots\d{y_n}} \\
+                                             &= \frac{\int_{-\infty}^{x_1} f_1(y_1) \d{y_1}}{\int_{-\infty}^{\infty} f_1(y_1) \d{y_1}} \cdots \frac{\int_{-\infty}^{x_n} f_n(y_n) \d{y_n}}{\int_{-\infty}^{\infty} f_n(y_n) \d{y_n}}
+    \end{align*}
+    Since this is true $\forall x_1, \ldots, x_n$, we see that $X_1, \ldots, X_n$ are independent and have densities:
+    \[
+      \frac{f_i(x)}{\int_{-\infty}^{\infty} f_i(y) \d{y}}
+    \]
+  \end{proofdirection}
+\end{proof}
+\begin{remark}[Warning]
+  Suppose we have continuous random variables $X$ and $Y$ where their joint density is factorised as above for $x < y$ and 0 otherwise.
+  This means that their joint density can be written as:
+  \[
+    f_{X, Y}(x, y) = f(x)g(y) \cdot 1(x < y)
+  \]
+  So they are not independent as we cannot separate the indicator function into a function of $x$ only and a function of $y$ only.
+\end{remark}
+\begin{definition}[Marginal Density for Continuous]
+  Suppose the continuous $n$-dimensional random vector $X = (X_1, \ldots, X_n)$ has multivariate density $f$, we then have that:
+  \label{marginalContinuous}
+  \begin{align*}
+    \P(X_1 \leq x) &= \P(X_1 \leq x, X_2 \in \R, X_n \in \R) \\
+                   &= \int_{-\infty}^{x} \left[\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f(x_1, \ldots, x_n) \d{x_n} \cdots \d{x_2}\right] \d{x_1}
+  \end{align*}
+  By differentiating, we can obtain the \textit{marginal density} of $X_1$:
+  \[
+    f_{X_1}(x) = \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f(x, x_2, \ldots, x_n) \d{x_2} \cdots \d{x_n}
+  \]
+\end{definition}
+\subsection{Convolutions}
+\begin{remark}[Recap]
+  Recall from \cref{discreteConvolutions} that for independent discrete random variables $X$ and $Y$, the random variable $X + Y$ follows a distribution which is the discrete convolution of the distributions of $X$ and $Y$, that is:
+  \[
+    \P(X + Y = z) = \sum_{x} \P(X = x)\P(y = z - x)
+  \]
+\end{remark}
+Like in the discrete case, we would like to be able to find the distribution of the sum of two independent continuous random variables.
+\begin{proposition}
+  If $X$ and $Y$ are independent continuous random variables with densities $f_X$ and $f_Y$ respectively, then density of $X + Y$ is the \textit{convolution} of $f_X$ and $f_Y$, that is:
+  \[
+    f_X * f_Y = f_{X + Y}(z) = \int_{-\infty}^{\infty} f_X(x)f_Y(z - x) \d{x}
+  \]
+\end{proposition}
+\begin{proof}
+  To find the density of $X + Y$, we will first find its distribution function and then differentiate to find its density:
+  \begin{align*}
+    \P(X + Y \leq z) &= \P((X, Y) \in \{(x, y) \in \R^2: x + y \leq z\}) \\
+                     &= \int\limits_{\{x + y \leq z\}} f_{X, Y}(x, y) \d{x} \d{y} \text{ by independence}\\
+                     &= \int\limits_{\{x + y \leq z\}} f_X(x)f_Y(y) \d{x} \d{y} \\
+                     &= \int_{-\infty}^{\infty} \int_{-\infty}^{z-x} f_X(x) f_Y(y) \d{y} \d{x} \\
+                     &= \int_{-\infty}^{\infty}  \int_{-\infty}^{z} f_X(x) f_Y(y - x) \d{y} \d{x} \text{ using $y \mapsto y - x$}
+  \end{align*}
+  Since are integrating over $x \in \R,\ y \leq z$ for some fixed $z$, we can exchange the order of integration as:
+  \[
+    \P(X + Y \leq z) = \int_{-\infty}^{z} \left[\int_{-\infty}^{\infty} f_X(x) f_Y(y - x) \d{x}\right] \d{y}
+  \]
+  So differentiating with respect to $z$ and using the fundamental theorem of calculus, we obtain:
+  \[
+    f_{X + Y}(z) = \int_{-\infty}^{\infty} f_{X}(x)f_{Y}(z - x) \d{x} = (f_X * f_Y)(z)
+  \]
+  as required.
+\end{proof}
+\subsection{Conditional Density and Expectation}
+\begin{definition}
+  Let $X$ and $Y$ be continuous random variables with joint density $f_{X, Y}$ and marginal densities $f_{X}$ and $f_{Y}$ respectively.
+  The \textit{conditional density of $X$ given $Y = y$} is defined as:
+  \[
+    f_{X \vert Y}(x \vert y) = \frac{f_{X, Y}(x, y)}{f_Y(y)}
+  \]
+  for $f_Y(y) > 0$.
+\end{definition}
+\begin{proposition}[Law of total probability for densities]
+  If $X$ and $Y$ are continuous random random variables with joint density $f_{X, Y}$ and marginal densities $f_{X}$ and $f_{Y}$ respectively, then:
+  \[
+    f_{X}(x) = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{x}
+  \]
+\end{proposition}
+\begin{proof}
+  We can recover the marginal density of $X$ from the joint density using \cref{marginalContinuous}:
+  \[
+    f_X(x) = \int_{-\infty}^{\infty} f_{X, Y}(x, y) \d{y} = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{x}
+  \]
+\end{proof}
+\begin{definition}[Conditional expectation for 2 continuous r.v.s]
+  For continuous random variables $X$ and $Y$, we define the \textit{conditional expectation of $X$ given $Y$} as $\E[X \vert Y] = g(Y)$ where $g(y)$ is defined as:
+  \[
+    g(y) = \int_{-\infty}^{\infty} x f_{X \vert Y}(x \vert y) \d{x}
+  \]
+\end{definition}
+\begin{theorem}
+  Let $X$ be a continuous $n$-dimensional random vector taking values in $\mathcal{D} \subseteq \R^{n}$ with density $f(\vec{x})$ for $\vec{x} \in \R^{n}$ and let $g$ be a bijection from $\mathcal{D}$ to $g(\mathcal{D})$ with a continuous derivative on $\mathcal{D}$ and $|J| \neq 0\ \forall \vec{x} \in \mathcal{D}$.
+
+  The continuous random vector $Y = g(X)$ then has density:
+  \[
+    f_Y(\vec{y}) = f_X(g^{-1}(\vec{y})) \cdot |J|
+  \]
+  where $J$ is the Jacobian defined as:
+  \[
+    J = \det \left(\left(\pderiv{x_i}{y_j}\right)_{i, j = 1}^n\right)
+  \]
+\end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
+\begin{example}
+  Suppose $X, Y$ are independent random variables with standard normal distribution $\normal(0, 1)$.
+  What is the distribution of $R = \sqrt{X^2 + Y^2}$ and the distribution of the angle $\Theta$ the vector $(X, Y)$ makes with the positive $x$ axis?
+
+  Continued next lecture.
+\end{example}
 \end{document}
