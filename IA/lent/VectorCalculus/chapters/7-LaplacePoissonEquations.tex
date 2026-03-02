@@ -1,0 +1,150 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Laplace's and Poisson's Equations}
+\section{Poisson's Equation and Boundary Conditions}
+\begin{remark}[Recap]
+  Recall from \cref{secLaplacian} that $\nabla^2 \phi$ is just the divergence of $\nabla \phi$, that is:
+  \[
+    \nabla^2 \phi = \nabla \cdot (\nabla \phi) = \pderiv[2]{\phi}{x} + \pderiv[2]{\phi}{y} + \pderiv[2]{\phi}{z}
+  \]
+\end{remark}
+\subsection{Definitions}
+\begin{definition}[Poisson's Equation]
+  \textit{Poisson's equation} is:
+  \label{poissonsEquation}
+  \[
+    \nabla^2 \phi = f,\ \vec{x} \in \mathscr{D}
+  \]
+  where $\phi(\vec{x})$ is an unknown scalar field, $f(\vec{x})$ is the specified \textit{source term} and $\mathscr{D}$ is some domain in which we would like to solve the equation in.
+\end{definition}
+\begin{definition}[Laplace's Equation]
+  \textit{Laplace's equation} is a special case of Poisson's equation with $f = 0$, that is:
+  \label{laplacesEquation}
+  \[
+    \nabla^2 \phi = 0,\ \vec{x} \in \mathscr{D}
+  \]
+\end{definition}
+We also need boundary conditions on $\partial \mathscr{D}$.
+Usually, they are either \textit{Dirichlet} or \textit{von Neumann} boundary conditions.
+
+Dirichlet boundary conditions specific what the function is equal to on the boundary.
+\begin{definition}[Dirichlet Boundary Conditions]
+  \textit{Dirichlet boundary conditions} are boundary conditions of the form:
+  \[
+    \phi = g,\ \vec{x} \in \partial \mathscr{D}
+  \]
+\end{definition}
+Whereas, von Neumann boundary conditions specify what normal derivative, i.e. the directional derivative (\cref{directionalDerivative}) along the normal, is at the boundary.
+\begin{definition}[Von Neumman Boundary Conditions]
+  \textit{Von Neumann boundary conditions} are of the form:
+  \[
+    \pderiv{\phi}{\vec{n}} = g,\ \vec{x} \in \partial\mathscr{D}
+  \]
+  where $\vec{g}(\vec{x})$ is a function specified on the boundary $\partial \mathscr{D}$.
+\end{definition}
+\begin{remark}[Notation]
+  Recall from \cref{greensIdentities} that we defined the notation:
+  \[
+    \pderiv{\phi}{\vec{n}} \equiv \vec{n} \cdot \nabla \phi
+  \]
+\end{remark}
+\subsection{Examples}
+These equations typically arise in problems that can be expressed in terms of potentials.
+\begin{example}[Electrostatics]
+  In electrostatics, we use Maxwell's equations but restrict everything to be independent of time.
+  Since $\vec{B}$ is constant in time, from \cref{maxwell3}, we see that $\nabla \times \vec{E} = \vec{0}$.
+  This means that $\vec{E}$ is irrotational and so, in simply connected domain, it can be expressed in terms of an electric potential $\phi(\vec{x})$:
+  \[
+    \vec{E} = - \nabla \phi
+  \]
+  where the minus sign is included by convention.
+
+  Then, using $\nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}$ (\cref{maxwell1}), we obtain:
+  \[
+    \nabla^2 \phi = - \frac{\rho}{\varepsilon_0}
+  \]
+  where $\rho(\vec{x})$ is the charge density.
+  This is Poisson's equation (\cref{poissonsEquation}) with source term $f(\vec{x}) = -\frac{\rho}{\varepsilon_0}$.
+\end{example}
+\begin{example}[Examples of Solving Poisson's and Laplace's Equations]
+  \begin{enumerate}
+    \item Solve Laplace's equation (\cref{laplacesEquation}) in the square domain $0 \leq x, y \leq 1$ in $\R^2$ subject to the Dirichlet boundary condition:
+      \begin{align*}
+        \phi(x, 0) = 0,\ \phi(x, 1) = 0,\ \phi(0, y) = 0,\ \phi(1, y) = \sin(\pi y)
+      \end{align*}
+      Note that this is a valid Dirichlet boundary condition as $\phi$ is defined over the entire boundary.
+
+      For now, we will guess a separable solution of the form $\phi(x, y) = p(x)q(y)$.
+      Applying the boundary condition on $\phi(1, y)$, we see that $q(y) = A \sin \pi y$ where $A = \frac{1}{p(1)}$.
+
+      If we then substitute this back into Laplace's equation, we have:
+      \[
+        0 = \nabla^2 \phi = \pderiv[2]{\phi}{x} + \pderiv[2]{\phi}{y} = p''(x)q(y) + p(x)q''(y) = A(p'' - \pi^2 p)\sin(\pi y)
+      \]
+      Since this has to be true for all $\vec{x}$ in the domain, we must have $p'' - \pi^2p = 0\ \forall x$ and so $p(x) = B \sinh \pi x + C \cosh \pi x$.
+      Finally, we can match the other boundary conditions by taking $B = 1$ and $C = 0$ so a solution to the equation is:
+      \[
+        \phi(x, y) = \frac{\sinh \pi x \sin \pi y}{\sinh \pi}
+      \]
+      We will show later that this solution must be unique and so this is \textbf{the} solution.
+    \item Solve Poisson's equation $\nabla^2 \phi = r$ in the domain $r < 1$  in $\R^3$ with the Dirichlet boundary condition $\phi = 0$ on $r = 1$.
+
+      Because of the spherical symmetry, it is a good idea to look for a solution of the form $\phi = \phi(r)$ only.
+
+      Recall from \cref{laplacianSphericalSymmetry} that for a radially symmetric scalar field $\phi(r)$, we have:
+      \[
+        \nabla^2 \phi = \phi''(r) + \frac{2\phi'(r)}{r} = \frac{1}{r^2}\deriv{}{r}(r^2 \phi'(r)) = \frac{1}{r}\deriv[2]{}{r}(r\phi(r))
+      \]
+      Using the final expression, we have:
+      \begin{align*}
+        &\frac{1}{r}(r \phi)'' = r \\
+        \implies& r \phi = \frac{1}{12}r^4 + Ar + B \\
+        \implies& \phi = \frac{1}{12}r^3 + A + \frac{B}{r}
+      \end{align*}
+      Firstly, we must have $B = 0$, otherwise $\phi$ is undefined at $r = 0$ which is in the domain.
+      On the boundary $r = 1$ and $\phi = 0$ so $A = -\frac{1}{12}$.
+      Therefore the solution is:
+      \[
+        \phi = \frac{1}{12}(r^3 - 1)
+      \]
+    \item Solve Laplace's equation in $1 < r < 2$ in $\R^3$ with mixed boundary conditions $\phi = 0$ on $r = 1$ (Dirichlet) and $\pderiv{\phi}{\vec{n}} = 1$ on $r = 2$ (von Neumann).
+
+      Again, due to the radial symmetry, we try $\phi = \phi(r)$.
+      Again applying the identity for $\nabla^2 \phi$, we have:
+      \[
+        \frac{1}{r}(r \phi)'' = 0 \implies \phi = A + \frac{B}{r}
+      \]
+      Note that $r = 0$ is not problematic here because we are working with $1 < r < 2$ so $B$ does not have to be 0.
+      Applying the Dirichlet boundary condition, on $r = 1$, $\phi = 0$ and so $A + B = 0$.
+      Applying the von Neumann boundary condition, on $r = 2$ the normal is $\vec{n} = \vec{e}_r$ so $\pderiv{\phi}{\vec{n}} = \vec{e}_r \cdot \nabla \phi$.
+      This is just the radial component of $\nabla \phi$ which is $\pderiv{\phi}{r}$ and so the boundary condition requires that $\at{\pderiv{\phi}{r}}{r = 2} = 1$.
+      Thus $-\frac{1}{4}B = 1$ and so the solution is:
+      \[
+        \phi(r) = 4\left(1 - \frac{1}{r}\right)
+      \]
+  \end{enumerate}
+\end{example}
+\begin{remark}[Advice]
+  You should be on the lookout for when your general solution has points at which it is undefined in the domain.
+  In these case case you need to set the arbitrary constants appropriately to remove this issue.
+  Often exam questions will require you to do this otherwise you will be left with an undetermined constant.
+\end{remark}
+\subsection{Superposition of Solutions}
+The Laplacian operator $\nabla^2$ is \textit{linear}, that is:
+\[
+  \nabla^2(\alpha \phi_1 + \beta \phi_2) = \alpha \nabla^2 \phi_1 + \beta \nabla^2 \phi_2
+\]
+for any constants $\alpha$ and $\beta$.
+This means we can solve $\nabla^2 \phi = f_1 + f_2$ in $\mathscr{D}$ using the \textit{superposition} $\phi = \phi_1 + \phi_2$ where $\nabla^2 \phi_1 = f_1$ and $\nabla^2 \phi_2 = f_2$.
+
+To solve Poisson's equation with Dirichlet boundary conditions:
+\[
+  \nabla^2 \phi = f \text{ in } \mathscr{D},\ \phi = g \text{ on } \partial \mathscr{D}
+\]
+it is sometimes useful to split the problem into two separate problems:
+\begin{align*}
+  \nabla^2 \phi_1 = f \text{ in } \mathscr{D} \text{ and } \phi_1 = 0 \text{ on } \partial \mathscr{D} \\
+  \nabla^2 \phi_2 = 0 \text{ in } \mathscr{D} \text{ and } \phi_2 = \vec{g} \text{ on } \partial \mathscr{D}
+\end{align*}
+We can then solve each problem separately so that $\phi = \phi_1 + \phi_2$ satisfies the original problem.
+\end{document}

@@ -973,6 +973,7 @@ In \cref{generalCurvilinearOperators}, we saw divergence and curl for an arbitra
 The above two coordinate independent forms can be used to derive these identities, the details of which are not included in this course.
 \section{Green's Identities and Other Corollaries}
 \subsection{Green's Identities}
+\label{greensIdentities}
 \begin{theorem}[Green's First Identity]
   If $\phi$ and $\psi$ are scalar fields defined in a closed volume $V$ with surface $\partial V$ and outward normal $\vec{n}$, then:
   \label{greensFirst}
@@ -1030,6 +1031,7 @@ We first need a lemma about dot products:
 \end{proof}
 \begin{proposition}
   If $f$ is a scalar field then:
+  \label{gradVolumeIdentity}
   \[
     \int_{V} \nabla f \d{V} = \int_{\partial V} f \d{\vec{S}}
   \]
@@ -1050,9 +1052,13 @@ We first need a lemma about dot products:
   \end{align*}
   Since $\vec{a}$ was arbitrary, we can use \cref{dotProdLemma} to yield the result.
 \end{proof}
+\begin{remark}
+  There are many other identities like this, most of which are provide analogously by considering a vector field $\vec{F} = f\vec{a}$ for some fixed $\vec{a}$ and then applying an integral theorem, and then manipulating the result to remove $\vec{a}$.
+\end{remark}
 \begin{example}
-  Integrate $\nabla f$ where $f(\vec{x}) = xyz$ in the cube $V: 0 \leq x, y, z \leq 2$ and confirm the result using the above identity.
+  Integrate $\nabla f$ where $f(\vec{x}) = xyz$ in the cube $V: 0 \leq x, y, z \leq 2$ and confirm the result using the above identity (\cref{gradVolumeIdentity}).
 
+  \textbf{Integrating Normally}\par
   Firstly, $\nabla f = (yz, xz, xy)$.
   We can then integrate component-wise:
   \[
@@ -1068,6 +1074,141 @@ We first need a lemma about dot products:
   \]
   Since $\int_{V} yz \d{V} = \int_{0}^{2} \int_{0}^{2} \int_{0}^{2} yz \d{x} \d{y} \d{z} = 8$ and similarly for the other components by symmetry.
 
-  Continued next lecture.
+  \textbf{Using the Identity}\par
+  To confirm the identity, we can calculate $\int_{\partial V}  f \d{\vec{S}}$ by considering six separate surfaces, one for each side of the cube.
+
+  On the top side, $z = 2$, $f = 2xy$, $\vec{n} = (0, 0, 1)$, and $\d{S} = \d{x}\d{y}$ so:
+  \[
+    \int_{\text{top}} f \d{\vec{S}} = \int_{0}^{2} \int_{0}^{2} 2xy \begin{pmatrix}
+    0 \\
+    0 \\
+    1 \\
+    \end{pmatrix} \d{x} \d{y} = \begin{pmatrix}
+    0 \\
+    0 \\
+    8 \\
+    \end{pmatrix}
+  \]
+  On the bottom side $z = 0$, so $f = 0$, thus $\int_{\text{bottom}} f \d{\vec{S}} = \vec{0}$.
+  Two of the other sides yield $\vec{0}$ and other other two yield $(8, 0, 0)$ and $(0, 8, 0)$ so the result is verified.
 \end{example}
+\section{Maxwell's Equations and Continuity Equations}
+\subsection{Maxwell's Equations}
+\begin{definition}[Maxwell's Equations]
+  \textit{Maxwell's equations} in a vacuum for an \textit{electric field} $\vec{E}(\vec{x}, t)$ and \textit{magnetic field} $\vec{B}(\vec{x}, t)$ in the presence of an \textit{electric charge density} $\rho(\vec{x}, t)$ (the \textit{charge per unit volume}) and the \textit{electric current density} $\vec{J}(\vec{x}, t)$ (the current per unit area) are:
+  \begin{align}
+    \nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \label{maxwell1} \\
+    \nabla \cdot \vec{B} &= 0 \label{maxwell2} \\
+    \nabla \times \vec{E} &= -\pderiv{\vec{B}}{t} \label{maxwell3} \\
+    \nabla \times \vec{B} &= \mu_0\left(\vec{J} + \varepsilon_0 \pderiv{\vec{E}}{t}\right) \label{maxwell4}
+  \end{align}
+  where $\varepsilon_0$ is the dielectric permittivity of free space and $\mu_0$ is the permeability of free space, which are related by $c^2 = \frac{1}{\varepsilon_0 \mu_0}$ where $c$ is the speed of light.
+\end{definition}
+\begin{remark}[Exams]
+  You are not required to memorise Maxwell's equations for exams, they will be provided when required.
+\end{remark}
+\subsubsection{Gauss's Law}
+Let $V$ be an arbitrary fixed volume containing total charge $Q_V$.
+Since $\rho$ is the charge density, $Q_V$ is just the volume integral of $\rho$ over $V$.
+So applying \cref{maxwell1}, the differential form of Gauss's Law, we have:
+\[
+  Q_V = \int_{V} \rho \d{V} = \int_{V} \varepsilon_0 \nabla \cdot \vec{E} \d{V}
+\]
+Then using the divergence theorem (\cref{divergenceTheorem}), we have:
+\[
+  \int_{V} \nabla \cdot \vec{E} \d{V} = \int_{\partial V} \vec{E} \cdot \d{\vec{S}} \implies \int_{\partial V} \vec{E} \cdot \d{\vec{S}} = \frac{1}{\varepsilon_0}Q_V
+\]
+This is the integral form of \textit{Gauss's Law} and tells us that the flux of $\vec{E}$ through a \textbf{closed surface} is proportional to the total charge within that surface, irrespective of how the charge is distributed.
+
+\subsubsection{Gauss's Law for Magnetism}
+Using \cref{maxwell2}, the differential form of Gauss's law for magnetism, and the divergence theorem, we have:
+\[
+  \int_{\partial V} \vec{B} \cdot \d{\vec{S}} = \int_{V} \nabla \cdot \vec{B} \d{V} = 0
+\]
+This is the integral form of \textit{Gauss's Law for magnetism} and tells us that the net magnetic flux through a closed surface is always zero.
+This means that a total magnetic charge cannot build up at a point in space, so we cannot have a north pole without an accompanying south pole, that is we cannot have \textit{magnetic monopoles}.
+\subsubsection{Faraday's Law of Induction}
+\nonexaminable
+Suppose $S$ is a fixed open surface.
+The rate of change of the magnetic flux through $S$ is:
+\[
+  \deriv{}{t}\int_{S} \vec{B} \cdot \d{\vec{S}} = \int_{S} \pderiv{\vec{B}}{t} \cdot \d{\vec{S}}
+\]
+as we can bring the derivative under the integral sign.
+We can then apply \cref{maxwell3}, the differential form of Faraday's Law of induction, and Stokes' Theorem (\cref{stokesTheorem}), to yield:
+\[
+  \deriv{}{t}\int_{S} \vec{B} \cdot \d{\vec{S}} = - \int_{S} \nabla \times \vec{E} \cdot \d{\vec{S}} = -\oint_{\partial S} \vec{E} \cdot \d{\vec{x}}
+\]
+This is the integral form of \textit{Faraday's law of induction}, which is sometimes known as the \textit{Maxwell-Faraday equation}.
+It tells us that if we change flux of a magnetic field, then this causes circulation of the electric field around $\partial S$.
+\subsubsection{Amp\`ere-Maxwell Law}
+\nonexaminable
+Similarly, also for a fixed open surface $S$, we have:
+\[
+  \deriv{}{t} \int_{S} \vec{E} \cdot \d{\vec{S}} = \int_{S} \pderiv{\vec{E}}{t} \cdot \d{\vec{S}}
+\]
+We can then apply \cref{maxwell4}, the differential form of the Amp\`ere-Maxwell Law, to yield:
+\begin{align*}
+  \deriv{}{t} \int_{S} \vec{E} \cdot \d{\vec{S}} &= \int_{S} \frac{1}{\varepsilon_0}\left(\frac{1}{\mu_0} \nabla \times \vec{B} - \vec{J}\right) \cdot \d{\vec{S}} \\
+                                                 &= \frac{1}{\varepsilon_0\mu_0} \int_{S} \nabla \times \vec{B} \cdot \d{\vec{S}} - \frac{1}{\varepsilon_0} \int_{S} \vec{J} \cdot \d{\vec{S}} \\
+                                                 &= \frac{1}{\varepsilon_0\mu_0} \oint_{\partial S} \vec{B} \cdot \d{\vec{x}}  - \frac{1}{\varepsilon_0} \int_{S} \vec{J} \cdot \d{\vec{S}} \text{ by Stokes' Theorem}
+\end{align*}
+This is the integral form of the \textit{Amp\`ere-Maxwell Law}.
+We see that if $\vec{E}$ is constant in time, the left hand side vanishes and so we see that the electric current causes circulation of the magnetic field.
+\subsection{Continuity Equations}
+\subsubsection{In Maxwell's Equations}
+If we take the divergence of \cref{maxwell4}, we see that:
+\begin{align*}
+  \nabla \cdot (\nabla \times \vec{B}) &= \mu_0\left(\nabla \cdot \vec{J} + \varepsilon_0 \nabla \cdot \pderiv{\vec{E}}{t}\right) \\
+                                       &= \mu_0\left(\nabla \cdot \vec{J} + \varepsilon_0 \pderiv{}{t}(\nabla \cdot \vec{E})\right)
+\end{align*}
+where we can exchange $\pderiv{}{t}$ and $\nabla$ since $\pderiv{}{t}$ and $\pderiv{}{x_i}$ commute.
+Recall from \cref{solenoidalFields} that for any vector field $\vec{F}$, we have $\nabla \cdot (\nabla \times \vec{F}) = 0$.
+Thus:
+\[
+  \nabla \cdot \vec{J} + \varepsilon_0 \pderiv{}{t}(\nabla \cdot \vec{E}) = 0
+\]
+Finally, applying \cref{maxwell1}, we have:
+\begin{equation}
+  \pderiv{\rho}{t} + \nabla \cdot \vec{J} = 0 \label{maxwellContinuity}
+\end{equation}
+This is the \textit{continuity equation} for electric charge so represents the \textit{conservation of charge}.
+
+If we integrate this over a fixed volume $V$, we see that:
+\[
+  \int_{V} \pderiv{\rho}{t} \d{V} = \deriv{}{t} \int_{V} \rho \d{V}  = \deriv{}{t}Q_V
+\]
+since $Q_V$ is the total charge in the volume.
+Furthermore:
+\[
+  \int_{V} \nabla \cdot \vec{J} \d{V} = \int_{\partial V} \vec{J} \cdot \d{\vec{S}}
+\]
+Therefore, combining the above:
+\[
+  \deriv{}{t}Q_V = - \int_{\partial V} \vec{J} \cdot \vec{n} \d{S}
+\]
+So the rate at which the total charge in $V$ decreases is equal to the net flux of current out of $V$.
+This represents the conservation of charge, that is, the charge in $V$ only changes because currents carry charge into or out of the volume.
+
+We know this because $\vec{J}$ represents the charge moving across a unit area in a unit time and, since only the component of $\vec{J}$ perpendicular to the surface actually results in charge leaving $V$, $\vec{J} \cdot \vec{n}$ is the rate at at which charge leaves $V$ per unit area of $\partial V$.
+
+In this context, $\vec{J}$ is called the flux density of charge, i.e. the rate at which charge is moving around.
+\subsubsection{In Fluid Dynamics}
+We see similar continuity equations in other areas of mathematical physics.
+For example, one of the equations governing fluid mechanics is:
+\begin{equation}
+  \pderiv{\rho}{t} + \nabla\cdot(\rho \vec{u}) = 0 \label{fluidContinuity}
+\end{equation}
+which represents the \textit{conservation of mass}.
+In this equation $\rho(\vec{x}, t)$ is the \textit{density of the fluid} and $\vec{u}(\vec{x}, t)$ is the \textit{velocity of the fluid} at a particular point.
+
+This continuity equation takes the same form as the continuity equation for charge conservation (\cref{maxwellContuinuity}), just with $\vec{J}$ replaced by $\rho \vec{u}$ so as above, we obtain:
+\[
+  \deriv{}{t}\int_{V} \rho \d{V} = - \int_{\partial V} \rho \vec{u} \cdot \d{\vec{S}}
+\]
+This tells us that the total mass within a volume $V$ only charges as a result of fluid particles being transported through the surface of $V$, which they are at a rate of $\vec{u} \cdot \vec{n}$ per unit area of $\nabla V$.
+So $\rho \vec{u}$ is the flux density of mass.
+
+In the case of a fluid with constant density, \cref{fluidContinuity} reduces to $\nabla \cdot \vec{u} = 0$.
+This is why solenoidal vector fields (\cref{solenoidalFields}) are also referred to as incompressible vector fields.
 \end{document}
