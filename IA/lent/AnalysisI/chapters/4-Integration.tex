@@ -482,7 +482,7 @@ Before showing that piecewise continuous functions are integrable, we need to sh
   \]
 \end{lemma}
 \begin{proof}\par
-  \textbf{Integrability --} Since $f$ is bounded, $\exists M = \sup_{x \in [a, b]} f(x)$.
+  \textbf{Integrability --} Since and $f, g$ are bounded, supremum of their modulus exist for both and so $\exists M = \max\{\sup_{x \in [a, b]} |f(x)|, \sup_{x \in [a, b]} |g(x)|\}$.
   If we fix an $\varepsilon > 0$, then by \cref{integrabilityCritereon} $\exists \mathcal{P}$ a partition of $[a, b]$ such that:
   \[
     U(g, \mathcal{P}) - L(g, \mathcal{P}) < \varepsilon
@@ -531,15 +531,16 @@ Before showing that piecewise continuous functions are integrable, we need to sh
 
   We also have that that:
   \begin{align*}
-    U(f, \mathcal{P}') - U(g, \mathcal{P}') \leq \sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x)\right) \leq M\sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| < M\varepsilon
+    U(f, \mathcal{P}') - U(g, \mathcal{P}') \leq \sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \sup_{x \in I_j} g(x)\right) \leq 2M\sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| < 2M\varepsilon
   \end{align*}
   so:
   \begin{align*}
     \int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x} &\leq U(f, \mathcal{P}') - L(g, \mathcal{P}') \\
                                                       &= U(f, \mathcal{P}') - U(g, \mathcal{P}') + U(g, \mathcal{P}') - L(g, \mathcal{P}') \\
-                                                      &< M\varepsilon + \varepsilon = (M + 1)\varepsilon
+                                                      &< 2M\varepsilon + \varepsilon = (2M + 1)\varepsilon
   \end{align*}
-  and similarly $L(f, \mathcal{P}') - L(g, \mathcal{P}') \geq -M\varepsilon$ so $\abs{\int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x}} < (M + 1)\varepsilon\ \forall \varepsilon > 0$ so the two integrals must be equal.
+  and similarly $L(f, \mathcal{P}') - L(g, \mathcal{P}') > -2M\varepsilon$ so $\abs{\int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x}} < (2M + 1)\varepsilon\ \forall \varepsilon > 0$.
+  Thus the two integrals must be equal.
 \end{proof}
 We also need to show that adding two integrals acts as we would expect.
 \begin{proposition}[Additivity of the Integral]
