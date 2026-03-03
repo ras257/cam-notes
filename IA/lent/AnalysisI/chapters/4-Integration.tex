@@ -107,7 +107,7 @@ These use the supremum/infimum respectively of $f$ over each interval between th
     U(f, \mathcal{P}) &= 1 \cdot \sum_{j = 1}^{n} (x_j - x_{j - 1}) \\
                        &= x_1 - x_0 + x_2 - x_1 + \cdots + x_n - x_{n - 1} \\
                        &= x_n - x_0 = b - a = 1 - 0 = 1 \\
-    L(f, \mathcal{P}) &= 0 \cdot \sum_{j = 1}^{n} (x_j - x_{j - 1}) = 0 \\
+    L(f, \mathcal{P}) &= 0 \cdot \sum_{j = 1}^{n} (x_j - x_{j - 1}) = 0
   \end{align*}
 \end{example}
 For bounded $f$, $\exists k \text{ s.t. } \sup_{x \in [a, b]} |f(x)| = k$.
@@ -163,6 +163,7 @@ This means that they both have supremum and infimum.
   \]
 \end{remark}
 \begin{example}
+  \label{dirichletIntegrable}
   Consider again the Dirichlet indicator function from \cref{dirichletUpperLower}.
   Its upper and lower integrals are $I^{*}(f) = 1$ and $I_{*}(f) = 0$, so $f$ is not integrable.
 \end{example}
@@ -412,6 +413,7 @@ It is quite tedious to check if a function is integrable using these methods so 
 \subsection{Continuous Functions}
 \begin{proposition}[Continious $\implies$ Integrable]
   If $f: [a, b] \to \R$ is continuous, then it is integrable.
+  \label{continuousIntegrable}
 \end{proposition}
 \begin{proof}
   Again, we first need to check that $f$ is bounded.
@@ -453,7 +455,7 @@ It is quite tedious to check if a function is integrable using these methods so 
   \[
     |f(z_{n_k}) - f(y_{n_k})| > \frac{\varepsilon}{b - a}\ \forall k \implies f(z_{n_k}) - f(y_{n_k}) \centernot\to 0
   \]
-  Thus $f(y_{n_k}))_k$ and $(f(y_{n_k}))_k$ cannot have the same limit.
+  Thus $(f(y_{n_k}))_k$ and $(f(y_{n_k}))_k$ cannot have the same limit.
   Hence $f$ cannot be sequentially continuous and so by \cref{sequentialContinuityEquivalence} $f$ is not continuous, which is a contradiction.
   Therefore, $f$ must be integrable, as required.
 \end{proof}
@@ -501,7 +503,7 @@ Before showing that piecewise continuous functions are integrable, we need to sh
     U(g, \mathcal{P}') - L(g, \mathcal{P}') \leq U(g, \mathcal{P}) - L(g, \mathcal{P}) < \varepsilon
   \]
   We now need to compare this to $U(f, \mathcal{P}') - L(f, \mathcal{P}')$.
-  For convince, define $J = \bigcup_{k = 1}^{N} J_k$.
+  For convenience, define $J = \bigcup_{k = 1}^{N} J_k$.
   We can first split the sum into two parts, one over the intervals that do not contain any disagreement points ($I_j \centernot\subset J$), and one over the intervals that contain a disagreement point ($I_j \subset J$):
   \begin{align*}
     U(f, \mathcal{P}') - L(f, \mathcal{P}') &= \sum_{j = 1}^{n} |I_j| \left(\sup_{x \in I_j} f(x) - \inf_{x \in I_j} f(x)\right) \\
@@ -525,25 +527,23 @@ Before showing that piecewise continuous functions are integrable, we need to sh
   since there are $N$ intervals such that $I_j \subset J$ and for each of these, their length must be less than the corresponding $J_k$.
   Thus for any $\varepsilon > 0$, $\exists \mathcal{P}'$ such that $U(f, \mathcal{P}') - L(f, \mathcal{P}') \leq (2M + 1)\varepsilon$ and so $f$ is integrable.
 
-  \textbf{Equality of Integrals --} Finally, since $f$ is integrable also $\int_{a}^{b} f(x) \d{x}$ is well defined and so:
-  \[
-    L(f, \mathcal{P}') \leq \int_{a}^{b} f(x) \d{x} \leq U(f, \mathcal{P}')
-  \]
-  and:
-  \[
-    L(g, \mathcal{P}') \leq \int_{a}^{b} g(x) \d{x} \leq U(g, \mathcal{P}')
-  \]
-  Therefore:
+  \textbf{Equality of Integrals --} Finally, since $f$ is integrable also $\int_{a}^{b} f(x) \d{x}$ is well defined and so $L(f, \mathcal{P}') \leq \int_{a}^{b} f(x) \d{x} \leq U(f, \mathcal{P}')$ and $L(g, \mathcal{P}') \leq \int_{a}^{b} g(x) \d{x} \leq U(g, \mathcal{P}')$.
+
+  We also have that that:
+  \begin{align*}
+    U(f, \mathcal{P}') - U(g, \mathcal{P}') \leq \sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| \left(\sup_{x \in I_j} f(x)\right) \leq M\sum_{\substack{j = 1 \\ I_j \subset J}}^{n} |I_j| < M\varepsilon
+  \end{align*}
+  so:
   \begin{align*}
     \int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x} &\leq U(f, \mathcal{P}') - L(g, \mathcal{P}') \\
                                                       &= U(f, \mathcal{P}') - U(g, \mathcal{P}') + U(g, \mathcal{P}') - L(g, \mathcal{P}') \\
-                                                      &< 2\varepsilon
+                                                      &< M\varepsilon + \varepsilon = (M + 1)\varepsilon
   \end{align*}
-  Continued next lecture.
+  and similarly $L(f, \mathcal{P}') - L(g, \mathcal{P}') \geq -M\varepsilon$ so $\abs{\int_{a}^{b} f(x) \d{x} - \int_{a}^{b} g(x) \d{x}} < (M + 1)\varepsilon\ \forall \varepsilon > 0$ so the two integrals must be equal.
 \end{proof}
 We also need to show that adding two integrals acts as we would expect.
 \begin{proposition}[Additivity of the Integral]
-  If $f: [a, b] \to \R$ and $c \in (a, b)$, then $f$ is integrable if and only if $\at{f}{[a, c]}$ and $\at{f}{[c, b]}$ are integrable.
+  If $f: [a, b] \to \R$ and $c \in (a, b)$, then $f$ is integrable if and only if $\at{f}{[a, c]}$ and $\at{f}{[c, b]}$ are integrable. \label{integralAdditivity}
 
   Furthermore:
   \[
@@ -551,7 +551,48 @@ We also need to show that adding two integrals acts as we would expect.
   \]
 \end{proposition}
 \begin{proof}
-  Proved next lecture.
+  For convenience, define $I_L = [a, c]$, $I_R = [c, b]$, $f_L = \at{f}{I_L}$, and $f_R = \at{f}{I_R}$.
+  \begin{proofdirection}{Assume $f$ is integrable}
+    If we fix $\varepsilon > 0$, then by \cref{integrabilityCritereon}, $\exists \mathcal{P}$ of $[a, b]$ such that $U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon$.
+    WLOG, we can assume that $c = x_{\ell}$ for some $\ell \in \{1, \ldots, n\}$, as if not, we can just refine $\mathcal{P}$ by adding $c$ which, by \cref{refinementInequality}, would only make $U(f, \mathcal{P}) - L(f, \mathcal{P})$ smaller.
+    We can then split $\mathcal{P}$ up as $\mathcal{P} = \mathcal{P}_L \cup \mathcal{P}_R$ where $\mathcal{P}_L = \{x_0, \ldots, x_{\ell}\}$ and $\mathcal{P}_L = \{x_{\ell}, \ldots, x_n\}$.
+    Both $\mathcal{P}_L$ and $\mathcal{P}_R$ are valid partitions of $[a, c]$ and $[c, b]$ respectively since they contain the corresponding endpoints.
+
+    We can then use this partitions to split up the upper and lower sums:
+    \begin{align*}
+      U(f, \mathcal{P}) = U(f_L, \mathcal{P}_L) + U(f_R, \mathcal{P}_R) \\
+      L(f, \mathcal{P}) = L(f_L, \mathcal{P}_L) + L(f_R, \mathcal{P}_R)
+    \end{align*}
+    Using the earlier inequality:
+    \[
+      U(f_L, \mathcal{P}_L) - L(f_L, \mathcal{P}_L) + U(f_R, \mathcal{P}_R) - L(f_R, \mathcal{P}_R) = U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon
+    \]
+    We also know that $U(f_L, \mathcal{P}_l) - L(f_L, \mathcal{P}_L) \geq 0$ and $U(f_R, \mathcal{P}_R) - L(f_R, \mathcal{P}_R) \geq 0$ so since their sum is less than $\varepsilon$, both must be individually less than $\varepsilon$ and so $f_L$ and $f_R$ are integrable.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f_L$ and $f_R$ are integrable}
+    If we fix $\varepsilon > 0$, then $\exists \mathcal{P}_L$ and $\mathcal{P}_R$ which are partitions of $I_L$ and $I_R$ respectively such that:
+    \[
+      U(f_R, \mathcal{P}_R) - L(f_R, \mathcal{P}_R) < \varepsilon \text{ and } U(f_L, \mathcal{P}_L) - L(f_L, \mathcal{P}_L) < \varepsilon
+    \]
+    We can then construct a partition of $[a, b]$ as $\mathcal{P} = \mathcal{P}_L \cup \mathcal{P}_R$.
+    Therefore:
+    \[
+      U(f, \mathcal{P}) - L(f, \mathcal{P}) = U(f_R, \mathcal{P}_R) - L(f_R, \mathcal{P}_R) + U(f_L, \mathcal{P}_L) - L(F_L, \mathcal{P}_L) < 2\varepsilon
+    \]
+    Thus $f$ is integrable.
+  \end{proofdirection}\par
+  \textbf{Value of Integral --} We know that $f$ is integrable in $[a, b]$.
+  Furthermore:
+  \begin{align*}
+    \int_{a}^{b} f(x) \d{x} \geq L(f, \mathcal{P}) &= L(f_L, \mathcal{P}_L) + L(f_R, \mathcal{P}_R) \\
+                            &> U(F_L, \mathcal{P}_L) - \varepsilon + U(f_R, \mathcal{P}_R) - \varepsilon \\
+                            &\geq \int_{a}^{c} f_L(x) \d{x} + \int_{c}^{b} f_R(x) \d{x} - 2\varepsilon
+  \end{align*}
+  and by a similar argument:
+  \[
+    \int_{a}^{b} f(x) \d{x} < \int_{a}^{c} f_L(x) \d{x} + \int_{c}^{b} f_R(x) \d{x} + 2\varepsilon
+  \]
+  Thus, $\abs{\int_{a}^{b} f(x) \d{x} - \left(\int_{a}^{c} f_L(x) \d{x} + \int_{c}^{b} f_R(x) \d{x}\right)} < 2\varepsilon\ \forall \varepsilon > 0$ so the result follows.
 \end{proof}
 We can now show that piecewise continuous functions are integrable.
 \begin{proposition}[Piecewise Continiuous $\implies$ Integrable]
@@ -570,12 +611,136 @@ We can now show that piecewise continuous functions are integrable.
   Note that the limits always exist since $f$ is piecewise continuous.
 \end{proposition}
 \begin{proof}
-  By \cref{integrabilityFiniteDifference}, we have that $\at{f}{(x_{j - 1}, x_j)}$ are integrable and that:
+  Firstly, by \cref{continuousIntegrable}, we have that $\overline{f}_j$ are integrable.
+  We can then use \cref{integrabilityFiniteDifference}, to conclude that $\at{f}{[x_{j - 1}, x_j]}$ are integrable and that:
   \[
-    \int_{x_{j - 1}}^{x_j} f(x) \d{x} = \int_{x_{j - 1}}^{x_j} \overline{f}_j(x) \d{x}
+    \int_{x_{j - 1}}^{x_j} \overline{f}_j(x) \d{x} = \int_{x_{j - 1}}^{x_j} f(x) \d{x}
   \]
-  since $f$ and $\overline{f}_j$ differ only by a finite number of points.
+  since $\at{f}{[x_{j - 1}, x_j]}$ and $\overline{f}_j$ can differ only by their values at $x_{j - 1}$ and $x_j$.
 
+  Finally, by repeated use of \cref{integralAdditivity}, we have that:
+  \[
+    \sum_{j = 1}^{n} \int_{x_{j - 1}}^{x_j} \overline{f}_j(x) \d{x} = \sum_{j = 1}^{n} \int_{x_{j - 1}}^{x_j} f(x) \d{x} = \int_{a}^{b} f(x) \d{x}
+  \]
+  which is the desired result.
+\end{proof}
+\subsection{Thomae Function and Discontinuities}
+We might wonder if continuous, piecewise continuous and monotone functions the only Riemann integrable functions?
+This however, is not the case:
+\begin{example}[Thomae Function/Popcorn Function]
+  Consider the \textit{Thomae} or \textit{Popcorn} function defined by:
+  \[
+    f: [0, 1] \to \R,\ x \mapsto \begin{cases}
+    \frac{1}{q} & \text{if } x = \frac{p}{q} \text{ with } p, q \in \Z \text{ coprime} \\
+    0 & x \in \R \setminus \Q
+    \end{cases}
+  \]
+  Since $\R \setminus \Q$ is dense in $\R$, regardless of the partition, it will always contain a rational and so we will always get $L(f, \mathcal{P}) = 0$, hence $I_*(f) = 0$.
+  Now, to show that $f$ is integrable, since $L(f, \mathcal{P}) = 0$ always, we just need to show that $\forall \varepsilon > 0$, $\exists \mathcal{P}$ of $[0, 1]$ such that $U(f, \mathcal{P}) < \varepsilon$.
+
+  For any fixed $\varepsilon > 0$, pick $N \in \N$ such that $N > \frac{1}{\varepsilon}$ and set:
+  \[
+    X_N = \left\{x \in [0, 1]: f(x) \geq \frac{1}{N}\right\} \subset \left\{\frac{p}{q}: p, q \in \Z,\ 1 \leq q \leq N,\ 0 \leq p \leq q\right\}
+  \]
+  First, note that $X_n \subset \Q$ as $f$ maps all irrationals to $0$.
+  Secondly, the rightmost set is finite and since $X_N$ is a subset of it, $X_N = \{y_1, \ldots, y_M\}$ for some finite $M$.
+
+  We then construct an partition $\mathcal{P}$ such that:
+  \begin{itemize}
+    \item Each $y_k$ is in some subinterval of $\mathcal{P}$ and no two are in the same subinterval.
+    \item Each subinterval containing a $y_k$ has length $\leq \frac{\varepsilon}{M}$.
+      This will ensure that the points in $X_N$, i.e. those which are far from $0$, will have little ``weight'' when calculating the upper sum.
+  \end{itemize}
+  For notational convenience, consider the partition to be a collection of intervals.
+  Similarly to in the proof for \cref{integrabilityFiniteDifference}, we can split the upper sum into two parts:
+  \[
+    U(f, \mathcal{P}) = \sum_{\substack{I \in \mathcal{P} \\ I \cap X_N = \emptyset}} |I| \sup_{x \in I} f(x) + \sum_{\substack{I \in \mathcal{P} \\ I \cap X_N \neq \emptyset}} |I| \sup_{x \in I} f(x) \\
+  \]
+  If $I \cap X_n = \emptyset$, then $\sup_{x \in I} f(x) \leq \frac{1}{N}$ by construction of $X_N$.
+  If $I \cap X_n \neq \emptyset$, then $|I| \leq \frac{\varepsilon}{M}$ by construction of $\mathcal{P}$, and, $\sup_{x \in I} f(x) \leq 1$ as $f(x) \leq 1\ \forall x$.
+  Therefore:
+  \begin{align*}
+    U(f, \mathcal{P}) &\leq \sum_{\substack{I \in \mathcal{P} \\ I \cap X_N = \emptyset}} |I| \cdot \frac{1}{N} + \sum_{\substack{I \in \mathcal{P} \\ I \cap X_N \neq \emptyset}} |I| \\
+                      &\leq \frac{1}{N} \cdot 1 + M \cdot \frac{\varepsilon}{M} = \frac{1}{N} + \varepsilon < 2\varepsilon
+  \end{align*}
+  as there are $M$ subintervals which have nonempty intersection with $X_N$.
+
+  Therefore, $f$ is integrable.
+  Although we do not know the value of $U(f, \mathcal{P})$ for any $\mathcal{P}$, because it is integrable $\int_{a}^{b} f(x) \d{x} = I^{*}(f) + I_{*}(f) = 0$.
+
+  This function has a similar form to to the Dirichlet function from \cref{dirichletIntegrable}, yet their integrability properties are completely different.
+\end{example}
+\begin{proposition}[Countable Discontinuities $\implies$ Integrable]
+  Let $f: [a, b] \to \R$ be bounded, and define the set of discontinuity points of $f$ as:
+  \[
+    \mathcal{D} = \{x \in [a, b]: f \text{ is not continuous at $x$}\}
+  \]
+  We then have the following:
+  \begin{enumerate}
+    \item $\mathcal{D}$ is finite $\implies$ $f$ is Riemann integrable.
+    \item $\mathcal{D}$ is countable $\implies$ $f$ is Riemann integrable.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[i]
+  See Q13b Example Sheet 3.
+\end{proof}
+\begin{proof}[2]
+  \textbf{Non-Examinable} and so not provided.
+\end{proof}
+\begin{remark}[Warning]
+  If $f$ is not Riemann integrable, then $\mathcal{D}$ cannot be countable.
+  However, there are functions with uncountable $\mathcal{D}$ that are Riemann integrable.
+  For example, the indicator function of the \textit{Cantor set} has this property.
+\end{remark}
+\section{Properties of Integrals}
+To prove some basic properties of integrals, we first need to prove some properties about infimum, supremum, and also upper and lower sums.
+\subsection{Properties of Infimum and Supremum}
+\begin{lemma}[Properties of Infimum and Supremum]
+  Let $I$ be a closed bounded interval and let $f, g: I \to \R$ be bounded functions.
+  We then have the following:
+  \begin{enumerate}
+    \item If $f(x) \leq g(x)\ \forall x \in I$, then $\sup_{x \in I} f(x) \leq \sup_{x \in I} f(x)$ and $\inf_{x \in I} f(x) \leq \inf_{x \in I} g(x)$.
+    \item $\sup_{x \in I} [-f(x)] = - \inf_{x \in I} f(x)$.
+    \item For fixed $\lambda > 0$, $\sup_{x \in I} [\lambda f(x)] = \lambda \sup_{x \in I} f(x)$.
+    \item $\sup_{x \in I} (f + g) \leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x)$ and $\inf_{x \in I} (f + g) \geq \inf_{x \in I} f(x) + \inf_{x \in I} g(x)$ \item $\sup_{x \in I} |f| - \inf_{x \in I} |f| \leq \sup_{x \in I} f - \inf_{x \in I} f$.
+  \item $\sup_{x \in I} f^2 - \inf_{x \in I} f^2 \leq 2 [\sup_{x \in I} |f|][\sup_{x \in I} f(x) - \inf_{x \in I} f(x)]$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\subsection{Properties of Upper and Lower Sums}
+\begin{lemma}[Properties of Upper and Lower Sums]
+  Let $f, g: [a, b] \to \R$ be bounded functions and let $\mathcal{P}$ be a partition of $[a, b]$.
+  We then have the following:
+  \begin{enumerate}
+    \item If $f(x) \leq g(x)\ \forall x$, then $L(f, \mathcal{P}) \leq L(g, \mathcal{P})$ and $U(f, \mathcal{P}) \leq U(g, \mathcal{P})$.
+    \item $L(-f, \mathcal{P}) = -U(f, \mathcal{P})$.
+    \item For fixed $\lambda > 0$, $L(\lambda f, \mathcal{P}) = \lambda L(f, \mathcal{P})$ and $U(\lambda f, \mathcal{P}) = \lambda U(f, \mathcal{P})$.
+    \item $U(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) + U(g, \mathcal{P})$ and $L(f + g, \mathcal{P}) \geq L(f, \mathcal{P}) + L(g, \mathcal{P})$.
+    \item $U(|f|, \mathcal{P}) - L(|f|, \mathcal{P}) \leq U(f, \mathcal{P}) - L(f, \mathcal{P})$.
+    \item $U(f^2, \mathcal{P}) - L(f^2, \mathcal{P}) \leq 2[\sup_{x \in [a, b]} f(x)][U(f, \mathcal{P}) - L(f, \mathcal{P})]$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\subsection{Properties of Integrals}
+\begin{lemma}
+  Let $f, g: [a, b] \to \R$ be integrable functions.
+  We then have the following:
+  \begin{enumerate}
+    \item If $f(x) \leq g(x)\ \forall x$, then $\int_{a}^{b} f(x) \d{x} \leq \int_{a}^{b} g(x) \d{x}$.
+    \item For $\lambda \in \R$, $\lambda f(x)$ is integrable and $\int_{a}^{b} \lambda f(x) \d{x} = \lambda \int_{a}^{b} f(x) \d{x}$.
+    \item $f + g$ is integrable and $\int_{a}^{b} (f(x) + g(x)) \d{x} = \int_{a}^{b} f(x) \d{x} + \int_{a}^{b} g(x) \d{x}$.
+    \item $|f|$ is integrable and $\int_{a}^{b} |f| \d{x} \geq \abs{\int_{a}^{b} f(x) \d{x}}$.
+    \item $fg$ is integrable.
+  \end{enumerate}
+\end{lemma}
+\begin{remark}
+  Property \textbf{iv} above is like a triangle inequality for integrals.
+\end{remark}
+\begin{proof}
   Continued next lecture.
 \end{proof}
 \end{document}
