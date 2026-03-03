@@ -190,7 +190,7 @@ so if we try to add the speed of light to itself, we get the speed of light back
 \subsection{Space-time Diagrams and Simultaneity}
 The following type of diagram is called a \textit{space-time diagram}:
 \begin{center}
-\begin{tikzpicture}[>=stealth]
+\begin{tikzpicture}[>=stealth, scale=1.5]
   \draw[->] (-0.5, 0)  -- (3, 0) node[right] {$x$};
   \draw[->] (0, -0.5)  -- (0, 3) node[above] {$ct$};
 
@@ -219,7 +219,7 @@ In the frame $S'$, the $ct'$ axis corresponds to the line $x' = 0$:
 \]
 Similarly, in $S'$, the $x'$ axis corresponds to the line $t' = 0$:
 \[
-  t' = 0 = \gamma(t - \frac{v}{c^2} x) \implies x = \frac{c^2}{v}t \implies ct = \frac{v}{c}x
+  t' = 0 = \gamma\left(t - \frac{v}{c^2} x\right) \implies x = \frac{c^2}{v}t \implies ct = \frac{v}{c}x
 \]
 So they are mapped to the lines $ct = \frac{c}{v}x$  and $ct = \frac{v}{c}x$.
 Noting that $\frac{c}{v} > 1$ and $\frac{v}{c} < 1$, we can draw this onto the space-time diagram for $S$:
@@ -246,4 +246,202 @@ Noting that $\frac{c}{v} > 1$ and $\frac{v}{c} < 1$, we can draw this onto the s
 \begin{remark}[Note]
   The axes for $S'$ are always symmetric about the line $ct = x$ as $ct = \frac{c}{v}x$ and $ct = \frac{v}{c}x$ are reflections of each other in the line $ct = x$.
 \end{remark}
+We can also draw lines of constant $t$ and constant $t'$ in the frame $S$.
+Lines of constant $t$ are just horizontal lines, whereas lines of constant $t'$ are not horizontal.
+Setting $t' = k$, we have:
+\[
+  k = \gamma\left(t - \frac{v}{c^2}x\right) \implies ct = \frac{v}{c}x + \frac{kc}{\gamma}
+\]
+So in $S$, the lines of constant $t'$ are all the lines parallel to the $x'$ axis (i.e. $t' = 0$) in $S$.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node at (0, 3.7) {Lines of constant $t$};
+  \draw[->] (-3, 0)  -- (3, 0) node[right] {$x$};
+  \draw[->] (0, -3)  -- (0, 3) node[above] {$ct$};
+
+  \fill (-1, 1) circle (1.5pt) node[below] {$P_1$};
+  \fill (1, 1) circle (1.5pt) node[below] {$P_2$};
+
+  \foreach {\i} in {-3, -2.5, ..., 3} {
+    \draw[thick, dotted] (-3, \i) -- (3, \i);
+  }
+
+  \begin{scope}[xshift=7cm]
+    \node at (0, 3.7) {Lines of constant $t'$};
+    \draw[->] (-3, 0)  -- (3, 0) node[right] {$x$};
+    \draw[->] (0, -3)  -- (0, 3) node[above] {$ct$};
+
+    \fill (-1, 1) circle (1.5pt) node[below] {$P_1$};
+    \fill (1, 1) circle (1.5pt) node[below] {$P_2$};
+
+    \node at (3.3, 1.8) {$x'$};
+    \node at (1.9, 3.3) {$ct'$};
+    \begin{scope}[decoration={
+        markings,
+        mark = at position 0.91 with {\arrow{>}}
+      }]
+      \clip (-3, -3) rectangle (3, 3);
+      \foreach {\i} in {-4, -3.5, ..., 4} {
+        \draw[thick, dotted, rotate=30] (-4, \i) -- (4, \i);
+      }
+      \draw[rotate=15, postaction={decorate}] (-3, -3) -- (3, 3);
+      \draw[rotate=-15, postaction={decorate}] (-3, -3) -- (3, 3);
+    \end{scope}
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+We say that two events are \textit{simultaneous} in a frame if they happen at the same time in that frame.
+So $P_1$ and $P_2$ are simultaneous in $S$ as they lie on the same line of constant $t$ but they are not simultaneous in $S'$ as they do not lie on the same line of constant $t'$.
+
+\begin{example}[Einstein's Relativity Train]
+  Suppose we have a train travelling along a track at a constant speed with a source of light at the centre of the train that emits light in both directions.
+
+  In the frame of the train, the train has velocity $0$ and so the light rays will reach the front and the back of the train at the same time.
+  In the frame of the platform, the train has velocity $v$ so, provided this is non-zero, since the speed of light is the same in both frames, train will have moved forward in the time it takes for the light rays to travel and so they will reach the back of the train first first.
+
+  In Galilean physics, the observer on the platform would see light going at $c + v$ in one direction and $c - v$ in the other, so would also see them reaching both ends at the same time.
+\end{example}
+We might worry that if different frames can see things at different times, then might we be able to see the cause of an event after the effect in some frame?
+Thankfully this is not the case because lines of simultaneity in $S'$ (i.e. constant $t'$) can be at most at $\ang{45}$ in a space-time diagram for $S$.
+
+This is effect can be illustrated by \textit{light cones}:
+\begin{center}
+\begin{tikzpicture}[>=stealth, scale=1.5]
+  \begin{scope}[pattern=north east lines, pattern color=gray!70]
+    \fill (0, 3) -- (3, 3) -- (1.5, 1.5);
+    \fill (0, 0) -- (3, 0) -- (1.5, 1.5);
+  \end{scope}
+  \node[scale=0.6, above] at (3, 3) {light ray};
+  \draw[->] (0, 0)  -- (3, 0) node[right] {$x$};
+  \draw[->] (0, 0)  -- (0, 3) node[above] {$ct$};
+
+  \fill (1.5, 1.5) circle (1pt) node[right] {$P$};
+  \fill (1.5, 2.2) circle (1pt) node[right] {$Q$};
+  \fill (2.7, 2.2) circle (1pt) node[right] {$R$};
+  \draw[dotted, thick] (0, 0.625) -- (3, 2.375);
+  \draw[dotted] (0, 1.5) -- (3, 1.5);
+  \draw (1.5, 1.5) ++ (0:0.5) arc (0:30:0.5) node[midway, right, scale=0.7] {$< \ang{45}$};
+  \draw[dashed] (0, 3) -- (3, 0);
+  \draw[dashed] (0, 0) -- (3, 3);
+
+  \node[fill=white, scale=0.5] at (1.5, 0.5) {Past light cone};
+  \node[fill=white, scale=0.5] at (1.5, 2.5) {Future light cone};
+\end{tikzpicture}
+\end{center}
+The future light cone contains every event that can be influenced by $P$ and the past light cone contains every event that can influence $P$.
+
+The lines of simultaneity in $S'$ have gradient $\frac{v}{c}$ in the $S$ space-time diagram and so can make at most an angle of \ang{45} with the $x$ axis as $v \to c$.
+We can find a frame where $P$ and $R$ are simultaneous since the line joining them makes an angle $<\ang{45}$ and so this could be a line of simultaneity in a different frame.
+However, we cannot make $P$ and $Q$ simultaneous since this would need a vertical line which cannot be a line of simultaneity in a different frame.
+
+So any event in the future light cone for $P$ must be to the future of $P$ in \textbf{every frame}, and similarly, every event in the past light cone for $P$, must be to the future of $P$ in \textbf{every frame}, this ensures causality.
+\begin{remark}
+  We can also see this by considering the light rays that bound the light cones.
+  By construction, we ensured that light rays map to light rays and so the set of all possible events in the light cones for $P$ are the same in all frames.
+\end{remark}
+\subsection{Time Dilation}
+Suppose we have a clock at rest in the frame $S'$ that ticks at time intervals $T'$.
+So in frame $S'$, the ticks occur at space-time coordinates $(0, 0)$, $(cT', 0)$, $(2cT', 0)$ and so on.
+We want to know when these ticks occur in the frame $S$.
+
+We can use the inverse Lorentz transformation:
+\[
+  t = \gamma\left(t' + \frac{v}{x^2}x'\right)
+\]
+Since $x' = 0$ for all ticks in $S'$, the ticks occur at $t = 0,\ \gamma T',\ 2\gamma T'$ and so on, that is, at intervals $T = \gamma T'$.
+So if $S'$ is moving at $v \neq 0$ in $S$, then $\gamma > 1$ and so $T > T'$.
+That is, for an observer in $S$, there is a longer interval between the ticks of the clock.
+\begin{example}[Twin Paradox]
+  Suppose we have two identical twins $A$ and $B$.
+  Twin $A$ stays on Earth and twin $B$ travels to Neptune and back at almost light speed.
+  The twin paradox concerns the question of which twin will be older when $B$ returns.
+
+  In the frame of the Earth, $A$ observes $B$'s clock ticking more slowly and therefore expects $B$ to be younger then they return.
+  However, we could also argue that in $B$'s frame, the Earth is moving away from them and so $A$'s clock should be ticking more slowly and therefore $B$ expects $A$ to be younger when they return.
+
+  However, this paradox breaks down due to the asymmetry that twin $B$ has to turn around at some point to return.
+  Suppose that from the perspective of $A$, it takes time $T$ for $B$ to arrive at Neptune.
+  Since $B$ travels at the same speed back, the full trip takes a time $2T$ from the perspective of $A$:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=1.5]
+    \draw[->] (0, 0)  -- (3, 0) node[right] {$x$};
+    \draw[->] (0, 0)  -- (0, 3) node[above] {$ct$};
+
+    \node[below, scale=0.6] at (0, 0) {Earth};
+    \draw[dashed] (1, 0) node[below, scale=0.6] {Neptune} -- (1, 3);
+    \draw[dotted] (0, 1.5) -- (1, 1.5);
+
+    \draw[|-|] (-0.1, 0) -- (-0.1, 1.5) node[midway, left] {$cT$};
+    \draw[|-|] (-0.1, 1.5) -- (-0.1, 3) node[midway, left] {$cT$};
+    \fill (1, 1.5) circle (1.5pt) node[right] {$P$};
+    \draw[postaction={decorate}, decoration={
+        markings,
+        mark = at position 0.25 with {\arrow{>}},
+        mark = at position 0.75 with {\arrow{>}}
+      }] (0, 0) -- (1, 1.5) -- (0, 3);
+    \begin{scope}[xshift=4cm]
+      \draw[->] (0, 0)  -- (3, 0) node[right] {$x$};
+      \draw[->] (0, 0)  -- (0, 3) node[above] {$ct$};
+
+      \draw[->] (0, 0) -- (3, 2) node[above right] {$x_{\text{out}}'$};
+
+      \draw[dotted] (0, 0.83) -- (3, 2.83) node[scale=0.5, right] {Outward Simultaneity};
+      \draw[dotted] (0, 2.167) -- (3, 0.167) node[scale=0.5, right] {Return Simultaneity};
+
+      \node[below, scale=0.6] at (0, 0) {Earth};
+      \draw[dashed] (1, 0) node[below, scale=0.6] {Neptune} -- (1, 3);
+
+      \draw[|-|] (-0.1, 0) -- (-0.1, 0.83) node[midway, left] {$c\hat{T}$};
+      \draw[|-|, dotted] (-0.1, 0.83) -- (-0.1, 2.167) node[midway, left, scale=0.5] {Missed ticks};
+      \draw[|-|] (-0.1, 2.167) -- (-0.1, 3) node[midway, left] {$c\hat{T}$};
+      \fill (1, 1.5) circle (1.5pt) node[right] {$P$};
+      \draw[postaction={decorate}, decoration={
+          markings,
+          mark = at position 0.25 with {\arrow{>}},
+          mark = at position 0.75 with {\arrow{>}}
+        }] (0, 0) -- (1, 1.5) -- (0, 3);
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+  As discussed above, we then have $2T' = \frac{2T}{\gamma}$ with $\gamma > 1$ and so from the point of view of twin $A$, less time has passed on twin $B$'s clock.
+
+  If we now consider twin $B$'s perspective, they will also see $A$'s clock running slower.
+  Similarly $2\hat{T} = \frac{2T'}{\gamma}$, i.e. $A$'s clock appears slower to $B$, however, because the simultaneity in $B$'s frame is different, they see \textbf{$A$'s clock running slower for shorter period of time}.
+  This is because $B$ misses some of the ticks of $A$'s clock as there are no lines of simultaneity for $B$ passing through $P$ in either the inward or outward direction that also pass through the ``missing ticks'' region.
+  If we account for this jump, then both $A$ and $B$ will agree that $B$ is younger.
+\end{example}
+\begin{remark}[Example Sheet]
+  See Q4 on Example Sheet 4 for a mathematical verification of this.
+\end{remark}
+\subsection{Length Contraction}
+Suppose we have a rod with length $L'$ at rest in a frame $S'$.
+We define the length of the rod to be the distance between endpoints at a fixed time.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0)  -- (3, 0) node[right] {$x'$};
+  \draw[->] (0, 0)  -- (0, 3) node[above] {$ct'$};
+
+  \fill (0, 0) circle (1.5pt) node[below] {$P_1$};
+  \fill (1, 0) circle (1.5pt) node[below] {$P_2$};
+  \draw[|<->|] (0, 0.1) -- (1, 0.1) node[midway, above] {$L'$};
+  \draw (1, 0) -- (1, 3);
+  \clip (0, 0) rectangle (3, 3);
+\end{tikzpicture}
+\end{center}
+Now consider a frame $S$ in which the frame $S'$ is moving with velocity $v$:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0)  -- (3, 0) node[right] {$x$};
+  \draw[->] (0, 0)  -- (0, 3) node[above] {$ct$};
+
+  \fill (0, 0) circle (1.5pt) node[below] {$P_1$};
+  \fill (1, 0) circle (1.5pt) node[below] {$P_3$};
+  \draw[|<->|] (0, 0.1) -- (1, 0.1) node[midway, above] {$L$};
+  \draw (1, 0) -- (3, 3);
+  \draw (0, 0) -- (2, 3);
+  \draw[dashed, ->] (0, 0) -- (3, 2) node[above right] {$x'$};
+  \fill (1.8, 1.2) circle (1.5pt) node[below right] {$P_2$};
+\end{tikzpicture}
+\end{center}
+Continued next lecture.
 \end{document}
