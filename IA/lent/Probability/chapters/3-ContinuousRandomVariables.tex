@@ -239,6 +239,7 @@ Therefore:
 \begin{theorem}
   Let $T$ be a positive random variable which is not 0 or $\infty$ identically.
   Then $T$ follows an exponential distribution if and only if $T$ has the memoryless property.
+  \label{expMemoryless}
 \end{theorem}
 \begin{proof}
   \begin{proofdirection}{Assume $T$ has the exponential distribution}
@@ -614,14 +615,14 @@ We can instead generalise this to continuous random variables as follows:
   \]
 \end{definition}
 To recover $f$, we can take $n$ partial derivatives:
-\[
-  f(x_1, \ldots, x_n) = \frac{\partial^{n}F}{\partial x_1 \cdots \partial x_n}(x_1, \ldots, x_n)
-\]
+\begin{equation}
+  f(x_1, \ldots, x_n) = \frac{\partial^{n}F}{\partial x_1 \cdots \partial x_n}(x_1, \ldots, x_n) \label{derivativeDensity}
+\end{equation}
 Furthermore, to find the probability $X$ is in a set $B \subseteq \R^{n}$:
 \[
   \P((X_1, \ldots, X_n) \in B) = \int_{B} f(y_1, \ldots, y_n) \d{y_1} \cdots \d{y_n}
 \]
-\begin{definition}[Indepdendet ]
+\begin{definition}[Independence]
   Let $X_1, \ldots, X_n$ be random variables.
   We say that $X_1, \ldots, X_n$ are \textit{independent} if $\forall x_1, \ldots, x_n$:
   \[
@@ -632,7 +633,7 @@ Furthermore, to find the probability $X$ is in a set $B \subseteq \R^{n}$:
   If the random variables above are discrete, then this is equivalent to \cref{independentDiscreteRV}.
 \end{remark}
 \begin{theorem}
-  Let $X = (X_1, \ldots, X_n)$ be an $n$-dimensional vector of continuous random variables with multivariate density $f$.
+  Let $X = (X_1, \ldots, X_n)$ be an $n$-dimensional vector of continuous random variables with multivariate density $f$. \label{densityFactor}
 
   If the random variables $X_1, \ldots, X_n$ are independent and have densities $f_1, \ldots, f_n$ respectively, then:
   \[
@@ -753,7 +754,7 @@ Like in the discrete case, we would like to be able to find the distribution of 
   \]
 \end{definition}
 \begin{theorem}
-  Let $X$ be a continuous $n$-dimensional random vector taking values in $\mathcal{D} \subseteq \R^{n}$ with density $f(\vec{x})$ for $\vec{x} \in \R^{n}$ and let $g$ be a bijection from $\mathcal{D}$ to $g(\mathcal{D})$ with a continuous derivative on $\mathcal{D}$ and $|J| \neq 0\ \forall \vec{x} \in \mathcal{D}$.
+  Let $X$ be a continuous $n$-dimensional random vector taking values in $\mathcal{D} \subseteq \R^{n}$ with density $f(\vec{x})$ for $\vec{x} \in \R^{n}$ and let $g$ be a bijection from $\mathcal{D}$ to $g(\mathcal{D})$ with a continuous derivative on $\mathcal{D}$ and $|J| \neq 0\ \forall \vec{x} \in \mathcal{D}$. \label{crvTransform}
 
   The continuous random vector $Y = g(X)$ then has density:
   \[
@@ -769,8 +770,231 @@ Like in the discrete case, we would like to be able to find the distribution of 
 \end{proof}
 \begin{example}
   Suppose $X, Y$ are independent random variables with standard normal distribution $\normal(0, 1)$.
-  What is the distribution of $R = \sqrt{X^2 + Y^2}$ and the distribution of the angle $\Theta$ the vector $(X, Y)$ makes with the positive $x$ axis?
+  What is the distribution of its modulus $R = \sqrt{X^2 + Y^2}$ and the distribution of the angle $\Theta$ the vector $(X, Y)$ makes with the positive $x$ axis?
 
-  Continued next lecture.
+  We can write $X = R \cos \Theta$ and $Y = R \sin \Theta$, then, using \cref{crvTransform}, we have:
+  \[
+    f_{R, \Theta}(r, \theta) = f_{X, Y}(r \cos \theta, r \sin \theta) \cdot |J|
+  \]
+  The Jacobian is:
+  \[
+    J = \det \begin{pmatrix}
+    \cos \theta & -r \sin \theta \\
+    \sin \theta & r \cos \theta \\
+    \end{pmatrix} = r
+  \]
+  Since $X$ and $Y$ are independent, we can apply \cref{densityFactor} to yield:
+  \begin{align*}
+    f_{R, \Theta}(r, \theta) &= f_{X}(r \cos \theta) \cdot f_{Y}(r \sin \theta) \cdot r \\
+                             &= \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2 \cos^2 \theta}{2}} \cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2 \sin^2 \theta}{2}} \cdot r \\
+                             &= \frac{1}{2\pi} \cdot re^{-\frac{r^2}{2}} \text{ for $r \geq 0$ and $\theta \in [0, 2\pi]$}
+  \end{align*}
+  We can check that $\int_{0}^{\infty} re^{-\frac{r^2}{2}} \d{r} = 1$ so by \cref{densityFactor}, $\Theta$ and $R$ are independent with $f_{\Theta}(\theta) = \frac{1}{2\pi}$ and $f_R(r) = re^{-r^2/2}$.
+  Thus $\Theta \sim \uniform[0, 2\pi]$ and $R$ has density $f_R(r) = re^{-r^2/2}$.
 \end{example}
+\subsection{Order Statistics}
+Let $X_1, \ldots, X_n$ by independent and identically distributed random variables each with probability distribution function $F$ and density $f$.
+
+We can order them from smallest to largest as:
+\[
+  X_{(1)} \leq X_{(2)} \leq \cdots \leq X_{(n)}
+\]
+where $X_{(i)}$ denotes the $i$-th smallest element of of $\{X_1, \ldots, X_n\}$.
+For example $X_{(1)} = \min\{X_1, \ldots, X_n\}$ and $X_{(n)} = \max\{X_1, \ldots, X_n\}$.
+\begin{definition}[Order Statistic]
+  We call $Y_i = X_{(i)}$ the \textit{$i$-th order statistic of the sample}.
+\end{definition}
+We can quite easily find the density of $Y_1$ by first finding its distribution function.
+\begin{align*}
+  \P(Y_1 \leq x) &= 1 - \P(Y_1 > x) \\
+                 &= 1 - \P(X_1 > x, \ldots, X_n > x) \text{ as $Y_1$ is the minimum}\\
+                 &= 1 - (\P(X_1 > x))^{n} \text{ by independence} \\
+                 &= 1 - (1 - F(x))^{n}
+\end{align*}
+To obtain the density of $Y_1$, we can differentiate both sides:
+\[
+  f_{Y_1}(x) = \deriv{}{x}\P(Y_1 \leq x) = n(1 - F(x))^{n - 1}f(x)
+\]
+Similarly, for $y_N$, we have:
+\begin{align*}
+  \P(Y_N \leq x) &= \P(X_1 \leq x, \ldots, X_n \leq x) \\
+                 &= (F(x))^{n} \text{ by independence}
+\end{align*}
+and so differentiating, we have $f_{Y_n}(x) = n(F(x))^{n-1}f(x)$.
+
+We also want to find the joint density of $(Y_1, \ldots, Y_n)$, that is $f_{(Y_1, \ldots, Y_n)}(x_1, \ldots, x_n)$ for $x_1 < x_2 < \cdots < x_n$.
+\begin{remark}[Note]
+  We impose the order on the inputs $x_i$ else the density is just $0$.
+
+  Suppose, for example, that we are working with $n = 2$ and instead have $x_2 \leq x_1$.
+  Since $Y_1 \leq Y_2$ by how the order statistics are constructed, we then have:
+  \[
+    \P(Y_1 \leq x_1, Y_2 \leq x_2) = \P(Y_1 \leq x_2, Y_2 \leq x_2)
+  \]
+  This no longer depends on $x_1$ so upon taking the partial derivative with respect to $x_1$, this vanishes and so $f_{Y_1, Y_2}(x_1, x_2) = 0$ for $x_2 \leq x_1$.
+\end{remark}
+
+We first find the joint distribution function.
+There are $n!$ total ways for the $X_i$'s to be ordered and since the $X_i$ are i.i.d., the probability of each ordering satisfying $Y_1 \leq x_1, \ldots, Y_n = x_n$ is the same, therefore:
+\begin{align*}
+  &\P(Y_1 \leq x_1, \ldots, Y_n \leq x_n) = n! \cdot \P(X_1 \leq x_1, \ldots, X_n \leq x_n, X_1 \leq X_2 \leq \cdots \leq X_n) =\\
+  &n! \cdot \int_{-\infty}^{\infty}  \cdots \int_{-\infty}^{\infty} f_{(X_1, \ldots, X_n)}(u_1, \ldots, u_n) \cdot 1(u_1 \leq x_1, \ldots, u_n \leq x_n, u_1 \leq \cdots \leq u_n) \d{u_1} \cdots \d{u_n} \\
+                                         &= n! \cdot \int_{-\infty}^{x_1} \int_{u_1}^{x_2} \cdots \int_{u_{n - 1}}^{x_n} f_{(X_1, \ldots, X_n)}(u_1, \ldots, u_n) \d{u_n} \cdots \d{u_2} \d{u_1} \\
+                                         &= n! \cdot \int_{-\infty}^{x_1} \int_{u_1}^{x_2} \cdots \int_{u_{n - 1}}^{x_n} f(u_1)f(u_2) \cdots f(u_n) \d{u_n} \cdots \d{u_2} \d{u_1}
+\end{align*}
+Finally, to obtain the density we use \cref{derivativeDensity} by taking the partial derivative with respect to $x_1, \ldots, x_n$.
+Therefore:
+\begin{equation}
+  f_{(Y_1, \ldots, Y_n)}(x_1, \ldots, x_n) = \begin{cases}
+  n! \cdot f(x_1) \cdots f(x_n) & \text{ if } x_1 < \cdots <x_n \\
+  0 & \text{ otherwise}
+  \end{cases} \label{orderJointDensity}
+\end{equation}
+Although it may appear that $Y_i$ are independent, this is not the case as the piecewise function above is equivalent to having an indicator involving $x_1, \ldots, x_n$ and so we cannot factorise it into functions of $x_1, \ldots, x_n$ only.
+\subsubsection{Order Statistics for Exponentials}
+\textbf{Minimum of Two Exponential r.v.s}\par
+Let $X \sim \Exponential(\lambda)$ and $Y \sim \Exponential(\mu)$ for $\lambda, \mu > 0$ be independent random variables and let $Z = \min\{X, Y\}$.
+\begin{align*}
+  \P(Z \leq z) &= 1 - \P(Z > z) \\
+               &= 1- \P(X > z)\P(Y > z) \text{ by independence} \\
+               &= 1 - e^{-(\lambda + \mu)z} \text{ for $z > 0$}
+\end{align*}
+Thus $Z \sim \Exponential(\lambda + \mu)$.
+
+\textbf{Minimum of $n$ Exponential r.v.s}\par
+If $(X_i)$ are independent with $X_i \sim \Exponential(\lambda_i)$, then we can iterating the above process to yield:
+\begin{equation}
+  \min\{X_1, \ldots, X_n\} \sim \Exponential\left(\sum_{i = 1}^{n} \lambda_i\right) \label{expMin}
+\end{equation}
+
+\textbf{Differences Between Occurrences}\par
+Let $X_1, \ldots, X_n$ be independent and identically distributed with distribution $\Exponential(\lambda)$ and let $Y_1, \ldots, Y_n$ be the order statistics as defined above.
+Let $Z_1 = Y_1$, $Z_2 = Y_2 - Y_1$, and more generally, $Z_i = Y_i - Y_{i - 1}$ for $i \leq n$.
+\begin{remark}[Intuition]
+  If the $X_i$ here were the time for a random alarm to first ring, then $Z_i$ would represent the time between the $(i - 1)$-th ring and the $i$-th ring.
+\end{remark}
+What is the joint density of $\vec{Z} = (Z_1, \ldots, Z_n)$?
+We can compactly relate $\vec{Z}$ and $\vec{Y}$ by the following matrix relation:
+\[
+  \vec{Z} = \begin{pmatrix}
+  Z_1 \\
+  \vdots \\
+  Z_n \\
+  \end{pmatrix} = A \begin{pmatrix}
+  Y_1 \\
+  \vdots \\
+  Y_n \\
+  \end{pmatrix} = A\vec{Y} \text{ where } A = \begin{pmatrix}
+  1 & 0 & 0 & \cdots & 0 \\
+  -1 & 1 & 0 & \cdots & 0 \\
+  0 & -1 & 1 &  & \vdots \\
+  \vdots &  & \ddots & \ddots & 0 \\
+  0 & \cdots & 0 & -1 & 1 \\
+  \end{pmatrix}
+\]
+We can then find the joint density using \cref{crvTransform}, noting that $\det A = 1$:
+\begin{align*}
+  f_{(Z_1, \ldots, Z_n)}(z_1, \ldots, z_n) &= f_{(Y_1, \ldots, Y_n)}(y_1, \ldots, y_n) \cdot |1| \\
+                                           &= n! \cdot f(y_1) \cdots f(y_n) \text{ using \cref{orderJointDensity}} \\
+                                           &= n! \cdot \lambda e^{-\lambda y_1} \cdots \lambda e^{-\lambda y_n}
+\end{align*}
+We can also rewrite $Y_j$ in terms of the $Z_i$ as:
+\[
+  Y_j = (Y_{j} - Y_{j - 1}) + (Y_{j - 1} - Y_{j - 2}) + \cdots + (Y_2 - Y_1) + Y_1 = \sum_{i = 1}^{j} Z_j
+\]
+and so after we have taken a sample, let $y_j = Y_j(\omega)$ and $z_i = Z_i(\omega)$ so $y_j = \sum_{i = 1}^{j} z_j$.
+Therefore:
+\begin{align*}
+  f_{(Z_1, \ldots, Z_n)}(z_1, \ldots, z_n) &= n! \cdot \lambda e^{-\lambda(z_1)} \cdot \lambda e^{-\lambda(z_1 + z_2)} \cdots \lambda e^{-\lambda(z_1 + \cdots z_n)} \\
+                                           &= n \cdot \lambda e^{-\lambda n \cdot z_1} \cdot (n - 1) \lambda e^{-\lambda(n - 1) \cdot z_2} \cdots 1 \cdot \lambda e^{-\lambda \cdot z_n} \\
+                                           &=\prod_{i = 1}^{n} (n - i + 1) \lambda e^{-\lambda(n - i + 1)z_i}
+\end{align*}
+Therefore, by \cref{densityFactor}, the $Z_i$ are independent and since $f_{Z_i}(z) = (n - i + 1)\lambda e^{-\lambda(n - i + 1)z}$ is a valid density:
+\[
+  Z_i \sim \Exponential(\lambda(n - i + 1)) \text{ for } i \in \{1, \ldots, n\}
+\]
+\begin{remark}[Intuition]
+  Recall from \cref{expMemoryless}, that the exponential distribution has the memoryless property.
+  Reusing the alarm example from earlier, this means that the time we have waited for the $i$-th alarm will not effect how long it will take for the $(i + 1)$-th alarm to ring and so we expect $Z_i$ to be distributed in this way, with the number of alarms still yet to ring decreasing by one each time $i$ increases, which is consistent with the result in \cref{expMin}.
+\end{remark}
+\section{Moment Generating Functions}
+\subsection{Moment Generating Functions}
+\begin{remark}[Recap]
+  Recall from \cref{probabilityGeneratingFunctions} that for a discrete random variables taking values in $\N_0$, its \textit{probability generating function} was defined as:
+  \[
+    p(z) = \E[z^{X}] = \sum_{r = 0}^{\infty} p_r z^{r}
+  \]
+\end{remark}
+We can define something similar to probability generating functions but instead for continuous random variables:
+\begin{definition}[Moment Generating Function]
+  Let $X$ be a continuous random variable with density $f(x)$.
+  The \textit{moment generating function} or \textit{mgf} of $X$ is defined to be:
+  \[
+    m(\theta) = \E[e^{\theta X}] = \int_{-\infty}^{\infty} e^{\theta x} \cdot f(x) \d{x}
+  \]
+  whenever this integral is finite.
+\end{definition}
+For any density $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ so $m(0) = 1$ similarly to in the discrete case with a pgf.
+\begin{theorem}
+  The moment generating function uniquely determines the distribution of a random variable, provided that it is defined on an open interval of values of $\theta$.
+\end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
+\begin{theorem}
+  If the moment generating function is defined for some open interval of $\theta$, then:
+  \[
+    m^{(r)}(0) = \at{\deriv[r]{m}{\theta}}{\theta = 0} = \E[X^{r}]
+  \]
+\end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
+\subsection{Gamma Distribution}
+\begin{definition}[Gamma Distribution]
+  For parameters $n \in \N$ and $\lambda \in \R^{+}$, we define the \textit{Gamma Distribution} with parameters $n$ and $\lambda$ by the density function:
+  \[
+    f(x) = \frac{e^{-\lambda x} \cdot \lambda^{n} \cdot x^{n - 1}}{(n - 1)!} \text{ for $ x > 0$}
+  \]
+  We then denote this distribution as $\Gamma(n, \lambda)$.
+\end{definition}
+\begin{remark}
+  If we take $n = 1$, we recover the exponential distribution (\cref{exponentialDist}).
+\end{remark}
+\begin{lemma}
+  The density function for the Gamma Distribution is a valid density. \label{gammaValid}
+\end{lemma}
+\begin{proof}
+  Clearly $f(x) \geq 0\ \forall x$, so we just need to check that $\int_{-\infty}^{\infty} f(x) \d{x} = 1$.
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x) \d{x} &= \int_{0}^{\infty} \lambda e^{- \lambda x} \cdot \frac{\lambda^{n - 1} x^{n - 1}}{(n - 1)!} \d{x} = I_n
+  \end{align*}
+  If we can show that $I_n = I_1$, then since $\lambda e^{-\lambda x}$ is just the density of the exponential distribution, we would have the result.
+  Integrating $I_n$ by parts, we have:
+  \begin{align*}
+    I_n &= \eval{x^{n - 1}e^{-\lambda x}}{0}{\infty} + \int_{0}^{\infty} e^{-\lambda x} \cdot \frac{(n - 1) \cdot \lambda^{n - 1}x^{n - 2}}{(n - 1)!} \d{x}\\
+        &= \int_{0}^{\infty} \lambda e^{-\lambda x} \cdot \frac{\lambda^{n - 2} x^{n - 2}}{(n - 2)!} \d{x} \\
+        &= I_{n - 1}
+  \end{align*}
+  Repeating this process we have $I_n = I_1\ \forall n \in \N$ and so the result follows.
+\end{proof}
+\begin{lemma}
+  If $X \sim \Gamma(n, \lambda)$ for $n \in \N$ and  $\lambda > 0$, then its moment generating function is:
+  \[
+    m(\theta) = \left(\frac{\lambda}{\lambda - \theta}\right)^{n} \text{ for $\theta < \lambda$}
+  \]
+\end{lemma}
+\begin{proof}
+  By definition $m(\theta) = \E[e^{\theta X}]$ and so, using \cref{expFunctionContinuous}, we have:
+  \begin{align*}
+    m(\theta) &= \E[e^{\theta X}] \\
+              &= \int_{0}^{\infty} e^{\theta x} \cdot e^{-\lambda x} \cdot \frac{\lambda^{n} x^{n - 1}}{(n - 1)!} \d{x} \\
+              &= \frac{\lambda^{n}}{(\lambda - \theta)^{n}} \cdot \int_{0}^{\infty} e^{-(\lambda - \theta)x} \frac{(\lambda - \theta)^{n} \cdot x^{n - 1}}{(n - 1)!} \d{x}  \\
+  \end{align*}
+  Provided $\theta > \lambda$, the integrand here is the density of a random variable with $\Gamma(n, \lambda - \theta)$ and so the integral evaluates to 1 by \cref{gammaValid}.
+  Therefore, for $\theta < \lambda$ we have:
+  \[
+    m(\theta) = \left(\frac{\lambda}{\lambda - \theta}\right)^{n}
+  \]
+\end{proof}
 \end{document}
