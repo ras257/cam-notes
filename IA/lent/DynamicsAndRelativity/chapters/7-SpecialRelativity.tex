@@ -155,6 +155,7 @@ where we took the positive root to avoid reflecting the $x$ axis.
   In general, assuming that $v \ll c$ is called taking the ``non-relativistic limit''.
 \end{remark}
 \subsection{Addition of Velocities}
+\label{additionOfVelocities}
 Suppose we have a particle moving at a speed $u'$ in a frame $S'$ which is moving at a speed $v$ in frame $S$.
 We want to know what speed $u$ the particle moves at in the frame $S$.
 
@@ -415,7 +416,7 @@ That is, for an observer in $S$, there is a longer interval between the ticks of
 \end{remark}
 \subsection{Length Contraction}
 Suppose we have a rod with length $L'$ at rest in a frame $S'$.
-We define the length of the rod to be the distance between endpoints at a fixed time.
+We define the length of the rod in a frame to be the distance between its endpoints at a fixed time.
 \begin{center}
 \begin{tikzpicture}[>=stealth]
   \draw[->] (0, 0)  -- (3, 0) node[right] {$x'$};
@@ -441,7 +442,246 @@ Now consider a frame $S$ in which the frame $S'$ is moving with velocity $v$:
   \draw (0, 0) -- (2, 3);
   \draw[dashed, ->] (0, 0) -- (3, 2) node[above right] {$x'$};
   \fill (1.8, 1.2) circle (1.5pt) node[below right] {$P_2$};
+
+  \draw[|<->|] (0, 0) -- (1.8, 1.2) node[midway, above] {$L'$};
 \end{tikzpicture}
 \end{center}
-Continued next lecture.
+Our objective is to calculate $L$ given $L'$.
+We know that:
+\begin{align*}
+  P_1 = (0, 1) \text{ in both $S$ and $S'$} \\
+  P_2 = (ct', x') = (0, L') \text{ in $S'$}
+\end{align*}
+We can then apply an inverse Lorentz transformation to find $P_2$ in $S$:
+\[
+  P_2 = (ct, x) = \left(c\gamma\left(0 + \frac{v}{c^2}L'\right), \gamma(L' + v \cdot 0)\right) = \left(\gamma \frac{v}{c} L', \gamma L'\right)
+\]
+In $S$, the front of the rod at $P_2$ moved with a speed $v$ for a time $t$, so to get $P_3$ in $S$, we have:
+\[
+  \at{x}{P_3} = \at{x}{P_2} - v \cdot \at{t}{P_2} = \gamma L - v \cdot \frac{\gamma v L'}{c^2} = \gamma L' \left(1 - \frac{v^2}{c^2}\right) = \frac{L'}{\gamma}
+\]
+Since $P_1$ and $P_3$ are simultaneous in $S$, the length of the rod $L$ in $S$ is $L = \at{x}{P_3} = \frac{L'}{\gamma}$
+$v < c$ and so $\gamma > 1$, thus a moving rod appears shorter.
+\begin{example}[Ladder and Barn]
+  Suppose we have a ladder with length $2L$ and barn of length $L$ open at both ends.
+  Person $A$ is holding a ladder and is moving towards the front of the barn and person $B$ is watching from outside the barn.
+
+  In $B$'s frame, the barn is stationary and the ladder is moving.
+  If $A$ travels sufficiently fast, then $B$ will see the ladder length contract enough to be short enough to fit entirely inside the barn at some point.
+
+  However, in $A$'s frame, the ladder is stationary and the barn is moving and so the barn will be length contracted and thus the ladder can never fit entirely inside the barn.
+
+  This might at first seem contradictory but can be explained using a space-time diagram:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=1.3]
+    \draw[->] (0, 0)  -- (3, 0) node[right] {$x$};
+    \draw[->] (0, 0)  -- (0, 3) node[above] {$ct$};
+
+    \draw (1, 0) -- (3, 3);
+    \draw (0, 0) -- (2, 3);
+    \draw[dotted, ->] (0, 0) -- (3, 2) node[right] {$x'$};
+    \draw[dotted] (0, 0.33) -- (3, 2.33) node[right, scale=0.5] {Simultaneity in $S'$};
+
+    \draw[dashed, thick] (0.4, 0.6) -- (2.2, 1.8);
+
+    \fill (0.4, 0.6) circle (1pt) (2.2, 1.8) circle (1pt) (1.2, 1.8) circle (1pt);
+
+
+    \draw (1.2, 0) node[below, scale=0.5] {Front} -- (1.2, 3);
+    \draw (2.2, 0) node[below, scale=0.5] {Back} -- (2.2, 3);
+
+    \draw[thick] (1.2, 1.8) -- (2.2, 1.8);
+    \draw[dotted] (0, 1.8) node[left, scale=0.5] {Simultaneity in $S$} -- (3, 1.8);
+  \end{tikzpicture}
+  \end{center}
+  Consider the event of the front of the ladder just reaching the back side of the barn.
+  In $B$'s frame $S$, this event is simultaneous with the event of rear of the ladder entering the barn and so the ladder is entirely inside the barn for $B$.
+  However, if we draw a line of constant $t'$ through this event, we see that in $S'$, it is simultaneous with the rear of the ladder still sticking out of the barn, so from $A$'s perspective, there is never a point where the ladder is fully inside the barn.
+\end{example}
+\subsection{The Invariant Interval}
+We have seen that two frames do not necessarily agree on when and where something happens, however there is one quantity that all frames will always agree on.
+Consider two events $P_1$ and $P_2$ with coordinates $(ct_1, x_1)$ and $(ct_2, x_2)$ respectively in the frame $S$ and let $\Delta t = t_2  - t_1$ and $\Delta x = x_2 - x_1$.
+\begin{definition}[Invariant Interval]
+  The \textit{invariant interval} $(\Delta s)^2$ is:
+  \[
+    (\Delta s)^2 \equiv c^2 (\Delta t)^2 - (\Delta x)^2
+  \]
+\end{definition}
+We check it is invariant by calculating this in the $S'$ frame.
+Since the Lorentz transformations are linear, we can introduce a $\Delta$ to each variable:
+\begin{align*}
+  \Delta x' &= \gamma(\Delta x - v \Delta t) \\
+  \Delta t' &= \gamma\left(\Delta t - \frac{v}{c^2} \Delta x\right)
+\end{align*}
+Therefore:
+\begin{align*}
+  c^2(\Delta t')^2 - (\Delta x')^2 &= \gamma^2 c^2 \left(\Delta t - \frac{v}{c^2} \Delta x\right)^2 - \gamma^2 \left(\Delta x - v \Delta t\right)^2 \\
+                                   &= (\Delta t)^2(\gamma^2 c^2 - \gamma^2 v^2) + (\Delta x)^2\left(\gamma^2 \cdot \frac{c^2 v^2}{c^4} - \gamma^2\right) \\
+                                   &= (\Delta t)^2\left(\frac{c^2}{1 - \frac{v^2}{c^2}} - \frac{v^2}{1 - \frac{v^2}{c^2}}\right) + (\Delta x)^2\left(\frac{1}{1 - \frac{v^2}{c^2}}\right)\left(\frac{v^2}{c^2} - 1\right)\\
+                                   &= c^2(\Delta t)^2 - (\Delta x)^2
+\end{align*}
+So the invariant interval is the same in both frames.
+
+We can also express the invariant interval using matrices as:
+\[
+  (\Delta s)^2 = \begin{pmatrix}
+  c \Delta t & \Delta x \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} \begin{pmatrix}
+  c \Delta t \\
+  \Delta x \\
+  \end{pmatrix}
+\]
+Since it is linear, we can also write the Lorentz transformation as a matrix:
+\[
+  \begin{pmatrix}
+  c t' \\
+  x' \\
+  \end{pmatrix} = \begin{pmatrix}
+  \gamma & - \frac{\gamma v}{c} \\
+  - \frac{\gamma v}{c} & \gamma \\
+  \end{pmatrix} \begin{pmatrix}
+  ct \\
+  x \\
+  \end{pmatrix}
+\]
+Invariance of $(\Delta s)^2$ is equivalent to:
+\begin{align*}
+  (\Delta s)^2 &= \begin{pmatrix}
+  c \Delta t & \Delta x \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} \begin{pmatrix}
+  c \Delta t \\
+  \Delta x \\
+  \end{pmatrix} = \begin{pmatrix}
+  c \Delta t' & \Delta x' \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} \begin{pmatrix}
+  c \Delta t' \\
+  \Delta x' \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+  c\Delta t & \Delta x \\
+  \end{pmatrix} \begin{pmatrix}
+  \gamma & - \frac{\gamma v}{c} \\
+  - \frac{\gamma v}{c} & \gamma \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} \begin{pmatrix}
+  \gamma & - \frac{\gamma v}{c} \\
+  - \frac{\gamma v}{c} & \gamma \\
+  \end{pmatrix} \begin{pmatrix}
+  c\Delta t \\
+  \Delta x \\
+  \end{pmatrix}
+\end{align*}
+So we must have:
+\[
+  \begin{pmatrix}
+  \gamma & - \frac{\gamma v}{c} \\
+  - \frac{\gamma v}{c} & \gamma \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}\begin{pmatrix}
+  \gamma & - \frac{\gamma v}{c} \\
+  - \frac{\gamma v}{c} & \gamma \\
+  \end{pmatrix} = \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix}
+\]
+This Matrix is called the \textit{Minkowski} metric.
+We saw this briefly at the end of IA Vectors and Matrices.
+\begin{remark}
+  We can compare this to how if we have a rotation matrix $R$, we have that $R R^{\trans} = R I R^{\trans} = I$, so they preserve the euclidean metric/norm.
+\end{remark}
+\begin{remark}[Warning]
+  Unlike the euclidean metric, the Minkowski metric is \textbf{not} positive definite, that is, we can have $(\Delta s)^2 < 0$.
+\end{remark}
+\begin{definition}[Seperation of Events]
+  If we have two events $P_1$ and $P_2$ then:
+  \begin{enumerate}
+    \item If $(\Delta s)^2 > 0$, then we say they are \textit{time like} separated.
+    \item If $(\Delta s)^2 < 0$, then we say they are \textit{space like} separated.
+    \item If $(\Delta s)^2 = 0$, then we say they are \textit{light like} separated.
+  \end{enumerate}
+\end{definition}
+\begin{remark}
+  If $(\Delta s)^2 = 0$, then $c^2(\Delta t)^2 = (\Delta x)^2$ so the two points must be connected by a light ray.
+\end{remark}
+Similarly to how the euclidean metric measures distances in space only, the Minkowski metric measures distances in space-time.
+\subsection{Rapidity}
+  To make the analogy with rotations clear, we can define rapidity.
+  \begin{definition}[Rapidity]
+    For a Lorentz transformation with factor $\gamma$, the \textit{rapidity} $\varphi$ is defined to be:
+    \[
+      \gamma \equiv \cosh \varphi
+    \]
+  \end{definition}
+  We can then show that:
+  \[
+    \sinh \varphi = \sqrt{\cosh^2 \varphi - 1} = \sqrt{\gamma^2 -1 } = \frac{v \gamma}{c}
+  \]
+  So the Lorentz transformation matrix becomes:
+  \[
+    \begin{pmatrix}
+    \gamma & - \frac{\gamma v}{c} \\
+    - \frac{\gamma v}{c} & \gamma \\
+    \end{pmatrix} = \begin{pmatrix}
+    \cosh \varphi & -\sinh \varphi \\
+    -\sinh \varphi &  \cosh \varphi \\
+    \end{pmatrix} \equiv \Lambda(\varphi)
+  \]
+  If we do repeated Lorentz transformations, then we see that radpidities sum:
+  \[
+    \Lambda(\varphi_1)\Lambda(\varphi_2) = \Lambda(\varphi_1 + \varphi_2)
+  \]
+  This is similar to how composing 2D rotation sums angles.
+
+  If we instead consider $\Lambda$ in terms of velocity, then we retrieve the formula for addition of velocities from \cref{additionOfVelocities}:
+  \[
+    \Lambda(v_1)\Lambda(v_2) = \Lambda\left(\frac{v_1 + v_2}{1 + \frac{v_1 v_2}{c^2}}\right)
+  \]
+\section{Lorentz Transformations in 4 Dimensions}
+We can generalise the Minkowski metric to 4 Dimensions (1 time dimension and 3 spatial dimensions) as:
+\[
+  \eta = \begin{pmatrix}
+  1 & 0 & 0 & 0 \\
+  0 & -1 & 0 & 0 \\
+  0 & 0 & -1 & 0 \\
+  0 & 0 & 0 & -1 \\
+  \end{pmatrix}
+\]
+\begin{remark}[Notation]
+  If we are using indices on this matrix, we typically use Greek letter $\mu$ and $\nu$ instead of $i$ and $j$, for example $\eta_{\mu \nu}$.
+  Furthermore, by convention, we also take $\mu$ and $\nu$ running from 0 to 3 instead of 1 to 4 as we would typically expect.
+\end{remark}
+
+An event in space-time is given by a \textit{4-vector}:
+\[
+  X = (ct, x, y, z)
+\]
+\begin{remark}[Notation]
+  \begin{itemize}
+    \item By convention, we will use capital letters without boldface/underlines to denote a 4-vector.
+    \item With indices, we again use Greek letters.
+      We also use upper indices, for example $X^{\mu}$.
+      Although not important here, in future courses, it will be important to distinguish \textit{upper and lower indices} for 4-vectors
+  \end{itemize}
+\end{remark}
+The invariant distance between the origin and the event $X$ is given by the inner product:
+\[
+  X \cdot X \equiv X^{\trans} \eta X = c^2 t^2 - x^2 - y^2 - z^2
+\]
+\begin{remark}
+  In index notation this would be $X^{\mu}\eta_{\mu \nu}X^{\nu}$.
+\end{remark}
 \end{document}
