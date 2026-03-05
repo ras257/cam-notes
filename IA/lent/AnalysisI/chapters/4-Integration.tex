@@ -597,7 +597,7 @@ We also need to show that adding two integrals acts as we would expect.
 \end{proof}
 We can now show that piecewise continuous functions are integrable.
 \begin{proposition}[Piecewise Continiuous $\implies$ Integrable]
-  If $f: [a, b] \to \R$ is a piecewise continuous function, then it is integrable and:
+  If $f: [a, b] \to \R$ is a piecewise continuous function, then it is integrable and: \label{piecewiseIntegrable}
   \[
     \int_{a}^{b} f(x) \d{x} = \sum_{j = 1}^{n} \int_{x_{j - 1}}^{x_j} \overline{f}_j(x)  \d{x}
   \]
@@ -698,9 +698,9 @@ To prove some basic properties of integrals, we first need to prove some propert
 \subsection{Properties of Infimum and Supremum}
 \begin{lemma}[Properties of Infimum and Supremum]
   Let $I$ be a closed bounded interval and let $f, g: I \to \R$ be bounded functions.
-  We then have the following:
+  We then have the following: \label{infSupProperties}
   \begin{enumerate}
-    \item If $f(x) \leq g(x)\ \forall x \in I$, then $\sup_{x \in I} f(x) \leq \sup_{x \in I} f(x)$ and $\inf_{x \in I} f(x) \leq \inf_{x \in I} g(x)$.
+    \item If $f(x) \leq g(x)\ \forall x \in I$, then $\sup_{x \in I} f(x) \leq \sup_{x \in I} g(x)$ and $\inf_{x \in I} f(x) \leq \inf_{x \in I} g(x)$.
     \item $\sup_{x \in I} [-f(x)] = - \inf_{x \in I} f(x)$.
     \item For fixed $\lambda > 0$, $\sup_{x \in I} [\lambda f(x)] = \lambda \sup_{x \in I} f(x)$.
     \item $\sup_{x \in I} (f + g) \leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x)$ and $\inf_{x \in I} (f + g) \geq \inf_{x \in I} f(x) + \inf_{x \in I} g(x)$ \item $\sup_{x \in I} |f| - \inf_{x \in I} |f| \leq \sup_{x \in I} f - \inf_{x \in I} f$.
@@ -708,14 +708,75 @@ To prove some basic properties of integrals, we first need to prove some propert
   \end{enumerate}
 \end{lemma}
 \begin{proof}
-  Continued next lecture.
+  \begin{enumerate}
+    \item For all $x \in I$, we have $f(x) \leq g(x) \leq \sup_{y \in I} g(y)$.
+      The right hand side of this is just a constant, so taking supremum of both sides with respect to $x$, we have $\sup_{x \in I} f(x) \leq \sup_{y \in X} g(y) = \sup_{x \in I} g(y)$.
+
+      Similarly, $\inf_{y \in I} f(y) \leq f(x) \leq g(x)$ so $\inf_{x \in I} f(x) = \inf_{y \in I} f(y) \leq \inf_{x \in I} g(x)$.
+    \item $\inf_{I} f \leq f(x) \iff - \inf_{I} f \geq -f(x) \ \forall x \in I$ and so $-\inf_{I} f \geq \sup_{I} (-f)$.
+
+      Similarly, $-f(x) \leq \sup_{I} (-f) \iff f(x) \geq -\sup_{I} (-f)\ \forall x \in I$ and so $\inf_{I} f \geq -\sup_{I} f \implies -\inf_{I} f \leq \sup_{I} (-f)$.
+
+      Combining the above, we have:
+      \[
+        -\inf_{I} f \leq \sup_{I} (-f) \leq -\inf_{I} f \implies \sup_{I} (-f) = - \inf_{I} f
+      \]
+    \item We know that $f(x) \leq \sup_{I} f\ \forall x \iff \lambda f(x) \leq \lambda \sup_{I} f\ \forall x \implies \sup_{I} (\lambda f) \leq \lambda \sup_{I} f$.
+      Similarly, $\lambda f(x) \leq \sup_{I} (\lambda f)\ \forall x \in I \iff f(x) \leq \frac{1}{\lambda}\sup_{I} f\ \forall x \in I \implies \sup_{I} f \leq \frac{1}{\lambda}\sup_{I} (\lambda f) \implies \lambda \sup_{I} f \leq \sup_{I} (\lambda f)$.
+
+      Combining the above, we have:
+      \[
+        \lambda \sup_{I} f \leq \sup_{I} (\lambda f) \leq \lambda \sup_{I} f \implies \sup_{I} (\lambda f) = \lambda \sup_{I} f
+      \]
+    \item We know that $f(x) \leq \sup_{I} f\ \forall x \in I$ and $g(x) \leq \sup_{I} g\ \forall x \in I$ and so $f(x) + g(x) \leq \sup_{I} f + \sup_{I} g \implies \sup_{I} (f + g) \leq \sup_{I} f + \sup_{I} g$.
+
+      Using the above result and \textbf{(ii)}, we have:
+      \[
+        \inf_{I} (f + g) = - \sup_{I} (-f - g) \geq -(\sup_{I} (-f) + \sup_{I} (-g)) = \inf_{I} f + \inf_{I} g
+      \]
+    \item
+      \begin{proofcases}
+        \begin{case}{$f \geq 0$ or $f \leq 0$ on all of $I$}
+          If $f \geq 0$ on all of $I$, then $|f| = f$ so we have equality
+
+          If $f \leq 0$ on all of $I$, then $|f| = -f$ so by \textbf{(ii)}:
+          \[
+            \sup_{I} |f| - \inf_{I} |f| = \sup_{I} (-f) - \inf_{I} (-f) = - \inf_{I} f + \sup_{I} f
+          \]
+          So we again have equality.
+        \end{case}
+        \begin{case}{$\inf_I f < 0 < \sup_I f$}
+          We then have that:
+          \[
+            \sup_{x \in I} |f| - \inf_{I} |f| \leq \sup_{x \in I} |f| \leq \max\left\{\sup_{I} f, \sup_{I} (-f)\right\} \\
+          \]
+          By \textbf{ii}, $\sup_{I} (-f) = - \inf_{x \in I} f > 0$.
+          We also know that $\sup_{I} f > 0$ and so:
+          \[
+            \sup_{I} |f| - \inf_{I} |f| = \max\left\{\sup_{I} f, -\inf_{I} f\right\} \leq \sup_{I} f - \inf_{I} f
+          \]
+          as the maximum of two positive numbers is less than their sum.
+        \end{case}
+      \end{proofcases}
+    \item Consider arbitrary $x, y \in I$:
+      \begin{align*}
+        (f(x))^2 - (f(y))^2 &= (f(x) + f(y))(f(x) - f(y)) \\
+                            &\leq 2 \left(\sup_{x \in I} |f|\right)\left(\sup_{x \in I}\sup_{y \in I}[f(x) - f(y)]\right) \\
+                            &= 2 \left(\sup_{x \in I} |f|\right)\left(\sup_{x \in I}f(x) - \inf_{x \in I} f(x)\right) \text{ using \textbf{(ii)}}
+      \end{align*}
+      This inequality is true for all $x, y \in I$ and its right hand side is just a constant so the supremum with respect to $x$ and $y$ on the left hand side must be less than or equal to this.
+      Therefore, using \textbf{(ii)} again, we have:
+      \[
+        \sup_{I} \sup_{I}[(f(x))^2 - (f(y))^2] = \sup_{I} f^2 - \inf_{I} f^2 \leq 2 \left(\sup_{I} |f|\right)\left(\sup_{I}f(x) - \inf_{I} f(x)\right)
+      \]
+  \end{enumerate}
 \end{proof}
 \subsection{Properties of Upper and Lower Sums}
 \begin{lemma}[Properties of Upper and Lower Sums]
   Let $f, g: [a, b] \to \R$ be bounded functions and let $\mathcal{P}$ be a partition of $[a, b]$.
-  We then have the following:
+  We then have the following: \label{upperLowerProperties}
   \begin{enumerate}
-    \item If $f(x) \leq g(x)\ \forall x$, then $L(f, \mathcal{P}) \leq L(g, \mathcal{P})$ and $U(f, \mathcal{P}) \leq U(g, \mathcal{P})$.
+    \item If $f(x) \leq g(x)\ \forall x \in [a, b]$, then $L(f, \mathcal{P}) \leq L(g, \mathcal{P})$ and $U(f, \mathcal{P}) \leq U(g, \mathcal{P})$.
     \item $L(-f, \mathcal{P}) = -U(f, \mathcal{P})$.
     \item For fixed $\lambda > 0$, $L(\lambda f, \mathcal{P}) = \lambda L(f, \mathcal{P})$ and $U(\lambda f, \mathcal{P}) = \lambda U(f, \mathcal{P})$.
     \item $U(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) + U(g, \mathcal{P})$ and $L(f + g, \mathcal{P}) \geq L(f, \mathcal{P}) + L(g, \mathcal{P})$.
@@ -724,14 +785,14 @@ To prove some basic properties of integrals, we first need to prove some propert
   \end{enumerate}
 \end{lemma}
 \begin{proof}
-  Continued next lecture.
+  All follow directly from the corresponding properties in \cref{infSupProperties} above.
 \end{proof}
 \subsection{Properties of Integrals}
 \begin{lemma}
-  Let $f, g: [a, b] \to \R$ be integrable functions.
+  Let $f, g: [a, b] \to \R$ be integrable functions. \label{integralProperties}
   We then have the following:
   \begin{enumerate}
-    \item If $f(x) \leq g(x)\ \forall x$, then $\int_{a}^{b} f(x) \d{x} \leq \int_{a}^{b} g(x) \d{x}$.
+    \item If $f(x) \leq g(x)\ \forall x \in [a, b]$, then $\int_{a}^{b} f(x) \d{x} \leq \int_{a}^{b} g(x) \d{x}$.
     \item For $\lambda \in \R$, $\lambda f(x)$ is integrable and $\int_{a}^{b} \lambda f(x) \d{x} = \lambda \int_{a}^{b} f(x) \d{x}$.
     \item $f + g$ is integrable and $\int_{a}^{b} (f(x) + g(x)) \d{x} = \int_{a}^{b} f(x) \d{x} + \int_{a}^{b} g(x) \d{x}$.
     \item $|f|$ is integrable and $\int_{a}^{b} |f| \d{x} \geq \abs{\int_{a}^{b} f(x) \d{x}}$.
@@ -742,6 +803,200 @@ To prove some basic properties of integrals, we first need to prove some propert
   Property \textbf{iv} above is like a triangle inequality for integrals.
 \end{remark}
 \begin{proof}
-  Continued next lecture.
+  \begin{enumerate}
+    \item From \cref{upperLowerProperties} \textbf{(i)} above, we have $L(f, \mathcal{P}) \leq L(g, \mathcal{P})$ for any partition $\mathcal{P}$ of $[a, b]$.
+      Taking supremum of both sides over all $\mathcal{P}$, we have $I_{*}(f) \leq I_{*}(g)$.
+      Since both are integrable $\int_{a}^{b} f(x) \d{x} = I_{*}(f) \leq I_{*}(g) = \int_{a}^{b} g(x) \d{x}$.
+    \item If $\lambda = 0$ then the result follows trivially so assume $\lambda \neq 0$.
+      For any $\varepsilon > 0$ since $f$ is integrable, $\exists \mathcal{P}$ such that $U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon$.
+      We then have:
+      \begin{align*}
+        \int_{a}^{b} f(x) \d{x} \geq L(f, \mathcal{P}) \implies U(f, \mathcal{P}) < \int_{a}^{b} f(x) \d{x} + \varepsilon \\
+        \int_{a}^{b} f(x) \d{x} \leq U(f, \mathcal{P}) \implies L(f, \mathcal{P}) > \int_{a}^{b} f(x) \d{x} - \varepsilon
+      \end{align*}
+      From \cref{upperLowerProperties}, if $\lambda > 0$, $L(\lambda f, \mathcal{P}) = \lambda L(f, \mathcal{P})$ and $U(\lambda f, \mathcal{P}) = \lambda U(f, \mathcal{P})$.
+      We can then construct the following chain of inequalities:
+      \[
+        \lambda \int_{a}^{b} f \d{x} -\lambda \varepsilon \leq L(\lambda f, \mathcal{P}) \leq I_{*}(\lambda f) \leq I^{*}(\lambda f) \leq U(\lambda f, \mathcal{P}) \leq \lambda \int_{a}^{b} f \d{x} + \lambda \varepsilon
+      \]
+      But since $\varepsilon$ is arbitrary, we conclude that $I_{*}(\lambda f) = I^{*}(\lambda f) = \lambda \int_{a}^{b} f \d{x}$.
+      So $\lambda f$ is integrable with $\int_{a}^{b} \lambda f \d{x} = \lambda \int_{a}^{b} f \d{x}$.
+
+      Now for $\lambda = -1$, by \cref{upperLowerProperties} \textbf{(ii)}, we have:
+      \begin{align*}
+        L(-f, \mathcal{P}) = - U(f, \mathcal{P}) > -\int_{a}^{b} f(x) \d{x} - \varepsilon \\
+        U(-f, \mathcal{P}) = - L(f, \mathcal{P}) < -\int_{a}^{b} f(x) \d{x} + \varepsilon
+      \end{align*}
+      So we can construct the following chain of inequalities:
+      \[
+        - \int_{a}^{b} f \d{x} - \varepsilon \leq L(-f, \mathcal{P}) \leq I_{*}(-f) \leq I^{*}(-f) \leq U(-f, \mathcal{P}) \leq - \int_{a}^{b} f \d{x} + \varepsilon
+      \]
+      Again, since $\varepsilon$ is arbitrary, we conclude that $I_{*}(-f) = I^{*}(-f) = - \int_{a}^{b} f \d{x}$.
+      So $-f$ is also integrable with $\int_{a}^{b} -f \d{x} = -\int_{a}^{b} f \d{x}$.
+
+      Since we have shown the result for $\lambda \geq 0$ and $\lambda = -1$, the result follows for all $\lambda \in \R$ by combining the above.
+    \item \textbf{Integrability --} For any $\varepsilon > 0$, since $f$ is integrable $\exists \mathcal{P}_1$ such that $U(f, \mathcal{P}_1) - L(f, \mathcal{P}_1) < \varepsilon$ and since $g$ is integrable $\exists \mathcal{P}_2$ such that $U(g, \mathcal{P}_2) - L(f, \mathcal{P}_2) < \varepsilon$.
+      The partition $\mathcal{P} = \mathcal{P}_1 \cup \mathcal{P}_2$ is a refinement of $\mathcal{P}_1$ and $\mathcal{P}_2$ so:
+      \begin{align*}
+        U(f, \mathcal{P}) - L(f, \mathcal{P}) < U(f, \mathcal{P}_1) - L(f, \mathcal{P}_1) &< \varepsilon \\
+        U(g, \mathcal{P}) - L(g, \mathcal{P}) < U(g, \mathcal{P}_2) - L(g, \mathcal{P}_2) &< \varepsilon
+      \end{align*}
+      Using \cref{upperLowerProperties} \textbf{(iv)} we have:
+      \[
+        U(f + g, \mathcal{P}) - L(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) - L(f, \mathcal{P}) + U(g, \mathcal{P}) - L(g, \mathcal{P}) < 2\varepsilon
+      \]
+      So $f + g$ is integrable.
+
+      \textbf{Equality of Integrals --} Using \cref{upperLowerProperties} \textbf{(iv)} again, for any partition $\mathcal{P}$:
+      \[
+        U(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) + U(f, \mathcal{P}) \text{ and }  L(f + g, \mathcal{P}) \geq L(f, \mathcal{P}) + L(f, \mathcal{P})
+      \]
+      Using \cref{infSupProperties} \textbf{(iv)} we then have:
+      \begin{align*}
+        I_{*}(f + g) \leq \sup_{\mathcal{P}} (L(f, \mathcal{P}) + L(g, \mathcal{P})) \leq I_{*}(f) + I_{*}(g) \\
+        I^{*}(f + g) \geq \inf_{\mathcal{P}} (U(f, \mathcal{P}) + U(g, \mathcal{P})) \geq I^{*}(f) + I^{*}(g)
+      \end{align*}
+      Since $f + g$, $f$ and $g$ are all integrable, their lower and upper integrals are equal and so:
+      \[
+        \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x} \leq \int_{a}^{b} (f + g) \d{x} \leq \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x}
+      \]
+      So the result follows.
+    \item Using \cref{upperLowerProperties} \textbf{(v)}, for any partition $\mathcal{P}$ of $[a, b]$:
+      \[
+        U(|f|, \mathcal{P}) - L(|f|, \mathcal{P}) \leq U(f, \mathcal{P}) - L(f, \mathcal{P})
+      \]
+      Hence, if $f$ is integrable, so is $|f|$.
+      Since $-|f(x)| \leq f(x) \leq |f(x)|\ \forall x \in [a, b]$, hence by \textbf{(i)}, we have:
+      \begin{align*}
+        - \int_{a}^{b} |f(x)| \d{x} \leq \int_{a}^{b} f(x) \d{x} \leq \int_{a}^{b} |f(x)| \d{x} \implies \abs{\int_{a}^{b} |f(x)| \d{x}} \geq \abs{\int_{a}^{b} f(x) \d{x}}
+      \end{align*}
+      $|f| \geq 0\ \forall x \implies \int_{a}^{b} |f| \d{x} \geq 0 \implies |\int_{a}^{b} |f| \d{x}| = \int_{a}^{b} |f| \d{x}$ so the result follows.
+    \item We can rewrite $fg$ as $fg = \frac{1}{4}\left[(f + g)^2 - (f - g)^2\right]$.
+      By \textbf{(ii)} and \textbf{(ii)} both $f + g$ and $f - g$ are integrable, so we just need to show that if some function $f$ is integrable, so is $f^2$.
+
+      By \cref{upperLowerProperties} \textbf{(vi)}, for any partition $\mathcal{P}$ of $[a, b]$, we have:
+      \[
+        U(f^2 , \mathcal{P}) - L(f^2, \mathcal{P}) \leq 2 \sup_{x \in I} |f(x)| \cdot [U(f, \mathcal{P}) - L(f, \mathcal{P})]
+      \]
+      Since $f$ is integrable, we can make $U(f, \mathcal{P}) - L(f, \mathcal{P})$ arbitrarily small.
+      Therefore, since $2 \sup_{I} f$ is just a non-negative constant, we can make $U(f^2, \mathcal{P}) - L(f^2, \mathcal{P})$ arbitrarily small and so $f^2$ from which the result follows as established.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  From the proof of property \textbf{(ii)} above, we have the useful property that if $f: [a, b] \to \R$ is integrable, then $\forall \varepsilon > 0\ \exists \mathcal{P}$ of $[a, b]$ such that:
+  \[
+    \int_{a}^{b} f(x) \d{x} -\varepsilon \leq L(f, \mathcal{P}) \leq U(f, \mathcal{P}) \leq \int_{a}^{b} f(x) \d{x} + \varepsilon
+  \]
+\end{remark}
+\section{Integration and Differentiation}
+You have probably seen previously that differentiation is the inverse process of integration.
+But why is this?
+
+For this it is useful to represent the integral of $f: [a, b] \to \R$ from $a$ to $x$ as a function $F(x)$:
+\[
+  F: [a, b] \to \R,\ x \mapsto \int_{a}^{x} f(t) \d{t}
+\]
+We will first check that $F$ is continuous otherwise there is no chance it can be differentiable (see \cref{diffCont}).
+\begin{proposition}[Integration is a Continuous Operation]
+  If $f: [a, b] \to \R$ be Riemann integrable, then $F$ as defined above is continuous in $[a, b]$.
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    |F(x + h) - F(x)| &= \abs{\int_{a}^{x + h} f(t) \d{t} - \int_{a}^{x} f(t) \d{t}} \\
+                      &= \abs{\int_{x}^{x + h} f(t) \d{t}} \text{ by \cref{integralAdditivity}}\\
+                      &\leq \int_{x}^{x+h} |f(t)| \d{t} \\
+                      &\leq \sup_{x \in [a, b]} |f| \int_{x}^{x+h} 1 \d{t} \\
+                      &= h \sup_{x \in [a, b]} f
+  \end{align*}
+  Since $f$ is bounded, $\sup_{x \in [a, b]} f$ is a finite constant and so as $h \to 0$, $|F(x + h) - F(x)| \to 0$.
+  Thus, $F$ is continuous on $[a, b]$.
+\end{proof}
+\begin{theorem}[Fundemental Theorem of Calculus -- Part 1]
+  If $f: [a, b] \to \R$ is Riemann integrable and continuous at $x_0$ then $F$ as above is differentiable at $x_0$ and:
+  \[
+    F'(x_0) = \at{\deriv{}{x}\left[\int_{a}^{x} f(t) \d{t}\right]}{x = x_0}  = f(x_0)
+  \]
+\end{theorem}
+\begin{proof}
+  To do this, we can use the definition of differentiability involving an error term from \cref{derivativeAlternative}.
+  Define $\varepsilon(h)$ as:
+  \[
+    \varepsilon(h) = \frac{F(x_0 + h) - F(x_0) - hf(x_0)}{|h|}
+  \]
+  We then want to show that $\varepsilon(h) \to 0$ as $h \to 0$.
+  We can estimate the numerator as follows:
+  \begin{align*}
+    |F(x_0 + h) - F(x_0) - hf(x_0)| &= \abs{\int_{x_0}^{x + h} f(t) \d{t} - h f(x_0)} \\
+                                    &= \abs{\int_{x_0}^{x_0+h} f(t) \d{x} - f(x_0)\int_{x_0}^{x_0+h} \d{t}} \\
+                                    &= \abs{\int_{x_0}^{x_0+h} f(t) \d{x} - \int_{x_0}^{x_0+h} f(x_0) \d{t}} \text{ by \cref{integralProperties} \textbf{(ii)}}\\
+                                    &= \abs{\int_{x_0}^{x_0+h} f(t) - f(x_0) \d{t}} \text{ by \cref{integralProperties} \textbf{(iii)}} \\
+                                    &\leq \int_{x_0}^{x_0+h} |f(t) - f(x_0)| \d{t} \text{ by \cref{integralProperties} \textbf{(iv)}}
+  \end{align*}
+  Since $|f(t) - f(x_0)| \leq \sup_{t \in [x_0, x_0 + h]} |f(t) - f(x_0)|\ \forall t \in [x_0, x_0 + h]$, by \cref{integralProperties} \textbf{(i)} we have:
+  \begin{align*}
+    |F(x_0 + h) - F(x_0) - hf(x_0)| &\leq \sup_{t \in [0, h]}|f(x_0 + t) - f(x)| \cdot \int_{x_0}^{x_0 + h} 1 \d{t} \\
+                                    &= h \cdot \sup_{t \in [0, h]} |f(x_0 + t) - f(x)|
+  \end{align*}
+  Thus $|\varepsilon(h)| \leq \sup_{t \in [0, h]} |f(x_0 + t) - f(x_0)| \to 0$ as $h \to 0$.
+
+  Finally, by what we saw in \cref{derivativeAlternative}, the coefficient of $h$ in the numerator is the derivative at $x_0$ and so $F'(x_0) = f(x_0)$.
+\end{proof}
+\begin{example}
+  Take $[a, b] = [-1, 1]$ and define:
+  \[
+    f(x) = \begin{cases}
+    1 & \text{ if } x \geq 0\\
+    -1 & \text{ if } x < 0
+    \end{cases}
+  \]
+  This has a discontinuity at $x = 0$ but is piecewise continuous and so by \cref{piecewiseIntegrable} is Riemann integrable with:
+  \[
+    F(x) = \int_{-1}^{x} f(t) \d{t} = \begin{cases}
+    -1-x & \text{ if } x\leq 0 \\
+    x - 1 & \text{ if } x \geq 0
+    \end{cases} = |x| - 1
+  \]
+  This is not differentiable at $x = 0$, which is where the discontinuity of $f$ was so the continuity of $f$ is necessary in the above.
+\end{example}
+\begin{corollary}
+  If $f = g'$ is continuous on $[a, b]$, then $F(x) = \int_{a}^{x} f(t) \d{t} = g(x) - g(a)\ \forall x \in [a, b]$.
+\end{corollary}
+\begin{proof}
+  $f$ is continuous so by the above $F$ is differentiable.
+  \[
+    \deriv{}{x}(F(x) - g) = f(x) - g'(x) = 0\ \forall x \in [a, b]
+  \]
+  So by \cref{derivativeIncreasingRelation}, we must have that $F - g$ is constant on $[a, b]$, i.e.
+  \[
+    F(x) - g(x) = F(a) - g(a) = -g(a)\ \forall x \in [a, b] \implies F(x) = g(x) - g(a)\ \forall x \in [a, b]
+  \]
+\end{proof}
+We can prove a stronger (i.e. weaker assumptions) and more general result of the FTC.
+\begin{theorem}[Fundemental Theorem of Calculus -- Part 2]
+  If $f: [a, b] \to \R$ is Riemann integrable and there exists a differentiable $f: [a, b] \to \R$ such that $F'(x) = f(x)$, then:
+  \[
+    \int_{a}^{b} f(t) \d{t} = \int_{a}^{b} F'(t) \d{t} = F(b) - F(a)
+  \]
+\end{theorem}
+\begin{proof}
+  By assumption $f$ is integrable so $\exists \mathcal{P}$ partition of $[a, b]$ such that $U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon$.
+  We can also apply the mean value theorem \cref{MVC} to show that for a pair of adjacent points $x_{j - 1}$ and $x_{j}$ in the partition, we have
+  \[
+    f(t_j) = F'(t_j) = \frac{F(x_j) - F(x_{j - 1})}{x_j - x_{j - 1}} \implies F(x_j) - F(x_{j - 1}) = f(t_j) (x_j - x_{j - 1})
+  \]
+  for some $t_j \in [x_{j - 1}, x_j]$.
+  We can repeat this for each pair of adjacent points in the partition.
+
+  If we take sums from 1 to $n$ of both sides, the left hand side telescopes and so we have:
+  \[
+    F(b) - F(a) = \sum_{j = 1}^{n} f(t_j)(x_j - x_{j - 1})
+  \]
+  For each $j$, $t_j \in [x_{j - 1}, x_j] \implies \inf_{[x_j, x_{j - 1}]} f \leq f(t_j) \leq \sup_{[x_j, x_{j - 1}]} f$.
+  Therefore the right hand side of this sum is between $L(f, \mathcal{P})$ and $U(f, \mathcal{P})$.
+  Thus:
+  \[
+    I_{*}(f) \leq L(f, \mathcal{P}) \leq F(b) - F(a) \leq U(f, \mathcal{P}) \leq I^{*}(f)
+  \]
+  Since $f$ is integrable, $I_{*}(f) = I^{*}(f) = \int_{a}^{b} f(x) \d{x}$, by the above inequality $\int_{a}^{b} f(x) \d{x} = F(b) - F(a)$, as required.
 \end{proof}
 \end{document}
