@@ -49,14 +49,14 @@ where $\vec{F}^{\text{ext}}_i$ is the external force on the $i$-th particle and 
 We can relate the total momentum to the centre of mass:
 \begin{align*}
   \vec{P} &= \sum_{i = 1}^{N} \vec{p}_i \\
-          &= \sum_{i = 1}^{N} m_i \vec{x}_i \\
+          &= \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \\
           &= M \dot{\vec{R}}
 \end{align*}
 So the centre of mass of a system of particle is like a single particle of mass $M$.
 
 Furthermore, if we find $\dot{\vec{P}}$:
 \begin{align*}
-  \dot{\vec{P}} = \sum_{i = 1}^{N} \dot{\vec{p}}_i &= \sum_{i = 1}^{N} \left(\vec{F}^\text{ext}_i + \sum_{j = 1, j \neq i}^N \vec{F}_{i j}\right) \\
+  \dot{\vec{P}} = \sum_{i = 1}^{N} \dot{\vec{p}}_i &= \sum_{i = 1}^{N} \left(\vec{F}^\text{ext}_i + \sum_{\substack{j = 1 \\ j \neq i}}^N \vec{F}_{i j}\right) \\
                                                    &= \sum_{i = 1}^{N} \vec{F}^\text{ext}_i + \sum_{i < j} (\underbrace{\vec{F}_{i j} + \vec{F}_{j i}}_{0}) \text{ using \cref{newtonsThird}}\\
                                                    &= \sum_{i = 1}^{N} \vec{F}^{\text{ext}}_i
 \end{align*}
@@ -73,7 +73,7 @@ Thus, $\dot{\vec{P}} = \vec{F}$ and since $\vec{P} = M \dot{\vec{R}}$, we then h
 So the centre of mass accelerates just like a point particle subject to an external force $\vec{F}$.
 The system cannot accelerate itself without an external force.
 \begin{remark}
-  This property of systems of particle is what allows us to treat the Earth as a point particle as all the internal forces between individual particles cancel each other out when considering the centre of mass of the whole system.
+  This property of systems of particles is what allows us to treat the Earth as a point particle as all the internal forces between individual particles cancel each other out when considering the centre of mass of the whole system.
 \end{remark}
 In particular, if $\vec{F} = \vec{0}$, then $\dot{\vec{P}} = 0$ and so the total momentum is conserved.
 \subsection{Total Angular Momentum}
@@ -141,15 +141,15 @@ To do this, we define $\vec{y}_i$ to be such that:
 We know that:
 \begin{align}
   M\vec{R} &= \sum_{i = 1}^{N} m_i \vec{x}_i \nonumber \\
-           &= \sum_{i = 1}^{N} m_i\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \nonumber \\
-           &= \vec{R}\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \vec{y}_i \nonumber \\
-           &= M\vec{R} + \sum_{i = 1}^{N} \vec{y}_i \implies \sum_{i = 1}^{N} \vec{y}_i = \vec{0} \label{relativeSum}
+           &= \sum_{i = 1}^{N} m_i\vec{R} + \sum_{i = 1}^{N} m_i\vec{y}_i \nonumber \\
+           &= \vec{R}\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} m_i\vec{y}_i \nonumber \\
+           &= M\vec{R} + \sum_{i = 1}^{N} m_i\vec{y}_i \implies \sum_{i = 1}^{N} m_i\vec{y}_i = \vec{0} \label{relativeSum}
 \end{align}
 The total kinetic energy $T$ is then:
 \begin{align}
   T &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i \nonumber \\
     &= \sum_{i = 1}^{N} \frac{1}{2} m_i (|\dot{\vec{R}}|^2 + |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot \dot{\vec{y}}_i) \nonumber \\
-    &= \frac{1}{2} |\dot{\vec{R}}|^2\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \frac{1}{2} m_i |\dot{\vec{y}}_i|^2 + 2 \dot{\vec{R}} \cdot\cancelto{\vec{0}}{\left(\sum_{i = 1}^{N} \dot{\vec{y}}_i\right)} \nonumber \\
+    &= \frac{1}{2} |\dot{\vec{R}}|^2\sum_{i = 1}^{N} m_i + \sum_{i = 1}^{N} \frac{1}{2} m_i |\dot{\vec{y}}_i|^2 + \dot{\vec{R}} \cdot\cancelto{\vec{0}}{\left(\sum_{i = 1}^{N} m_i\dot{\vec{y}}_i\right)} \nonumber \\
     &= \underbrace{\frac{1}{2}M |\dot{\vec{R}}|^2}_{\text{CoM K.E.}} + \underbrace{\sum_{i = 1}^{n} \frac{1}{2}m_i |\dot{\vec{y}}_i|^2}_{\text{Internal K.E.}} \label{totalKE}
 \end{align}
 So we have split the kinetic energy into a centre of mass kinetic energy and sum of ``internal'' kinetic energies with respect to the centre of mass.
@@ -184,7 +184,7 @@ We can check that the total energy is conserved by finding $\dot{E}$.
 
 Differentiating $T$ we have:
 \[
-  \deriv{T}{t} = \sum_{i = 1}^{N} \frac{1}{2} \deriv{}{t}(\dot{\vec{x}}_i \cdot \dot{\vec{x}}_i) = \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \ddot{\vec{x}}_i
+  \deriv{T}{t} = \sum_{i = 1}^{N} \frac{1}{2} m_i \deriv{}{t}(\dot{\vec{x}}_i \cdot \dot{\vec{x}}_i) = \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i \cdot \ddot{\vec{x}}_i
 \]
 To differentiate the potential $V_{i j}(|\vec{x}_i - \vec{x}_j|)$ with respect to $t$, we think of it as a function of 6 variables (i.e. three from $\vec{x}_i$ and three from $\vec{x}_j$) and so using the multivariate chain rule:
 \begin{align*}
@@ -204,8 +204,8 @@ We can rewrite the final sum as:
 \end{align*}
 Therefore:
 \begin{align*}
-  \deriv{E}{t} &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot (m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i) - \sum_{i \neq j} F_{i j} \cdot \dot{\vec{x}}_i \\
-               &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot \left[m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i - \sum_{j = 1, j \neq i}^n F_{i j}\right] \\
+  \deriv{E}{t} &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot (m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i) - \sum_{i \neq j} \vec{F}_{i j} \cdot \dot{\vec{x}}_i \\
+               &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot \left[m_i \ddot{\vec{x}}_i - \vec{F}^\text{ext}_i - \sum_{\substack{j = 1 \\ j \neq i}}^n \vec{F}_{i j}\right] \\
                &= \sum_{i = 1}^{N} \dot{\vec{x}}_i \cdot [\vec{F}_i - \vec{F}_i] = 0
 \end{align*}
 and so the total energy of the system $E$ is conserved.
@@ -240,7 +240,7 @@ So the kinetic energy of the system can be separated into kinetic energy for the
 We have seen already that the centre of mass acts like a point particle of mass $M$ and this calculation suggests that the relative separation $\vec{r}$ acts like a point particle of mass $\mu$.
 
 With no external forces, we know from \cref{comN2} that $\ddot{\vec{R}} = \vec{0}$.
-But what about $\ddot{r}$?
+But what about $\ddot{\vec{r}}$?
 If we treat $\vec{r}$ like a particle with mass $\mu$ as suggested by \cref{totalKE2Body}, then we see that:
 \begin{align*}
   \mu \ddot{\vec{r}} &= \mu (\ddot{\vec{x}}_1 - \ddot{\vec{x}}_2) \\
