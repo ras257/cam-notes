@@ -278,22 +278,23 @@ If this is the case, then we can add limits to the indefinite integral:
   Despite this, it is advisable to remember that $\phi'(R) = \frac{1}{4\pi R^2}F_R$ to give yourself a target to work towards.
 \end{remark}
 \subsection{Cylindrical Symmetries}
+\label{gaussFluxCylindrical}
 We can also apply a similar method if we instead have a radial cylindrical symmetry $f = f(\rho)$.
 We again assume that $\phi$ is also radially symmetric and so $\phi = \phi(\rho)$ and $\nabla \phi = \phi'(\rho) \vec{e}_\rho$.
 \begin{remark}[Note]
   To show that $\nabla f(\rho) = f'(\rho) \vec{e}_\rho$, we can use grad in cylindrical polar coordinates from \cref{cylindricalOperators}.
 \end{remark}
-In this case, we then instead consider the total source strength within a cylinder $\mathscr{C}$ of radius $R$ and height 1.
+In this case, we then instead consider the total source strength within a cylinder $\mathscr{C}_R$ of radius $R$ and height 1.
 \[
-  F_R = \int_{\mathscr{C}} f(\rho) \d{V} = \int_{\rho = 0}^{R} \int_{\phi = 0}^{2\pi} \int_{z = 0}^{1} f(\rho) \cdot \rho \d{z} \d{\phi} \d{\rho} = 2\pi \int_{0}^{R} \rho f(\rho) \d{\rho}
+  F_R = \int_{\mathscr{C}_R} f(\rho) \d{V} = \int_{\rho = 0}^{R} \int_{\phi = 0}^{2\pi} \int_{z = 0}^{1} f(\rho) \cdot \rho \d{z} \d{\phi} \d{\rho} = 2\pi \int_{0}^{R} \rho f(\rho) \d{\rho}
 \]
 Similarly to in the spherical case:
 \begin{align*}
-  F_R &= \int_{\mathscr{C}} \nabla^2 \phi \d{V} \\
-      &= \int_{\partial \mathscr{C}} \nabla \phi \cdot \d{\vec{S}} \\
-      &= R\int_{\partial \mathscr{C}} \phi'(\rho) \vec{e}_\rho \cdot \vec{e}_\rho \d{x} \text{ as $\vec{n} = R \vec{e}_\rho$} \\
-      &= R\phi'(R) \int_{\partial \mathscr{C}} \d{S} \\
-      &= 2\pi R \phi'(R) \text{ as surface area of $\mathscr{C}$ is $2\pi R$}
+  F_R &= \int_{\mathscr{C}_R} \nabla^2 \phi \d{V} \\
+      &= \int_{\partial \mathscr{C}_R} \nabla \phi \cdot \d{\vec{S}} \\
+      &= R\int_{\partial \mathscr{C}_R} \phi'(\rho) \vec{e}_\rho \cdot \vec{e}_\rho \d{x} \text{ as $\vec{n} = R \vec{e}_\rho$} \\
+      &= R\phi'(R) \int_{\partial \mathscr{C}_R} \d{S} \\
+      &= 2\pi R \phi'(R) \text{ as surface area of $\mathscr{C}_R$ is $2\pi R$}
 \end{align*}
 Therefore:
 \[
@@ -368,7 +369,7 @@ We can then either find $\nabla \phi$ using $\nabla \phi = \phi'(\rho)\vec{e}_\r
   If all we wanted was $\vec{E}$, then we need not bother finding $\phi(r)$ and the constants of integration as above.
 \end{example}
 \begin{example}[Asymmetric Spheres]
-  Consider a sphere of radius $a$ centred at the origin with uniform charge density except for a hollow void of radius $\frac{1}{2}a$ centered a distance of $\frac{1}{3}a$ from the origin.
+  Consider a sphere of radius $a$ centred at the origin with uniform charge density except for a hollow void of radius $\frac{1}{2}a$ centered a distance of $\frac{1}{3}a$ from the origin. \label{asymmetricSpheres}
   If the total charge is $Q$, find the potential outside the sphere.
 
   The cross section of the sphere then looks like:
@@ -396,6 +397,8 @@ We can then either find $\nabla \phi$ using $\nabla \phi = \phi'(\rho)\vec{e}_\r
   \]
 \end{example}
 \section{Point Sources}
+\subsection{Point Sources}
+\label{pointSources}
 Consider Poisson's equation $\nabla^2 \phi = f$ in $\R^3$ with a spherically symmetric source term that is non-zero only in the region $|\vec{x}| \leq \varepsilon$ and total source strength $F = \int_{|\vec{x}| \leq \varepsilon} f \d{V}$.
 
 For $R \geq \varepsilon$, we have $F_R = F$, so applying Gauss's flux method from \cref{gaussFluxSpherical}, we find that:
@@ -408,5 +411,198 @@ Hence by integrating:
 \]
 We then choose the constant $C = 0$ so that $\phi(r) \to 0$ as $r \to \infty$ by convention.
 
-Continued next lecture.
+As we take $\varepsilon \to 0$, the size of the source shrinks to a point, without changing the total source strength $F$.
+We thus obtain:
+\begin{equation}
+  \phi(r) = -\frac{F}{4\pi r}\ \forall r > 0 \label{pointSourceField}
+\end{equation}
+This is the field produced by a \textit{point source} of strength $F$ at the origin.
+\begin{remark}[Point Sources]
+  \nonexaminable
+  Instead of taking the limit as $\varepsilon \to 0$ as we did above, we can also consider a point source of strength $F$ at the origin as a source field $f(\vec{x}) = F\delta(\vec{x})$ where $\delta(\vec{x}) \equiv \delta(x)\delta(y)\delta(y)$ and $\delta(x)$ is the \textit{Dirac delta function} introduced in IA Differential Equations.
+  This means that $\int_{|\vec{x}| \leq \varepsilon} f(\vec{x}) \d{V} = F$ for any $\varepsilon > 0$.
+
+  From the above, we therefore see that:
+  \[
+    \nabla^2\left(-\frac{F}{4\pi r}\right) = F\delta(\vec{x})
+  \]
+  which is an example of a Green's function.
+  This will be properly explored in Part IB.
+\end{remark}
+\subsection{Point Charges}
+\label{pointCharge}
+In the case of an electric charge, from \cref{laplaceElectrostatic}, we see that $f = -\frac{\rho}{\varepsilon_0}$.
+So if we have a point charge $Q$ at the origin:
+\[
+  F = -\frac{1}{\varepsilon_0}\int \rho \d{V} = - \frac{Q}{\varepsilon_0}
+\]
+Substituting into \cref{pointSourceField}, we obtain the scalar potential:
+\[
+  \phi = \frac{Q}{4\pi \varepsilon_0 r}
+\]
+which is \textit{Coulombs Law}.
+The force per unit charge $\vec{E} = -\nabla \phi$ so:
+\[
+  \vec{E} = -\nabla \phi = \frac{Q}{4\pi\varepsilon_0 r^2}\vec{e}_r
+\]
+Since $\vec{E}$ is a force per unit charge, the force on a \textit{test charge} $q$ placed in this field is $q\vec{E}$.
+Since we can go both ways between Coulombs law and the Poisson equation formulation of electrostatics, they are equivalent.
+\subsection{Line Sources}
+Consider Poisson's equation $\nabla^2 \phi = f$ in $\R^3$ with a cylindrically symmetric source term that is non-zero only in the cylindrical region $\mathscr{C}_\varepsilon$ with total source strength $F = \int_{\mathscr{C}_\varepsilon} f \d{V}$, where $\mathscr{C}_R$ is a cylinder of radius $R$ and height 1.
+
+For $R \geq \varepsilon$, $F_R = F$ so applying Gauss's flux method for cylindrical symmetries from \cref{gaussFluxCylindrical}, we have
+\[
+  \phi'(R) = \frac{F_R}{2\pi R} = \frac{F}{2\pi R}\ \forall R \geq \varepsilon
+\]
+Integrating, we then obtain:
+\[
+  \phi(\rho) = \frac{F}{2\pi}\log \rho + C\ \forall \rho \geq \varepsilon
+\]
+By convention $\phi(\rho) \to 0$ as $\rho \to \infty$ so we require $C = 0$.
+Again, as we take $\varepsilon \to 0$, the size of the source shrinks to a line, without changing $F$ and so:
+\[
+  \phi(\rho) = \frac{F}{2\pi}\log\rho\ \forall \rho > 0
+\]
+This is the field produced by a \textit{line source} of strength $F$ per unit length along the $z$-axis.
+\begin{remark}[Note]
+  Since 2D plane polar coordinates are just cylindrical polar coordinates with $z = 0$, this is therefore also the solution for a point source of total strength $F$ in 2D.
+\end{remark}
+\section{Gravitation}
+Consider a point mass $M$ at the origin.
+Newton's Law of gravitation tells us that if we place a test mass in its gravitational field, then it experiences a force $-\frac{GMm}{r^2}\vec{e}_r$, so the potential field created by $M$ is $\phi = - \frac{GM}{r}$ \textbf{per unit test mass}.
+We define it to be per unit mass so that the same potential function can be used for multiple test masses.
+This is exactly the same situation is for electric point charges from \cref{pointCharge} but with charge replaced by mass and $\frac{1}{4\pi\varepsilon_0} \mapsto -G$.
+It is therefore equivalent to Poisson's equation but with:
+\[
+  \nabla^2 \phi = 4\pi G \rho
+\]
+where $\rho$ is now the \textit{mass} density.
+A test mass in this gravitational field in this gravitational field experiences a force $-m \nabla\phi$.
+\begin{example}[Gravitational Cavity]
+  Suppose we have a hollow sphere has density:
+  \[
+    \rho = \begin{cases}
+    \rho_0 & \text{if } a \leq r \leq b \\
+    0 & \text{otherwise}
+    \end{cases}
+  \]
+  Show that the gravitational field vanishes inside of the cavity.
+
+  This situation is spherically symmetric so we can use Gauss's method with:
+  \[
+    F_R = \int_{|\vec{x}|\leq R} 4\pi G\rho \d{V} = 0\ \forall R < a
+  \]
+  Integrating, we have:
+  \[
+    \phi'(R) = \frac{1}{4\pi R^2}F_r = 0\ \forall R < a
+  \]
+  except perhaps at $r = 0$.
+  Since $\phi'(R) = 0$, $\phi(r)$ is a constant for $r < a$.
+  Therefore the gravitational field is $-\nabla \phi = \vec{0}$ within the cavity.
+
+  To deal with the origin, $\nabla \phi$ has to be continuous everywhere else would not be finite $\nabla^2 \phi$ at discontinuities, so in fact we must have $\nabla \phi = \vec{0}$ at the origin also.
+\end{example}
+\begin{remark}
+  Similarly to with spheres of charge in \cref{asymmetricSphers}, we can also obtain this result by using a superposition of a sphere of radius $b$ with density $\rho_0$ and a sphere of radius $a$ with density $-\rho_0$.
+  Even though having negative mass density is unphysical, it is mathematically sound as the superposition of solutions does not require the individual problems to be physical.
+\end{remark}
+\section{The Integral Solution of Poisson's Equation}
+In \cref{pointSources}, we saw that the solution of Poisson's equation for a point source $F$ is $-\frac{F}{4\pi r}$.
+Consider a source field $f(\vec{x})$, that is to say $\nabla^2 \phi = f(\vec{x})$ within some finite region $V \subset \R^3$.
+Suppose that we divide $V$ up into infinitesimal volumes $\d{V}$ labelled by their position $\vec{y}$.
+Each infinitesimal volume effectively acts as a point source of strength $f(\vec{y})\d{V}$ so has corresponding potential:
+\[
+  -\frac{f(\vec{y}) \d{V}}{4\pi|\vec{x} - \vec{y}|}
+\]
+where we replace $r$ with $|\vec{x} - \vec{y}|$ as this is the distance from $\vec{x}$ to the corresponding infinitesimal volume.
+By superposition, the total potential is given by the integral
+\[
+  \phi(\vec{x}) = -\int_{V} \frac{f(\vec{y})}{4\pi|\vec{x} - \vec{y}|} \d^3{\vec{y}}
+\]
+\begin{remark}[Notation]
+  We used the notation $\d^3{\vec{y}}$ instead of $\d{V}$ to explicitly indicate that this is a volume integral over $\vec{y}$ for some fixed $\vec{x}$ as typically an integral with $\d{V}$ would be with respect to $\vec{x}$.
+\end{remark}
+\begin{remark}
+  This informal derivation will be made rigorous in Part IA using Green's functions.
+\end{remark}
+\section{Harmonic Functions and The Maximum Principle}
+\begin{definition}
+  A \textit{harmonic function} is simply one which obeys Laplace's equation in some domain, that is, $\phi$ is \textit{harmonic} if $\nabla^2 \phi = 0$ throughout some domain $\mathscr{D}$.
+\end{definition}
+Given a function $\phi(\vec{x})$ that is harmonic in $V \subseteq \R^3$, let $B_r(\vec{a})$ be a sphere of radius $r$ centred at $\vec{a} \in V$, that is:
+\[
+  B_r(\vec{a}) = \{\vec{x} \in \R^3: |\vec{x} - \vec{a}| \leq r\}
+\]
+and assume that $B_r(\vec{a}) \subseteq V$.
+
+Further, define $\overline{\phi}_r(\vec{a})$ as:
+\[
+  \overline{\phi}_r(\vec{a}) = \frac{1}{4\pi r^2} \int_{\partial B_r(\vec{a})} \phi(\vec{x}) \d{S}
+\]
+This is the average of $\phi$ over the surface of the sphere.
+\begin{lemma}
+  The value of $\phi$ at any point is equal to its average value over the surface of any sphere centered at that same point, that is: \label{sphereAverage}
+  \[
+    \overline{\phi}_r(\vec{a}) = \phi(\vec{a})
+  \]
+\end{lemma}
+\begin{proof}
+  To show this we will use spherical polar coordinate centered at $\vec{a}$, that is:
+  \[
+    \vec{x} = \vec{a} + \begin{pmatrix}
+    r\sin \theta \cos \phi \\
+    r \sin \theta \sin \phi \\
+    r \cos \theta \\
+    \end{pmatrix}
+  \]
+  So now $\vec{e}_r$ is a unit vector pointing radially away from $\vec{a}$, instead of radially away from the origin.
+
+  Recalling from \cref{sphericalSurfaceVector} that $\d{S} = r^2 \sin \theta \d{\theta}\d{\phi}$ on a sphere of radius $r$, the integral in the definition of $\overline{\phi}_r$ is:
+  \begin{align*}
+    \overline{\phi}_r(\vec{a}) &= \frac{1}{4\pi r^2} \int_{\theta=0}^{\pi} \int_{\phi=0}^{2\pi} \phi(\vec{x})r^2\sin\theta \d{\theta} \d{\phi} \\
+                               &= \frac{1}{4\pi} \int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \phi(\vec{x}) \sin\theta \d{\theta} \d{\phi} \text{ as $r$ is constant on $\partial B_r(\vec{a})$} \\
+  \end{align*}
+  Thus:
+  \begin{align*}
+    \deriv{}{r}\overline{\phi}_r(\vec{a}) &= \frac{1}{4\pi}\int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \pderiv{\phi}{r} \sin\theta \d{\theta} \d{\phi} \\
+                                          &= \frac{1}{4\pi}\int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \nabla \phi \cdot \vec{e}_r \sin\theta \d{\theta} \d{\phi} \\
+                                          &= \frac{1}{4\pi r^2}\int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \nabla \phi \cdot \vec{e}_r r^2 \sin \theta \d{\theta} \d{\phi} \\
+                                          &= \frac{1}{4\pi r^2} \int_{\partial B_r(\vec{a})} \nabla \phi \cdot \d{\vec{S}} \text{ since $\d{\vec{S}} = r^2\sin\theta \vec{e}_r \d{\theta}\d{\phi}$} \\
+                                          &= \frac{1}{4\pi r^2} \int_{B_r(\vec{a})} \nabla^2 \phi \d{V} \text{ by the divergence theorem \cref{divergenceTheorem}} \\
+                                          &= 0 \text{ since $\phi$ is harmonic}
+  \end{align*}
+  Hence $\overline{\phi}_r(\vec{a})$ is constant for all $r$.
+  As $r \to 0$, $\overline{\phi}_r(\vec{a})$ tends to $\phi(\vec{a})$ from its definition as the average over the surface of a sphere of radius $r$.
+  Because $\phi$ is continuous (else we would not be able to take $\nabla \phi$), $\overline{\phi}_r(\vec{a}) = \phi(\vec{a})$ for all $r > 0$.
+\end{proof}
+\begin{remark}
+  By integrating $4\pi r^2 \overline{\phi}_r(\vec{a})$ from 0 to $r$ we can also show that:
+  \[
+    \phi(\vec{a}) = \frac{1}{\frac{4}{3}\pi r^3} \int_{B_r(\vec{a})} \phi(\vec{x}) \d{V}
+  \]
+  That is, the value of $\phi$ at any point is also equal to its average value over the interior of any sphere centered at that point.
+\end{remark}
+\subsection{The Maximum Principle}
+\begin{proposition}
+  If $\phi$ is harmonic in $V \subset \R^3$, then its maximum value over $V$ is achieved on $\partial V$.
+\end{proposition}
+\begin{proof}
+  If $V$ achieves its maximum on $\partial V$ then we are done, so suppose that $\phi$ achieves its maximum at some interior point $\vec{a}$.
+  So by definition of a maximum over $V$, $\phi(\vec{x}) \leq \phi(\vec{a})\ \forall \vec{x} \in V$.
+
+  Now consider $\partial B_r (\vec{a})$.
+  Suppose $\exists \vec{x} \in \partial B_r(\vec{a})$ such that $\phi(\vec{x}) < \phi(\vec{a})$, then the average value over $\partial B_r(\vec{a})$, that is, $\overline{\phi}_r(\vec{a})$, would also be strictly less than $\phi(\vec{a})$ which contradicts the result from \cref{sphereAverage} that $\overline{\phi}_r(\vec{a}) = \phi(\vec{a})$.
+  Hence $\phi(\vec{x}) = \phi(\vec{a})\ \forall \vec{x} \in \partial B_r(\vec{a})$.
+
+  We now increase $r$ until it is large enough for $\partial B_r(\vec{a})$ to intersect the boundary $\partial V$ at some point $\vec{b}$.
+  We then have that $\phi(\vec{b}) = \phi(\vec{a})$ so $\phi$ also obtains its maximum over $V$ at $\vec{b} \in \partial V$.
+\end{proof}
+\begin{remark}
+  The same applies to the minimum value of $\phi$ by applying the above to $-\phi$ which is also harmonic.
+\end{remark}
+\begin{remark}[Strong Maximum Principle]
+  \nonexaminable
+  The above is actually the \textit{weak maximum principle}.
+  The \textit{strong maximum principle} states that, provided $\phi$ is not constant throughout $V$, $\phi$ \textbf{only} achieves its maximum on $\partial V$ and not at any interior point of $V$.
+\end{remark}
 \end{document}
