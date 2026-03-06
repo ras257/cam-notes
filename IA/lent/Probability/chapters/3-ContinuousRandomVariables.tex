@@ -419,7 +419,7 @@ and if both are infinite, then $\E[X]$ is undefined.
 \section{The Normal Distribution}
 \subsection{Definition}
 \begin{definition}
-  For parameters $\mu, \sigma \in \R$ satisfying $-\infty < \mu < \infty$ and $\sigma > 0$, we define the \textit{Normal Distribution} with parameters $\mu$ and $\sigma$ by the density function:
+  For parameters $\mu, \sigma \in \R$ satisfying $-\infty < \mu < \infty$ and $\sigma > 0$, we define the \textit{Normal Distribution} with parameters $\mu$ and $\sigma$ by the density function: \label{normalDist}
   \[
     f(x) = \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left[- \frac{(x - \mu)^2}{2 \sigma^2}\right]
   \]
@@ -427,7 +427,7 @@ and if both are infinite, then $\E[X]$ is undefined.
   If $X \sim \normal(\mu, \sigma^2)$, then we say $X$ is a \textit{normal random variable}.
 \end{definition}
 \begin{lemma}
-  The density function for the normal distribution is a valid density.
+  The density function for the normal distribution is a valid density. \label{normalDensity}
 \end{lemma}
 \begin{proof}
   Clearly $f(x) \geq 0\ \forall x$, so we just need to check that $\int_{-\infty}^{\infty} f(x) \d{x} = 1$.
@@ -936,7 +936,7 @@ We can define something similar to probability generating functions but instead 
 \end{definition}
 For any density $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ so $m(0) = 1$ similarly to in the discrete case with a pgf.
 \begin{theorem}
-  The moment generating function uniquely determines the distribution of a random variable, provided that it is defined on an open interval of values of $\theta$.
+  The moment generating function uniquely determines the distribution of a random variable, provided that it is defined on an open interval of values of $\theta$. \label{mgfUnique}
 \end{theorem}
 \begin{proof}
   Provided without proof.
@@ -949,6 +949,16 @@ For any density $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ so $m(0) = 1$ similarly
 \end{theorem}
 \begin{proof}
   Provided without proof.
+\end{proof}
+Similarly to how the probability generating function of a sum of independent discrete random random variables is the product of their generating functions (\cref{pgfProduct}), we have a similar property for moment generating functions:
+\begin{proposition}
+  If $X_1, \ldots, X_n$ are independent continuous random variables, then $X_1 + \cdots + X_n$ has moment generating function: \label{mgfProduct}
+  \[
+    m(\theta) = \E[e^{\theta(X_1 + \cdots + X_n)}] = \prod_{i = 1}^{n} \E[e^{\theta X_i}]
+  \]
+\end{proposition}
+\begin{proof}
+  Follow directly from independence of $X_1, \ldots, X_n$.
 \end{proof}
 \subsection{Gamma Distribution}
 \begin{definition}[Gamma Distribution]
@@ -978,8 +988,8 @@ For any density $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ so $m(0) = 1$ similarly
   \end{align*}
   Repeating this process we have $I_n = I_1\ \forall n \in \N$ and so the result follows.
 \end{proof}
-\begin{lemma}
-  If $X \sim \Gamma(n, \lambda)$ for $n \in \N$ and  $\lambda > 0$, then its moment generating function is:
+\begin{lemma}[Moment Generating Function of $\Gamma$]
+  If $X \sim \Gamma(n, \lambda)$ for $n \in \N$ and  $\lambda > 0$, then its moment generating function is: \label{mgfGamma}
   \[
     m(\theta) = \left(\frac{\lambda}{\lambda - \theta}\right)^{n} \text{ for $\theta < \lambda$}
   \]
@@ -997,4 +1007,195 @@ For any density $\int_{-\infty}^{\infty} f(x) \d{x} = 1$ so $m(0) = 1$ similarly
     m(\theta) = \left(\frac{\lambda}{\lambda - \theta}\right)^{n}
   \]
 \end{proof}
+\begin{remark}
+  By setting $n = 1$, this also shows us that the moment generating function of $\Exponential(\lambda)$ is:
+  \[
+    m(\theta) = \frac{\lambda}{\lambda - \theta} \text{ for } \theta < \lambda
+  \]
+\end{remark}
+\begin{example}[Sum of $\Gamma$ r.v.s]
+  Suppose we have two independent random variables $X$ and $Y$ where $X \sim \Gamma(n, \lambda)$ and $Y \sim \Gamma(m, \lambda)$ for $n, m \in \N$ and $\lambda > 0$.
+  We want to find the distribution of $X + Y$.
+
+  To find the mgf of $X + Y$, we can apply \cref{mgfProduct} and \cref{mgfGamma}, so for $\theta < \lambda$, we have:
+  \[
+    \E[e^{\theta(X + Y)}] = \E[e^{\theta X}] \E[e^{\theta Y}] = \left(\frac{\lambda}{\lambda - \theta}\right)^{n} \cdot \left(\frac{\lambda}{\lambda - \theta}\right)^{m} = \left(\frac{\lambda}{\lambda - \theta}\right)^{n + m}
+  \]
+  This is the mgf of $\Gamma(n + m, \lambda)$ so by uniqueness of moment generating functions (\cref{mgfUnique}), $X + Y \sim \Gamma(n + m, \lambda)$.
+
+  Now suppose $X_1, \ldots, X_n$ are independent and identically distributed random variables with distribution $\Exponential(\lambda)$ for $\lambda > 0$.
+  Since $\Exponential(\lambda)$ is just $\Gamma(1, \lambda)$, using the above result and induction, we have:
+  \[
+    X_1 + \cdots + X_n \sim \Gamma(n, \lambda)
+  \]
+  So $\Gamma(n, \lambda)$ can be thought of a sum of $n$ independent $\Exponential(\lambda)$ r.v.s
+\end{example}
+\begin{remark}
+  We can also define $\Gamma(\alpha,\lambda)$ with $\alpha, \lambda > 0$, (i.e. $\alpha \in \R^{+}$ instead of $n \in \N$) by replacing $(n - 1)!$ in the density with the \textit{gamma function}:
+  \[
+    \Gamma(\alpha) = \int_{0}^{\infty} e^{-x} \cdot x^{\alpha - 1} \d{x}
+  \]
+  In this case, the density then becomes
+  \[
+    f(x) = \frac{e^{-\lambda x} \cdot \lambda^{\alpha} \cdot x^{\alpha - 1}}{\Gamma(\alpha)} \text{ for $x > 0$}
+  \]
+\end{remark}
+\subsection{Cauchy Distribution}
+The Cauchy distribution is defined with density:
+\[
+  f(x) = \frac{1}{\pi(1 + x^2)} \text{ for $x \in \R$}
+\]
+Its moment generating function is therefore:
+\[
+  m(\theta) = \int_{-\infty}^{\infty} \frac{e^{\theta x}}{\pi(1 + x^2)} \d{x} = \begin{cases}
+  \infty & \theta \neq 0 \\
+  1 & \theta = 0
+  \end{cases}
+\]
+So if $X \sim f$, then we see that $X,\ 2X,\ 3X,\ \ldots$ all have the same mgf, but clearly do not all have the same distribution.
+So in \cref{mgfUnique}, the assumption that the moment generating function must be finite for an open set of values of $\theta$ is essential to be able uniquely determine the distribution.
+\subsection{Normal Distribution}
+\begin{remark}[Recap]
+  Recall from \cref{normalDist}, that if $X \sim \normal(\mu, \sigma^2)$, then it has density:
+  \[
+    f(x) = \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left(- \frac{(x - \mu)^2}{2\sigma^2}\right) \text{ for $x \in \R$}
+  \]
+\end{remark}
+\begin{proposition}
+  The moment generating function of a normal distribution $\normal(\mu, \sigma^2)$ is:
+  \[
+    m(\theta) = \exp\left(\mu \theta + \frac{\theta^2 \sigma^2}{2}\right)
+  \]
+\end{proposition}
+\begin{proof}
+  From the definition of moment generating functions:
+  \begin{align*}
+    m(\theta) = \int_{-\infty}^{\infty} e^{\theta x} \cdot \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(- \frac{(x - \mu)^2}{2\sigma^2}\right) \d{x}
+  \end{align*}
+  Considering the exponent first:
+  \begin{align*}
+    \theta x - \frac{(x - \mu)^2}{2 \sigma^2} &= \theta x - \frac{x^2}{2\sigma^2} + \frac{2x\mu}{2\sigma^2} - \frac{\mu^2}{2\sigma^2} \\
+                                              &= -\frac{1}{2\sigma^2} (x^2 - 2x \mu + \mu^2 - 2\theta x \sigma^2) \\
+                                              &= -\frac{1}{2\sigma^2} (x^2 - 2x (\mu + \theta \sigma^2) + \mu^2) \\
+                                              &= -\frac{1}{2\sigma^2} ((x - (\mu + \theta \sigma^2))^2 - (\mu + \theta\sigma^2)^2 + \mu^2) \\
+                                              &= -\frac{1}{2\sigma^2} ((x - (\mu + \theta \sigma^2))^2 - \cancel{\mu^2} -2\theta\mu\sigma^2 - \theta^2\sigma^4 + \cancel{\mu^2}) \\
+                                              &= -\frac{1}{2\sigma^2} (x - (\mu + \theta \sigma^2))^2 + \theta\mu + \frac{\theta^2\sigma^2}{2}
+  \end{align*}
+  Since $\theta$, $\mu$ and $\sigma$ are all constants in this integral, we can factor the last two terms in this exponent out.
+  Therefore:
+  \[
+    m(\theta) = \exp\left(\mu \theta + \frac{\theta^2 \sigma^2}{2}\right) \cdot \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(- \frac{(x - (\mu + \theta \sigma^2))^2}{2\sigma^2}\right) \d{x}
+  \]
+  The integrand here is exactly the density for a random variable with $\normal(\mu + \theta \sigma^2, \sigma^2)$, so its integral is just 1 by \cref{normalDensity}.
+  Therefore:
+  \[
+    m(\theta) = \exp\left(\mu \theta + \frac{\theta^2 \sigma^2}{2}\right)
+  \]
+\end{proof}
+\begin{example}
+  Let $X \sim \normal(\mu, \sigma^2)$ and $Y \sim \normal(\nu, \tau^2)$ be independent random variables.
+  We can find the distribution of $X + Y$ using the product of their mgfs:
+  \begin{align*}
+    m(\theta) = \E[e^{\theta(X + Y)}] &= \exp\left(\mu \theta + \frac{\theta^2 \sigma^2}{2}\right) \cdot \exp\left(\nu \theta + \frac{\theta^2 \tau^2}{2}\right) \\
+                                      &= \exp\left((\mu + \nu)\theta + \frac{\theta^2}{2}(\sigma^2 + \tau^2)\right)
+  \end{align*}
+  So by uniqueness of mgfs, $X + Y \sim \normal(\mu + \nu, \sigma^2 + \tau^2)$.
+\end{example}
+\subsection{Multivariate Moment Generating Functions}
+\begin{definition}
+  Let $X = (X_1, \ldots, X_n)^{\trans}$ be random vector in $\R^{n}$.
+  The moment generating function of $X$ is defined to be:
+  \[
+    m(\theta) = \E[e^{\theta^{\trans} \cdot X}] = \E\left[e^{\sum_{i = 1}^{n} \theta_i X_i}\right]
+  \]
+  where $\theta = (\theta_1, \ldots, \theta_n)^{\trans} \in \R^{n}$.
+\end{definition}
+\begin{theorem}
+  If the mgf is finite for an open set of values of $\theta$, then it uniquely determines the distribution.
+
+  In this case:
+  \[
+    \at{\pderiv[r]{m}{\theta_i}}{\theta = \vec{0}} = \E[X^{r}_i] \text{ and } \at{\frac{\partial^{r + s}m}{\partial \theta_i^{r} \partial \theta_j^{s}}}{\theta = \vec{0}} = \E[X_i^{r}X_j^{s}]
+  \]
+\end{theorem}
+\begin{proposition}
+  Let $X = (X_1, \ldots, X_n)$ be a random variable in $\R^{n}$.
+
+  Its moment generating function factorises as:
+  \[
+    m(\theta) = \E[e^{\theta^{\trans} \cdot X}] = \prod_{i = 1}^{n} \E[e^{\theta_i X_i}]
+  \]
+  if and only if $X_1, \ldots, X_n$ are independent.
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $m(\theta)$ factorises}
+    If $m(\theta)$ factorises, by the uniqueness of moment generating functions, the distribution has to agree with that of if they were independent, thus they must be be independent.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume they are independent}
+    If $X_1, \ldots, X_n$ are independent, then $m(\theta)$ factorises by \cref{mgfProduct}.
+  \end{proofdirection}
+\end{proof}
+\subsection{Multidimensional Gaussian Random Variables}
+\begin{definition}[Gaussian in $\R$]
+A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit{normal} in $\R$ if it can be written as:
+  \[
+    X = \mu + \sigma Z
+  \]
+  where $Z \sim \normal(0, 1)$ and $\mu \in \R$, $\sigma \geq 0$.
+\end{definition}
+\begin{remark}[Note]
+  From \cref{normalTransform}, if $\sigma > 0$, then $X \sim \normal(\mu, \sigma^2)$.
+\end{remark}
+\begin{definition}[Gaussian in $\R^n$]
+  Let $X = (X_1, \ldots, X_n)^{\trans} \in \R^{n}$ be a random variable.
+  We say that $X$ is a \textit{Gaussian vector} in $\R^{n}$ if: $\forall u = (u_1, \ldots, u_n)^{\trans} \in \R^{n}$:
+  \[
+    u^{\trans} X = \sum_{i = 1}^{n} u_i X_i
+  \]
+  is a Gaussian random variable in $\R$.
+\end{definition}
+\begin{remark}
+  Equivalently, it is Gaussian in $\R^{n}$ if any linear combination of the components of $X$ is Gaussian in $\R$.
+  This also means that each component of $X$ must itself be Gaussian in $\R$.
+\end{remark}
+\begin{proposition}
+  Let $X = (X_1, \ldots, X_n)^{\trans} \in \R^{n}$ be a Gaussian vector.
+  If $A$ is a $m \times n$ matrix and $b \in \R^{m}$, then $AX + b$ is Gaussian in $\R^{m}$.
+\end{proposition}
+\begin{proof}
+  Let $u = (u_1, \ldots, u_m)^{\trans}$ be an arbitrary vector in $\R^{m}$.
+  We need to show that $u^{\trans}(AX + b)$ is Gaussian in $\R$.
+  \begin{align*}
+    u^{\trans}(AX + b) &= u^{\trans}AX + u^{\trans}b \\
+                       &= v^{\trans} X + u^{\trans}b \text{ by defining $v = A^{\trans}u$} \\
+                       &= v^{\trans} X + \sum_{i = 1}^{n} u_ib_i
+  \end{align*}
+  We know that $v^{\trans}X$ is Gaussian in $\R$ since $X$ is Gaussian.
+  The second term is just a constant so by \cref{normalTransform}, this just shifts the mean of this distribution, thus the whole expression is Gaussian in $\R$.
+\end{proof}
+\begin{definition}[Expectation and Variance of Random Vector]
+  The expectation of $X \in \R^{n}$ is the vector:
+  \[
+    \mu = \E[X] = \begin{pmatrix}
+    \E[X_1] \\
+    \vdots \\
+    \E[X_n] \\
+    \end{pmatrix}
+  \]
+  and its variance is:
+  \[
+    \Var(X) = \E[(X - \mu) \cdot (X - \mu)^{\trans}]
+  \]
+\end{definition}
+\begin{remark}
+  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix where we take expectation element-wise.
+\end{remark}
+We can find the entires of this matrix by taking expectations of:
+\begin{align*}
+  &[(X - \mu)(X - \mu)^{\trans}]_{i j} = (X_i - \mu_i)(X_j - \mu_j) \\
+  \implies& \Var(X)_{i j} = \E[(X_i - \mu_i)(X_j - \mu_j)] = \Cov(X_i, X_j)
+\end{align*}
+for $i, j \in \{1, \ldots, n\}$.
+From \cref{covarianceProperties}, we know that $\Cov(X_i, X_j) = \Cov(X_j, X_i)$ so $\Var(X)$ is a symmetric matrix.
+We also know that $\Var(X)_{i i} = \Cov(X_i, X_i) = \Var(X_i)$ so the main diagonal of $\Var(X)$ consists the variances of each component of $X$.
 \end{document}
