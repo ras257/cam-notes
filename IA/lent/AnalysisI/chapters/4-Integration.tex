@@ -835,32 +835,24 @@ To prove some basic properties of integrals, we first need to prove some propert
       So $-f$ is also integrable with $\int_{a}^{b} -f \d{x} = -\int_{a}^{b} f \d{x}$.
 
       Since we have shown the result for $\lambda \geq 0$ and $\lambda = -1$, the result follows for all $\lambda \in \R$ by combining the above.
-    \item \textbf{Integrability --} For any $\varepsilon > 0$, since $f$ is integrable $\exists \mathcal{P}_1$ such that $U(f, \mathcal{P}_1) - L(f, \mathcal{P}_1) < \varepsilon$ and since $g$ is integrable $\exists \mathcal{P}_2$ such that $U(g, \mathcal{P}_2) - L(f, \mathcal{P}_2) < \varepsilon$.
-      The partition $\mathcal{P} = \mathcal{P}_1 \cup \mathcal{P}_2$ is a refinement of $\mathcal{P}_1$ and $\mathcal{P}_2$ so:
+    \item By the same argument as in \textbf{(ii)}, since $f$ and $g$ are integrable $\exists \mathcal{P}_1, \mathcal{P}_2$ such that:
       \begin{align*}
-        U(f, \mathcal{P}) - L(f, \mathcal{P}) < U(f, \mathcal{P}_1) - L(f, \mathcal{P}_1) &< \varepsilon \\
-        U(g, \mathcal{P}) - L(g, \mathcal{P}) < U(g, \mathcal{P}_2) - L(g, \mathcal{P}_2) &< \varepsilon
+        &\int_{a}^{b} f(x) \d{x} -\varepsilon \leq L(f, \mathcal{P}_1) \leq U(f, \mathcal{P}_1) \leq \int_{a}^{b} f(x) \d{x} + \varepsilon \\
+        &\int_{a}^{b} g(x) \d{x} -\varepsilon \leq L(g, \mathcal{P}_2) \leq U(g, \mathcal{P}_2) \leq \int_{a}^{b} g(x) \d{x} + \varepsilon
       \end{align*}
-      Using \cref{upperLowerProperties} \textbf{(iv)} we have:
-      \[
-        U(f + g, \mathcal{P}) - L(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) - L(f, \mathcal{P}) + U(g, \mathcal{P}) - L(g, \mathcal{P}) < 2\varepsilon
-      \]
-      So $f + g$ is integrable.
-
-      \textbf{Equality of Integrals --} Using \cref{upperLowerProperties} \textbf{(iv)} again, for any partition $\mathcal{P}$:
-      \[
-        U(f + g, \mathcal{P}) \leq U(f, \mathcal{P}) + U(f, \mathcal{P}) \text{ and }  L(f + g, \mathcal{P}) \geq L(f, \mathcal{P}) + L(f, \mathcal{P})
-      \]
-      Using \cref{infSupProperties} \textbf{(iv)} we then have:
+      The partition $\mathcal{P} = \mathcal{P}_1 \cup \mathcal{P}_2$ is a refinement of $\mathcal{P}_1$ and $\mathcal{P}_2$ so using \cref{refinementInequality} and \cref{upperLowerProperties} \textbf{(iv)}, we have:
       \begin{align*}
-        I_{*}(f + g) \leq \sup_{\mathcal{P}} (L(f, \mathcal{P}) + L(g, \mathcal{P})) \leq I_{*}(f) + I_{*}(g) \\
-        I^{*}(f + g) \geq \inf_{\mathcal{P}} (U(f, \mathcal{P}) + U(g, \mathcal{P})) \geq I^{*}(f) + I^{*}(g)
+        \int_{a}^{b} f(x) \d{x} + \int_{a}^{b} g(x) \d{x} - 2\varepsilon &\leq L(f, \mathcal{P}_1) + L(g, \mathcal{P}_2) \\
+                                                                         &\leq L(f, \mathcal{P}) + L(g, \mathcal{P}) \\
+                                                                         &\leq L(f + g, \mathcal{P}) \\
+                                                                         &\leq I_{*}(f + g)
       \end{align*}
-      Since $f + g$, $f$ and $g$ are all integrable, their lower and upper integrals are equal and so:
+      By a similar argument $\int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x} + 2\varepsilon \geq I^{*}(f + g)$.
+      Therefore, since $I_{*}(f + g) \leq I^{*}(f + g)$ from \cref{upperLowerIntegralRelation}, we have:
       \[
-        \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x} \leq \int_{a}^{b} (f + g) \d{x} \leq \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x}
+        \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x} - 2\varepsilon \leq I_{*}(f + g) \leq I^{*}(f + g) \leq \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x} + 2\varepsilon
       \]
-      So the result follows.
+      Thus as $\varepsilon$ can be arbitrarily small, we have $I_{*}(f + g) = I^{*}(f + g) = \int_{a}^{b} f \d{x} + \int_{a}^{b} g \d{x}$, as required.
     \item Using \cref{upperLowerProperties} \textbf{(v)}, for any partition $\mathcal{P}$ of $[a, b]$:
       \[
         U(|f|, \mathcal{P}) - L(|f|, \mathcal{P}) \leq U(f, \mathcal{P}) - L(f, \mathcal{P})
@@ -872,7 +864,7 @@ To prove some basic properties of integrals, we first need to prove some propert
       \end{align*}
       $|f| \geq 0\ \forall x \implies \int_{a}^{b} |f| \d{x} \geq 0 \implies |\int_{a}^{b} |f| \d{x}| = \int_{a}^{b} |f| \d{x}$ so the result follows.
     \item We can rewrite $fg$ as $fg = \frac{1}{4}\left[(f + g)^2 - (f - g)^2\right]$.
-      By \textbf{(ii)} and \textbf{(ii)} both $f + g$ and $f - g$ are integrable, so we just need to show that if some function $f$ is integrable, so is $f^2$.
+      By \textbf{(ii)} and \textbf{(iii)} both $f + g$ and $f - g$ are integrable, so we just need to show that if some function $f$ is integrable, so is $f^2$.
 
       By \cref{upperLowerProperties} \textbf{(vi)}, for any partition $\mathcal{P}$ of $[a, b]$, we have:
       \[
@@ -973,7 +965,7 @@ We will first check that $F$ is continuous otherwise there is no chance it can b
 \end{proof}
 We can prove a stronger (i.e. weaker assumptions) and more general result of the FTC.
 \begin{theorem}[Fundemental Theorem of Calculus -- Part 2]
-  If $f: [a, b] \to \R$ is Riemann integrable and there exists a differentiable $f: [a, b] \to \R$ such that $F'(x) = f(x)$, then:
+  If $f: [a, b] \to \R$ is Riemann integrable and there exists a differentiable $F: [a, b] \to \R$ such that $F'(x) = f(x)$, then:
   \[
     \int_{a}^{b} f(t) \d{t} = \int_{a}^{b} F'(t) \d{t} = F(b) - F(a)
   \]
@@ -992,10 +984,10 @@ We can prove a stronger (i.e. weaker assumptions) and more general result of the
     F(b) - F(a) = \sum_{j = 1}^{n} f(t_j)(x_j - x_{j - 1})
   \]
   For each $j$, $t_j \in [x_{j - 1}, x_j] \implies \inf_{[x_j, x_{j - 1}]} f \leq f(t_j) \leq \sup_{[x_j, x_{j - 1}]} f$.
-  Therefore the right hand side of this sum is between $L(f, \mathcal{P})$ and $U(f, \mathcal{P})$.
-  Thus:
+  Therefore the right hand side of this sum is between $L(f, \mathcal{P})$ and $U(f, \mathcal{P})$, thus $L(f, \mathcal{P}) \leq F(b) - F(a) \leq U(f, \mathcal{P})$.
+  Applying \cref{infSupProperties} \textbf{(i)}, we then have:
   \[
-    I_{*}(f) \leq L(f, \mathcal{P}) \leq F(b) - F(a) \leq U(f, \mathcal{P}) \leq I^{*}(f)
+    I_{*}(f) = \sup_{\mathcal{P}} L(f, \mathcal{P}) \leq F(b) - F(a) \leq \inf_{\mathcal{P}} U(f, \mathcal{P}) = I^{*}(f)
   \]
   Since $f$ is integrable, $I_{*}(f) = I^{*}(f) = \int_{a}^{b} f(x) \d{x}$, by the above inequality $\int_{a}^{b} f(x) \d{x} = F(b) - F(a)$, as required.
 \end{proof}
