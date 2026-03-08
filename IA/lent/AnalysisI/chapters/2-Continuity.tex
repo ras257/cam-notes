@@ -564,7 +564,7 @@ Function composition also preserves continuity.
   \[
     |f(x) - f(d)| < \varepsilon \iff - \varepsilon < f(x) - f(d) < \varepsilon \implies f(x) < f(d) + \varepsilon = y
   \]
-  However, if we consider $x = d + \frac{\delta}{2}$, $|d + \frac{\delta}{2} - d| < \varepsilon \implies f(d + \frac{\delta}{2}) < y$ and so $d + \frac{\delta}{2} \in S$ but $d + \frac{\delta}{2} > d$ which contradicts the fact that $d$ is an upper bound for $S$.
+  However, if we consider $x = d + \frac{\delta}{2}$, $|d + \frac{\delta}{2} - d| < \delta \implies f(d + \frac{\delta}{2}) < y$ and so $d + \frac{\delta}{2} \in S$ but $d + \frac{\delta}{2} > d$ which contradicts the fact that $d$ is an upper bound for $S$.
 
   \textbf{Intervals}\par
   For the more general statement, let $I = [a, b]$ and $J = f([a, b])$ and take any $y_1, y_2 \in J$.
@@ -657,11 +657,11 @@ Function composition also preserves continuity.
 
       To show continuity, we can utilise the fact that because $a = \min [a, b]$ and $f$ is monotone increasing $y \geq f(a) = y_0\ \forall y \in [c, d]$
       \begin{align*}
-        |y - y_0| < \delta,\ y \geq y_0 &\implies y_0 \leq y < y_0 + \delta = f(a) + \delta \\
-                                        &\implies f(a) \leq f(a) + \delta = f(a + \eta) \\
-                                        &\implies a \leq f^{-1}(y) \leq a + \eta \\
+        |y - y_0| < \delta,\ y \geq y_0 &\implies y_0 \leq y < y_0 + \delta \\
+                                        &\implies f(a) \leq y < f(a) + \delta = f(a + \eta) \\
+                                        &\implies a \leq f^{-1}(y) < a + \eta \\
                                         &\implies |f^{-1}(y) - a| < \eta \leq \varepsilon \\
-                                        &\implies |f^{-1}(y) - f^{-1}(y_0)| \leq \varepsilon
+                                        &\implies |f^{-1}(y) - f^{-1}(y_0)| < \varepsilon
       \end{align*}
       and so $f^{-1}(y)$ is continuous at $y_0$.
     \end{case}
