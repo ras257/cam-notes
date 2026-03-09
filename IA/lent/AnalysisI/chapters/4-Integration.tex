@@ -883,7 +883,7 @@ To prove some basic properties of integrals, we first need to prove some propert
 \section{Integration and Differentiation}
 You have probably seen previously that differentiation is the inverse process of integration.
 But why is this?
-
+\subsection{Fundamental Theorem of Calculus}
 For this it is useful to represent the integral of $f: [a, b] \to \R$ from $a$ to $x$ as a function $F(x)$:
 \[
   F: [a, b] \to \R,\ x \mapsto \int_{a}^{x} f(t) \d{t}
@@ -904,7 +904,7 @@ We will first check that $F$ is continuous otherwise there is no chance it can b
   Thus, $F$ is continuous on $[a, b]$.
 \end{proof}
 \begin{theorem}[Fundemental Theorem of Calculus -- Part 1]
-  If $f: [a, b] \to \R$ is Riemann integrable and continuous at $x_0$ then $F$ as above is differentiable at $x_0$ and:
+  If $f: [a, b] \to \R$ is Riemann integrable and continuous at $x_0$ then $F$ as above is differentiable at $x_0$ and: \label{FTCDiff}
   \[
     F'(x_0) = \at{\deriv{}{x}\left[\int_{a}^{x} f(t) \d{t}\right]}{x = x_0}  = f(x_0)
   \]
@@ -965,7 +965,7 @@ We will first check that $F$ is continuous otherwise there is no chance it can b
 \end{proof}
 We can prove a stronger (i.e. weaker assumptions) and more general result of the FTC.
 \begin{theorem}[Fundemental Theorem of Calculus -- Part 2]
-  If $f: [a, b] \to \R$ is Riemann integrable and there exists a differentiable $F: [a, b] \to \R$ such that $F'(x) = f(x)$, then:
+  If $f: [a, b] \to \R$ is Riemann integrable and there exists a differentiable $F: [a, b] \to \R$ such that $F'(x) = f(x)$, then: \label{FTC}
   \[
     \int_{a}^{b} f(t) \d{t} = \int_{a}^{b} F'(t) \d{t} = F(b) - F(a)
   \]
@@ -991,4 +991,183 @@ We can prove a stronger (i.e. weaker assumptions) and more general result of the
   \]
   Since $f$ is integrable, $I_{*}(f) = I^{*}(f) = \int_{a}^{b} f(x) \d{x}$, by the above inequality $\int_{a}^{b} f(x) \d{x} = F(b) - F(a)$, as required.
 \end{proof}
+\subsection{Corollaries of the FTC}
+We can now derive some consequences of this that you have likely used before.
+\subsubsection{Integration Tricks}
+\begin{remark}
+  Recall from \cref{ctsDifferentiable}, that we sa $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous.
+\end{remark}
+\begin{proposition}[Integration by Parts]
+  If $f, g \in C^{1}([a, b])$, then: \label{IBP}
+  \[
+    \int_{a}^{b} f'g \d{x} = f(b)g(b) - f(a)g(a) - \int_{a}^{b} fg' \d{x}
+  \]
+\end{proposition}
+\begin{proof}
+  Using the product rule from \cref{diffRules}, we can rewrite $f'g$ as:
+  \[
+    f'g = (fg)'-fg'
+  \]
+  Since $f, g \in C^{1}([a, b])$, they are integrable and so we can then apply the FTC (\cref{FTC}) to yield:
+  \[
+    \int_{a}^{b} (fg)' \d{x} = f(b)g(b) - f(a)g(a)
+  \]
+  from which the result follows.
+\end{proof}
+\begin{proposition}[Integration by Substitution]
+  If $f: [a, b] \to \R$ is continuous and $g \in C^{1}([\alpha, \beta])$ with $g: [\alpha, \beta] \to [a, b]$, $g(\alpha) = a$, and $g(\beta) = b$, then:
+  \[
+    \int_{a}^{b} f(x) \d{x} = \int_{\alpha}^{\beta} f(g(t))g'(t) \d{t}
+  \]
+\end{proposition}
+\begin{proof}
+  Since $f$ is integrable, the function $F(x) = \int_{a}^{x} f(t) \d{t}$ well defined and since $f$ is continuous on $[a, b]$, by \cref{FTCDiff}, $F$ is differentiable on $[a, b]$ with derivative $f(x)$.
+
+  Define the function $h = F \circ g: [\alpha , \beta] \to \R$.
+  Since $F$ and $g$ are differentiable, $h$ is also differentiable by the chain rule (\cref{chainRule}) with derivative:
+  \[
+    h'(t) = F'(g(t)) g'(t) = f(g(t))g'(t)
+  \]
+  Hence using \cref{FTC}, we have:
+  \begin{align*}
+    \int_{a}^{b} f(x) \d{x} &= F(b) - F(a) \\
+                            &= F(g(\beta)) - F(g(\alpha)) \\
+                            &= h(\beta) - h(\alpha) \\
+                            &= \int_{\alpha}^{\beta} h'(t) \d{t} \\
+                            &= \int_{\alpha}^{\beta} f(g(t))g'(t) \d{t}
+  \end{align*}
+\end{proof}
+\subsection{Taylor's Theorem and Mean Value Theorem for Integrals}
+\begin{theorem}[Taylor's Theorem: Integral Remainder]
+  Suppose $f \in C^{n}([a, a + h])$.
+  Let $R_{n, f, a}(h)$ be the Taylor remainder (\cref{taylorRemainder}), then:
+  \begin{align*}
+    R_{n, f, a}(h) &= \frac{h^{n}}{(n - 1)!}\int_{0}^{1} (1- t)^{n - 1}f^{(n)}(a + th) \d{t} \\
+                   &= \frac{1}{(n - 1)!} \int_{0}^{h} (h - u)^{n - 1}f^{(n)}(a + u) \d{u}
+  \end{align*}
+\end{theorem}
+\begin{remark}
+  By the extreme value theorem, $\exists M_n = \sup_{x \in [0, h]} \abs{f^{(n)}(a + x)}$.
+  So by the above the remainder then satisfies:
+  \[
+    |R_{n, f, a}(h)| \leq \frac{h^{n}}{n!}\abs{\int_{0}^{1} \cdots  \d{x}} = \frac{h^{n}}{n!}M_n
+  \]
+  Hence $R_{n, f, a}(h) \to 0$ as $h \to 0$ for fixed $n$.
+  If we know that $\sup_{n \geq 0} M_n = M < \infty$, then we have that:
+  \[
+    |R_{n, f, a}(h)| \leq \frac{Mh^{n}}{n!} \to 0 \text{ as }n \to \infty \text{ for all } |h| < 1
+  \]
+  so we would know that $f$ is analytic around $a$.
+
+  We can in fact generalise this to $f: X \subseteq \C \to \C$ where $X$ contains the line segment:
+  \[
+    [a, a + h] = \{a + th: t \in [0, 1]\}
+  \]
+  The reason we don't make a big deal about this is because in $\C$, differentiability implies smoothness.
+  This allows us to estimate $M_n$ as a function of $n$, if we then plug this into the above, then we can conclude that differentiable functions in $\C$ are always analytic.
+  This is explored rigorously in complex analysis.
+\end{remark}
+\begin{proof}
+  We can show this using repeated integration by parts (\cref{IBP}):
+  \begin{align*}
+    R_{n,f,a}(h) &= \frac{1}{(n - 1)!} \int_{0}^{h} (h - u)^{n - 1}f^{(n)}(a + u) \d{u} \\
+                 &= - h^{n - 1} \frac{f^{(n - 1)(a)}}{(n - 1)!} + \frac{1}{(n - 2)!}\int_{0}^{h} (h - u)^{n - 2}f^{(n - 1)}(a + u) \d{u} \\
+                 &= \cdots  \\
+                 &= - \sum_{k = 1}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + \int_{0}^{h} f'(a + u) \d{u} \\
+                 &= - \sum_{k = 1}^{n - 1} \frac{f^{(k)}(a)}{k!}h^{k} + f(a + h) - f(a) \\
+                 &= -T_{n, f, a}(a + h) + f(a + h)
+  \end{align*}
+  which is the desired result.
+\end{proof}
+We would also like to come up with a mean value theorem for integrals which would would then allow us to more easily prove the other forms of the remainder for Taylor's theorem using the integral form of the remainder.
+\begin{proposition}[Cauchy Mean Value Theorem for Integrals]
+  If $f, g: [a, b] \to \R$ are continuous and $g(x) \neq 0\ \forall x \in [a, b]$, then $\exists c\in (a, b)$ such that:
+  \[
+    \int_{a}^{b} f(x)g(x) \d{x} = f(c) \int_{a}^{b} g(x) \d{x}
+  \]
+\end{proposition}
+\begin{remark}
+  If we take $g(x) = 1$, then we obtain that $\exists c \in [a, b]$ such that:
+  \[
+    \int_{a}^{b} f(x) \d{x} = (b - a)f(c)
+  \]
+  which is the standard mean value theorem for integrals.
+\end{remark}
+\begin{proof}
+  We can prove this by applying the Cauchy MVT (\cref{cauchyMVT}) to the functions $F(x) = \int_{a}^{x} f(t)g(t) \d{t}$ and $G(x) = \int_{a}^{x} g(t) \d{t}$.
+  Since $f$ and $g$ are continuous, by the first version of the FTC, they are differentiable, so we can apply the Cauchy MVT.
+  Thus $\exists c \in (a, b)$ such that:
+  \begin{align*}
+    [F(b) - F(a)]G'(c) &= F'(c)(G(b) - G(a)) \\
+    \implies g(c)\int_{a}^{b} f(t)g(t) \d{t} &= f(c)g(c) \int_{a}^{b} g(t) \d{t} \text{ using \cref{FTCDiff}} \\
+    \implies \int_{a}^{b} f(t)g(t) \d{t} &= f(c)\int_{a}^{b} g(t) \d{t} \text{ since $g \neq 0$}
+  \end{align*}
+\end{proof}
+We can now more easily prove the Lagrange remainder (\cref{lagrangeRemainder}), provided we assume that $f^{(n)}$ is continuous:
+\begin{proof}[Lagrange Remainder]
+  Let $g(t) = (1 - t)^{n - 1}$ , then using the integral form of the remainder and MVT for integrals $\exists \theta \in (0, 1)$ such that:
+  \begin{align*}
+    R_{n, f, a}(h) &= \frac{h^{n}}{(n - 1)!}f^{(n)}(a + \theta h) \int_{0}^{1} (1 - t)^{n} \d{t} \\
+                   &= \frac{h^{n}}{n!}f^{(n)}(a + \theta h)
+  \end{align*}
+\end{proof}
+Similarly for the Cauchy remainder (\cref{cauchyRemainder}), assuming $f^{(n)}$ is continuous:
+\begin{proof}
+  Taking $g = 1$, we have:
+  \begin{align*}
+    R_{n, f, a}(h) &= \frac{h^{n}}{(n - 1)!} (1 - \theta)^{n - 1} f^{(n)}(a + \theta h) \int_{0}^{1} 1 \d{t} \\
+                   &= \frac{h^{n}}{(n - 1)!} (1 - \theta)^{n - 1} f^{(n)}(a + \theta h)
+  \end{align*}
+\end{proof}
+\begin{remark}
+  Although these proofs are much nicer, as stated, they assume that $f^{(n)}$ is continuous, however, the original proofs in \cref{lagrangeRemainder} and \cref{cauchyRemainder} only required the first $n - 1$ derivatives to be continuous.
+\end{remark}
+\section{Improper Integrals}
+Previously in this chapter, we have only considered integrals of \textbf{bounded functions on bounded domains}.
+We would also like to be able to integrate functions that have unbounded images and/or domains.
+
+We first want to make sense of $\int_{a}^{\infty} f(x) \d{x}$.
+\begin{definition}[Improper Integral -- Unbounded Domain]
+  Let $f: [a, \infty) \to \R$ be integrable on $[a, R]$ for every $R \in [a, \infty)$ and let:
+  \[
+    F: [a, \infty) \to \R,\ R \mapsto \int_{a}^{R} f(x) \d{x}
+  \]
+  We then define $\int_{a}^{\infty} f(x) \d{x} = \lim_{R \to \infty} F(R)$ if such a finite limit exists and say that the \textit{improper integral} converges.
+  Otherwise, we say that the improper integral does not converge.
+\end{definition}
+\begin{definition}[Improper Integral -- Over $\R$]
+  If $f: \R \to \R$ is such that $\int_{a}^{\infty} f(x) \d{x} = L_1$ and $\int_{-\infty}^{a} f(x) \d{x} = L_2$ for finite $L_1$ and $L_2$, then we say that $\int_{-\infty}^{\infty} f(x) \d{x}$ exists and we set:
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x) \d{x} &= L_1 + L_2 \\
+                                       &= \int_{-\infty}^{a} f(x) \d{x} + \int_{a}^{\infty} f(x) \d{x} \\
+                                       &= \lim_{R_1 \to \infty} \int_{-R_1}^{a} f(x) \d{x} + \lim_{R_2 \to \infty} \int_{a}^{R_2} f(x) \d{x}
+  \end{align*}
+\end{definition}
+\begin{remark}
+  This is not the same as defining it as:
+  \[
+    \lim_{R \to \infty} \left[\int_{-R}^{R} f(x) \d{x}\right]
+  \]
+  This is called the \textit{Cauchy principal value}.
+  If $\int_{-\infty}^{\infty} f(x) \d{x}$ exists, then the principal value exists, however the converse of this is not true, see Example Sheet 4 Q1b.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider the integral $\int_{1}^{\infty} \frac{1}{x^{p}} \d{x}$.
+      We saw in \cref{integralTestExample} that:
+      \[
+        \int_{1}^{\infty} \frac{1}{x^{p}} \d{x} = \lim_{R \to \infty} \int_{1}^{R} \frac{1}{x^{p}} \d{x}
+      \]
+      exists if and only if $p > 1$.
+    \item In the same example, we also saw that:
+      \[
+        \int_{1}^{\infty} \frac{1}{x (\log x)^2} \d{x} = \lim_{R \to \infty} \int_{1}^{R} \frac{1}{x (\log x)^2} \d{x} = \lim_{R \to \infty} \left[\frac{1}{\log 2} - \frac{1}{\log R}\right] = \frac{1}{\log 2}
+      \]
+    \item Consider the integral:
+      \[
+        \int_{-\infty}^{\infty} e^{-x^2} \d{x} = 2 \int_{0}^{\infty} e^{-x^2} \d{x} = 2 \lim_{R \to \infty} \int_{0}^{R} e^{-x^2} \d{x}
+      \]
+      We don't know how to integrate this, but similarly to with convergence of series, we would like to be able to assert whether the integral converges without knowing what value it might converge to.
+  \end{enumerate}
+\end{example}
 \end{document}

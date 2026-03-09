@@ -59,7 +59,7 @@ We need to be careful about non-interior points however most of the theory for t
 \subsection{Rules for Differentiation}
 We can derive some properties of derivatives from the properties of limits (\cref{limitLaws}).
 \begin{lemma}[Differentiation Rules]
-  Let $f, g: X \subseteq \C \to \C$ be differentiable at $a \in X$, then so are:
+  Let $f, g: X \subseteq \C \to \C$ be differentiable at $a \in X$, then so are: \label{diffRules}
   \begin{enumerate}
     \item $f + g$ with $(f + g)' = f' + g'$
     \item $fg$ with $(fg)' = fg' + f'g$ (\textit{Product Rule})
@@ -156,7 +156,7 @@ We would like to know the derivative of $f \circ g$ but it is not possible to do
 \end{proof}
 \begin{proposition}[Chain Rule]
   Let $U, V \subseteq \C$ and $f: U \to V$ and $g: V \to \C$.
-  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \C$ is differentiable at $a \in U$ and $(g \circ f)'(a) = g'(f(a))f'(a)$.
+  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \C$ is differentiable at $a \in U$ and $(g \circ f)'(a) = g'(f(a))f'(a)$. \label{chainRule}
 \end{proposition}
 \begin{proof}
   Using \cref{derivativeAlternative}, since $f$ is differentiable at $a$, $\exists \varepsilon_f(h)$ with $\varepsilon_f \to 0$ as $h \to 0$ such that:
@@ -426,7 +426,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   \end{enumerate}
 \end{example}
 \begin{proposition}[Cauchy Mean Value Theorem]
-  If $f, g: [a, b] \to \R$  are continuous and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
+  If $f, g: [a, b] \to \R$  are continuous and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that: \label{cauchyMVT}
   \[
     g'(c)[f(b) - f(a)] = f'(c)[g(b) - g(a)]
   \]
@@ -480,6 +480,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   Iterating this, we obtain the notion of an \textit{$n$-times differentiable} function, whose \textit{$n$-th derivative} is denoted $f^{(n)}$.
 \end{definition}
 \begin{definition}[Continiously Differentiable]
+  \label{ctsDifferentiable}
   We say that $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous.
 \end{definition}
 \begin{remark}
@@ -518,7 +519,7 @@ We would like to know how good of an approximation we can make using this under 
   \]
 \end{definition}
 \begin{definition}[Taylor Remainder]
-  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$, and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as:
+  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$, and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as: \label{taylorRemainder}
   \begin{align*}
     R_{n, f, x_0}(h) &= f(x_0 + h) - T_{n - 1, f, x_0}(x_0 + h) \\
                      &= f(x_0 + h) - \sum_{k = 0}^{n - 1} \frac{f^{(k)}(x_0)}{k!}h^{k}
