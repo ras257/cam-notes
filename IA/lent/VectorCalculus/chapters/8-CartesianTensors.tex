@@ -1,0 +1,151 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Cartesian Tensors}
+\begin{remark}[Notation]
+  In this chapter $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ will refer to any general right handed orthonormal basis for $\R^3$, not just the canonical basis.
+  Similarly, we will use $\{\vec{e}_1', \vec{e}_2', \vec{e}_3'\}$ to refer to any other such basis.
+\end{remark}
+\section{What is a Vector?}
+A vector is \textbf{not} just three numbers in a column.
+It has existence of its own within a vector space.
+So, for example, the vector $\vec{v} = (1, 2, 4)^{\trans}$ just refers to the components of $\vec{v}$ \textbf{with respect to some particular basis}.
+If we change the basis, then the components of $\vec{v}$ will change even through but \textbf{the vector $\vec{v}$ itself remains exactly the same}.
+\begin{remark}[Nomenclature]
+  Changing basis is sometimes referred to as changing the \textit{frame of reference}.
+\end{remark}
+More precisely, suppose that $\vec{v}$ has components $v_i$ with respect to $\{\vec{e}_i\}$ and $v_i'$ with respect to a new basis $\{\vec{e}_i'\}$, then:
+\[
+  \vec{v} = v_j \vec{e}_j = v_k' \vec{e}_k'
+\]
+If we dot both sides with $\vec{e}_i'$, we see that:
+\begin{align*}
+  v_k' \vec{e}_i' \cdot \vec{e}_k' = v_j \vec{e}_i' \cdot \vec{e}_j \\
+  \implies v_k \delta_{i k} = v_j \vec{e}_i \cdot \vec{e}_j
+\end{align*}
+So we can write:
+\begin{equation}
+  v_i' = R_{i j}v_j \label{vectorTransform}
+\end{equation}
+where $R = (R_{i j})$ is the matrix with entries given by:
+\[
+  R_{ij} = \vec{e}_i' \cdot \vec{e}_j
+\]
+more explicitly:
+\[
+  R = \begin{pmatrix}
+  \vec{e}_1' \cdot \vec{e}_1 & \vec{e}_1' \cdot \vec{e}_2 & \vec{e}'_1 \cdot \vec{e}_3 \\
+  \vec{e}_2' \cdot \vec{e}_1 & \vec{e}_2' \cdot \vec{e}_2 & \vec{e}'_2 \cdot \vec{e}_3 \\
+  \vec{e}_3' \cdot \vec{e}_1 & \vec{e}_3' \cdot \vec{e}_2 & \vec{e}'_3 \cdot \vec{e}_3 \\
+  \end{pmatrix} = \begin{pmatrix}
+  {\vec{e}_1'}^{\trans} \\
+  \hline
+  {\vec{e}_2'}^{\trans} \\
+  \hline
+  {\vec{e}_3'}^{\trans} \\
+  \end{pmatrix}
+\]
+The $j$-th row of $R$ is just the three components of $\vec{e}_j'$ with respect to the original basis $\{\vec{e}_i\}$.
+Since the three rows of $R$ are orthonormal vectors, we deduce that $R$ is an orthogonal matrix so we expect $R R^{\trans} = I$:
+\[
+  R R^{\trans} = \begin{pmatrix}
+  {\vec{e}_1'}^{\trans} \\
+  \hline
+  {\vec{e}_2'}^{\trans} \\
+  \hline
+  {\vec{e}_3'}^{\trans} \\
+  \end{pmatrix}
+  \Biggl(\vec{e}_1' \Bigm| \vec{e}_2' \Bigm| \vec{e}_3'\Biggr) = \begin{pmatrix}
+  \vec{e}_1' \cdot \vec{e}_1' & \vec{e}_1' \cdot \vec{e}_2' & \vec{e}'_1 \cdot \vec{e}_3' \\
+  \vec{e}_2' \cdot \vec{e}_1' & \vec{e}_2' \cdot \vec{e}_2' & \vec{e}_2' \cdot \vec{e}_3' \\
+  \vec{e}_3' \cdot \vec{e}_1' & \vec{e}_3' \cdot \vec{e}_2' & \vec{e}_3' \cdot \vec{e}_3' \\
+  \end{pmatrix} = I
+\]
+as expected.
+Since $R$ is orthogonal, this means that $R^{\trans}$ is the inverse of $R$ hence:
+\begin{equation}
+  R_{i k}(R^{\trans})_{k j} = R_{i k}R_{j k} = \delta_{i j} \text{ and } (R^{\trans})_{i k}R_{k j} = R_{k i}R_{k j} = \delta_{i j} \label{RDelta}
+\end{equation}
+These are very important identities when working with tensors so it is useful to commit these to memory.
+
+If we expand the determinant of $R$ along the first row, we see that:
+\[
+  \det R = \det \begin{pmatrix}
+  {\vec{e}_1'}^{\trans} \\
+  \hline
+  {\vec{e}_2'}^{\trans} \\
+  \hline
+  {\vec{e}_3'}^{\trans} \\
+  \end{pmatrix} = \vec{e}_1' \cdot (\vec{e}_2' \times \vec{e}_3') = 1
+\]
+since $\{\vec{e}_i'\}$ is a right handed orthonormal basis.
+So we know that $R$ is orthogonal and $\det R = 1$, thus, as we saw in IA Vectors and Matrices, $R$ must be a rotation matrix.
+
+So $v_i' = R_{i j}v_j$ (\cref{vectorTransform}) for some rotation matrix $R$ defines the transformation rule for vectors.
+Any set of three numbers in a column that doesn't obey this rule \textbf{cannot be a vector}.
+We can also derive the inverse of this transformation starting from \cref{vectorTransform}:
+\begin{align*}
+  v_j' = R_{j k}v_k \implies R_{ji}v_j' &= R_{j i}R_{j k}v_k \\
+                                        &= (R^{\trans} R)^{i k} v_k \text{ using \cref{RDelta}}\\
+                                        &= \delta_{i k}v_k = v_i
+\end{align*}
+Therefore, the inverse is:
+\begin{equation}
+  v_i = R_{j i}v_j' \label{invVectorTransform}
+\end{equation}
+\begin{remark}
+  These transformations look just like a map between two different vectors $\vec{v}$ and $\vec{v}'$ where $\vec{v}' = R \vec{v}$ and $\vec{v} = R^{\trans} \vec{v}'$.
+
+  This is a correct interpretation of the equations, however, it is very misleading because in this case $v_i'$ and $v_j$ refer to the components of the \textbf{same vector} $\vec{v}$, just with respect to different bases, not two different vectors.
+\end{remark}
+\section{What is a Tensor?}
+\begin{definition}[Rank $n$ Tensor]
+  A \textit{tensor $T$ of rank $n$} is an array of numbers $T_{ijk\ldots}$ (with respect to a given basis) with $n$ indices which, under a change of basis, transforms according to:
+  \begin{equation}
+    T_{ijk\ldots}' = R_{i p}R_{j q}R_{k r} \cdots T_{p q r\ldots} \label{tensorTransform}
+  \end{equation}
+  where $T_{ijk\ldots}'$ are the components of $T$ with respect to the new basis and $R$ is the relevant $3\times 3$ rotation matrix defined by $R_{i j} = \vec{e}_i' \cdot \vec{e}_j$.
+\end{definition}
+Confusingly, we will often refer to $T_{ijk\cdots}$ as being a tensor, despite it really only being the components of a tensor $T$ with respect to a particular basis.
+\begin{remark}
+  The rank of a tensor is sometimes referred to its \textit{order}.
+  However, rank and dimension are \textbf{not} the same, we will work exclusively in 3 dimensions, so each of the $n$ indices of $T$ can take values in $\{1, 2, 3\}$.
+\end{remark}
+\begin{remark}
+  $T_{ijk\ldots}$ can be visualised as a $3 \times 3 \times \cdots \times 3$ matrix ($n$ times), but this is rarely helpful outside of the cases of $n = 1$ (a 3-vector) or $n = 2$ (a $3\times 3$ matrix).
+\end{remark}
+The transformation rule for tensors (\cref{tensorTransform}) ensures that $T$ behaves consistently between frames when it interacts with vectors or other tensors.
+
+Similarly to the vector transformation rule, \cref{invVectorTransform}, the tensor transformation rule also has an inverse:
+\begin{equation}
+  T_{ijk\ldots} = R_{pi}R_{q j}R_{r k} \cdots T_{pqr\ldots}' \label{invTensorTransform}
+\end{equation}
+\begin{example}[Examples of rank 0 to 2 tensors]
+  \begin{enumerate}
+    \item A tensor of rank 0 satisfies $T' = T$.
+      This means it is a real number that invariant under changes of basis.
+      We commonly refer to rank 0 tensors as \textit{scalars}.
+    \item A tensor of rank 1 satisfies, according to the transformation rule:
+      \[
+        T_i' = R_{i p}T_p
+      \]
+      which is just the transformation rule for vectors (\cref{vectorTransform}).
+
+      So tensors of rank 1 are vectors, since they satisfy the transformation rule for vectors, and any vector is a tensor of rank 1, since they satisfy the transformation rule for rank 1 tensors.
+    \item A tensor of rank 2 satisfies:
+      \[
+        T_{i j}' = R_{ip}R_{jq}T_{p q}
+      \]
+      In this case, $T$ can be written as a normal $3 \times 3$ matrix, so the transformation equation becomes:
+      \[
+        T' = RTR^{\trans}
+      \]
+      This is exactly the change of basis formula for matrices (when both sets of bases are orthonormal) that we saw in IA Vectors and Matrices.
+  \end{enumerate}
+\end{example}
+\begin{remark}[Tensors in other coordinate systems]
+  \nonexaminable
+  In this chapter, we are considering only \textit{Cartesian tensors}.
+  It is also possible to define tensors with respect to orthogonal curvilinear coordinate systems (like those in \cref{orthoCurvilinear}), or more general coordinate systems like the space-time of General relativity.
+  In this context you may encounter \textit{covariant} vectors $v_i$ (which transform like a change of basis) and \textit{contravariant} vectors $v^{i}$ (which transform oppositely to a change of basis), a distinction which is unnecessary in Cartesians.
+\end{remark}
+\end{document}
