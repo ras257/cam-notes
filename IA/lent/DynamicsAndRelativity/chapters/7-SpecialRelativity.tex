@@ -684,4 +684,184 @@ The invariant distance between the origin and the event $X$ is given by the inne
 \begin{remark}
   In index notation this would be $X^{\mu}\eta_{\mu \nu}X^{\nu}$.
 \end{remark}
+As discussed earlier, this inner product is not positive definite:
+\begin{center}
+\begin{tabular}{c|c}
+Condition & Name \\
+\hline
+$X \cdot X > 0$ & \textit{time-like} 4-vector  \\
+$X \cdot X < 0$ & \textit{space-like} 4-vector \\
+$X \cdot X = 0$ & \textit{light-like} or \textit{null} 4-vector \\
+\end{tabular}
+\end{center}
+Four dimensional Lorentz transformations are $4 \times 4$ matrices $\Lambda$ such that:
+\[
+  X' = \Lambda X
+\]
+The defining feature of Lorentz transformations is that they leave this inner product invariant.
+That is, $X' \cdot X' = X \cdot X$.
+This happens if and only if $\Lambda^{\trans} \eta \Lambda = \eta$, i.e. they preserve the Minkowski metric.
+
+Each $\Lambda$ has $4 \times 4 = 16$ components, both sides of $\Lambda^{\trans} \eta \Lambda = \eta$ are symmetric and so we have 10 constraints.
+We therefore expect to find $6$ families of transformations from the unconstrained components:
+\begin{itemize}
+  \item There are \textbf{three families of euclidean rotations/reflections} in the form:
+    \[
+      \Lambda = \begin{pmatrix}
+      1 & 0 & 0 & 0 \\
+      0 &  &  &  \\
+      0 &  & R &  \\
+      0 &  &  &  \\
+      \end{pmatrix}
+    \]
+    where $R^{\trans}R = \id_3$.
+    Each family corresponds to each of the three spatial axes.
+  \item There are \textbf{three families of Lorentz boosts}, one for each of the spatial axes:
+    For example, along the $x$ and $y$ axes:
+    \[
+      \Lambda_x = \begin{pmatrix}
+      \gamma & -\frac{\gamma v}{c} & 0 & 0 \\
+      -\frac{\gamma v}{c} & \gamma & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 \\
+      \end{pmatrix}\quad
+      \Lambda_y = \begin{pmatrix}
+      \gamma & 0 & -\frac{\gamma v}{c} & 0 \\
+      0 & 1 & 0 & 0 \\
+      -\frac{\gamma v}{c} & 0 & \gamma & 0 \\
+      0 & 0 & 0 & 1 \\
+      \end{pmatrix}
+    \]
+    and similarly along other axes.
+    We can then multiply these matrices to create a Lorentz boost along an arbitrary axis.
+\end{itemize}
+\begin{definition}[Lorentz Group]
+  The set of all Lorentz transformations $\Lambda$ forms the \textit{Lorentz group}, denoted $\operatorname{O}(1, 3)$.
+\end{definition}
+\begin{remark}
+  Because the inner product is preserved by this group, if a 4-vector is light-like in one frame, then it must also be light-like in any other frame and so it follows that the speed of light is the same in all frames.
+\end{remark}
+\begin{definition}[Proper Lorentz Group]
+  The subgroup of the Lorentz group with $\det \Lambda = 1$ is called the \textit{proper Lorentz group}, denoted $\operatorname{SO}(1, 3)$.
+\end{definition}
+The proper Lorentz group removes reflections in either time or space, but not the combination of a reflection in time and space.
+\begin{definition}[Proper Orthochronous]
+  The subgroup of the proper Lorentz group that does not include those which reverse the time direction i.e. $\Lambda_{00} > 0$, is called the \textit{proper orthochronous} Lorentz group, denoted $\operatorname{SO}^{+}(1, 3)$.
+\end{definition}
+\begin{example}
+  For example, the Lorentz transform:
+  \[
+    \Lambda = \begin{pmatrix}
+    -1 & 0 & 0 & 0 \\
+    0 & -1 & 0 & 0 \\
+    0 & 0 & -1 & 0 \\
+    0 & 0 & 0 & -1 \\
+    \end{pmatrix}
+  \]
+  is in $\operatorname{SO}(1, 3)$ but not in $\SO^{+}(1, 3)$ because it reverses the time direction, despite the fact that $\det \Lambda = 1$.
+\end{example}
+\begin{remark}[Nomenclature]
+  Typically when people refer to Lorentz transformations, they mean proper orthochronous Lorentz transformations, as we typically do not wan to consider reflections in space or time.
+\end{remark}
+\section{Proper Time}
+We would like to define a new concept of velocity that is a 4-vector and so transforms nicely under Lorentz transforms.
+To achieve this, we will first find a time $\tau$ that is \textit{invariant} under Lorentz transformations and define the \textit{4-velocity} as:
+\[
+  U \equiv \deriv{X}{\tau}
+\]
+\begin{remark}[Notation]
+  We often abbreviate the spatial component of a 4-vector as $(ct, \vec{x})$ where $\vec{x} \in \R^3$.
+\end{remark}
+Suppose we have two points along a worldline $(ct_1, \vec{x}_1)$ and $(ct_2, \vec{x}_2)$.
+We know that the invariant interval $(\Delta s)^2$ is the same in all inertial frames.
+\begin{definition}[Proper Time]
+  The \textit{proper time} between two points on a worldline is defined as:
+  \[
+    \Delta \tau \equiv \frac{\Delta s}{c}
+  \]
+\end{definition}
+\begin{remark}[Note]
+  Because we are considering two points on a worldline and worldlines must be contained within the light cone, the two events must be time-like, so $(\Delta s)^2 > 0$ and so $\Delta s \in \R^{+}$.
+\end{remark}
+Since all frames agree on $\Delta s$ and $c$, they also must agree on $\Delta \tau$.
+We can then parameterise any worldline using $\tau$ as $\vec{x}(\tau)$ and $t(\tau)$.
+Since all frames agree on $\tau$, they will also agree on this parameterisation.
+\begin{remark}
+  Proper time is like a Lorentzian version of the euclidean arc length along a curve.
+  This is because in euclidean geometry, rotated frames might not agree on the positions of the endpoints of the curve, but will agree on the arc length between them.
+  So in Lorentzian geometry, transformed frames might not agree on the space-times of a pair of events, but will agree on the $\Delta \tau$ between them in the parameterisation.
+\end{remark}
+Along a small segment of a parameterised worldline, we have:
+\begin{align*}
+  \d{\tau} &= \frac{1}{c}\sqrt{(\Delta s)^2} \\
+           &= \sqrt{\d{t^2} - \frac{1}{c^2}(\d{x^2} + \d{y^2} + \d{z^2})} \\
+           &= \d{t} \sqrt{1 - \frac{1}{c^2} \left[\left(\deriv{x}{t}\right)^2 + \left(\deriv{y}{t}\right)^2 + \left(\deriv{z}{t}\right)^2\right]} \\
+           &= \d{t} \sqrt{1 - \frac{1}{c^2} \abs{\deriv{\vec{x}}{t}}^2}
+\end{align*}
+\begin{definition}[3-Velocity]
+  We define the \textit{3-velocity} $\vec{u}$ as the standard instantaneous velocity of the spatial components, that is:
+  \[
+    \vec{u} = \deriv{\vec{x}}{t}
+  \]
+\end{definition}
+We then have:
+\[
+  \d{\tau} = \d{t}\sqrt{1 - \frac{|\vec{u}|^2}{c^2}} = \frac{1}{\gamma}\d{t}
+\]
+where $\gamma$ is the Lorentz factor as a function of the instantaneous 3-velocity:
+\[
+  \gamma(u) = \frac{1}{\sqrt{1 - \frac{u^2}{c^2}}}
+\]
+Finally, we then have:
+\[
+  \deriv{t}{\tau} = \gamma
+\]
+Note that $\gamma$ does not have to be constant as $\vec{u}$ can be changing along the worldline.
+
+We also conclude that a clock following the worldline has $\d{\vec{x}'} = 0 \implies \d{\tau} = \d{t'}$.
+This means that the proper time is the time measured by an observer (not necessarily inertial) travelling along the world line.
+\subsection{4-Velocity}
+We now know that $\tau$ is invariant and we can parameterise a trajectory along a worldline as the 4-vector:
+\[
+  X(\tau) = \begin{pmatrix}
+  ct(\tau) \\
+  \vec{x}(\tau) \\
+  \end{pmatrix}
+\]
+Since this is a 4-vector, we know that it transforms by $X' = \Lambda X$, so using that $\deriv{t}{\tau} = \gamma$, we have:
+\[
+  \deriv{X}{\tau} = \begin{pmatrix}
+  c \deriv{t}{\tau} \\
+  \deriv{\vec{x}}{\tau} \\
+  \end{pmatrix} = \deriv{t}{\tau}\begin{pmatrix}
+  c \\
+  \deriv{\vec{x}}{t} \\
+  \end{pmatrix} = \gamma \begin{pmatrix}
+  c \\
+  \vec{u} \\
+  \end{pmatrix}
+\]
+\begin{definition}[4-Velocity]
+  The \textit{4-velocity} $U$ is defined as:
+  \[
+    U = \deriv{X}{\tau} = \gamma \begin{pmatrix}
+    c \\
+    \vec{u} \\
+    \end{pmatrix}
+  \]
+  where $\vec{u}$ is the three velocity and $\gamma$ is a function of $u = |\vec{u}|$.
+\end{definition}
+\begin{remark}
+  For our purposes, a 4-vector will be any quantity $X$ that transforms as $X' = \Lambda X$.
+\end{remark}
+Since this is also a 4-vector, it transforms as $U' = \Lambda U$.
+This relativistic 4-vector incorporates the familiar 3-velocity $\vec{u}$ into a nice Lorentzian object.
+
+In particular, since $U' = \Lambda U$ and $\Lambda$ preserves the inner product, we have that $U' \cdot U' = U \cdot U$ in all frames.
+If we compute $U \cdot U$, we see that it is just $c^2$:
+\[
+  U \cdot U = \gamma^2 c^2 - \gamma^2 |\vec{u}|^2 = (c^2 - |\vec{u}|^2)\gamma^2 = c^2
+\]
+which is constant in all frames, as expected.
+We can also use this to find a 4-velocity given 3-velocity $\vec{u}$ by solving $U \cdot U = c^2$ for the time component.
 \end{document}
