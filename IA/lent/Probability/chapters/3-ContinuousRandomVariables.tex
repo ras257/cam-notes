@@ -928,7 +928,7 @@ Therefore, by \cref{densityFactor}, the $Z_i$ are independent and since $f_{Z_i}
 We can define something similar to probability generating functions but instead for continuous random variables:
 \begin{definition}[Moment Generating Function]
   Let $X$ be a continuous random variable with density $f(x)$.
-  The \textit{moment generating function} or \textit{mgf} of $X$ is defined to be:
+  The \textit{moment generating function} or \textit{mgf} of $X$ is defined to be: \label{mgfDef}
   \[
     m(\theta) = \E[e^{\theta X}] = \int_{-\infty}^{\infty} e^{\theta x} \cdot f(x) \d{x}
   \]
@@ -1062,7 +1062,7 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
   \]
 \end{remark}
 \begin{proposition}
-  The moment generating function of a normal distribution $\normal(\mu, \sigma^2)$ is:
+  The moment generating function of a normal distribution $\normal(\mu, \sigma^2)$ is: \label{mgfNormal}
   \[
     m(\theta) = \exp\left(\mu \theta + \frac{\theta^2 \sigma^2}{2}\right)
   \]
@@ -1106,12 +1106,12 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
   Let $X = (X_1, \ldots, X_n)^{\trans}$ be random vector in $\R^{n}$.
   The moment generating function of $X$ is defined to be:
   \[
-    m(\theta) = \E[e^{\theta^{\trans} \cdot X}] = \E\left[e^{\sum_{i = 1}^{n} \theta_i X_i}\right]
+    m(\theta) = \E[e^{\theta^{\trans} X}] = \E\left[e^{\sum_{i = 1}^{n} \theta_i X_i}\right]
   \]
   where $\theta = (\theta_1, \ldots, \theta_n)^{\trans} \in \R^{n}$.
 \end{definition}
 \begin{theorem}
-  If the mgf is finite for an open set of values of $\theta$, then it uniquely determines the distribution.
+  If the mgf is finite for an open set of values of $\theta$, then it uniquely determines the distribution. \label{mgfMultiUnique}
 
   In this case:
   \[
@@ -1123,7 +1123,7 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
 
   Its moment generating function factorises as:
   \[
-    m(\theta) = \E[e^{\theta^{\trans} \cdot X}] = \prod_{i = 1}^{n} \E[e^{\theta_i X_i}]
+    m(\theta) = \E[e^{\theta^{\trans}X}] = \prod_{i = 1}^{n} \E[e^{\theta_i X_i}]
   \]
   if and only if $X_1, \ldots, X_n$ are independent.
 \end{proposition}
@@ -1160,7 +1160,7 @@ A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit
 \end{remark}
 \begin{proposition}
   Let $X = (X_1, \ldots, X_n)^{\trans} \in \R^{n}$ be a Gaussian vector.
-  If $A$ is a $m \times n$ matrix and $b \in \R^{m}$, then $AX + b$ is Gaussian in $\R^{m}$.
+  If $A$ is a $m \times n$ matrix and $b \in \R^{m}$, then $AX + b$ is Gaussian in $\R^{m}$. \label{gaussianLinearTransform}
 \end{proposition}
 \begin{proof}
   Let $u = (u_1, \ldots, u_m)^{\trans}$ be an arbitrary vector in $\R^{m}$.
@@ -1188,7 +1188,7 @@ A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit
   \]
 \end{definition}
 \begin{remark}
-  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix where we take expectation element-wise.
+  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix and we then take expectations entry-wise.
 \end{remark}
 We can find the entires of this matrix by taking expectations of:
 \begin{align*}
@@ -1198,4 +1198,200 @@ We can find the entires of this matrix by taking expectations of:
 for $i, j \in \{1, \ldots, n\}$.
 From \cref{covarianceProperties}, we know that $\Cov(X_i, X_j) = \Cov(X_j, X_i)$ so $\Var(X)$ is a symmetric matrix.
 We also know that $\Var(X)_{i i} = \Cov(X_i, X_i) = \Var(X_i)$ so the main diagonal of $\Var(X)$ consists the variances of each component of $X$.
+
+By definition, if $X$ is Gaussian in $\R^{n}$, then $u^{\trans} X$ is Gaussian in $\R\ \forall u \in \R^3$.
+It is then useful to determine the expectation and variance of this Gaussian distribution:
+\begin{align}
+  \E[u^{\trans} X] &= \E\left[\sum_{i = 1}^{n} u_i X_i\right] \nonumber \\
+                   &= \sum_{i = 1}^{n} u_i \E[X_i] \nonumber \\
+                   &= u^{\trans}\mu \label{expUTX}
+\end{align}
+and similarly for the variance:
+\begin{align}
+  \Var(u^{\trans} X) &= \Var\left(\sum_{i = 1}^{n} u_i X_i\right) \nonumber \\
+                     &= \sum_{i, j = 1}^{n} u_i \Cov(X_i, X_j) u_j \text{ using  \cref{covarianceProperties} \textbf{(viii)}} \nonumber \\
+                     &= u^{\trans} \Var(X) u \label{varUTX}
+\end{align}
+\begin{proposition}
+  $V = \Var(X)$ is a \textit{non-negative definite matrix}, that is:
+  \[
+    \forall u \in \R^{n},\ u^{\trans} V u \geq 0
+  \]
+\end{proposition}
+\begin{remark}
+  We say that $V$ is \textit{positive definite} if $\forall u \in \R^{n}, u^{\trans} V u > 0$.
+\end{remark}
+\begin{proof}
+ From \cref{varUTX}, we have that $\Var(u^{\trans} X) = u^{\trans} V u$ and we also know that variance of a 1D random variable is always non-negative, so we are done.
+\end{proof}
+\begin{proposition}
+  The moment generating function of the gaussian random vector $X = (x_1, \ldots, x_n)$ is:
+  \[
+    m(\lambda) = \exp\left(\lambda^{\trans}\mu + \frac{\lambda^{\trans} V \lambda}{2}\right) \text{ for $\lambda \in \R^{n}$}
+  \]
+\end{proposition}
+\begin{proof}
+  Recall from \cref{mgfDef} that:
+  \[
+    m(\lambda) = \E[e^{\lambda^{\trans} X}] \text{ for } \lambda \in \R^{n}
+  \]
+  From \cref{expUTX} and \cref{varUTX}, $\lambda^{\trans} X$ is a Gaussian with mean $\lambda^{\trans} \mu$ and variance $\lambda^{\trans} V \lambda$, that is, $\lambda^{\trans} X \sim \normal(\lambda^{\trans}\mu, \lambda^{\trans} V \lambda)$.
+  From \cref{mgfNormal}, the mgf of the normal distribution $Y \sim \normal(\mu, \sigma^2)$ is:
+  \[
+    q(\theta) = \E[e^{\theta Y}]\exp\left(\theta \mu + \frac{\theta^2 \sigma^2}{2}\right) \implies q(1) = \E[e^{Y}] = \exp\left(\mu + \frac{\sigma^2}{2}\right)
+  \]
+  so using the expression for the mgf of a normal $\lambda^{\trans} X$ evaluated at $1$, we have:
+  \begin{align*}
+    m(\lambda) = \E[e^{\lambda^{\trans} X}] = \exp\left(\lambda^{\trans}\mu + \frac{\lambda^{\trans} V \lambda}{2}\right)
+  \end{align*}
+\end{proof}
+From \cref{mgfMultiUnique}, we know that the mgf uniquely characterises the distribution (if defined for an open set of values).
+Therefore, if we have a mean vector $\mu$ and a variance matrix $V$, this uniquely determines the mgf and therefore uniquely determines the distribution of the Gaussian vector $X$.
+\subsubsection{Construction of a Gaussian Random Vector}
+\begin{lemma}
+  If $Z_1, \ldots, Z_n$ are independent and identically distributed standard normal random variables ($\normal(0, 1)$), then $Z = (Z_1, \ldots, Z_n)$ is a Gaussian vector. \label{standardGaussian}
+\end{lemma}
+\begin{proof}
+  We need to show that $\forall u \in \R^{n}$, $u^{\trans}Z$ is gaussian in $\R$.
+  We can do this by finding the mgf of the $u^{\trans} Z$ for $\lambda \in \R$:
+  \begin{align*}
+    m(\lambda) &= \E[e^{\lambda u^{\trans}z}] \\
+               &= \E\left[e^{\lambda \sum_{i = 1}^{n} u_i Z_i}\right] \\
+               &= \prod_{i = 1}^{n} \E[e^{\lambda u_i Z_i}] \text{ by independence} \\
+               &= \prod_{i = 1}^{n} \exp\left(\frac{\lambda^2 u^2_i}{2}\right) \text{ as } \E[e^{\theta Z_i}] = \exp\left(\frac{\theta^2}{2}\right) \\
+               &= \exp\left(\frac{\lambda^2 |u|^2}{2}\right)
+  \end{align*}
+  Thus $u^{\trans} Z \sim \normal(0, |u|^2)$ which is Gaussian in $\R$ so we are done.
+\end{proof}
+\begin{remark}
+  For $Z$ defined as above:
+  \begin{equation}
+    \mu = \E[Z] = \begin{pmatrix}
+    0 \\
+    \vdots \\
+    0 \\
+    \end{pmatrix} \text{ and } V = \Var(Z) = I_n \label{standardGaussianExpVar}
+  \end{equation}
+  where $I_n$ is the $n \times n$ identity matrix.
+\end{remark}
+Let $\mu \in \R^{n}$ and let $V$ be a non-negative definite matrix, we want to be able to construct a Gaussian vector with mean $\mu$ and variance matrix $V$ using the standard normal vector $Z$.
+\begin{remark}
+  $V$ also needs to be symmetric, although definiteness is usually only defined for symmetric matrices.
+  This is because we can always decompose a matrix into a symmetric and anti-symmetric matrix, and $u^{\trans}Au$ is always 0 for the anti-symmetric matrix $A$ -- see 1A Vectors and Matrices.
+\end{remark}
+In the case of $n = 1$, we saw in \cref{normalTransform}, that we can construct $X \sim \normal(\mu, \sigma^2)$, as $X = \mu + \sigma Z$.
+But how can we take the ``square root'' of $V$?
+\begin{definition}
+  Let $V$ be a non-negative symmetric matrix.
+  Since $V$ is symmetric, it can be orthogonally diagonalised as:
+  \[
+    V = U^{\trans} D U
+  \]
+  where $U^{\trans} = U^{-1}$ and $D$ is a diagonal matrix with:
+  \[
+    D = \begin{pmatrix}
+    \lambda_1 &  &  \\
+     & \ddots &  \\
+     &  & \lambda_n \\
+    \end{pmatrix}
+  \]
+  where $\lambda_i \geq 0\ \forall i$ since $V$ is non-negative definite.
+
+  The \textit{square root of $V$} is then defined as:
+  \[
+    \sigma = U^{\trans} \sqrt{D} U
+  \]
+  where $\sqrt{D}$ is:
+  \[
+    \sqrt{D} = \begin{pmatrix}
+    \sqrt{\lambda_1} &  &  \\
+     & \ddots &  \\
+     &  & \sqrt{\lambda_n} \\
+    \end{pmatrix}
+  \]
+\end{definition}
+\begin{remark}[Note]
+  This acts like a ``square root'' of $V$ since:
+  \[
+    \sigma^2 = U^{\trans} \sqrt{D} U U^{\trans} \sqrt{D}U = U^{\trans} (\sqrt{D})^2 U = U^{\trans} DU = V
+  \]
+  where $(\sqrt{D})^2 = D$ since $D$ is a diagonal matrix.
+\end{remark}
+\begin{lemma}
+  If $\mu \in \R^{n}$, $V$ is a non-negative definite matrix, and $Z$ is a standard normal vector in $\R^{n}$, then $X = \mu + \sigma Z$ is a Gaussian vector in $\R^{n}$ with mean $\mu$ and variance $V$ where $\sigma$ is the square root of $V$ as defined above. \label{gaussianConstruct}
+\end{lemma}
+\begin{remark}[Notation]
+  Analogously for a Gaussian in $\R$, we then write $X \sim \normal(\mu, V)$.
+\end{remark}
+\begin{proof}
+  By \cref{gaussianLinearTransform}, $X$ is Gaussian in $\R^{n}$ since it is a linear transformation of $Z$ (which we saw is Gaussian in \cref{standardGaussian}).
+  From \cref{standardGaussianExpVar}, we know that $\E[Z] = \vec{0}$ so:
+  \[
+    \E[X] = \E[\mu + \sigma Z] = \mu + \sigma \E[Z] = \mu
+  \]
+  We also know that $\Var(Z) = I_n$, so:
+  \begin{align*}
+    \Var(X) &= \E[(X - \mu)(X - \mu)^{\trans}] \\
+            &= \E[(\sigma Z)(Z^{\trans} \sigma^{\trans})] \\
+            &= \sigma \E[Z Z^{\trans}]\sigma^{\trans} \\
+            &= \sigma \Var(Z) \sigma^{\trans} \\
+            &= \sigma \sigma^{\trans} \\
+            &= \sigma^2 = V \text{ since $\sigma$ is symmetric}
+  \end{align*}
+  So $X \sim \normal(\mu, V)$.
+\end{proof}
+\subsubsection{Density of a Gaussian Vector}
+We would also like to be able to find the density of a Gaussian vector.
+\begin{remark}[Recap]
+  Recall from \cref{normalDist} that in the 1D case, if $X \sim N(\mu, \sigma^2)$ then:
+  \[
+    f_X(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(- \frac{(x - \mu)^2}{2\sigma^2}\right) \text{ for } x \in \R
+  \]
+\end{remark}
+\begin{proposition}
+  If $X \sim \normal(\mu, V)$, then $X$ has multivariate density:
+  \[
+    f_{X}(x) = \frac{1}{\sqrt{(2\pi)^{n} \det V}}\exp\left(- \frac{(x - \mu)^{\trans}V^{-1}(x - \mu)}{2}\right) \text{ for } x \in \R^{n}
+  \]
+\end{proposition}
+\begin{proof}
+  There are two cases depending on if $V$ is positive definite, or non-negative definite:
+  \begin{proofcases}
+    \begin{case}{$V$ is positive definite}
+      Since $V$ is positive definite $\lambda_i > 0\ \forall i$ where $\lambda_i$ are the diagonal entries of $D$ in its diagonalisation $V = U^{\trans}DU$.
+
+      As we saw in \cref{gaussianConstruct}, we can write $X = \mu + \sigma Z$ where $Z \sim \normal(0, I_n)$.
+      Since $\lambda_i > 0\ \forall i$, $\det \sqrt{D} > 0$.
+      This means that $\det \sigma = \det (U^{\trans} \sqrt{D} U) = \det \sqrt{D} > 0$, so $\sigma$ is invertible.
+      Thus we can invert for $Z$ to yield $Z = \sigma^{-1}(X - \mu)$.
+
+      We can then apply \cref{crvTransform}, so for $x \in \R^{n}$
+      \[
+        f_{X}(x) = f_{Z}(\sigma^{-1} (x - \mu)) \cdot |J|
+      \]
+      where $J = \det \sigma^{-1}$.
+
+      Then, since $Z_1, \ldots, Z_n$ are independent, using \cref{densityFactor}, we can write the joint distribution of $Z$ as:
+      \begin{align*}
+        f_{Z}(\sigma^{-1} (x - \mu)) |J| &= f_Z(z) \det \sigma^{-1} \text{ where $z = \sigma^{-1}(x - \mu)$}\\
+                                         &= f_{Z}(z_1, \ldots, z_n) \det \sigma^{-1} \\
+                                         &= \frac{1}{\det \sigma} \prod_{i = 1}^{n} \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2_i}{2}} \\
+                                         &= \frac{1}{(2\pi)^{n/2}}\exp\left(- \frac{|z|^2}{2}\right) \frac{1}{\det \sigma} \\
+                                         &= \frac{1}{(2\pi)^{n/2}}\exp\left(- \frac{z^{\trans}z}{2}\right) \frac{1}{\det \sigma}
+      \end{align*}
+      So substituting $z = \sigma^{-1}(x - \mu)$, we have:
+      \[
+        f_{X}(x) = \frac{1}{(2\pi)^{n/2} \det \sigma}\exp\left(- \frac{(x - \mu)^{\trans}(\sigma^{-1})^{\trans}\sigma^{-1}(x - \mu)}{2}\right)
+      \]
+      We also know that $(\sigma^{-1})^{\trans} = \sigma^{-1}$ (since $\sigma$ is symmetric), and we can find $\det \sigma$ in terms of $V$:
+      \[
+        \det \sigma = \det \sqrt{D} =  \prod_{i=1}^{n} \sqrt{\lambda_i} = \left(\prod_{i =1}^{n} \lambda_i\right)^{1/2} = \sqrt{\det D} = \sqrt{\det V}
+      \]
+      Further, since $\sigma^2 = V$, $\sigma^{-1} \sigma^{-1} = V^{-1}$ so:
+      \[
+        f_{X}(x) = \frac{1}{\sqrt{(2\pi)^{n} \det V}}\exp\left(- \frac{(x - \mu)^{\trans}V^{-1}(x - \mu)}{2}\right) \text{ for $x \in \R^{n}$}
+      \]
+    \end{case}
+  \end{proofcases}
+\end{proof}
 \end{document}
