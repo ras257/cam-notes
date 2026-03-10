@@ -415,6 +415,7 @@ That is, for an observer in $S$, there is a longer interval between the ticks of
   See Q4 on Example Sheet 4 for a mathematical verification of this.
 \end{remark}
 \subsection{Length Contraction}
+\label{lengthContraction}
 Suppose we have a rod with length $L'$ at rest in a frame $S'$.
 We define the length of the rod in a frame to be the distance between its endpoints at a fixed time.
 \begin{center}
@@ -651,6 +652,7 @@ Similarly to how the euclidean metric measures distances in space only, the Mink
     \Lambda(v_1)\Lambda(v_2) = \Lambda\left(\frac{v_1 + v_2}{1 + \frac{v_1 v_2}{c^2}}\right)
   \]
 \section{Lorentz Transformations in 4 Dimensions}
+\subsection{Lorentz Groups}
 We can generalise the Minkowski metric to 4 Dimensions (1 time dimension and 3 spatial dimensions) as:
 \[
   \eta = \begin{pmatrix}
@@ -678,9 +680,9 @@ An event in space-time is given by a \textit{4-vector}:
   \end{itemize}
 \end{remark}
 The invariant distance between the origin and the event $X$ is given by the inner product:
-\[
-  X \cdot X \equiv X^{\trans} \eta X = c^2 t^2 - x^2 - y^2 - z^2
-\]
+\begin{equation}
+  X \cdot X \equiv X^{\trans} \eta X = c^2 t^2 - x^2 - y^2 - z^2 \label{minkowskiDot}
+\end{equation}
 \begin{remark}
   In index notation this would be $X^{\mu}\eta_{\mu \nu}X^{\nu}$.
 \end{remark}
@@ -763,7 +765,7 @@ The proper Lorentz group removes reflections in either time or space, but not th
 \begin{remark}[Nomenclature]
   Typically when people refer to Lorentz transformations, they mean proper orthochronous Lorentz transformations, as we typically do not wan to consider reflections in space or time.
 \end{remark}
-\section{Proper Time}
+\subsection{Proper Time}
 We would like to define a new concept of velocity that is a 4-vector and so transforms nicely under Lorentz transforms.
 To achieve this, we will first find a time $\tau$ that is \textit{invariant} under Lorentz transformations and define the \textit{4-velocity} as:
 \[
@@ -859,9 +861,159 @@ This relativistic 4-vector incorporates the familiar 3-velocity $\vec{u}$ into a
 
 In particular, since $U' = \Lambda U$ and $\Lambda$ preserves the inner product, we have that $U' \cdot U' = U \cdot U$ in all frames.
 If we compute $U \cdot U$, we see that it is just $c^2$:
-\[
-  U \cdot U = \gamma^2 c^2 - \gamma^2 |\vec{u}|^2 = (c^2 - |\vec{u}|^2)\gamma^2 = c^2
-\]
+\begin{equation}
+  U \cdot U = \gamma^2 c^2 - \gamma^2 |\vec{u}|^2 = (c^2 - |\vec{u}|^2)\gamma^2 = c^2 \label{udotu}
+\end{equation}
 which is constant in all frames, as expected.
 We can also use this to find a 4-velocity given 3-velocity $\vec{u}$ by solving $U \cdot U = c^2$ for the time component.
+\subsection{4-Momentum}
+Now we have defined a 4-velocity, we can define a \textit{4-momentum}:
+\begin{definition}[4-Momentum]
+  The \textit{4-momentum} $P$ of a particle is defined as:
+  \[
+    P \equiv mU = \begin{pmatrix}
+    m\gamma c \\
+    m\gamma \vec{u} \\
+    \end{pmatrix}
+  \]
+  where $m$ is a property of the particle called the \textit{rest mass}.
+\end{definition}
+\begin{definition}[Relativistic Energy]
+  The \textit{relativistic energy} $E$ is defined as:
+  \[
+    E \equiv m\gamma c^2
+  \]
+\end{definition}
+\begin{definition}[Relativistic 3-Momentum]
+  The \textit{relativistic 3-momentum} $\vec{p}$ is defined as:
+  \[
+    \vec{p} \equiv m\gamma \vec{u}
+  \]
+\end{definition}
+We can then write the 4-vector $P$ as:
+\[
+  P = \begin{pmatrix}
+  E/c \\
+  \vec{p} \\
+  \end{pmatrix}
+\]
+Because this is a 4-vector, by definition, it transforms as $P' = \Lambda P$.
+The 4-momentum combines energy and momentum, analogously to how $X$ combines time and space.
+
+In the absence of forces, we postulate that $P$ should be conserved, that is:
+\begin{equation}
+  \deriv{P}{\tau} = 0 \label{eqnPConserved}
+\end{equation}
+This is a relativistic generalisation of Newton's 2nd Law (\cref{newton2} -- in the case of $\vec{F} = \vec{0}$).
+Because $P$ describes both the relativistic energy and the 3-momentum, \cref{eqnPConserved} combines both the conservation of energy and the conservation of momentum.
+\begin{remark}[Note]
+  The above equation is not something that we can derive, it is taken as an additional postulate.
+\end{remark}
+
+From \cref{udotu}, we know that $U \cdot U = c^2$ so:
+\[
+  P \cdot P = (mU) \cdot (mU) = m^2 c^2
+\]
+We can also calculate $P \cdot P$ in terms of the relativistic energy and 3-velocity using \cref{minkowskiDot}:
+\begin{align}
+  P \cdot P = \frac{E^2}{c^2} - |\vec{p}|^2 \implies E^2 = |\vec{p}|^2 c^2 + m^2 c^4 \label{4MomentumDot}
+\end{align}
+We can also check if the 4-momentum is consistent in the non-relativistic limit.
+We defined $\vec{p} = m\gamma \vec{u}$ and in the non-relativistic limit $\frac{|\vec{u}|}{c^2} \ll 1 \implies \gamma \approx 1$, so we find that $\vec{p} \approx m \vec{u}$ which is the non-relativistic momentum.
+We can expand the energy as:
+\begin{align*}
+  E = m\gamma c^2 &= \frac{mc^2}{\sqrt{1 - \frac{u^2}{c^2}}} \\
+                  &= mc^2 \left(1 + \frac{1}{2}u^2 c^2 + \cdots\right) \\
+                  &= mc^2 + \frac{m}{2}u^2 + \cdots
+\end{align*}
+In the non-relativistic limit, further terms in this series are negligible, so we obtain the non-relativistic kinetic energy $\frac{1}{2}mu^2$ but also an $mc^2$ term which is called the \textit{rest mass energy}.
+This is an important consequence of relativity and suggests that mass leads to an energy.
+
+We can also consider the high velocity limit as $|\vec{u}| \to c$.
+By definition:
+\[
+  \vec{p}= \gamma m \vec{u}
+\]
+We sometimes call $\gamma m$ the \textit{relativistic mass}.
+As $|\vec{u}| \to c$, $\gamma \to \infty$ so the relativistic mass $\gamma m \to \infty$.
+This means that more and more force is needed to accelerate the particle as its speed increases.
+In particular, any finite force cannot accelerate the particle to the speed of light.
+A \textit{massive particle} (i.e. one with $m \neq 0$) must therefore have $|\vec{u}| < c$.
+\subsection{Massless Particles}
+In Galilean physics, the notion of a \textit{massless particle} does not make sense as the momentum of the particle would be identically 0.
+
+Earlier, we derived the relativistic expression $P \cdot P = m^2 c^2$.
+Therefore, taking $m = 0$ suggests that the 4-momentum of a massless particle should satisfy:
+\[
+  P \cdot P = 0
+\]
+This \textbf{does not} imply that $P = 0$ since the \textbf{Minkowski metric is not positive definite}, it instead tells us that the 4-momentum of a massless particle is a \textbf{light-like 4-vector} and so \textbf{lies along a light ray}.
+
+Another property of massless particles is that their 4-velocity does not exist.
+This is because if $P$ is finite and $m = 0$, we would need $\vec{u}$ to be infinite.
+Instead, for a massless particle, the 4-momentum is the more ``fundamental'' concept.
+Since $P \cdot P = 0$, from \cref{4MomentumDot}, we must have:
+\[
+  \frac{E^2}{c^2} = |\vec{p}|^2
+\]
+Thus the 4-momentum for a massless particle must be in the form:
+\[
+  P = \frac{E}{c} \begin{pmatrix}
+  1 \\
+  \uvec{n} \\
+  \end{pmatrix}
+\]
+where $\uvec{n}$ is a unit 3-vector.
+
+We can then interpret its 3-velocity as $\vec{u} \equiv \vec{n} c$ so since $\uvec{n} \cdot \uvec{n} = 1$, $|\vec{u}|^2 = c^2$.
+This means that massless particles must move at the speed of light.
+
+So for a massive particle $u \ll c$, and for a massless particle $u = c$.
+Furthermore, along a light ray we have $\d{\tau} = 0$ because any two points on the light ray are light like separated so the invariant interval $(\Delta s)^2 = 0$.
+This means that no time passes for a massless particle.
+
+There are only two known massless particles: photons and gravitons.
+In this course, we will only consider photons, which are ``particles of light''.
+To proceed, we need to borrow from Quantum Mechanics that the energy of a photon is:
+\[
+  E = \hbar \omega
+\]
+where $\hbar \approx \qty{1.05e-34}{\joule\second}$ is the \textit{reduced Planck constant} and $\omega$ is the \textit{angular frequency of light}:
+\[
+  \omega = \frac{2\pi c}{\lambda}
+\]
+where $\lambda$ is the wavelength of the light.
+
+Length contraction (\cref{lengthContraction}) tells us that different observers with relative velocities will see different wavelengths of light and hence will observe different energies of light.
+This is consistent with that fact that $\frac{E}{c}$ is just the time component of the four momentum $P$ of the light so will be transformed appropriately by a Lorentz transform and so we expect different observes to measure different energies for the light.
+\section{Particle Physics}
+Particle accelerators, like those at CERN, operate by colliding particles at relativistic speeds
+The proper mathematical framework for this is developed in \textit{Quantum Field Theory}, but we can learn a lot just from the conservation of the relativistic 4-momentum, in particular, the 4-momentum $P$ must be the same before and after a particle collision.
+
+The two basic processes of particle physics are \textit{particle decay} and \textit{particle collisions}.
+\subsection{Particle Decay}
+Heavy particles are often unstable and decay into lighter particles.
+For example, the \textit{Higgs Boson} decays in about \qty{e-22}{\second}.
+Because such particles decay so quickly, we detect them using their \textit{decay products}, for example, the Higgs boson can $h$ decay into 2 photons.
+
+In Large Hadron Collider at CERN, we have measured that:
+\[
+  m_hc^2 \approx \qty{125}{\giga\electronvolt}
+\]
+This means that the rest mass $m_h$ of the Higgs boson is about $10^{3}$ times heavier than the rest mass of an electron.
+
+Since the 4-momentum is conserved, we must have:
+\[
+  P_{h} = P_{\gamma} + P_{\gamma'}
+\]
+where $P_{\gamma}$ and $P_{\gamma'}$ are the 4-momenta of the photons $\gamma$ and $\gamma'$.
+This equation is currently Lorentz invariant (i.e it is equivalent in all frames).
+However, to proceed, we need to decide a frame to work in.
+There are two ``canonical'' options:
+\begin{itemize}
+  \item The \textit{lab frame}, in which the particles are moving.
+  \item The \textit{centre of mass} or \textit{centre of momentum} frame, in which the total 3-momentum vanishes.
+\end{itemize}
+The centre of momentum frame is often more convenient than the lab frame when studying particle decays that start with one particle as we pick the rest frame of the unstable particle so its 4-momentum vanishes.
+\subsection{Particle Collisions}
 \end{document}
