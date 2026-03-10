@@ -673,13 +673,13 @@ We would like to know how good of an approximation we can make using this under 
   Consider $f(x) = x^{q}$ for $q \in \Q$.
   From \cref{smoothRational}, we know that this is smooth on $(0, \infty)$ with $k$-th derivative:
   \begin{align*}
-    f^{(k)}(x) &= q(q - 1)(q - 2) \cdots (q - k + 1) x^{k} \\
+    f^{(k)}(x) &= q(q - 1)(q - 2) \cdots (q - k + 1) x^{q - k} \\
     \implies f^{(k)}(1) &= q(q - 1)(q - 2) \cdots (q - k + 1)
   \end{align*}
   Thus, the $n - 1$ degree Taylor polynomial of $f$ about $1$ is:
   \begin{align*}
-    T_{n - 1, f, 1}(1 + x) &= \sum_{k = 0}^{n - 1} \frac{q(q - 1) \cdots (q - k + 1)}{k!} x^{q - k} \\
-                           &= \sum_{k = 0}^{n - 1} \binom{q}{k} x^{q - k}
+    T_{n - 1, f, 1}(1 + x) &= \sum_{k = 0}^{n - 1} \frac{q(q - 1) \cdots (q - k + 1)}{k!} x^{k} \\
+                           &= \sum_{k = 0}^{n - 1} \binom{q}{k} x^{k}
   \end{align*}
   where $\binom{q}{k} = \frac{1}{k!} \prod_{r = 0}^{k - 1} (q - r)$ is the \textit{generalised binomial coefficient}.
 
