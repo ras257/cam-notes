@@ -1015,7 +1015,7 @@ We can now derive some consequences of this that you have likely used before.
   from which the result follows.
 \end{proof}
 \begin{proposition}[Integration by Substitution]
-  If $f: [a, b] \to \R$ is continuous and $g \in C^{1}([\alpha, \beta])$ with $g: [\alpha, \beta] \to [a, b]$, $g(\alpha) = a$, and $g(\beta) = b$, then:
+  If $f: [a, b] \to \R$ is continuous and $g \in C^{1}([\alpha, \beta])$ with $g: [\alpha, \beta] \to [a, b]$, $g(\alpha) = a$, and $g(\beta) = b$, then: \label{integrationSubstitution}
   \[
     \int_{a}^{b} f(x) \d{x} = \int_{\alpha}^{\beta} f(g(t))g'(t) \d{t}
   \]
@@ -1126,6 +1126,7 @@ Similarly for the Cauchy remainder (\cref{cauchyRemainder}), assuming $f^{(n)}$ 
 Previously in this chapter, we have only considered integrals of \textbf{bounded functions on bounded domains}.
 We would also like to be able to integrate functions that have unbounded images and/or domains.
 
+\subsection{Unbounded Domains}
 We first want to make sense of $\int_{a}^{\infty} f(x) \d{x}$.
 \begin{definition}[Improper Integral -- Unbounded Domain]
   Let $f: [a, \infty) \to \R$ be integrable on $[a, R]$ for every $R \in [a, \infty)$ and let:
@@ -1144,14 +1145,14 @@ We first want to make sense of $\int_{a}^{\infty} f(x) \d{x}$.
   \end{align*}
 \end{definition}
 \begin{remark}
-  This is not the same as defining it as:
+  This is not the same as defining it as: \label{PVDomain}
   \[
     \lim_{R \to \infty} \left[\int_{-R}^{R} f(x) \d{x}\right]
   \]
   This is called the \textit{Cauchy principal value}.
   If $\int_{-\infty}^{\infty} f(x) \d{x}$ exists, then the principal value exists, however the converse of this is not true, see Example Sheet 4 Q1b.
 \end{remark}
-\begin{example}
+\begin{example} \label{improperIntegraExamples}
   \begin{enumerate}
     \item Consider the integral $\int_{1}^{\infty} \frac{1}{x^{p}} \d{x}$.
       We saw in \cref{integralTestExample} that:
@@ -1170,4 +1171,207 @@ We first want to make sense of $\int_{a}^{\infty} f(x) \d{x}$.
       We don't know how to integrate this, but similarly to with convergence of series, we would like to be able to assert whether the integral converges without knowing what value it might converge to.
   \end{enumerate}
 \end{example}
+\subsection{Convergence Tests for Improper Integrals}
+These test are similar to those which we derived for infinite series in \cref{convergenceTests}.
+\begin{proposition}[Comparision Test for Integrals]
+  Let $f, g: [a, \infty) \to \R$ be functions satisfying: \label{integralComparison}
+  \[
+    0 \leq f(x) \leq g(x)\ \forall x \in [a, \infty)
+  \]
+  We the have the following:
+  \begin{enumerate}
+    \item If $\int_{a}^{\infty} g(x) \d{x}$ converges, then $\int_{a}^{\infty} f(x) \d{x}$ converges and:
+      \begin{equation}
+        \int_{a}^{\infty} f(x) \d{x}  \leq \int_{a}^{\infty} g(x) \d{x}
+      \end{equation}
+    \item If $\int_{a}^{\infty} f(x) \d{x}$ diverges, then $\int_{a}^{\infty} g(x) \d{x}$ diverges also.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Let $F(R) = \int_{a}^{R} f(x) \d{x}$, since $f \geq 0$, if $R_1 \leq R_2$, then by \cref{integralProperties} \textbf{(i)} and \cref{integralAdditivity}:
+  \[
+    F(R_2) - F(R_1) = \int_{a}^{R_2} f(x) \d{x} - \int_{a}^{R_1} f(x) \d{x} = \int_{R_1}^{R_2} f(x) \d{x} \geq 0
+  \]
+  Thus, $F(R_1) \leq F(R_2)$ so $F$ is an increasing function of $R$.
+
+  $F$ is also bounded as $\forall R \in [a, \infty)$, since by \cref{integralProperties} \textbf{(i)}:
+  \[
+    0 \leq F(R) \leq \int_{a}^{R} g(x) \d{x} \leq \int_{a}^{\infty} g(x) \d{x}
+  \]
+  as $\int_{a}^{R} g(x) \d{x}$ is also increasing in $R$ and $\int_{a}^{\infty} g(x) \d{x}$ is finite by assumption
+
+  Thus $F$ is monotone increasing and bounded.
+  We can show that this means that $F$ converges as $R \to \infty$.
+  Since $F$ is bounded, $\exists L = \sup_{R \in [a, \infty)}  R$.
+  We claim that $L = \lim_{R \to \infty} F(R)$.
+  Indeed, by the definition of supremum, for every $\varepsilon > 0$, $\exists R_0 \in [a, \infty)$ such that $L - \varepsilon \leq F(R_0) \leq L$.
+  Then, since $F$ is increasing, $\forall R \geq R_0$, $F(R) \geq F(R_0)$ so:
+  \[
+    L - \varepsilon \leq F(R) \leq L \implies |F(R) - L| < \varepsilon\ \forall R \geq R_0
+  \]
+  Therefore, $\lim_{R \to \infty} F(r) = L$.
+
+  Since $F(R) \leq \int_{a}^{\infty} g(x) \d{x}\ \forall R \in [a, \infty)$, we can bound $L$ using:
+  \[
+    L = \sup_{R \in [a, \infty)} F(R) \leq \int_{a}^{\infty} g(x) \d{x}
+  \]
+  and so $\int_{a}^{\infty} f(x) \d{x} \leq \int_{a}^{\infty} g(x) \d{x}$, as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $f \geq 0$, we must have that $F(R)$ diverges to $+\infty$, so $\forall L > 0,\ \exists R$ such that $F(r) > L\ \forall r \geq R$.
+  By \cref{integralProperties} \textbf{(i)}, we also have that $F(r) \leq \int_{a}^{r} g(x) \d{x}\ \forall r \in [a, \infty)$.
+
+  Therefore, combining the above, we have:
+  \[
+    \int_{a}^{r} g(x) \d{x} \geq F(r) > L\ \forall r \geq R
+  \]
+  so $\lim_{R \to \infty} \int_{a}^{R} g(x) \d{x} = +\infty$.
+\end{proof}
+\begin{example}
+  We can use the convergence test for integrals to show that $\int_{-\infty}^{\infty} e^{-x^2} \d{x}$ converges.
+
+  First, we split the integral into $0 \leq x \leq 1$ and $x \geq 1$:
+  \[
+    \int_{-\infty}^{\infty} e^{-x^2} \d{x} = 2 \int_{0}^{\infty} e^{-x^2} \d{x} = 2 \int_{1}^{\infty} e^{-x^2} \d{x} + 2 \int_{0}^{1} e^{-x^2} \d{x}
+  \]
+  Since $e^{-x^2}$ is integrable, $\int_{0}^{1} e^{-x^2} \d{x} = I < \infty$.
+  We can then use the integral test to bound the other integral.
+  If $x \geq 1$, then $x^2 \geq x$ and so $e^{-x^2} \leq e^{-x}$, thus:
+  \[
+    \int_{1}^{\infty} e^{-x^2} \d{x} \leq \int_{1}^{\infty} e^{-x} \d{x} = \eval{-\frac{1}{e^{x}}}{1}{\infty} = \frac{1}{e}
+  \]
+  Therefore:
+  \[
+    \int_{-\infty}^{\infty} e^{-x^2} \d{x} \leq 2\left(\frac{1}{e} + I\right)
+  \]
+  so the integral converges to a finite limit.
+\end{example}
+\begin{proposition}[Ratio Tests for Integrals]
+  If $f, g: [a, \infty) \to \R$ are functions satisfying $f, g \geq 0$ and:
+  \[
+    \lim_{x \to \infty} \frac{f(x)}{g(x)} = L \in (0, \infty)
+  \]
+  Then we have that $\int_{a}^{\infty} f(x) \d{x}$ converges if and only if $\int_{a}^{\infty} g(x) \d{x}$ converges.
+\end{proposition}
+\begin{proof}
+  Since $\lim_{x \to \infty} \frac{f(x)}{g(x)} = L$, $\forall \varepsilon > 0, \exists R > 0$ such that:
+  \begin{align*}
+    x > R &\implies \abs{\frac{f(x)}{g(x)} - L} < \varepsilon \\
+          &\implies \abs{\frac{f(x)}{g(x)}} - |L| < \abs{\frac{f(x)}{g(x)} - L} < \varepsilon \\
+          &\implies \frac{f(x)}{g(x)} - L < \varepsilon \text{ as $f, g \geq 0$} \\
+          &\implies f(x) < (\varepsilon + L)g(x)
+  \end{align*}
+  We then take $\varepsilon = 1$.
+  Since $L + 1$ is just a finite positive constant, the convergence behaviour of $\int_{a}^{\infty} g(x) \d{x}$ is the same as that of $\int_{a}^{\infty} (L + 1)g(x) \d{x}$.
+  Since $f$ and $g$ are integrable, the integrals $\int_{a}^{R} f(x) \d{x}$ and $\int_{a}^{R} g(x) \d{x}$ are both finite so we need only consider the behaviour of $\int_{R}^{\infty} f(x) \d{x}$ and $\int_{R}^{\infty} g(x) \d{x}$.
+  By the above inequality for $x > R$ and the comparison test for integrals (\cref{integralComparison}), $\int_{R}^{\infty} g(x) \d{x}$ converges $\implies \int_{R}^{\infty} f(x) \d{x}$ converges.
+
+  Converse unfinished. %TODO
+\end{proof}
+\begin{remark}[Special Cases]
+  The conclusiveness of this test is slightly different in the case of $L \in \{0, \infty\}$:
+  \begin{itemize}
+    \item If $\lim_{x \to \infty} f(x)/g(x) = 0$, then $f(x) \leq g(x)$ for sufficiently large $x$, hence by applying the comparison test to the integral for sufficiently large $x$:
+      \[
+        \int_{a}^{\infty} g(x) \d{x} \text{ converges} \implies \int_{a}^{\infty} f(x) \d{x} \text{ converges}
+      \]
+      but not necessarily the converse.
+    \item If $\lim_{x \to \infty} f(x)/g(x) = \infty$, then $f(x) \geq g(x)$ for sufficiently large $x$, so by the same argument as above:
+      \[
+        \int_{a}^{\infty} f(x) \d{x} \text{ converges} \implies \int_{a}^{\infty} g(x) \d{x} \text{ converges}
+      \]
+      but not necessarily the converse.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Considering again the improper integral of $e^{-x^2}$.
+      If we take $g(x) = e^{-x}$, then we see that:
+      \[
+        \lim_{x \to \infty} \frac{e^{-x^2}}{e^{-x}} = 0
+      \]
+      We also know that $\int_{0}^{\infty} g(x) \d{x} = \int_{0}^{\infty} e^{-x} \d{x} = 1 < \infty$ and so $\int_{0}^{\infty} e^{-x^2} \d{x} < \infty$ converges by the above remark.
+    \item Consider the integral $\int_{1}^{\infty} \frac{x}{x^{4} + 1} \d{x}$.
+      We want to pick a function $g(x)$ so that the limit of $f(x)/g(x)$ converges.
+      If we take $g(x) = 1/x^3$, then we see that:
+      \[
+        \lim_{x \to \infty} \frac{\frac{x}{x^4 + 1}}{\frac{1}{x^3}} = 1 \in (0, \infty)
+      \]
+      So by the ratio test, since $\int_{1}^{\infty} g(x) \d{x} = \int_{1}^{\infty} \frac{1}{x^3} \d{x} < \infty$, the integral $\int_{1}^{\infty} \frac{x}{x^4 + 1} \d{x}$ must converge.
+  \end{enumerate}
+\end{example}
+\begin{remark}
+  In Example Sheet 4 Q6, you will prove the root and Dirichlet tests for integrals.
+  You will also consider if an analogue of the $n$-th term works for integrals.
+\end{remark}
+\subsection{Unbounded Images}
+Now we have covered integrals that have unbounded domains, we want to consider the other type of improper integrals that have unbounded images/singularities.
+
+Suppose we want to make sense of the integral $\int_{0}^{1} \frac{1}{x^{p}} \d{x}$.
+This has an isolated singularity at $0$ where the function blows up to $\infty$.
+However, we can still define an improper integral with this singularity at an endpoint:
+\begin{definition}[Improper Integral -- Isolated Singularity at endpoint]
+  Let $f: (a, b] \to \R$ be integrable on $[a + \delta, b]$ for every $0 < \delta \leq b - a$ and define the function $F(\delta)$ as:
+  \[
+    F: (0, b - a] \to \R,\ \delta \mapsto \int_{a + \delta}^{b} f(x) \d{x}
+  \]
+  We then define $\int_{a}^{b} f(x) \d{x} = \lim_{\delta \to 0} F(\delta)$ if such a finite limit exists and say that the \textit{improper integral} converges.
+  Otherwise we say that it does not exist/does not converge.
+\end{definition}
+\begin{definition}[Improper Integral -- Isolated Singularity within bounds]
+  If $f: [a, b] \setminus \{c\} \to \R$ is such that $\int_{a}^{c} f(x) \d{x} = \ell_1$ and $\int_{c}^{b}  f(x) \d{x} = \ell_2$ for finite $\ell_1$ and $\ell_2$, then we say that $\int_{a}^{b} f(x) \d{x}$ exists and we set:
+  \[
+    \int_{a}^{b} f(x) \d{x} = \ell_1 + \ell_2
+  \]
+\end{definition}
+\begin{remark}
+  Similarly to with the case of an infinite domain in \cref{PVDomain}, there is also a \textit{Cauchy principle value} definition for this type of improper integral:
+  \[
+    \lim_{\delta \to 0} \left[\int_{B}^{a -\delta} f(x) \d{x} + \int_{a + \delta}^{b} f(x) \d{x}\right]
+  \]
+  In general, this is not the same as the above definition:
+  \begin{align*}
+    \int_{a}^{b} f(x) \d{x} &= \int_{a}^{c} f(x) \d{x} + \int_{c}^{b} f(x) \d{x} \\
+                            &= \lim_{\delta_1 \to 0} \int_{a}^{c - \delta_1} f(x) \d{x} + \lim_{\delta_2 \to 0} \int_{c + \delta_2}^{b} f(x) \d{x}
+  \end{align*}
+  For example, as defined above $\int_{-1}^{1} \frac{1}{x} \d{x}$ does not exist since:
+  \[
+    \lim_{\delta_1 \to 0} \int_{-1}^{-\delta_1} \frac{1}{x} \d{x} + \lim_{\delta_2 \to 0} \int_{\delta_2}^{1} \frac{1}{x} \d{x} = \lim_{\delta_1 \to 0} \log(\delta_1) - \lim_{\delta_2 \to 0} \log(\delta_2)
+  \]
+  as this limit does not exist.
+  However with the principal value definition:
+  \[
+    \lim_{\delta \to 0} \left(\int_{-1}^{-\delta} \frac{1}{x} \d{x} + \int_{\delta}^{1} \frac{1}{x} \d{x}\right) = \lim_{\delta \to 0} (\log \delta - \log \delta) = 0
+  \]
+\end{remark}
+\begin{example}
+  \begin{itemize}
+    \item The integral $\int_{0}^{1} \frac{1}{x^{p}} \d{x}$ converges if and only if $p < 1$.
+
+      If $p = 1$, then $\int_{\delta}^{1} \frac{1}{x} \d{x} = \eval{\log x}{\delta}{1} = - \log \delta \to \infty$ as $\delta \to 0$.
+
+      If $p \neq 1$, then:
+      \[
+        \int_{\delta}^{1} \frac{1}{x^{p}} \d{x} = \eval{\frac{x^{1 - p}}{1 - p}}{\delta}{1} = \frac{1}{1-p}(1 - \delta^{1 - p})
+      \]
+      which converges as $\delta \to 0$ if and only if $p < 1$.
+    \item Consider the integral:
+      \begin{align*}
+        \int_{0}^{\frac{1}{2}} \frac{1}{x [\log(\frac{1}{x})]^{p}} \d{x} &= \int_{\infty}^{\log 2} \left(- \frac{1}{u^{p}}\right) \d{x} \text{ using $u = \log\left(\frac{1}{x}\right)$ in \cref{integrationSubstitution}} \\
+                                                                         &= \int_{\log 2}^{\infty} \frac{1}{u^{p}} \d{u}
+      \end{align*}
+      We saw in \cref{improperIntegralExamples} that is converges if and only if $p > 1$.
+      In fact, we can always reduce, an improper integral of a function with a isolated singularity to improper integrals on an unbounded domain using integration by substitution.
+  \end{itemize}
+\end{example}
+\begin{lemma}
+  Let $f: (a, b] \to \R$ be Riemann integrable on $[a + \delta, b)\ \forall \delta \in (0, b - a)$.
+  If $\delta: [c, \infty) \to [a, b]$ is strictly decreasing bijection in $C^{1}([c, \infty))$ with $\phi(c) = b$ and $\lim_{t \to \infty} \phi(t) = a$, then:
+  \[
+    \int_{a}^{b} f(x) \d{x} \text{ exists}\iff \int_{c}^{\infty} f(\phi(t))(-\phi'(t)) \d{t} \text{ exists}
+  \]
+\end{lemma}
+\begin{proof}
+  Follows by transforming the integral using \cref{integrationSubstitution}.
+\end{proof}
 \end{document}
