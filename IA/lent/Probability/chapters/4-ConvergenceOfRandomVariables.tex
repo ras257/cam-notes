@@ -1,0 +1,33 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Convergence of Random Variables}
+\section{Convergence in Probability}
+\begin{definition}[Convergence in Probability]
+  A sequence of random variables $(X_n: n \in \N)$ \textit{converges to a random variable $X$ in probability} if:
+  \[
+    \forall \varepsilon > 0,\ \P(|X_n - X| > \varepsilon) \to 0 \text{ as } n \to \infty
+  \]
+  we then write:
+  \[
+    X_n \xrightarrow{P} X \text{ or } \underset{n\to\infty}{\operatorname{plim}} X_n = X
+  \]
+\end{definition}
+\begin{theorem}[Weak Law of Large Numbers]
+  Let $(X_n)$ be independent and identically distributed random variables with finite $\mu = \E[X_1]$.
+
+  If we set $S_n = X_1 + \cdots + X_n$ for $n \in \N$, then:
+  \[
+    \frac{S_n}{n} \xrightarrow{P} \mu \text{ as } n \to \infty
+  \]
+  That is:
+  \[
+    \forall \varepsilon > 0,\ \P\left(\abs{\frac{S_n}{n} - \mu} > \varepsilon\right) \to 0 \text{ as } n \to \infty
+  \]
+\end{theorem}
+\begin{remark}
+  In the definition of convergence in probability, we specified that a sequence converges to \textbf{random variable} $X$, here $\mu$ is just a constant random variable so we can still apply the definition.
+\end{remark}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\end{document}

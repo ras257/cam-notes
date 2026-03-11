@@ -1119,7 +1119,7 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
   \]
 \end{theorem}
 \begin{proposition}
-  Let $X = (X_1, \ldots, X_n)$ be a random variable in $\R^{n}$.
+  Let $X = (X_1, \ldots, X_n)$ be a random variable in $\R^{n}$. \label{mgfFactor}
 
   Its moment generating function factorises as:
   \[
@@ -1349,10 +1349,11 @@ We would also like to be able to find the density of a Gaussian vector.
   \]
 \end{remark}
 \begin{proposition}
-  If $X \sim \normal(\mu, V)$, then $X$ has multivariate density:
+  If $X \sim \normal(\mu, V)$, then $X$ has multivariate density: \label{gaussianMVDensity}
   \[
     f_{X}(x) = \frac{1}{\sqrt{(2\pi)^{n} \det V}}\exp\left(- \frac{(x - \mu)^{\trans}V^{-1}(x - \mu)}{2}\right) \text{ for } x \in \R^{n}
   \]
+  in the case when $V$ is positive definite.
 \end{proposition}
 \begin{proof}
   There are two cases depending on if $V$ is positive definite, or non-negative definite:
@@ -1392,6 +1393,195 @@ We would also like to be able to find the density of a Gaussian vector.
         f_{X}(x) = \frac{1}{\sqrt{(2\pi)^{n} \det V}}\exp\left(- \frac{(x - \mu)^{\trans}V^{-1}(x - \mu)}{2}\right) \text{ for $x \in \R^{n}$}
       \]
     \end{case}
+    \begin{case}{$V$ is non-negative definite}
+      If $V$ is non-negative definite, then $\exists i$ such that $\lambda_i = 0$.
+      By performing an orthogonal change of basis, we can assume that:
+      \[
+        V = \left(\begin{array}{c|c}
+          U & O \\ \hline
+          O & O
+        \end{array}\right)
+      \]
+      where $U$ is a positive definite $m \times m$ matrix for $n < m$ and $O$ are zero matrices.
+
+      This means that the last $n - m$ components of $X$ have variance $0$ and so must be identically their mean.
+
+      We can also split the mean vector $\mu$ into its first $m$ and last $n - m$ components:
+      \[
+        \mu = \begin{pmatrix}
+        \lambda \\
+        \nu \\
+        \end{pmatrix}
+      \]
+      where $\lambda \in \R^{m}$ and $\nu \in \R^{n - m}$.
+      We can then write:
+      \[
+        X = \begin{pmatrix}
+          Y \\
+          \nu \\
+        \end{pmatrix}
+      \]
+      where $Y \sim \normal(\lambda, U)$.
+      By the first case, since $U$ is positive definite, $Y$ has density:
+      \[
+        f_Y(y) = \frac{1}{\sqrt{(2\pi)^{m} \det U}}\exp\left(- \frac{(y - \lambda)^{\trans}U^{-1}(y - \lambda)}{2}\right) \text{ for $y \in \R^{m}$}
+      \]
+    \end{case}
   \end{proofcases}
+\end{proof}
+\begin{proposition}
+  If $X_1, \ldots, X_n$ are independent random variables, then $V = \Var(X)$ is a diagonal matrix.
+\end{proposition}
+\begin{proof}
+  By definition, $V_{ij} = \Cov(X_i, X_j)$.
+  If $i \neq j$, then $\Cov(X_i, X_j) = 0$ since they are independent (from \cref{covarianceProperties}), so all off-diagonal entries must be 0, that is, $V$ is diagonal.
+\end{proof}
+\begin{proposition}
+  Let $X = (X_1, \ldots, X_n)$ be a Gaussian vector with $V = \Var(X)$.
+  If $V$ is diagonal and positive definite then the $X_i$ are independent.
+\end{proposition}
+\begin{remark}[Warning]
+  This is not true for any random vector as we saw a counterexample for the one-dimensional case in \cref{covarianceCounterExample}.
+\end{remark}
+\begin{proof}[1 -- Using Densities]
+  Let $\mu = \E[X]$.
+  Since $V$ is diagonal and positive definite, we can write it as:
+  \[
+    V = \begin{pmatrix}
+    \lambda_1 &  &  \\
+     & \ddots &  \\
+     &  & \lambda_n \\
+    \end{pmatrix} \text{ for } \lambda_i > 0 \implies V^{-1} = \begin{pmatrix}
+    \lambda^{-1}_1 &  &  \\
+     & \ddots &  \\
+     &  & \lambda^{-1}_n \\
+    \end{pmatrix}
+  \]
+  We also know that the determinant of a diagonal matrix is $\det V = \lambda_1 \cdots \lambda_n$.
+
+  By \cref{gaussianMVDensity}, the density of $X$ is given by:
+  \begin{align*}
+    f_{X}(x) &= \frac{1}{\sqrt{(2\pi)^{n} \det V}}\exp\left(- \frac{(x - \mu)^{\trans}V^{-1}(x - \mu)}{2}\right) \\
+             &= \frac{1}{\sqrt{(2\pi)^{n} \det V}} \exp\left(- \sum_{i = 1}^{n} \frac{(x_i - \mu_i)^2}{2\lambda_i}\right) \\
+             &= \frac{1}{\sqrt{(2\pi)^{n} \lambda_1 \cdots \lambda_n}} \prod_{i = 1}^{n} \exp\left(-\frac{(x_i-\mu_i)^2}{2\lambda_i}\right) \\
+             &= \prod_{i = 1}^{n} \left[\frac{1}{\sqrt{2\pi \lambda_i}}\exp\left(-\frac{(x_i - \mu_i)^2}{2\lambda_i}\right)\right]
+  \end{align*}
+  Since $f_X$ factorises, by \cref{densityFactor}, $X_1, \ldots, X_n$ are independent and $X_i \sim \normal(\mu_i, \lambda_i)$.
+\end{proof}
+\begin{proof}[2 -- Using Moment Generating Functions]
+  The mgf of $X$ is:
+  \begin{align*}
+    m(\theta) &= \exp\left(\theta^{\trans} \mu + \frac{\theta^{\trans} V \theta}{2}\right) \\
+              &= \exp\left(\sum_{i = 1}^{n} \theta_i \mu_i + \sum_{i = 1}^{n} \frac{\theta_i^2 \lambda_i}{2}\right) \\
+              &= \prod_{i = 1}^{n} \exp\left(\theta_i \mu_i + \frac{\theta_i^2 \lambda_i}{2}\right)
+  \end{align*}
+  Since $m(\theta)$ factorises into the mgfs of $\normal(\mu_i, \lambda_i)$, $X_1, \ldots, X_n$ are independent by \cref{mgfFactor}.
+\end{proof}
+\begin{remark}
+  So if $X = (X_1, \ldots, X_n)$ is a Gaussian vector, then $X_1, \ldots, X_n$ are independent if and only if $V = \Var(X)$ is diagonal.
+\end{remark}
+\subsubsection{Bivariate Gaussians}
+\begin{definition}[Correlation]
+  The correlation $\rho$ of two random variables $X_1$ and $X_2$ is defined as:
+  \[
+    \rho = \operatorname{Corr}(X_1, X_2) = \frac{\Cov(X_1, X_2)}{\sqrt{\Var(X_1)\Var(X_2)}}
+  \]
+\end{definition}
+\begin{lemma}
+  For any two random variables $X_1$ and $X_2$,  $\operatorname{Corr}(X_1, X_2) \in [-1, 1]$.
+\end{lemma}
+\begin{proof}
+  We can show this using the Cauchy-Schwarz inequality from \cref{CSInquality}
+  By definition:
+  \begin{align*}
+    \Cov(X_1, Y_1) &= \E[(X_1 - \E[X_1])(X_2 - \E[X_2])] \\
+    \Var(X)\Var(Y) &= \E[(X_1 - \E[X_1])^2]\E[(X_2 - \E[X_2])^2]
+  \end{align*}
+  By the Cauchy-Schwarz inequality, we have:
+  \[
+    \E[(|X_1 - \E[X_1])(X_2 - \E[X_2])|] \leq \sqrt{\E[(X_1 - \E[X_1])^2]\E[(X_2 - \E[X_2])^2]}
+  \]
+  Finally, since $|\E[(X_1 - \E[X_1])(X_2 - \E[X_2])]| \leq \E[|(X_1 - \E[X_1])(X_2 - \E[X_2])|]$ (from \cref{jensensInequality}), we have:
+  \[
+    \abs{\operatorname{Corr}(X_1, Y_2)} = \frac{|\Cov(X_1, X_2)|}{\sqrt{\Var(X_1)\Var(Y_1)}} \leq \frac{\E[|(X_1 - \E[X_1])(X_2 - \E[X_2])|]}{\sqrt{\E[(X_1 - \E[X_1])^2]\E[(X_2 - \E[X_2])^2]}} \leq 1
+  \]
+  as required.
+\end{proof}
+Let $X = (X_1, X_2)$ be a bivariate gaussian (i.e. a gaussian vector in $\R^2$) and define:
+\[
+  \mu_k = \E[X_k] \text{ and } \sigma_k^2 = \Var(X_k) \text{ for }k \in  \{1, 2\}
+\]
+We can write its variance matrix in terms of the correlation $\rho$ as:
+\[
+  V = \begin{pmatrix}
+  \sigma^2_1 & \rho\sigma_1\sigma_2 \\
+  \rho\sigma_1\sigma_2 & \sigma^2_2 \\
+  \end{pmatrix}
+\]
+We can also check that any matrix in this form is a valid variance matrix for a bivariate gaussian.
+\begin{lemma}
+  If $\sigma_1, \sigma_2 > 0$ and $\rho \in [-1, 1]$, then the matrix:
+  \[
+    V = \begin{pmatrix}
+    \sigma^2_1 & \rho\sigma_1\sigma_2 \\
+    \rho\sigma_1\sigma_2 & \sigma^2_2 \\
+    \end{pmatrix}
+  \]
+  is non-negative definite and so is a valid variance matrix for a Gaussian vector in $\R^2$.
+\end{lemma}
+\begin{proof}
+  We need to show that $\forall u \in \R^2$, $u^{\trans}Vu \geq 0$.
+  Let $u = (u_1, u_2)^{\trans}$ be an arbitrary vector in $\R^2$.
+  If $V$ is as above, then:
+  \begin{align*}
+    u^{\trans} V u &= (1 - \rho)(\sigma^2_1 u^2_1 + \sigma^2_2 u^2_2) + \rho(\sigma_1 u_1 + \sigma_2 u_2)^2 \\
+                   &= (1 + \rho)(\sigma^2_1 u^2_1 + \sigma^2_2 u^2_2) - \rho(\sigma_1 u_1 - \sigma_2 u_2)^2
+  \end{align*}
+  If $\rho \in [0, 1]$, then we use the first line to conclude that $u^{\trans} V u \geq 0$.
+  If instead $\rho \in [-1, 0]$, then we use the second line to conclude that $u^{\trans} V u \geq 0$.
+\end{proof}
+\begin{lemma}
+  For a bivariate Gaussian $X = (X_1, X_2)$:
+  \[
+    \E[X_2 \vert X_1] = \mu_2 + \frac{\Cov(X_1, X_2)}{\Var(X_1)}(X_1 - \mu_1)
+  \]
+  which is also Gaussian.
+\end{lemma}
+\begin{proof}
+  For any $a \in \R$, we can cleverly rewrite $X_2$ as:
+  \[
+    X_2 = X_2 - a X_1 + a X_1
+  \]
+
+  We want to find a value of $a$ such that $X_2 - aX_1$ is independent of $X_1$ so that when we condition on $X_1$, we can just drop the condition.
+  Let $Y = X_2 - aX_1$, we can write this in matrix form as:
+  \[
+    \begin{pmatrix}
+    X_1 \\
+    Y \\
+    \end{pmatrix} = \begin{pmatrix}
+    1 & 0 \\
+    -a & 1 \\
+    \end{pmatrix} \begin{pmatrix}
+    X_1 \\
+    X_2 \\
+    \end{pmatrix}
+  \]
+  So by \cref{gaussianLinearTransform}, $(X_1, Y)^{\trans}$ is Gaussian in $\R^2$.
+  Now to show $Y$ and $X_1$ are independent, we just need to show that their covariance is 0.
+  Using \cref{covarianceProperties} \textbf{(vi)}, we have:
+  \begin{align*}
+    \Cov(X_1, Y) &= \Cov(X_1, X_2 - aX_1) \\
+                 &= \Cov(X_1, X_2) - a\Var(X_1)
+  \end{align*}
+  Taking $a = \frac{\Cov(X_1, X_2)}{\Var(X_1)}$ gives $\Cov(X_1, Y) = 0$, so, for this $a$, $X_1 \perp (X_2 - aX_1)$.
+  Finally, we can condition on $X_1$ for this choice of $a$:
+  \begin{align*}
+    \E[X_2 \vert X_1] &= \E[X_2 - aX_1 \vert X_2] + \E[aX_1 \vert X_1] \\
+                      &= \E[X_2 - aX_1] + aX_1 \text{ by \cref{conditionalExpectationProp} \textbf{(iv)} and \textbf{(ix)}} \\
+                      &= \mu_2 - a\mu_1 + aX_1 \\
+                      &= \E[X_2 \vert X_1] = \mu_2 + \frac{\Cov(X_1, X_2)}{\Var(X_1)}(X_1 - \mu_1)
+  \end{align*}
+  which is also Gaussian.
 \end{proof}
 \end{document}

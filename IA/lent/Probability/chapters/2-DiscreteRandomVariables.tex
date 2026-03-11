@@ -819,7 +819,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
   Since $\Cov(X_i, X_j) = 0$ for $i \neq j$ as the $X_i$ are independent.
 \end{proof}
 \begin{remark}
-  $\Cov(X, Y) = 0 \centernot \implies$ $X$ and $Y$ are independent.
+  $\Cov(X, Y) = 0 \centernot \implies$ $X$ and $Y$ are independent. \label{covarianceCounterExample}
 
   For example, let $X_1, X_2, X_3$ be independent Bernoulli random variables with parameter $\frac{1}{2}$ and recall that $\E[X_i] = \frac{1}{2}$.
 
@@ -898,7 +898,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
 \end{proof}
 \subsection{Cauchy-Schwarz Inequality}
 \begin{proposition}[Cauchy-Schwarz Inequality]
-  If $X$ and $Y$ are discrete random variables, then:
+  If $X$ and $Y$ are discrete random variables, then: \cref{CSInequality}
   \[
     \E[|XY|] \leq \sqrt{\E[X^2]\E[Y^2]}
   \]
@@ -1044,7 +1044,7 @@ That is, a function is convex if it lies below the chord between any two points 
   Therefore, $f(z) \geq az + (f(m) - am)\ \forall z$ and we get equality when $z = m$, as required.
 \end{proof}
 \begin{proposition}[Jensen's Inequality]
-  Let $X$ be a random variable and $f: \R \to \R$ a convex function.
+  Let $X$ be a random variable and $f: \R \to \R$ a convex function. \label{jensensInequality}
   \[
     \E[f(X)] \geq f(\E[X])
   \]
