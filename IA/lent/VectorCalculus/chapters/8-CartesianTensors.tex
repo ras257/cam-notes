@@ -98,6 +98,7 @@ Therefore, the inverse is:
   This is a correct interpretation of the equations, however, it is very misleading because in this case $v_i'$ and $v_j$ refer to the components of the \textbf{same vector} $\vec{v}$, just with respect to different bases, not two different vectors.
 \end{remark}
 \section{What is a Tensor?}
+\subsection{Definition}
 \begin{definition}[Rank $n$ Tensor]
   A \textit{tensor $T$ of rank $n$} is an array of numbers $T_{ijk\ldots}$ (with respect to a given basis) with $n$ indices which, under a change of basis, transforms according to:
   \begin{equation}
@@ -148,4 +149,201 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
   It is also possible to define tensors with respect to orthogonal curvilinear coordinate systems (like those in \cref{orthoCurvilinear}), or more general coordinate systems like the space-time of General relativity.
   In this context you may encounter \textit{covariant} vectors $v_i$ (which transform like a change of basis) and \textit{contravariant} vectors $v^{i}$ (which transform oppositely to a change of basis), a distinction which is unnecessary in Cartesians.
 \end{remark}
+\subsection{Examples of Tensors}
+\begin{itemize}
+  \item Temperature $\Theta$ is an example of a scalar, it is invariant under a change of basis.
+  \item Position $\vec{x}$, velocity $\vec{v}$ and acceleration $\vec{a}$ are all vectors, so are tensors of rank 1.
+  \item The Kronecker Delta is a tensor of rank 2. We can actually define the Kronecker delta to be the same for in every basis, that is $\delta_{i j}' = \delta_{j j}$.
+    To check it is a tensor, we can just check it satisfies the transformation rule:
+    \[
+      R_{i p}R_{j q}\delta_{p q} = R_{i p}R_{j p} = (R R^{\trans})_{i j} = \delta_{i j} = \delta_{i j}'
+    \]
+    so it is a tensor of rank 2.
+
+    We can also write $\delta_{i j}$ as a matrix $T$:
+    \[
+      RTR^{\trans} = RIR^{\trans} = R R^{\trans} = I = T'
+    \]
+    since $T = I = T'$.
+  \item The Levi-Civita symbol $\levi_{i j k}$ is a tensor of rank 3.
+    Again by its definition, it is the same in every basis.
+    From IA Vectors and Matrices, we know that:
+    \[
+      \levi_{i j k}\det A = A_{i p}A_{j q}A_{k r}
+    \]
+    We can use this fact to check it satisfies the transformation rule:
+    \begin{align*}
+      R_{i p}R_{j q}R_{k r}\levi_{p q r} &= \levi_{i j k}\det R \\
+                                         &= \levi_{i j k} \text{ since $R$ is a rotation} \\
+                                         &= \levi_{i j k}'
+    \end{align*}
+    so it is a tensor of rank 3.
+\end{itemize}
+\begin{example}[Conductivity Tensor]
+  A physical example of a tensor of rank 2 is \textit{conductivity}.
+  The basic conductivity law is:
+  \[
+    \vec{J} = \sigma \vec{E}
+  \]
+  where $\vec{E}$ is the applied electric field and $\vec{J}$ is the resulting electric current.
+  In a simple isotropic medium (one which is the same in all directions), $\sigma$ is just a scalar as the conductivity needs to be the same in all directions.
+  In an anisotropic medium (one which is not the same in all directions), the relationship between $\vec{J}$ and $\vec{E}$ is still linear but a matrix relation is more suitable.
+  For example in a particular basis:
+  \[
+    \vec{J} = \begin{pmatrix}
+    5 & 0 & 0 \\
+    0 & 4 & 0 \\
+    0 & 0 & 0 \\
+    \end{pmatrix}\vec{E}
+  \]
+  could represent a medium in which the conductivity is high in the $x$-direction but no current can flow in the $z$-direction.
+  From this matrix representation, we know that we can write $J_i = \sigma_{i j}E_j$.
+  We then call $\sigma$ the \textit{conductivity tensor}.
+
+  Assuming that $\sigma$ is actually a tensor, we will see later in \cref{innerProduct}, that $\vec{J}$ is a rank 1 tensor so transforms properly as a vector.
+  Conversely, we will also see later in \cref{quotientTheorem}, that if $\vec{J}$ transforms as a vector, $\sigma$ transforms properly and therefore is a tensor.
+  This captures how the tensor transformation rule is exactly what we need to ensure consistency between bases.
+\end{example}
+\subsection{Non-examples of Tensors}
+It is difficult to come up with things that aren't tensors because the concept of the transformation rule is that is obeyed by anything that is mathematically consistent between frames.
+\begin{enumerate}
+  \item Consider an object $w_i$ of rank 1 given by $\vec{w} = (0, 0, 0)$ with respect to the standard basis and $(1, 0, 0)$ with respect to some other basis.
+    Clearly $\vec{w}$ is not a vector as it does not obey the vector transformation rule \cref{vectorTransform}.
+    Geometrically speaking, if a vector is the zero vector in one basis, then it must be the zero vector in all bases.
+  \item Similarly, a object $W_{i j}$ of rank 2 that is given by $W_{i j} = \delta_{i j}$ in one frame and $-\delta_{i j}$ in another frame is not a tensor.
+    We have already shown that:
+    \[
+      R_{i p}R_{j q}\delta_{p q} = \delta_{i j}
+    \]
+    and not $- \delta_{i j}$ so the transformation law is not satisfied.
+  \item Let $\alpha$ be the first component of a non-zero vector $\vec{v}$.
+    $\alpha$ is not a tensor, i.e. not a scalar, because it will be different in different bases.
+\end{enumerate}
+\section{Sums and Products of Tensors}
+\begin{remark}[Generality of Tensor Proofs]
+  It is quite messy to prove results for any general rank of tensor because of the complicated notation.
+  In this section, we will instead prove results for particular cases of the rank of the tensor, however the exactly the same methods will work for any other rank, just with extra suffices.
+\end{remark}
+\subsection{Linear Combinations}
+\begin{lemma}[Linear Combination of Tensors]
+  A linear combination of two tensors of the same rank is also a tensor of the same rank.
+\end{lemma}
+\begin{proof}[Rank 2]
+  Let $A_{i j}$ and $B_{i j}$ be rank two tensors and let $\alpha$ and $\beta$ be scalars.
+  Define $T_{i j} = \alpha A_{i j} + \beta B_{i j}$.
+  We can then check that $T$ obeys the tensor transformation rule (\cref{tensorTransform}):
+  \begin{align*}
+    T_{i j}' &= \alpha' A_{i j}' + \beta' B_{i j}' \\
+             &= \alpha A_{i j}' + \beta B_{i j}' \text{ since $\alpha$ and $\beta$ are scalars} \\
+             &= \alpha R_{i p} R_{j q} A_{p q} + \beta R_{i p}R_{j q}B_{p q} \text{ since $A$ and $B$ are rank 2 tensors}\\
+             &= R_{i p}R_{j q}(\alpha A_{p q} + \beta B_{p q}) \\
+             &= R_{i p}R_{j q}T_{p q}
+  \end{align*}
+  So $T$ is a tensor.
+\end{proof}
+\subsection{Outer Products}
+\begin{definition}[Outer Product]
+  The \textit{outer product} or \textit{tensor product} of two tensors $A_{ijk\ldots}$ and $B_{lmn\ldots}$ of ranks $m$ and $n$ respectively is defined as the rank $m + n$ object:
+  \[
+    T_{ijk\ldots lmn\cdots} = A_{ijk\ldots}B_{lmn\ldots}
+  \]
+  This relationship is denoted $T = A \otimes B$.
+\end{definition}
+\begin{lemma}
+  The outer product of two tensors $A$ and $B$, that is $T = A \otimes B$, as defined above is also a tensor. \label{outerTensor}
+\end{lemma}
+\begin{proof}[Rank 2]
+  Let $A_{i j}$ and $B_{k l}$ be rank 2 tensors.
+  We then just need to check that $T$ satisfies the transformation rule:
+  \begin{align*}
+    T_{ijkl}' &= A_{i j}' B_{k l}' \\
+              &= R_{i p}R_{j q}A_{p q}R_{k r}R_{l s}B_{r s} \text{ since $A$ and $B$ are tensors}\\
+              &= R_{i p}R_{j q}R_{k r}R_{l s} A_{j q}B_{r s} \\
+              &= R_{i p}R_{j q}R_{k r}R_{l s}T_{pqrs}
+  \end{align*}
+  so $T$ is a rank 4 tensor.
+\end{proof}
+\begin{proof}[Rank 1]
+  Let $\vec{v}$ and $\vec{w}$ be rank 1 tensors (i.e. vectors).
+  We just need to check that $T$ satisfies the transformation rule:
+  \begin{align*}
+    T_{i j}' &= v_{i}'w_{i}' \\
+             &= R_{i p}v_{p}R_{j q}w_{q} \text{ since $\vec{v}$ and $\vec{w}$ are tensors} \\
+             &= R_{i p}R_{j q}v_{p}w_{q} \\
+             &= R_{i p}R_{j q}T_{p q}
+  \end{align*}
+  so $T$ is a rank 2 tensor.
+\end{proof}
+\subsection{Contraction}
+\begin{definition}[Contraction]
+  A \textit{contraction} of a tensor of rank $n$ occurs when we make two indices equal and sum, resulting in an object of rank $n - 2$.
+\end{definition}
+\begin{lemma}
+  A contraction of a tensor is also a tensor. \label{contractionTensor}
+\end{lemma}
+\begin{proof}[Rank 2]
+  Let $T$ be a tensor of rank 2 and let $\alpha$ be the contraction of $T$, that is, $\alpha = T_{i i}$.
+  We then just need to check $\alpha$ is a scalar (i.e. a rank 0 tensor):
+  \begin{align*}
+    \alpha' = T_{i i}' &= R_{i p}R_{i q}T_{p q} \text{ since $T$ is a tensor} \\
+                       &= (R^{\trans} R)_{p q}T_{p q} \text{ using \cref{RDelta}} \\
+                       &= \delta_{p q}T_{p q} \\
+                       &= T_{p p} = \alpha
+  \end{align*}
+  So $\alpha$ is a scalar.
+\end{proof}
+\begin{proof}[Rank 3]
+  Let $T$ be a tensor of rank 3 and let $A_{j} = T_{i j i}$ be the contraction of $T$ on its first and third indices.
+  \begin{align*}
+    A_{j}' &= T_{i j i}' \\
+             &= R_{i p}R_{j q}R_{i k} T_{pqk} \text{ since $T$ is a tensor} \\
+             &= (R^{\trans} R)_{p k} R_{j q} T_{pqk} \text{ by \cref{RDelta}} \\
+             &= \delta_{p k} R_{j q}T_{pqk} \\
+             &= R_{j q}T_{pqp} \\
+             &= R_{j q}A_{q}
+  \end{align*}
+  so $A$ is a rank 1 tensor.
+\end{proof}
+\subsection{Inner Products}
+\label{innerProduct}
+\begin{definition}[Inner Product]
+  An inner product of two tensors $A_{ijk\ldots}$ and $B_{lmn\ldots}$ of ranks $m$ and $n$ respectively occurs when we multiply them, setting one index in each equal and summing, resulting in an object of rank $m + n - 2$.
+\end{definition}
+\begin{remark}[Nomenclature]
+  This is sometimes referred to as ``contracting $A$ and $B$ together''.
+\end{remark}
+\begin{lemma}
+  The inner product of two tensors as defined above is also a tensor.
+\end{lemma}
+\begin{proof}
+  This follows from \cref{outerTensor} and \cref{contractionTensor}.
+  We can first do an outer product between the two tensors, resulting in a tensor of rank $m + n$, and then contract on the relevant pair of indices, resulting in a tensor of rank $m + n - 2$.
+\end{proof}
+\begin{example}[Examples of Inner Products]
+  \begin{enumerate}
+    \item If $v_i$ and $w_i$ are vectors then $v_iw_i$ is a scalar.
+    \item If $A_{i j}$ is a 2nd rank tensor and $v_i$ a vector, then $A_{i j}v_j$ and $A_{i j}v_i$ are both vectors.
+    \item If $A_{ijk}$ is a third rank tensor and $B_{i j}$ is a second rank tensor, then $A_{i j k}B_{p j}$ and $A_{i j k}B_{i q}$ are both third rank tensors.
+    \item For two vectors $\vec{u}$ and $\vec{v}$, $\vec{u} \cdot \vec{v} = u_iv_i$ must be a scalar because it is an inner product between the rank 1 tensors $\vec{u}$ and $\vec{v}$.
+
+      This means that $\vec{u} \cdot \vec{v}$ does not depend on the basis as it is a rank 0 tensor.
+      It therefore makes sense to define the angle between these vectors as:
+      \[
+        \cos \theta = \frac{\vec{u} \cdot \vec{v}}{\sqrt{(\vec{u} \cdot \vec{u})(\vec{v} \cdot \vec{v})}}
+      \]
+      which is also a scalar so is invariant under basis changes.
+    \item If $\vec{a}$ and $\vec{b}$ are vectors, then $\vec{a} \times \vec{b} = \levi_{i j k}a_jb_k$ is a rank tensor (i.e. a vector) since it is a double inner product of three tensors.
+  \end{enumerate}
+\end{example}
+\section{The Quotient Theorem}
+\label{quotientTheorem}
+\begin{theorem}[The Quotient Theorem]
+  Given an object $T_{ijk\ldots}$ of some rank, if the product of $T$ with an arbitrary tensor $A$ of a given rank is also a tensor, then $T$ is itself a tensor.
+
+  Here, the ``product'', can be an outer product, inner product, or both.
+  The important thing is that $A$ has to be arbitrary apart from its rank.
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
 \end{document}
