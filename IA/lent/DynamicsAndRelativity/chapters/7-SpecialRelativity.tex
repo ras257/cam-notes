@@ -911,9 +911,9 @@ Because $P$ describes both the relativistic energy and the 3-momentum, \cref{eqn
 \end{remark}
 
 From \cref{udotu}, we know that $U \cdot U = c^2$ so:
-\[
-  P \cdot P = (mU) \cdot (mU) = m^2 c^2
-\]
+\begin{equation}
+  P \cdot P = (mU) \cdot (mU) = m^2 c^2 \label{pdotp}
+\end{equation}
 We can also calculate $P \cdot P$ in terms of the relativistic energy and 3-velocity using \cref{minkowskiDot}:
 \begin{align}
   P \cdot P = \frac{E^2}{c^2} - |\vec{p}|^2 \implies E^2 = |\vec{p}|^2 c^2 + m^2 c^4 \label{4MomentumDot}
@@ -923,8 +923,8 @@ We defined $\vec{p} = m\gamma \vec{u}$ and in the non-relativistic limit $\frac{
 We can expand the energy as:
 \begin{align*}
   E = m\gamma c^2 &= \frac{mc^2}{\sqrt{1 - \frac{u^2}{c^2}}} \\
-                  &= mc^2 \left(1 + \frac{1}{2}u^2 c^2 + \cdots\right) \\
-                  &= mc^2 + \frac{m}{2}u^2 + \cdots
+                  &= mc^2 \left(1 + \frac{1}{2}\cdot\frac{u^2}{c^2} + \cdots\right) \\
+                  &= mc^2 + \frac{1}{2}mu^2 + \cdots
 \end{align*}
 In the non-relativistic limit, further terms in this series are negligible, so we obtain the non-relativistic kinetic energy $\frac{1}{2}mu^2$ but also an $mc^2$ term which is called the \textit{rest mass energy}.
 This is an important consequence of relativity and suggests that mass leads to an energy.
@@ -957,12 +957,12 @@ Since $P \cdot P = 0$, from \cref{4MomentumDot}, we must have:
   \frac{E^2}{c^2} = |\vec{p}|^2
 \]
 Thus the 4-momentum for a massless particle must be in the form:
-\[
+\begin{equation}
   P = \frac{E}{c} \begin{pmatrix}
   1 \\
   \uvec{n} \\
-  \end{pmatrix}
-\]
+  \end{pmatrix} \label{massless4Momentum}
+\end{equation}
 where $\uvec{n}$ is a unit 3-vector.
 
 We can then interpret its 3-velocity as $\vec{u} \equiv \vec{n} c$ so since $\uvec{n} \cdot \uvec{n} = 1$, $|\vec{u}|^2 = c^2$.
@@ -1015,5 +1015,191 @@ There are two ``canonical'' options:
   \item The \textit{centre of mass} or \textit{centre of momentum} frame, in which the total 3-momentum vanishes.
 \end{itemize}
 The centre of momentum frame is often more convenient than the lab frame when studying particle decays that start with one particle as we pick the rest frame of the unstable particle so its 4-momentum vanishes.
+\subsubsection{In the Centre of Momentum Frame}
+The Higgs boson is at rest so its 3-momentum is $\vec{0}$ and its energy is the rest mass energy $E = m_h c^2$.
+Its 4-momentum $P_h$ is then:
+\[
+  P_h = \begin{pmatrix}
+  m_h c \\
+  \vec{0} \\
+  \end{pmatrix}
+\]
+Since the photons are massless, from \cref{massless4Momentum}, we know that their 4-momenta are of the form:
+\[
+  P_{\gamma} = \frac{E_{\gamma}}{c}\begin{pmatrix}
+  1 \\
+  \uvec{n} \\
+  \end{pmatrix} \text{ and }
+  P_{\gamma'} = \frac{E_{\gamma'}}{c}\begin{pmatrix}
+  1 \\
+  \uvec{n}' \\
+  \end{pmatrix}
+\]
+for unit vectors $\uvec{n}$ and $\uvec{n}'$.
+
+By the conservation of 4-momentum:
+\begin{align*}
+  P_h = P_\gamma + P_{\gamma'} &\implies \begin{pmatrix}
+  m_h c \\
+  \vec{0} \\
+  \end{pmatrix} = \frac{E_{\gamma}}{c}\begin{pmatrix}
+  1 \\
+  \uvec{n} \\
+  \end{pmatrix} + \frac{E_{\gamma'}}{c}\begin{pmatrix}
+  1 \\
+  \uvec{n}' \\
+  \end{pmatrix} \\
+  &\implies m_h c = \frac{E_{\gamma}}{c} + \frac{E_{\gamma'}}{c} \text{ and } \vec{0} = \frac{E_{\gamma}}{c}\uvec{n} + \frac{E_{\gamma'}}{c}\uvec{n}'
+\end{align*}
+By the second equation, since $\uvec{n}$ and $\uvec{n}'$ are normal vectors, $E_{\gamma} = E_{-\gamma}$ and $\uvec{n} = -\uvec{n}'$, so the two photons emerge with opposite 3-momenta and equal energy.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \fill (0, 0) circle (2pt) node[below right] {$h$} node[above left, scale=0.5] {Decay};
+  \draw[->, rotate=30] (0.2, 0) -- (2, 0) node[midway, above left] {$\gamma$};
+  \draw[->, rotate=30] (-0.2, 0) -- (-2, 0) node[midway, below right] {$\gamma'$};
+\end{tikzpicture}
+\end{center}
+Then by the first equation, since $E_{\gamma} = E_{-\gamma}$, each photon carries away half the rest mass energy of the Higgs particle:
+\[
+  E_{\gamma} = E_{\gamma'} = \frac{m_hc^2}{2}
+\]
+So the rest mass energy of the Higgs has been converted to kinetic energy of the photons.
+\begin{remark}[Summary]
+  In the centre of momentum frame, we start with a Higgs particle at rest, and when it decays, we get two photons with opposite 3-momenta and equal energy, each carrying away half the rest mass energy of the Higgs particle.
+\end{remark}
+\subsubsection{In the Lab Frame}
+If we consider the same process in the lab frame, the Higgs particle is not at rest:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->, thick] (-2, 0) -- (0, 0) node[midway, above] {$h$};
+  \draw[->, rotate=30, thick] (0, 0) -- (2, 0) node[midway, above left] {$\gamma$};
+  \draw[->, rotate=-45, thick] (0, 0) -- (2, 0) node[midway, below left] {$\gamma'$};
+  \draw[dashed] (0, 0) -- (1.7, 0);
+  \draw (0, 0) ++ (0:0.7) arc (0:30:0.7) node[midway, right, scale=0.9] {$\theta$};
+  \draw (0, 0) ++ (0:0.7) arc (0:-45:0.7) node[midway, right, scale=0.9] {$\alpha$};
+  \fill (0, 0) circle (1.5pt) node[above left, scale=0.5] {Decay};
+\end{tikzpicture}
+\end{center}
+We want to know the angle $\theta$ one of the photons makes with the path of the Higgs?
+The important strategy here is to use conservation of 4-momentum, as we did above, but also \textit{invariants}.
+Here, \textit{invariants} are the inner products of 4-vectors as we know that they are the same in all frames.
+
+Starting from the conservation of 4-momentum:
+\begin{align*}
+  P_h - P_\gamma = P_{\gamma'} \implies P_{\gamma'} \cdot P_{\gamma'} &= (P_{h} - P_{\gamma}) \cdot (P_{h} - P_{\gamma}) \\
+                                                                      &= P_h \cdot P_h - 2P_h \cdot P_\gamma + P_{\gamma} \cdot P_{\gamma} \\
+                                                                      &= m^2_h c^2 - 2P_h \cdot P_{\gamma} + P_{\gamma} \cdot P_{\gamma}
+\end{align*}
+Both photons are massless and therefore light-like so in any frame $P_{\gamma'} \cdot P_{\gamma'} = P_{\gamma} \cdot P_{\gamma} = 0$.
+Therefore:
+\[
+  2 P_h \cdot P_{\gamma} = m_h^2 c^2
+\]
+To compute this inner product, we can write $P_h$ and $P_\gamma$ in their most general forms:
+\[
+  P_{h} = \begin{pmatrix}
+  E_h/c \\
+  \vec{p}_{h} \\
+  \end{pmatrix} \text{ and } P_{\gamma} = \frac{E\gamma}{c} \begin{pmatrix}
+  1 \\
+  \uvec{n} \\
+  \end{pmatrix}
+\]
+for a unit vector $\uvec{n}$.
+Substituting in, we then have:
+\begin{align*}
+  m_h^2 c^2 &= 2\left(\frac{E_h}{c} \cdot \frac{E_{\gamma}}{c} - \frac{E_{\gamma}}{c} \vec{p}_h \cdot \uvec{n}\right) \\
+            &= 2 \left(\frac{E_h E_\gamma}{c^2} - \frac{E\gamma}{c}|\vec{p}_h|\cos\theta\right)
+\end{align*}
+We also know from \cref{4MomentumDot} that $E_h^2 = |\vec{p}_h|^2 c^2 + m_h^2 c^4$, so given $E_h$ and $E_\gamma$, we can then solve for the angle $\theta$.
+\begin{remark}[Example Sheet]
+  In Example Sheet 4 Q6, you will explore an example of a particle decaying into two massive particles instead of two massless particles.
+\end{remark}
 \subsection{Particle Collisions}
+Another important particle interaction are particle collisions.
+Consider two particles of mass $m$ that collide and then scatter.
+\subsubsection{In the Centre of Momentum Frame}
+Suppose that, in the centre of momentum frame, the particles scatter at an angle $\theta$ and the incoming particles have opposite 3-momenta of equal magnitude:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->, thick] (-2, 0) -- (0, 0) node[midway, above] {1};
+  \draw[->, thick] (2, 0) -- (0, 0) node[midway, below] {2};
+  \draw[rotate=30, ->, dashed, thick] (0, 0) -- (2, 0) node[midway, above left] {3};
+  \draw[rotate=30, ->, dashed, thick] (0, 0) -- (-2, 0) node[midway, below right] {4};
+  \draw (0, 0) ++ (0:0.7) arc (0:30:0.7) node[midway, right, scale=0.9] {$\theta$};
+\end{tikzpicture}
+\end{center}
+where particles 1 and 2 are the incoming particles and 3 and 4 are the outgoing particles.
+The total 4-momentum before is $P_1 + P_2$ and after it is $P_3 + P_4$ so:
+\begin{equation}
+  P_1 + P_2 = P_3 + P_4 \tag{$\dag$} \label{eqnCollisionCoM}
+\end{equation}
+We know that $\vec{p}_1 + \vec{p}_2 = \vec{0}$ so equating 3-momentum components of \cref{eqnCollisionCoM}, we must also have $\vec{p}_3 + \vec{p}_4 = \vec{0}$.
+We know that $|\vec{p}_1| = |\vec{p}_2|$ and now also that $|\vec{p}_3| = |\vec{p}_4|$.
+From \cref{4MomentumDot}, we know that if $|\vec{p}_1| = |\vec{p}_2|$ and their masses are equal, their energies are also and so $E_1 = E_2$ and $E_3 = E_4$.
+The time component of \cref{eqnCollisionCoM} then tells us that $E_1 = E_2 = E_3 = E_4$.
+Thus:
+\[
+  |\vec{p}_1| = |\vec{p}_2| = |\vec{p}_3| = |\vec{p}_4|
+\]
+This means that any angle $\theta$ is allowed but momenta and energy of each particle must be the same before and after the collision.
+All momenta are all in the same plane so, for example, we can pick:
+\begin{align*}
+  \vec{p}_1 &= |\vec{p}_1|(1, 0, 0)^{\trans} = - \vec{p}_2 \\
+  \vec{p}_3 &= |\vec{p}_3|(\cos\theta, \sin\theta, 0)^{\trans} = - \vec{p}_4
+\end{align*}
+which satisfies the constraints.
+\subsubsection{In the Lab Frame}
+Now consider the same situation in the lab frame where we pick a frame attached to $P_2$.
+In this frame, $P_2$ is at rest and is hit by $P_1$.
+We want to find the angle $\phi$:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->, thick] (-2, 0) -- (0, 0) node[midway, above] {$P_1$};
+\fill (0, 0) circle (2pt) node[below] {$P_2$};
+  \draw[->, rotate=30, thick] (0, 0) -- (2, 0) node[midway, above left] {$P_3$};
+  \draw[->, rotate=-45, thick] (0, 0) -- (2, 0) node[midway, below left] {$P_4$};
+  \draw[dashed] (0, 0) -- (1.7, 0);
+  \draw (0, 0) ++ (0:0.7) arc (0:30:0.7) node[midway, right, scale=0.9] {$\phi$};
+  \draw (0, 0) ++ (0:0.7) arc (0:-45:0.7) node[midway, right, scale=0.9] {$\alpha$};
+\end{tikzpicture}
+\end{center}
+We can again use invariants.
+Since we do not care about what $P_4$ is doing, we can rearrange so that $P_4$ is on its own side so that when we take the inner product of both sides with themselves, all the information about $P_4$ is removed since $P_4 \cdot P_4 = m^2 c^2$ from \cref{pdotp}.
+\begin{align}
+  P_1 + P_2 = P_3 + P_4 \implies (P_1 + P_2 - P_3) \cdot (P_1 + P_2 - P_3) &= P_4 \cdot P_4 \nonumber \\
+  \implies P_1 \cdot P_1 + P_2 \cdot P_2 + P_3 \cdot P_3 - 2P_1 \cdot P_3 - 2 P_2 \cdot P_3 + 2 P_1 \cdot P_2 &= m^2 c^2 \nonumber \\
+  3m^2 c^2 - 2P_1 \cdot P_3 - 2 P_2 \cdot P_3 + 2 P_1 \cdot P_2 &= m^2 c^2 \label{eqnCollisionLab} \tag{$\star$}
+\end{align}
+To take these inner products, we need to determine the form of $P_1$, $P_2$ and $P_3$:
+We don't know anything about $P_1$ and $P_3$ but we do know that $P_2$ is at rest so has 3-momentum $\vec{0}$ and has rest mass energy:
+\[
+  P_2 = \begin{pmatrix}
+  mc \\
+  \vec{0} \\
+  \end{pmatrix},\ P_1 = \begin{pmatrix}
+  E_1/c \\
+  \vec{p}_1 \\
+  \end{pmatrix},\ P_3 = \begin{pmatrix}
+  E_3/c \\
+  \vec{p}_3 \\
+  \end{pmatrix}
+\]
+Therefore:
+\[
+  -2P_2 \cdot P_3 + 2P_1 \cdot P_2 = -2E_3m + 2 E_1 m
+\]
+and:
+\[
+  -2P_1 \cdot P_3 = -2 \left(\frac{E_1E_3}{c^2} - \vec{p}_1 \cdot \vec{p}_3\right) \\
+\]
+Substituting back into \cref{eqnCollisionLab}, we have:
+\[
+  2m^2 c^2 + 2m(E_1 - E_3) - \frac{2E_1E_3}{c^2} = -2|\vec{p}_1||\vec{p}_3|\cos\phi
+\]
+So if we are given $E_1$ and $E_3$, similarly to in the lab frame for particle decay, we can use $E_i^2 = |\vec{p}_i|^2 c^2 + m^2 c^4$ to eliminate the $|\vec{p}_1|$ and $|\vec{p}_3|$ and therefore obtain $\phi$ in terms of $E_1$ and $E_3$.
+\begin{remark}[Example Sheet]
+  In Example Sheet 4 Q7, you will explore an example of \textit{Compton scattering}.
+  This is when a photon scatters off a massive particle.
+\end{remark}
 \end{document}
