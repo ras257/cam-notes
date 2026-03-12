@@ -1,5 +1,201 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Power Series}
-Continued next lecture.
+\section{Series and Sequences of Functions}
+\begin{definition}[Sequence of Functions]
+  We say $(f_n) = f_1, f_2, \ldots$ is a \textit{sequence of complex valued functions} on some set $X \subseteq \C$ if $f_n: X \to \C$ for each $n \in \N$.
+
+  Further, if for some set $Y \subseteq X$ the numerical sequence $(f_n(x))_n$ converges for all $x \in Y$, then we can define a function:
+  \[
+    f: Y \to \C,\ x \mapsto \lim_{n \to \infty} f_n(x)
+  \]
+  and then we say $f_n \to f$ as $n \to \infty$ on the set $Y$.
+\end{definition}
+\begin{definition}[Series of Functions]
+  Let $(f_n)$ be a sequence of functions as above.
+  We then call $\sum_{n = 1}^{\infty} f_n$ a \textit{series of complex valued functions} on $X$.
+
+  Further, if for each $x \in Y$, the numerical series $\sum_{n = 1}^{\infty} f_n(x)$ converges, then we can define a function:
+  \[
+    f: Y \to \C,\ x \mapsto \sum_{n = 1}^{\infty} f_n(x)
+  \]
+\end{definition}
+If we know something about the continuity, differentiability, or integrability about the functions $f_i$, will those properties still hold for its sequence or series?
+This is a subtle question, and essentially boils down to if we are able to swap limits, sums, and or integrals.
+\begin{example}
+  If $f_n$ are all continuous at $a$ and we want to show that $f(x) = \lim_{n \to \infty} f_n(x)$ (which is defined on some set $Y$ such that $a \in Y$) is continuous at $a$ also.
+
+  We can write $f(a)$ and $\lim_{x \to a} f(x)$ as a pair of nested limits:
+  \begin{align*}
+    f(a) &= \lim_{n \to \infty} f_n(a) = \lim_{n \to \infty} \lim_{x \to a} f_n(x) \\
+    \lim_{x \to a} f(x) &= \lim_{x \to a} \lim_{n \to \infty} f_n(x)
+  \end{align*}
+  So to conclude that $\lim_{x \to a} f(x) = f(a)$ (i.e. $f$ is continuous at $a$), we would need to show that:
+  \[
+    \lim_{x \to a} \lim_{n \to \infty} f_n(x) = \lim_{n \to \infty} \lim_{x \to a} f_n(x)
+  \]
+  Swapping these limits is non-trivial, for example, if we define $S_{m, n} = \frac{m}{n + m}$:
+  \begin{align*}
+    \lim_{n \to \infty} \lim_{m \to \infty} S_{m, n} = 1 \\
+    \lim_{m \to \infty} \lim_{n \to \infty} S_{m, n} = 0
+  \end{align*}
+\end{example}
+This will be explored properly in Analysis II.
+For this course, we will just consider simpler series of functions called \textit{power series} where $f_n$ are of the form:
+\[
+  f_n(x) = c_n(x - a)^{n}
+\]
+\section{Basics of Power Series}
+\subsection{Definitions}
+\begin{definition}[Power Series]
+  Let $a \in \C$ and let $(c_n)_{n \in \N_0}$ be a numerical sequence on $\C$.
+  We call:
+  \[
+    \sum_{n = 0}^{\infty} c_n(x - a)^{n}
+  \]
+  a \textit{power series with centre $a$ and coefficients $c_n$}.
+\end{definition}
+\begin{example}[Taylor Series]
+  If $f$ is a smooth function, then its Taylor series (\cref{taylorSeries}) about $a$ is a power series with coefficients:
+  \[
+    c_n = \frac{f^{(n)}(a)}{n!}
+  \]
+\end{example}
+Tautologically, every power series must converge at its centre $a$.
+The natural question is whether the set:
+\[
+  \left\{x \in \C: \sum_{n = 0}^{\infty} c_n(x - a)^{n} \text{ converges at $x$}\right\}
+\]
+contains any other points?
+\subsection{Radius of Convergence}
+\begin{lemma}
+  If $\sum_{n=0}^{\infty} c_n (x - a)^{n}$ converges at a point $x \in \C$ and $|y - a| < |x - a|$ for some $y \in \C$, then $\sum_{n = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely. \label{powerSeriesConvLemma}
+\end{lemma}
+\begin{remark}[Statement in words]
+  If the power series converges at a point $x$, then it must converge absolutely at any points closer to the centre $a$ than $x$.
+\end{remark}
+\begin{proof}
+  The proof idea here is to try to use a comparison to the geometric series.
+
+  Fix $x \in \C$ such that $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ and fix $y \in \C$ such that $|y - a| < |x - a|$.
+  Let $r = \frac{|y - a|}{|x - a|} < 1$, we then have:
+  \begin{align*}
+    |c_n(y - a)^{n}| &= |c_n(x - a)^{n}| \cdot \abs{\frac{y - a}{x - a}}^{n} \\
+                     &\leq |c_n(x - a)^{n}| \cdot r^{n}
+  \end{align*}
+  By assumption, $\sum_{n = 1}^{\infty} c_n(x - a)^{n}$ converges, so by the $n$-th term test (\cref{nthTermTest}), $c_n(x - a)^{n} \to 0$ as $n \to \infty$.
+  Thus $c_n(x - a)^{n}$ must be bounded so $\exists M > 0$ such that $|c_n(x - a)^{n}| \leq M\ \forall n$.
+  Hence:
+  \[
+    |c_n(y - a)^{n}| \leq M \cdot r^{n}\ \forall n
+  \]
+  So using the comparison test (\cref{comparisonTest}) with a geometric series of ratio $r$, $\sum_{n = 0}^{\infty} |c_n(y - a)^{n}|$ converges and therefore $\sum_{n = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely.
+\end{proof}
+\begin{proposition}[Radius of Convergence]
+  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a power series, then $\exists R \in [0, \infty]$, such that:
+  \begin{enumerate}
+    \item $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ converges absolutely for $|x - a| < R$.
+    \item If $R < \infty$, then $\sum_{n =0}^{\infty} c_n(x - a)^{n}$ diverges for $|x - a| > R$.
+  \end{enumerate}
+  We call $R$ the \textit{radius of convergence} (\textit{r.o.c}) of the power series.
+\end{proposition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item The above \textbf{does not} tell us what happens on the circle $|x - a| = R$.
+      The power series could have wildly different behaviour at different points on this circle.
+    \item If $R = 0$, then the series converges only at $a$.
+    \item If $R = \infty$, then the series converges on all of $\C$.
+  \end{itemize}
+\end{remark}
+\begin{proof}
+  Let $A$ be the set of radii $r$ which have a point of convergence inside the closed disc of radius $r$ centered at $a$, that is:
+  \[
+    A = \left\{r \geq 0 : \exists x \in \C \text{ with } |x - a| = r \text{ s.t. } \sum_{n = 0}^{\infty} c_n(x - a)^{n} \text{ converges}\right\}
+  \]
+  We know that the power series always converges at $a$ so $0 \in A \implies A \neq \emptyset$.
+  \begin{proofcases}
+    \begin{case}{$A$ is unbounded}
+      If $A$ is unbounded, then can set $R = \infty$ as given any point $y$, we can always find a point further from the centre where the power series converges so by \cref{powerSeriesConvLemma}, it must converge absolutely at $y$ and thus, since $y$ was arbitrary, it converges everywhere in $\C$.
+    \end{case}
+    \begin{case}{$A$ is bounded}
+      Since $A$ is bounded, it must have a supremum so we set $R = \sup A$.
+      By definition of the set $A$, $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ diverges for $|x - a| > R$.
+
+      If $|y - a| < R = \sup A$, then, by definition of supremum, $\exists r \in A$ with $|y - a| < r \leq R$.
+      Since $r \in A$, $\exists x \in \C$ with $|x - a| = r > |y - a|$ such that $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ converges.
+      So by \cref{powerSeriesConvLemma}, $\sum_{i = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely.
+    \end{case}
+  \end{proofcases}
+  So in both cases, a suitable radius of convergence $R$ exists.
+\end{proof}
+To compute the radius of converges of a power series, we can adapt the usual tests for numerical series.
+\begin{proposition}[Root Test for Power Series]
+  If $(c_n)$ is a sequence of coefficients on $\C$ such that:
+  \[
+    L = \lim_{n \to \infty} \sqrt[n]{|c_n|}
+  \]
+  exists, then the power series with those coefficients has radius of convergence $R = \frac{1}{L}$, with the convention convention $L = 0 \to R = \infty$.
+\end{proposition}
+\begin{proof}
+  Consider the power series $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$.
+  For some fixed $x$, we have:
+  \[
+    \lim_{n \to \infty} \sqrt[n]{\abs{c_n(x - a)^{n}}} = |x - a|\lim_{n \to \infty} \sqrt[n]{\abs{c_n}} = |x - a|L
+  \]
+  So by the ratio test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely and if $|x - a|L > 1$, the power series diverges by the $n$-th term test (\cref{nthTermTest}).
+
+  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
+\end{proof}
+\begin{proposition}[Ratio Test for Power Series]
+  If $(c_n)$ is a sequence of coefficients on $\C$ such that:
+  \[
+    L = \lim_{n \to \infty} \abs{\frac{c_{n + 1}}{c_n}}
+  \]
+  exists, then the power series with those coefficients has radius of convergence $R = \frac{1}{L}$, with convention the convention $L = 0 \to R = \infty$.
+\end{proposition}
+\begin{proof}
+  Consider the power series $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$.
+  For some fixed $x$, we have:
+  \[
+    \lim_{n \to \infty} \abs{\frac{c_{n + 1}(x - a)^{n + 1}}{c_n(x - a)^{n}}} = |x - a|\lim_{n \to \infty} \abs{\frac{c_{n + 1}}{c_n}} = |x - a|L
+  \]
+  So by the root test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely and if $|x - a|L > 1$, the power series diverges by the $n$-th term test (\cref{nthTermTest}).
+
+  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
+\end{proof}
+\begin{remark}[Note]
+  If the limits do not exist but instead converge to infinity, i.e. $\abs{\frac{c_{n + 1}}{c_n}} \to \infty$ or $\sqrt[n]{c_n} \to \infty$, then $R = 0$.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item The power series $\sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$ converges on all of $\C$, i.e. $R = \infty$.
+      This has $c_n = \frac{1}{n!}$.
+      Using the ratio test:
+      \[
+        \lim_{n \to \infty} \frac{\frac{1}{(n + 1)!}}{\frac{1}{n!}} = \lim_{n \to \infty} \frac{1}{n + 1} = 0
+      \]
+      Therefore $L = 0 \implies R = \infty$.
+    \item The power series $\sum_{n = 0}^{\infty} n! x^{n}$ diverges on $\C \setminus \{0\}$ as:
+      \[
+        \lim_{n \to \infty} \frac{(n + 1)!}{n!} = \lim_{n \to \infty} n = \infty
+      \]
+      So $L = \infty$ and therefore $R = 0$, so it only converges at its centre $a = 0$.
+    \item The power series $\sum_{n = 1}^{\infty} \frac{x^{n}}{n^2}$ converges absolutely on $|x| < 1$ and diverges if $|x| > 1$.
+      We can see this using the ratio test:
+      \[
+        \lim_{n \to \infty} \frac{\frac{1}{(n + 1)^2}}{\frac{1}{n^2}} = \lim_{n \to \infty} \left(\frac{n}{n + 1}\right)^2= 1 \implies R = 1
+      \]
+
+      But what about $|x| = 1$?
+      For $|x| = 1$, we have:
+      \[
+        \sum_{n = 1}^{\infty} \abs{\frac{x^{n}}{n^2}} = \sum_{n = 1}^{\infty} \frac{1}{n^2} < \infty
+      \]
+      So the power series also converges absolutely on $|x| = 1$.
+    \item Consider the power series $\sum_{n = 1}^{\infty} \frac{x^{n}}{n}$.
+      By using the ratio test as above $R = 1$ so we must have absolute convergence on $|x| < 1$ and divergence on $|x| > 1$, but we cannot make the same conclusion about the behaviour on $|x| = 1$.
+
+      If $x = 1$, then we have divergence as this is just the harmonic series, but at $x = -1$, we have convergence by the alternating series test.
+  \end{enumerate}
+\end{example}
 \end{document}
