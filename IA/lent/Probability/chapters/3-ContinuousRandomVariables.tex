@@ -86,9 +86,9 @@ We can show some properties of pdfs that hold regardless of if we are working wi
 
      Again, using the continuity of probability measures:
      \[
-       \P(B_n) \to \P\left(\bigcap_{n = 1}^{\infty} B_n\right) = \P(X < x)
+       \P(B_n) \to \P\left(\bigcup_{n = 1}^{\infty} B_n\right) = \P(X < x)
      \]
-     since $\bigcap_{n = 1}^{\infty} B_n = \{X < x\}$.
+     since $\bigcup_{n = 1}^{\infty} B_n = \{X < x\}$.
    \item By property \textbf{v}, we have:
      \[
        \lim_{x \to \infty} F(x) = \P(X < \infty) = 1  \text{ and } \lim_{x \to -\infty} F(x) = \P(X < - \infty) = 0
@@ -303,7 +303,7 @@ Therefore:
   \]
 \end{definition}
 Similarly to with discrete random variables, if we want to take the expectation of a function of a random variable:
-\begin{theorem}
+\begin{theorem}[Law of the unconscious statistician]
   For a continuous random variable and function $g(x) \geq 0\ \forall x$, the expected valued of $g(X)$ is:
   \label{expFunctionContinuous}
   \[
@@ -685,7 +685,7 @@ Furthermore, to find the probability $X$ is in a set $B \subseteq \R^{n}$:
   Suppose the continuous $n$-dimensional random vector $X = (X_1, \ldots, X_n)$ has multivariate density $f$, we then have that:
   \label{marginalContinuous}
   \begin{align*}
-    \P(X_1 \leq x) &= \P(X_1 \leq x, X_2 \in \R, X_n \in \R) \\
+    \P(X_1 \leq x) &= \P(X_1 \leq x, X_2 \in \R, \ldots, X_n \in \R) \\
                    &= \int_{-\infty}^{x} \left[\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f(x_1, \ldots, x_n) \d{x_n} \cdots \d{x_2}\right] \d{x_1}
   \end{align*}
   By differentiating, we can obtain the \textit{marginal density} of $X_1$:
@@ -711,8 +711,8 @@ Like in the discrete case, we would like to be able to find the distribution of 
   To find the density of $X + Y$, we will first find its distribution function and then differentiate to find its density:
   \begin{align*}
     \P(X + Y \leq z) &= \P((X, Y) \in \{(x, y) \in \R^2: x + y \leq z\}) \\
-                     &= \int\limits_{\{x + y \leq z\}} f_{X, Y}(x, y) \d{x} \d{y} \text{ by independence}\\
-                     &= \int\limits_{\{x + y \leq z\}} f_X(x)f_Y(y) \d{x} \d{y} \\
+                     &= \iint\limits_{\{x + y \leq z\}} f_{X, Y}(x, y) \d{x} \d{y} \\
+                     &= \iint\limits_{\{x + y \leq z\}} f_X(x)f_Y(y) \d{x} \d{y} \text{ by independence} \\
                      &= \int_{-\infty}^{\infty} \int_{-\infty}^{z-x} f_X(x) f_Y(y) \d{y} \d{x} \\
                      &= \int_{-\infty}^{\infty}  \int_{-\infty}^{z} f_X(x) f_Y(y - x) \d{y} \d{x} \text{ using $y \mapsto y - x$}
   \end{align*}
@@ -817,7 +817,7 @@ To obtain the density of $Y_1$, we can differentiate both sides:
 \]
 Similarly, for $y_N$, we have:
 \begin{align*}
-  \P(Y_N \leq x) &= \P(X_1 \leq x, \ldots, X_n \leq x) \\
+  \P(Y_n \leq x) &= \P(X_1 \leq x, \ldots, X_n \leq x) \\
                  &= (F(x))^{n} \text{ by independence}
 \end{align*}
 and so differentiating, we have $f_{Y_n}(x) = n(F(x))^{n-1}f(x)$.
@@ -871,7 +871,7 @@ If $(X_i)$ are independent with $X_i \sim \Exponential(\lambda_i)$, then we can 
 Let $X_1, \ldots, X_n$ be independent and identically distributed with distribution $\Exponential(\lambda)$ and let $Y_1, \ldots, Y_n$ be the order statistics as defined above.
 Let $Z_1 = Y_1$, $Z_2 = Y_2 - Y_1$, and more generally, $Z_i = Y_i - Y_{i - 1}$ for $i \leq n$.
 \begin{remark}[Intuition]
-  If the $X_i$ here were the time for a random alarm to first ring, then $Z_i$ would represent the time between the $(i - 1)$-th ring and the $i$-th ring.
+  If the $X_i$ here was the time for a random alarm to first ring, then $Z_i$ would represent the time between the $(i - 1)$-th ring and the $i$-th ring.
 \end{remark}
 What is the joint density of $\vec{Z} = (Z_1, \ldots, Z_n)$?
 We can compactly relate $\vec{Z}$ and $\vec{Y}$ by the following matrix relation:
@@ -909,7 +909,7 @@ Therefore:
                                            &= n \cdot \lambda e^{-\lambda n \cdot z_1} \cdot (n - 1) \lambda e^{-\lambda(n - 1) \cdot z_2} \cdots 1 \cdot \lambda e^{-\lambda \cdot z_n} \\
                                            &=\prod_{i = 1}^{n} (n - i + 1) \lambda e^{-\lambda(n - i + 1)z_i}
 \end{align*}
-Therefore, by \cref{densityFactor}, the $Z_i$ are independent and since $f_{Z_i}(z) = (n - i + 1)\lambda e^{-\lambda(n - i + 1)z}$ is a valid density:
+Therefore, by \cref{densityFactor}, the $Z_i$ are independent and since $f_{Z_i}(z) = (n - i + 1)\lambda e^{-\lambda(n - i + 1)z}$ is the density of the exponential distribution with parameter $\lambda(n - i + 1)$:
 \[
   Z_i \sim \Exponential(\lambda(n - i + 1)) \text{ for } i \in \{1, \ldots, n\}
 \]
@@ -958,7 +958,7 @@ Similarly to how the probability generating function of a sum of independent dis
   \]
 \end{proposition}
 \begin{proof}
-  Follow directly from independence of $X_1, \ldots, X_n$.
+  Follows directly from independence of $X_1, \ldots, X_n$.
 \end{proof}
 \subsection{Gamma Distribution}
 \begin{definition}[Gamma Distribution]
@@ -1028,7 +1028,7 @@ Similarly to how the probability generating function of a sum of independent dis
   \[
     X_1 + \cdots + X_n \sim \Gamma(n, \lambda)
   \]
-  So $\Gamma(n, \lambda)$ can be thought of a sum of $n$ independent $\Exponential(\lambda)$ r.v.s
+  So $\Gamma(n, \lambda)$ can be thought of a sum of $n$ independent $\Exponential(\lambda)$ r.v.s.
 \end{example}
 \begin{remark}
   We can also define $\Gamma(\alpha,\lambda)$ with $\alpha, \lambda > 0$, (i.e. $\alpha \in \R^{+}$ instead of $n \in \N$) by replacing $(n - 1)!$ in the density with the \textit{gamma function}:
@@ -1111,7 +1111,7 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
   where $\theta = (\theta_1, \ldots, \theta_n)^{\trans} \in \R^{n}$.
 \end{definition}
 \begin{theorem}
-  If the mgf is finite for an open set of values of $\theta$, then it uniquely determines the distribution. \label{mgfMultiUnique}
+  If a multivariate moment generating function is finite for an open set of values of $\theta$, then it uniquely determines the distribution. \label{mgfMultiUnique}
 
   In this case:
   \[
@@ -1188,7 +1188,7 @@ A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit
   \]
 \end{definition}
 \begin{remark}
-  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix and we then take expectations entry-wise.
+  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix of which we take expectations entry-wise.
 \end{remark}
 We can find the entires of this matrix by taking expectations of:
 \begin{align*}
