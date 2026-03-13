@@ -133,9 +133,9 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
 
       So tensors of rank 1 are vectors, since they satisfy the transformation rule for vectors, and any vector is a tensor of rank 1, since they satisfy the transformation rule for rank 1 tensors.
     \item A tensor of rank 2 satisfies:
-      \[
-        T_{i j}' = R_{ip}R_{jq}T_{p q}
-      \]
+      \begin{equation}
+        T_{i j}' = R_{ip}R_{jq}T_{p q} \label{rank2Transform}
+      \end{equation}
       In this case, $T$ can be written as a normal $3 \times 3$ matrix, so the transformation equation becomes:
       \[
         T' = RTR^{\trans}
@@ -180,7 +180,7 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
     so it is a tensor of rank 3.
 \end{itemize}
 \begin{example}[Conductivity Tensor]
-  A physical example of a tensor of rank 2 is \textit{conductivity}.
+  A physical example of a tensor of rank 2 is \textit{conductivity}. \label{conductivityTensor}
   The basic conductivity law is:
   \[
     \vec{J} = \sigma \vec{E}
@@ -336,14 +336,210 @@ It is difficult to come up with things that aren't tensors because the concept o
   \end{enumerate}
 \end{example}
 \section{The Quotient Theorem}
+\subsection{Quotient Theorem}
 \label{quotientTheorem}
 \begin{theorem}[The Quotient Theorem]
   Given an object $T_{ijk\ldots}$ of some rank, if the product of $T$ with an arbitrary tensor $A$ of a given rank is also a tensor, then $T$ is itself a tensor.
 
   Here, the ``product'', can be an outer product, inner product, or both.
-  The important thing is that $A$ has to be arbitrary apart from its rank.
+  The important thing is that $A$ is arbitrary apart from its rank.
 \end{theorem}
-\begin{proof}
-  Continued next lecture.
+\begin{proof}[Rank 2 \& 2 -- Inner product]
+  Let $T$ be an object of rank 2 such that $w_i = T_{i j}v_j$ is a tensor for all vectors $\vec{v}$.
+
+  By assumption $\vec{w}$ is a rank 1 tensor so:
+  \begin{align*}
+    T_{i j}'v_j' = w_i' &= R_{i p}w_p \text{ using \cref{vectorTransform}} \\
+                        &= R_{i p}T_{p q}v_q \\
+                        &= R_{i p}T_{p q}R_{j q}v'_q \text{ using \cref{invVectorTransform}} \\
+    \implies (T_{i j}' - R_{i p}R_{j q}T_{p q})v'_j &= 0
+  \end{align*}
+  Since this is true for arbitrary $\vec{v}$, and therefore arbitrary $v'_j$, so $T_{i j}' = R_{i p}R_{j q}T_{p q}$ so $T$ obeys the tensor transformation law (\cref{tensorTransform}) and so $T$ is a tensor.
 \end{proof}
+\begin{example}
+  The above case of the quotient theorem tells us that the conductivity tensor $\sigma$ from \cref{conductivityTensor} must be a tensor since $\vec{J}$ and $\vec{E}$ are vectors and $J_i = \sigma_{i j}E_j$.
+\end{example}
+\begin{proof}[Rank 2 \& 3 -- Inner Product]
+  Let $T$ be an object of rank 2 such that $W_{i j} = T_{k i}A_{j k}$ is a tensor for all rank 2 tensors $A$.
+  \begin{align*}
+    T_{k i}' A_{j k}' = W_{i j}' &= R_{i p}R_{j q}W_{p q} \\
+                                 &= R_{i p}R_{j q}T_{r p}A_{q r} \\
+                                 &= R_{i p}R_{j q}R_{s q}R_{k r}A_{s k}' \text{ using \cref{invTensorTransform}} \\
+                                 &= R_{i p}T_{r p}R_{k r}\delta_{j s}A_{s k}' \text{ using \cref{RDelta}} \\
+                                 &= R_{k r}R_{i p}T_{r p}A_{j k}' \\
+    \implies (T_{k i}' - R_{k r}R_{i p}T_{r p})A_{j k}' &= 0
+  \end{align*}
+  Since $A_{j k}'$ is arbitrary, $T_{k i}' = R_{k r}R_{i p}T_{r p}$ so $T$ is a tensor.
+\end{proof}
+\subsection{Tensors as Multi-linear Maps}
+\nonexaminable
+We have been thinking about tensors in terms of their components.
+A more abstract way of thinking about them  is as \textit{multi-linear maps}.
+Given a tensor $T_{ijk\ldots}$ of rank $n$, consider the map defined as:
+\[
+  T: (\R^3)^{n} \to \R,\ T(\underbrace{\vec{a}, \vec{b}, \vec{c}, \ldots}_{n \text{ vectors}}) = T_{ijk\ldots} a_ib_jc_k \cdots
+\]
+This is multi-linear, that is, it is linear in each of its arguments.
+By our definitions so far, since $T_{ijk\ldots}$ is a tensor and $\vec{a}, \vec{b}, \vec{c}, \ldots$ are vectors, $T(\vec{a}, \vec{b}, \vec{c}, \ldots)$ as defined above is an inner product and is therefore a scalar.
+Thus this map is well defined since we get the same result in any basis.
+
+For each tensor we can always construct such a map, conversely, given such a map, the multi-linearity shows that it must be of the form above for some coefficients $T_{ijk\ldots}$ which can then be computed in a given basis, for example:
+\[
+  T_{111\ldots} = T(\vec{e}_1, \ldots, \vec{e}_1)
+\]
+This is similar to how if we are given a linear map from $\R^3$ to $R^3$, we can create a matrix from it and vice versa.
+
+Furthermore, we can use the Quotient Theorem (\cref{quotientTheorem}) to show that $T_{ijk\ldots}$ is in fact a tensor.
+Hence there is an equivalence between tensors and multi-linear maps.
+
+This relation between tensors and maps explains why the transformation rule for rank 2 tensors just looks like the change of basis formula for linear maps from IA Vectors and Matrices.
+Recall that in a new basis $A' = P^{\trans} A P$ where $P$ is the orthogonal change of basis matrix.
+This is identical to the rank 2 transformation law in \cref{rank2Transform} with $P = R^{\trans}$.
+
+Bu why $P = R^{\trans} = R^{-1}$ rather than just $R$?
+This is easiest to visualise using the transformation of a vector $\vec{v}$ in 2D.
+Suppose that $\{\vec{e}_1', \vec{e}_2'\}$ are the original basis vectors $\{\vec{e}_1, \vec{e}_2\}$ rotated through an angle $\theta$ so that $P$ is a rotation matrix with angle $\theta$.
+There are then two ways we could find the components of $\vec{v}$ in the new basis:
+\begin{enumerate}
+  \item Directly finding the components of $\vec{v}$ with respect to $\{\vec{e}_1', \vec{e}_2'\}$.
+  \item Rotate $\vec{v}$ itself by $-\theta$ and then find its components with respect to $\{\vec{e}_1, \vec{e}_2\}$.
+\end{enumerate}
+So the rank 2 case, \cref{rank2Transform} represents \textbf{(ii)} where $R$ is a rotation by angle $-\theta$, whilst $P$ is the change of basis matrix for \textbf{(i)}.
+\section{Symmetries of Tensors}
+\subsection{Symmetric and Antisymmetric Tensors}
+\begin{lemma}
+  If $T_{i j}$ is a tensor, then $T_{j i}$ is also a tensor. \label{tensorIndexSwap}
+\end{lemma}
+\begin{proof}
+  Let $U_{ij} = T_{ji}$, then:
+  \begin{align*}
+    U_{i j}' &= T_{j i}' \\
+             &= R_{j p}R_{i q}T_{p q} \text{ since $T$ is a tensor}\\
+             &= R_{i q}R_{j p}U_{q p} \\
+             &= R_{i p}R_{j q}U_{p q} \text{ swapping dummy indices $p \leftrightarrow q$}
+  \end{align*}
+  So $T_{j i}$ is a tensor.
+\end{proof}
+\begin{remark}[Advice]
+  Whenever you are asked to prove something is a tensor, it is advisable to define a new object that is exactly what your are trying to show is a tensor as we did above as this prevents confusion with indices and sets a clear goal.
+\end{remark}
+\begin{definition}
+  A tensor $T_{ijk\ldots}$ is \textit{symmetric} in $i$ and $j$ if $T_{ijk\ldots} = T_{jik\ldots}$.
+  These two indices can be any two and do not have to be adjacent.
+\end{definition}
+\begin{remark}
+  For second rank tensors, $T_{i j}$ is symmetric if and only if the corresponding matrix $T = (T_{i j})$ is a symmetric matrix.
+\end{remark}
+It makes sense to say that the whole tensor is symmetric because we can show that this property is invariant under a change of basis.
+For example, for rank 2:
+\begin{align*}
+  T_{i j}' = R_{i p}R_{j q}T_{p q} &= R_{i p}R_{j q}T_{q p} \text{ using symmetry of $T$}\\
+                                   &= R_{j q}R_{i p}T_{q p} \\
+                                   &= T_{j i}' \text{ using \cref{tensorTransform}}
+\end{align*}
+\begin{definition}
+  A tensor $T_{ijk\ldots}$ is \textit{anti-symmetric} in $i$ and $j$ is $T_{ijk\ldots} = - T_{jik\ldots}$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Similarly to symmetry, anti-symmetric this is also is preserved in all bases.
+    \item We call a tensor that is symmetric in every pair of indices \textit{totally symmetric} and we call a tensor that is anti-symmetric in every pair of indices \textit{anti-symmetric}.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  $\delta_{i j}$ is a totally symmetric tensor of rank 2 and $\varepsilon_{i j k}$ is a totally anti-symmetric tensor of rank 3.
+\end{example}
+If $S_{i j}$ is symmetric and $A_{i j}$ is antisymmetric then $S_{i j}A_{i j} = 0$
+\begin{align*}
+  S_{i j}A_{i j} &= -S_{j i}A_{j i} \text{ using (anti-)symmetry}\\
+                 &= -S_{i j}A_{i j} \text{ swapping dummy indices $i \leftrightarrow j$}\\
+  \implies S_{i j}A_{i j} &= 0
+\end{align*}
+This also applies to higher ranks of tensors.
+For example, if $S_{i j k}$ is symmetric in $i$ and $k$ and $A_{pqrs}$ is antisymmetric in $q$ and $r$ then $S_{ijk}A_{pkis} = 0$.
+\subsection{Decomposition of 2nd Rank Tensors}
+\begin{proposition}[Decomposition into symmetric and antisymmetric parts]
+  Any tensor $T_{i j}$ of rank $2$ can be written uniquely in the form: \cref{ASDecomp}
+  \[
+    T_{i j} = S_{i j} + A_{i j}
+  \]
+  where $S$ is a symmetric tensor and $A$ is an antisymmetric tensor.
+\end{proposition}
+\begin{proof}
+  For existence, let:
+  \begin{equation}
+    S_{i j} = \frac{1}{2}(T_{i j} + T_{j i}) \text{ and } A_{i j} = \frac{1}{2}(T_{i j} - T_{j i}) \label{tensorDecompStar} \tag{$\star$}
+  \end{equation}
+  We can check that these satisfy the requirements for symmetry and anti-symmetry:
+  \begin{align*}
+    S_{j i} &= \frac{1}{2}(T_{j i} + T_{i j}) = \frac{1}{2}(T_{i j} + T_{j i}) = S_{i j} \implies S \text{ is symmetric} \\
+    A_{j i} &= \frac{1}{2}(T_{j i} - T_{i j}) = -\frac{1}{2}(T_{i j} - T_{j i}) = -A_{i j} \implies A \text{ is anti-symmetric}
+  \end{align*}
+
+  For uniqueness, if we have $T_{i j} = S_{i j} + A_{i j}$ for some symmetric $S$ and anti-symmetric $A$ then:
+  \begin{align*}
+    T_{i j} + T_{j i} = S_{i j} + A_{i j} + S_{j i} + A_{j i} = 2 S_{i j}
+    T_{i j} - T_{j i} = S_{i j} + A_{i j} - S_{j i} - A_{j i} = 2 A_{i j}
+  \end{align*}
+  So $S_{i j}$ and $A_{i j}$ must be as in \cref{tensorDecompStar}.
+
+  This also shows us that $S$ and $A$ must also be tensors since $T$ is a tensor and we can write $A$ and $S$ as a linear combination of the tensors $T_{i j}$ and $T_{ji}$ (which by \cref{tensorIndexSwap}, is also a tensor).
+\end{proof}
+\begin{proposition}[Decomposition of antisymmetric tensors]
+  If $A_{i j}$ is an antisymmetric tensor, then we can write it in terms of a vector $\vec{\omega}$ as:
+  \[
+    A_{i j} = \levi_{i j k}\omega_k \text{ where } \omega_i = \frac{1}{2}\levi_{i j k}A_{j k}
+  \]
+\end{proposition}
+\begin{proof}
+  $\vec{\omega}$ as defined above is clearly a tensor as it is a contraction of $\varepsilon$ and $A$.
+
+  We can then check that $A_{i j}$ is indeed the above expression:
+  \begin{align*}
+    \levi_{i j k}\omega_k &= \frac{1}{2} \levi_{i j k} \levi_{k l m}A_{l m} \\
+                          &= \frac{1}{2}(\delta_{i l}\delta_{j m} - \delta_{i m}\delta_{j l})A_{l m} \\
+                          &= \frac{1}{2}(A_{i j} - A_{j i}) \\
+                          &= \frac{1}{2}(A_{i j} + A_{i j}) \text{ as $A$ is antisymmetric}\\
+                          &= A_{i j}
+  \end{align*}
+  as required.
+\end{proof}
+Combining this \cref{ASDecomp}, we can therefore express any second rank tensor $T$ as:
+\[
+  T_{i j} = S_{i j} + \levi_{i j k}\omega_k
+\]
+where $S$ is a symmetric tensor and $\vec{\omega}$ is a vector.
+\begin{remark}
+  The definition of $\vec{\omega}$ is equivalent to the following:
+  \[
+    A = \begin{pmatrix}
+    0 & A_{1 2} & A_{1 3} \\
+    -A_{1 2} & 0 & A_{2 3} \\
+    -A_{1 3} & -A_{2 3} & 0 \\
+    \end{pmatrix} \iff \vec{\omega} = \begin{pmatrix}
+    A_{2 3} \\
+    -A_{1 3} \\
+    A_{1 2} \\
+    \end{pmatrix}
+  \]
+  Since an antisymmetric tensor of rank 2 has only thee degrees of freedom, it is not surprising that it can be written in terms of a single vector with three components.
+\end{remark}
+\subsection{Worked Example}
+\begin{remark}[Question]
+  Suppose that $C$ is an object of rank 2 such that $C_{i j}S_{i j}$ is a scalar for any symmetric tensor $S$ of rank 2.
+  Show that $C$ may not be a tensor but that its symmetric part is.
+\end{remark}
+We would like to apply the Quotient theorem but cannot apply it directly since $S$ is \textbf{not arbitrary} since it is restricted to being symmetric.
+So we can hope to apply the quotient theorem, let $T$ be an arbitrary second rank tensor.
+We can decompose $T_{i j}$ into:
+\[
+  T_{i j} = S_{i j} + A_{i j}
+\]
+and decompose $C$ as:
+\[
+  C_{i j} = C^{(S)}_{i j} + C^{(A)}_{i j}
+\]
+where $C^{(S)}_{i j}$ is symmetric and $C^{(A)}_{i j}$ is antisymmetric.
+
+Continued next lecture.
 \end{document}
