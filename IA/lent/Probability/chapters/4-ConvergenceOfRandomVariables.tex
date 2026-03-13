@@ -28,6 +28,149 @@
   In the definition of convergence in probability, we specified that a sequence converges to \textbf{random variable} $X$, here $\mu$ is just a constant random variable so we can still apply the definition.
 \end{remark}
 \begin{proof}
-  Continued next lecture.
+  For ease, in this proof, we will assume $\sigma^2 = \Var(X_1) < \infty$.
+  \begin{align*}
+    \P\left(\abs{\frac{S_n}{n} - \mu} > \varepsilon\right) &= \P(|S_n - n\mu| > n\varepsilon) \\
+                                                           &\leq \frac{\E[|S_n - n\mu|^2]}{n^2 \varepsilon^2} \text{ using Markov's -- \cref{markovs}} \\
+                                                           &= \frac{\Var(S_n)}{n^2 \varepsilon^2} \text{ as $\E[S_n] = n\mu$}
+  \end{align*}
+  Since the $X_i$ are i.i.d, we have that $\Var(S_n) = n\sigma^2$ so:
+  \[
+    \P\left(\abs{\frac{S_n}{n} - \mu} > \varepsilon\right) \leq \frac{n \sigma^2}{n^2 \varepsilon^2} = \frac{\sigma^2}{n \varepsilon^2} \to 0 \text{ as } n \to \infty
+  \]
+  as required.
 \end{proof}
+\section{Convergence Almost Surely}
+\begin{definition}
+  Let $(X_n)_{n \in \N}$ be a sequence of random variables at let $X$ be another random variable.
+  We say that \textit{$X_n$ converges to $X$ almost surely} or \textit{with probability 1} if:
+  \[
+    \P\left(\lim_{n \to 0} X_n = X\right) = 1
+  \]
+  We then write $X_n \to X$ as $n \to \infty$ \textit{almost surely}.
+\end{definition}
+\begin{remark}
+  When we say:
+  \[
+    \P\left(\lim_{n \to \infty} X_n = X\right) = 1
+  \]
+  We mean that:
+  \[
+    \exists A \in \salg \text{ s.t. } \P(A) = 1 \text{ and } \forall \omega \in A\ \forall \varepsilon > 0 \ \exists n_0(\varepsilon, \omega) \text{ s.t. } \forall n\geq n_0\ |X_n(\omega) - X(\omega)| \leq \varepsilon
+  \]
+  So there is a set $A$ with probability one where the numerical sequence $(X_n(\omega))_n$ converges to $X(\omega)$ for all $\omega \in A$.
+\end{remark}
+\begin{proposition}[Convergence almost surely $\implies$ Convergence in probability]
+  If $X_n \to 0$ as $n \to \infty$ almost surely, then $X_n \xrightarrow{P} 0$ as $n \to \infty$.
+\end{proposition}
+\begin{proof}
+  We need to show that $\forall \varepsilon > 0\ \P(|X_n| > \varepsilon) \to 0$ as $n \to \infty$, or equivalently, $\forall \varepsilon > 0\ \P(|X_n| \leq \varepsilon) \to 1$ as $n \to \infty$.
+
+  To show that $\P(|X_n| \leq \varepsilon) \to 1$, we want to bound this below by something that increases to 1 in the limit.
+  We can start by bounding it as:
+  \[
+    \P(|X_n| \leq \varepsilon) \geq \P\left(\bigcap_{m = n}^{\infty} \{|X_m| \leq \varepsilon\}\right)
+  \]
+  since $\bigcap_{m = n}^{\infty} \{|X_m| \leq \varepsilon \} \subseteq \{|X_n| \leq \varepsilon \}$.
+  Then let $A_n = \bigcap_{m = n}^{\infty} A_n$.
+  This is an increasing sequence of events as $A_{n} \subseteq A_{n + 1}\ \forall n$ so by continuity of probability measures (\cref{continuityProbMeasures}):
+  \begin{align*}
+    \P(A_n) \to \P\left(\bigcup_{n = 0}^{\infty} A_n\right) &= \P\left(\bigcup_{n = 0}^{\infty} \bigcap_{m = n}^{\infty} \{|X_n| \leq \varepsilon\}\right) \\
+                                                            &= \P(|X_m| \leq \varepsilon \text{ for all $m$ sufficiently large}) \\
+                                                            &\geq \P(\forall \varepsilon > 0\ |X_m| \leq \varepsilon \text{ for all $m$ sufficiently large}) \\
+                                                            &= 1 \text{ as $X_n \to 0$ almost surely}
+  \end{align*}
+  Thus $\P(|X_n| \leq \varepsilon) \to 1$ as $n \to \infty$ so $X_n \xrightarrow{P} 0$ as $n \to \infty$.
+\end{proof}
+\begin{theorem}[Strong Law of Large Numbers -- SLLN]
+  Let $(X_n)$ be independent and identically distributed random variables with finite $\mu = \E[X_1]$.
+
+  If we set $S_n = X_1 + \cdots + X_n$ for $n \in \N$, then:
+  \[
+    \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely}
+  \]
+\end{theorem}
+\begin{proof}
+  \nonexaminable
+  For ease, in this proof, we will assume that $\E[X^4_1] < \infty$.
+
+  Set $Y_i = X_i - \mu$ so that $\E[Y_i] = 0$.
+  We can then check that $\E[Y^4_i]$ is also finite:
+  \[
+    \E[Y^4_i] = \E[(X_1 - \mu)^4] \leq 2^{4} \cdot (\E[X^4_1] + \mu^4) < \infty
+  \]
+  Define $S_n = \sum_{i = 1}^{n} Y_i$, we need to show that $\frac{S_n}{n} \to 0$  as $n \to \infty$ almost surely.
+  To do this, our goal is to show that the series $\sum_{n = 1}^{\infty} (\frac{S_n}{n})^4$ is finite with probability 1.
+  By the $n$-th term test (See Analysis I), if a series converges, its terms must go to 0 and therefore if $\sum_{n = 1}^{\infty} (\frac{S_n}{n})^4$ is finite with probability 1, $\frac{S_n}{n} \to 0$ as $n \to \infty$ with probability 1.
+
+  To show the sum is finite with probability 1, it suffices to show that its expectation is finite since this implies that it is finite with probability one.
+
+  Since $(\frac{S_n}{n})^4$ are non-negative, by \cref{sumExpectationSwap}, we can use the linearity of expectation on the infinite sum:
+  \begin{align*}
+    \E\left[\sum_{n = 1}^{\infty} \left(\frac{S_n}{n}\right)^4\right] &= \sum_{n = 1}^{\infty}\frac{1}{n^4} \E[S^4_n]
+  \end{align*}
+  We therefore want to bound $\E[S^4_n]$:
+  \begin{align*}
+    \E[S^4_n] &= \E[(Y_1 + \cdots Y_n)^4] \\
+              &= \E\left[\sum_{i = 1}^{n} Y^4_i + \binom{4}{2}\sum_{1 \leq i < j \leq n}^{n} Y^2_i Y^2_j + R\right]
+  \end{align*}
+  where $R$ is a sum of terms of the form $Y^3_iY_j$, $Y^2_iY_jY_k$ and $Y_iY_jY_kY_l$ with distinct indices $i, j, k, l$.
+  Since the $Y_i$ are independent and $\E[Y_i] = 0$, we then have $\E[R] = 0$.
+  Note also that the $\binom{4}{2}$ originates from the fact that, for each $i < j$, we pick 2 of the 4 brackets to pick the $Y_i$ terms from, and then pick the $Y_j$ terms from the other two.
+
+  For the terms with two squares:
+  \begin{align*}
+    \E[Y^2_iY^2_j] &= (\E[Y^2_1])^2 \text{ as they are i.i.d}\\
+                   &\leq \E[Y^4_1] < \infty \text{ using Jensen's inequality -- \cref{jensensInequality}}
+  \end{align*}
+  Therefore we can bound $\E[S^4_n]$ as:
+  \begin{align*}
+    \E[S^4_n] &\leq n \E[Y^4_1] + 6 \cdot \binom{n}{2} \cdot \E[Y^4_1] \text{ as there are $\binom{n}{2}$ ways to pick $i < j$} \\
+              &\leq 3n^2 \E[Y^4_1]
+  \end{align*}
+  So:
+  \[
+    \E\left[\sum_{n = 1}^{\infty} \left(\frac{S_n}{n}\right)^4\right] = \sum_{n = 1}^{\infty} \frac{\E[S^4_n]}{n^4} \leq \sum_{n = 1}^{\infty} \frac{3}{n^2} \cdot \E[Y^4_1] < \infty
+  \]
+  as $\sum_{n = 1}^{\infty} \frac{1}{n^2}$ converges ans $\E[Y^4_1] < \infty$.
+\end{proof}
+\section{Central Limit Theorem}
+\subsection{Prelude}
+Let $X_1, \ldots, X_n$ be independent and identically distributed random variables with $\mu = \E[X_1] < \infty$ and $\sigma^2 = \Var(X_1) < \infty$.
+Again, define $S_n = X_1 + \cdots X_n$.
+By the strong law of large numbers above, we expect $S_n \approx n\mu$ for large $n$.
+
+But how does $S_n$ fluctuate around $n \mu$?
+We can calculate the variance and expectation of these fluctuations:
+\[
+  \Var(S_n - n\mu) = \Var(S_n) = n \sigma^2 \text{ and } \E[S_n - n\mu] = 0
+\]
+The random variable $\frac{S_n - n\mu}{\sqrt{n \sigma^2}}$ then has expectation 0 and variance 1.
+We can rewrite this random variable as:
+\[
+  \frac{S_n/n - \mu}{\sqrt{\sigma^2/n}} = \frac{S_n/n - \mu}{\sqrt{\Var(S_n/n - \mu)}}
+\]
+since $\Var(S_n/n - \mu) = \sigma^2/n$.
+So if we take $\frac{S_n}{n} - \mu$, which we know converges to 0 almost surely, and then divide it by the square-root of its variance, we get a random variable with expectation 0 and variance 1.
+
+Consider the case where the $X_i$ are independent and identically distributed  as $\normal(\mu, \sigma^2)$.
+Since the sum of Gaussians is also a Gaussian (see \cref{sumOfNormals}), we have $S_n - n\mu \sim \normal(0, n\sigma^2)$ and therefore $\frac{S_n - n\mu}{\sigma \sqrt{n}} \sim \normal(0, 1)$.
+So in this case, it follows a standard normal.
+Although we do not yet know what the distribution of this is when working with a general distribution for $X_i$, this has the same expectation and variance as when we were just using any distribution for the $X_i$.
+
+As we will see, the normal distribution is \textit{universal} as it appears as the limit of the distribution $\frac{S_n - n\mu}{\sigma \sqrt{n}}$, regardless of the distribution of $X_i$.
+This is concept of the \textit{central limit theorem}.
+\subsection{Convergence in Distribution}
+\begin{definition}[Convergence in Distribution]
+  A sequence of random variables $(X_n)_{n \in N}$ \textit{converges to a random variable $X$ in distribution} as $n \to \infty$ if:
+  \[
+    F_{X_n}(x) \to F_X(x) \text{ as $n \to \infty$}\ \forall x \in \R \text{ that are continuity points of $F_X$}
+  \]
+  where $F_{X_n}(x) = \P(X_n \leq x)$ is the probability distribution function.
+  We then write $X_n \xrightarrow{(d)} X$ as $n \to \infty$.
+\end{definition}
+\begin{remark}
+  In \cref{pdfProperties}, we saw that left limits always exist for $F$ and $F$ is always right continuous.
+  This means that the continuity points are just the points where the left limit equals the right limit (which, by continuity, is the value of the function at that point).
+\end{remark}
 \end{document}
