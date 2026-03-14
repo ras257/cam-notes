@@ -736,6 +736,7 @@ We therefore expect to find $6$ families of transformations from the unconstrain
     \]
     and similarly along other axes.
     We can then multiply these matrices to create a Lorentz boost along an arbitrary axis.
+    Similarly to the 2D case, we can also obtain the corresponding inverse transformations by changing the sign of $v$.
 \end{itemize}
 \begin{definition}[Lorentz Group]
   The set of all Lorentz transformations $\Lambda$ forms the \textit{Lorentz group}, denoted $\operatorname{O}(1, 3)$.
@@ -748,7 +749,7 @@ We therefore expect to find $6$ families of transformations from the unconstrain
 \end{definition}
 The proper Lorentz group removes reflections in either time or space, but not the combination of a reflection in time and space.
 \begin{definition}[Proper Orthochronous]
-  The subgroup of the proper Lorentz group that does not include those which reverse the time direction i.e. $\Lambda_{00} > 0$, is called the \textit{proper orthochronous} Lorentz group, denoted $\operatorname{SO}^{+}(1, 3)$.
+  The subgroup of the proper Lorentz group that does not include those which reverse the time direction i.e. $\Lambda_{00} > 0$, is called the \textit{proper orthochronous} Lorentz group, denoted $\operatorname{SO}^{+}(1, 3)$. \label{properOrthochronous}
 \end{definition}
 \begin{example}
   For example, the Lorentz transform:
@@ -815,9 +816,9 @@ where $\gamma$ is the Lorentz factor as a function of the instantaneous 3-veloci
   \gamma(u) = \frac{1}{\sqrt{1 - \frac{u^2}{c^2}}}
 \]
 Finally, we then have:
-\[
-  \deriv{t}{\tau} = \gamma
-\]
+\begin{equation}
+  \deriv{t}{\tau} = \gamma \label{dvttau}
+\end{equation}
 Note that $\gamma$ does not have to be constant as $\vec{u}$ can be changing along the worldline.
 
 We also conclude that a clock following the worldline has $\d{\vec{x}'} = 0 \implies \d{\tau} = \d{t'}$.
@@ -921,11 +922,11 @@ We can also calculate $P \cdot P$ in terms of the relativistic energy and 3-velo
 We can also check if the 4-momentum is consistent in the non-relativistic limit.
 We defined $\vec{p} = m\gamma \vec{u}$ and in the non-relativistic limit $\frac{|\vec{u}|}{c^2} \ll 1 \implies \gamma \approx 1$, so we find that $\vec{p} \approx m \vec{u}$ which is the non-relativistic momentum.
 We can expand the energy as:
-\begin{align*}
-  E = m\gamma c^2 &= \frac{mc^2}{\sqrt{1 - \frac{u^2}{c^2}}} \\
-                  &= mc^2 \left(1 + \frac{1}{2}\cdot\frac{u^2}{c^2} + \cdots\right) \\
-                  &= mc^2 + \frac{1}{2}mu^2 + \cdots
-\end{align*}
+\begin{align}
+  E = m\gamma c^2 &= \frac{mc^2}{\sqrt{1 - \frac{u^2}{c^2}}} \nonumber \\
+                  &= mc^2 \left(1 + \frac{1}{2}\cdot\frac{u^2}{c^2} + \cdots\right) \nonumber \\
+                  &= mc^2 + \frac{1}{2}mu^2 + \cdots \label{ENonrelLimit}
+\end{align}
 In the non-relativistic limit, further terms in this series are negligible, so we obtain the non-relativistic kinetic energy $\frac{1}{2}mu^2$ but also an $mc^2$ term which is called the \textit{rest mass energy}.
 This is an important consequence of relativity and suggests that mass leads to an energy.
 
@@ -939,7 +940,7 @@ As $|\vec{u}| \to c$, $\gamma \to \infty$ so the relativistic mass $\gamma m \to
 This means that more and more force is needed to accelerate the particle as its speed increases.
 In particular, any finite force cannot accelerate the particle to the speed of light.
 A \textit{massive particle} (i.e. one with $m \neq 0$) must therefore have $|\vec{u}| < c$.
-\subsection{Massless Particles}
+\subsection{Massless Particles} \label{masslessParticles}
 In Galilean physics, the notion of a \textit{massless particle} does not make sense as the momentum of the particle would be identically 0.
 
 Earlier, we derived the relativistic expression $P \cdot P = m^2 c^2$.
@@ -1202,4 +1203,176 @@ So if we are given $E_1$ and $E_3$, similarly to in the lab frame for particle d
   In Example Sheet 4 Q7, you will explore an example of \textit{Compton scattering}.
   This is when a photon scatters off a massive particle.
 \end{remark}
+\subsection{Particle Creation}
+If two particles collide with enough energy, some of that energy can be used to \textit{create} a third particle.
+
+It is the most convenient here to work in the centre of momentum frame:
+\begin{center}
+  \begin{tikzpicture}[>=stealth]
+  \node at (0, 1.3) {Before};
+  \draw[->, thick] (-2, 0) -- (-0.1, 0) node[midway, above] {$P_1$};
+  \draw[->, thick] (2, 0) -- (0.1, 0) node[midway, below] {$P_2$};
+  \fill (0, 0) circle (1.5pt) node[below, yshift=-1, scale=0.5] {Collision};
+
+  \begin{scope}[xshift=4cm]
+    \node at (0, 1.3) {After};
+    \fill (0, 0) circle (1.5pt);
+    \draw[rotate=30, ->, thick] (0.1, 0) -- (2, 0) node[midway, above left] {$P_1'$};
+    \draw[rotate=50, ->, thick] (-0.1, 0) -- (-2, 0) node[midway, below right] {$P_2'$};
+    \draw[rotate=510, ->, thick] (-0.1, 0) -- (-2, 0) node[midway, above right] {$P_M$};
+  \end{scope}
+  \end{tikzpicture}
+\end{center}
+Let the incoming particles $P_1$ and $P_2$ have mass $m$ and the created particle have mass $M$.
+We expect to need at least enough energy before the collision to be able to create the particle, i.e. its rest mass energy $Mc^2$.
+
+By conservation of 4-momentum:
+\begin{equation}
+  P_1 + P_2 = P_1' + P_2' + P_M \label{creationConserved} \tag{$\dag$}
+\end{equation}
+Since we choose to work in centre of momentum frame $\vec{p}_1 + \vec{p}_2 = \vec{0}$.
+Since both have the same mass $m$, by \cref{4MomentumDot}, we must have $E_1 = E_2$.
+
+Using invariants again by taking the inner product of each side of \cref{creationConserved} with itself, on the left hand side we have:
+\[
+  (P_1 + P_2) \cdot (P_1 + P_2) = \begin{pmatrix}
+  2E_1/c \\
+  \vec{0} \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+  2E_1/c \\
+  \vec{0} \\
+  \end{pmatrix} = \frac{4E^2_1}{c^2}
+\]
+On the right hand side:
+\begin{align}
+  (P_1' + P_2' + P_M) \cdot (P_1' + P_2' + P_M) &= {P_1'}^2 + {P_2'}^2 + P_M^2 + 2(P_1' \cdot P_2' + P_1' P_M + P_2'\cdot P_M) \nonumber \\
+                                                &= 2m^2c^2 + M^2 c^2 + 2(P_1' \cdot P_2' + P_1' P_M + P_2'\cdot P_M) \label{rhsCollision} \tag{$\ast$}
+\end{align}
+since $P \cdot P = m^2 c^2$ from \cref{pdotp}.
+\begin{lemma}
+  $P_1 \cdot P_2 \geq m_1m_2c^2$
+\end{lemma}
+Since we are just interested in finding a lower bound for $E_1$, we do not need to explicitly calculate this inner products and can instead just bound them from below:
+\begin{proof}
+  We know that $P_1 \cdot P_2$ is invariant so we can choose to work in any frame.
+  It is convenient to choose the rest frame of $P_2$.
+  In this frame:
+  \[
+    P_1 = \begin{pmatrix}
+    \frac{E_1}{c} \\
+    \vec{p}_1 \\
+    \end{pmatrix} \text{ and } P_2 = \begin{pmatrix}
+    m_2 c \\
+    \vec{0} \\
+    \end{pmatrix}
+  \]
+  So $P_1 \cdot P_2 = E_1 m_2$.
+  From \cref{4MomentumDot}, we know that the energy $E_1$ must be greater than the rest mass energy since $E_1 = \sqrt{|\vec{p}_1|^2 c^2 + m^2_1 c^4} \geq m_1c^2$.
+  Thus $P_1 \cdot P_2 = E_1m_2 \geq m_1m_2 c^2$.
+\end{proof}
+\begin{remark}[Note]
+  We chose the positive root for $E_1$ as had we chosen the other sign, we would obtain negative kinetic energy when taking the non-relativistic limit.
+
+  The proper orthochronous Lorentz transformations (those which do not reverse time -- \cref{properOrthochronous}), will always preserve the positivity of energy.
+\end{remark}
+Continuing from \cref{rhsCollision}, we have:
+\begin{align*}
+  (P_1' + P_2' + P_M) \cdot (P_1' + P_2' + P_M) &\geq 2m^2c^2 + M^2 c^2 + 2(m^2c^2 + 2mMc^2) \\
+  \implies \frac{4E^2_1}{c^2} &\geq 4m^2c^2 + M^2 c^2 + 4Mmc^2 \\
+                              &= 4\left(m + \frac{1}{2}M\right)^2c^2 \\
+  \implies E_1 &\geq \left(m + \frac{1}{2}M\right)c^2 \\
+  \implies E_1 - mc^2 &\geq \frac{1}{2}Mc^2
+\end{align*}
+The left hand side of this is approximately the kinetic energy of one of the incoming particles (since there are additional terms in \cref{ENonrelLimit}) and the right hand side is half the rest mass energy of the created particle.
+So the total ``kinetic energy'' of the incoming particles, $2(E_1 - mc^2)$, must be greater than the rest mass energy of the created particle $Mc^2$.
+
+\begin{remark}
+  If $2(E_1 - mc^2) = Mc^2$, then all the kinetic energy of the incoming particles is converted into the rest mass energy of the new particle so all three particles will be at rest in the centre of mass frame after the collision since their energies are just the rest mass energies.
+\end{remark}
+\section{Relativistic Acceleration}
+\begin{definition}[Acceleration 4-vector]
+  The \textit{acceleration} 4-vector is defined as:
+  \[
+    A = \deriv{U}{\tau}
+  \]
+  Note that this is for massive particles only as $U$ does not exist for massless particles -- see \cref{masslessParticles}).
+\end{definition}
+We know that $U \cdot U = 0$, so on differentiating with respect to $\tau$, we have, $2 U \cdot A = 0$ so $U$ and $A$ are ``orthogonal'' with respect to this inner product.
+\begin{remark}[Recap]
+  Recall from that $\deriv{t}{\tau} = \gamma$ so:
+  \[
+    \deriv{}{\tau} = \deriv{t}{\tau} \deriv{}{t} = \gamma \deriv{}{t}
+  \]
+
+  Note also that for this section, we will use $\dot{\vec{u}}$ notation to mean differentiation with respect to time $t$ in a particular frame and not the proper time $\tau$.
+\end{remark}
+Differentiating $U$ with respect to $\tau$, we have:
+\begin{equation}
+  U = \begin{pmatrix}
+  \gamma c \\
+  \gamma \vec{u} \\
+  \end{pmatrix} \implies A = \gamma \begin{pmatrix}
+  \deriv{}{t}(\gamma c) \\
+  \deriv{}{t}(\gamma \vec{u}) \\
+  \end{pmatrix} = \gamma \begin{pmatrix}
+  \dot{\gamma} c \\
+  \dot{\gamma} \vec{u} + \gamma \vec{a} \\
+  \end{pmatrix} \label{general4-Accel}
+\end{equation}
+where $\vec{a} = \dot{\vec{u}}$ is the 3-acceleration.
+Note that $\dot{\gamma}$ is not necessarily 0 since $\gamma$ is a function of $|\vec{u}|$.
+
+We want to find the motion for constant acceleration, but which frame should it be constant in?
+We do not have the framework to deal with non-inertial frames, instead, consider an inertial frame $S'$ that, at particular point in time, is instantaneously travelling at the same speed as the particle.
+In this frame, $\vec{u}' = \vec{0}$ and so $\gamma = 1$.
+
+We can find $\dot{\gamma}$ in an arbitrary frame using:
+\[
+  \dot{\gamma} = \deriv{}{t}\left(\frac{1}{\sqrt{1 - \frac{u^2}{c^2}}}\right) = \frac{u \dot{u}}{c^2(1 - \frac{u^2}{c^2})^{3/2}}
+\]
+So if $|\vec{u}| = 0 \implies \dot{\gamma} = 0$.
+
+Therefore in the frame $S'$, since $\vec{u}' = \vec{0}$, we must have $\dot{\gamma} = 0$.
+For ease, we will revert back to 2D for the remainder of this section.
+So, since $\gamma = 1$ and $\dot{\gamma} = 0$, in $S'$, we have:
+\[
+  A' = \begin{pmatrix}
+  0 \\
+  a' \\
+  \end{pmatrix}
+\]
+\begin{definition}[Constant Acceleration]
+  We say that an accelerating particle has \textit{constant acceleration} if in any inertial frame that is instantaneously at the same speed at it, its acceleration $a'$ in such frames is constant.
+\end{definition}
+\begin{remark}
+  We will see later that this form of constant acceptation follows from a constant force.
+\end{remark}
+So if we know that $a'$ is constant, what is $a$, i.e. its acceleration when viewed by an external observer.
+
+Since the frame $S'$ is instantaneously moving at a speed $u$ in our observers frame $S$, we can recover $A$ from $A'$ using an inverse Lorentz transformation by speed $u$:
+\[
+  A = \begin{pmatrix}
+  \gamma & \frac{\gamma u}{c} \\
+  \frac{\gamma u}{c} & \gamma \\
+  \end{pmatrix}\begin{pmatrix}
+  0 \\
+  a' \\
+  \end{pmatrix} = \begin{pmatrix}
+  \frac{\gamma u a'}{c} \\
+  \gamma a' \\
+  \end{pmatrix}
+\]
+Matching this with the general expression for $A$ in \cref{general4-Accel}, from the time component:
+\[
+  \gamma \dot{\gamma} c = \frac{\gamma u a'}{c} \implies \dot{\gamma} = \frac{ua'}{c^2}
+\]
+and from the spatial component:
+\begin{align*}
+  \gamma(\dot{\gamma}u + \gamma a) = \gamma a' &\implies \frac{ua'}{c^2} \cdot u + \gamma a = a' \text{ using $\dot{\gamma}$ from above} \\
+                                               &\implies \gamma a = a'\left(1 - \frac{u^2}{c^2}\right) \\
+                                               &\implies a = a'\left(1 - \frac{u^2}{c^2}\right)^{\frac{3}{2}} \text{ as $\gamma^{-1} = \sqrt{1 - u^2/c^2}$}
+\end{align*}
+Since $a'$ is a constant and $a \equiv \dot{u}$, this is just a first order differential equation for $u$.
+
+Continued next lecture.
 \end{document}
