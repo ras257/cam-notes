@@ -166,7 +166,7 @@ To compute the radius of converges of a power series, we can adapt the usual tes
 \begin{remark}[Note]
   If the limits do not exist but instead converge to infinity, i.e. $\abs{\frac{c_{n + 1}}{c_n}} \to \infty$ or $\sqrt[n]{c_n} \to \infty$, then $R = 0$.
 \end{remark}
-\begin{example}
+\begin{example} \label{rConvExamples}
   \begin{enumerate}
     \item The power series $\sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$ converges on all of $\C$, i.e. $R = \infty$.
       This has $c_n = \frac{1}{n!}$.
@@ -196,6 +196,202 @@ To compute the radius of converges of a power series, we can adapt the usual tes
       By using the ratio test as above $R = 1$ so we must have absolute convergence on $|x| < 1$ and divergence on $|x| > 1$, but we cannot make the same conclusion about the behaviour on $|x| = 1$.
 
       If $x = 1$, then we have divergence as this is just the harmonic series, but at $x = -1$, we have convergence by the alternating series test.
+  \end{enumerate}
+\end{example}
+\subsection{Term by Term Operations}
+The functions in the power series are well behaved polynomials $f_n(x) = c_n(x - a)^{n}$ and are hence continuous, integrable, and differentiable.
+But can we say something about the continuity integrability and differentiability of the power series:
+\[
+  f: Y \to \C,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n}
+\]
+where $Y$ is the set of points for which the power series converges.
+
+Further, can we carry out differentiation and integration term by term?
+\begin{align*}
+  \deriv{}{x}f(x) &\stackrel{?}= \sum_{n = 0}^{\infty} c_n \deriv{}{x}(x - a)^{n} \\
+  \int f(x) \d{x} &\stackrel{?}= \sum_{n = 0}^{\infty} c_n \int (x - a)^{n} \d{x}
+\end{align*}
+\begin{example}[]
+  \begin{enumerate}
+    \item Consider again the series $\sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$ from \cref{rConvExamples}.
+      We know that this converges on all of $\C$.
+
+      If we try differentiating term by term:
+      \[
+        \sum_{n = 0}^{\infty} \frac{1}{n!} \deriv{}{x}(x^{n}) = \sum_{n = 1}^{\infty} \frac{x^{n - 1}}{(n - 1)!} = \sum_{n = 0}^{\infty} \frac{x^{n}}{n!}
+      \]
+      which is the same series so converges on all of $\C$.
+      It therefore seems plausible that this could be the same as the derivative of the power series.
+    \item Consider again $\sum_{n = 1}^{\infty} \frac{x^{n}}{n^2}$.
+      We know that this converges on $D = \{x \in \C: |x| \leq 1\}$.
+      \[
+        \sum_{n = 1}^{\infty} \frac{1}{n^2} \deriv{}{x}(x^{n}) = \sum_{n = 1}^{\infty} \frac{x^{n - 1}}{n}
+      \]
+      However, we know this does not converge on all of $D$, for example, at $x = 1$, but does converge on all of $\{x \in \C : |x| < 1\}$.
+      So term by term differentiation definitely \textbf{cannot hold on all} of the points of convergence.
+      However, we can show that it does \textbf{within} the radius of convergence.
+  \end{enumerate}
+\end{example}
+We first need to check that power series are continuous inside their radius of convergence otherwise there is no hope that we can differentiate them.
+\begin{proposition}[Continuity of Power Series]
+  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a power series with a radius of convergence $R > 0$, then the function: \label{powerSeriesCty}
+  \[
+    f: B_R(a) \to \C,\ X \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n} \text{ where } B_R(a) = \{x \in \C: |x - a| < R\}
+  \]
+  is continuous inside $D_r(a) = \{x \in \C: |z - a| \leq r\}$, for every $r < R$.
+\end{proposition}
+\begin{remark}
+  In the special case of functions of real inputs, we would have $f: (a - R, a + R) \to \C$ is continuous inside $[a - r,  a + r]$ for every $r < R$.
+\end{remark}
+\begin{proof}
+  \nonexaminable
+  We can split the power series in to a polynomial of degree $N$, $S_N(x)$, and a tail $T_N(x)$:
+  \[
+    S_N(x) = \sum_{n \leq N} c_n(x - a)^{n} \text{ and } T_N(x) = \sum_{n \geq N + 1} c_n(x - a)^{n}
+  \]
+  Let $r \geq 0$ be arbitrary such that $r < R$.
+  We would like to bound the tail when we are inside $D_r(a)$:
+  \begin{align*}
+    |T_N(x)| &\leq \sum_{n \geq N + 1}^{\infty} |c_n||x - a|^{n} \text{ using the triangle-inequality} \\
+             &\leq \sum_{n \geq N + 1}^{\infty} |c_n|r^{n} \quad \forall x \in D_r(a)
+  \end{align*}
+  Since $r < R$, by definition of the radius of convergence, the series $\sum_{n = 0}^{\infty} |c_n|r^{n}$ converges so $\forall \varepsilon > 0, \exists N = N(\varepsilon)$ such that:
+  \[
+    \sum_{n \geq N + 1}|c_n|r^{n} < \varepsilon
+  \]
+  For such $N$, we then have:
+  \[
+     |T_N(x)| < \varepsilon\ \forall x \in D_r(a)
+  \]
+
+  Now that we can bound the tail of the power series, take an arbitrary point $x_0 \in D_r(a)$, we want to show that $f$ is continuous here.
+  \begin{align*}
+    |f(x) - f(x_0)| &= |S_N(x) + T_N(x) - S_N(x_0) - T_N(x_0)| \\
+                    &\leq |S_N(x) - S_N(x_0)| + |T_N(x)| + |T_N(x_0)| \\
+                    &\leq |S_N(x) - S_N(x)| + 2\varepsilon \quad \forall x \in D_r(a)
+  \end{align*}
+  Although it seems like a bad idea to make such a harsh approximation using the triangle inequality, in this case, we already knew that the tail can be made arbitrarily small.
+
+  Finally, since $S_N(x)$ is a finite degree $N$ polynomial, it is continuous at $x_0$ so $\exists \delta(\varepsilon)$ such that $|x - x_0| < \delta \implies |S_N(x) - S_N(x_0)| < \varepsilon$, so $f$ is continuous at $x_0$.
+
+  Therefore, given arbitrary $r < R$, $f$ is continuous at $x_0$ for all $x_0 \in D$.
+\end{proof}
+\begin{remark}[Strategy]
+  In this proof, we were able to conclude that for sufficiently large $N$, we can make the tail arbitrarily small and so, in some sense, we can just consider the finite polynomial $S_N$, which is continuous.
+\end{remark}
+We will first show that power series allow for term by term integration as we can then use the fundamental theorem of calculus to conclude that they are differentiable.
+\begin{proposition}[Integration of Power Series]
+  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a real power series with a radius of convergence $R > 0$ then: \label{powerSeriesInt}
+  \[
+    f: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n}
+  \]
+  is integrable on every $[a - r, a + r]$ for every $r < R$ and:
+  \[
+    \int_{a}^{x} f(t) \d{x} = \sum_{n = 0}^{\infty} c_n \frac{(x - a)^{n + 1}}{n + 1}
+  \]
+  That is, integration can be carried out term by term.
+\end{proposition}
+\begin{proof}
+  \nonexaminable
+  Let $r \geq 0$ be arbitrary such that $r < R$.
+  By \cref{powerSeriesCty}, $f$ is continuous on $[a - r, a + r]$ and so by \cref{continuousIntegrable}, it must also be integrable on $[a - r, a + r]$.
+
+  To show that the integration can be carried out term by term, we can employ a similar strategy as we did for continuity so let $S_N(x)$ and $T_N(x)$ be defined as before.
+
+  For $x \in [a - r, a + r]$, the difference between the integral and the start of the integrated series can be bounded by:
+  \begin{align*}
+    \abs{\int_{a}^{x} f(t) \d{t} - \sum_{n \leq N} \frac{c_n(x - a)^{n + 1}}{n + 1}} &= \abs{\int_{a}^{x} f(t) \d{t} - \int_{a}^{x} S_N(t) \d{t}} \\
+    &= \abs{\int_{a}^{x} T_N(t) \d{t}} \\
+    &\leq \sup_{|t - a| < r} |T_N(t)| \abs{\int_{a}^{x} \d{t}} \\
+    &\leq |x - a| \cdot \sup_{|t - a| < r} |T_N(t)| \\
+    &\leq r \cdot \sup_{|t - a| < r} |T_N(t)| \\
+    &\leq r \varepsilon
+  \end{align*}
+  Where the last line comes from the same argument as in the proof for continuity, where, for any $\varepsilon > 0$, if we choose $N = N(\varepsilon)$ to be sufficiently large, then $\sup_{|t - a| < r} |T_N(t)| < \varepsilon$.
+
+  Therefore:
+  \[
+    \int_{a}^{x} f(t) \d{t} = \lim_{N \to \infty} \sum_{n = 0}^{N} \frac{c_n(x - a)^{n + 1}}{n + 1} = \sum_{n = 0}^{\infty} \frac{c_n(x - a)^{n + 1}}{n + 1}
+  \]
+\end{proof}
+\begin{proposition}[Differentiation of Power Series]
+  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a power series with a radius of convergence $R > 0$ then:
+  \[
+    f: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n}
+  \]
+  is differentiable on every $[a - r, a + r]$ for every $r < R$ with derivative:
+  \[
+    f'(x) = \sum_{n = 1}^{\infty} nc_n(x - a)^{n - 1}
+  \]
+  That is, differentiation can be carried out term by term.
+\end{proposition}
+\begin{proof}
+  \nonexaminable
+  Let $g(x) = \sum_{n = 1}^{\infty} nc_n(x - a)^{n - 1}$.
+  Our strategy here is to show that this series has a radius of convergence of at least $R$ and then employ term by term integration, followed by the fundamental theorem of calculus to show that $f'(x) = g(x)$.
+
+  Let $r \geq 0$ be arbitrary such that $r < R$.
+  Since $r < R$, $\exists s \in (r, R)$.
+  We can then use this to bound the general sequence term in $g(x)$:
+  \begin{align*}
+    |n c_n(x - a)^{n - 1}| &= |c_n|s^{n} \cdot \frac{n}{s}\left(\frac{|x - a|}{s}\right)^{n - 1} \\
+                           &\leq |c_n|s^{n} \cdot \frac{n}{s}\left(\frac{r}{s}\right)^{n - 1}\ \forall x \text{ s.t. } |x - a| \leq r
+  \end{align*}
+  Since $s < R$, the series $\sum_{n=0}^{\infty} |c_n|s^{n}$ converges, so by the $n$-th term test (\cref{nthTermTest}), $|c_n|s^{n} \to 0$.
+  As $|c_n|s^{n}$ converges, it must be bounded so $\exists M$ such that $|c_n|s^{n} \leq M\ \forall n \geq 0$.
+  Therefore, for all $n \geq 0$, the general term of $g$ is bounded by:
+  \[
+    |n c_n(x - a)^{n - 1}| \leq M \cdot \frac{n}{s}\left(\frac{r}{s}\right)^{n - 1}\ \forall x \text{ s.t. } |x - a| \leq r
+  \]
+  So:
+  \[
+    \sum_{n = 1}^{\infty} |nc_n (x - 1)^{n - 1}| \leq \sum_{n = 0}^{\infty} M \cdot \frac{n}{s}\left(\frac{r}{s}\right)^{n - 1}\ \forall x \text{ s.t. } |x - a| \leq r
+  \]
+  The right hand side of this converges since $\frac{r}{s} < 1$ and so the power series for $g$ is absolutely convergent $\forall x \text{ s.t. } |x - a| \leq r$.
+  Since $r < R$ was arbitrary, the radius of convergence of the power series $g(x)$ must be at least $R$.
+
+  Again, for arbitrary $r < R$, since we now know that $g(x)$ has radius of convergence of at least $R$, by \cref{powerSeriesCty}, $g$ is continuous on $[a - r, a + r]$ and further, by \cref{powerSeriesInt}, its integral can be carried out term by term:
+  \begin{align*}
+    \int_{a}^{x} g(t) \d{t} &= \sum_{n = 1}^{\infty} \left[\int_{a}^{x} nc_n(t - a)^{n - 1} \d{t}\right] \\
+                            &= \sum_{n = 1}^{\infty} c_n(x - a)^{n} = f(x) - c_0\ \forall x \in [a - r, a + r]
+  \end{align*}
+  Since $g$ is continuous on $[a - r, a + r]$, by the FTC (\cref{FTCDiff}):
+  \[
+    \deriv{}{x}\left[\int_{a}^{x} g(t) \d{t}\right] = g(x)\ \forall x \in [a - r, a + r]
+  \]
+  so $f$ is differentiable with derivative $f'(x) = g(x)\ \forall x \in [a - r, a + r]$.
+  Since $r < R$ was arbitrary, the result follows.
+\end{proof}
+\begin{remark}
+  Since the result of differentiating a power series with radius of convergence $R$ is also a power series with radius of convergence at least $R$, we can iterate this process to conclude that power series are infinitely differentiable within their radius of convergence.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider again $f(x) = \sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$, we know this has $R = \infty$ so it is differentiable everywhere in $\C$ and its derivative is given by term by term differentiation:
+      \begin{align*}
+        f'(x) &= \deriv{}{x} \sum_{n = 0}^{\infty} \frac{x^{n}}{n!} \\
+              &= \sum_{n = 0}^{\infty} \frac{1}{n!}\deriv{}{x}(x^{n}) \\
+              &= \sum_{n = 0}^{\infty} \frac{x^{n}}{n!} = f(x)
+      \end{align*}
+      similarly:
+      \begin{align*}
+        \int_{0}^{x} f(t) \d{t} &= \int_{0}^{x} \sum_{n = 0}^{\infty} \frac{t^{n}}{n!} \d{t} \\
+                                &= \sum_{n = 0}^{\infty} \frac{x^{n + 1}}{(n + 1)!} \\
+                                &= \sum_{n = 1}^{\infty} \frac{x^{n}}{n!} \\
+                                &= f(x) - 1 = f(x) - f(0)
+      \end{align*}
+      In the next section, we will use this power series to define the \textit{exponential function}.
+      As we have shown, it has the useful property that $f(x) = f'(x)$.
+    \item We know that the power series $g(x) = \sum_{n = 1}^{\infty} \frac{x^{n}}{n^2}$ has a radius of convergence $R = 1$.
+
+      So by the above, for $|x| < 1$, we have:
+      \[
+        g'(x) = \sum_{n = 1}^{\infty} \deriv{}{x}\left(\frac{x^{n}}{n^2}\right) = \sum_{n = 1}^{\infty} \frac{x^{n - 1}}{n}
+      \]
+      and:
+      \[
+        \int_{0}^{x} g(t) \d{t} = \sum_{n = 1}^{\infty} \left[\int_{0}^{x} \frac{t^{n}}{n^2} \d{t}\right] = \sum_{n = 1}^{\infty} \frac{x^{n + 1}}{n^2(n + 1)}
+      \]
   \end{enumerate}
 \end{example}
 \end{document}
