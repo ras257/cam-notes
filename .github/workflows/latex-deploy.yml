@@ -16,7 +16,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install TeX Live
-      uses: zauguin/install-texlive@v4
+      uses: zauguin/install-texlive@main
       with:
         package_file: ${{ github.workspace }}/.github/tl_packages
 
