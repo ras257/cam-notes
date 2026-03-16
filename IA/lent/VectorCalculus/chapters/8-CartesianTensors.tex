@@ -137,9 +137,9 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
         T_{i j}' = R_{ip}R_{jq}T_{p q} \label{rank2Transform}
       \end{equation}
       In this case, $T$ can be written as a normal $3 \times 3$ matrix, so the transformation equation becomes:
-      \[
-        T' = RTR^{\trans}
-      \]
+      \begin{equation}
+        T' = RTR^{\trans} \label{matrixTensorLaw}
+      \end{equation}
       This is exactly the change of basis formula for matrices (when both sets of bases are orthonormal) that we saw in IA Vectors and Matrices.
   \end{enumerate}
 \end{example}
@@ -220,6 +220,7 @@ It is difficult to come up with things that aren't tensors because the concept o
     $\alpha$ is not a tensor, i.e. not a scalar, because it will be different in different bases.
 \end{enumerate}
 \section{Sums and Products of Tensors}
+\label{tensorSumsAndProducts}
 \begin{remark}[Generality of Tensor Proofs]
   It is quite messy to prove results for any general rank of tensor because of the complicated notation.
   In this section, we will instead prove results for particular cases of the rank of the tensor, however the exactly the same methods will work for any other rank, just with extra suffices.
@@ -449,17 +450,21 @@ For example, for rank 2:
 \begin{example}
   $\delta_{i j}$ is a totally symmetric tensor of rank 2 and $\varepsilon_{i j k}$ is a totally anti-symmetric tensor of rank 3.
 \end{example}
-If $S_{i j}$ is symmetric and $A_{i j}$ is antisymmetric then $S_{i j}A_{i j} = 0$
-\begin{align*}
-  S_{i j}A_{i j} &= -S_{j i}A_{j i} \text{ using (anti-)symmetry}\\
-                 &= -S_{i j}A_{i j} \text{ swapping dummy indices $i \leftrightarrow j$}\\
-  \implies S_{i j}A_{i j} &= 0
-\end{align*}
-This also applies to higher ranks of tensors.
+\begin{lemma}
+  If $S_{i j}$ is symmetric and $A_{i j}$ is antisymmetric then $S_{i j}A_{i j} = 0$. \label{ASProd}
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    S_{i j}A_{i j} &= -S_{j i}A_{j i} \text{ using (anti-)symmetry}\\
+                   &= -S_{i j}A_{i j} \text{ swapping dummy indices $i \leftrightarrow j$}\\
+    \implies S_{i j}A_{i j} &= 0
+  \end{align*}
+\end{proof}
+The above also applies to higher ranks of tensors.
 For example, if $S_{i j k}$ is symmetric in $i$ and $k$ and $A_{pqrs}$ is antisymmetric in $q$ and $r$ then $S_{ijk}A_{pkis} = 0$.
 \subsection{Decomposition of 2nd Rank Tensors}
 \begin{proposition}[Decomposition into symmetric and antisymmetric parts]
-  Any tensor $T_{i j}$ of rank $2$ can be written uniquely in the form: \cref{ASDecomp}
+  Any tensor $T_{i j}$ of rank $2$ can be written uniquely in the form: \label{ASDecomp}
   \[
     T_{i j} = S_{i j} + A_{i j}
   \]
@@ -529,17 +534,236 @@ where $S$ is a symmetric tensor and $\vec{\omega}$ is a vector.
   Suppose that $C$ is an object of rank 2 such that $C_{i j}S_{i j}$ is a scalar for any symmetric tensor $S$ of rank 2.
   Show that $C$ may not be a tensor but that its symmetric part is.
 \end{remark}
-We would like to apply the Quotient theorem but cannot apply it directly since $S$ is \textbf{not arbitrary} since it is restricted to being symmetric.
+We would like to apply the Quotient Theorem but cannot apply it directly as $S$ is \textbf{not arbitrary} since it is restricted to being symmetric.
+
 So we can hope to apply the quotient theorem, let $T$ be an arbitrary second rank tensor.
-We can decompose $T_{i j}$ into:
+By \cref{ASDecomp}, we can decompose $T_{i j}$ into
 \[
   T_{i j} = S_{i j} + A_{i j}
 \]
-and decompose $C$ as:
+where $S_{i j}$ is symmetric and $A_{i j}$ is anti-symmetric.
+Similarly, we can also decompose $C$ as:
 \[
   C_{i j} = C^{(S)}_{i j} + C^{(A)}_{i j}
 \]
 where $C^{(S)}_{i j}$ is symmetric and $C^{(A)}_{i j}$ is antisymmetric.
 
-Continued next lecture.
+Then:
+\begin{align*}
+  C^{(S)}_{i j} T_{i j} &= C^{(S)}_{i j}(S_{i j} + A_{i j}) \\
+                        &= C^{(S)}_{i j}S_{i j} + C^{(S)}_{i j}A_{i j} \\
+                        &= C^{(S)}_{i j}S_{i j} \text{ by \cref{ASProd}} \\
+                        &= (C_{i j} - C^{(A)}_{i j})S_{i j} \\
+                        &= C_{i j}S_{i j} \text{ by \cref{ASProd}}
+\end{align*}
+Since $S_{i j}$ is symmetric, by assumption, this is a scalar, so $C^{(S)}_{i j}T_{i j}$ is a scalar for any arbitrary rank 2 tensor $T$ and hence $C^{(S)}_{i j}$ is a tensor by the Quotient theorem (\cref{quotientTheorem}).
+
+To find an example in which $C$ is \textbf{not} a tensor, we know that its symmetric part is always a tensor so we need one whose antisymmetric part $C^{(A)}_{i j}$ is not a tensor.
+That is, we need to think of with something antisymmetric that is not a tensor.
+
+Consider $C_{i j} = \levi_{1 i j}$ in one frame and $0$ in every other one.
+$C_{i j}$ is definitely not a tensor, as it can be $1$ in the original frame and $0$ in another frame.
+However, it does satisfy:
+\[
+  C_{i j}S_{i j} = \begin{cases}
+  \levi_{1 i j}S_{i j} & \text{ in the first frame} \\
+  0 & \text{ in the others}
+  \end{cases}
+\]
+which, by \cref{ASProd}, in both cases is 0, a scalar.
+So this is a valid counterexample.
+\begin{remark}
+  \nonexaminable
+  In fact, $\levi_{1 i j}$ is not a second rank tensor, so for our counter example, we could just have chosen $C_{i j} = \levi_{1 i j}$ in \textbf{all frames}, we would then however have to prove that this is not a tensor.
+\end{remark}
+\section{Principal Axes}
+\subsection{Principal Values and Axes}
+For any \textbf{symmetric} second-rank tensor $S$ we can chose a basis in which:
+\[
+  (S_{i j}) = \begin{pmatrix}
+  \lambda_1 & 0 & 0 \\
+  0 & \lambda_2 & 0 \\
+  0 & 0 & \lambda_3 \\
+  \end{pmatrix} \equiv D
+\]
+This is a direct consequence of the fact from 1A Vectors and matrices that a real symmetric matrix can be diagonalised using an orthogonal change of basis matrix $P$, satisfying $P^{\trans} S P = D$ for a diagonal matrix $D$ with the eigenvalues of the matrix on its diagonal.
+We then let $R = P^{\trans}$ be the corresponding rotation matrix for the tensor transformation law.
+We then see that:
+\[
+  S' = RSR^{\trans} = P^{\trans}SP = D
+\]
+so $S$ satisfies the matrix form of the rank 2 tensor transformation law in \cref{matrixTensorLaw}, as required.
+In general $P$ could have determinant $\pm 1$, however, since swapping two columns in a matrix changes the sign of the determinant, we can always re-order the change of basis so that it is a rotation.
+
+We know from Vectors and Matrices that the $\lambda_i$ along the diagonal the eigenvalues of the matrix.
+In this case, they are known as the \textit{principal values} of the tensor, and the \textit{principal axes} are a set of \textbf{orthonormal right-handed axes} parallel to the eigenvectors.
+
+But why should we bother diagonalising a tensor?
+We primarily do this because calculations are significantly easier in the frame of the principal axes.
+Since we are working with tensors, if are, for example, finding a scalar, then we know the answer will be the same in any frame so it is most convenient to work in the principal axes, where the tensor only has diagonal elements.
+\subsection{Inertia Tensor}
+For an example of a diagonalisable tensor, we will define the \textit{inertia tensor} for a rigid body $V$.
+\begin{remark}[Recap]
+  This section uses content from Chapter 5 of IA Dynamics and Relativity.
+\end{remark}
+Suppose that the body has density $\rho(\vec{x})$ and is rotating with angular velocity $\vec{\omega}$.
+The mass in each infinitesimal volume is $\rho(\vec{x})\d{V}$ and since it is rotating with angular velocity $\vec{\omega}$, it will have velocity $\vec{\omega} \times \vec{x}$.
+
+The total angular momentum is then:
+\begin{align*}
+  \vec{L} &= \int_{V} \rho(\vec{x})(\vec{x} \times (\vec{\omega} \times \vec{x})) \d{V} \\
+          &= \int_{V} \rho(\vec{x})((\vec{x} \cdot \vec{x})\vec{\omega} - (\vec{\omega} \cdot \vec{x})\vec{x}) \d{V} \\
+  \implies L_I &= \int_{V} \rho(\vec{x}) (x_k x_k \omega_i - \omega_j x_j x_i)\d{V} \\
+               &= I_{i j}\omega_j
+\end{align*}
+where $I_{i j}$ is the \textit{inertia tensor}, defined as:
+\[
+  I_{i j} \int_{V} \rho(\vec{x})(x_k x_k \delta_{i j} - x_ix_j) \d{V}
+\]
+This tensor is an innate property of the body, independent of the choice of axis in $\vec{\omega}$.
+This means that we can then calculate the inertia tensor for the body once and then use it for any choice of $\vec{\omega}$.
+
+Since $\vec{L}$ and $\vec{\omega}$ are vectors, the relationship $L_i = I_{i j}\omega_j$ tells us that $I_{i j}$ must be a tensor by the Quotient Theorem (\cref{quotientTheorem}).
+\begin{remark}
+  Alternatively, instead of appealing to the Quotient theorem, we know that $I_{i j}$ is a tensor because $x_k x_k \delta_{i j}$ and $x_i x_j$ are tensors (since they are inner/outer products -- \cref{tensorSumsAndProducts}), $\rho$ and $\d{V}$ are scalars unaffected by the rotation, and integral of a tensor is also a tensor.
+\end{remark}
+From its definition, we see also that it is symmetric by definition and so can be diagonalised.
+The above is the inertia tensor about the origin, but we can instead define it about a general point $\vec{a}$ as:
+\[
+  I_{i j}(\vec{a}) = \int_{V} \rho(\vec{x})(|\vec{x} - \vec{a}|^2 \delta_{i j} - (x_i - a_i)(x_j - x_j)) \d{V}
+\]
+\begin{remark}[Note]
+  In Dynamics and Relativity, the \textit{moment of inertia} about a particular axis is defined as $\int_{V} \rho(\vec{x})r_{\perp}^2 \d{V}$ where $r_{\perp}$ is the perpendicular distance to the axis of rotation.
+  When in the standard basis, the components $I_{1 1}, I_{2 2}, I_{3 3}$ of the inertia tensor are just the moments of inertia about the $x$, $y$, and $z$ axes respectively.
+\end{remark}
+\subsection{Worked Example}
+\begin{remark}[Question]
+  A cube of uniform density and mass $M$ occupies $V = \{\vec{x} : x, y, z \in [0, a]\}$.
+  Find its inertia tensor about the origin and then calculate its principal axes.
+\end{remark}
+We can calculate the components directly:
+\begin{align*}
+  I_{1 2} &= \int_{V} \frac{M}{a^3}(x_k x_k \delta_{1 2} - x_1 x_2) \d{V} \\
+          &= - \frac{M}{a^3} \int_{0}^{a} \int_{0}^{a} \int_{0}^{a} xy \d{x} \d{y} \d{z} \\
+          &= - \frac{1}{4}Ma^2
+\end{align*}
+and similarly:
+\begin{align*}
+  I_{1 1} &= \int_{V} \frac{M}{a^3}(x^2 + y^2 + z^2 - x^2) \d{V} \\
+          &= \frac{M}{a^3} \int_{0}^{a} \int_{0}^{a} \int_{0}^{a} (y^2 + z^2) \d{x} \d{y} \d{z} \\
+          &= \frac{2}{3}Ma^2
+\end{align*}
+Using the symmetry of the cube and the tensor, the other components follow and so:
+\[
+  (I_{i j}) = \begin{pmatrix}
+  \frac{2}{3} & -\frac{1}{4} & -\frac{1}{4} \\
+  -\frac{1}{4} & \frac{2}{3} & -\frac{1}{4} \\
+  -\frac{1}{4} & -\frac{1}{4} & \frac{2}{3} \\
+  \end{pmatrix}Ma^2
+\]
+We can easily, but tediously, calculate the eigenvalues to show that the principal values of the tensor are $\frac{1}{6}Ma^2$, $\frac{11}{12}Ma^2$, and $\frac{11}{12}Ma^2$.
+
+It can then be easily shown that the first principal axis is $(\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}})$.
+We also know, again from Vectors and Matrices, that for a symmetric matrix, eigenvectors corresponding to unique eigenvalues are orthogonal.
+Since the other two principal values are equal, the corresponding principal axes can any two orthogonal vectors that are orthogonal to the first axis, for example:
+\[
+  \frac{1}{\sqrt{3}}\begin{pmatrix}
+  1 \\
+  1 \\
+  1 \\
+  \end{pmatrix},\ \frac{1}{\sqrt{2}}\begin{pmatrix}
+  1 \\
+  -1 \\
+  0 \\
+  \end{pmatrix},\ \frac{1}{\sqrt{6}} \begin{pmatrix}
+  1 \\
+  1 \\
+  -2 \\
+  \end{pmatrix}
+\]
+Note that we quickly find the other two axes by finding one by inspection and then taking the cross product of the first two.
+It is also important to check that we have we have ordered and normalised these eigenvectors to be an orthonormal right handed basis, so that they are a valid set of principal axes.
+
+In the basis given by these axis, the inertia tensor is then:
+\[
+  (I_{i j}) = \begin{pmatrix}
+  \frac{1}{6} & 0 & 0 \\
+  0 & \frac{11}{12} & 0 \\
+  0 & 0 & \frac{11}{12} \\
+  \end{pmatrix}Ma^2
+\]
+Inevitably, the principal axes also coincide with symmetries the physical object.
+The first axis is parallel to the line from the origin to the opposite vertex and the other two are any other orthogonal pair of vectors.
+\section{Isotropic Tensors}
+\begin{definition}[Isotropic Tensor]
+  An \textit{isotropic tensor} is one whose \textbf{components are the same in any basis}.
+\end{definition}
+\begin{remark}[Warning]
+  An isotropic tensor is \textbf{not} a tensor which is the same in every basis.
+  This is because the tensors stays the same under a change of basis but its \textbf{components change}.
+\end{remark}
+We have already seen the examples $\delta_{i j}$ and $\levi_{i j k}$.
+In fact we can find the most general cases of isotropic tensors for each rank:
+\begin{itemize}
+  \item Any tensor of rank 0 is isotropic, by definition of scalars.
+  \item The only isotropic tensor of rank 1 is the zero-vector as any non-zero vector will have different components in different bases.
+  \item The most general isotropic tensor of rank 2 is $\lambda \delta_{i j}$ for some scalar $\lambda$.
+  \item The most general isotropic tensor of rank 3 is $\lambda \levi_{i j k}$ for some scalar $\lambda$.
+  \item The most general isotropic tensor of rank 4 is:
+    \[
+      \lambda \delta_{i j}\delta_{k l} + \mu \delta_{i k}\delta_{j l} + \nu\delta_{i l}\delta_{j k}
+    \]
+    for some scalars $\lambda, \mu, \nu$.
+\end{itemize}
+\begin{remark}[Exams]
+  You are required to remember the general form for ranks 0 -- 3 but are not required to memorise the most general isotropic tensor of rank 4.
+  It quite often appears in Tripos exams, but with the form above given.
+\end{remark}
+\begin{lemma}
+  The most general isotropic tensor of rank 2 is $\alpha \delta_{i j}$ for some scalar $\alpha$.
+\end{lemma}
+\begin{proof}
+  Let $T_{i j}$ be any isotropic second rank tensor.
+  For ease here, we will use the matrix version of the tensor transformation law from \cref{matrixTensorLaw}, $T' = RTR^{\trans}$.
+  We will then chose a basis rotation of $\frac{\pi}{2}$ about the $z$-axis, that is, we take $R$ to be:
+  \[
+    R = \begin{pmatrix}
+    0 & 1 & 0 \\
+    -1 & 0 & 0 \\
+    0 & 0 & 1 \\
+    \end{pmatrix}
+  \]
+  We can then find $T$ in this basis:
+  \begin{align*}
+    (T_{i j})' = \begin{pmatrix}
+    T_{1 1}' & T_{1 2}' & T_{1 3} \\
+    T_{2 1}' & T_{2 2}' & T_{2 3}' \\
+    T_{3 1}' & T_{3 2}' & T_{3 3}' \\
+    \end{pmatrix} &= \begin{pmatrix}
+    0 & 1 & 0 \\
+    -1 & 0 & 0 \\
+    0 & 0 & 1 \\
+    \end{pmatrix} \begin{pmatrix}
+    T_{1 1} & T_{1 2} & T_{1 3} \\
+    T_{2 1} & T_{2 2} & T_{2 3} \\
+    T_{3 1} & T_{3 2} & T_{3 3} \\
+    \end{pmatrix} \begin{pmatrix}
+    0 & -1 & 0 \\
+    1 & 0 & 0 \\
+    0 & 0 & 1 \\
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+    T_{2 2} & -T_{2 1} & T_{2 3} \\
+    -T_{1 2} & T_{1 1} & -T_{1 3} \\
+    T_{3 2} & -T_{3 1} & T_{3 3} \\
+    \end{pmatrix}
+  \end{align*}
+  By the isotropy of $T$, we must have $T_{i j}' = T_{i j}$ and so:
+  \begin{align*}
+    T_{1 1} &= T_{2 2} \\
+    T_{1 3} &= T_{2 3} = -T_{1 3} \implies T_{1 3} = T_{2 3} = 0 \\
+    T_{3 1} &= T_{3 2} = -T_{3 1} \implies T_{3 1} = T_{3 2} = 0
+  \end{align*}
+  Continued next lecture.
+\end{proof}
 \end{document}
