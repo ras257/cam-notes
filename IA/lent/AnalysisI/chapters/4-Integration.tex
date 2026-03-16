@@ -972,7 +972,7 @@ We can prove a stronger (i.e. weaker assumptions) and more general result of the
 \end{theorem}
 \begin{proof}
   By assumption $f$ is integrable so $\exists \mathcal{P}$ partition of $[a, b]$ such that $U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon$.
-  We can also apply the mean value theorem \cref{MVC} to show that for a pair of adjacent points $x_{j - 1}$ and $x_{j}$ in the partition, we have
+  We can also apply the mean value theorem \cref{MVT} to show that for a pair of adjacent points $x_{j - 1}$ and $x_{j}$ in the partition, we have
   \[
     f(t_j) = F'(t_j) = \frac{F(x_j) - F(x_{j - 1})}{x_j - x_{j - 1}} \implies F(x_j) - F(x_{j - 1}) = f(t_j) (x_j - x_{j - 1})
   \]
@@ -1152,7 +1152,7 @@ We first want to make sense of $\int_{a}^{\infty} f(x) \d{x}$.
   This is called the \textit{Cauchy principal value}.
   If $\int_{-\infty}^{\infty} f(x) \d{x}$ exists, then the principal value exists, however the converse of this is not true, see Example Sheet 4 Q1b.
 \end{remark}
-\begin{example} \label{improperIntegraExamples}
+\begin{example} \label{improperIntegralExamples}
   \begin{enumerate}
     \item Consider the integral $\int_{1}^{\infty} \frac{1}{x^{p}} \d{x}$.
       We saw in \cref{integralTestExample} that:
