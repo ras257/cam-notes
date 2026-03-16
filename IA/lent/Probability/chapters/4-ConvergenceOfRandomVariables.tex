@@ -173,4 +173,185 @@ This is concept of the \textit{central limit theorem}.
   In \cref{pdfProperties}, we saw that left limits always exist for $F$ and $F$ is always right continuous.
   This means that the continuity points are just the points where the left limit equals the right limit (which, by continuity, is the value of the function at that point).
 \end{remark}
+\begin{remark}[Limit Inferior and Limit Superior]
+  For following proof, it is useful to introduce the following definitions for a sequence $(x_n)$ on $\R$:
+  \begin{align*}
+    \liminf_{n \to \infty} x_n := \lim_{n \to \infty} \left(\inf_{m \geq n} x_m\right) \\
+    \limsup_{n \to \infty} x_n := \lim_{n \to \infty} \left(\sup_{m \geq n} x_m\right)
+  \end{align*}
+  These are useful as they always exist for a sequence on $\R$.
+
+  Notably, a sequence $(X_n)$ in $[-\infty, \infty]$ converges if and only if its limit superior and limit inferior are equal.
+\end{remark}
+\begin{proposition}[Convergence in probability $\implies$ Convergence in distribution]
+  If $X_n \xrightarrow{P} X$  as $n \to \infty$, then $X_n \xrightarrow{(d)} X$ as $n \to \infty$.
+\end{proposition}
+\begin{proof}
+  Let $x$ be an arbitrary continuity point of $F_X$.
+  We need to show that $\lim_{n \to \infty} F_{X_n}(x) = F_X(x)$.
+
+  Let $\varepsilon > 0$ be arbitrary and consider the event $\{X \leq x - \varepsilon\}$.
+  Either $X_n \leq x$ or, if $X_n > x$, since we also have $X \leq x - \varepsilon$, we must then have $|X_n - X| > \varepsilon$.
+  So we then have:
+  \[
+    \{X \leq x - \varepsilon\} \subseteq \{X_n \leq x\} \cup \{|X_n - X| > \varepsilon\}
+  \]
+  Similarly for the event $\{X_n \leq x\}$, either $X \leq x + \varepsilon$, or if $X < x + \varepsilon$, since we also have $X_n \leq x$, we must have $|X_n - X| > \varepsilon$.
+  So we then have:
+  \[
+    \{X_n \leq x\} \subseteq \{X \leq x + \varepsilon\} \cup \{|X_n - X| > \varepsilon\}
+  \]
+  Therefore by probability of
+  \begin{align*}
+    \P(X \leq x - \varepsilon) &\leq \P(\{X_n \leq x\} \cup \{|X_n - x| > \varepsilon\}) \text{ by \cref{propertiesOfProbMeasure}} \\
+                               &\leq \P(X_n \leq x) + \P(|X_n - x| > \varepsilon) \text{ by \cref{countableSub}} \\
+    \implies F_X(x - \varepsilon) &\leq \P(X_n \leq x) + \P(|X_n - x| > \varepsilon) \\
+                                  &\leq \liminf_{n \to \infty} [\P(X_N \leq x) + \P(|X_n - X| > \varepsilon)] \\
+                                  &= \liminf_{n \to \infty} \P(X_n \leq x) \text{ since $X_n \xrightarrow{P} X$} \\
+                                  &= \liminf_{n \to \infty} F_{X_n}(x)
+  \end{align*}
+  By a similar chain of inequalities:
+  \begin{align*}
+    F_{X_n}(x) &= \P(X_n \leq x) \leq \P(X \leq x + \varepsilon) + \P(|X_n - X| > \varepsilon) \\
+    \implies \limsup_{n \to \infty} F_{X_n(x)} &\leq \limsup_{n \to \infty} [(F_X(x + \varepsilon)) + \P(|X_n - X| > \varepsilon) \\
+                                               &= F_X(X + \varepsilon) \text{ since $X_n \xrightarrow{P} X$} \\
+  \end{align*}
+  Combining the two inequalities, we then have:
+  \[
+    F_X(x - \varepsilon) \leq \liminf_{n \to \infty} F_{X_n}(x) \leq \limsup_{n \to \infty} F_{X_n}(x) \leq F_{X}(x + \varepsilon)
+  \]
+  Finally, taking $\varepsilon \to 0$, since $x$ is a continuity point of $F_{X}$, we have:
+  \[
+    F_{X}(x) \leq \liminf_{n \to \infty} F_{X_n}(x) \leq \limsup_{n \to \infty} F_{X_n}(x) \leq = F_{X}(x)
+  \]
+  Therefore:
+  \[
+    \liminf_{n \to \infty} F_{X_n}(x) = \limsup_{n \to \infty} F_{X_n}(x) = F_{X}(x) \implies \lim_{n \to \infty} F_{X_n}(x) = F_{X}(x)
+  \]
+  as required.
+\end{proof}
+\begin{theorem}[Continuity Property of mgfs]
+  Let $(X_n)$ be random variables with moment generating functions $m_n(\theta) = \E[e^{\theta X_n}]$ for $\theta \in \R$ and let $X$ be a random variable with mgf $m(\theta) = \E[e^{\theta X}]$.
+  Further, assume that that $m(\theta) < \infty$ for some $\theta \neq 0$. \label{mgfCty}
+
+  We then have that if $m_n(\theta) \to m(\theta)$ as $n \to \infty\ \forall \theta \in \R$, then $X_n \xrightarrow{(d)} X$ as $n \to \infty$.
+\end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
+\subsection{Central Limit Theorem}
+\begin{theorem}[Central Limit Theorem]
+  If $(X_n)_{n \in \N}$ are independent and identically distributed random variables with $\mu = \E[X_1] < \infty$ and $\sigma^2 = \Var(X) < \infty$ and we define $S_n = X_1 + \cdots + X_n$, then: \label{CLT}
+  \[
+    \frac{S_n - n\mu}{\sigma \sqrt{n}} \xrightarrow{(d)} Z
+  \]
+  where $Z \sim \normal(0, 1)$.
+
+  In other words, for all $x \in \R$:
+  \[
+    \P\left(\frac{S_n - n\mu}{\sigma \sqrt{n}} \leq x\right) \to \int_{-\infty}^{x} \frac{e^{-\frac{y^2}{2}}}{\sqrt{2\pi}} \d{y} = \Phi(x)
+  \]
+\end{theorem}
+\begin{proof}\par
+  \textbf{Shifting the Random Variables}\par
+  To make the proof easier, we define $Y_i = \frac{X_i - \mu}{\sigma}$ so that $\E[Y_i] = 0$ and $\Var(Y_i) = 1$.
+  Therefore, it is enough to prove that the theorem holds for a sequence of i.i.d random variables $(X_i)_{n \in \N}$ with mean 0 and variance 1.
+  Thus, we need to show that $\frac{S_n}{\sqrt{n}} \xrightarrow{(d)} \normal(0, 1)$ as $n \to \infty$.
+
+  \textbf{Using the mgf}\par
+  For ease, in this proof, we  will assume that $\exists \delta > 0$ such that $\E[e^{\delta X_1}] + \E[e^{-\delta X_1}] < \infty$.
+  By the continuity property of moment generating functions (\cref{mgfCty}), it suffices to show that
+  \[
+    \E[e^{\theta \frac{S_n}{\sqrt{n}}}] \xrightarrow{n\to \infty} \E[e^{\theta Z}] = \exp\left(\frac{\theta^2}{2}\right)\ \forall \theta \in \R
+  \]
+  using the mgf of $Z$ from \cref{mgfNormal}.
+
+  Setting $m(\theta) = \E[e^{\theta X_1}]$, we can factor $\E[e^{\theta \frac{S_n}{\sqrt{n}}}]$ as:
+  \begin{align*}
+    \E[e^{\theta \frac{S_n}{\sqrt{n}}}] &= \E\left[e^{\frac{\theta}{\sqrt{n}}X_1 + \cdots \frac{\theta}{\sqrt{n}}X_n}\right] \\
+                                        &= \E[e^{\frac{\theta}{\sqrt{n}}X_1}]^{n} \text{ as they are i.i.d} \\
+                                        &= \left[m\left(\frac{\theta}{\sqrt{n}}\right)\right]^{n}
+  \end{align*}
+  So we want to show that $[m(\theta/\sqrt{n})]^{n} \to e^{\theta^2/2}$ as $n \to \infty\ \forall \theta \in \R$.
+
+  We can then use the power series definition of the exponential:
+  \begin{align*}
+    m\left(\frac{\theta}{\sqrt{n}}\right) &= \E\left[e^{\frac{\theta}{\sqrt{n}}X_1}\right] \\
+                                          &= \E\left[1 + \frac{\theta}{\sqrt{n}}X_1 + \frac{\theta^2}{n}X^2_1 \cdot \frac{1}{2} + \sum_{k = 3}^{\infty} \frac{\theta^{k}}{(\sqrt{n})^{k}} \cdot \frac{1}{k!}X^{k}_1\right] \\
+                                          &= 1 + \frac{\theta^2}{2n} + \E\left[\sum_{k = 3}^{\infty} \frac{\theta^{k}}{(\sqrt{n})^{k}} \cdot \frac{1}{k!}X^{k}_1\right] \text{ since $\E[X_1] = 0$ and $\E[X^2_1] = 1$}
+  \end{align*}
+  We know that $(1 + \frac{\theta^2}{2n})^{n} \to e^{\theta^2/2}$ as $n \to \infty\ \forall \theta \in \R$, so we claim that:
+  \[
+    \abs{\E\left[\sum_{k =  3}^{\infty} \theta^{k} \cdot \frac{1}{k!}X^{k}_1\right]} = o(|\theta|^2) \text{ as } \theta \to 0
+  \]
+  If this claim is true, then we can conclude that:
+  \[
+    m\left(\frac{\theta}{\sqrt{n}}\right) = 1 + \frac{\theta^2}{2n} + o\left(\frac{\theta^2}{n}\right) \text{ as $n \to \infty$}
+  \]
+  and hence:
+  \[
+    \left[m\left(\frac{\theta}{\sqrt{n}}\right)\right]^{n} \to e^{\theta^2 / 2} \text{ as } n \to \infty\ \forall \theta \in \R
+  \]
+  \textbf{Proof of Order Claim}\\
+  Let $\theta \in \R$ be arbitrary such that $|\theta| \leq \frac{\delta}{2}$.
+  \begin{align*}
+    \abs{\E\left[\sum_{k = 3}^{\infty} \frac{\theta^{k}X^{k}_1}{k!}\right]} &\leq \E\left[\sum_{k = 3}^{\infty} \frac{|\theta X_1|^{k}}{k!}\right] \text{ by \cref{jensensInequality}} \\
+                                                                            &= \E\left[|\theta X_1|^3 \sum_{k = 0}^{\infty} \frac{|\theta X_1|^{k}}{(k + 3)!}\right] \\
+                                                                            &\leq \E\left[|\theta X_1|^3 \sum_{k = 0}^{\infty} \frac{|\theta X_1|^{k}}{k!}\right] \\
+                                                                            &= \E[|\theta X_1|^3 e^{|\theta X_1|}] \\
+                                                                            &\leq \E[|\theta X_1|^3 \cdot e^{\frac{\delta}{2}|X_1|}] \text{ as $|\theta| \leq \frac{\delta}{2}$}
+  \end{align*}
+  We can rewrite $|\theta X_1|^3$ as:
+  \[
+    |\theta X_1|^3 = |\theta|^3 \cdot \frac{3!}{\left(\frac{\delta}{2}\right)^3} \cdot \frac{\abs{\frac{\delta}{2} X_1}^3}{3!} \leq C \cdot |\theta|^3 \cdot e^{\frac{\delta}{2}|X_1|}
+  \]
+  where $C = 3! \cdot 2^{3}/\delta^{3}$ since $e^{|y|} \geq \frac{|y|^{n}}{n!}\ \forall n \in \N$.
+
+  Finally, we then have the bound:
+  \begin{align*}
+    \E[|\theta X_1|^3 \cdot e^{\frac{\delta}{2}|X_1|}] &\leq C \cdot |\theta|^3 \cdot \E[e^{\frac{\delta}{2}|X_1|} \cdot e^{\frac{\delta}{2}|X_1|}] \\
+                                                       &= C \cdot |\theta|^3 \cdot \E[e^{\delta|X_1|}] \\
+                                                       &\leq C \cdot |\theta|^3 \cdot \underbrace{\E[e^{\delta X_1} + e^{-\delta X_1}]}_{< \infty}
+  \end{align*}
+  Therefore:
+  \[
+    \abs{\E\left[\sum_{k = 3}^{\infty} \frac{\theta^{k}X^{k}_1}{k!}\right]} \leq C' \cdot |\theta|^3
+  \]
+  for some finite constant $C'$, and so this is $o(|\theta|^2)$ as $\theta \to 0$.
+\end{proof}
+\subsection{Applications}
+The central limit theorem tells us that:
+\[
+  \frac{S_n - n\mu}{\sigma \sqrt{n}} \xrightarrow{(d)} \normal(0, 1)
+\]
+So for ``large'' $n$, we have:
+\[
+  S_n \approx \normal(n\mu, \sigma^2n) \text{ or equivalently } S_n \approx n\mu + \sigma\sqrt{n} Z
+\]
+where $Z \sim \normal(0, 1)$.
+\subsubsection{Binomial Distribution}
+Suppose $S_n \sim \binomial(n, p)$.
+In \cref{binomialAsBernSum}, we saw that can express $S_n$ as a sum of $n$ $(X_i)$ which are independent and identically distributed Bernoulli random variables, $\operatorname{Ber}(p)$.
+
+Using the central limit theorem, since $\Var(X_1) = p(1 - p)$ and $\E[X_1] = p$, we have:
+\[
+  \frac{S_n - np}{\sqrt{np(1 - p)}} \xrightarrow{(d)} \normal(0, 1) \text{ as } n \to \infty
+\]
+Thus, for large $n$, we can approximate a binomial distribution as $S_n \approx \normal(np, np(1 - p))$.
+
+We also saw in \cref{binomialLimitPoisson}, that if $S_n \sim \binomial(n, \frac{\lambda}{n})$ for $\lambda > 0$ then:
+\[
+  \P(S_n \leq x) \xrightarrow{n \to \infty} \P(\poisson(\lambda) = x)
+\]
+Note that the central limit theorem does not apply here since the probability of the binomial distribution is a function of $n$ and so it cannot be expressed as a sum of i.i.d Bernoulli random variables.
+\subsubsection{Poisson Distribution}
+Suppose $S_n \sim \poisson(n)$.
+In \cref{poissonConvolution}, we saw that if $X \sim \poisson(\lambda)$ and $Y \sim \poisson(\mu)$ are independent then $X + Y \sim \poisson(\lambda + \mu)$.
+This means that we can express $S_n$ as a sum of $n$ $(X_i)$ i.i.d $\poisson(1)$ random variables.
+
+Using the central limit theorem, since $\Var(X_i) = 1$ and $\E[X_i] = 1$:
+\[
+  \frac{S_n - n}{\sqrt{n}} \xrightarrow{(d)} \normal(0, 1) \text{ as } n \to \infty
+\]
+Thus, for large $n$, we can approximate a Poisson distribution as $S_n \approx \normal(n, n)$.
 \end{document}
