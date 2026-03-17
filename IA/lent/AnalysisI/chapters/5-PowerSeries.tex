@@ -147,7 +147,7 @@ To compute the radius of converges of a power series, we can adapt the usual tes
   In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
 \end{proof}
 \begin{proposition}[Ratio Test for Power Series]
-  If $(c_n)$ is a sequence of coefficients on $\C$ such that:
+  If $(c_n)$ is a sequence of coefficients on $\C$ such that: \label{ratioPowerSeries}
   \[
     L = \lim_{n \to \infty} \abs{\frac{c_{n + 1}}{c_n}}
   \]
@@ -366,7 +366,7 @@ We will first show that power series allow for term by term integration as we ca
   Since the result of differentiating a power series with radius of convergence $R$ is also a power series with radius of convergence at least $R$, we can iterate this process to conclude that power series are infinitely differentiable within their radius of convergence.
 \end{remark}
 \begin{example}
-  \begin{enumerate}
+  \begin{enumerate} \label{expExample}
     \item Consider again $f(x) = \sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$, we know this has $R = \infty$ so it is differentiable everywhere in $\C$ and its derivative is given by term by term differentiation:
       \begin{align*}
         f'(x) &= \deriv{}{x} \sum_{n = 0}^{\infty} \frac{x^{n}}{n!} \\
@@ -394,4 +394,256 @@ We will first show that power series allow for term by term integration as we ca
       \]
   \end{enumerate}
 \end{example}
+\section{Exponential Function}
+\begin{remark}[Using Prior Knowledge of $e^x$]\par
+  For $x \in \R$, we can using the properties of $e^{x}$ we already know and the Lagrange form of the remainder (\cref{lagrangeRemainder}) to yield that:
+  \[
+    R_{N, f, 0}(x) = e^{x} - \sum_{n = 1}^{N - 1} \frac{x^{n}}{n!} = \frac{f^{(N)}(\xi)}{N!}x^{N} = \frac{e^{\xi}}{N!}x^{N}
+  \]
+  for some $\xi \in [0, x]$.
+
+  Then, for any fixed $x \in \R$:
+  \[
+    |R_{N, f, 0}(x)| \leq |e^{\xi}|\cdot \frac{|x|^{N}}{N!} \to 0 \text{ as } N \to \infty
+  \]
+  Hence $e^{x}$ is analytic everywhere on $\R$, that is:
+  \[
+    e^{x} = \sum_{n = 0}^{\infty} \frac{x^{n}}{n!}\ \forall x \in \R
+  \]
+\end{remark}
+In the previous section, we saw that the power series $\sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$ converges everywhere in $\C$.
+We can therefore use this to define a function $e: \C \to \C$:
+\begin{definition}
+  Define the function $e$:
+  \[
+    e: \C \to \C,\ z \mapsto \sum_{n = 0}^{\infty} \frac{z^{n}}{n!}
+  \]
+  This is well defined as this power series converges everywhere in $\C$.
+\end{definition}
+\begin{lemma}
+  As defined above, $e$ is smooth with $e'(z) = e(z)$, $e(0) = 1$ and $e(a + b) = e(a)e(b)$.
+\end{lemma}
+\begin{proof}
+  The first two properties are immediate from the definition and \cref{expExample}.
+
+  For the last property, let $a, b \in \C$ and define the function $f$:
+  \[
+    f(z) = e(a + b - z)e(z)
+  \]
+  This is differentiable as it is the product and composition of differentiable functions.
+  Its derivative is:
+  \begin{align*}
+    f'(z) &= -e'(a + b - z)e(z) + e(a + b - z)e'(z) \\
+          &= -e(a + b - z)e(z) + e(a + b - z)e(z) \\
+          &= -f(z) + f(z) = 0\ \forall z \in \C
+  \end{align*}
+  So by \cref{constantF}, the function must be constant everywhere in $\C$.
+  We also have that $f(0) = e(a + b)e(0) = e(a + b)$ and $f(a) = e(a + b - a)e(a) = e(a)e(b)$.
+  Since it is constant:
+  \[
+    f(0) = f(a) \implies e(a + b) = e(a)e(b)
+  \]
+  as required.
+\end{proof}
+Since this power series only has real coefficients, if we restrict the domain to $\R$, we only get real outputs and so we can restrict $e: \R \to \R$.
+\begin{lemma}
+  Consider $e: \R \to \R$, that is, the restriction of $e$ to the real axis.
+  This has the following properties: \label{eProperties}
+  \begin{enumerate}
+    \item $e$ is smooth and $e'(x) = e(x)$.
+    \item $e(x + y) = e(x)e(y)$.
+    \item $e(x) > 0$.
+    \item $e$ is strictly increasing.
+    \item $e(x) \to \infty$ as $x \to \infty$ and $e(x) \to 0$ as $x \to - \infty$.
+    \item $e: \R \to (0, \infty)$ is a bijection.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item \textbf{ii}. Shown previously. \stepcounter{enumi}
+    \item For $x \geq 0$, every term in the power series is non-negative, so we have the bound $e(x) \geq 1 + x > 0$.
+
+      For $x < 0$, by \textbf{(ii)}:
+      \[
+        e(-x)e(x) = e(0) = 1 \implies e(x) = \frac{1}{e(-x)} > 0 \text{ as } -x > 0
+      \]
+      and so $e(x) > 0\ \forall x < 0$ also.
+    \item Using \textbf{(i)} and \textbf{(iii)}, we have that $e'(x) = e(x) > 0$ and so $e$ is strictly increasing by \cref{derivativeIncreasingRelation}.
+    \item Using the bound $e(x) \geq 1 + x$ again, we then have that $e(x) \to \infty$ as $x \to \infty$.
+      Further, since $e(-x) = \frac{1}{e(x)}$, $e(x) \to 0^{+}$ as $x \to -\infty$.
+    \item From \textbf{(iv)}, we know that $e$ is strictly increasing and so must be injective.
+
+      From \textbf{(v)} we know that $(\lim_{x \to -\infty} e(x), \lim_{x \to \infty} e(x)) = (0, \infty)$.
+      Therefore, given $y \in (0, \infty)$, because of the above limits $\exists a, b \in \R$ such that $e(a) < y < e(b)$.
+      Thus, by the IVT (\cref{IVT}), $\exists x \in [a, b]$ such that $e(x) = y$.
+      So $e$ is surjective also and thus is a bijection.
+  \end{enumerate}
+\end{proof}
+Since $e: \R \to (0, \infty)$ is a bijection, it must have an inverse.
+\begin{definition}
+  Define the function $\ell: (0, \infty) \to \R$ to be the inverse of $e$.
+\end{definition}
+\begin{lemma}
+  For $\ell$ as defined above: \label{lProperties}
+  \begin{enumerate}
+    \item $\ell: (0, \infty) \to \R$ is a bijection with
+      \begin{align*}
+        \ell(e(x)) &= x \quad \forall x \in \R \\
+        e(\ell(y)) &= y \quad \forall y \in (0, \infty)
+      \end{align*}
+    \item $\ell$ is smooth and monotone with $\ell'(y) = 1/y$.
+    \item $\ell(1) = 0$ and $\ell(y) = \int_{1}^{y} \frac{1}{t} \d{t}$.
+    \item $\ell(yz) = \ell(y) + \ell(z)$.
+    \item $\ell(y) \to \infty$ and $y \to \infty$ and $\ell(y) \to -\infty$ as $y \to 0^{+}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item By definition of inverses.
+    \item Applying the inverse function theorem (\cref{inverseFunction2}), we obtain that $\ell$ differentiable with derivative:
+      \[
+        \ell'(y) = \frac{1}{e'(\ell(y))} = \frac{1}{e(\ell(y))} = \frac{1}{y}
+      \]
+      This is smooth and so $\ell(y)$ is also smooth. Further, since $y > 0$, $\ell(y) > 0$ so $\ell$ is monotone increasing.
+    \item We know that $e(0) = 1$ so we must have $\ell(1) = 0$.
+      Then, by the FTC (\cref{FTC}), we have:
+      \[
+        \ell(y) = \ell(y) - \ell(1) = \int_{1}^{y} \ell'(t) \d{t}  = \int_{1}^{y} \frac{1}{t} \d{t}
+      \]
+    \item Since $e$ is surjective $\exists u, v \in \R$ such that $y = e(u)$ and $z = e(v)$.
+
+      We can then use \textbf{(i)} and \cref{eProperties} \textbf{(ii)} to yield that:
+      \[
+        \ell(yz) = \ell(e(u)e(v)) = \ell(e(u + v)) = u + v = \ell(y) + \ell(z)
+      \]
+    \item From \cref{eProperties} \textbf{(v)}, we have that $e(x) \to \infty$ as $x \to \infty$ and $e(x) \to 0^{+}$ as $x \to \infty$.
+      Therefore:
+      \begin{align*}
+        \lim_{y \to \infty} \ell(y) &= \lim_{x \to \infty} \ell(e(x)) = \lim_{x \to \infty} x = \infty \\
+        \lim_{y \to 0^{+}} \ell(y) &= \lim_{x \to -\infty} \ell(e(x)) = \lim_{x \to -\infty} x = -\infty
+      \end{align*}
+      We can make these substitutions as $\ell$ and $e$ are continuous.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  We can also find a power series for $\ell(1 + y)$ for $|y| < 1$.
+  \begin{align*}
+    \ell(1 + y) &= \int_{1}^{y + 1} \frac{1}{t} \d{t} \\
+                &= \int_{0}^{y} \frac{1}{1 + u} \d{u} \text{ using $t = u + 1$} \\
+                &= \int_{0}^{y} \frac{1}{1 - (-u)} \d{u} \\
+                &= \int_{0}^{y} \sum_{n = 0}^{\infty} (-1)^{n}u^{n} \d{u} \text{ as $|u| \leq |y| < 1$}
+  \end{align*}
+  Consider the power series $\sum_{n = 0}^{\infty} (-1)^{n}u^{n}$.
+  Applying the ratio test (\cref{ratioPowerSeries}), we have:
+  \[
+    \lim_{n \to \infty} \abs{\frac{c_{n + 1}}{c_{n}}} = \lim_{n \to \infty} 1 = 1
+  \]
+  So the power series has $R = 1$.
+  This means that since $|u| \leq |y| < 1$, by \cref{powerSeriesInt}, we can integrate term by term:
+  \begin{align*}
+    \ell(1 + y) &= \sum_{n = 0}^{\infty} \int_{0}^{y} (-1)^{n} u^{n} \d{u} \\
+                &= \sum_{n = 0}^{\infty} \frac{(-1)^{n}}{n + 1}y^{n + 1} \\
+                &= \sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}y^{n} \text{ for $|y| < 1$}
+  \end{align*}
+\end{remark}
+\begin{definition}
+  For $\alpha \in \R$, define the function $\Gamma_{\alpha}$ as:
+  \[
+    \Gamma_{\alpha}: (0, \infty) \to (0, \infty),\ x \mapsto e(\alpha \ell(x))
+  \]
+\end{definition}
+\begin{lemma}
+  Let $x, y > 0$ and $\alpha, \beta \in \R$.
+  We then have the following:
+  \begin{enumerate}
+    \item $\Gamma_\alpha(xy) = \Gamma_{\alpha}(x)\Gamma_{\alpha}(y)$.
+    \item $\Gamma_{\alpha + \beta}(x) = \Gamma_{\alpha}(x)\Gamma_{\beta}(x)$.
+    \item $\Gamma_{\alpha}(\Gamma_{\beta}(x)) = \Gamma_{\alpha \beta}(x)$.
+    \item $\Gamma_1(x) = x$ and $\Gamma_0(x) = 1$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item Using properties from \cref{eProperties} and \cref{lProperties}, we have:
+      \[
+        \Gamma_{\alpha}(xy) = e(\alpha\ell(x + y)) = e(\alpha\ell(x) + \alpha\ell(y)) = e(\alpha\ell(x))e(\alpha\ell(y)) = \Gamma_{\alpha}(x)\Gamma_{\alpha}(y)
+      \]
+    \item
+      Similarly:
+      \[
+        \Gamma_{\alpha + \beta}(x) = e((\alpha + \beta)\ell(x)) = e(\alpha\ell(x))e(\beta\ell(x)) = \Gamma_{\alpha}(x)\Gamma_{\beta}(a)
+      \]
+    \item
+      Similarly again:
+      \[
+        \Gamma_{\alpha}(\Gamma_{\beta}(x)) = e(\alpha \ell(e(\beta \ell(x)))) = e(\alpha \beta \ell(x)) = \Gamma_{\alpha \beta}(x)
+      \]
+    \item $\Gamma_{1}(x) = e(\ell(x)) = x$ and $\Gamma_{0}(x) = e(0) = 1$.
+  \end{enumerate}
+\end{proof}
+\begin{corollary}
+  For $p \in \Z$, $q \in \N$ and $x > 0$, we have:
+  \begin{enumerate}
+    \item For $p \geq 0$, $\Gamma_{p}(x) = x^{p}$.
+    \item For $p \geq 0$, $\Gamma_{-p}(x) = x^{-p}$
+    \item $\Gamma_{\frac{1}{q}}(x) = x^{1/q}$.
+    \item $\Gamma_{p/q}(x) = x^{p/q}$
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  \begin{enumerate}
+    \item Using \textbf{(ii)} from the Lemma, $\Gamma_{p}(x) = \Gamma_{1}(x)  \cdots \Gamma_{1}(x) = (\Gamma_{1}(x))^{p} = x^{p}$, and in the case of $p = 0$, $\Gamma_{0}(x) = 1 = x^{0}$.
+    \item $\Gamma_{p}(x)\Gamma_{-p}(x) = \Gamma_{0}(x) = 1 \implies \Gamma_{-p}(x) = \frac{1}{\Gamma_{p}(x)} = x^{-p}$.
+    \item $(\Gamma_{1/q}(x))^{q} = \Gamma_{1/q}(x) \cdots \Gamma_{1/q}(x) = \Gamma_{1}(x) = x \implies \Gamma_{1/q}(x) = x^{1/q}$.
+    \item $\Gamma_{p/q}(x) = \Gamma_{1/q}(\Gamma_{p}(x)) = \Gamma_{1/q}(x^{p}) = x^{p/q}$.
+  \end{enumerate}
+\end{proof}
+By property \textbf{iv}, we now have that  $x^{\alpha} = \Gamma_{\alpha}(x)$ for $\alpha \in \Q$.
+
+If we define $e = e(1) = \sum_{n = 1}^{\infty} \frac{1}{n!} \implies \ell(e) = 1$, then we can identify:
+\[
+  e(x) = e(x \ell(e)) = \Gamma_{x}(e) = e^{x}
+\]
+and $\ell(x) = \log(x)$ for $x \in \Q$.
+\begin{proposition}
+  For $r > 0$, we have that:
+  \begin{enumerate}
+    \item $x^{r}e^{-x} \to 0$ as $x \to \infty$.
+    \item $x^{-r}\log x \to 0$ as $x \to \infty$.
+    \item $x^{r} \log x \to 0^{+}$ as $x \to 0^{+}$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item Consider $x > 1$ as we are taking the limit as $x \to \infty$.
+      For any $n \in \N$, we have the bound:
+      \[
+        e^{x} = \sum_{k = 0}^{\infty} \frac{x^{k}}{k!} > \frac{x^{n}}{n!}
+      \]
+      We can then choose $n$ such that $n \geq 1 + r$, so that:
+      \[
+        0 \leq \frac{x^{r}}{e^{x}} \leq \frac{n!}{x^{n - r}} \leq \frac{n!}{x} \to 0 \text{ as } x \to \infty
+      \]
+      So $x^{r} e^{-x} \to 0$ as $x \to \infty$.
+    \item Firstly, note that for $t \geq 1$ and any $\varepsilon > 0$, $t^{-1} \leq t^{\varepsilon - 1}$.
+      Now pick $\varepsilon \in (0, r)$, we then can then use \cref{lProperties} \textbf{(iii)} and \cref{integralProperties} \textbf{(i)} to yield:
+      \begin{align*}
+        0 \leq x^{-r}\log x = x^{-r} \int_{1}^{x} \frac{1}{t} \d{t} &\leq x^{-r} \int_{1}^{x} t^{\varepsilon - 1} \d{t} \\
+                                                                    &= \frac{x^{\varepsilon - r}}{\varepsilon}
+      \end{align*}
+      Since $\varepsilon - r < 0$, $x^{\varepsilon - r} \to 0$ as $x \to \infty$, thus we must have $x^{-r}\log x \to 0$ as $x \to \infty$
+    \item
+      After rewriting, we can use L' H\^opital's rule (\cref{lHopitals}) to yield:
+      \[
+        \lim_{x \to 0^{+}} x^{r} \log x = \lim_{x \to 0^{+}} \frac{\log x}{x^{-r}} = \lim_{x \to 0^{+}} \left(\frac{1}{x}\middle/ \frac{r}{x^{r + 1}}\right) = \lim_{x \to 0^{+}} \frac{x^{r}}{r} = 0^{+}
+      \]
+      Alternatively:
+      \[
+        \lim_{x \to 0^{+}} x^{r} \log x \stackrel{x = e^{-t}}= - \lim_{t \to \infty} t e^{-rt} \stackrel{y = rt}= -\lim_{y \to \infty} \frac{ye^{-y}}{r} = 0
+      \]
+      by using property \textbf{(i)} for the final limit.
+  \end{enumerate}
+\end{proof}
+\section{Trigonometric Functions}
+Covered next lecture.
 \end{document}

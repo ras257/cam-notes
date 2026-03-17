@@ -338,7 +338,7 @@ We can think of derivatives as \textit{instantaneous rates of change} and in thi
 \end{remark}
 We can generalise the relation between $f'(z) = 0$ and constant functions into $\C$:
 \begin{corollary}
-  If $f: \C \to \C$ is differentiable in $\C$ and $f'(z) = 0\ \forall z \in \C$, then $f$ is constant.
+  If $f: \C \to \C$ is differentiable in $\C$ and $f'(z) = 0\ \forall z \in \C$, then $f$ is constant. \label{constantF}
 \end{corollary}
 \begin{proof}
   Fix some arbitrary $z \in \C$ and define:
@@ -358,7 +358,7 @@ We can generalise the relation between $f'(z) = 0$ and constant functions into $
 \end{proof}
 Now that we have introduced differentiation and some associated theorems, we can prove the full inverse function theorem that we saw a more basic version of in \cref{inverseFunctionMonotone}.
 \begin{theorem}[Inverse Function Theorem -- Version 2]
-  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $f'(x) > 0\ \forall x \in (a, b)$, then $f: [a, b] \to [f(a), f(b)]$ is bijective and $f^{-1} : [f(a), f(b)] \to [a, b]$ is continuous and differentiable in $(f(a), f(b))$ with derivative:
+  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $f'(x) > 0\ \forall x \in (a, b)$, then $f: [a, b] \to [f(a), f(b)]$ is bijective and $f^{-1} : [f(a), f(b)] \to [a, b]$ is continuous and differentiable in $(f(a), f(b))$ with derivative: \label{inverseFunction2}
   \[
     (f^{-1})'(y) = \frac{1}{f'(f^{-1}(y))}
   \]
@@ -455,7 +455,7 @@ Now that we have introduced differentiation and some associated theorems, we can
 \end{proof}
 \begin{proposition}[L' H\^opital's Rule]
   Let $-\infty \leq a < b \leq \infty$ and let $f, g: [a, b] \to \R$ be continuous and differentiable on $(a, b)$.
-  Suppose $g(x) \neq 0\ \forall x \in (a, b)$ and $\lim_{x \to a} \frac{f'(x)}{g'(x)} = A$ for some $-\infty \leq A \leq \infty$ (where the cases of $\pm \infty$ are suitably interpreted).
+  Suppose $g(x) \neq 0\ \forall x \in (a, b)$ and $\lim_{x \to a} \frac{f'(x)}{g'(x)} = A$ for some $-\infty \leq A \leq \infty$ (where the cases of $\pm \infty$ are suitably interpreted). \label{lHopitals}
 
   If either $f(x), g(x) \to 0$ as $x \to a$ or $f(x), g(x) \to \pm \infty$ as $x \to a$, then:
   \[
