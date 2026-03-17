@@ -892,12 +892,12 @@ Now we have defined a 4-velocity, we can define a \textit{4-momentum}:
   \]
 \end{definition}
 We can then write the 4-vector $P$ as:
-\[
+\begin{equation}
   P = \begin{pmatrix}
   E/c \\
   \vec{p} \\
-  \end{pmatrix}
-\]
+  \end{pmatrix} \label{pEoverC}
+\end{equation}
 Because this is a 4-vector, by definition, it transforms as $P' = \Lambda P$.
 The 4-momentum combines energy and momentum, analogously to how $X$ combines time and space.
 
@@ -933,8 +933,9 @@ This is an important consequence of relativity and suggests that mass leads to a
 We can also consider the high velocity limit as $|\vec{u}| \to c$.
 By definition:
 \[
-  \vec{p}= \gamma m \vec{u}
+  \vec{p} = \gamma m \vec{u}
 \]
+\label{finiteForce}
 We sometimes call $\gamma m$ the \textit{relativistic mass}.
 As $|\vec{u}| \to c$, $\gamma \to \infty$ so the relativistic mass $\gamma m \to \infty$.
 This means that more and more force is needed to accelerate the particle as its speed increases.
@@ -1290,6 +1291,7 @@ So the total ``kinetic energy'' of the incoming particles, $2(E_1 - mc^2)$, must
   If $2(E_1 - mc^2) = Mc^2$, then all the kinetic energy of the incoming particles is converted into the rest mass energy of the new particle so all three particles will be at rest in the centre of mass frame after the collision since their energies are just the rest mass energies.
 \end{remark}
 \section{Relativistic Acceleration}
+\subsection{Constant Accleration}
 \begin{definition}[Acceleration 4-vector]
   The \textit{acceleration} 4-vector is defined as:
   \[
@@ -1372,7 +1374,156 @@ and from the spatial component:
                                                &\implies \gamma a = a'\left(1 - \frac{u^2}{c^2}\right) \\
                                                &\implies a = a'\left(1 - \frac{u^2}{c^2}\right)^{\frac{3}{2}} \text{ as $\gamma^{-1} = \sqrt{1 - u^2/c^2}$}
 \end{align*}
-Since $a'$ is a constant and $a \equiv \dot{u}$, this is just a first order differential equation for $u$.
+Since $a'$ is a constant and $a \equiv \dot{u}$, this is just a separable first order differential equation for $u$.
+\[
+  \int \frac{\d{u}}{a'(1 - \frac{u^2}{c^2})^{3/2}} = \int \d{t}
+\]
+After integrating using the substitution $u = c \sin \theta$, we have that:
+\[
+  u = \frac{a'ct}{\sqrt{c^2 + {a'}^2t^2}}
+\]
+At early times, we have $a't \ll c$ so:
+\[
+  u \approx \frac{a' ct}{\sqrt{c^2}} = a't
+\]
+which is what we would expect in a non-relativistic setting.
+Further, at late times, we have $a' t\gg c$ and $u \to c$.
 
-Continued next lecture.
+By definition, $u = \deriv{x}{t}$, so we can integrate again to yield:
+\[
+  x = \frac{c}{a'}\sqrt{c^2 + {a'}^2t^2} + \text{constant}
+\]
+This is an equation for a hyperbola and so an accelerated particle follows a \textit{hyperbola in space-time}:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, -3)  -- (0, 3) node[above] {$ct$};
+  \draw[->] (-3, 0)  -- (3, 0) node[above] {$x$};
+  \begin{scope}
+    \clip (-4, -3) rectangle (4, 3);
+    \draw[very thick, rotate=180, domain=-1.4:0, smooth, variable=\t] plot ({-sec(\t r)},{tan(\t r)});
+  \end{scope}
+  \draw[dashed] (-3, -3) -- (3, 3) node[left, scale=0.7] {Rindler Horizon};
+  \draw[dashed] (-3, 3) -- (3, -3);
+
+\fill (-2, 0) circle (1.5pt) node[below] {$A$};
+\end{tikzpicture}
+\end{center}
+Suppose $A$ tries to transmit a message to the accelerated particle.
+Firstly, note that $A$ and the particle are always space-like separated so an event at $A$ can never be simultaneous with one on the worldline of the accelerated particle.
+Further, because the accelerated particle asymptotes to the line $ct = x$, any light rays transmitted from the point $A$ can never reach the particle.
+
+This concept is known as the \textit{Rindler Horizon}, it separates the accessible and inaccessible regions of space-time for an accelerated observer.
+This turns out to be similar to the event horizon of a black hole.
+\subsection{Relativistic Forces}
+Let the force 4-vector obey:
+\begin{definition}[Force 4-Vector]
+  The \textit{force 4-vector} is defined as:
+  \[
+    F \equiv \deriv{P}{\tau} = m \deriv{U}{\tau} = mA
+  \]
+\end{definition}
+We can parameterise the components of $F$ as:
+\[
+  F = \begin{pmatrix}
+  F^{0} \\
+  \gamma \vec{f} \\
+  \end{pmatrix}
+\]
+where $\vec{f} \in \R^3$.
+Recall from \cref{pEoverC} that:
+\[
+  P = \begin{pmatrix}
+  E/c \\
+  \vec{p} \\
+  \end{pmatrix}
+\]
+Therefore:
+\begin{equation}
+  \begin{pmatrix}
+  F^{0} \\
+  \gamma \vec{f} \\
+  \end{pmatrix} = \begin{pmatrix}
+  \frac{1}{c}\deriv{E}{\tau} \\
+  \deriv{\vec{p}}{\tau} \\
+  \end{pmatrix} \label{fEquate} \tag{$\dag$}
+\end{equation}
+Equating spatial components of \cref{fEquate}, we have:
+\[
+  \deriv{\vec{p}}{\tau} = \gamma \vec{f} \implies \gamma \deriv{\vec{p}}{t} = \gamma \vec{f} \implies \deriv{\vec{p}}{t} = \vec{f}
+\]
+So $\vec{f}$ is Newtonian force 4-vector appearing in Newtons 2nd Law (\cref{newton2}).
+However, note that here $\vec{p} = m\gamma\vec{u}$ is the relativistic 3-momentum and not the standard non-relativistic momentum as it uses the relativistic mass $m\gamma$ instead of just $m$.
+
+Had we just been presented with $\dot{\vec{p}} = \vec{f}$, it would not have been clear that this was relativistically invariant, however, it infect is because it was derive directly from 4-vectors which transform appropriately under Lorentz transformations.
+
+This also links in with our discussion from \cref{finiteForce} that particles become harder to accelerate the faster they are travelling since $\gamma$ increases.
+
+Moving back to one spatial dimension, we can equate $F$ with the 4-acceleration and suppose $f$ is constant:
+\[
+  \begin{pmatrix}
+  F^{0} \\
+  \gamma f \\
+  \end{pmatrix} = m\begin{pmatrix}
+  \frac{\gamma u a'}{c} \\
+  \gamma a' \\
+  \end{pmatrix} \implies \gamma f = m\gamma a' \implies a' = \frac{f}{m}
+\]
+and so $a'$ is a constant
+So indeed, a constant force $f$ produces a constant acceleration in the instantaneous rest frame.
+
+Now, considering the time component of \cref{fEquate}:
+\[
+  F_0 = \frac{1}{c}\deriv{E}{\tau} = \frac{\gamma}{c}\deriv{E}{t}
+\]
+Thus $F_0$ is proportional to the change of energy with time and so the force 4-vector also encapsulates how energy changes with time.
+
+We can also recover a familiar equation from this.
+Firstly, recall from \cref{pdotp} that $P \cdot P = m^2 c^2$ and so $\deriv{}{\tau}(P \cdot P) = 0$.
+\[
+  0 = \deriv{}{\tau}(P \cdot P) = 2 P \cdot \deriv{P}{\tau} = 2\left(\frac{E}{c^2}\deriv{E}{\tau} - \vec{p} \cdot \deriv{\vec{p}}{\tau}\right)
+\]
+By definition $E = m\gamma c^2$ and $\vec{p} = m\gamma \vec{u}$ and so:
+\begin{align*}
+  2\gamma^2m\left(\deriv{E}{t} - \vec{u} \cdot \deriv{\vec{p}}{t}\right) = 0
+\end{align*}
+Finally, since $\gamma^2 m \neq 0$:
+\[
+  \deriv{E}{t} = \vec{u} \cdot \deriv{\vec{p}}{t} = \vec{u} \cdot \vec{f}
+\]
+We have seen this equation before in \cref{powerDef}.
+Thus, the rate of doing work $\vec{u} \cdot \vec{f}$ is just the rate of change of energy, even in the relativistic setting.
+\subsection{Lorentz Force}
+\nonexaminable
+Recall from \cref{lorentzForce}, that the Lorentz force combines electric and magnetic forces.
+In a relativistic setting, the Lorentz force is written as:
+\[
+  F = \deriv{P}{\tau} = \frac{q}{c} G \cdot U
+\]
+where $G$ is the \textit{electromagnetic 4-tensor}:
+\[
+  G = \begin{pmatrix}
+  0 & -E_{x} & -E_{y} & -E_{z} \\
+  E_x & 0 & -cB_z & cB_y \\
+  E_y & cB_z & 0 & -cB_x \\
+  E_z & -cB_y & cB_x & 0 \\
+  \end{pmatrix}
+\]
+We can check that this does indeed give the same Lorentz force as before.
+Firstly, looking at the time component, we have that:
+\begin{align*}
+  \gamma \deriv{E}{\tau} = \frac{q}{c}(0 - (-\vec{E} \cdot \gamma \vec{u})) \implies \deriv{E}{t} = \frac{q}{c}\vec{E} \cdot \vec{u}
+\end{align*}
+This tells us that the electric field does work on the particle but the magnetic field does not, as expected, since the magnetic force always acts orthogonally to the velocity of the particle.
+
+Secondly, looking at the spatial components, we have that:
+\begin{align*}
+  \left(\gamma \deriv{\vec{p}}{t}\right)^{i} &= \frac{q}{c}(G^{i0}u_0 - G^{ij}u_j) \\
+                                       &= \frac{q}{c}(E^{i}\gamma c + \levi_{i j k}B_k c \gamma u_j) \\
+                                       &= q\gamma(E^{i} + \levi_{i j k}u_jB_k) \\
+  \implies \deriv{\vec{p}}{t} &= q(\vec{E} + \vec{u} \times \vec{B})
+\end{align*}
+Since we defined it as a 4-vector, the Lorentz force is relativistically invariant, but we may need to account for the ``mixing'' of $\vec{E}$ and $\vec{B}$ when transforming $U$ and $G$ as:
+\[
+  U' = \Lambda U \text{ and } G' = \Lambda G \Lambda^{-1}
+\]
 \end{document}
