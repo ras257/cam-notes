@@ -702,6 +702,7 @@ The first axis is parallel to the line from the origin to the opposite vertex an
   An isotropic tensor is \textbf{not} a tensor which is the same in every basis.
   This is because the tensors stays the same under a change of basis but its \textbf{components change}.
 \end{remark}
+\subsection{General Forms of Isotropic Tensors}
 We have already seen the examples $\delta_{i j}$ and $\levi_{i j k}$.
 In fact we can find the most general cases of isotropic tensors for each rank:
 \begin{itemize}
@@ -720,7 +721,7 @@ In fact we can find the most general cases of isotropic tensors for each rank:
   It quite often appears in Tripos exams, but with the form above given.
 \end{remark}
 \begin{lemma}
-  The most general isotropic tensor of rank 2 is $\alpha \delta_{i j}$ for some scalar $\alpha$.
+  The most general isotropic tensor of rank 2 is $\alpha \delta_{i j}$ for some scalar $\alpha$. \label{general2ndRankIso}
 \end{lemma}
 \begin{proof}
   Let $T_{i j}$ be any isotropic second rank tensor.
@@ -764,6 +765,217 @@ In fact we can find the most general cases of isotropic tensors for each rank:
     T_{1 3} &= T_{2 3} = -T_{1 3} \implies T_{1 3} = T_{2 3} = 0 \\
     T_{3 1} &= T_{3 2} = -T_{3 1} \implies T_{3 1} = T_{3 2} = 0
   \end{align*}
-  Continued next lecture.
+  Similarly, carrying out the same process but for rotation of $\frac{\pi}{2}$ about the $y$-axis gives:
+  \[
+    T_{1 1} = T_{3 3},\ T_{1 2} = T_{3 2} = 0,\ T_{2 1} = T_{2 3} = 0
+  \]
+  Hence, all off diagonal entries of $T$ vanish and $T_{1 1} = T_{2 2} = T_{3 3} = \lambda$ and so the result follows.
 \end{proof}
+\begin{remark}
+  Interestingly, we only needed to use two very specific rotations to achieve the result.
+
+  If there are symmetries in the problem, it is advisable to pick a rotation that is related to that symmetry to find information about the tensor.
+  Furthermore, as we saw above, you often don't need to use all of the facts you are given to arrive at the result and it is much faster to pick a few well chosen bases than to work with a more general rotation.
+\end{remark}
+There is a similar proof for the general form for third-rank isotropic tensors, however it involves more suffices and we unfortunately cannot use the convenient matrix notation.
+\begin{remark}[Physical Significance]
+  As an example, consider the conductivity law (from \cref{conductivityTensor}), $J_i = \sigma_{i j}E_j$ in an isotropic medium.
+  Since the medium is isotropic, it has the same physical properties in all directions and so $\sigma_{i j}$ must be an isotropic tensor.
+  So by \cref{general2ndRankIso}, $\sigma_{i j} = \lambda \delta_{i j}$ for some scalar $\lambda$ and therefore:
+  \[
+    J_i = \lambda \delta_{i j}E_j
+  \]
+  or equivalently $\vec{J} = \lambda \vec{E}$ and so the direction of $\vec{E}$ does not affect the current.
+\end{remark}
+\subsection{Isotropic Integrals}
+We can use this idea to calculate certain integrals.
+This is best illustrated using an example which can then be generalised to other integrals.
+\subsubsection{Worked Example}
+\begin{remark}[Question]
+  Calculate the integral.
+  \[
+    I_{i j} = \int_{r < a} rx_ix_j \d{V}
+  \]
+\end{remark}
+We observe that $I_{i j}$ is an isotropic second-rank tensor.
+Everything in its definition is a tensor and there is no ``preferred direction'' in $\R^3$ so we would expect all sets of axes to produce the same answer.
+Although this intuitively makes sense and is sufficient for exams/supervisions, we will provide a formal proof of this in \cref{isotropyProof}.
+
+Therefore, by \cref{general2ndRankIso}, we must have $I_{i j} = \lambda \delta_{i j}$ for some $\lambda$.
+We could just calculate the integral for convenient a pair of indices, say $I_{1 1}$, but we can utilise the fact that $\delta_{i i} = 3$ to carry out the following:
+\begin{align*}
+  3\lambda = I_{i i} &= \int_{r < a} rx_ix_i \d{V} \\
+                     &= \int_{r < a} r^3 \d{V} \text{ as $x_ix_i = r^2$} \\
+                     &= \int_{r = 0}^{a} \int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} r^3 \cdot r^2 \sin \theta \d{r} \d{\theta} \d{\phi} \\
+                     &= 4\pi \cdot \frac{1}{6}a^6 \\
+  \implies \lambda &= \frac{2}{9}\pi a^{6}
+\end{align*}
+So $I_{i j} = \frac{2}{9}\pi a^{6} \delta_{i j}$.
+
+We can sometimes use a similar trick, even when the starting integral is not isotropic:
+\begin{remark}[Extension]
+  Consider the vector $\vec{B}$ defined as:
+  \[
+    \vec{B} = \int_{r < a}  (\vec{x} \cdot \vec{b})|\vec{x}|\vec{x} \d{V}
+  \]
+  for some non-zero constant vector $\vec{b}$.
+\end{remark}
+This is clearly not isotropic as it depends on $\vec{b}$ which will have different components in different bases (as it it non-zero).
+
+However, we can write the $i$-th component of $\vec{B}$ as:
+\begin{align*}
+  \vec{B}_i &= b_j \int_{r < a} x_j r x_i \d{V} \\
+            &= b_j \cdot \frac{2}{9}\pi a^{6} \delta_{i j} \\
+            &= \frac{2}{9} \pi a^{6} b_i \\
+  \implies \vec{B} &= \frac{2}{9} \pi a^6 \vec{b}
+\end{align*}
+So despite the original integral not being isotropic, we can still use a result about an isotropic integral to help us.
+\begin{proposition}[Proof of Isotropy of $I_{i j}$]
+  The tensor $I_{i j}$ given by: \label{isotropyProof}
+  \[
+    I_{i j} = \int_{r < a} rx_ix_j \d{V}
+  \]
+  is an isotropic second rank tensor.
+\end{proposition}
+\begin{proof}
+  \nonexaminable
+  We will first prove that it is a tensor.
+  By definition:
+  \[
+    I_{i j} = \int_{r < a} rx_ix_j \d{x} \d{y} \d{z}
+  \]
+  Firstly, we note that $r' = r$ as $r^2 = x_ix_i$ is a scalar so will be the same in all bases.
+  Transforming into a different basis, we have:
+  \begin{align*}
+    I_{i j}' &= \int_{r' < a} r'x_i'x_j' \d{x'}\d{y'}\d{z'} \\
+             &= \int_{r < a} r R_{i p} x_p R_{j q}x_q |J| \d{x}\d{y}\d{z} \text{ since $r' = r$ and $\vec{x}$ is a vector}
+  \end{align*}
+  where $J$ is the Jacobian of the transformation $(x, y, z) \mapsto (x', y', z')$.
+  However, this is just a rotation so $J = \det R = 1$.
+  Therefore:
+  \[
+    I_{i j}' = R_{i p}R_{j q}\int_{r < a}  rx_p x_q \d{x}\d{y}\d{z} = R_{i p}R_{j q}T_{p q}
+  \]
+  So it obeys \cref{tensorTransform} and is therefore a tensor.
+
+  Furthermore, to show that it is isotropic:
+  \begin{align*}
+    I_{i j'} &= \int_{{x'}^2 + {y'}^2 + {z'}^2 < a^2}  \sqrt{{x'}^2 + {y'}^2 + {z'}^2}x_i'x_j'\d{x'}\d{y'}\d{z'} \\
+             &= \int_{x^2 + y^2 + z^2 < a^2} \sqrt{x^2 + y^2 + z^2}x_ix_j \d{x}\d{y}\d{z} \\
+             &= I_{i j}
+  \end{align*}
+  We can do this since in the above integral, $x'$, $y'$ and $z'$ are all dummy variables so we can relabel them as $x$, $y$, and $z$, noting also that $x_i'$ and $x_j'$ will be instances of $x'$, $y'$ or $z'$ and so are relabelled to $x_i$ and $x_j$.
+\end{proof}
+\section{Tensor Calculus}
+\subsection{Vector Differential Operators}
+When we defined differential operators, such as div, grad, and curl in \cref{chapter1} we did so with respect to the standard basis.
+It should not matter if we had used a different basis and so we expect the results to transform correctly.
+
+$\vec{x}$ is a vector so obeys the inverse vector transformation law (\cref{invVectorTransform}), that is:
+\begin{align*}
+  x_i &= R_{j i}x_j' \\
+  \implies \pderiv{x_i}{x_k} &= R_{j i} \pderiv{x_j'}{x_k'} = R_{j i} \delta_{j k} = R_{k i}
+\end{align*}
+We can then use this to derive the chain rule for the change of basis.
+If we let $\bullet$ be a placeholder for \textbf{any} tensor expression, then:
+\begin{equation}
+  \pderiv{\,\bullet}{x_i'} = \pderiv{\,\bullet}{x_j} \pderiv{x_j}{x_i'} = R_{i j} \pderiv{\,\bullet}{x_j} \label{chainRuleTensor}
+\end{equation}
+If we use the notation $\partial_i$ for $\partial/\partial x_i$ then we have:
+\[
+  \partial_i' = R_{i j}\partial_j
+\]
+in other words $\nabla$, whose components are $\partial_i$ is a \textit{vector} differential operator as it obeys the vector transformation law in \cref{vectorTransform}.
+\begin{lemma}
+  If $\vec{F}(\vec{x})$ is a vector field, then $\nabla \cdot \vec{F}$ is a scalar, i.e., it does not depend on the basis.
+\end{lemma}
+\begin{proof}
+  We need to show that $(\nabla \cdot \vec{F})' = \nabla \cdot \vec{F}$:
+  \begin{align*}
+    (\nabla \cdot \vec{F})' &= \nabla' \cdot \vec{F}' \\
+                            &= \pderiv{F_i'}{x_i'} \\
+                            &= R_{i j}\pderiv{}{x_j}(R_{i p}F_p) \text{ using \cref{chainRuleTensor}} \\
+                            &= (R^{\trans} R)_{j p} \pderiv{F_p}{x_j} \text{ using \cref{RDelta}} \\
+                            &= \delta_{j p} \pderiv{F_p}{x_j} \\
+                            &= \pderiv{F_j}{x_j} = \nabla \cdot \vec{F}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{lemma}
+  If $f(\vec{x})$ is a scalar field, then $\nabla f$ is a vector.
+\end{lemma}
+\begin{proof}
+  We need to show that $\nabla f$ obeys \cref{vectorTransform}:
+  \begin{align*}
+    (\nabla f)_i' &= \nabla'_i f \text{ as $f$ is a scalar} \\
+                  &= R_{i j}\pderiv{f}{x_j} \text{ using \cref{chainRuleTensor}} \\
+                  &= R_{i j}(\nabla f)_j
+  \end{align*}
+  as required.
+\end{proof}
+\begin{lemma}
+  If $\vec{F}(\vec{x})$ is a vector field, then $\nabla \times \vec{F}$ is a vector.
+\end{lemma}
+\begin{proof}
+  We need to show that $\nabla \times \vec{F}$ obeys \cref{vectorTransform}:
+  \begin{align*}
+    (\nabla \times \vec{F})'_i &= (\nabla' \times \vec{F}')_i \\
+                               &= \levi_{i j k}'\nabla'_j F_k' \\
+                               &= R_{i l}R_{j m}R_{k n}\levi_{l m n} R_{j p} \pderiv{}{x_p} R_{k q}F_{q} \text{ using \cref{chainRuleTensor} and \cref{tensorTransform}} \\
+                               &= (R_{j m}R_{j p})(R_{k n}R_{k q})R_{i l} \levi_{l m n} \pderiv{}{x_p}F_q \\
+                               &= \delta_{m p}\delta_{n q} R_{i l} \levi_{l m n} \pderiv{}{x_p}F_q \text{ using \cref{RDelta}} \\
+                               &= R_{i l}\levi_{l p q} \pderiv{}{x_p}F_q \\
+                               &= R_{i l}(\nabla \times \vec{F})_l
+  \end{align*}
+  as required.
+\end{proof}
+Similarly to how a vector field is a vector that depends on position, we can generalise this to other ranks of tensors:
+\begin{definition}[Tensor Field]
+  A \textit{tensor field} is a tensor which depends on position.
+\end{definition}
+So if $T_{p q r \ldots}(\vec{x})$ is a tensor field of rank $m$ then if we differentiate $n$ times:
+\[
+  \frac{\partial^{n}}{\underbrace{\partial x_i \partial x_j \partial x_k \cdots}_{n \text{ derivatives}}} T_{p q r \ldots}
+\]
+then we end up with $m + n$ indices so this is a tensor field of rank $m + n$.
+We know that it will be a tensor as we know that $\partial_i$ is a vector differential operator.
+
+For example $\partial T_{i j}/\partial x_k$ is a third-rank tensor field.
+\subsection{The Tensor Divergence Theorem}
+\nonexaminable
+\begin{remark}[Recap]
+  Recall the standard divergence theorem (\cref{divergenceTheorem}) for a vector field $\vec{F}$ and volume $V$:
+  \[
+    \int_{V} \nabla \cdot \vec{F} \d{V} = \int_{S} \vec{F} \cdot \d{\vec{S}}
+  \]
+  Or equivalently using suffices and summation notation:
+  \[
+    \int_{V} \pderiv{F_i}{x_i} \d{V} = \int_{\partial V} F_i n_i \d{S}
+  \]
+\end{remark}
+\begin{theorem}[Tensor Divergence Theorem -- Rank 2]
+  For a suitable tensor field $T_{i j}(\vec{x})$ in a volume $V$:
+  \[
+    \int_{V} \pderiv{T_{i j}}{x_i} \d{V} = \int_{\partial V} T_{i j}n_i \d{S}
+  \]
+\end{theorem}
+\begin{proof}
+  Let $F_i = a_j T_{i j}$, where $\vec{a}$ is an arbitrary constant vector.
+  Since $\vec{F}$ is a inner product of a tensor field $T_{i j}$ and a vector $\vec{a}$, $\vec{F}$ is a vector field and so we can apply the usual divergence theorem:
+  \begin{align*}
+    \int_{V} \pderiv{F_i}{x_i} \d{V} &= \int_{\partial V} F_i n_i \d{S} \\
+    \implies a_j \int_{V} \pderiv{T_{i j}}{x_i} \d{V} &= a_j \int_{\partial V} T_{i j}n_i \d{S}
+  \end{align*}
+  Since $\vec{a}$ was an arbitrary vector, it follows that:
+  \[
+    \int_{V} \pderiv{T_{i j}}{x_i} \d{V} = \int_{\partial V} T_{i j}n_i \d{S}
+  \]
+  as required.
+\end{proof}
+In fact, we can generalise this to any tensor expression $\bullet$:
+\[
+  \int_{V} \pderiv{\, \bullet}{x_i} \d{V} = \int_{\partial V} \bullet\; n_i \d{S}
+\]
+Furthermore, the index $i$ does not need to be the first index in $\bullet$, in fact, $\bullet$ need not have an index $i$ at all.
+We can prove this result by introducing as many arbitrary constant vectors as required, namely the rank of $\partial \bullet/\partial x_i$, which matches with the case above where we introduced one arbitrary constant vector.
 \end{document}

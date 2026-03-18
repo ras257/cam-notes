@@ -84,8 +84,7 @@
 \end{proof}
 \begin{theorem}[Strong Law of Large Numbers -- SLLN]
   Let $(X_n)$ be independent and identically distributed random variables with finite $\mu = \E[X_1]$.
-
-  If we set $S_n = X_1 + \cdots + X_n$ for $n \in \N$, then:
+  If we set $S_n = X_1 + \cdots + X_n$ for $n \in \N$, then: \label{SLLN}
   \[
     \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely}
   \]
@@ -354,4 +353,47 @@ Using the central limit theorem, since $\Var(X_i) = 1$ and $\E[X_i] = 1$:
   \frac{S_n - n}{\sqrt{n}} \xrightarrow{(d)} \normal(0, 1) \text{ as } n \to \infty
 \]
 Thus, for large $n$, we can approximate a Poisson distribution as $S_n \approx \normal(n, n)$.
+\subsection{Sampling Error}
+Suppose we hold a referendum and a proportion $p$ of individuals is inclined to vote ``Yes''.
+That is, every individual votes ``Yes'' with probability $p$ and ``No'' with probability $1 - p$.
+
+It is natural to want to estimate $p$ but perhaps we do not want to ask the whole population.
+We can instead take a sample of $N$ individuals at random and record their votes.
+Let $X_i$ take the value 1 if the $i$-th individual voted ``Yes'' and 0 otherwise.
+Finally, let $S_N$ be the total number of ``Yes'' votes, i.e. $S_N = X_1 + \cdots + X_N$.
+
+Since $S_N$ is the sum of $N$ i.i.d Bernoulli random variables, as we saw in \cref{binomialAsBernSum}, $S_N \sim \binomial(n, p)$.
+So using the strong law of large numbers (\cref{SLLN}), we have that:
+\[
+  \hat{p}_{N} = \frac{S_N}{N} \to p \text{ as $N \to \infty$}
+\]
+That is, as the size of the sample increases, $\hat{p}_{N}$ approaches $p$.
+
+So that we do not need to sample the whole population, we want to determine $N$ such that our estimate $\hat{p}_N$ for $p$ is within some tolerance of $p$.
+For example, suppose that we want to estimate $p$ to an accuracy of $\pm 4\%$ with probability greater than $0.99$.
+We then want to find $N$ such that:
+\[
+  \P(|\hat{p}_{N} - p| \geq 0.04) \leq 0.01
+\]
+By the Central Limit Theorem (\cref{CLT}), for large $N$, $S_N \approx Np + \sqrt{Np(1 - p)Z}$ where $Z \sim \normal(0, 1)$.
+We can then rewrite $\hat{p}_N$ using this:
+\[
+  \hat{p}_{N} = \frac{S_N}{N} \approx p + \frac{\sqrt{p(1 - p)}}{\sqrt{N}}Z
+  \implies |\hat{P}_{N} - p| \approx \frac{\sqrt{p(1 - p)}}{\sqrt{N}} |Z|
+\]
+Furthermore, as we saw in \cref{normalSymmetryExample}, due to the symmetry of the density function for the normal distribution:
+\[
+  \P(|Z| \geq z) = 2(1 - \Phi(z))
+\]
+If we take $z = 2.58$, then either using a statistical table or numerical integration, we see that $\Phi(2.58) \approx 0.995$ and so $\P(|Z| \geq 2.58) = 0.01$.
+
+Since we want to find $N$ such that:
+\[
+  \P\left(\frac{\sqrt{p(1 - p)}}{N} |Z| \geq 0.04\right) \leq 0.01
+\]
+we therefore need:
+\[
+  \frac{\sqrt{N}}{\sqrt{p(1 - p)}} \cdot 0.04 \geq 2.58 \implies N \geq 4160.25 \cdot p(1 - p)
+\]
+For $p \in [0, 1]$, $p(1 - p)$ attains a minimum value of $\frac{1}{4}$ and so $N \geq 1040$ is sufficiently large.
 \end{document}

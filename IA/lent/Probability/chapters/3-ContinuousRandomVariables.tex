@@ -559,7 +559,7 @@ and if both are infinite, then $\E[X]$ is undefined.
   So $\Phi(x) + \Phi(-x) = C\ \forall x$ for some constant $C$ since $\Phi$ is continuous.
   Setting $x = 0$, we have $\Phi(0) = \frac{1}{2}$ and so $\Phi(x) + \Phi(-x) = 1$
 \end{proof}
-\begin{example}
+\begin{example} \label{normalSymmetryExample}
   If $X \sim \normal(\mu, \sigma^2)$, what is the probability that $X$ is within 2 standard deviations of its mean?
 
   We want to find:
@@ -768,7 +768,7 @@ Like in the discrete case, we would like to be able to find the distribution of 
 \begin{proof}
   Provided without proof.
 \end{proof}
-\begin{example}
+\begin{example} \label{boxMullerExample}
   Suppose $X, Y$ are independent random variables with standard normal distribution $\normal(0, 1)$.
   What is the distribution of its modulus $R = \sqrt{X^2 + Y^2}$ and the distribution of the angle $\Theta$ the vector $(X, Y)$ makes with the positive $x$ axis?
 
@@ -1583,5 +1583,129 @@ We can also check that any matrix in this form is a valid variance matrix for a 
                       &= \E[X_2 \vert X_1] = \mu_2 + \frac{\Cov(X_1, X_2)}{\Var(X_1)}(X_1 - \mu_1)
   \end{align*}
   which is also Gaussian.
+\end{proof}
+\section{Simulation of Random Variables}
+\subsection{General Distributions} \label{simulateGeneral}
+Suppose we want to simulate a random variable $X$ with probability distribution function $F(x) = \P(X \leq x)$.
+Using a computer, it is easy to simulate $U \sim \uniform[0, 1]$, so, using this $U$ and our knowledge of $F$, how can we generate $X$?
+\subsubsection{If $F$ is bijective}
+Assuming $F$ is bijective, it must have an inverse.
+We then set $X = F^{-1}(U)$ and can check that this indeed gives the correct distribution:
+\begin{align*}
+  \P(X \leq x) &= \P(F^{-1}(U) \leq x) \\
+               &= \P(U \leq F(x)) \text{ since $F$ is bijective } \{F^{-1}(U) \leq x\} = \{U \leq F(x)\} \\
+               &= F(x) \text{ since $U \sim \uniform[0, 1]$}
+\end{align*}
+\subsubsection{If $F$ is not bijective}
+If $F$ is not bijective, then we instead use its \textit{generalised inverse}, defined as:
+\[
+  G: [0, 1] \to \R,\ u \mapsto \inf \{x \in \R: u \leq F(x)\}
+\]
+We know from \cref{pdfProperties} that $F$ is increasing and $F$ is right continuous.
+This means that when sections of $F$ are strictly increasing, $G$ is just the inverse of $F$, and on ``flat'' parts of $F$, $G$ takes the first input for which that constant value is attained.
+
+\begin{lemma}
+  For $G$ and $F$ as defined above and $u \in [0, 1],\ x \in \R$, $G(u) \leq x \iff u \leq F(x)$.
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $G(u) \leq x$}
+    Since $G(u)$ is the infimum, there exists a sequence $(x_n)$ on $\{x \in \R: u \leq F(x)\}$ such that $x_n$ decreases to $G(u)$ and $u \leq F(x_n)\ \forall n$.
+    By right continuity of $F$, we get that:
+    \[
+      u \leq \lim_{n \to \infty} F(x_n) = F(\lim_{n \to \infty} x_n) = F(g(u))
+    \]
+    Finally, since $F$ is increasing and $G(u) \geq x$, $u \leq F(G(u)) \leq F(x)$, as required.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $u \leq F(x)$}
+    Since $x \in \{x \in \R : u \leq F(x)\}$, by definition of infimum:
+    \[
+      G(u) = \inf \{x \in \R: u \leq F(x)\} \leq x
+    \]
+    as required.
+  \end{proofdirection}
+\end{proof}
+We now set $X = G(U)$ and can check that this indeed gives the correct distribution:
+\begin{align*}
+  \P(X \leq x) &= \P(G(U) \leq x) \\
+               &= \P(U \leq F(x)) \text{ by the lemma } \{G(U) \leq x\} = \{U \leq F(x)\} \\
+               &= F(x) \text{ since $U \sim \uniform[0, 1]$}
+\end{align*}
+\subsection{Box Muller Transform}
+Suppose we want to simulate independent $X, Y \sim \normal(0, 1)$ using two independent $\uniform[0,1]$ random variables.
+It is difficult to apply the above technique since the probability density function of $\normal(0, 1)$ is:
+\[
+  F(x) = \int_{-\infty}^{x} \frac{e^{-t^2/2}}{\sqrt{2\pi}} \d{t}
+\]
+which does not have a closed form and so its inverse does not have a closed form.
+
+Recall from \cref{boxMullerExample}, that if $X, Y$ are independent random variables with standard normal distribution $\normal(0, 1)$ then the modulus of the vector $(X, Y)$, $R = \sqrt{X^2 + Y^2}$ has density $re^{-r^2/2}$ and the distribution of the angle $\Theta$ the vector makes with the positive $x$ axis is $\uniform[0, 2\pi]$ with $R \perp \Theta$.
+
+We can use this to generate normal random variables.
+Let $U, V$ be independent random variables following $\uniform[0, 1]$.
+To simulate $\Theta$ we can simply use:
+\[
+  \Theta = 2\pi U \sim \uniform[0, 2\pi]
+\]
+To simulate $R$, we can apply the result from \cref{simulateGeneral}.
+\begin{align*}
+  f(r) = re^{-r^2/2} \implies F(r) &= \int_{0}^{r} xe^{-x^2/2} \d{x} \\
+                                   &= \eval{-e^{-x^2/2}}{0}{r} \\
+                                   &= 1 - e^{-r^2/2} \\
+  \implies F^{-1}(v) &= \sqrt{-2 \log (1 - v)}
+\end{align*}
+Since $F^{-1}$ exists, to simulate $R$, we use:
+\begin{align*}
+  R &= F^{-1}(V) = \sqrt{-2\log(1 - V)} = \sqrt{-2\log V}
+\end{align*}
+since $V$ and $1 - V$ follow the same distribution.
+
+To check that it has the correct density:
+\begin{align*}
+  \P(R \geq r) &= \P(\sqrt{-2\log V} \geq r) \\
+               &= \P(V \leq e^{-\frac{r^2}{2}}) \\
+               &= e^{-r^2/2}
+\end{align*}
+Which is the correct probability distribution function for $R$.
+
+Now we know how to generate $R$ and $\Theta$ from $U, V \sim \uniform[0, 1]$, we can substitute these generated values back into $X = R\cos \Theta$, $Y = R\sin \Theta$ to generate independent $\normal(0, 1)$ random variables.
+\subsection{Rejection Sampling}
+Suppose we have a random variable $X$ that we would like to simulate that has density:
+\[
+  f(x) = \frac{1(x \in A)}{|A|}
+\]
+where $|A|$ is the volume of $A$ in $\R^{d}$ and $A \subseteq [0, 1]^{d}$.
+This is a generalisation of a uniform random variable into higher dimensions.
+
+We can easily generate a uniform random variable on $[0, 1]^{d}$ by just generating each component separately.
+Let $U_{k, n} \sim \uniform[0, 1]$ be the $k$-th component of the $n$-th sample for $k \in \{1, \ldots, d\}$ and $n \in \N$.
+Therefore:
+\[
+  U_n = (U_{1, n}, \ldots, U_{d, n})^{\trans} \sim \uniform([0, 1]^{d})
+\]
+
+But how can we use this to generate a random variable with density $f$?
+The solution is surprisingly simple, if we repeatedly take samples $U_i$ from $\uniform([0, 1]^{d})$ until $U_N \in A$, then $U_N$ is a sample of the random variable $X$.
+\begin{proposition}
+  For $f$, $A$, and $U_n$ as defined previously, if we define:
+  \[
+    N = \min\{n \in \N: U_n \in A\} \text{ and } X = U_{N}
+  \]
+  then $X$ has density $f$.
+\end{proposition}
+\begin{proof}
+  We need to show that for any $B \subseteq A \subseteq [0, 1]^{d}$:
+  \[
+    \P(X \in B) = \int_{B} f(x) \d{x} = \frac{|B \cap A|}{|A|}
+  \]
+  We can show this by summing over all the possible values that $N$ can take and utilising that $N$ is index of the \textbf{first sample} to be in $A$:
+  \begin{align*}
+    \P(X \in B) &= \P(U_N \in B) \\
+                &= \sum_{n = 1}^{\infty} \P(U_n \in B, N = n) \\
+                &= \sum_{n = 1}^{\infty} \P(U_n \in B, U_n \in A, U_{n - 1} \notin A, U_{n - 2} \notin A, \ldots, U_{1} \notin A) \\
+                &= \sum_{n = 1}^{\infty} \P(U_{n} \in B \cap A)\P(U_{1} \notin A)^{n - 1} \text{ as the $U_i$ are i.i.d} \\
+                &= \sum_{n = 1}^{\infty} |B \cap A| (1 - |A|)^{n - 1} \text{ as $U_{n} \sim \uniform([0, 1]^{d})$} \\
+                &= |B \cap A| \sum_{n = 0}^{\infty} (1 - |A|)^{n} \\
+                &= \frac{|B \cap A|}{|A|}
+  \end{align*}
 \end{proof}
 \end{document}
