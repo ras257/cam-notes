@@ -545,6 +545,13 @@ Since $e: \R \to (0, \infty)$ is a bijection, it must have an inverse.
                 &= \sum_{n = 0}^{\infty} \frac{(-1)^{n}}{n + 1}y^{n + 1} \\
                 &= \sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}y^{n} \text{ for $|y| < 1$}
   \end{align*}
+  Unfortunately, we cannot use this to find $\ell(2)$, however, we can show:
+  \begin{align*}
+    \abs{\ell(2) - \sum_{n = 0}^{N} \int_{0}^{1} (-1)^{n}t^{n} \d{t}} &= \abs{\int_{0}^{1} \frac{1}{1 + t} \d{t} - \int_{0}^{1} \frac{1-(-t)^{N + 1}}{1 + t} \d{t}} \\
+                                                                      &\leq \int_{0}^{1} \abs{\frac{1}{1 + t} - \frac{1 - (-1)^{N + 1}}{1 + t}} \d{t} \\
+                                                                      &\leq \int_{0}^{1} t^{N + 1} \d{t} \\
+                                                                      &= \frac{1}{N + 2} \to 0 \text{ as } N \to \infty
+  \end{align*}
 \end{remark}
 \begin{definition}
   For $\alpha \in \R$, define the function $\Gamma_{\alpha}$ as:
@@ -645,5 +652,222 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
   \end{enumerate}
 \end{proof}
 \section{Trigonometric Functions}
-Covered next lecture.
+\begin{definition}[Trigonometric Functions]
+  Define the functions $c:\C \to \C$ and $s: \C \to \C$ as:
+  \begin{align*}
+    c: \C \to \C,&\ z \mapsto \frac{1}{2}(e(iz) + e(-iz)) = \sum_{k = 0}^{\infty} \frac{(-1)^{k}x^{2k}}{(2k)!} \\
+    s: \C \to \C,&\ z \mapsto \frac{1}{2i}(e(iz) - e(-iz)) = \sum_{k = 0}^{\infty} \frac{(-1)^{k}x^{2k + 1}}{(2k + 1)!}
+  \end{align*}
+  These are both well defined as their power series converge on all of $\C$.
+\end{definition}
+\begin{lemma}[Basic Trigonometic Identities]
+  For $w, z \in \C$: \label{trigIdentities}
+  \begin{enumerate}
+    \item $c(0) = 1$ and $s(0) = 0$.
+    \item $c(-z) = c(z)$ and $s(-z) = -s(z)$.
+    \item $c'(z) = -s(z)$ and $s'(z) = c(z)$.
+    \item $s(z + w) = s(z)c(w) + s(w)c(z)$.
+    \item $c(z + w) = c(z)c(w) - s(z)s(w)$.
+    \item $s^2(z) + c^2(z) = 1$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item $c(0) = \frac{1}{2}(e(0) + e(0)) = 1$ and $s(0) = \frac{1}{2i}(e(0) - e(0)) = 0$.
+    \item $c(-z) = \frac{1}{2}(e(-iz) + e(iz)) = c(z)$ and $s(-z) = \frac{1}{2i}(e(-iz) - e(iz)) = -s(z)$.
+    \item
+      Utilising that $e'(z) = e(z)$ and the chain rule, we have:
+      \begin{align*}
+        c'(z) &= \frac{1}{2}(i e(iz) - i e(-iz)) = \frac{i}{2}(e(iz) - e(-iz)) = - \frac{1}{2i}(e(iz) - e(-iz)) = -s(z) \\
+        s'(z) &= \frac{1}{2i}(i e(iz) + ie(-iz)) = \frac{1}{2}(e(iz) + e(-iz)) = c(z)
+      \end{align*}
+    \item Working from the right hand side:
+      \begin{align*}
+        s(z)c(w) + s(w)c(z) &= \frac{1}{4i}(e^{iz} - e^{-iz})(e^{iw} + e^{-iw}) + \frac{1}{4i}(e^{iw} - e^{-iw})(e^{iz} + e^{-iz}) \\
+                            &= \frac{1}{2i}(e^{iz}e^{iw} - e^{-iz}e^{-iw}) \\
+                            &= \frac{1}{2i}(e^{i(z + w)} - e^{-i(z + w)}) \\
+                            &= s(z + w)
+      \end{align*}
+    \item Again, working from the right hand side:
+      \begin{align*}
+        c(z)c(w) - s(z)s(w) &= \frac{1}{4}(e^{-iz} + e^{-iz})(e^{iw} + e^{-iw}) + \frac{1}{4}(e^{iz} - e^{-iz})(e^{iw} - e^{-iw}) \\
+                            &= \frac{1}{2}(e^{iz}e^{iw} + e^{-iz}e^{-iw}) \\
+                            &= \frac{1}{2}(e^{i(z + w)} + e^{-i(z + w)}) \\
+                            &= c(z + w)
+      \end{align*}
+    \item Taking $w = -z$ in \textbf{(v)} and using \textbf{(ii)} we have:
+      \begin{align*}
+        1 = c(0) &= c(z - z) \\
+                 &= c(z)c(-z) - s(z)s(-z)  \\
+                 &= c^2(z) + s^2(z)
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  From the last identity, for $x \in \R$:
+  \[
+    s^2(x) + c^2(x) = 1 \implies |s(x)| \text{ and } |c(x)| \leq 1
+  \]
+  This is not necessarily true for $x \in \C$.
+\end{remark}
+\begin{proposition}[Periodicty of Trigonometric Function]
+  There exists a smallest positive $\omega \in \R$ such that: \label{trigPeriodicity}
+  \[
+    c\left(\frac{\omega}{2}\right) = 0 \text{ and } s\left(\frac{\omega}{2}\right) = 1
+  \]
+  and:
+\end{proposition}
+\begin{proof}
+  We start by considering the interval $x \in (0, 2)$ and showing that $c(x)$ is strictly decreasing in this range.
+  From \cref{trigProperties}, we know that $c'(x) = -s(x)$.
+  Furthermore, note that because the power series for $c$ and $s$ converge everywhere, by definition of radius of convergence, they must converge absolutely everywhere too.
+  So by \cref{absoluteRearrangement}, any rearrangement/regrouping of the terms does not change the value of the series and we can use this to show that $c'(x) < 0$ for $x \in (0, 2)$:
+  \begin{align*}
+    c'(x) = -s(x) &= -\left[x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots\right] \\
+                  &= -\underbrace{\left(x - \frac{x^3}{3!}\right)}_{>0} - \underbrace{\left(\frac{x^5}{5!} - \frac{x^7}{7!}\right)}_{>0} - \cdots  \\
+                  &< 0
+  \end{align*}
+  So since $c'(x) < 0$ for $x \in (0, 2)$, using Rolle's Theorem (\cref{rolle'sTheorem}), we conclude that $c(x)$ has at most one root in $(0, 2)$.
+  To show the existence of a root, we can show that it is negative at some point in $(0, 2)$ and positive at another point in $(0, 2)$.
+  Two convenient points for this are $\sqrt{2}$ and $\sqrt{3}$:
+  \begin{align*}
+    c(\sqrt{2}) &= \underbrace{\left(1 - \frac{(\sqrt{2})^2}{2!}\right)}_{>0} + \underbrace{\left(\frac{(\sqrt{2})^{4}}{4!} - \frac{(\sqrt{2})^{6}}{6!}\right)}_{>0} + \cdots \\
+                &> 0 \\
+    c(\sqrt{3}) &= 1 - \frac{(\sqrt{3})^2}{2!} + \frac{(\sqrt{3})^{4}}{4!} - \left(\frac{(\sqrt{3})^{6}}{6!} - \frac{(\sqrt{3})^{8}}{8!}\right) - \cdots \\
+                &= -\frac{1}{8} - \underbrace{\left(\frac{(\sqrt{3})^{6}}{6!} - \frac{(\sqrt{3})^{8}}{8!}\right)}_{>0} - \cdots \\
+                &<0
+  \end{align*}
+  So by the intermediate value theorem (\cref{IVT}), there is exactly one root $\frac{\omega}{2} \in (\sqrt{2}, \sqrt{3}) \subset (0, 2)$ and so $\frac{\omega}{2}$ must be the smallest positive root.
+
+  Finally, since $s^2\left(\frac{\omega}{2}\right) = 1 - c^2(\frac{\omega}{2}) = 1 \implies s(\frac{\omega}{2}) = \pm 1$.
+  In the above, we showed that $s(x) > 0$ for $x \in (0, 2)$ and so since $\frac{\omega}{2} \in (0, 2)$, we conclude that $s(\frac{\omega}{2}) = 1$.
+\end{proof}
+\begin{corollary}[Periodicity Identities]
+  For $s: \R \to \R$ and $c: \R \to \R$, we have: \label{trigPeriodicIdentities}
+  \begin{enumerate}
+    \item $s(\omega) = s(2\omega) = 0$, $c(\omega) = -1$ and $c(2\omega) = 1$
+    \item $s$ and $c$ are periodic with period $2\omega$, that is:
+      \[
+        s(x + 2\omega) = s(x) \text{ and } c(x + 2\omega) = c(x)\ \forall x \in \R
+      \]
+    \item $s(x + \omega) = -s(x)$ and $c(x + \omega) = -c(x)\ \forall x \in \R$.
+    \item $s\left(x + \frac{\omega}{2}\right) = c(x)$, $c\left(x + \frac{\omega}{2}\right) = -s(x)\ \forall x \in \R$.
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  \begin{enumerate}
+    \item Using the identities from \cref{trigIdentities}, we have:
+      \begin{align*}
+        s(\omega) &= 2s(\omega/2)c(\omega/2) = 0, \quad
+        s(2\omega) = 2s(\omega)c(\omega) = 0 \\
+        c(\omega) &= c^2(\omega/2) - s^2(\omega/2) = -1, \quad
+        c(2\omega) = c^2(\omega) - s^2(\omega) = 1
+      \end{align*}
+    \item
+      Using \textbf{(i)}, we have:
+      \begin{align*}
+        s(x + 2\omega) &= s(x)c(2\omega) + s(2\omega)c(x) = s(x) \\
+        c(x + 2\omega) &= c(x)c(2\omega) - s(x)s(2\omega) = c(x)
+      \end{align*}
+    \item Again, using \textbf{(i)}:
+      \begin{align*}
+        s(x + \omega) &= s(x)c(\omega) + s(\omega)c(x) = -s(x) \\
+        c(x + \omega) &= c(x)c(\omega) - s(x)s(\omega) = c(x)
+      \end{align*}
+    \item Similarly:
+      \begin{align*}
+        s(x + \omega/2) &= s(x)c(\omega/2) + s(\omega/2)c(x) = c(x) \\
+        c(x + \omega/2) &= c(x)c(\omega/2) - s(\omega/2)s(x) = -s(x) \\
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+\begin{corollary}
+  The function $\operatorname{cis}: \R \to \C = e^{ix}$ has the following properties: \label{cisIdentities}
+  \begin{enumerate}
+    \item $\operatorname{cis}(x) = c(x) + is(x)$
+    \item $\operatorname{cis}$ is periodic with period $2\omega$.
+    \item $\operatorname{cis}(\omega) = -1$ and $\operatorname{cis}(\omega/2) = i$.
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  Property \textbf{(i)} follows from the definition of $c$ and $s$.
+  After establishing \textbf{(i)}, the others follow directly from \cref{trigPeriodicIdentities}.
+\end{proof}
+At this point, we are pretty certain that $\omega$ is $\pi$, but can be give it a geometric meaning that we are already familiar with?
+\begin{lemma}
+  $2\omega$ is he perimeter of the unit circle $S^{1}$, where:
+  \[
+    S^{1} = \{|z| = 1: z \in \C\}
+  \]
+\end{lemma}
+\begin{proof}
+  Firstly, we note that $|e^{it}| = 1$ from property \textbf{(i)} of \cref{cisIdentities} and property \textbf{(vi)} of \cref{trigIdentities}.
+
+  Our strategy here is that if we can show that the curve $\gamma$ parameterised as:
+  \[
+    \gamma: [0, 2\omega) \to S^{1},\ t \mapsto e^{it}
+  \]
+  is a bijection, then we get that the perimeter of $S^{1}$ must be the length of the curve $\gamma$.
+
+  From Vector Calculus, the length $\ell$ of the curve $\gamma$ is:
+  \begin{align*}
+    \ell &= \int_{0}^{2\omega} |\gamma'(t)| \d{t} \\
+         &= \int_{0}^{2\omega} |ie^{it}| \d{t} \\
+         &= \int_{0}^{2\omega} 1 \d{t} \\
+         &= 2\omega
+  \end{align*}
+  \textbf{Surjectivity}\par
+  For the surjectivity of $\gamma$, take an arbitrary $z \in S^{1}$.
+  Since $z \in S^1$, we can write it as $z = a + ib$ with $a^2 + b^2 = 1$ and $a, b \in \R$.
+  We then must have $|a| \leq 1$  and $|b| \leq 1$.
+
+  By the proof of \cref{trigPeriodicity}, $c: [0, \omega] \to [-1, 1]$ is continuous and strictly monotone so by the intermediate value theorem (\cref{IVT}) $\exists t \in [0, \omega]$ with $c(t) = a$.
+
+  In the same proof, we also saw that $s: [0, \omega] \to [0, 1]$ is non-negative and since $s^2(t) + c^2(t) = 1$, we must have $s(t) = \sqrt{1 - a^2}$.
+  Since $a^2 + b^2 = 1$, if $b = \sqrt{1 - a^2}$, then $s(t) = b$ and so $\gamma(t) = z$.
+  Otherwise, if $b = -\sqrt{1 - a^2}$, then $s(t) = -b$, $\gamma(-t) = c(-t) + is(-t) = c(t) - is(t) = a + ib = z$.
+
+  \textbf{Injectivity}\par
+  For injectivity, by \cref{cisIdentities}, since $e^{it}$ has least positive period $2\omega$, it must be injective if we restrict it to $[0, 2\omega)$.
+\end{proof}
+We now define $\omega = \pi$ and can confidently say that $c(x) = \cos x$, $s(x) = \sin x$, i.e. the trigonometric functions that we are familiar with defined on $\R$ using the unit circle.
+We can also then define other familiar trigonometric functions such as $\tan x$, $\arccos x$, and so on using these power series.
+\subsection{Hyperbolic Trigonometric Functions}
+We can also define \textit{hyperbolic trigonometric} functions using $\sin$ and $\cos$:
+\begin{definition}[Hyperbolic Sine and Cosine]
+  We define the hyperbolic sine $\sinh z$ and hyperbolic cosine $\cosh z$ as:
+  \begin{align*}
+    \cosh: \C \to \C,\ z \mapsto&\ \frac{1}{2}(e^{z} + e^{-z}) = \cos iz \\
+    \sinh: \C \to \C,\ z \mapsto&\ \frac{1}{2}(e^{z} - e^{-z}) = -i \sin iz
+  \end{align*}
+\end{definition}
+\begin{lemma}[Identities for Hyperbolic Functions]
+  The hyperbolic trigonometric functions have the following properties:
+  \begin{enumerate}
+    \item $\cosh(-z) = \cosh(z)$ and $\sinh(-z) = \sinh(z)$.
+    \item $\cosh'(z) = \sinh(z)$ $\sinh'(z) = \cosh(z)$
+    \item $\sinh(z + w) = \sinh(z)\cosh(w) + \sinh(w)\cosh(z)$.
+    \item $\cosh(z + w) = \cosh(z)\cosh(w) + \sinh(z)\sinh(w)$.
+    \item $\cosh^2(z) - \sinh^2(z) = 1$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Using properties from \cref{trigIdentities}, we have:
+  \begin{enumerate}
+    \item Follows directly from the corresponding property for $\sin$ and $\cos$.
+    \item $\cosh'(z) = -i \sin(iz) = \sinh(z)$, $\sinh'(z) = -i^2 \cos iz = \cosh(z)$.
+    \item \textbf{iv}. Using the addition formula for $\sin$ and $\cos$ we have:
+      \begin{align*}
+        \sinh(z + w) &= -i\sin(iz + iw) \\
+                     &= -i\sin(iz)\cos(iw) -i\sin(iw)\cos(iz) \\
+                     &= \sinh(z)\cosh(w) + \sinh(w)\cosh(z) \\
+        \cosh(z + w) &= \cos(iz + iw) \\
+                     &= \cos(iz)\cos(iw) - \sin(iw)\sin(iz) \\
+                     &= \cos(iz)\cos(iw) + (-i)^2\sin(iw)\sin(iz) \\
+                     &= \cosh(z)\cosh(w) + \sinh(w)\sinh(z)
+      \end{align*}
+    \stepcounter{enumi}
+    \item $\cosh^2(z) - \sinh^2(z) = \cos^2(iz) - (-i)^2\sin^2(iz) = \cos^2(iz) + \sin^2(iz) = 1$.
+  \end{enumerate}
+\end{proof}
 \end{document}
