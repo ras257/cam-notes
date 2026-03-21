@@ -717,7 +717,6 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
   \[
     c\left(\frac{\omega}{2}\right) = 0 \text{ and } s\left(\frac{\omega}{2}\right) = 1
   \]
-  and:
 \end{proposition}
 \begin{proof}
   We start by considering the interval $x \in (0, 2)$ and showing that $c(x)$ is strictly decreasing in this range.
@@ -748,12 +747,13 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
   For $s: \R \to \R$ and $c: \R \to \R$, we have: \label{trigPeriodicIdentities}
   \begin{enumerate}
     \item $s(\omega) = s(2\omega) = 0$, $c(\omega) = -1$ and $c(2\omega) = 1$
-    \item $s$ and $c$ are periodic with period $2\omega$, that is:
+    \item $s(x + \omega) = -s(x)$ and $c(x + \omega) = -c(x)\ \forall x \in \R$.
+    \item $s\left(x + \frac{\omega}{2}\right) = c(x)$, $c\left(x + \frac{\omega}{2}\right) = -s(x)\ \forall x \in \R$.
+    \item $s(x) = 0 \iff x = k\omega$ for $k \in \Z$.
+    \item $s$ and $c$ are periodic with smallest positive period $2\omega$, that is:
       \[
         s(x + 2\omega) = s(x) \text{ and } c(x + 2\omega) = c(x)\ \forall x \in \R
       \]
-    \item $s(x + \omega) = -s(x)$ and $c(x + \omega) = -c(x)\ \forall x \in \R$.
-    \item $s\left(x + \frac{\omega}{2}\right) = c(x)$, $c\left(x + \frac{\omega}{2}\right) = -s(x)\ \forall x \in \R$.
   \end{enumerate}
 \end{corollary}
 \begin{proof}
@@ -765,13 +765,7 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
         c(\omega) &= c^2(\omega/2) - s^2(\omega/2) = -1, \quad
         c(2\omega) = c^2(\omega) - s^2(\omega) = 1
       \end{align*}
-    \item
-      Using \textbf{(i)}, we have:
-      \begin{align*}
-        s(x + 2\omega) &= s(x)c(2\omega) + s(2\omega)c(x) = s(x) \\
-        c(x + 2\omega) &= c(x)c(2\omega) - s(x)s(2\omega) = c(x)
-      \end{align*}
-    \item Again, using \textbf{(i)}:
+    \item Using \textbf{(i)}:
       \begin{align*}
         s(x + \omega) &= s(x)c(\omega) + s(\omega)c(x) = -s(x) \\
         c(x + \omega) &= c(x)c(\omega) - s(x)s(\omega) = c(x)
@@ -781,19 +775,67 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
         s(x + \omega/2) &= s(x)c(\omega/2) + s(\omega/2)c(x) = c(x) \\
         c(x + \omega/2) &= c(x)c(\omega/2) - s(\omega/2)s(x) = -s(x) \\
       \end{align*}
+    \item Given any $x \in \R$, as $\omega > 0$, $\exists k \in \Z, t \in \R$ such that $x = k\omega + t$ and $0 \leq t < \omega$.
+
+      For the forward direction, using \textbf{(ii)}:
+      \[
+        0 = s(0) = -s(\omega) = s(2\omega) = \cdots = (-1)^{k}s(k\omega) \implies s(k\omega) = 0
+      \]
+      and for the converse:
+      \[
+        s(x) = s(k\omega + t) = s(k\omega)c(t) + s(t)c(k\omega) = s(t)c(k\omega) = 0
+      \]
+      and so, since $c(k\omega) = \pm \sqrt{1 - s^2(k\omega)} = \pm 1$, we must have $s(t) = 0$.
+
+      Finally, using the addition identity with $t/2$:
+      \[
+        s(t) = 2s(t/2)c(t/2) = 0 \implies s(t/2) = 0 \text{ for } 0 \leq t/2 < \omega/2
+      \]
+      We know that $c(t/2)$ cannot be 0 as in \cref{trigPeriodicity} we proved that $\omega/2$ was the smallest positive root for $c(x)$.
+      As shown previously, $s(0) = 0$ and $s(x)$ is increasing on $[0, \omega/2)$ so we conclude that $t = 0 \implies x = k\omega$.
+    \item
+      Using \textbf{(i)}, we can show that $2\omega$ is a period of $s$ and $c$:
+      \begin{align*}
+        s(x + 2\omega) &= s(x)c(2\omega) + s(2\omega)c(x) = s(x) \\
+        c(x + 2\omega) &= c(x)c(2\omega) - s(x)s(2\omega) = c(x)
+      \end{align*}
+      Now, suppose there exists some other period $p$ with $0 < p < 2\omega$, for $c(x)$, we then have:
+      \begin{align*}
+        c(p + z) &= c(z) \forall z \\
+        \implies c(p) &= c(0) = 1 \\
+        \implies s(p) &= \pm\sqrt{1 - 1^2} = 0 \\
+        \implies p &= \omega \text{ by \textbf{iv}}
+      \end{align*}
+      But this clearly is a contradiction by \textbf{(ii)} so the smallest positive period is $2\omega$.
+
+      For $s(x)$, $s(p + z) = s(s)\ \forall z \implies s(p) = s(0) = 0$ and so we can conclude as above.
   \end{enumerate}
 \end{proof}
 \begin{corollary}
   The function $\operatorname{cis}: \R \to \C = e^{ix}$ has the following properties: \label{cisIdentities}
   \begin{enumerate}
     \item $\operatorname{cis}(x) = c(x) + is(x)$
-    \item $\operatorname{cis}$ is periodic with period $2\omega$.
+    \item $\operatorname{cis}$ is periodic with smallest positive period $2\omega$.
     \item $\operatorname{cis}(\omega) = -1$ and $\operatorname{cis}(\omega/2) = i$.
   \end{enumerate}
 \end{corollary}
 \begin{proof}
-  Property \textbf{(i)} follows from the definition of $c$ and $s$.
-  After establishing \textbf{(i)}, the others follow directly from \cref{trigPeriodicIdentities}.
+  \begin{enumerate}
+    \item By definition, we have:
+      \[
+        c(x) + is(x) = \frac{1}{2}(e^{ix} + e^{-ix}) + \frac{1}{2}(e^{ix} - e^{-ix}) = e^{ix} = \operatorname{cis}(x)
+      \]
+    \item Since $c(x)$ and $s(x)$ both have least positive period $2\omega$, $\operatorname{cis}(x + 2\omega) = \operatorname{cis}(x)$.
+
+      Suppose that there exists $0 < p < 2\omega$ such that:
+      \begin{align*}
+        \operatorname{cis}(x + p) &= \operatorname{cis}(x)\ \forall x \in \R \\
+        c(x + p) + is(x + p) &= c(x) + is(x)\ \forall x \in \R \\
+        c(x + p) &= c(x) \text{ and } s(x + p) = s(x)\ \forall x \in \R
+      \end{align*}
+      which is a contradiction as $2\omega$ is the least positive period of $s$ and $c$, so $2\omega$ must also be the least positive period of $\operatorname{cis}(x)$.
+    \item Follows immediately from \cref{trigPeriodicIdentities}.
+  \end{enumerate}
 \end{proof}
 At this point, we are pretty certain that $\omega$ is $\pi$, but can be give it a geometric meaning that we are already familiar with?
 \begin{lemma}
@@ -830,7 +872,16 @@ At this point, we are pretty certain that $\omega$ is $\pi$, but can be give it 
   Otherwise, if $b = -\sqrt{1 - a^2}$, then $s(t) = -b$, $\gamma(-t) = c(-t) + is(-t) = c(t) - is(t) = a + ib = z$.
 
   \textbf{Injectivity}\par
-  For injectivity, by \cref{cisIdentities}, since $e^{it}$ has least positive period $2\omega$, it must be injective if we restrict it to $[0, 2\omega)$.
+  For injectivity, recall from \cref{cisIdentities}, that $e^{it}$ has least positive period $2\omega$.
+  Suppose $\exists a, b \in [0, 2\omega)$ with $a > b$ such that:
+  \begin{align*}
+    \gamma(a) &= \gamma(b) \\
+    \implies e^{i(a - b)} &= 1 \\
+    \implies e^{i(a - b + x)} &= e^{ix}\ \forall x \in \R \\
+    \implies \gamma(x + a - b) &= \gamma(x)\ \forall x \in \R
+  \end{align*}
+  So $a - b$ is a period for $\gamma$, but $0 < a - b < 2\omega$ which contradicts \cref{cisIdentities} \textbf{(v)}.
+  Thus $\gamma$ is injective on $[0, 2\omega)$.
 \end{proof}
 We now define $\omega = \pi$ and can confidently say that $c(x) = \cos x$, $s(x) = \sin x$, i.e. the trigonometric functions that we are familiar with defined on $\R$ using the unit circle.
 We can also then define other familiar trigonometric functions such as $\tan x$, $\arccos x$, and so on using these power series.
