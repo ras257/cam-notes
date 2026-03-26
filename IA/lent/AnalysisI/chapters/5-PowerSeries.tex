@@ -721,8 +721,8 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
 \begin{proof}
   We start by considering the interval $x \in (0, 2)$ and showing that $c(x)$ is strictly decreasing in this range.
   From \cref{trigIdentities}, we know that $c'(x) = -s(x)$.
-  Furthermore, note that because the power series for $c$ and $s$ converge everywhere, by definition of radius of convergence, they must converge absolutely everywhere too.
-  So by \cref{absoluteRearrangement}, any rearrangement/regrouping of the terms does not change the value of the series and we can use this to show that $c'(x) < 0$ for $x \in (0, 2)$:
+  Furthermore, from \cref{subseqenceConvergence}, all subsequences of a convergent sequence converge to the same limit and hence regrouping terms of a series (i.e. taking some subsequence of partial sums) for a convergent series does not change the value of the series.
+  We can use this to show that $c'(x) < 0$ for $x \in (0, 2)$:
   \begin{align*}
     c'(x) = -s(x) &= -\left[x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots\right] \\
                   &= -\underbrace{\left(x - \frac{x^3}{3!}\right)}_{>0} - \underbrace{\left(\frac{x^5}{5!} - \frac{x^7}{7!}\right)}_{>0} - \cdots  \\
