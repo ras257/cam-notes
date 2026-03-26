@@ -3,32 +3,31 @@
 \chapter{Homomorphisms}
 \section{Homomorphisms}
 Some groups are not literally (i.e. set-theoretically) \textit{equal} but, nevertheless \textit{share the same structure}.
-For example $\Sym(\{\text{Deck of Cards}\})$ and $\Sym(\{\text{52 people}\})$.
+For example $\Sym(\{\text{Deck of Cards}\})$ and $\Sym(\{\text{52 people}\})$ have the same structure despite a deck of cards and 52 people being different things.
 \begin{definition}[Homomorphims]
   A \textit{homomorphism} is a map between groups, $\phi: G \to H$, that preserves the group structure, that is:
   \[
-    \phi(g \cdot g') = \phi(g) * \phi(g')
+    \phi(g \cdot g') = \phi(g) * \phi(g')\ \forall g, g' \in G
   \]
-  for all $g, g' \in G$. Where $\cdot$ is the binary operation on $G$ and $*$ is the binary operation on $H$.
+  where $\cdot$ is the binary operation on $G$ and $*$ is the binary operation on $H$.
 \end{definition}
 \begin{remark}[Notation]
   Usually differentiating the two binary operations is unnecessary if it is obvious which group's elements we are working with and the operation is fairly ``normal''.
 \end{remark}
-\begin{example}
+\begin{example} \label{homExamples}
   \begin{enumerate}
-    \item For any two groups $G, H$ the map $\phi: G \to H$, $g \mapsto e_H$ is the \textit{trivial homomorphism}.
+    \item For any two groups $G$ and $H$ the map $\phi: G \to H$, $g \mapsto e_H$ is the \textit{trivial homomorphism}.
     \item If $H \leq G$ then the map $i: H \to G$, $h \mapsto h$ is the \textit{inclusion homomorphism}.
-    \item Recall the group $C_n = \{z \in \C : z^{n} = 1\}$.
+    \item Recall from \cref{finiteGroupExamples} the group $C_n = \{z \in \C : z^{n} = 1\}$.
           If $n \mid m$ then the map $\phi: C_m \to C_n$, $z \mapsto z^{m/n}$ is a homomorphism.
           Since $n \mid m$, $m/n$ is an integer otherwise we could end up with multi-valued answers.
           \begin{align*}
             \phi\left(e^{\frac{2\pi i k}{m}} e^{\frac{2 \pi i l}{m}}\right) &= \phi\left(e^{\frac{2\pi i}{m}(k + l)}\right) \\
                                                                             &= e^{\frac{2\pi i}{m}(k + l)\cdot \frac{m}{n}} \\
-                                                                            &= e^{\frac{2\pi}{n}(k + l)} \\
                                                                             &= \left(e^{\frac{2 \pi i k}{m}}\right)^{m/n} \left(e^{\frac{2 \pi i l}{m}}\right)^{m/n} \\
                                                                             &= \phi\left(e^{\frac{2\pi i k}{m}}\right) \phi\left(e^{\frac{2\pi i l}{m}}\right)
           \end{align*}
-    \item Since $\det(AB) = \det(A)\det(B)$, the determinant function, $\det: \GL_2(\R) \to \R \setminus \{0\}$, $A \to \det(A)$ is a homomorphism.
+    \item Since $\det(AB) = \det(A)\det(B)$, the determinant function, $\det: \GL_2(\R) \to \R \setminus \{0\}$, $A \mapsto \det(A)$ is a homomorphism.
           $\GL_2(\R)$ is the group of all $2\times2$ invertible real matrices, together with the operation of matrix multiplication.
   \end{enumerate}
 \end{example}
@@ -48,7 +47,8 @@ For example $\Sym(\{\text{Deck of Cards}\})$ and $\Sym(\{\text{52 people}\})$.
 \end{proof}
 \section{Isomorphisms}
 \begin{definition}[Isomorphism]
-  If a homomorphism $\phi: G \to H$ is also a \textbf{bijection} then it is an \textit{isomorphism}. We write $G \cong H$.
+  If a homomorphism $\phi: G \to H$ is also a \textbf{bijection} then it is an \textit{isomorphism}.
+  We then write $G \cong H$.
 \end{definition}
 From the perspective of group theory, if $G \cong H$ then $G$ and $H$ are ``the same''.
 \begin{example}
@@ -63,10 +63,10 @@ From the perspective of group theory, if $G \cong H$ then $G$ and $H$ are ``the 
       \]
       for some $p \in \Z$.
 
-      To check that $\phi$ is an isomorphism:
+      To check that $\phi$ is homomorphism:
       \begin{align*}
         \phi(k +_n l) &= e^{\frac{2 \pi i}{n}(k +_n l)} \text{ by definition of $\phi$}\\
-                      &= e^{\frac{2 \pi i}{n}(np)} e^{\frac{2 \pi i}{n}(k +_n l)} \\
+                      &= e^{\frac{2 \pi i}{n}(np)} e^{\frac{2 \pi i}{n}(k +_n l)} \text{ as $e^{2\pi i p} = 1$} \\
                       &= e^{\frac{2 \pi i}{n}(np + (k +_n l))} \\
                       &=e^{\frac{2 \pi i}{n}(k + l)} \\
                       &= e^{\frac{2 \pi i}{n} k} e^{\frac{2 \pi i}{n} l} \\
@@ -74,16 +74,17 @@ From the perspective of group theory, if $G \cong H$ then $G$ and $H$ are ``the 
       \end{align*}
       Thus $\phi$ is a homomorphism, and hence also an isomorphism.
       That is $\Z_n \cong C_n$ for all $n$.
+
+      Note that we needed to utilise that $k + l = np + (k +_n l)$ as $+_n$ is the binary operation for $\Z_n$, not just regular addition.
     \item Consider the two groups $(\R, +, 0)$ and $(\R_{> 0}, \times, 1)$ with the map:
       \[
-        \exp: (\R, +, 0) \to (\R_{> 0}, \times, 1) \text{ given by } x \mapsto e^{x}
+        \exp: (\R, +, 0) \to (\R_{> 0}, \times, 1),\ x \mapsto e^{x}
       \]
-      Since:
+      $\exp$ is a homomorphism as:
       \[
         \exp(x + y) = e^{x + y} = e^{x}e^{y} = \exp(x)\exp(y)
       \]
-      so $\exp$ is a homomorphism.
-      Since $\exp^{-1} = \ln$, $\exp$ is also a bijection, thus $\exp$ is an isomorphism.
+      Since $\exp^{-1} = \log$, $\exp$ is also a bijection, thus $\exp$ is an isomorphism.
       So $(\R, + , 0) \cong (\R_{>0}, \times, 1)$.
   \end{enumerate}
 \end{example}
@@ -107,6 +108,9 @@ From the perspective of group theory, if $G \cong H$ then $G$ and $H$ are ``the 
   So $\phi^{-1}$ is also a homomorphism.
   Thus $\phi^{-1}$ is an isomorphism.
 \end{proof}
+\begin{remark}
+  The above proof follows a similar strategy to that of the inverses of isometry groups (\cref{isomProof}).
+\end{remark}
 \begin{proof}[\textbf{ii}]
   Let $g_1, g_2 \in G$:
   \begin{align*}
@@ -125,7 +129,7 @@ So $\psi \circ \phi$ is a homomorphism.
       This is clearly bijection and $\id_A(a_1 \cdot a_2) = a_1 \cdot a_2 = \id_A(a_1) \cdot \id_A(a_2)$ so is an isomorphism.
       So $G \cong G$.
     \item \textbf{Symmetric -} If $G \cong H$ then there is a isomorphism $\phi: G \to H$.
-      Then from \textbf{i} we have that $\phi^{-1}: H \to G$ is an isomorphism.
+      Then from \textbf{i} we have that $\phi^{-1}: H \to G$ is also an isomorphism.
       So $H \cong G$.
     \item \textbf{Transitive -} If $G \cong H$ and $H \cong K$ then there is isomorphisms $\phi: G \to H$ and $\psi: H \to K$.
       From \textbf{ii} we know that $\psi \circ \phi: G \to K$ is a homomorphism.
@@ -138,9 +142,8 @@ So $\psi \circ \phi$ is a homomorphism.
   $\cong$ being an equivalence relation is why two groups are considered ``the same'' when they are isomorphic.
 \end{remark}
 \section{Image and Kernel}
-We saw earlier that every subgroup leads to an inclusion homomorphism.
-The converse is also true.
-That is, homomorphisms lead to subgroups.
+We saw earlier in \cref{homExamples} that every subgroup leads to an inclusion homomorphism.
+The converse is also true, that is, homomorphisms lead to subgroups.
 
 \begin{definition}[Image]
   Let $\phi: G \to H$ be a homomorphism, then the image of $\phi$ is:
@@ -240,13 +243,13 @@ That is, homomorphisms lead to subgroups.
   Combine \textbf{i} and \textbf{ii} in \cref{surjectiveInjectiveProp} above.
 \end{proof}
 \section{Cyclic Groups}
-The groups $C_n \cong \Z_n$ that we described above have a special property:
+The groups $C_n \cong \Z_n$ that we described earlier have a special property:
 \begin{definition}[Cylic Group]
   A group $G$ is \textit{cyclic} if there exists an element $g \in G$ such that:
   \[
     G = \{g^{k} : k \in \Z\}
   \]
-  That is $G = \langle g \rangle$ where $g$ is called a \textit{generator} of $G$.
+  or equivalently $G = \langle g \rangle$ where $g$ is called a \textit{generator} of $G$.
 \end{definition}
 \begin{example}
   \begin{enumerate}
@@ -283,7 +286,7 @@ The groups $C_n \cong \Z_n$ that we described above have a special property:
       \]
       $\phi$ is a homomorphism.
 
-      We know that $\phi$ is surjective since $G$ is cyclic so by definition $g^{k}$ for $k \in \Z$ are the elements of $G$.
+      We know that $\phi$ is surjective since $G$ is cyclic so by definition $g^{k}$ for $k \in \Z$ are all the elements of $G$.
 
       To prove that $\phi$ is injective we need to show that $\ker \phi = \{0\}$.
       Suppose we have $k \in \ker \phi$ but $k \neq 0$.
@@ -324,14 +327,14 @@ The groups $C_n \cong \Z_n$ that we described above have a special property:
 \subsection{Element Order}
 We can now define the order of an element in a group:
 \begin{definition}[Element Order]
-  For any group $G$, and element $g \in G$, let:
+  For any group $G$ and element $g \in G$, let:
   \[
     \langle g \rangle = \{g^{k} : k \in \Z\} \leq G
   \]
   Note that $\langle g \rangle$ is cyclic so $\langle g \rangle \cong C_n$ for some $n \in \N \cup \{\infty\}$.
-  Then $n$ is the \textit{order} of $g$ and is denoted by $o(g)$ or $|g|$.
+  We then say that $n$ is the \textit{order} of $g$ and is denoted by $o(g)$ or $|g|$.
 \end{definition}
-Intuitively this is the smallest $n \in \N$ such that $g^{n} = e$ and if no such $n$ exists then the order of $g$ is infinite.
+Intuitively, this is the smallest $n \in \N$ such that $g^{n} = e$ and if no such $n$ exists then the order of $g$ is infinite.
 \section{Dihedral Groups Revisited}
 Whenever $x, y \in G$ satisfy the dihedral relation $xy = yx^{-1}$, then for any $l > 0$:
 \begin{align*}
@@ -347,7 +350,8 @@ If $y^2 = e$, we also have:
 \[
   yx^{l} = y(x^{l}y)y = y(yx^{-l})y=x^{-l}y
 \]
-In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y^2 = e$.
+So the relation holds for $-l < 0$ also.
+Thus, if $xy = yx^{-1}$ and $y^2 = e$, $yx^{l} = x^{-l}y$ for any $l \in \Z$.
 \begin{remark}[Memorisation]
   This is almost like we can ``push'' the $x$ across the $y$ provided we swap the sign of the power.
 \end{remark}
@@ -410,7 +414,7 @@ In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y
 \end{proof}
 \begin{proposition}
   \label{dihedralIsomorphic}
-  Suppose $G$ has generating set $\{a, b\}$ such that:
+  If $G$ has generating set $\{a, b\}$ such that:
   \begin{itemize}
     \item $a^{n} = e$
     \item $b^{2} = e$
@@ -422,11 +426,18 @@ In summary, $yx^{l} = x^{-l}y$ for any $l \in \Z$ provided $xy = yx^{-1}$ and $y
 \begin{proof}
   By \cref{dihedralLemma} there is a homomorphism $\phi: D_{2n} \to G$, $r \mapsto a$, $s \mapsto b$.
 
-  Since $a$ and $b$ generate $G$, $\phi$ is surjective.
+  $a, b \in \im \phi$ so $\langle \{a, b\} \rangle \leq \im \phi$, therefore:
+  \[
+    G = \langle \{a, b\} \rangle \leq \im \phi \leq G \implies G = \im \phi
+  \]
+  so $\phi$ is surjective.
 
   We also have that $|D_{2n}| = 2n = |G|$.
-  So $\phi$ is a surjection between two finite sets of equal size so must be bijective.
+  So $\phi$ is a surjection between two finite sets of equal size so must also be bijective.
 
   Therefore $\phi$ is an isomorphism, thus $G \cong D_{2n}$.
 \end{proof}
+\begin{remark}
+  The above proof highlights the property that if the generators of the group are in the image of a homomorphism, then the homomorphism must be a surjection.
+\end{remark}
 \end{document}

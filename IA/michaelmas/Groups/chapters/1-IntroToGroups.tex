@@ -10,9 +10,9 @@ You can think about groups in two ways:
 \subsection{A Symmetries Viewpoint}
 Consider the symmetries of an equilateral triangle:
 \begin{itemize}
-  \item The ``do-nothing'' symmetry (identity)
+  \item The ``do-nothing'' symmetry. (The \textit{identity} symmetry)
   \item Rotational symmetry of order 3. (Rotate $120^\circ$ clockwise or anti-clockwise)
-  \item Reflective symmetry across three different axes
+  \item Reflective symmetry across three different axes.
 \end{itemize}
 This gives a total of 6 symmetries.
 Informally a symmetry is an action that does not change the overall shape.
@@ -21,11 +21,10 @@ Informally a symmetry is an action that does not change the overall shape.
 \end{remark}
 We can compose multiple symmetries to get composite symmetries.
 If we label the vertices of the triangle we can identify which of the original symmetries the composite symmetry is equivalent to.
-
-To invert a reflection you can just repeat the same reflection, they are ``self-inverse''.
+We can also invert symmetries, for example, to invert a reflection you can just repeat the same reflection as they are ``self-inverse''.
 \begin{remark}[Important Features]
   \begin{itemize}
-    \item Symmetries can be \textbf{composed} to get another symmetry (\textbf{closed})
+    \item Symmetries can be \textbf{composed} to obtain another symmetry (\textbf{closure})
     \item There is an \textbf{identity} ``do-nothing'' symmetry
     \item Every symmetry has an \textbf{inverse}
     \item Composition of symmetries is \textbf{associative} ($a \circ (b \circ c) = (a \circ b) \circ c$)
@@ -33,7 +32,7 @@ To invert a reflection you can just repeat the same reflection, they are ``self-
 \end{remark}
 \begin{remark}[Warning]
   Composition of symmetries is \textbf{not} always \textbf{commutative}.
-  
+
   For example, if we rotate and then reflect it is not the same as if we reflect and then rotate.
 \end{remark}
 \subsection{An Algebraic Viewpoint}
@@ -85,7 +84,7 @@ The definition of a group has some important consequences:
      &= (b \cdot a) \cdot b \text{ by associativity}
  \end{align*}
  By the inverse axiom, $\exists c \in G$ such that $b \cdot c = e$.
- We can now right multiply by $c$.
+ We can now right multiply by $c$:
  \begin{align*}
   b \cdot c &= ((b \cdot a) \cdot b) \cdot c \\
             &= (b \cdot a) \cdot (b \cdot c) \text{ by associativity} \\
@@ -111,12 +110,12 @@ The definition of a group has some important consequences:
        &= b \cdot (a \cdot b') \text{ by associativity} \\
        &= b \cdot e \text{ by assumption} \\
        &= b \text{ by identity axiom}
-  \end{align*} 
+  \end{align*}
   So $b  = b'$ as required and therefore inverses are unique.
 \end{proof}
 \begin{proof}[\textbf{iv}]
   By the inverse axiom and \textbf{i}, $\exists b \in G$ such that $b \cdot a = e$.
-  Working from $a \cdot e' = a$:
+  Working from $a \cdot e' = a$, we have:
   \begin{align*}
     a &= a \cdot e'\\
     b \cdot a &= b \cdot (a \cdot e') \\
@@ -128,7 +127,7 @@ The definition of a group has some important consequences:
 \end{proof}
 \begin{remark}[Notation]
   Part \textbf{iii} of \cref{groupProp} states that inverses are unique.
-  Therefore if $a \cdot b = e$ we may write $b = a^{-1}$.
+  Therefore if $a \cdot b = e$ we may write $b = a^{-1}$ to mean the unique inverse of $a$ in $G$.
 \end{remark}
 So from part \textbf{i} we have that:
 \[
@@ -165,7 +164,7 @@ It makes sense to extend this further to more familiar notation:
                       &= (a^{m + n - 2} \cdot a) \cdot a \\
                       &= a^{m + n - 1} \cdot a \\
                       &= a^{m + n}
-  \end{align*} 
+  \end{align*}
 \end{proof}
 \begin{proof}[\textbf{ii}]
   \begin{align*}
@@ -198,7 +197,7 @@ So $(a \cdot b)^{-1} = b^{-1} \cdot a^{-1}$.
   \[
     a \cdot b = b \cdot a \quad \forall a, b \in G
   \]
-  then $G$ is and \textit{abelian group}.
+  then $G$ is an \textit{abelian group}.
 \end{definition}
 \begin{example}[Trivial Group]
   If $G = \{ e \}$ and $e \cdot e = e$, then $(G, \cdot, e)$ is called the \textit{trivial group}.
@@ -211,8 +210,8 @@ To help us categorise groups we must first define the order of a group:
   We denote this $|G|$ or $\#G$.
 \end{definition}
 \begin{definition}[Finite/Infinite Group]
-  If $|G| < \infty$ then $(G, \cdot, e)$ is a \textit{finite group}.
-  Otherwise $(G, \cdot, e)$ is an \textit{infinite group}.
+  If $|G| < \infty$, then $(G, \cdot, e)$ is a \textit{finite group}.
+  Otherwise, $(G, \cdot, e)$ is an \textit{infinite group}.
 \end{definition}
 Here are some examples/non-examples of groups:
 \subsubsection{Infinite Groups}
@@ -221,25 +220,24 @@ Here are some examples/non-examples of groups:
     In each case, the inverse of $x$ is $-x$.
   \item $(\N, +, 0)$ is \textbf{not} a group as inverses do not exist for elements other than $0$.
   \item $(\Q, \times, 1)$ is \textbf{not} a group as $0$ has no inverse.
-    However if we just remove 0, $(\Q \setminus \{0\}, \times, 1)$ is a abelian group!
+    However if we just remove 0, $(\Q \setminus \{0\}, \times, 1)$ is an abelian group!
 
     Similarly, $(\R \setminus \{0\}, \times, 1)$ and $(\C \setminus \{0\}, \times, 1)$ are abelian groups.
 \end{enumerate}
 \subsubsection{Finite Groups}
-\begin{enumerate}
-  \item For any $n \in \N$ let $C_n = \{z \in \C : z^{n} = 1\}$ then $(C_n, \times, 1)$ is an abelian group.
-  \item Let $\Z_n = \{0, 1, 2, \ldots, n - 1\}$ and let $a +_n b$ be the remainder when $a + b$ is divided by $n$ (i.e. the value of $a + b$ under mod $n$).
-    Then $(\Z_n, +_n, 0)$ is an abelian group.
+\begin{enumerate} \label{finiteGroupExamples}
+  \item For any $n \in \N$, if we let $C_n = \{z \in \C : z^{n} = 1\}$ be the $n$-th complex roots of unity, then $(C_n, \times, 1)$ is an abelian group.
+  \item If we let $\Z_n = \{0, 1, 2, \ldots, n - 1\}$ and let $a +_n b$ be the remainder when $a + b$ is divided by $n$ (i.e. the value of $a + b$ under mod $n$), then $(\Z_n, +_n, 0)$ is an abelian group.
 
     Closure holds as the remainder $r$ when dividing by $n$ is in the range $0 \leq r \leq n - 1$.
     The inverse of a general element $a$ is given by $n - a$ so that $a + (n - a) \equiv 0 \pmod{n}$.
 \end{enumerate}
 \section{Symmetric Groups}
 \begin{definition}[Bijection]
-  Let $X, Y$ be sets, a \textit{bijection} is a map $f: X \to Y$ that has an inverse $g: Y \to X$ such that $f \circ g = 1=\id_Y$ (i.e. $(f \circ g)(y) = y$ for all $y \in Y$) and $g \circ f = \id_X$ (i.e. $(f \circ g)(y) = y$ for all $y \in Y$).
+  Let $X, Y$ be sets, a \textit{bijection} is a map $f: X \to Y$ that has an inverse $g: Y \to X$ such that $f \circ g = 1=\id_Y$ (i.e. $(f \circ g)(y) = y$ for all $y \in Y$) and $g \circ f = \id_X$ (i.e. $(g \circ f)(x) = x$ for all $x \in X$).
 \end{definition}
 \begin{remark}[Notation]
-  $(f \circ g)(y) = f(g(y))$ by definition.
+  We write ``$\circ$'' to mean function composition, i.e. $(f \circ g)(y) = f(g(y))$.
 \end{remark}
 \begin{definition}[Permutation]
   A \textit{permutation} is a bijection $X \to X$ (i.e. from $X$ to itself).
@@ -249,12 +247,11 @@ Here are some examples/non-examples of groups:
 \end{definition}
 \begin{lemma}
   Composition of functions is associative.
-
-  That is, for maps of sets:
+  That is, if we have maps of sets:
   \[
     W \xrightarrow{f} X \xrightarrow{g} Y \xrightarrow{h} Z
   \]
-  Then $(h \circ g) \circ g = h \circ (g \circ f)$
+  then $(h \circ g) \circ f = h \circ (g \circ f)$
   \label{assocLemma}
 \end{lemma}
 \begin{proof}
@@ -270,7 +267,8 @@ This makes it easy to see that $\Sym(X)$ is a group.
 \end{proposition}
 \begin{proof}
   \begin{enumerate}
-    \item \textbf{Closure -} Automatic, note that $(f \circ g)^{-1} = g^{-1} \circ f^{-1}$.
+    \item \textbf{Closure -} Automatic as composition of two bijections must also be a bijection.
+      Note that $(f \circ g)^{-1} = g^{-1} \circ f^{-1}$ and \textbf{not} $f^{-1} \circ g^{-1}$.
     \item \textbf{Associativity -} Follows from \cref{assocLemma}.
     \item \textbf{Identity -} $\id_X: X \to X$, $x \mapsto x$ is an identity.
     \item \textbf{Inverses -} Inverses exist by definition of bijectivity.
@@ -292,7 +290,7 @@ This makes it easy to see that $\Sym(X)$ is a group.
   Writing  $(G, \cdot, e)$ for a group is cumbersome.
   Henceforth we will usually just write $G$.
 
-  If we want to emphasise that $e$ is the identity element of $G$, we will write $e_G$.
+  If we want to emphasise that $e$ is the identity element of the group $G$ specifically, we will write $e_G$.
   Similarly we can also write $\cdot_G$ for the operation on $G$.
 \end{remark}
 
@@ -308,18 +306,18 @@ Sometimes, we want to restrict our attention to smaller groups. For example, $\Z
   Then we say that $H$ is a \textit{subgroup} of $G$ and we write $H \leq G$.
 \end{definition}
 \begin{remark}
-  If $G$ is a group and $H \leq G$ then $H$ is a group.
+  If $G$ is a group and $H \leq G$, then $H$ is a group as the associativity axiom comes along ``for free'' since it is a property of the binary operation.
 \end{remark}
 \begin{example}
   There are two easy examples of subgroups:
   \begin{enumerate}
     \item Every group $G$ is a subgroup of itself
-    \item For any group $G$, $1_G = \{e_G\}$ is the trivial subgroup of $G$.
+    \item For any group $G$, $1_G = \{e_G\}$ is the \textit{trivial subgroup} of $G$.
   \end{enumerate}
 \end{example}
 \begin{definition}[Proper Subgroup]
   $H$ is a \textit{proper subgroup} of $G$ if $H \leq G$, but $H$ is not $G$ itself or the trivial subgroup.
-  We denote this $H < G$.
+  We then denote this $H < G$.
 \end{definition}
 \subsection{Subgroups of the Integers}
 \begin{example}
@@ -327,10 +325,11 @@ Sometimes, we want to restrict our attention to smaller groups. For example, $\Z
   \[
     n\Z = \{nk : k \in \Z\} = \{\ldots, -2n, n, 0, n, 2n, \ldots\}
   \]
-  Now:
+  Firstly, observe that $n\Z \subseteq \Z\ \forall n \in \N_0$.
+  We can then check the three subgroup axioms:
   \begin{enumerate}
     \item \textbf{Identity -} $0 \in n\Z$.
-    \item \textbf{Closure -} Let $x = nk$, $y = nl \in n\Z$ then $x + y = n(k + l) \in n\Z$
+    \item \textbf{Closure -} Let $x = nk$, $y = nl$ then $x + y = n(k + l) \in n\Z$
     \item \textbf{Inverses -} Let $x = nk \in n\Z$ then $-x = -nk = n(-k) \in n\Z$
   \end{enumerate}
   Therefore $n\Z \leq \Z$.
@@ -347,7 +346,7 @@ Sometimes, we want to restrict our attention to smaller groups. For example, $\Z
     \begin{case}{Otherwise}
       We may choose $n \in H \setminus \{0\}$ to be the smallest positive $n \in H$.
 
-      (Note that if $x \in H$ and $x < 0$ then $-x \in H$ and $-x > 0$. So unless $H = \{0\}$, H must contain a positive number)
+      (Note that if $x \in H$ and $x < 0$, then $-x \in H$ and $-x > 0$. So unless $H = \{0\}$, H must contain a positive number)
 
       By induction, we see that $nk \in H$ for all $k \in \Z^{+}$.
       By inverses, $-n$ is also in $H$, so by induction again we see that $-nk \in H$ for all $k \in \Z^{+}$.
@@ -356,7 +355,7 @@ Sometimes, we want to restrict our attention to smaller groups. For example, $\Z
       We can now proceed by contradiction.
       Suppose $n\Z \neq H$, so there is some $x \in H$ such that $x \notin n\Z$.
       That is, $x$ is not a multiple of $n$.
-      Using the division algorithm, we get that $x = nq + r$ for some $q \in \Z$ and $0 < r < n$.
+      Using the division algorithm, we obtain that $x = nq + r$ for some $q \in \Z$ and $0 < r < n$.
       But now $r = x - nq$ and both $x \in H$ and $nq \in n\Z \subseteq H$ so $r \in H$.
       But $0 < r < n$ so this contradicts the assumption that $n$ was the smallest non-zero element of $H$.
       Thus $H = n\Z$.
@@ -388,7 +387,7 @@ If $X$ generates $G$, it means that every $g \in G$ can be written as:
 For some $n \geq 0$ where are $x_i \in X$ and are not necessarily unique.
 Note that when $n=0$ the empty product is interpreted as the identity element. (See Example Sheet 1, Q9)
 \section{Isometries}
-Let $\C$ be the plane, equipped with with the usual notion of Euclidean distance:
+Let $\C$ be the complex plane, equipped with with the usual notion of Euclidean distance:
 \[
    |z-w| = \sqrt{(z_1 - w_1)^2 + (z_2 - w_2)^2}, \quad z = z_1 + i z_2, w = w_1 + i w_2
 \]
@@ -401,7 +400,7 @@ Let $\C$ be the plane, equipped with with the usual notion of Euclidean distance
 \begin{proposition}[Isometry Groups in $\C$]
   Let $X \subseteq \C$.
   The set of isometries of $X$, $\Isom(X)$, is a subgroup of $\Sym(X)$.
-  In particular $\Isom(X)$ is a group.
+  In particular $\Isom(X)$ is a group. \label{isomProof}
 \end{proposition}
 \begin{proof}
   We need to check $\Isom(X)$ against  the definition of a subgroup.
@@ -441,8 +440,7 @@ We would like to show that $|D_{2n}| = 2n$.
 The proof of this will also give us a good description of all the elements of $D_{2n}$.
 
 \subsection{Geometric Lemmas}
-To do this, we first need some geometric lemmas.
-The first of which is a basic fact from Euclidean geometry.
+To do this, we first need some geometric lemmas, the first of which is a basic fact from Euclidean geometry.
 \begin{lemma}[Kite Lemma]
   Let $x_1, x_2, y_1, y_2 \in \C$. If:
   \[
@@ -494,7 +492,7 @@ The first of which is a basic fact from Euclidean geometry.
   Now by \cref{kiteLemma} (Kite Lemma), with $y_1 = y$ and $y_2 = f(y)$. $x_2 - x_1$ is perpendicular to $y_2 - y_1 = f(y) - y$.
   But similarly using \cref{kiteLemma} again, $x_3 - x_1$ is perpendicular to $f(y) - y$.
   So both $x_2 - x_1$ and $x_3 - x_1$ are perpendicular to $f(y) - y$.
-  Since $f(y) \neq y$, this is non-zero so $x_1, x_2, x_3$ are collinear which contradicts the hypothesis.
+  Since $f(y) \neq y$, $f(y) - y$ is non-zero and so $x_1, x_2, x_3$ must be collinear which contradicts the hypothesis.
   Therefore we must have $f(x) = x$ for all $x \in X$.
 \end{proof}
 \begin{remark}
@@ -562,7 +560,7 @@ We can now tackle the theorem which classifies the elements of $D_{2n}$:
   That is, $(r^{-k} \circ f)(y) = y \text{ or } z$.
   By the same reasoning but with $z$, $(r^{-k} \circ f)(z) = y \text{ or }z$.
 
-  Therefore there are two cases:
+  Therefore, since $f$ is a bijection, there are two cases:
   \begin{proofcases}
     \begin{case}{$(r^{-k} \circ f)(y) = y$ and $(r^{-k} \circ f)(z) = z$}
       This means that $r^{-k} \circ f$ fixes $x, y, z$ and since they are not collinear, by \cref{threePoint} (Three Point Lemma), $r^{-k} \circ f = \id_{X_n}$ so $f = r^{k}$.
@@ -579,13 +577,13 @@ We can now tackle the theorem which classifies the elements of $D_{2n}$:
   \end{proofcases}
   Thus $D_{2n} = \{e, r, \ldots, r^{n-1}, s, rs, \ldots, r^{n-1}s\}$.
 
-  We now must check that all of these elements is distinct from each other.
+  We now must check that all of these elements are distinct one another.
   There are four cases.
   Considering $0 \leq k, l < n$
   \begin{proofcases}
     \begin{case}{$r^{k} = r^{l}$}
       So $e^{\frac{2 \pi i k}{n}} \cdot 1 = r^{k}(1) = r^{l}(1) = e^{\frac{2\pi i l}{n}} \cdot 1$.
-      Thus $r \equiv k \pmod{n}$ but $0 \leq k, k < n$ so $k = l$ so they must be the same element.
+      Thus $r \equiv k \pmod{n}$ but $0 \leq r, k < n$ so $k = l$ so they must be the same element.
     \end{case}
     \begin{case}{$r^{k} = s$}
       So $e^{\frac{2 \pi i k}{n}} = r^{k}(1) = s(1) = 1$ and therefore $k = 0$.
@@ -596,11 +594,21 @@ We can now tackle the theorem which classifies the elements of $D_{2n}$:
       So $s = r^{k - l}$ which we know is not possible by case 2.
     \end{case}
     \begin{case}{$r^{k}s = r^{l}s$}
-      We can right multiply by $s^{-1}$ to get $r^{k} = r^{l}$ and thus $k = l$ as in case 1 so they are the same element.
+      We can right multiply by $s^{-1}$ to obtain $r^{k} = r^{l}$ and thus $k = l$ as in case 1 so they are the same element.
     \end{case}
   \end{proofcases}
   So we have shown all elements are distinct from each other and thus $|D_{2n}| = 2n$.
 \end{proof}
+\begin{remark}
+  This proof demonstrates a useful property that follows directly from the three point lemma (\cref{threePoint}).
+
+  If two isometries agree on 3 non-collinear points $x_1, x_2, x_3$, then they must be the same isometry:
+  \begin{align*}
+    f(x_i) = g(x_i)\ \forall i \in \{1, 2, 3\} &\implies (f \circ g^{-1})(x_i) = x_i\ \forall i \in \{1, 2, 3\} \\
+                                               &\implies f \circ g^{-1} = \id_{X} \\
+                                               &\implies f = g
+  \end{align*}
+\end{remark}
 To better understand the group operations on $D_{2n}$ we need to understand all the different ways to compose $r$ and $s$.
 \begin{lemma}[Dihedral Relation]
   For $r, s \in D_{2n}$ as above:
@@ -609,8 +617,8 @@ To better understand the group operations on $D_{2n}$ we need to understand all 
   \]
 \end{lemma}
 \begin{proof}
-  By the \cref{threePoint} (Three Point Lemma), it suffices to check that the two expressions do the same thing to $x, y \text{ and }z$.
-  Similarly to above take $x = 1, y = e^{\frac{2\pi i}{n}}, z = e^{-\frac{2\pi i}{n}}$, then:
+  As described in the above remark, it suffices to check that the two expressions do the same thing to three non-collinear points.
+  We again pick the convenient points $x = 1, y = e^{\frac{2\pi i}{n}}, z = e^{-\frac{2\pi i}{n}}$:
   \begin{align*}
     sr(x) &= s\left(e^{\frac{2\pi i}{n}}\right) = \left(e^{\frac{2\pi i }{n}}\right)^{*} = e^{-\frac{2\pi i}{n}} = r^{-1}(x) = r^{-1}s(x) \\
     sr(y) &= s\left(e^{\frac{4\pi i}{n}}\right) = \left(e^{\frac{4\pi i }{n}}\right)^{*} = e^{-\frac{4\pi i}{n}} = r^{-1}(z) = r^{-1}s(y) \\

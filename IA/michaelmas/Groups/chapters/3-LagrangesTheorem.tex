@@ -1,14 +1,14 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Lagrange's Theorem}
-This very important theorem helps us to think about the orders of groups and subgroups.
-We will first look at a simpler version of the theorem:
+Lagrange's theorem is an important theorem that helps us to think about the orders of groups and their subgroups.
+We will first look at a simpler version of the theorem to outline what our goal is:
 \begin{theorem}[Simple Lagrange's Theorem]
-  If $H \leq G$  and $|G| < \infty$ then $|H| \mid |G|$.
+  If $H \leq G$  and $|G| < \infty$, then $|H| \mid |G|$.
 \end{theorem}
-The idea is to ``cut'' $G$ up into ``copies'' of $H$.
+The idea here is to ``cut'' $G$ up into ``copies'' of $H$.
 \section{Cosets}
-These ``copies'' are called cosets of $H$ in $G$.
+These ``copies'' of $H$ are called \textit{cosets} of $H$ in $G$.
 \begin{definition}[Left Coset]
   Let $H$ be a subgroup of $G$ and $g \in G$.
   The corresponding \textit{left coset} is:
@@ -109,12 +109,12 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
   That is, $|G : H|$ is the number of cosets of $H$ over $G$.
 \end{definition}
 \begin{remark}
-  We could do a similar proof of the above using right cosets instead.
+  We could have done a similar proof of this section using right cosets instead of left cosets.
 \end{remark}
 
 \section{Lagrange's Theorem}
 \begin{theorem}[Lagrange's Theorem]
-  If $|G| < \infty$ then $|G| = |G : H| |H|$ for any $H \leq G$.
+  If, $|G| < \infty$ then $|G| = |G : H| |H|$ for any $H \leq G$.
   \label{lagrangesTheorem}
 \end{theorem}
 \begin{proof}
@@ -125,14 +125,14 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
 \end{proof}
 \subsection{Corollaries of Lagrange's Theorem}
 \begin{corollary}
-  If $|G| < \infty$ and $g \in G$ then $|g| \mid |G|$.
+  If $|G| < \infty$ and $g \in G$, then $|g| \mid |G|$.
   \label{orderDivCorollary}
 \end{corollary}
 \begin{proof}
   Recall that the order of $g$ is defined to be $|\langle g \rangle|$ and $|\langle g \rangle| \mid |G|$ by Lagrange's Theorem.
 \end{proof}
 \begin{corollary}
-  If $|G| < \infty$ and $g \in G$ then $g^{|G|} = e$.
+  If $|G| < \infty$ and $g \in G$, then $g^{|G|} = e$.
   \label{groupOrderPower}
 \end{corollary}
 \begin{proof}
@@ -142,7 +142,7 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
   \]
 \end{proof}
 \begin{corollary}
-  If $|G|$ is prime then $G$ is cyclic and any element $g \neq e$ generates $G$.
+  If $|G|$ is prime, then $G$ is cyclic and any element $g \neq e$ generates $G$.
   \label{primeOrderGroup}
 \end{corollary}
 \begin{proof}
@@ -155,7 +155,7 @@ Since there is a bijection from the $H$ to any other coset, all cosets of $H$ ov
   So $g$ generates $G$ and $G$ is cyclic.
 \end{proof}
 \section{Application to Number Theory}
-Lagrange's Theorem implies an important result in Numbers \& Sets (See section 5.4.1).
+Lagrange's Theorem implies an important result in Numbers \& Sets (See Numbers and Sets section 5.4.1).
 \begin{definition}[Euler Totient Function]
   \[
     \varphi(n) = |\{x \in \Z_n : \hcf(x, n) = 1\}|
@@ -166,10 +166,10 @@ Lagrange's Theorem implies an important result in Numbers \& Sets (See section 5
   Let $\times_n$ denote multiplication mod $n$ on $\Z_n$.
   This is associative and has identity $1$.
 \end{remark}
-Recall that, by the division algorithm, $x \in \Z_n$ has a multiplicative inverse mod $n$ if and only if there are $y, n \in \Z$ such that $xy + mn = 1$.
+Recall that, by the division algorithm, $x \in \Z_n$ has a multiplicative inverse mod $n$ if and only if there are $y, m \in \Z$ such that $xy + mn = 1$.
 This happens if and only if $\hcf(x, n) = 1$.
 
-Hence
+Hence:
 \[
   \Z^{\times}_{n} = \{x \in \Z_n : \hcf(x, n) = 1\}
 \]
@@ -177,7 +177,7 @@ is a group with operation $\times_n$.
 
 \begin{theorem}[Fermat-Euler]
   Let $x, n \in \Z$.
-  If $\hcf(x, n) = 1$ then:
+  If $\hcf(x, n) = 1$, then:
   \[
     x^{\varphi(n)} \equiv 1 \pmod{n}
   \]
