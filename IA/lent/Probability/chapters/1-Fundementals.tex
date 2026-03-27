@@ -46,7 +46,8 @@ We can derive some basic properties about probability measures directly from the
 \begin{enumerate}
   \item $\P(A^{\comp}) = 1 - \P(A)$ as $\P(A \cup A^{\comp}) = \P(\Omega) = 1 = \P(A) + \P(A^{\comp})$.
   \item $\P(\emptyset) = 0$ as the probability of an empty union is an empty sum.
-  \item If $A \subseteq B$, then $\P(B \setminus A) = \P(B) - \P(A)$ as $\P((B \setminus A) \cup A) = \P(B \setminus A) + \P(A) = \P(B)$.
+  \item For $A, B \in \salg$, $\P(B \setminus A) = \P(A \cup B) - \P(A)$ as $\P(A \cup B) = \P((B \setminus A) \cup A) = \P(B \setminus A) + \P(A)$.
+  \item If $A \subseteq B$, then $\P(B \setminus A) = \P(B) - \P(A)$ as $A \cup B = B$.
   \item If $A \subseteq B$, then $\P(A) \leq \P(B)$ as $\P(B \setminus A) \geq 0$ above.
   \item $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ as:
     \begin{align*}
@@ -67,6 +68,8 @@ We can derive some basic properties about probability measures directly from the
   \[
     B_n = A_n \setminus (A_1 \cup \cdots \cup A_{n - 1})
   \]
+  These $B_n$ are the ``new'' elements of $A_n$ that do not occur in any of the previous $A_i$.
+
   Consider $B_i$ and $B_j$ for $i \neq j$.
   WLOG, assume that $i < j$.
   $B_i \subseteq A_i$ as $B_i = A_i \setminus (\cdots)$ and $B_j \cap A_i = \emptyset$ as $i < j$ so $B_j$ has had all elements of $A_i$ removed from it.
@@ -150,7 +153,7 @@ We have a specific definition for continuity when considering probability measur
 We will now look at some basic examples of probability spaces.
 \begin{example}[6-Sided Die]
   The set of outcomes is $\Omega = \{1, 2, 3, 4, 5, 6\}$, and as it is countable, $\salg = \powerset{\Omega}$.
-  We then have $\P(\{\omega\}) = 1/6$ for $\omega \in \Omega$ as each singleton event is equally likely.
+  We then choose $\P(\{\omega\}) = 1/6$ for $\omega \in \Omega$ so that each singleton event is equally likely as the dice is fair.
   Furthermore, for any $A \in \salg$, we have $\P(A) = |A|/6$.
 \end{example}
 \begin{example}[Picking Elements]
@@ -176,7 +179,7 @@ We will now look at some basic examples of probability spaces.
   \]
   We can then find the probability that the top two cards are aces:
   \[
-    \P(\text{top 2 cards are aces}) = \frac{4 \times 3 \times 50!}{52!}
+    \P(\text{top 2 cards are aces}) = \frac{4 \times 3 \times 50!}{52!} = \frac{1}{221}
   \]
   As there are 4 ways to pick the top ace, 3 ways to pick the second ace, and $50!$ ways to pick the remaining cards.
 \end{example}
@@ -186,7 +189,7 @@ We will now look at some basic examples of probability spaces.
   \[
     \Omega = \{0, \ldots, 9\}^n,\ |\Omega| = 10^n
   \]
-  We can then define the even $A_k$ to be:
+  We can then define the event $A_k$ to be:
   \[
     A_k = \{\text{no digit exceeds $k$}\}
   \]
@@ -224,7 +227,7 @@ We will now look at some basic examples of probability spaces.
   \[
     \P(A^{\comp}) = \frac{365 \times 364 \times \cdots \times (365 - n + 1)}{365^n}
   \]
-  so
+  and so:
   \[
     \P(A) = 1 - \P(A^{\comp}) = 1 - \frac{365 \times 364 \times \cdots \times (365 - n + 1)}{365^n}
   \]
@@ -257,6 +260,7 @@ We can also use induction to extend this to the \textit{principle of inclusion e
   }
   {$n - 1$ events}{}
   {$n$ events}{
+    We start by applying the result for two events:
     \begin{align*}
       \P\left(\bigcup_{i = 1}^{n}  A_i\right) &= \P\left(\left[\bigcup_{i = 1}^{n - 1} A_i\right] \cup A_n\right) \\
                                    &= \P\left(\bigcup_{i = 1}^{n - 1} A_i\right) + \P(A_n) - \P\left(\bigcup_{i = 1}^{n - 1} \underbrace{(A_i \cap A_n)}_{B_i}\right) \tag{$\dag$} \label{eqnDag}
@@ -324,8 +328,7 @@ The \textit{Bofferoni Inequalities} tell us if the truncation of the inclusion e
 \section{Combinatorial Analysis}
 \subsection{Multinomial Coefficients}
 \label{multinomialCoefficients}
-Suppose $\Omega$ is a finite set with $|\Omega| = n$.
-We want to partition $\Omega$ into $k$ disjoint subsets $\Omega_1, \ldots, \Omega_k$ with $|\Omega_i| = n_i$ and $n_1 + \cdots + n_k = n$.
+Suppose $\Omega$ is a finite set with $|\Omega| = n$ which we want to partition $\Omega$ into $k$ disjoint subsets $\Omega_1, \ldots, \Omega_k$ with $|\Omega_i| = n_i$ and $n_1 + \cdots + n_k = n$.
 How many ways are there to do this?
 Let $M$ be the number of ways:
 \begin{align*}
@@ -339,6 +342,12 @@ As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
     \binom{n}{n_1, n_2, \ldots, n_k} = \frac{n!}{n_1! n_2! \cdots n_k!}
   \]
 \end{definition}
+\begin{remark}
+  In the case of $k = 2$, $n_1 + n_2 = n \implies n_2 = n - n_1$ and so we obtain the standard binomial coefficient as this counts the ways to pick a subset of size $n_1$ from $n$:
+  \[
+    \binom{n}{n_1, n - n_1} = \frac{n!}{n_1!(n - n_1)!} = \binom{n}{n_1}
+  \]
+\end{remark}
 \subsection{Increasing Functions}
 \begin{definition}[Increasing and Strictly Increasing Functions]
   A function $f$ is:
@@ -347,6 +356,9 @@ As we pick $n_1$ from $n$, $n_2$ from the remaining $n - n_1$, and so on.
     \item \textit{Strictly increasing} if $x < y \implies f(x) < f(y)$
   \end{itemize}
 \end{definition}
+\begin{remark}[Nomenclature]
+  Increasing functions are sometimes also referred to as \textit{non-decreasing}.
+\end{remark}
 \begin{proposition}
   For $k \leq n$, the number of \textbf{strictly increasing} $f: \{1, \ldots, k\} \to \{1, \ldots, n\}$ is $\binom{n}{k}$
   \label{strictlyIncreasingF}
@@ -553,7 +565,7 @@ We can now prove the stronger asymptotic expression:
   This means that $\sum_{k = 1}^{\infty} a_k$ converges by comparison to $\sum_{k = 1}^{\infty} \frac{1}{k^2}$.
   Let
   \[
-    A = \exp\left[1 - \sum_{k = 1}^{\infty} a_k\right]
+    A = \exp\left[1 - \sum_{k = 1}^{\infty} a_k\right] < \infty
   \]
   So $n! = n^n e^{-n} \sqrt{n} \cdot A \exp\left[\sum_{k = n}^{\infty} a_k\right]$.
   As $n \to \infty$, $\sum_{k = n}^{\infty} a_k \to 0$ so $\exp\left[\sum_{k = n}^{\infty} a_k\right] \to 1$.
@@ -571,10 +583,10 @@ We can now prove the stronger asymptotic expression:
     2^{(-2n)}\binom{2n}{n} = 2^{-2n} \frac{(2n)!}{(n!)^2} \sim \frac{2^{-2n} (2n)^{2n} e^{-2n} \sqrt{2n} \cdot A}{(n^{n} e^{-n}\sqrt{n} \cdot A)(n^{n} e^{-n}\sqrt{n} \cdot A)} = \frac{\sqrt{2}}{A\sqrt{n}}
   \]
 
-  Secondly, using a different method, we will show that $2^{-2n}\binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}$ as $n \to \infty$, which will then force $A = \sqrt{2\pi}$.
+  Secondly, using a different method, we will show that $2^{-2n}\binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}$ as $n \to \infty$, which will then force $A = \sqrt{2\pi}$ by uniqueness of limits.
 
   \textbf{Showing $2^{-2n} \binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}$}\par
-  Consider the integrals:
+  Consider the integrals $I_n$ defined by:
   \[
     I_n = \int_{0}^{\pi/2} (\cos \theta)^{n} \d{\theta},\ I_0 = \frac{\pi}{2},\  I_1 = 1
   \]
@@ -613,7 +625,7 @@ We can now prove the stronger asymptotic expression:
   So $\frac{I_{2n}}{I_{2n + 1}} \to 1$ by squeeze theorem as $n \to \infty$.
 
   \textbf{Conclusion}\par
-  This forces $A = \sqrt{2\pi}$ and so $n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^{n}$.
+  As discussed, this forces $A = \sqrt{2\pi}$ and so $n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^{n}$.
 \end{proof}
 \section{Independence of Events}
 \subsection{Independence}
@@ -735,8 +747,8 @@ Intuitively this makes sense since if the event $B$ occurs, it does not change t
 \end{proof}
 This formula is the basis for Bayesian statistics.
 We call $(B_n)$ the \textit{parameters} and $A$ the \textit{evidence}.
-If we know the probabilities of each of the parameters, $\P(B_k)$, and we have a model which gives us $\P(A \vert B_k)$ (the probability of the evidence occurring given each of the parameters), then with this formula we can find the \textit{posterior probabilities}.
-These are the probabilities of a particular parameter $B_n$ occurring given the evidence $A$ occurs.
+If we know the probabilities of each of the parameters, $\P(B_i)$, and we have a model which gives us $\P(A \vert B_i)$ (the probability of the evidence occurring given each of the parameters), then with this formula we can find the \textit{posterior probabilities}.
+These are the probabilities of a particular parameter $B_k$ occurring given the evidence $A$ occurs.
 \subsection{Examples}
 \begin{example}[False Positives]
   Suppose that condition $A$ affects 0.1\% of the population.
@@ -759,7 +771,7 @@ These are the probabilities of a particular parameter $B_n$ occurring given the 
   \[
     \P(A \vert P) = \frac{1}{1 + \frac{\P(P \vert A^{\comp})\P(A^{\comp})}{\P(P \vert A)\P(A)}}
   \]
-  $\P(A^{\comp})$ and $\P(P \vert A)$ are very close to 1 so the relevant ratio governing the size of $\P(A \vert P)$ is $\frac{\P(P \vert A^{\comp})}{\P(A)}$.
+  In this example, $\P(A^{\comp})$ and $\P(P \vert A)$ are very close to 1 so the relevant ratio governing the size of $\P(A \vert P)$ is $\frac{\P(P \vert A^{\comp})}{\P(A)}$.
 
   The probability of a false positive, is much higher than the probability of having the disease, that is, $\P(P \vert A^{\comp}) \gg \P(A)$.
   This makes $\frac{\P(P \vert A^{\comp})}{\P(A)}$ large and therefore makes $\P(A \vert P)$ very small.
@@ -780,18 +792,20 @@ These are the probabilities of a particular parameter $B_n$ occurring given the 
     BB &= \{\text{both are boys}\} \\
     GG &= \{\text{both are girls}\}
   \end{align*}
-  One child is a boy is the event $BB \cup BG \cup GB$ and children are boys is the event $BB$.
+  At least one child is a boy is the event $BB \cup BG \cup GB$ and both children are boys is the event $BB$.
   Therefore we want $\P(BB \vert BB \cup BG \cup GB)$:
   \begin{align*}
     \P(BB \vert BB \cup BG \cup GB) &= \frac{\P(BB \cap (BB \cup BG \cup GB))}{\P(BB \cup BG \cup GB)} \\
                                     &= \frac{\P(BB)}{\P(BB \cup BG \cup GB)} = \frac{1/4}{3/4} = \frac{1}{3}
   \end{align*}
+  This probability is less than $1/2$ as not knowing which ``position'' the boy is in means there are two ways they could have 1 boy and 1 girl but only one way they could have two boys.
 
   \textbf{What is the probability that they have two boys given the eldest child is a boy?}\par
   $BB \cup BG$ is the event the eldest child is a boy so we want:
   \[
     \P(BB \vert BB \cup BG) = \frac{1}{2}
   \]
+  Here we get the intuitive $1/2$ result as we specified which ``position'' the boy was in.
 
   \textbf{What is the probability we have two boys given that one of them is a boy born on a Thursday?}\par
   We define the 5 disjoint events:
@@ -805,7 +819,7 @@ These are the probabilities of a particular parameter $B_n$ occurring given the 
   We assume, similarly to before, that there is an equal chance for a child to be born on a each of the days of the week.
   We wish to find:
   \begin{align*}
-    &\P(TT \cup TN \cup NT \vert TT \cup TG \cup GT \cup TN \cup NT) \\
+    &\ \P(TT \cup TN \cup NT \vert TT \cup TG \cup GT \cup TN \cup NT) \\
                                    &=\frac{\P((TT \cup TN \cup NT) \cap (TT \cup TG \cup GT \cup TN \cup NT))}{\P(TT \cup TG \cup GT \cup TN \cup NT)} \\
                                    &= \frac{\P(TT \cup TN \cup NT)}{\P(TT \cup TG \cup GT \cup TN \cup NT)} \\
                                    &= \frac{\frac{1}{2} \cdot \frac{1}{7}\cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{6}{7} + \frac{1}{2} \cdot \frac{6}{7} \cdot \frac{1}{2} \cdot \frac{1}{7}}{\frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} + \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{7} + \frac{1}{2} \cdot \frac{1}{7} \cdot \frac{1}{2} \cdot \frac{6}{7} \cdot 2} \\
@@ -853,7 +867,7 @@ These are the probabilities of a particular parameter $B_n$ occurring given the 
   \[
     \P(A \vert B \cap C) > \P(A \vert B \cap C^\comp)
   \]
-  that is, the probability that a student is admitted given they are from a London state school is higher than the probability they are admitted given that they are from a London independent school.
+  That is, the probability that a student is admitted given they are from a London state school is higher than the probability they are admitted given that they are from a London independent school.
 
   We see from the third table that a similar thing can be said about admitted students from Cambridge:
   \[

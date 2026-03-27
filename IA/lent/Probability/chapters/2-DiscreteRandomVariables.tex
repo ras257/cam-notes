@@ -184,7 +184,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
 \begin{definition}[$n$-dimensional Random Variable]
   $X = (X_1, \ldots, X_n)$ is called a \textit{random variable in $\R^{n}$} if $(X_1, \ldots, X_n): \Omega \to \R^{n}$ such that $\forall x_1, \ldots, x_n \in \R$:
   \[
-    \{\omega: X(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\} \in \salg
+    \{\omega \in \Omega: X_1(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\} \in \salg
   \]
   Equivalently, we require that all $X_i$ are real random variables so that:
   \[
@@ -197,11 +197,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
 \end{remark}
 \subsection{Discrete Random Variables}
 \begin{definition}[Discrete Random Variable]
-  A random variable $X$ is called \textit{discrete} if it takes values in a countable set.
-
-  Suppose it takes values in a countable set $S$, then for every $x \in S$, we write:
-  We call $(p_x)_{x \in S}$ the \textit{probability mass function} or \textit{pmf} of $X$ or the \textit{distribution} of $X$.
-
+  A random variable $X$ is called \textit{discrete} if it takes values in a countable set $S$.
 \end{definition}
 \begin{definition}[Probability Mass Function]
   For a discrete random variable $X$ taking values in a countable set $S$, the \textit{probability mass function}, \textit{pmf}, or \textit{distribution} of $X$ is defined to be:
