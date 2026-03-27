@@ -568,7 +568,7 @@ We can now prove the stronger asymptotic expression:
     A = \exp\left[1 - \sum_{k = 1}^{\infty} a_k\right] < \infty
   \]
   So $n! = n^n e^{-n} \sqrt{n} \cdot A \exp\left[\sum_{k = n}^{\infty} a_k\right]$.
-  As $n \to \infty$, $\sum_{k = n}^{\infty} a_k \to 0$ so $\exp\left[\sum_{k = n}^{\infty} a_k\right] \to 1$.
+  As $n \to \infty$, since $\sum_{k = 1}^{\infty} a_k$ converges, $\sum_{k = n}^{\infty} a_k \to 0$ so $\exp\left[\sum_{k = n}^{\infty} a_k\right] \to 1$.
   Thus:
   \[
     \frac{n!}{n^{n}e^{-n}\sqrt{n}} \to A \text{ as $n \to \infty$}
