@@ -9,8 +9,7 @@ For example:
 \[
   \int_{a}^{b} f(x) \d{x} = \lim_{N \to \infty} \sum_{n=0}^{N - 1} f(x_n)\Delta x
 \]
-Where $\Delta x = \frac{b-a}{N}$ and $x_n = a + n\Delta x$.
-
+where $\Delta x = \frac{b-a}{N}$ and $x_n = a + n\Delta x$.
 This is the left Riemann sum and is visualised in the following diagram:
 \begin{center}
  \begin{tikzpicture}[scale=1.2]
@@ -80,6 +79,9 @@ To show how this is related to the area under a curve consider a single interval
   \]
   for some $c_n$ with $x_n \leq c_n \leq x_{n+1}$.
 \end{theorem}
+\begin{proof}
+  This is the integral form of the mean value theorem which will be proven in Analysis I.
+\end{proof}
 If $f(x)$ is differentiable, we can use the stronger case of \cref{taylorsThm} (Taylor's Theorem) to write:
 \begin{align*}
   f(c_n) &= f(x_n) + O(c_n - x_n) \quad \text{ as } c_n - x_n \to 0 \\
@@ -98,7 +100,7 @@ Therefore the total area from $x=a$ to $x=b$ is:
 \section{Fundamental Theorem of Calculus}
 \begin{theorem}[Fundemental Theorem of Calculus]
   \label{FTC}
-  If
+  If we define:
   \[
     F(x) = \int_{a}^{x} f(t) \d{t}
   \]
@@ -138,7 +140,7 @@ Therefore the total area from $x=a$ to $x=b$ is:
 \begin{remark}[Notation]
   We denote indefinite integrals as:
   \[
-    \int f(x) \d{x} \text{ or } \int_{}^{x} f(x) \d{x}
+    \int f(x) \d{x} \text{ or } \int_{}^{x} f(t) \d{t}
   \]
   In the latter case, the unspecified lower limit gives rise to the integration constant.
 \end{remark}
@@ -186,14 +188,14 @@ $1-\tanh^2u = \sech^2u$ & $1-x^2$ & $x = \tanh u$
 We can use the product rule to derive another integration technique:
 \begin{align*}
   (uv)' &= u'v + uv' \\
-  \int uv' \d{x} &= uv - \int u'v \d{x}
+  \implies \int uv' \d{x} &= uv - \int u'v \d{x}
 \end{align*}
 \begin{example}
-  Consider
+  Consider the integral:
   \[
-    I =\int_{0}^{\infty} xe^{-x} \d{x}
+    I = \int_{0}^{\infty} xe^{-x} \d{x}
   \]
-  Let $u=x$ and $v'=e^{-x}$ so $u'=1$ $v=-e^{-x}$ and thus:
+  Let $u=x$ and $v'=e^{-x}$ so $u'=1$, $v=-e^{-x}$ and thus:
   \begin{align*}
     I &= \eval{-xe^{-x}}{0}{\infty} + \int_{0}^{\infty} e^{-x} \d{x} \\
       &= \eval{-e^{-x}}{0}{\infty} \\
@@ -201,6 +203,7 @@ We can use the product rule to derive another integration technique:
   \end{align*}
 \end{example}
 \begin{example}
+  Consider the integral:
   \[
     I = \int \ln x \d{x}
   \]
