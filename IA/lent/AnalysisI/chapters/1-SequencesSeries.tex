@@ -15,7 +15,7 @@ We would like to think about what it means for a sequence $x_n$ to converge to a
 \begin{itemize}
   \item We need $|x_n - x|$ to be small, more specifically, smaller than any given threshold $\varepsilon > 0$ that we choose.
   \item For this comparison, only the ``tail'' of the sequence, i.e. the ``large $n$'' behaviour, matters.
-    We can always ignore the first $N$ terms of the sequence, for some $N$ dependent on $\varepsilon$.
+    We can always ignore the first $N$ terms of the sequence, for some $N$ dependent on $\varepsilon$ (i.e. depending on how strict our threshold is).
 \end{itemize}
 \textbf{On divergence to infinity}
 \begin{itemize}
@@ -58,19 +58,20 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \end{definition}
 \begin{example}
   \begin{enumerate}
-    \item $x_n = \frac{1}{n}$, then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
+    \item If $x_n = \frac{1}{n}$, then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
       \[
         |x_n - 0| = \frac{1}{n} < \varepsilon\ \forall n \geq N = N(\varepsilon) = 1 + \ceil{\frac{1}{\varepsilon}}
       \]
-    \item $x_n = \frac{1}{2^{n}}$ then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
+    \item If $x_n = \frac{1}{2^{n}}$ then $x_n \to 0$ as $\forall \varepsilon > 0$, we have:
       \[
         |x_n - 0| = \frac{1}{2^{n}} < \varepsilon\ \forall n \geq N = N(\varepsilon) = \max\left\{1 + \log_2\left(\frac{1}{\varepsilon}\right), 1\right\}
       \]
       Note that we use the $\max$ to avoid issues when $\log_{2}(1/\varepsilon) < 0$.
     \item $x_n = i n$ diverges to infinity as $\forall L > 0$, we have:
       \[
-        \frac{x_n}{i} = n > L\ \forall n \geq N = 1 + \ceil{L}
+        |x_n| = n > L\ \forall n \geq N = 1 + \ceil{L}
       \]
+      and $x_n/|x_n| = i \to i$.
     \item $x_n = (-1)^{n}$ does not diverge to $\infty$ (as $|x_n| \leq 1\ \forall n$), but also does not converge (See Numbers and Sets -- Example 6.5).
   \end{enumerate}
 \end{example}
@@ -120,10 +121,10 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \begin{proof}[\textbf{ii}]
   Take $\varepsilon > 0$, we then have:
   \begin{align*}
-    \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |x_n - a| < \varepsilon\ \forall n \geq N_1 \\
-    \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |x_n - b| < \varepsilon\ \forall n \geq N_2
+    \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |x_n - x| < \varepsilon\ \forall n \geq N_1 \\
+    \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |z_n - x| < \varepsilon\ \forall n \geq N_2
   \end{align*}
-  We can then write:
+  For all $n \geq \max\{N_1, N_2\}$, we then have:
   \begin{align*}
     |y_n - x| &= \frac{1}{2}|(x_n - x) + (z_n - x) + (y_n - x_n) + (y_n - z_n)| \\
               &< \frac{1}{2}(2\varepsilon + |y_n - x_n| + |y_n - z_n|) \\
@@ -138,7 +139,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \begin{remark}
   Note that $x_n < y\ \forall n$ and $x_n \to x$ does not necessarily imply $x < y$.
 
-  For example, $x_n = 1 - \frac{1}{n} < 1\ \forall n$ but $x_n \to 1$.
+  For example, $x_n = 1 - \frac{1}{n} < 1\ \forall n$ but $x_n \to 1$ so limits only preserve non-strict inequalities.
 \end{remark}
 \begin{lemma}
   Let $(x_n)$ be a complex sequence.
@@ -166,7 +167,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
       \exists N_1 &= N_1(\varepsilon) \text{ s.t. } |\Re(x_n) - \Re(x)| < \varepsilon\ \forall n \geq N_1 \\
       \exists N_2 &= N_2(\varepsilon) \text{ s.t. } |\Im(x_n) - \Im(x)| < \varepsilon\ \forall n \geq N_2
     \end{align*}
-    We see that:
+    Using the triangle inequality, we see that:
     \[
       |z| = |\Re(z) + i \Im(z)| \leq |\Re(z)| + |i||\Im(z)| = |\Re(z)| + |\Im(z)|
     \]
@@ -177,11 +178,11 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \end{proofdirection}
 \end{proof}
 \begin{definition}[Bounded Sequence]
-  We say that $(x_n)$ is bounded if $\exists M > 0$ such that $|x_n| \leq M$ or equivalently $\sup\limits_{n \geq 1} |x_n| \leq M$.
+  We say that $(x_n)$ is bounded if $\exists M > 0$ such that $|x_n| \leq M\ \forall n$ or equivalently $\sup\limits_{n \geq 1} |x_n| \leq M$.
 \end{definition}
 \begin{lemma}[Boundedness of Convergent Sequences]
   If $x_n \to x$ then $(x_n)$ must be bounded.
-  That is $\exists M$ s.t. $|x_n| \leq M\ \forall n$.
+  That is $\exists M > 0$ s.t. $|x_n| \leq M\ \forall n$.
   \label{convergenceBounded}
 \end{lemma}
 \begin{proof}
@@ -222,7 +223,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
                    &= |x| |y_n - y| + |y_n||x - x_n|
   \end{align*}
   Hence $|x_n y_n - xy| \leq \varepsilon(|x| + |y_n|)\ \forall n \geq \max\{N_1, N_2\}$.
-  By \cref{convergenceBounded}, for some $M \geq 0$, we have:
+  By \cref{convergenceBounded}, for some $M > 0$, we have:
   \[
     |x_ny_n - xy| \leq \varepsilon(|x| + |y_n|) \leq \varepsilon(|x| + M)\ \forall n \geq \max\{N_1, N_2\}
   \]
@@ -242,7 +243,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
   \[
     |x_n| \geq \min\{|x_1|, \ldots, |x_{N - 1}|, |x/2|\}\ \forall n
   \]
-  So $|x_n| \geq M\ \forall n$ for some $M > 0$.
+  So $|x_n| \geq M\ \forall n$ for some $M > 0$ as $|x_n| \neq 0\ \forall n$.
 
   Now for any $\varepsilon > 0$, $\exists N(\varepsilon)$ s.t. $\forall n > N$ we have the following:
   \begin{align*}
@@ -257,6 +258,8 @@ Now that we know what we what restrictions we want the definitions to impose, we
 \end{remark}
 \begin{remark}[Advice]
   We often specify that something must be true for all terms of the sequence, however if it is not, we can just define a new sequence that removes terms from the start of the sequence so that the property is satisfied for all $n$.
+
+  Since the convergence behaviour of the sequence is only concerned with the ``tail'', if we can show this shifted sequence converges, then so will the original.
 \end{remark}
 \subsection{Monotone Sequences}
 \begin{definition}[Monotone Sequence]
@@ -286,7 +289,7 @@ Now that we know what we what restrictions we want the definitions to impose, we
   We only required the sequence to be bounded above if it is monotonically increasing and bounded below if it is monotonically decreasing.
 \end{remark}
 Sequences that are bounded but not monotone do not necessarily have to converge, for example the sequence $x_n = (-1)^{n}$ is bounded but does not converge.
-However, if we remove even terms we get the subsequence $x_{2k + 1} = -1$, and if we remove all the odd terms, we get the subsequence $x_{2k} = 1$.
+However, if we remove even terms we obtain the \textit{subsequence} $x_{2k + 1} = -1$, and if we remove all the odd terms, we get the subsequence $x_{2k} = 1$.
 These are constant sequences so converge.
 \section{Bolzano-Weierstrass Theorem}
 To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce the notion of a subsequence and prove a few preliminary lemmas.
@@ -328,7 +331,10 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
 
   So the sequence $(a_n)$ is increasing and bounded above by $b_1$ and the sequence $(b_n)$ is decreasing and bounded below by $a_1$.
   Thus, by \cref{monotoneConvergence}, $a_n \to a$ and $b_n \to b$ for some $a, b \in \R$.
-  Since $a_n \leq b_n \forall n$ we can use \cref{sandwichThm} to preserve the non-strict inequality to yield, $a \leq b$.
+
+  By \cref{sequenceLimitLaws}, $b_n - a_n \to b - a$ and by assumption, $b_n - a_n \to 0$.
+  Since limits are unique, we then have $b - a = 0 \implies b = a$.
+  Since the upper and lower bounds converge to a shared point, it would be reasonable to guess that this is the unique point we are interested in.
 
   \textbf{Existence}\par
   For all $k \geq n$, $a_k \in [a_k, b_k] \subseteq [a_n, b_n]$ so $a_n \leq a_k \leq b_n$.
@@ -336,11 +342,8 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
   Thus $a \in I_n\ \forall n$ so $a \in \bigcap_{n \in \N} I_n$.
 
   \textbf{Uniqueness}\par
-  By \cref{sequenceLimitLaws}, $b_n - a_n \to b - a$.
-  By assumption, $b_n - a_n \to 0$ and limits are unique, therefore $b - a = 0 \implies b = a$.
-
-  Hence $x \in \bigcap_{n} I_n \iff x \in I_n\ \forall n \iff a_n \leq x \leq b_n\ \forall n$.
-  Using \cref{sandwichThm} again, $a \leq x \leq b = a \implies x = a$.
+  $x \in \bigcap_{n} I_n \iff x \in I_n\ \forall n \iff a_n \leq x \leq b_n\ \forall n$.
+  Taking $n \to \infty$ and using \cref{sandwichThm} again, $a \leq x \leq b = a \implies x = a$.
   So the intersection contains only $a$.
 \end{proof}
 \begin{theorem}[Bolzano-Weierstrass Theorem]
@@ -371,12 +374,12 @@ To prove the Bolzano-Weierstrass Theorem, we first need to rigorously introduce 
 \end{remark}
 \begin{remark}[Remarks]
   \begin{enumerate}
-    \item We see from $x_n = (-1)^{n}$ that there can be more than one convergent subsequence and their limits can disagree.
+    \item We saw from $x_n = (-1)^{n}$ that there can be more than one convergent subsequence and their limits can disagree.
     \item The Bolzano-Weierstrass theorem also holds for complex sequences, see Q1b on Example Sheet 1.
   \end{enumerate}
 \end{remark}
 \section{Cauchy Sequences}
-A Cauchy sequence is a sequence where the elements get closer together as the sequence progresses.
+A Cauchy sequence is a sequence where the elements get arbitrarily close together as the sequence progresses.
 \begin{definition}[Cauchy Sequence]
   We say a sequence $(x_n)$ on $X \subseteq \C$ is \textit{Cauchy} if:
   \label{cauchyDef}
@@ -414,13 +417,13 @@ A Cauchy sequence is a sequence where the elements get closer together as the se
       Note that $10^{-(n - 1)} \to 0 \text{ as } n \to \infty$, so for any fixed $\varepsilon > 0$, $\exists N$ s.t. $10^{-(n - 1)} < \varepsilon\ \forall n\ \geq N$.
       For such $n$, $n, m \geq N$ and $|x_m - x_n| < 10^{- (n - 1)} < \varepsilon$ so $(x_n)$ is Cauchy.
 
-      However, this sequence does not converge over $\Q$, but it converges over $\R$ to $\sqrt{2}$).
+      However, this sequence does not converge over $\Q$ but would converge over $\R$ to $\sqrt{2}$.
   \end{enumerate}
 \end{example}
 \begin{remark}[Advice]
-  In example \textbf{iii} above, we saw that we can show a sequence is Cauchy by showing that for $m \geq n$, $|x_m - x_n|$ is bounded by some positive real sequence $(a_n)$ that converges to 0 as $n \to \infty$.
+  In example \textbf{(iii)} above, we saw that we can show a sequence is Cauchy by showing that for $m \geq n$, $|x_m - x_n|$ is bounded by some non-negative real sequence $(a_n)$ that converges to 0 as $n \to \infty$.
 \end{remark}
-\begin{lemma}
+\begin{lemma}[Cauchy $\implies$ Bounded]
   If $(x_n)$ is Cauchy, then it is bounded.
 \end{lemma}
 \begin{proof}
@@ -429,7 +432,7 @@ A Cauchy sequence is a sequence where the elements get closer together as the se
   For such $n$, $|x_n| < 1 + |x_N|$ which is a finite number independent of $n$.
   Therefore:
   \[
-    \sup\limits_{n \geq 1} |x_n| \leq \max\{|x_1|, \ldots, |x_{N - 1}|, 1 + |x_N|\}
+    |x_n| \leq \max\{|x_1|, \ldots, |x_{N - 1}|, 1 + |x_N|\}\ \forall n
   \]
   so $(x_n)$ is bounded.
 \end{proof}
@@ -471,11 +474,11 @@ A Cauchy sequence is a sequence where the elements get closer together as the se
   \begin{align*}
     |x_n - x_m| &= |x_n - x + x - x_m| \\
                 &\leq |x_n  - x| + |x_m - x| \\
-                &< 2\varepsilon\ \forall n, m \geq N \text{ because $x_n \to x$}
+                &< 2\varepsilon\ \forall n, m \geq N(\varepsilon) \text{ from $x_n \to x$}
   \end{align*}
   which is a constant multiple of $\varepsilon$ so $(x_n)$ is Cauchy.
 \end{proof}
-The \cref{cauchyExample} \textbf{iii} shows that there exists Cauchy sequences on $\Q$ that do not converge on $\Q$.
+The sequence in \cref{cauchyExample} \textbf{(iii)} shows that there are Cauchy sequences on $\Q$ that do not converge on $\Q$.
 So, if the converse of the above is true, it can only be true for certain ``nice'' subsets $X \subseteq \C$.
 \begin{theorem}[Completeness of $\R$ and $\C$]
   Every Cauchy sequence on $\R$ or $\C$ is convergent.
@@ -483,7 +486,7 @@ So, if the converse of the above is true, it can only be true for certain ``nice
 \end{theorem}
 \begin{proof}
   We have seen that if $(x_n)$ is Cauchy, then it is bounded.
-  So by the Bolzano Weierstrass Theorem (which also works for sequences on $\C$), we can find a subsequence $(x_{n_k})$ which converges to some $x \in \R$.
+  So by the Bolzano Weierstrass Theorem (which also works for sequences on $\C$), we can find a subsequence $(x_{n_k})$ which converges to some $x \in \C$.
   \begin{align*}
     |x_n - x| &= |x_n - x_{n_k} + x_{n_k} - x| \\
               &\leq \underbrace{|x_n - x_{n_k}|}_{\text{use Cauchy}} + \underbrace{|x_{n_k} - x|}_{\text{use convergence}}
@@ -513,8 +516,8 @@ So, if the converse of the above is true, it can only be true for certain ``nice
 \end{remark}
 \begin{remark}[Remarks]
   \begin{itemize}
-    \item We can use this to prove convergence of $\R$ or $\C$ sequences without having to guess what the limit is as we can just show that they are convergent.
-    \item Next year, in Analysis II, we will define ``completeness'' and we will see that $\Q$ is not complete, which matches with the discussed example.
+    \item We can use this to prove convergence of sequences on $\R$ or $\C$ without having to guess what the limit is as we can just show that they are Cauchy.
+    \item In Part IB Analysis II, we will define ``completeness'' and we will see that $\Q$ is not complete, which matches with the discussed example.
   \end{itemize}
 \end{remark}
 \section{Series}
@@ -523,7 +526,7 @@ So, if the converse of the above is true, it can only be true for certain ``nice
   Let $(a_n)_{n \in \N}$ be a sequence on $\R$ or $\C$.
   We say that $\sum_{n=1}^{\infty} a_n$ is a \textit{series}.
 
-  We say a series converges if the sequence of \textit{partial sums} $(s_k)_{k \in \N}$, defined by $s_k = \sum_{n = 1}^{k} a_n$, converges to some finite $s \in \R$ or $\C$ as $k \to \infty$.
+  We say a series converges if the sequence of its \textit{partial sums} $(s_k)_{k \in \N}$, defined by $s_k = \sum_{n = 1}^{k} a_n$, converges to some finite $s \in \R$ or $\C$ as $k \to \infty$.
   In this case, $s$ is called the sum of the series and we write $s = \sum_{n = 1}^{\infty} a_n$.
 \end{definition}
 \begin{example}[Examples of Series]
@@ -541,14 +544,14 @@ So, if the converse of the above is true, it can only be true for certain ``nice
         k & \text{ if } r = 1
         \end{cases}
       \]
-      and $r^{k}$ converges if and only if $|r| < 1$.
+      As $k \to \infty$, $r^{k}$ converges if and only if $|r| \leq 1$.
     \item The series $\sum\limits_{n = 1}^{\infty} \frac{1}{n(n + 1)}$ converges to $1$.
       \begin{align*}
         s_k = \sum_{n = 1}^{k} \frac{1}{n(n + 1)} &= \sum_{n = 1}^{k} \left(\frac{1}{n} - \frac{1}{n + 1}\right) \\
                                                   &= 1 - \cancel{\frac{1}{2}} + \cancel{\frac{1}{2}} + \cdots + \cancel{\frac{1}{k}} - \frac{1}{k + 1} \\
                                                   &= 1 - \frac{1}{k + 1} \to 1
       \end{align*}
-      Sums or series where terms cancel out like this are often referred to as \textit{telescoping}.
+      Sums where terms cancel out like this are often referred to as \textit{telescoping}.
   \end{enumerate}
 \end{example}
 \begin{lemma}
@@ -579,16 +582,17 @@ Similarly to sequences, only the ``tail'' of the series matters for convergence:
     r_k &= \sum_{n = 1}^{N} b_n + \sum_{n = N + 1}^{k} a_n \\
         &= s_k + \sum_{n = 1}^{N} (b_n - a_n)
   \end{align*}
-  $\sum_{n = 1}^{N} (b_n - a_n)$ is a finite number so has no effect on convergence.
+  $\ell = \sum_{n = 1}^{N} (b_n - a_n)$ is a finite number so has no effect on convergence.
   If we take $k \to \infty$ we see that:
   \[
-    \lim_{k \to \infty} s_k = \lim_{k \to \infty} r_k
+    \ell + \lim_{k \to \infty} s_k = \lim_{k \to \infty} r_k
   \]
-  and thus they either both converge or both fail to converge.
+  and thus they either both converge or both fail to converge since $\ell$ is finite.
 \end{proof}
 \subsection{Convergence Tests}
 \label{convergenceTests}
-Finding an explicit form for the partial sums of a series is often quite challenging or impossible so we often use a variety of tests to determine if a series converges.
+Finding an explicit form for the partial sums of a series to take the limit of is often quite challenging or impossible.
+We therefore often employ a variety of tests to determine if a series converges.
 \subsubsection{$n$-th Term Test}
 \begin{proposition}[$n$-th term test]
   If $a_n \centernot\to 0$ as $n \to \infty$, then  $\sum_{n = 1}^{\infty} a_n$ fails to converge
@@ -600,13 +604,13 @@ Finding an explicit form for the partial sums of a series is often quite challen
   By definition, $\sum_{n = 1}^{\infty} a_n$ converges if and only if its partial sums $s_k$ converge to some finite $s$ as $k \to \infty$.
   Since $(s_k)$ converges, it must be Cauchy by \cref{convergenceCauchy}.
   Since it is Cauchy, the difference between consecutive terms of $(s_k)$ must converge to 0, that is, $s_{k + 1} - s_k \to 0$ as $k \to \infty$.
-  Notice that $s_{k + 1} - s_k = a_{k + 1}$ and so $a_k \to \infty$ as $k \to \infty$.
+  Notice that $s_{k + 1} - s_k = a_{k + 1}$ and so $a_k \to 0$ as $k \to \infty$.
 \end{proof}
 \begin{remark}
-  $a_n \to 0$ is \textbf{not} a sufficient condition for the series to converge.
+  $a_n \to 0$ is \textbf{not} a sufficient condition for the series $\sum_{n=0}^{\infty} a_n$ to converge.
 
   Consider the \textit{harmonic series} defined by $a_n = \frac{1}{n}$.
-  We have $a_n \to 0$, and we claim that the partial sums $(s_k)$ diverge to $\infty$.
+  We have $a_n \to 0$, and we claim that the partial sums $(s_k)$ diverge.
   \begin{align*}
     s_{2k} &= s_k + \frac{1}{n + 1} + \frac{1}{n + 2} + \cdots + \frac{1}{n + n} \\
            &\geq s_k + n\left(\frac{1}{n + n}\right) \text{ as each fraction is $\geq \frac{1}{n + n}$}\\
@@ -626,7 +630,7 @@ Creating convergence tests for $\sum_{n = 1}^{\infty} a_n$ is easier when $a_n \
   Because $a_n, b_n \geq 0$, $(s_k)$ and $(r_k)$ are monotonically increasing.
   We also know that $s_k \to s$ for some finite $s$ so since it is increasing, $s_k \leq s\ \forall k$.
 
-  We know taking finite sums preserves inequalities so:
+  We already know that taking \textbf{finite sums} preserves inequalities so:
   \begin{align*}
     b_n \leq a_n &\implies \sum_{n = 1}^{k} b_k \leq \sum_{n = 1}^{k} a_k \\
                  &\implies r_k \leq s_k \leq s
@@ -648,26 +652,26 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
   If $a_n \geq 0\ \forall n$ and $\exists a$ such that $a = \lim\limits_{n \to \infty} a^{\frac{1}{n}}_{n}$ then:
   \label{rootTest}
   \begin{itemize}
-    \item If $a < 1$, then $\sum_{n = 1}^{\infty} a_n$ converges.
     \item If $a > 1$, then $\sum_{n = 1}^{\infty} a_n$ diverges.
+    \item If $a < 1$, then $\sum_{n = 1}^{\infty} a_n$ converges.
     \item If $a = 1$, then the test is inconclusive.
   \end{itemize}
 \end{proposition}
 \begin{proof}
   \begin{proofcases}
     \begin{case}{$a > 1$}
-      Since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = a - 1 > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{a} - a| < a - 1\ \forall n \geq N$.
+      Since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = a - 1 > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{n} - a| < a - 1\ \forall n \geq N$.
       For such $n$, by the triangle inequality:
       \begin{align*}
         a^{\frac{1}{n}}_{n} = |a^{\frac{1}{n}}_{n}| &\geq |a| - |a^{\frac{1}{n}}_{n} - a| \\
-                                                    &> |a| - (a - 1) = 1 \text{ as $a \geq 0$}
+                                                    &> |a| - (a - 1) = 1 \text{ as $a > 1$}
       \end{align*}
-      Therefore $a^{\frac{1}{n}}_{n} > 1\ \forall n \geq N \implies a_n > 1\ \forall n \geq N$.
+      Therefore $a^{\frac{1}{n}}_{n} > 1\ \forall n \geq N \implies a_n > 1\ \forall n \geq N \implies a_n \centernot\to 0$.
       So $a_n$ fails the $n$-th term test and so the series diverges.
     \end{case}
     \begin{case}{$a < 1$}
       Since $0 \leq a < 1$, $\exists r$ s.t. $a < r < 1$.
-      Furthermore, since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = r - a > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{a} - a| < r - a$.
+      Furthermore, since $a^{\frac{1}{n}}_{n} \to a$, if we take $\varepsilon = r - a > 0$, then $\exists N \text{ s.t. } |a^{\frac{1}{n}}_{n} - a| < r - a$.
       For such $n$, by the triangle inequality:
       \begin{align*}
         a^{\frac{1}{n}}_{n} = |a^{\frac{1}{n}}_n - a + a| &\leq |a^{\frac{1}{n}}_{n} - a| + |a| \\
@@ -729,19 +733,25 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
                                                      &< a_N \cdot r^{n - N} \text{ as each of the quotients is $< r$}\\
                                                      &= \frac{a_N}{r^{N}} \cdot r^{n}
       \end{align*}
-      $\frac{a_N}{r^{N}}$ is a constant (i.e it does not depend on $n$) so by the comparison test (\cref{comparisonTest}) with a geometric series, $\sum_{n = 1}^{\infty} a_n$ converges.
+      Thus $\frac{a_N}{r^{N}}$ is a non-zero constant so by the comparison test (\cref{comparisonTest}) with a geometric series, $\sum_{n = 1}^{\infty} a_n$ converges.
     \end{case}
     \begin{case}{$a > 1$}
       If $a > 1$, we can similarly choose an $r$ s.t. $a > r > 1$.
       Then since $\frac{a_{n + 1}}{a_n} \to a$, $\exists N$ s.t. $\frac{a_{n + 1}}{a_n} > r\ \forall n \geq N$.
       Using the same type of argument as above yields:
       \[
-        a_n > \frac{a_N}{r^{N}} r^{n}\ \forall n \geq N
+        a_n > \frac{a_N}{r^{N}} \cdot r^{n}\ \forall n \geq N
       \]
       But since $r > 1$, this means that $a_n \centernot\to 0$ and so the series diverges by the $n$-th term test (\cref{nthTermTest}).
     \end{case}
   \end{proofcases}
 \end{proof}
+\begin{remark}
+  We also provide an alternative argument for the case of $a > 1$.
+
+  If we take $\varepsilon = a - 1$, then we see that for sufficiently large $n$, $a_{n + 1} > a_n$.
+  Since $a_n \geq 0\ \forall n$ and the tail is strictly monotonically increasing, $a_n \centernot\to 0$ and so the series diverges by the $n$-th term test.
+\end{remark}
 \begin{example}
   \begin{enumerate}
     \item We saw that $\sum_{n = 1}^{\infty} \frac{1}{n}$ diverges and $\sum_{n = 1}^{\infty} \frac{1}{n^2}$ converges.
@@ -760,13 +770,13 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
       so the series converges which agrees with the root test.
   \end{enumerate}
 \end{example}
-\begin{remark}[Note] Proof of $n^{\frac{1}{n}} \to 1$\par
+\begin{remark}[Note] Proof of $n^{\frac{1}{n}} \to 1$.\par
   We can rewrite:
   \[
     n^{\frac{1}{n}} = e^{\frac{1}{n}\log n} \to \exp\left[\lim\limits_{n \to \infty}  \frac{1}{n}\log n\right]
   \]
   by continuity of $\exp$.
-  Using L'S\^opital's rule, we have:
+  Using L'H\^opital's rule, we have:
   \[
     \lim_{n \to \infty} \frac{\log n}{n} = \lim_{n \to \infty} \frac{1}{n} = 0
   \]
@@ -802,12 +812,12 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
   \]
   which does not converge.
 
-  This means that the root test is stronger than the ratio test, however, in practice, the ratio test is often more convenient to apply, for example with power series and factorials.
+  This means that the root test is stronger than the ratio test, however, in practice, the ratio test is often more convenient to apply, for example when the series term contains a factorial.
 \end{remark}
 \subsubsection{Integral Test and Cauchy Condensation Test}
 \begin{proposition}[Integral Test]
   Suppose $f: [1, \infty) \to [0, \infty)$ is a continuous decreasing function.
-  Then, if $a_n = f(n)$, $\sum_{n = 1}^{\infty} a_n$ converges if and only if $\int_{1}^{n} f(t) \d{t}$ has a limit as $n \to \infty$.
+  If $a_n = f(n)$, then $\sum_{n = 1}^{\infty} a_n$ converges if and only if $\int_{1}^{n} f(t) \d{t}$ has a finite limit as $n \to \infty$.
 
   Furthermore:
   \[
@@ -816,7 +826,7 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
   \label{integralTest}
 \end{proposition}
 \begin{proof}
-  We will see later in the course that such functions will be always be integrable in $[1, N]$ for all $N \in \N$.
+  We will see later in the course (\cref{motoneIntegrable}) that such functions will be always be integrable in $[1, N]$ for all $N \in \N$.
 
   If we consider the areas represented by the left sum, right sum, and integral:
   \begin{center}
@@ -884,11 +894,11 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
     \sum_{n = 2}^{k} a_n - \int_{1}^{k} f(t) \d{t} &\leq 0 \\
     \implies b_k = \sum_{n = 1}^{k} a_n - \int_{1}^{k} f(t) \d{t} &\leq a_n
   \end{align*}
-  Therefore, $0 \leq b_k \leq a_1$ so as we take the limit, the non strict inequalities are preserved by \cref{sandwichThm} so $0 \leq \ell \leq a_1$.
+  Therefore, as $a_n$ are decreasing, $0 \leq b_k \leq a_1$ so as we take the limit, the non strict inequalities are preserved by \cref{sandwichThm} so $0 \leq \ell \leq a_1$.
 \end{proof}
 \begin{remark}
   \begin{enumerate}
-    \item $\lim_{n \to \infty} \int_{1}^{n} f(t) \d{t}$ is a type of \textit{improper integral}, these will be covered later in the course.
+    \item $\lim_{n \to \infty} \int_{1}^{n} f(t) \d{t}$ is a type of \textit{improper integral}, these will be covered later in \cref{improperIntegrals}.
     \item The limit of the difference between the integral and the sum being so well bounded tells us that the integral is quite sharp in estimating the sum of the series if it converges, or the rate of divergence if it diverges.
   \end{enumerate}
 \end{remark}
@@ -912,13 +922,14 @@ The next two tests are about ``asymptotic comparison'' to the geometric series.
         \end{cases}
       \]
       Thus, the integral converges if and only if $p > 1$ and so the series converges if and only if $p > 1$.
+      This provides a much easier proof of the divergence of the harmonic series $\sum_{n = 1}^{\infty} 1/n$ and convergence of $\sum_{n = 1}^{\infty} 1/n^2$.
     \item Consider the series $\sum_{n = 2}^{\infty} \frac{1}{n \log n}$.
-      Let $f(t) = \frac{1}{t \log t}$, this is decreasing and continuous on $[2, \infty)$ (note that the sum starts from 2) so we can use the integral test:
+      Let $f(t) = \frac{1}{t \log t}$, this is decreasing and continuous on $[2, \infty)$ (since the sum starts from 2) so we can use the integral test:
       \[
-        \int_2^n \frac{1}{t \log t} \d{t} \stackrel{u = \log t} = \int_{\log 2}^{\log n} \frac{\d{u}}{u} = \eval{\log u}{\log 2}{\log n} = \log(\log n) - \log(\log(2)) \to \infty
+        \int_2^n \frac{1}{t \log t} \d{t} \stackrel{u = \log t} = \int_{\log 2}^{\log n} \frac{\d{u}}{u} = \eval{\log u}{\log 2}{\log n} = \log(\log n) - \log(\log 2) \to \infty
       \]
       So the series must diverge.
-    \item $\sum_{n = 2}^{\infty} \frac{1}{n \log^2 n}$ converges by the integral test.
+    \item The series $\sum_{n = 2}^{\infty} \frac{1}{n \log^2 n}$ converges by the integral test.
       Let $f(t) = \frac{1}{t\log^2 t}$, this satisfies the requirements to use the integral test so consider:
       \[
         \int_2^n \frac{1}{t \log^2 t} \d{t} \stackrel{u = \log t} = \int_{\log 2}^{\log n} \frac{\d{u}}{u^2} = \eval{-\frac{1}{u}}{\log 2}{\log n} = \frac{1}{\log(2)} - \frac{1}{\log(n)} \to \frac{1}{\log(2)}
@@ -986,7 +997,7 @@ What about sequences with with infinitely many negative terms?
 \begin{remark}
   Note that $|a_n| \geq 0\ \forall n$ so the convergence tests that require positive terms are useful for determining if a series is absolutely convergent.
 \end{remark}
-\begin{lemma}
+\begin{lemma}[Absolute convergence $\implies$ Convergence]
   If a series is absolutely convergent, then the original series converges.
   \label{absoluteImpliesConvergence}
 \end{lemma}
@@ -1008,20 +1019,25 @@ What about sequences with with infinitely many negative terms?
 \end{remark}
 \begin{example}[Rearranging a conditionally convergent series]
   Consider again the series $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} = 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \cdots$.
-  This is conditionally convergent as $\sum_{n = 1}^{\infty} |a_n|$ diverges but $\sum_{n = 1}^{\infty} a_n = \log 2$.
+  This series is conditionally convergent as $\sum_{n = 1}^{\infty} |a_n|$ diverges but $\sum_{n = 1}^{\infty} a_n = \log 2$.
 
-  We can rearrange the terms of the sum as:
+  We can \textbf{rearrange} the terms of the sum as:
   \begin{align*}
     &\left(1 - \frac{1}{2}\right) - \frac{1}{4} + \left(\frac{1}{3} - \frac{1}{6}\right) - \frac{1}{8} + \left(\frac{1}{5} - \frac{1}{10}\right) - \frac{1}{12} + \left(\frac{1}{7} - \frac{1}{14}\right) + \cdots \\
     &= \frac{1}{2} - \frac{1}{4} + \frac{1}{6} - \frac{1}{8} + \frac{1}{10} - \frac{1}{12} + \frac{1}{14} + \cdots \\
     &= \frac{1}{2}\left(1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \frac{1}{6} + \cdots\right) \\
     &= \frac{1}{2}\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}
   \end{align*}
-  This seems to suggest that $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} = \frac{1}{2} \sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}$ which is clearly \textbf{not true}.
+  This seems to suggest that $\sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} \stackrel{?}= \frac{1}{2} \sum_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n}$ which is clearly \textbf{not true}.
 
   If you have a conditionally convergent series, \textbf{the order of the sum matters}.
   This is not the case for absolutely convergent series.
 \end{example}
+\begin{remark}
+  Although the value/convergence behaviour of a conditionally convergent series can be modified by a rearrangement, we can always group together terms of a convergent series without affecting its value.
+  This is because grouping together consecutive terms is effectively considering a subsequence of the partial sums and so by \cref{subseqenceConvergence}, it must also converge to the same limit.
+  An example of this is used in the proof of \cref{trigPeriodicity}.
+\end{remark}
 \begin{proposition}[Rearrangements under absolute convergence] \label{absoluteRearrangement}
   Let $\sigma: \N \to \N$ be a bijection (i.e. a permutation of $\N$) so that $a_n' = a_{\sigma(n)}$ is the rearranged sequence.
   If $\sum_{n = 1}^{\infty} a_n$ is absolutely convergent, then $\sum_{n = 1}^{\infty} a_n = \sum_{n = 1}^{\infty} a_n'$.
@@ -1045,8 +1061,8 @@ What about sequences with with infinitely many negative terms?
   So, if we take $N = \max\{N_1, N_2\} + 1$, then $\sum_{n = N}^{\infty} |a_n| < \varepsilon$ and $|s_N - s| < \varepsilon$.
 
   The sequence terms $a_1, \ldots, a_N$ are mapped to $a_{\sigma(1)}, \ldots, a_{\sigma(N)}$ under the rearrangement.
-  If we let $M = \max\{\sigma(1), \ldots, \sigma(N)\}$ then $a_1, \ldots, a_N$ must all be included in $a_1', \cdots, a_{M}'$ and the terms which are not from $a_1, \ldots, a_N$ must all have index $\geq N$ in the original series.
-  We must also have $M \geq N$ as it is the maximum of $N$ natural numbers.
+  If we let $M = \max\{\sigma(1), \ldots, \sigma(N)\}$ then $a_1, \ldots, a_N$ must all be included in $a_1', \ldots, a_{M}'$ and the terms which are not from $a_1, \ldots, a_N$ must all have index $\geq N$ in the original series.
+  We must also have $M \geq N$ as it is the maximum of $N$ distinct natural numbers.
   Hence for $m \geq M \geq N$:
   \begin{align*}
     r_m = \sum_{n = 1}^{m} a_n' &= \underbrace{\sum_{n = 1}^{N} a_n}_{s_N} + (m - N \text{ terms of $(a_n)$ sequence with $n \geq N$}) \\
@@ -1055,6 +1071,13 @@ What about sequences with with infinitely many negative terms?
                        &\leq |s_N - s| + \sum_{n = N}^{\infty} |a_n| \text{ as $|a_n| \geq 0\ \forall n$}\\
                        &< \varepsilon + \varepsilon = 2\varepsilon
   \end{align*}
-  Hence partial sums $(r_k)$ of the rearranged series converge to the value of the original series, and so the rearranged series and the original series converge to the same value.
+  Hence the partial sums $(r_k)$ of the rearranged series converge to the value of the original series, and so the rearranged series and the original series converge to the same value.
 \end{proof}
+\begin{remark}[Riemann Rearrangement Theorem]
+  \nonexaminable
+  In fact, the \textit{Riemann rearrangement theorem} states that a conditionally convergent theorem can be rearranged to converge to any value or diverge in any way.
+  This is due to the fact that the since the series is not absolutely convergent, the series of the positive terms must diverge to $\infty$ and the series of the negative terms must diverge to $-\infty$ (as if they were both finite, the series would converge absolutely).
+
+  Since we have ``unlimited mass'' to make the value of the partial sums as big or a small as we want, we can add positive terms until we go above our desired limit, and then add negative terms to bring it back down and so on.
+\end{remark}
 \end{document}

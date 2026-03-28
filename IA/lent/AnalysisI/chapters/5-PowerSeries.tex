@@ -142,7 +142,9 @@ To compute the radius of converges of a power series, we can adapt the usual tes
   \[
     \lim_{n \to \infty} \sqrt[n]{\abs{c_n(x - a)^{n}}} = |x - a|\lim_{n \to \infty} \sqrt[n]{\abs{c_n}} = |x - a|L
   \]
-  So by the ratio test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely and if $|x - a|L > 1$, the power series diverges by the $n$-th term test (\cref{nthTermTest}).
+  So by the ratio test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely.
+  If instead $|x - a|L > 1$, then $\lim_{n \to \infty} \sqrt[n]{|c_n(x - a)^{n}|} > 1$.
+  This means that $|c_n(x - a)^{n}| > 1$ for sufficiently large $n$ and so $c_n(x - a)^{n} \centernot\to 0$, thus the power series diverges by the $n$-th term test (\cref{nthTermTest}).
 
   In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
 \end{proof}
@@ -159,12 +161,15 @@ To compute the radius of converges of a power series, we can adapt the usual tes
   \[
     \lim_{n \to \infty} \abs{\frac{c_{n + 1}(x - a)^{n + 1}}{c_n(x - a)^{n}}} = |x - a|\lim_{n \to \infty} \abs{\frac{c_{n + 1}}{c_n}} = |x - a|L
   \]
-  So by the root test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely and if $|x - a|L > 1$, the power series diverges by the $n$-th term test (\cref{nthTermTest}).
+  So by the root test (\cref{ratioTest}), if $|x - a|L < 1$, then the power series converges absolutely.
+  If instead $|x - a|L > 1$, then $\lim_{n \to \infty} \abs{\frac{c_{n + 1}(x - a)^{n + 1}}{c_n(x - a)^{n}}} > 1$.
+  This means that for sufficiently large $n$, $|c_{n + 1}(x - a)^{n + 1}| > |c_n(x - a)^{n}| \geq 0$ and so $c_n(x - a)^{n} \centernot\to 0$, thus the power series diverges by the $n$-th term test (\cref{nthTermTest}).
 
   In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
 \end{proof}
 \begin{remark}[Note]
   If the limits do not exist but instead converge to infinity, i.e. $\abs{\frac{c_{n + 1}}{c_n}} \to \infty$ or $\sqrt[n]{c_n} \to \infty$, then $R = 0$.
+  See Example Sheet 4 Q1c.
 \end{remark}
 \begin{example} \label{rConvExamples}
   \begin{enumerate}
