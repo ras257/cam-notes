@@ -6,8 +6,11 @@
   A \textit{set} is a collection of mathematical objects. The order of the elements in the set is immaterial and elements are counted only once.
 \end{definition}
 \begin{example}
-  $\R, \N, \{1, 5, 9\}, (-2, 3]$ are all examples of sets.
+  The real numbers $\R$, natural numbers $\N$, the interval $(-2, 3]$, and $\{1, 5, 9\}$ are all examples of sets.
 \end{example}
+\begin{remark}[Notation]
+The notation of curly braces to list the elements is referred to as \textit{roster} or \textit{enumeration notation} and differentiates a set of objects from say an ordered tuple.
+\end{remark}
 \begin{example}
   $\{1, 3, 7\} = \{1, 7, 3\}$ (as order is immaterial) and $\{3, 4, 4, 8\} = \{3, 4, 8\}$ (as elements are counted only once)
 \end{example}
@@ -17,7 +20,7 @@
 Two sets are equal if they have the same elements.
 That is $A = B$ if and only if:
 \[
-  \forall x, x \in A \iff x \in B
+  \forall x,\ x \in A \iff x \in B
 \]
 \begin{definition}[Empty Set]
   The \textit{empty} set, denoted $\emptyset$ is the only set with no elements.
@@ -27,31 +30,52 @@ A set $B$ is a subset of a set $A$, written $B \subseteq A$, if every element of
 
 $B$ is said to be a ``proper subset'' of $A$, written $B \subset A$, if $B \subseteq A$ and $B \neq A$.
 \end{definition}
-We can now say that $A = B$ if and only if:
+Using quantifiers:
 \[
-  A \subseteq B \land B \subseteq A
+  B \subseteq A \iff (\forall x,\ x \in B \implies x \in A)
 \]
+Therefore, we have that:
+\[
+  A = B \iff (A \subseteq B \text{ and } B \subseteq A)
+\]
+So we can show that two sets are equal by showing that they are both subsets of each other.
+
+We can also construct subsets using \textit{set builder notation}.
 If $A$ is a set and $P$ is a property of (some) elements of $A$, then we can write $\{x \in A: P(x)\}$ to mean the subset of $A$ comprising of those elements for which $P(x)$ holds.
+Here the colon can be read as ``such that''.
+Note that some sources use a vertical bar instead of a colon, for example $\{x \in A \vert P(x)\}$.
 \begin{example}
-  $\{n \in \N : n \text{ is prime}\} = \{2, 3, 5, 7, 11, \ldots\}$
+  We also can use an ellipsis if it is obvious what the rest of the elements of the set will be:
+  \[
+    \{n \in \N : n \text{ is prime}\} = \{2, 3, 5, 7, 11, \ldots\}
+  \]
 \end{example}
 \begin{definition}[Union]
-  If $A$ and $B$ are sets then their \textit{union}, $A \cup B = \{x: x \in A \text{ or } x \in B\}$.
+  If $A$ and $B$ are sets then their \textit{union} $A \cup B$ is defined to be the set:
+  \[
+    A \cup B = \{x: x \in A \text{ or } x \in B\}
+  \]
 \end{definition}
 \begin{definition}[Intersection]
-  If $A$ and $B$ are sets then their \textit{intersection}, $A \cap B = \{x: x \in A \text{ and } x \in B\}$.
+  If $A$ and $B$ are sets then their \textit{intersection} $A \cap B$ is defined to be the set:
+  \[
+    A \cap B = \{x: x \in A \text{ and } x \in B\}
+  \]
 \end{definition}
 \begin{remark}[Remark]
   We can view intersection as a special case of subset selection:
   \[
-    A \cap B = \{x \in A : x \in B\}
+    A \cap B = \{x \in A : x \in B\} = \{x \in B: x \in A\}
   \]
 \end{remark}
 \begin{definition}[Disjoint]
-  If $A$ and $B$ are sets then they are \textit{disjoint} when $A \cap B = \emptyset$.
+  We say that the sets $A$ and $B$ are \textit{disjoint} if $A \cap B = \emptyset$.
 \end{definition}
 \begin{definition}[Set Difference]
-  If $A$ and $B$ are sets then the set difference of $A$ take $B$, $A \setminus B = \{x \in A: x \notin B\}$.
+  If $A$ and $B$ are sets then the set difference of $A$ take $B$ is defined to be the set:
+  \[
+    A \setminus B = \{x \in A: x \notin B\}
+  \]
 \end{definition}
 \begin{remark}[Note]
   Both the union and intersection are commutative and associative.
@@ -65,16 +89,15 @@ If $A$ is a set and $P$ is a property of (some) elements of $A$, then we can wri
     A \cap (B \cup C) = (A \cap B) \cup (A \cap C)
   \]
   Set difference also acts similarly to De Morgan's Law:
-  \[
-    (A \setminus (B \cap C)) = (A \setminus B) \cup (A \setminus C)
-  \]
-  \[
-    (A \setminus (B \cup C)) = (A \setminus B) \cap (A \setminus C)
-  \]
+  \begin{align*}
+    (A \setminus (B \cap C)) &= (A \setminus B) \cup (A \setminus C) \\
+    (A \setminus (B \cup C)) &= (A \setminus B) \cap (A \setminus C)
+  \end{align*}
+  This will be proved on Example Sheet 1.
 \end{remark}
 To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that both sides of the equation are subsets of each other:
 \begin{proof}\par
-  If $x \in A \cap (B \cup C)$ then $x \in A$ and $x \in B \cup C$, so $x \in A$ and ($x \in B$ or $x \in C$).
+  If $x \in A \cap (B \cup C)$, then $x \in A$ and $x \in B \cup C$, so $x \in A$ and ($x \in B$ or $x \in C$).
   \begin{proofcases}
     \begin{case}{$x \in B$}
       Then $x \in A \cap B$
@@ -83,9 +106,9 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
       Then $x \in A \cap C$
     \end{case}
   \end{proofcases}
-  In either case $x \in (A \cap B) \cup (A \cap C)$
+  In either case $x \in (A \cap B) \cup (A \cap C)$.
 
-  Conversely, if $x \in (A \cap B) \cup (A \cap C)$ then $x \in A \cap B$ or $x \in A \cap C$.
+  Conversely, if $x \in (A \cap B) \cup (A \cap C)$, then $x \in A \cap B$ or $x \in A \cap C$.
   \begin{proofcases}
     \begin{case}{$x \in (A \cap B)$}
       Then $x \in A$ and $x \in B \cup C$
@@ -103,14 +126,14 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
   If $A_1, A_2, A_3, \ldots$, then:
   \begin{align*}
     \bigcap_{n=0}^{\infty} A_n &= A_1 \cap A_2 \cap A_3 \cap \cdots \\
-                               &= \{x: x \in A_n\;\forall n \in \N\}
+                               &= \{x: x \in A_n\ \forall n \in \N\}
   \end{align*}
-  and
+  and:
   \begin{align*}
     \bigcup_{n=0}^{\infty} A_n &= A_1 \cup A_2 \cup A_3 \cup \cdots \\
-                               &= \{x: x \in A_n \text{ for some } n \in \N\}
+                               &= \{x: \exists n \in \N \text{ such that } x \in A_n\}
   \end{align*}
-  Warning! These are not the limit of something.
+  Warning! These are not the limit of a finite intersection like how an infinite series is the limit of a finite sum.
 
   More generally, given an index set $I$ and a collection of sets $A_i$ indexed by $i \in I$, we write:
   \[
@@ -123,39 +146,45 @@ To prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$, we can show that
 \begin{definition}[Cartesian Product]
   Given sets $A$ and $B$ we can form their \textit{Cartesian product}:
   \[
-    A \times B = {(a, b): a \in A \text{ and } b \in B}
+    A \times B = \{(a, b): a \in A \text{ and } b \in B\}
   \]
 \end{definition}
 The Cartesian product is the set of \textit{ordered pairs} $(a, b)$ with $a \in A, b \in B$.
 \begin{remark}
-From a set-theoretic perspective we could define $(a, b) = \{\{a, b\}, \{a\}\}$ where the singleton element indicates the first element of the ordered pair.
-Ordered triples can then be defined recursively $(a, b, c) = ((a, b), c)$ and so on.
+From a purely set-theoretic perspective we could define $(a, b) = \{\{a, b\}, \{a\}\}$ where the singleton element indicates the first element of the ordered pair.
+Ordered triples can then be defined recursively as $(a, b, c) = ((a, b), c)$ and so on.
 \end{remark}
-
-We can extend the Cartesian product to ordered triples and so on.
+We can extend the Cartesian product to ordered triples (i.e $A \times B \times C$) and so on.
 \begin{example}
-  $\R^3 = \R \times \R \times \R = \{(x, y, z) : x, y, z \in \R\}$.
+  The familiar three dimensional Cartesian space $\R^3$ is the Cartesian product of three copies of $\R$:
+  \[
+    \R^3 = \R \times \R \times \R = \{(x, y, z) : x, y, z \in \R\}
+  \]
 \end{example}
 \begin{definition}[Power Set]
-  For any set $X$, we can form the \textit{power set} $\powerset{S}$ consisting of all subsets of $X$.
+  For any set $X$, we can form the \textit{power set} $\powerset{X}$ consisting of all subsets of $X$.
   \[
     \powerset{X} = \{Y: Y \subseteq X\}
   \]
 \end{definition}
 \begin{example}
-  $\powerset{\{1, 2\}} = \{ \emptyset, \{1\}, \{2\}, \{1, 2\}\}$
+  For example, the power set of $\{1, 2\}$ is:
+  \[
+    \powerset{\{1, 2\}} = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}
+  \]
+  The empty set and the set itself are often forgotten but it is important to include these ``trivial'' subsets.
 \end{example}
 \label{russelsParadox}
 \begin{remark}[Warning]
   Given a set $A$, we can form $\{x \in A: P(x)\}$ for any property $P$.
-  But we cannot form $\{x: P(x)\}$ because of Russell's Paradox. Suppose we consider the set:
+  But we cannot always form $\{x: P(x)\}$ because of Russell's Paradox. Suppose we consider the set:
   \[
     X = \{x: x \text{ is a set and } x \notin x\}
   \]
-  If $x \in X \implies x \notin X$.
+  We see that $x \in X \implies x \notin X$.
   On the other hand $x \notin X \implies x \in X$.
   So the construction of this set leads to a contradiction!
-  Similarly, there is no ``universal set'' of objects $Y$, such that $\forall x$, $x \in Y$.
+  This is because there is no ``universal set'' of objects $Y$, such that $\forall x$, $x \in Y$.
   Otherwise we could form $X$ by subset selection:
   \[
     X = \{x \in Y: x \notin x\}
@@ -165,9 +194,14 @@ We can extend the Cartesian product to ordered triples and so on.
 \section{Finite Sets}
 \label{finiteSets}
 \begin{remark}[Notation]
-We write $\N_0 = \N \cup \{0\} = \{0, 1, 2, 3, \ldots\}$.
+We denote the natural numbers including 0 as $\N_0$:
+\[
+  \N_0 = \N \cup \{0\} = \{0, 1, 2, 3, \ldots\}
+\]
 \end{remark}
-A set $A$ has size $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all the elements $a_i$ distinct.
+\begin{definition}[Size of a Set]
+  A set $A$ has size $n$ denoted $|A| = n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all the elements $a_i$ being distinct.
+\end{definition}
 \begin{definition}[Finite/Infinite Sets]
   A set $A$ is \textit{finite} if $\exists n \in \N_0$ such that $|A| = n$ and $A$ is \textit{infinite} otherwise.
 \end{definition}
@@ -177,6 +211,9 @@ A set $A$ has size $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all 
 \begin{definition}[Function]
   A \textit{function} from $A$ to $B$ is a subset $f \subseteq A \times B$ such that for all $x \in A$, there is a unique $y \in B$ such that $(x, y) \in f$
 \end{definition}
+\begin{remark}[Warning]
+  In the definition of a function we specified that \textbf{every} element of $A$ must be mapped to a unique element in $B$ so we need to make sure that the rule which assigns a unique $y$ is well defined for every element $x$ of $A$.
+\end{remark}
 \begin{remark}[Notation]
   If $f$ is a function from $A$ to $B$, we write:
   \[
@@ -192,7 +229,7 @@ A set $A$ has size $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all 
   \begin{enumerate}
     \item $x \mapsto x^2$ is a function.
     \item $x \mapsto 1/x$ is \textbf{not} a function as it is not well defined at $x = 0$.
-    \item $x \mapsto \pm\sqrt{|x|}$ is \textbf{not} a function as there is not a unique output.
+    \item $x \mapsto \pm\sqrt{|x|}$ is \textbf{not} a function as there is \textbf{not a unique output} for each $x$
     \item $
         x \mapsto \begin{cases}
         1 & \text{ if } x \in \Q \\
@@ -202,11 +239,14 @@ A set $A$ has size $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with all 
   \end{enumerate}
 \end{example}
 \begin{definition}[Domain and Codomain]
-  Given $f: A \to B$, we say $A$ is the \textit{domain} of $f$ and $B$ is its \textit{codomain} or \textit{range}.
+  For a function $f: A \to B$, we call $A$ the \textit{domain} of $f$ and call $B$ the \textit{codomain} or \textit{range} of $f$.
 \end{definition}
 \begin{definition}[Image and Preimage]
   If $x \in A$ and $f(x) = y$ then $y$ is called the \textit{image} of $x$, and $x$ is called a \textit{preimage} of $y$.
 \end{definition}
+\begin{remark}
+  Note how we have specified that $y$ is \textbf{the} image of $x$ (because by the definition of a function it has two be unique), whereas we have called $x$ \textbf{a} preimage of $y$ because we could have multiple $x \in A$ satisfying  $f(x) = y$.
+\end{remark}
 \begin{example}
   $f(x) = x^2$ then the image of $6$ under $f$ is $36$ but $36$ has the pre-images $6$ and $-6$.
 \end{example}
@@ -215,16 +255,20 @@ If $X \subset A$ then the \textit{image} of the set $X$ under $f$ is:
   f(X) &= \{f(x): x \in X\} \\
        &= \{b \in B: f(x) = b \text{ for some } x \in X\}
 \end{align*}
-also $f(A)$, often denoted $\image(f)$, is called he \textit{image} of $f$.
+also $f(A)$, often denoted $\image(f)$, is called the \textit{image} of $f$.
 If $Y \subset B$ then the \textit{preimage} of $Y$ under $f$ is:
 \[
   f^{-1}(Y) = \{a \in A: f(a) \in Y\}
 \]
+\begin{remark}
+  Some sources use ``range'' to refer to what we have defined to be the image of $f$.
+  In this course however, we will use ``range'' and ``codomain'' interchangeably.
+\end{remark}
 \begin{example}
-  Consider the function $f: \R \to \R$, $x \mapsto x^2$.
+  Consider the function $f: \R \to \R$, $x \mapsto x^2$:
   \begin{align*}
     \image(f) &= \{y \in \R: y\geq0\} \\
-    \image(\{x \in \R: -1 \leq x < 4\}) &= \{y \in \R: 0 \leq y < 16\} \\
+    f(\{x \in \R: -1 \leq x < 4\}) &= \{y \in \R: 0 \leq y < 16\} \\
     f^{-1}(\{y \in \R: -1 \leq y \leq 4\}) &= \{x \in \R: -2 \leq x \leq 2\}
   \end{align*}
 \end{example}
@@ -235,6 +279,9 @@ If $Y \subset B$ then the \textit{preimage} of $Y$ under $f$ is:
 \begin{definition}[Surjective]
   $f: A \to B$ is \textit{surjective} if $\forall b \in B, \exists a \in A$ s.t. $f(a) = b$.
 \end{definition}
+\begin{remark}
+  $f$ is surjective if and only if $\im(f) = f(A) = B$.
+\end{remark}
 \begin{definition}[Bijective]
   $f: A \to B$ is \textit{bijective} if it is both injective and surjective.
 \end{definition}
@@ -294,21 +341,18 @@ If $Y \subset B$ then the \textit{preimage} of $Y$ under $f$ is:
   \end{enumerate}
 \end{example}
 If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once. That is, $f$ pairs up the elements of $A$ and $B$.
-\begin{definition}[Permutation]
- A \textit{permutation} of a set $A$ is a bijection $A \to A$.
-\end{definition}
 \begin{remark}[Warning]
   When specifying a function we must specify its domain and range.
   For example, the question ``Is the function $f(x) = x^2$ injective?'' is meaningless on its own as $f: \N \to \N$ is injective but $f: \Z \to \Z$ is not.
 \end{remark}
-\begin{remark}
-  $f$ is surjective if and only if $f(A) = B$.
-\end{remark}
+\begin{definition}[Permutation]
+ A \textit{permutation} of a set $A$ is a bijection $A \to A$.
+\end{definition}
 \begin{remark}[Remarks]
   For finite sets:
   \begin{enumerate}
-    \item If $|B| > |A|$ then there cannot be a surjective $f: A \to B$.
-    \item If $|A| > |B|$ then there cannot be an injective $f: A \to B$.
+    \item If $|B| > |A|$, then there cannot be a surjective $f: A \to B$.
+    \item If $|A| > |B|$, then there cannot be an injective $f: A \to B$.
     \item If $f: A \to A$, then $f$ is injective if and only if $f$ is surjective.
     \item If $f: A \to B$, then $f$ is surjective and $|A| = |B|$ if and only if $f$ is a bijection.
     \item There is no bijection from $A$ to any proper subset of $A$.
@@ -332,7 +376,7 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
     \item A sequence of reals $x_1, x_2, \ldots$ can be viewed as a function $\N \to \R$, $n \mapsto x_n$.
     \item The operation $+$ on $\N$ can be view as a function $\N \times \N \to \N$, $(a, b) \mapsto a + b$.
     \item A set $X$ has size $n$ if and only if there is a bijection from the set $\{1, 2, 3, \ldots, n\}$ to the set $X$.
-    \item Given a set $X$ and $A \subseteq X$, we have the \textit{indicator function} of $A$:
+    \item Given a set $X$ and $A \subseteq X$, we define the \textit{indicator function} of $A$:
       \[
         i_A: X \to \{0, 1\},\;
         x \mapsto \begin{cases}
@@ -340,7 +384,6 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
           0 & \text{if } x\notin A
         \end{cases}
       \]
-
     This has the following properties:
     \begin{itemize}
       \item $i_A = i_B \iff A = B$
@@ -351,6 +394,7 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
   \end{enumerate}
 \end{example}
 \begin{proposition}
+  For $A, B \subseteq X$:
   \[
     i_{A \cup B} = i_A + i_B - i_{A \cap B}
   \]
@@ -366,10 +410,10 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
 \end{proof}
 \subsection{Function Composition}
 \begin{definition}[Function Composition]
-  Give $f: A \to B$ and $g: B \to C$, $g$ \textit{composed} with $f$ is $g \circ f: A \to C$, $a \mapsto g(f(a))$.
+  For $f: A \to B$ and $g: B \to C$, $g$ \textit{composed with} $f$ is $g \circ f: A \to C$, $a \mapsto g(f(a))$.
 \end{definition}
 \begin{remark}[Warning]
-  In general function composition is not commutative.
+  In general function composition is not commutative!
 \end{remark}
 \begin{example}
   If $f: \R \to \R, x \mapsto 2x$ and $g: \R \to \R, x \mapsto x + 1$ then:
@@ -377,9 +421,10 @@ If $f: A \to B$ is a bijection then everything in $B$ is mapped to exactly once.
     g \circ f &= g(f(x)) = g(2x) = 2x + 1 \\
     f \circ g &= f(g(x)) = f(x + 1) = 2(x+1)
   \end{align*}
+  So $g \circ f \neq f \circ g$.
 \end{example}
 \begin{proposition}[Associativity of Function Composition]
-Function composition is associative, that is for $f: A \to B$, $g: B \to C$, $h: C \to D$:
+Function composition is associative, that is, for $f: A \to B$, $g: B \to C$, and $h: C \to D$:
 \[
   h \circ (g \circ f) = (h \circ g) \circ f
 \]
@@ -410,13 +455,12 @@ We may therefore write composition expressions without brackets, for example, $h
 \end{example}
 \begin{remark}[Warning]
   A function can have an inverse on one side but not the other. For example:
-
-  $f: \N \to \N$, $x \mapsto x + 1$ and $g: \N \to \N$, $x \mapsto
-  \begin{cases}
-  x-1 & x \neq 1 \\
-  1 & x =1
-  \end{cases}$
-
+  \[
+    f: \N \to \N,\ x \mapsto x + 1 \text{ and } g: \N \to \N,\ x \mapsto \begin{cases}
+    x - 1 & \text{if } x \neq 1 \\
+    1 & \text{if } x = 1
+    \end{cases}
+  \]
   So:
   \[
     (g \circ f)(x) = \begin{cases}
@@ -469,59 +513,84 @@ We can also establish conditions on when an inverse exists:
 We can combine \cref{invInjective,invSurjective} to arrive at:
 \begin{proposition}
   $f: A \to B$ is invertible if and only if it is bijective.
-  We write $f^{-1}: B \to A$ for the inverse of $f$ when it exists.
 \end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is invertible}
+    By \cref{invInjective,invSurjective}, $f$ must be injective and surjective and so must be bijective.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f$ is bijective}
+    By \cref{invInjective,invSurjective} a left inverse $g_1$ and a right inverse $g_2$ must exist.
+    We now need to show that they are the same:
+    \[
+      g_1 = g_1 \circ \id_B = g_1 \circ f \circ g_2 = \id_A \circ g_2 = g_2 \implies g_1 = g_2
+    \]
+    So $f$ is invertible.
+  \end{proofdirection}
+\end{proof}
 \begin{remark}[Warning]
-  The \textbf{preimage of a function always exists} but the \textbf{inverse may not}
+  The \textbf{preimage of a function always exists} but the \textbf{inverse may not}.
+\end{remark}
+\begin{lemma}
+  If $f$ is invertible, then its inverse is unique.
+\end{lemma}
+\begin{proof}
+  Suppose $f$ has inverses $g$ and $h$:
+  \[
+    g = g \circ \id_B = g \circ f \circ h = \id_A \circ h = h
+  \]
+  So $g = h$ and thus any two inverses must be the same.
+\end{proof}
+\begin{remark}[Notation]
+  Since we know this is \textbf{the} inverse of $f$, we write $f^{-1}: B \to A$ for the unique inverse of $f$ when it exists.
 \end{remark}
 \subsection{Binary Operations}
 \begin{definition}[Binary Operation]
-  A \textit{binary operation} $*$ on a set $A$ is a function $A \times A \to A$
+  A \textit{binary operation} $*$ on a set $A$ is a function $*: A \times A \to A$
 \end{definition}
 \begin{example}
   \begin{enumerate}
-    \item $+$ and $\times$ on $\N, \Z, \ldots$
-    \item $-$ on $\Z, \R, \ldots$
-    \item $\div$ on $\Q \setminus \{0\}, \R \setminus \{0\}$
+    \item $+$ and $\times$ on $\N,\ \Z,\ldots$
+    \item $-$ on $\Z,\ \R,\ldots$
+    \item $\div$ on $\Q \setminus \{0\},\ \R \setminus \{0\}$ but not on $\N$.
   \end{enumerate}
 \end{example}
 \begin{definition}[Commutative]
-  We say $*$ is \textit{commutative} if $\forall x, y \in A$:
+  We say that the binary operation $*$ is \textit{commutative} if $\forall x, y \in A$:
   \[
     x * y = y * x
   \]
 \end{definition}
 \begin{definition}[Associative]
-  We say $*$ is \textit{associative} if $\forall x, y \in A$:
+  We say the binary operation $*$ is \textit{associative} if $\forall x, y, z \in A$:
   \[
     x * (y * z) = (x * y) * z
   \]
 \end{definition}
 \begin{definition}[Distributive]
-  If we have two binary operations $*$ and $\circ$ then $*$ is distributive over $\circ$ if:
+  If we have two binary operations $*$ and $\circ$ then $*$ is \textit{distributive over} $\circ$ if:
   \begin{align*}
     x * (y \circ z) &= (x * y) \circ (x * z) \\
-    (y \circ z) * x &= (y * x) \circ (z * x)
+    \text{and } (y \circ z) * x &= (y * x) \circ (z * x)
   \end{align*}
 \end{definition}
 
 \section{Relations}
 \begin{definition}[Relation]
   A \textit{relation} on a set $X$ is a subset $R \subseteq X \times X$.
-  We write $a \rel b$ for $(a, b) \in R$ and say ``$a$ is related to $b$''.
+  We write $a \rel b$ if $(a, b) \in R$ and say ``$a$ is related to $b$''.
 \end{definition}
-\begin{example}
+\begin{example}[Examples on $\N$]
   \label{relExamples}
-  Examples of relations on $\N$:
+  Here are some examples of relations on $\N$:
   \begin{enumerate}
-    \item $a \rel b$ if $a$ and $b$ share the same final digit
-    \item $a \rel b$ if $a < b$
-    \item $a \rel b$ if $a \neq n$
-    \item $a \rel b$ if $a = b = 1$
-    \item $a \rel b$ if $|a - b| \leq 3$
+    \item $a \rel b$ if $a$ and $b$ share the same final digit.
+    \item $a \rel b$ if $a < b$.
+    \item $a \rel b$ if $a \neq b$.
+    \item $a \rel b$ if $a = b = 1$.
+    \item $a \rel b$ if $|a - b| \leq 3$.
   \end{enumerate}
 \end{example}
-There are three properties of a relation that are of special interest.
+There are three properties of a relation that are of special interest:
 \begin{definition}[Reflexive]
   A relation $\rel$ is \textit{reflexive} if $\forall x \in X,\; x \rel x$.
 \end{definition}
@@ -544,15 +613,15 @@ Transitive & \tick & \tick & \cross & \tick & \cross
 \subsection{Equivalence Relations}
 \begin{definition}[Equivalence Relation]
   A relation $\rel$ is an \textit{equivalence relation} if it is reflexive, symmetric, and transitive.
-  We then write $a \sim b$ for $a \rel b$.
+  We then sometimes write $a \sim b$ instead of $a \rel b$.
 \end{definition}
 Only example \textbf{i} above is an equivalence relation.
 \begin{definition}[Equivalence Class]
-  If $\sim$ is an equivalence relation on $X$ then, the \textit{equivalence class} of $x \in X$ is defined as:
+  For an equivalence relation $\sim$ on a set $X$, we define the \textit{equivalence class} of $x \in X$ as:
   \[
     [x] = \{y \in X: y \sim x\}
   \]
-  That is, the set of all elements related to $x$.
+  That is, $[x]$ is the set of all elements related to $x$.
 \end{definition}
 \begin{example}
   For example, in \cref{relExamples} \textbf{i}:
@@ -564,13 +633,13 @@ Only example \textbf{i} above is an equivalence relation.
   Given a set $X$ a \textit{partition} of $X$ is a collection of pairwise disjoint subsets whose union is $X$.
 \end{definition}
 \begin{definition}[Pairwise Disjoint]
-  A collection of sets is \textit{pairwise} disjoint if the intersection of any two distinct sets is the empty set.
+  A collection of sets is \textit{pairwise disjoint} if the intersection of any two distinct sets is the empty set.
 \end{definition}
-\begin{theorem}
-  Let $\sim$ be an equivalence relation on $X$. Then the equivalence classes form a partition of $X$.
+\begin{theorem}[Equivalence Classes Partition]
+  If $\sim$ is an equivalence relation on $X$, then its equivalence classes form a partition of $X$.
 \end{theorem}
 \begin{proof}
-  Since $\sim$ is reflexive, we have that $x \in [x]\;\forall x \in X$. Thus:
+  Since $\sim$ is reflexive, we have that $x \in [x]\ \forall x \in X$. Thus:
   \[
     \bigcup_{x \in X}^{} [x] = X
   \]
@@ -585,20 +654,23 @@ Only example \textbf{i} above is an equivalence relation.
   Since $x \sim y$, by transitivity, $x \sim w$.
   Thus $w \in [x]$.
   Hence if $[x] \cap [y] \neq \emptyset$, then $[y] \subseteq [x]$.
-  By a similar argument $[x] \subseteq [y]$.
-  So $[x] = [y]$.
+  By a similar argument $[x] \subseteq [y]$ also and so $[x] = [y]$.
 
-  Therefore if $[x]$ and $[y]$ are not disjoint, they must be equal so equivalence classes partition $X$.
+  Therefore if $[x]$ and $[y]$ are not disjoint, they must be equal so the equivalence classes form partition $X$.
 \end{proof}
 Conversely, given any partition of $X$, there is an equivalence relation $\rel$ whose equivalence classes are precisely the subsets of the partition.
-We can just define $a \rel b$, if $a$ and $b$ are both in the same subset.
-
+We can just define the relation:
+\[
+  a \rel b \text{ if $a$ and $b$ are both in the same subset of the partition}
+\]
+which is an equivalence relation.
 \subsection{Quotients}
 \begin{definition}[Quotient]
   Given an equivalence relation $\rel$ on a set $X$, the \textit{quotient} of $X$ by $R$ is:
   \[
     X/R = \{[x]: x \in X\}
   \]
+  that is, the set of all equivalence classes of the relation.
 \end{definition}
 \begin{example}
   For example, in \cref{relExamples} \textbf{i}:
@@ -607,15 +679,16 @@ We can just define $a \rel b$, if $a$ and $b$ are both in the same subset.
   \]
 \end{example}
 \begin{definition}[Quotient Map]
-  The map $q: X \to X/R$, $x \mapsto [x]$ is the \textit{quotient map}.
+  We call the map $q: X \to X/R$, $x \mapsto [x]$ the \textit{quotient map}.
 \end{definition}
 \begin{example}
   On $\Z\times\N$ define $(a, b) \rel (c, d)$ if $ad = bc$.
+  It can be easily checked that this is an equivalence relation (noting that $a in \Z$ but $b \in \N$).
   Under this equivalence relation:
   \[
     [(1, 2)] = \{(1, 2), (2, 4), (3, 6), \ldots\}
   \]
   So we could regard $\Z \times \N / R$ as a copy of $\Q$ by identifying $[(a, b)]$ with $a/b \in \Q$.
-  The quotient map is $q: \Z\times\N \to \Z\times\N/R$, $(a, b) \mapsto a/b$.
+  If we do this then the quotient map is $q: \Z\times\N \to \Z\times\N/R$, $(a, b) \mapsto a/b$.
 \end{example}
 \end{document}

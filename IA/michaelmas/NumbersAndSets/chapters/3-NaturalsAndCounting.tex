@@ -5,18 +5,17 @@
 \begin{definition}[Natural Numbers]
   The natural numbers $\N$ is a set containing the special element ``1'', together with a map $S: \N \to \N$ called the ``successor function'' that maps $n \in \N$ to its successor such that the following properties hold:
   \begin{enumerate}
-    \item $\forall n \in \N, S(n) \neq 1$ (1 is not the successor of anything)
-    \item $\forall m, n \in \N, S(m) = S(n) \implies m = n$ ($S$ is injective)
-    \item Let $A$ be a subset of $\N$ such that $1 \in A$ and $n \in A \implies S(n) \in A$. Then $A = \N$.
+    \item $\forall n \in \N,\ S(n) \neq 1$ (1 is not the successor of anything)
+    \item $\forall m, n \in \N,\ S(m) = S(n) \implies m = n$ ($S$ is injective)
+    \item If $A$ is a subset of $\N$ such that $1 \in A$ and $n \in A \implies S(n) \in A$, then $A = \N$.
   \end{enumerate}
   \label{naturalDef}
 \end{definition}
 These are called the ``Peano Axioms''.
 We also define the usual Arabic numeral system:
 \[
-  2 = S(1), 3 = S(2), 4 = S(3) \ldots
+  2 = S(1),\ 3 = S(2),\ 4 = S(3), \ldots
 \]
-
 We can also define addition recursively by:
 \begin{itemize}
   \item $n + 1 = S(n)$
@@ -27,12 +26,12 @@ Similarly for multiplication:
   \item $n \times 1 = n$
   \item $n \times S(m) = n \times m + n$
 \end{itemize}
-For comparison we define $a < b$ if $\exists c$ such that $a + c = b$.
-One key feature of $<$ is that for $m \neq n$ exactly one of $m < n$ or $n < m$.
+For comparison we say $a < b$ if $\exists c \in \N$ such that $a + c = b$.
+One key feature of $<$ is that for $m \neq n$ \textbf{exactly one} of $m < n$ or $n < m$ can be true.
 \begin{example}
-  For example, if we were to suppose $1 < 2$ and $2 < 1$ then  $\exists k, e$ s.t. $1 = 2 + k$ and $2 = 1 + e$ so $1 = 1 + e + k = S(e + k)$ but this contradicts the fact that 1 is not the successor of any number.
+  For example, if we were to suppose $1 < 2$ and $2 < 1$ then  $\exists k, e$ s.t. $1 = 2 + k$ and $2 = 1 + e$ thus $1 = 1 + e + k = S(e + k)$.
+  However, this contradicts the fact that 1 is not the successor of any natural number.
 \end{example}
-
 We can show that these operations satisfy the usual rules of arithmetic:
 \begin{proposition}[Properties of Natural Numbers]
 For all natural numbers:
@@ -41,7 +40,7 @@ For all natural numbers:
     \item Multiplication is distributive over addition
     \item $a < b \implies a + c < b + c$
     \item $a < b \implies a \times c < b \times c$
-    \item if $a < b$ and $b < c$ then $a < c$
+    \item if $a < b$ and $b < c$, then $a < c$
     \item $a < a$ is never true
   \end{itemize}
 \end{proposition}
@@ -50,19 +49,16 @@ For all natural numbers:
   \[
     1 + 2 = 1 + S(1) = S(1 + 1) = S(S(1)) = S(1) + 1 = 2 + 1
   \]
+  and to show $n + m = m + n$ we would have to carry out induction both on $m$ and $n$.
 \end{example}
-\begin{example}
-  To show $n + m = m + n$ we would have to carry out induction both on $m$ and $n$.
-\end{example}
-
 \subsection{Induction}
 \begin{definition}[Weak Principle of Induction - WPI]
   If $P(1)$ holds, and $\forall n \in N, P(n) \implies P(n + 1)$, then $P(n)$ holds $\forall n \in \N$.
 \end{definition}
 \begin{remark}[Note]
-  WPI is equivalent to the third Peano Axiom (see \cref{naturalDef})
+  WPI is equivalent to the third Peano Axiom (see \cref{naturalDef}).
 \end{remark}
-There is also a different form of induction based on the ordering above:
+There is also a different form of induction based on the ordering defined above:
 \begin{definition}[Strong Principle of Induction - SPI]
   If $P(1)$ holds, and $\forall n \in N$, if $P(k)$ true $\forall k \leq n \implies P(n + 1)$, then $P(n)$ holds $\forall n \in \N$.
 \end{definition}
@@ -71,9 +67,8 @@ To see $\text{WPI} \implies \text{SPI}$ apply WPI to the statement $Q(n) =$ ``$P
 
 The above ordering of $\N$ satisfies a special property called the ``Well Ordering Principle'' (WOP).
 \begin{definition}[Well Ordering Principle - WOP]
-  \label{WOP}
-  Every non-empty subset of the natural numbers has a minimal element.
-  That is, if $P(n)$ holds $\forall n \in  A \subseteq \N$ with $A \neq \emptyset$ then there exists a least $m \in A$ such that $P(m)$ holds.
+  Every \textbf{non-empty} subset of the natural numbers has a minimal element.
+  That is, if $P(n)$ holds $\forall n \in  A \subseteq \N$ with $A \neq \emptyset$ then there exists a least $m \in A$ such that $P(m)$ holds. \label{WOP}
 \end{definition}
 \begin{theorem}
   $\text{SPI} \implies \text{WOP}$.
@@ -82,7 +77,7 @@ The above ordering of $\N$ satisfies a special property called the ``Well Orderi
   Suppose $P(n)$ holds for some non-empty subset of the naturals and, for contradiction, that there is in fact no least $n \in \N$ such that $P(n)$ holds.
 
   Consider $Q(n) = \lnot P(n)$.
-  Certainly $P(1)$ is false else $1$ would be the minimal element, so $Q(1)$ is true.
+  Certainly $P(1)$ is false else $1$ would be the minimal element and so $Q(1)$ is true.
 
   Given some $n \in \N$, suppose $Q(k)$ is true $\forall k < n$.
   Then $P(k)$ is false $\forall k < n$ so $P(n)$ must be false as otherwise $n$ would be the minimal element.
@@ -96,31 +91,33 @@ The above ordering of $\N$ satisfies a special property called the ``Well Orderi
   However in most proofs using SPI, you can in fact use WOP.
 \end{remark}
 \begin{example}
-  Any natural number $>1$ can be written as a product of primes (Fundamental Theorem of Arithmetic)
-\end{example}
-\begin{proof}[Proof Using WOP]
-  Let $C$ be the set of counter examples, that is:
+  Later in the course, we will prove the fundamental theorem of arithmetic (any natural number $>1$ can be written as a product of primes) using SPI, however it can also be proven using WOP by considering the set $C$ of counterexamples:
   \[
-    C = \{n \in \N: n > 1, n \text{ cannot be written as a product of primes}\}
+    C = \{n \in \N: n > 1,\ n \text{ cannot be written as a product of primes}\}
   \]
   For contradiction, we assume that $C \neq \emptyset$.
   By WOP, $C$ has a least element $m$.
-  Clearly $m$ must be composite, so $m = ab$ with $1 < a, b < m$.
-  So at least one of $a$ or $b$ does not have a prime factorisation, WLOG, suppose $a$ does not have a prime factorisation.
-  This means $a \in C$, but $a < m$ so this contradicts the fact that $m$ is the minimal element of $C$.
-\end{proof}
+  Clearly $m$ must be composite (else its prime factorisation would just be itself), so $m = ab$ with $1 < a, b < m$.
+  Since $m$ does not have a prime factorisation, at least one of $a$ or $b$ does not have a prime factorisation.
+  WLOG, suppose $a$ does not have a prime factorisation and so $a \in C$.
+  However, $a < m$ so this contradicts the fact that $m$ is the minimal element of $C$ and so $C = \emptyset$.
+  Since the set of counterexamples is empty, it must hold on all of $\N$.
+\end{example}
 \section{Counting Sets}
 \subsection{Power Sets}
 \begin{remark}[Reminder]
-  Recall that a set $A$ has \textit{size} $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with the elements $a_i$ distinct.
-  We write $|A| = n$.
+  Recall from \cref{finiteSets} that a set $A$ has \textit{size} $n$ if we can write $A = \{a_1, a_2, \ldots, a_n\}$ with the elements $a_i$ distinct and then write $|A| = n$.
   We say $A$ is finite if the exists $n \in \N_0$ such that $|A| = n$, and $A$ is infinite otherwise.
-  See \cref{finiteSets}.
 \end{remark}
 \begin{proposition}
-  A set of size $n$ has exactly $2^{n}$ subsets.
+  A set of size $n$ has exactly $2^{n}$ subsets. \label{powerSetSize}
 \end{proposition}
-\begin{proof}
+\begin{proof}[Elementary counting argument]
+  If the set has $n$ distinct elements, then when we are picking a subset, we make the choice to either include or exclude each element $n$ times.
+  We therefore made a choice between 2 options $n$ times, each of which would result in a different subset as the elements are distinct, and so there are exactly $2^{n}$ subsets.
+\end{proof}
+We can also make the idea behind this first proof more ``formal'' by considering the subsets themselves:
+\begin{proof}[By induction]
   \induction
   {$n = 0$}{
     Clearly true for $n = 0$ as $\emptyset$ has 1 subset.
@@ -129,9 +126,12 @@ The above ordering of $\N$ satisfies a special property called the ``Well Orderi
     So a set of size $k - 1$ has $2^{k - 1}$ subsets.
   }
   {$n = k$}{
-    Given $n > 0$ and $T \subseteq \{1, 2, \ldots, n - 1\}$, how many subsets $S \subseteq \{1, 2, \ldots, n\}$ are there such that $S \cap \{1, 2, \ldots, n - 1\} = T$.
-    There are exactly 2, namely $T$ and $T \cup \{n\}$.
-    Hence the number of subsets of $\{1, 2, \ldots, n\}$ is twice the number of subsets of $\{1, 2, \ldots, n - 1\}$. Which is $2 \times 2^{n - 1} = 2^{n}$ by the inductive hypothesis.
+    For ease, here we will use the set $\{1, 2, \ldots, k\}$ as the set of size $k$ as there is a bijection between this set and any other set of size $k$.
+
+    For each subset $T \subseteq \{1, 2, \ldots, k - 1\}$, how many subsets $S \subseteq \{1, 2, \ldots, k\}$ are there such that $S \cap \{1, 2, \ldots, k - 1\} = T$ i.e. when restricted to the original smaller set, they are the same subset.
+    There are exactly 2, namely $T$ and $T \cup \{k\}$, hence for each subset of $\{1, 2, \ldots, k - 1\}$, there are exactly 2 corresponding subsets of $\{1, 2, \ldots, k\}$.
+
+    Therefore, the number of subsets of $\{1, 2, \ldots, k\}$ is $2 \times 2^{k - 1} = 2^{k}$ by the inductive hypothesis.
   }
 \end{proof}
 \begin{corollary}
@@ -143,47 +143,43 @@ The above ordering of $\N$ satisfies a special property called the ``Well Orderi
 
 \subsection{Binomial Coefficients}
 \begin{definition}[Binomial Coefficient]
-  Given $n \in \N_0$ and $0 \leq k \leq n$ we write $\binom{n}{k}$ for the number of subsets of an $n$-element set that are of size k.
-  That is:
+  Given $n \in \N_0$ and $0 \leq k \leq n$ we write $\binom{n}{k}$ for the number of subsets of an $n$-element set that are of size $k$, that is:
   \[
     \binom{n}{k} = \abs{\{S \subseteq \{1, 2, \ldots, n\} : |S| = k\}}
   \]
-  This is often called the \textit{choose function} and said ``$n$ choose $k$''.
+  This is often called the \textit{choose function} and we say ``$n$ choose $k$''.
 \end{definition}
 \begin{example}
   The subsets of size 2 of $\{1, 2, 3, 4\}$ are:
   \[
-    \{1, 2\}, \{1, 3\}, \{1, 4\}, \{2, 3\}, \{2, 4\}. \{3, 4\}
+    \{1, 2\},\ \{1, 3\},\ \{1, 4\},\ \{2, 3\},\ \{2, 4\},\ \{3, 4\}
   \]
   So $\binom{4}{2} = 6$
 \end{example}
-By definition $\binom{n}{0} = 1$, $\binom{n}{n} = 1$, $\binom{n}{1} = n$ for $n > 0$.
+From the definition, we see that $\binom{n}{0} = 1$ and for $n > 0$: $\binom{n}{n} = 1$ and $\binom{n}{1} = n$.
 
-As the total number of subsets is $2^{n}$ we have that:
+From \cref{powerSetSize}, we know that the total number of subsets is $2^{n}$ and so if we take the sum of the number of each of the different possible sizes of subsets:
 \[
   \binom{n}{0} + \binom{n}{1} + \binom{n}{2} + \cdots + \binom{n}{n-1} + \binom{n}{n} = 2^{n}
 \]
-
 We also have:
 \[
   \binom{n}{k} = \binom{n}{n - k} \quad \forall n, k \in \N_0,\ 0 \leq k \leq n
 \]
-This is because specifying which $k$ elements to pick is the same as specifying which $n - k$ elements \textit{not} to pick.
+This is because specifying which $k$ elements \textit{to pick} is the same as specifying which $n - k$ elements \textit{not to pick}.
 
 Moreover:
 \[
   \binom{n}{k} = \binom{n - 1}{k - 1} + \binom{n - 1}{k} \quad \forall n, k  \in \N,\ 0 < k < n
 \]
-This is the same as saying we either include some special element and have $k - 1$ elements left to pick from $n - 1$ or we exclude the special element and have $k$ elements left to pick from $n - 1$.
+This is because we either include some particular element and have $k - 1$ elements left to pick from $n - 1$ or we exclude a particular element and have $k$ elements left to pick from $n - 1$.
 
 From this identity we can obtain \textit{Pascal's triangle}:
 \begin{center}
 \begin{tikzpicture}[scale=1.0, every node/.style={font=\footnotesize}]
 \def\n{6}
 \def\ysep{0.4}
-
 \pgfmathsetmacro{\xoffset}{-\n/2 - 0.3}
-
 \foreach \row in {0,...,\numexpr\n-1} {
     \node[anchor=east] at (\xoffset, -\row*\ysep) {$n=\row$};
 
@@ -193,7 +189,6 @@ From this identity we can obtain \textit{Pascal's triangle}:
         \node at ($(-\row/2+\col, -\row*\ysep)$) {\binom};
     }
 }
-
 \draw[<-] (-3/2 + 2 + 0.2, -\ysep * 3) -- (3.5, -0.5) node[right] {$\binom{3}{2}$};
 \end{tikzpicture}
 \end{center}
@@ -207,10 +202,10 @@ Indexing from 0, the $k$-th element of the $n$-th row is $\binom{n}{k}$.
 \end{proposition}
 \begin{proof}
   Given a set of size $n$, there are $n$ ways to pick the first element, $n - 1$ ways to pick the second element and so on.
-  So there are $n(n-1)(n-2)\cdots(n-k + 1)$ ways to pick $k$ elements in order.
+  So there are $n(n-1)(n-2)\cdots(n-k + 1)$ ways to pick $k$ elements in a particular order.
 
-  But each subset of size $k$ is picked in $k(k-1)(k-2)\cdots2\cdot1$ ways by this method.
-  Hence the number of subsets of size $k$ in a set of size $n$ is exactly:
+  But each choice of elements from the above of size $k$ is picked in $k(k - 1) \cdots 2 \cdot 1$ ways by this method.
+  Since he order of a set is immaterial, any permutation of the elements results in the same set and so the number of subsets of size $k$ in a set of size $n$ is exactly:
   \[
     \frac{n(n-1)(n-2)\cdots(n-k+1)}{k(k-1)(k-2)\cdots2\cdot1} = \frac{n!}{k!(n - k)!}
   \]
@@ -220,11 +215,10 @@ Indexing from 0, the $k$-th element of the $n$-th row is $\binom{n}{k}$.
   Similarly for $\binom{n}{3} = \frac{1}{6}n(n-1)(n-2) \sim \frac{1}{6}n^3$.
 \end{remark}
 \begin{remark}[Notation]
-  $\sim$ denotes the asymptotic behaviour of an expression for large $n$.
+  $\sim$ denotes the \textit{asymptotic behaviour} of an expression for large $n$ which is explored in IA Probability.
 \end{remark}
 \begin{theorem}[Binomial Theorem]
-  \label{binomialTheorem}
-  For all $a, b \in \R$, $n \in \N$:
+  For all $a, b \in \R$, $n \in \N$: \label{binomialTheorem}
   \begin{align*}
     (a + b)^{n} &= \binom{n}{0}a^{n} + \binom{n}{1}a^{n - 1}b + \binom{n}{2}a^{n-2}b^{2} + \cdots + \binom{n}{n-1}ab^{n-1} + \binom{n}{n}b^{n} \\
                 &=\sum_{k=0}^{n} \binom{n}{k}a^{n - k} b^{k}
@@ -235,8 +229,8 @@ Indexing from 0, the $k$-th element of the $n$-th row is $\binom{n}{k}$.
   \[
     (a+b)^{n} = \underbrace{(a + b)(a + b)(a + b) \cdots (a + b)}_{n \text{ terms}}
   \]
-  we obtain terms of the form $a^{n - k}b^{k}$, $0 \leq k \leq n$.
-  The number of terms of this form is exactly $\binom{n}{k}$ because we have to select $k$ brackets from $n$ brackets from which to pick $b$.
+  we obtain terms of the form $a^{n - k}b^{k}$ where $0 \leq k \leq n$.
+  The number of terms of this form is exactly $\binom{n}{k}$ because we have to select $k$ brackets from $n$ brackets from which to pick $b$ and then pick $a$ from the rest.
   Hence $(a + b)^{n} = \sum_{k=0}^{n} \binom{n}{k}a^{n - k}b^{k}$.
 \end{proof}
 \begin{example}[Making Approximations]
@@ -244,81 +238,85 @@ Indexing from 0, the $k$-th element of the $n$-th row is $\binom{n}{k}$.
   \[
     (1 + x)^{n} = 1 + nx + \frac{n(n-1)}{2}x^2 + \binom{n}{3}x^3 + \cdots + \binom{n}{n-1}x^{n-1} + x^{n}
   \]
-  so for small $x$, a good approximation to $(1 + x)^{n}$ is just some truncated part of this expression.
+  For small $x$ large powers of $x$ are very small and so we can well approximate $(1 + x)^{n}$ for small $x$ just by truncating this expression..
 
-  For example, $1 + nx$, so $(1.00001)^{8} \approx 1.00008$.
-  If we wanted a better approximation we could instead use $1 + nx + \frac{n(n-1)}{2}x^2$, so $(1.00001)^{8} \approx 1.00008 + 28 \cdot (0.00001)^{2}$.
+  For example, we could truncate this after two terms so $(1 + x)^{n} \approx 1 + nx$, and so $(1.00001)^{8} \approx 1.00008$.
+  If we wanted a better approximation we could instead use $(1 + x)^{n} = 1 + nx + \frac{n(n-1)}{2}x^2$ from which we obtain $(1.00001)^{8} \approx 1.00008 + 28 \cdot (0.00001)^{2}$.
 \end{example}
 \subsection{Inclusion Exclusion Principle}
 What can we say about the relationships between sizes of unions and intersections of finite sets?
-For example, to find the size of $A \cup B$:
+
+To find the size of $A \cup B$:
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
-\coordinate (A) at (0,0);
-\coordinate (B) at (2,0);
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (2,0);
 
-\draw[fill=gray!20] (A) circle (1.5cm) node[left=2cm, yshift=0.3cm] {$A$};
-\draw[fill=gray!50] (B) circle (1.5cm) node[right=2cm, yshift=0.3cm] {$B$};
+  \draw[fill=gray!20] (A) circle (1.5cm) node[left=2cm, yshift=0.3cm] {$A$};
+  \draw[fill=gray!50] (B) circle (1.5cm) node[right=2cm, yshift=0.3cm] {$B$};
 
-\begin{scope}
-\clip (A) circle (1.5cm);
-\fill[gray!70] (B) circle (1.5cm);
-\end{scope}
+  \begin{scope}
+  \clip (A) circle (1.5cm);
+  \fill[gray!70] (B) circle (1.5cm);
+  \end{scope}
 
-\draw[draw=black] (A) circle (1.5cm) node[left=2cm, yshift=0.3cm] {$A$};
-\draw[draw=black] (B) circle (1.5cm) node[right=2cm, yshift=0.3cm] {$B$};
+  \draw[draw=black] (A) circle (1.5cm) node[left=2cm, yshift=0.3cm] {$A$};
+  \draw[draw=black] (B) circle (1.5cm) node[right=2cm, yshift=0.3cm] {$B$};
 
-\node at ($(A)+(-0.6,0)$) {$|A|$};
-\node at ($(B)+(0.6,0)$) {$|B|$};
+  \node at ($(A)+(-0.6,0)$) {$|A|$};
+  \node at ($(B)+(0.6,0)$) {$|B|$};
 \end{tikzpicture}
 \end{center}
 \[
   |A \cup B| = |A| + |B| - |A \cap B|
 \]
-We subtract $|A \cap B|$ else the elements in $A \cap B$ are counted twice.
+We have to subtract $|A \cap B|$ as by adding both $|A|$ and $|B|$ we have double counted all of the elements that are in both $A$ and $B$, i.e. those in $A \cap B$.
 
 For three sets:
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
-\coordinate (A) at (0,0.7);
-\coordinate (B) at (2,0.7);
-\coordinate (C) at (1,-1);
+  \coordinate (A) at (0,0.7);
+  \coordinate (B) at (2,0.7);
+  \coordinate (C) at (1,-1);
 
-\fill[gray!20] (A) circle (1.5);
-\fill[gray!20] (B) circle (1.5);
-\fill[gray!20] (C) circle (1.5);
+  \fill[gray!20] (A) circle (1.5);
+  \fill[gray!20] (B) circle (1.5);
+  \fill[gray!20] (C) circle (1.5);
 
-\begin{scope}
-  \clip (A) circle (1.5);
-  \fill[gray!40] (B) circle (1.5);
-\end{scope}
+  \begin{scope}
+    \clip (A) circle (1.5);
+    \fill[gray!40] (B) circle (1.5);
+  \end{scope}
 
-\begin{scope}
-  \clip (A) circle (1.5);
-  \fill[gray!40] (C) circle (1.5);
-\end{scope}
+  \begin{scope}
+    \clip (A) circle (1.5);
+    \fill[gray!40] (C) circle (1.5);
+  \end{scope}
 
-\begin{scope}
-  \clip (B) circle (1.5);
-  \fill[gray!40] (C) circle (1.5);
-\end{scope}
+  \begin{scope}
+    \clip (B) circle (1.5);
+    \fill[gray!40] (C) circle (1.5);
+  \end{scope}
 
-\begin{scope}
-  \clip (A) circle (1.5);
-  \clip (B) circle (1.5);
-  \fill[gray!70] (C) circle (1.5);
-\end{scope}
+  \begin{scope}
+    \clip (A) circle (1.5);
+    \clip (B) circle (1.5);
+    \fill[gray!70] (C) circle (1.5);
+  \end{scope}
 
-\draw[black] (A) circle (1.5) node[left=2cm, yshift=0.3cm] {$A$};
-\draw[black] (B) circle (1.5) node[right=2cm, yshift=0.3cm] {$B$};
-\draw[black] (C) circle (1.5) node[below=2cm, yshift=0.1cm] {$C$};
+  \draw[black] (A) circle (1.5) node[left=2cm, yshift=0.3cm] {$A$};
+  \draw[black] (B) circle (1.5) node[right=2cm, yshift=0.3cm] {$B$};
+  \draw[black] (C) circle (1.5) node[below=2cm, yshift=0.1cm] {$C$};
 \end{tikzpicture}
 \end{center}
 \[
   |A \cup B \cup C| = |A| + |B| + |B| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|
 \]
+Here, after subtracting the pairwise intersections, the elements in all three sets have now not been counted at all and so we need to add back on $|A \cap B \cap C|$.
+
+In fact, we can extend this to $n$ finite sets:
 \begin{theorem}[Inclusion-exclusion Principle]
-   Let $S_1, S_2, \ldots, S_n$ be finite sets. Then:
+   If $S_1, S_2, \ldots, S_n$ are finite sets, then:
    \begin{align*}
      |S_1 \cup S_2 \cup \cdots \cup S_n| &= \sum_{|A| = 1} |S_A| - \sum_{|A| = 2} |S_A| + \sum_{|A| =  3} |S_A| - \cdots + (-1)^{n + 1} \sum_{|A| = n} |S_A| \\
                                          &= \sum_{r = 1}^{n} (-1)^{r + 1} \sum_{|A| = r} |S_A|
@@ -326,14 +324,15 @@ For three sets:
    Where $S_A = \bigcap_{i \in A} S_i$ and $\sum_{|A| = k}$ is taken over all $A \subseteq \{1, 2, \ldots, n\}$ of size k.
 \end{theorem}
 \begin{proof}
-  Let $x \in S_1 \cup S_2 \cup \cdots \cup S_n$, say $x \in S_i$ for $k$ of the $S_i$ with $0 \leq k \leq n$.
-  We want $x$ to be counted exactly once in the right hand side.
+  Let $x \in S_1 \cup S_2 \cup \cdots \cup S_n$ be arbitrary.
+  Since $x$ is in the union of $n$ sets, $x \in S_i$ for $k$ of the $S_i$ for some $k$ in $1 \leq k \leq n$.
 
-  The number of multi-indices with dimension 1 where $x \in S_A$ is just $k$ as $x$ was in $k$ of the sets.
+  We want to show that $x$ is counted exactly once on the right hand side.
+  The number of subsets $A = \{a\}$ of size 1 where $x \in S_A = S_a$ is just $k$ as $x$ was in exactly $k$ of the sets and so:
   \[
     |\{A: |A| = 1 \text{ with } x \in S_A\}| = k
   \]
-  The number of multi-indices with dimension 2 where $x \in S_A$ is $\binom{k}{2}$ as in this case $S_A$ is the intersection of two sets and there are $k$ choose $2$ ways of choosing two sets whose intersection will also contain $k$.
+  The number of subsets $A$ with size 2 where $x \in S_A$ is $\binom{k}{2}$ as in this case $S_A$ is the intersection of two sets and there are $k$ choose $2$ ways of choosing two sets whose intersection will contain $x$ and so:
   \[
     |\{A: |A| = 2 \text{ with } x \in S_A\}| = \binom{k}{2}
   \]
@@ -345,7 +344,7 @@ For three sets:
     0 & \text{ if } r > k
     \end{cases}
   \]
-  Note that if $r > k$ then there are no such multi-indices as this would require $x$ to be in more that $k$ sets if it is to be in their intersection.
+  Note that if $r > k$, then there are no such subsets $A$ of size $k$ with $x \in S_A$ as this would require $x$ to be in more than $k$ sets if it is to be in their intersection.
 
   As all terms with $r > k$ on the right hand side will be 0, the number of times $x$ is counted on the right hand side is then:
   \begin{align*}
@@ -356,25 +355,21 @@ For three sets:
   \end{align*}
   So any $x \in S_1 \cup S_2 \cup \cdots \cup S_n$ is counted exactly once.
 \end{proof}
-\begin{remark}[Multi-Indicies]
-  A multi-index can be thought of as an $n$-dimensional tuple of indices.
-  That is $A = (\alpha_1, \alpha_2, \ldots, \alpha_n)$ where $\alpha_i$ are indices.
-\end{remark}
-\begin{example}
-  With $|A| = 2$, $A$ is a subset of size two of $\{1, 2, \ldots, n\}$. So
-  \[
-    \sum_{|A| = 2} |S_A| = \sum_{|A| = 2} \abs{\bigcap_{i \in A} S_i }
-  \]
-  is the sum of all the sizes of all the different unions of two sets.
-\end{example}
-An equivalent formulation of the inclusion-exclusion principle is:
+In the above proof, for brevity we used the notation $S_A$ for a subset of indices $A$.
+However, more commonly, the inclusion-exclusion principle is written as:
 \[
   \abs{\bigcup_{i=1}^{n} S_i} = \sum_{r=1}^{n} (-1)^{r+1} \sum_{\substack{A \subseteq \{1, 2, \ldots, n\}\\ |A| = r}} \abs{\bigcap_{i \in A}^{} S_i}
 \]
+or equivalently:
+\[
+  \abs{\bigcup_{i=1}^{n} S_i} = \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} |S_{i_1} \cap \cdots \cap S_{i_k}|
+\]
 \begin{remark}
-  We can also prove the inclusion-exclusion principle with indicator functions using the fact that if $A \subseteq X$ then:
+  We can use indicator functions to prove inclusion-exclusion principle.
+  This utilises the fact that $A \subseteq X$, then:
   \[
     |A| = \sum_{x \in X} i_A(x)
   \]
+  This proof is carried out in IA Probability.
 \end{remark}
 \end{document}

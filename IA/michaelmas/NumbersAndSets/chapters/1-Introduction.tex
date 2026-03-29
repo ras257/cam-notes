@@ -16,20 +16,22 @@ To introduce university style maths, we will look at:
 \end{definition}
 We want to prove things because:
 \begin{itemize}
-  \item We want to know they are true
-  \item We want to gain insight into why something is true
-  \item The proof might be elegant/cool
+  \item We want to know they are true.
+  \item We want to gain insight into why something is true.
+  \item The proof might be elegant/cool.
 \end{itemize}
-We usually denote the end of a proof with the symbol \qed\;or ``Q.E.D.''
+We usually denote the end of a proof with \qed, $\blacksquare$, ``Q.E.D.'', or ``as required''.
 
-\subsection{Examples}
+\subsection{Example Proofs and Non-proofs}
 Here is an example proof:
 \begin{proposition}
   For all positive integers $n$, $n^3 - n$ is always a multiple of 3.
 \end{proposition}
 \begin{proof}
-  $\forall n \in \N, n^3 - n = n(n + 1)(n - 1) = (n - 1)n(n + 1)$.
-
+  Observer that:
+  \[
+    \forall n \in \N, n^3 - n = n(n + 1)(n - 1) = (n - 1)n(n + 1)
+  \]
   Notice that this is a product of three consecutive integers so one must be a multiple of three and thus their product must be a multiple of three.
 \end{proof}
 Here is an example non-proof:
@@ -37,31 +39,31 @@ Here is an example non-proof:
   For any positive integer $n$, if $n^2$ is even then so is $n$.
   \label{nEven}
 \end{proposition}
-\begin{proof}
+\begin{proof}[Non-Proof]
   Given an positive integer $n$ which is even, we can write $n = 2k$.
   Hence $n^2 = (2k)^2 = 2(2k^2)$, which is even.
 \end{proof}
-This is incorrect as we have instead proved the converse of the statement.
+This is incorrect as we have instead proved the \textit{converse} of the statement.
 $A \implies B$ is not sufficient to conclude that $B \implies A$.
 
 Statements may contain more assertions than immediately obvious:
 \begin{proposition}
-  The solution to $x^2 - 5x + 6 = 0$ is $x = 2$ or $x = 3$.
+  The solutions to $x^2 - 5x + 6 = 0$ are $x = 2$ and $x = 3$.
 \end{proposition}
 This is in fact 2 assertions:
 \begin{enumerate}
-  \item $x = 2$ and $x = 3$ are solutions
+  \item $x = 2$ and $x = 3$ individually are solutions
   \item There are no other solutions
 \end{enumerate}
 We could prove this by individually proving both assertions:
-\begin{proof}
+\begin{proof}[In both direction]
   \begin{enumerate}
-    \item Suppose $x = 2$ or $x = 3$ then $x - 2 = 0$ or $x - 3 = 0$ so:
+    \item Suppose $x = 2$ or $x = 3$, then $x - 2 = 0$ or $x - 3 = 0$ so:
       \begin{align*}
         (x-2)(x-3) &= 0 \\
         x^2 - 5x + 6 &= 0
       \end{align*}
-    \item Suppose $x^2 - 5x + 6 = 0$
+    \item Suppose that $x^2 - 5x + 6 = 0$, we then have:
       \begin{align*}
         x^2 - 5x + 6 &= 0 \\
         (x - 2)(x - 3) &= 0 \\
@@ -69,8 +71,8 @@ We could prove this by individually proving both assertions:
       \end{align*}
   \end{enumerate}
 \end{proof}
-Doing it as above is tedious so we can instead use ``if and only if logic'':
-\begin{proof}
+Doing both direction as above is a bit tedious so we often instead employ ``if and only if logic'':
+\begin{proof}[Using if and only if]
   \begin{align*}
     x = 2 \text{ or } x &= 3 \\
     \iff x - 2 = 0 \text{ or } x - 3 &= 0 \\
@@ -83,7 +85,7 @@ We also need to ensure that any assumptions we make are reasonable:
 \begin{proposition}
   Every positive real is $\geq 1$
 \end{proposition}
-\begin{proof}
+\begin{proof}[Non-proof]
   Let $r$ be the least such positive real.
   By trichotomy either $r = 1$ or $r < 1$ or $r > 1$.
   \begin{proofcases}
@@ -99,15 +101,13 @@ We also need to ensure that any assumptions we make are reasonable:
 This is clearly nonsense! We don't know that there is a least positive real.
 To avoid errors like this we need to ensure that \textbf{every} assumption is justified when suitable.
 \subsection{Proof by contradiction}
-Proof by contradiction is a proof strategy where we assume that a statement is false and then show that this leads to a logical contradiction and thus our original statement must be true.
+Proof by contradiction is a proof strategy where we assume that a statement is false and then show that this leads to a logical contradiction and thus our original statement must have been true.
 
 For example, here is the correct proof for \cref{nEven}:
 \begin{proof}
   Assume on the contrary that $n^2$ is even but $n$ is odd.
-
   Thus we have $n = 2k + 1$ so $n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$ which is odd.
-
-  Thus we have arrived at a contradiction.
+  We have arrived at a contradiction and so $n$ must be even.
 \end{proof}
 \subsection{Disproof by counter example}
 In general, to show that $A \centernot\implies B$ it is enough to show that there is a case where $A$ is true and $B$ is false.
@@ -116,11 +116,11 @@ For example:
 \begin{proposition}
   For any positive integer $n$, if $n^2$ is a multiple of 9, then so is $n$.
 \end{proposition}
-This is clearly not true. If we consider $n = 3$ then $n^2 = 9$ which is a multiple of 9 but $n$ is not.
+This is clearly \textbf{not true}. If we consider $n = 3$ then $n^2 = 9$ which is a multiple of 9 but $n$ is not.
 \subsection{Combining Claims}
 If $A$ and $B$ are assertions, we can (but usually don't) write $A \land B$ for the statement ``A AND B'', $A \lor B$ for the statement ``A OR B'', and $\lnot A$ for ``NOT A''.
 
-Here is the truth table for the combinations depending on $A$ and $B$:\par
+Here is the truth table for the combinations of boolean values for $A$ and $B$:
 \begin{center}
 \begin{tabular}{c|c|c|c|c|c}
   $A$ & $B$ & $A \land B$ & $A \lor B$ & $\lnot A$ & $A \implies B$ \\
@@ -131,12 +131,13 @@ Here is the truth table for the combinations depending on $A$ and $B$:\par
   T & T & T & T & F & T
 \end{tabular}
 \end{center}\par
-De Morgan's Law states that $\lnot (A \land B) \iff (\lnot A) \lor (\lnot B)$ and $\lnot (A \lor B) \iff (\lnot A) \land (\lnot B)$.
+\textit{De Morgan's Law} states that $\lnot (A \land B) \iff (\lnot A) \lor (\lnot B)$ and $\lnot (A \lor B) \iff (\lnot A) \land (\lnot B)$.
 
-$A \implies B$ is equivalent to $(\lnot A) \lor B$, $B \lor (\lnot A)$ and hence also to $\lnot B \implies \lnot A$.
+From the above, we see that $A \implies B$ is equivalent to $(\lnot A) \lor B$ and by commutativity $B \lor (\lnot A)$.
+Notice that this is also the same as $\lnot B \implies \lnot A$.
 
-$\lnot B \implies \lnot A$ is the \textit{contrapositive} of the statement $A \implies B$.
-This means that if we wish to show $A \implies B$, we can instead show that there is no case where $A$ is true and $B$ is false. i.e:
+We call $\lnot B \implies \lnot A$ the \textit{contrapositive} of the statement $A \implies B$, as discussed, the two are \textit{logically equivalent}.
+This means that if we wish to show $A \implies B$, we can instead show that if $B$ is false, then $A$ must also be false:
 \[
   (A \implies B) \iff (\lnot B \implies \lnot A)
 \]
@@ -147,18 +148,23 @@ We can also negate an implication, for example:
 \]
 This highlights the fact that $A \implies B$ is false if and only if $A$ is true and $B$ is false.
 \subsection{Quantifiers}
-The quantifier ``for all'' is denoted $\forall$ and the quantifier ``there exists'' is denoted $\exists$.
-Quantifiers can be negated as follows:
+We use quantifiers to specify for what set of variables a logical statement concerns.
+The quantifier ``for all'' (also known as the \textit{universal quantifier}) is denoted $\forall$ and allows us to asset that a statement holds for all of a particular set of values.
+The quantifier ``there exists'' (also known as the \textit{existential quantifier}) is denoted $\exists$ and allows us to assert that there is at least one value for which the statement holds.
+
+We can negate the universal quantifier as follows:
 \[
   \lnot (\forall x\ A(x)) \iff \exists x\ \lnot A(x)
 \]
+This is because if we wish to show that a statement does not hold for all values, we simply need to show that there is at least one value for which it does not hold.
+For the existential quantifier:
 \[
   \lnot (\exists x\ B(x)) \iff \forall x\ \lnot B(x)
 \]
-
-\section{Number Systems}
+This is because if we wish to show that there the does not exist a value for which a statement holds, we need to should that it does not hold for every value.
+\section{Overview of Number Systems}
 \label{numberSystems}
-Here are informal definitions of a few number systems covered within this course:
+Although these sets will be more rigorously defined and studied \textbf{later in the course}, it is useful to be familiar with informal definitions of a few number systems that we will use \textbf{throughout the course}:
 \begin{definition}[Natural Numbers]
   We denote the set of \textit{natural numbers} $\N$. It is the set of numbers $\{1, 2, 3, \ldots\}$
 \end{definition}
