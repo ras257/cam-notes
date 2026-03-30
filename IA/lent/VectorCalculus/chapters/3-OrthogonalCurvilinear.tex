@@ -25,7 +25,7 @@ These alternative coordinate systems are often useful when we wish to exploit a 
     \vec{e}_u = \frac{1}{h_u} \pderiv{\vec{x}}{u},\ \vec{e}_v = \frac{1}{h_v} \pderiv{\vec{x}}{v},\ \vec{e}_w = \frac{1}{h_w} \pderiv{\vec{x}}{w}
   \]
 \end{definition}
-\begin{remark}[Note]
+\begin{remark}[Warning]
   Note that the scale factors and their corresponding unit vectors are all functions of $u, v, w$.
 \end{remark}
 \begin{definition}[Othogonal Curvilinear Coordinate System]
@@ -57,9 +57,8 @@ For example, we represent a point in plane polar coordinates as $(r, \theta)$ bu
 \left(\begin{smallmatrix}
 r \\
 \theta \\
-\end{smallmatrix}\right)$
-
-\textbf{Constant Surfaces}\par
+\end{smallmatrix}\right)$.
+\subsubsection{Constant Surfaces}
 Consider a displacement that keeps $u$ fixed but allows $v$ and $w$ can vary.
 Using \cref{vectorInfinitesimal} with $\d{u} = 0$:
 \[
@@ -111,9 +110,9 @@ You may also need to add or subtract $\pi$ from $\arctan(y/x)$.
 It is advisable to draw a sketch in the $x$-$y$ to make this process simpler.
 \subsubsection{Constant Surfaces}
 \begin{itemize}
-  \item Surfaces of constant $\rho$ are cylinders with the $z$-axis as their axis.
+  \item Surfaces of constant $\rho$ are cylinders aligned along the $z$-axis.
   \item Surfaces of constant $\phi$ are vertical planes through the $z$-axis orthogonal to the $x$-$y$ plane.
-  \item Surfaces of constant $z$ are horizontal planes parallel to the $x$-$y$ plane.
+  \item Surfaces of constant $z$ are horizontal planes parallel to the $(x, y)$-plane.
 \end{itemize}
 Note that these three constant surfaces always meet orthogonally, as expected.
 \subsubsection{Scale Factors and Basis Vectors}
@@ -356,7 +355,14 @@ These are derived using the scale factors and basis vectors defined in \cref{sca
   \[
     \pderiv[2]{f}{r} + \frac{2}{r}\pderiv{f}{r}
   \]
-  when looking at the laplacian of a radially symmetric $f(r)$ in \cref{laplacianSphericalSymmetry}.
+  when looking at the laplacian of a $\R^3$ radially symmetric $f(r)$ in \cref{laplacianSphericalSymmetry}.
+
+  We have also already seen the first two terms of $\nabla^2 f$ in cylindrical coordinates:
+  \[
+    \pderiv[2]{f}{\rho} + \frac{1}{r}\pderiv{f}{\rho}
+  \]
+  when looking at the laplacian of a $\R^2$ radially symmetric $f(r)$.
+  This makes sense as if we ignore $z$, a cylindrically symmetric field is just a radially symmetric field in $\R^2$.
 \end{remark}
 \subsection{Examples}
 \begin{example}[Comparison between spherical and clylindrical coordinates]

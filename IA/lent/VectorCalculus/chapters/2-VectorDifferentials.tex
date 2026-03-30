@@ -2,7 +2,9 @@
 \begin{document}
 \chapter{Vector Differential Operators}
 \label{chapter1}
-An operator is a map between vector spaces.
+\begin{definition}[Operator]
+  An \textit{operator} is a map between vector spaces.
+\end{definition}
 \section{Del}
 \begin{definition}
   The fundamental differential operator is \textit{del}:
@@ -40,6 +42,10 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
     (\nabla f)_i = \pderiv{f}{x_i},\ \nabla f = \pderiv{f}{x_i}\vec{e}_i
   \]
 \end{definition}
+\begin{remark}[Notation]
+  Sometimes we wish to differentiate with respect to the components of a vector other than $\vec{x}$.
+  We denote this $\nabla_{\vec{y}} \equiv \vec{e}_i \pderiv{}{y_i}$.
+\end{remark}
 \begin{example}[Using Grad]
   \label{gradExample}
   \begin{enumerate}
@@ -53,7 +59,7 @@ where $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is the standard basis for $\R^{3}$.
       We can evaluate this component wise, or use suffix notation and summation convention like above.
       However, if we shift the origin by letting $\vec{x}' = \vec{x} - \vec{x}_0$, then using multivariate chain rule \cref{MVC}:
       \[
-      \pderiv{}{x_i'} = \pderiv{x_j}{x_i'} \pderiv{}{x_j} = \pderiv{}{x_i'}(x'_j + {x_0}_j) \pderiv{}{x_j} = \delta_{i j} \pderiv{}{x_j} = \pderiv{}{x_i}
+        \pderiv{}{x_i'} = \pderiv{x_j}{x_i'} \pderiv{}{x_j} = \pderiv{}{x_i'}(x'_j + {x_0}_j) \pderiv{}{x_j} = \delta_{i j} \pderiv{}{x_j} = \pderiv{}{x_i}
       \]
       so $\nabla_{\vec{x}} |\vec{x} - \vec{x}_0|^2 = \nabla_{\vec{x}'} |\vec{x}'|^2 = 2\vec{x}' = 2(\vec{x} - \vec{x}_0)$.
     \item For constant $\vec{a}$, $\nabla(\vec{a} \cdot \vec{x}) = \nabla(a_1 x + a_2 y + a_3 z) = (a_1, a_2, a_3) = \vec{a}$.
@@ -69,7 +75,7 @@ Similarly to $f'$ in 1D, if we need to specify where $\nabla f$ is evaluated at,
 \begin{remark}[Notation]
   $\nabla f(2\vec{x})$ means find $\nabla f$ and then evaluate it at $2\vec{x}$, whereas $\nabla (f(2\vec{x}))$ means evaluate at $2\vec{x}$ and then find $\nabla$ of that.
 
-  It is often easier to avoid ambiguity by defining a new variable, for example, $\vec{y} = 2\vec{x}$ so $\nabla (f(2\vec{x})) = 2 \nabla f(\vec{y})$.
+  It is often easier to avoid ambiguity by defining a new variable, for example, $\vec{y} = 2\vec{x}$ so $\nabla (f(2\vec{x})) = 2 \nabla_{\vec{y}} (f(\vec{y})) = 2 \nabla f(\vec{y}) = 2 \nabla f(2\vec{x})$.
 
   Similarly, in 2D we can unambiguously write:
   \[
@@ -95,8 +101,6 @@ Given a function $f$, we can define $\nabla f$ to be the unique vector such that
   \end{align*}
   so $\nabla f = 2\vec{x}$ by definition which agrees with \cref{gradExample}.
 \end{example}
-Sometimes we wish to differentiate with respect to the components of a vector other than $\vec{x}$.
-We denote this $\nabla_{\vec{y}} \equiv \vec{e}_i \pderiv{}{y_i}$.
 \begin{example}
   Consider $f(\vec{x}, \vec{y}) = |\vec{x} - 2\vec{y}|^2$.
   We know from \cref{gradExample} that $\nabla |\vec{x} - \vec{x}_0|^2 = 2(\vec{x} - \vec{x}_0)$ for a constant vector $\vec{x}_0$.
@@ -135,11 +139,10 @@ To obtain the suffix notation expression we can use:
 \begin{align*}
   \nabla \cdot \vec{F} &= \left(\vec{e}_i \pderiv{}{x_i}\right) \cdot (F_j \vec{e}_j) \\
                        &= \vec{e}_i \cdot \pderiv{F_j}{x_i} \vec{e}_j \\
-                       &= \pderiv{F_j}{x_i} \delta_{i j} = \pderiv{F_j}{x_i}\\
+                       &= \pderiv{F_j}{x_i} \delta_{i j} = \pderiv{F_j}{x_i}
 \end{align*}
-\label{scalarOperatorMove}
-$\partial/\partial x_i$ is a scalar operator so can be moved ``through'' the dot product as:
-\[
+We utilised that since $\partial/\partial x_i$ is a scalar operator, it can be moved ``through'' the dot product as:
+\begin{equation}
   \left(\vec{a} \pderiv{}{x_i}\right) \cdot \vec{b} =
   \left[\begin{pmatrix}
   a_1 \\
@@ -161,8 +164,8 @@ $\partial/\partial x_i$ is a scalar operator so can be moved ``through'' the dot
   \pderiv{b_2}{x_2} \\
   \pderiv{b_3}{x_3} \\
   \end{pmatrix} =
-  \vec{a} \cdot \left(\pderiv{}{x_i} \vec{b}\right)
-\]
+  \vec{a} \cdot \left(\pderiv{}{x_i} \vec{b}\right) \label{scalarOperatorMove}
+\end{equation}
 Roughly speaking, the divergence of a vector field at $\vec{x}$, measures the amount at which the field is expanding around $\vec{x}$.
 Later in the course we will derive a coordinate-independent definition of $\nabla \cdot \vec{F}$.
 \begin{example}[Using Divergence]
@@ -183,7 +186,7 @@ Later in the course we will derive a coordinate-independent definition of $\nabl
       \end{center}
       We see that the vector field is expanding so agrees with our rough interpretation of the divergence.
     \item $\vec{F}(\vec{x}) = (-y, x, 0)$ so $\nabla \cdot \vec{F} = -\pderiv{y}{x} + \pderiv{x}{y} = 0$.
-    \item If $A$ is a $3 \times 3$ matrix then.
+    \item If $A$ is a constant $3 \times 3$ matrix then:
       \[
         \nabla \cdot (A \vec{x}) = \pderiv{}{x_i}(A_{i j }x_j) = A_{i j}\delta_{i j} = \tr A
       \]
@@ -297,7 +300,7 @@ so we can unambiguously drop the brackets and just write $\vec{u} \cdot \nabla f
 
 For a vector field $\vec{F}$, the bracketing is important.
 This is because $\vec{u} \cdot (\nabla \vec{F})$ doesn't make sense as $\nabla \vec{F}$ is undefined since we \textbf{can only take grad of scalar fields}.
-Regardless, we often just write $\vec{u} \cdot \nabla \vec{F}$ because $(\vec{u} \cdot \nabla)\vec{F}$ is the only bracketing that makes sense.
+Regardless, some people just write $\vec{u} \cdot \nabla \vec{F}$ because $(\vec{u} \cdot \nabla)\vec{F}$ is the only bracketing that makes sense.
 \end{remark}
 \begin{example}
   If $\vec{u} = (0, x, y)$ and $\vec{F} = (yz, 0, x)$ then:
@@ -389,17 +392,17 @@ Because of this, the operator $\vec{u} \cdot \nabla$ is often called a direction
 \end{proof}
 \begin{example}
   In \cref{gradExample}, we saw that if $f(\vec{x}) = |\vec{x}|^2$, then $\nabla f = 2\vec{x}$.
-  $f(\vec{x}) = c \implies |\vec{x}| = r$ so the level surfaces of $f$ are just spheres centered at the origin.
+  $f(\vec{x}) = c \implies |\vec{x}| = \sqrt{c}$ so the level surfaces of $f$ are just spheres centered at the origin.
   We also see that $\nabla f$ points radially outwards, which is normal to each sphere, as expected.
 \end{example}
 Since $D_{\vec{n}} f = \vec{n} \cdot \nabla f$ for any unit vector $\vec{n}$:
 \begin{itemize}
-  \item $D_{\vec{n}}$ is maximised when $\vec{n}$ points in the same direction to $\nabla f$.
-  \item $D_{\vec{n}} = 0$ when $\vec{n}$ is orthogonal to $\nabla f$ (i.e. $\vec{n}$ is tangent to the level surface).
-  \item $D_{\vec{n}}$ is minimised when $\vec{n}$ points in the opposite direction to $\nabla f$.
+  \item $D_{\vec{n}}f$ is maximised when $\vec{n}$ points in the same direction to $\nabla f$.
+  \item $D_{\vec{n}}f = 0$ when $\vec{n}$ is orthogonal to $\nabla f$ (i.e. $\vec{n}$ is tangent to the level surface).
+  \item $D_{\vec{n}}f$ is minimised when $\vec{n}$ points in the opposite direction to $\nabla f$.
 \end{itemize}
 \[
-  \max_{\forall \vec{n}} D_{\vec{n}} = |\nabla f| \text{ and } \min_{\forall \vec{n}} D_{\vec{n}} = -|\nabla f|
+  \max_{\forall \vec{n}} D_{\vec{n}}f = |\nabla f| \text{ and } \min_{\forall \vec{n}} D_{\vec{n}}f = -|\nabla f|
 \]
 Furthermore, since $\nabla f$ is normal to the level surfaces, the directional derivative is maximised along the normals of the surface that point in the direction of increasing $f$.
 
@@ -409,7 +412,8 @@ Furthermore, since $\nabla f$ is normal to the level surfaces, the directional d
   Suppose the ground height is defined by $z = h(x, y)$ where $z$ is the height about some fixed level.
   We can think of this in terms of the 2D function $h$, or by defining the 3D function $f(x, y, z) = z - h(x, y)$ and then considering the level surface $f = 0$.
 
-  In terms of $h$, $\nabla h \in \R^2$ points in the direction that is steepest uphill on the surface and then projected down onto the $x$-$y$ plane.
+  In terms of $h$, $\nabla h \in \R^2$ points in the direction that is steepest uphill on the surface (as $D_{\vec{n}} h$ is maximised when $\vec{n}$ points in the same direction as $\nabla h$) and then projected down onto the $x$-$y$ plane.
+
   However, if we use $f = 0$, which defines exactly the same surface, then $\nabla f$ instead points normal to the surface as it is a level surface, so we need to be careful about our interpretations of grad depending on how we define the surface.
 
   Note that the choice of $f$ here is by no means unique.
@@ -444,7 +448,7 @@ For example:
                                                &= (\delta_{i l}\delta_{j m} - \delta_{i m}\delta_{j l}) F_j \pderiv{G_m}{x_l} \\
                                                &= F_j \pderiv{G_j}{x_i} - F_j \pderiv{G_i}{x_j}
   \end{align*}
-  and similarly $(G \times (\nabla \times \vec{F}))_i = G_j \pderiv{F_j}{x_i} - G_j \pderiv{F_i}{x_j}$.
+  and similarly $(\vec{G} \times (\nabla \times \vec{F}))_i = G_j \pderiv{F_j}{x_i} - G_j \pderiv{F_i}{x_j}$.
 
   So:
   \begin{align*}
@@ -460,13 +464,24 @@ For example:
   and so the result follows.
 \end{proof}
 \begin{remark}[Warning]
-  The scalar triple product formula $\vec{a} \cdot (\vec{b} \times \vec{c}) = (\vec{a} \times \vec{b}) \cdot \vec{c}$ and the vector triple product formula $\vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c}$ do not work if one of the vectors is $\nabla$.
+  The scalar triple product formula $\vec{a} \cdot (\vec{b} \times \vec{c}) = (\vec{a} \times \vec{b}) \cdot \vec{c}$ and the vector triple product formula $\vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c}$ \textbf{do not always work} if one of the vectors is $\nabla$.
   This is because the proofs for these identities assume commutativity of the components of the vectors which is not true when the components are operators.
 
   For example, $\vec{a} \times (\nabla \times \vec{c}) \neq (\vec{a} \cdot \vec{c})\nabla - (\vec{a} \cdot \nabla)\vec{c}$ and this is both wrong and meaningless as $(\vec{a} \cdot \vec{c}) \nabla$ is an operator, not a vector.
 
   When proving these identities, you need to make sure that operators and functions stay in the same order.
+
+  One case where you are able to cycle the scalar triple product is in the identity:
+  \[
+    (\vec{F} \times \nabla) \cdot \vec{G} = \vec{F} \cdot (\nabla \times \vec{G})
+  \]
+  This can be checked with suffix notation but works as $\nabla$ is always acting on $\vec{G}$.
 \end{remark}
+By setting $f(x) = 1/x$ in \cref{gradChain}, we can derive that:
+\[
+  \nabla \left(\frac{1}{g}\right) = - \frac{1}{g^2} \nabla g
+\]
+which we can then use with the other three of the first four identities to derive quotient rule expressions for division by a scalar field.
 \subsection{Identities for Radially Symmetric Fields}
 \label{radialIdentities}
 \begin{proposition}
@@ -492,7 +507,7 @@ For example:
   \]
   So $\nabla f(r) = \frac{\vec{x}}{r} = \vec{e}_r$ which is a unit vector in the radial direction of $\vec{x}$.
 \end{proof}
-Intuitively this makes sense as if we have a function of the radius, then grad is just $f'(r)$ (i.e. rate of change of radius in the outward direction) multiplied by a unit vector in the outward direction so points in the direction of the rate of change.
+Intuitively this makes sense as if we have a function of the radius, then grad is just $f'(r)$ (i.e. rate of change of radius in the outward direction) multiplied by a unit vector in the outward direction so that it points in the direction of the rate of change.
 \begin{example}
   We can use this to find the divergence of the vector field $F(\vec{r}) = r^3 \vec{r}$.
   We first use \cref{gradDotfF} to yield:
@@ -509,17 +524,18 @@ Intuitively this makes sense as if we have a function of the radius, then grad i
   \end{align*}
 \end{example}
 \subsection{Modulus of a Vector Field}
-To find grad of $|\vec{F}|$ for a vector field $\vec{F}$, we need to be able to differentiate the modulus of a vector field.
+We are also able to differentiate the modulus of a vector field:
 \[
   \pderiv{}{x_i}|\vec{F}| = \pderiv{}{x_i}\sqrt{F_jF_j} = \frac{1}{2\sqrt{F_j F_j}} \pderiv{}{x_i}(F_jF_j) = \frac{1}{2|\vec{F}|} \pderiv{}{x_i}(F_jF_j) = \frac{1}{|\vec{F}|} F_j \pderiv{F_j}{x_i}
 \]
-So $\nabla |\vec{F}|$ is:
+Instead of using the above, the easiest way to find $\nabla |\vec{F}|$ is to let $g(\vec{x}) = |\vec{F}|^2 = \vec{F} \cdot \vec{F}$ and $f(x) = \sqrt{x} \implies f'(x) = \frac{1}{2\sqrt{x}}$.
+We can then apply the identity in \cref{gradChain} to yield:
 \[
-  \nabla |\vec{F}| = \frac{1}{|\vec{F}|} \begin{pmatrix}
-  F_1 \pderiv{F_1}{x} + F_2 \pderiv{F_2}{x} + F_3 \pderiv{F_3}{x} \\
-  F_1 \pderiv{F_1}{y} + F_2 \pderiv{F_2}{y} + F_3 \pderiv{F_3}{y} \\
-  F_1 \pderiv{F_1}{z} + F_2 \pderiv{F_2}{z} + F_3 \pderiv{F_3}{z} \\
-  \end{pmatrix}
+  \nabla |\vec{F}| = \nabla [f(g(\vec{x}))] = f'(g(\vec{x})) \nabla g = \frac{1}{2|\vec{F}|} \nabla (\vec{F} \cdot \vec{F})
+\]
+Then, to find $\nabla(\vec{F} \cdot \vec{F})$ we apply the identity in \cref{gradFG} with $\vec{G} = \vec{F}$ yielding:
+\[
+  \nabla |\vec{F}| = \frac{(\vec{F} \cdot \nabla) \vec{F} + \vec{F} \cdot (\nabla \times \vec{F})}{|\vec{F}|}
 \]
 \section{Laplacian}
 \label{secLaplacian}
@@ -564,11 +580,11 @@ So $\nabla |\vec{F}|$ is:
                    &= 2(a^2_1 + a^2_2 + a^2_3) \\
                    &= 2|\vec{a}|^2
       \end{align*}
-      Using components is easy enough here but it is often preferable to use vector methods as they scales to arbitrary dimensions without the need to introduce fiddly suffix notation.
+      Using components is easy enough here but it is often preferable to use vector methods as they scale to arbitrary dimensions without the need to introduce fiddly suffix notation.
   \end{enumerate}
 \end{example}
 Functions that satisfy $\nabla^2 f = 0$ (\textit{Laplace's Equation}) are called \textit{harmonic}.
-They are incredibly important in many fields so we will study these later in the course.
+They are incredibly important in many fields so we will study these later in the course in \cref{chapter7}.
 
 \subsubsection{Spherical Symmetry}
 \label{laplacianSphericalSymmetry}
@@ -601,7 +617,7 @@ We instead have the following alternative definition.
 \begin{definition}[Laplacian for Vector Fields]
   For a vector field $\vec{F}$, we define the \textit{laplacian} as:
   \[
-    (\nabla^2 \vec{F})_i = \nabla^2(F_i)
+    (\nabla^2 \vec{F})_i = \nabla^2 F_i
   \]
   That is, we take the scalar laplacian of each component:
   \[
@@ -609,7 +625,7 @@ We instead have the following alternative definition.
   \]
 \end{definition}
 \begin{proposition}
-  The Laplacian has the following coordinate independent definition:
+  The Laplacian of a vector field $\vec{F}$ has the following coordinate independent definition:
   \[
     \nabla^2 \vec{F} = \nabla(\nabla \cdot \vec{F}) - \nabla \times (\nabla \times \vec{F})
   \]
@@ -620,8 +636,8 @@ We instead have the following alternative definition.
     (\nabla \times (\nabla \times F))_i &= \levi_{i j k} \pderiv{}{x_j} \levi_{k l m} \pderiv{F_m}{x_l} \\
                                         &= (\delta_{i l} \delta_{j m} - \delta_{i m}\delta_{j l})\frac{\partial^2 F_m}{\partial x_j \partial x_l}\\
                                         &= \frac{\partial^2 F_j}{\partial x_i \partial x_j} - \frac{\partial^2 F_i}{\partial x_j \partial x_j} \\
-                                        &= \pderiv{}{x_i}(\nabla \cdot \vec{F}) - \nabla^2(F_i) \\
-                                        &= (\nabla(\nabla \cdot \vec{F}))_i  - (\nabla^2 (\vec{F}))_i
+                                        &= \pderiv{}{x_i}(\nabla \cdot \vec{F}) - \nabla^2 F_i \\
+                                        &= (\nabla(\nabla \cdot \vec{F}))_i  - (\nabla^2 \vec{F})_i
   \end{align*}
   Therefore, $\nabla^2 \vec{F} = \nabla(\nabla \cdot \vec{F}) - \nabla \times (\nabla \times \vec{F})$
 \end{proof}
@@ -686,17 +702,17 @@ If $\mathscr{D}$ is not simply connected, then such a function $f(\vec{x})$ stil
   It is also easy to check that $f(\vec{x}) = \arctan(y/x)$ satisfies $\vec{F} = \nabla f$.
   However, this $f$ is \textbf{not single valued}.
   It is also not a conservative field as the domain is not simply connected as $\vec{F}$ is undefined anywhere on the $z$-axis (as we saw in \cref{scdExample}).
-  In fact, it can be shown that no scalar potential for $\vec{F}$ exists in a simply connected domain so it cannot be conservative, despite that it is irrotational.
+  In fact, it can be shown that no single valued scalar potential for $\vec{F}$ exists in a simply connected domain so it cannot be conservative, despite that it is irrotational.
 
   We cannot just specify to use the principal branch of $\arctan$ as then $f(\vec{x})$ is no longer continuous, potential functions should be \textit{single-valued} and \textit{continuous} (otherwise $\nabla f$ is not defined).
 \end{example}
 \section{Solenoidal or Incompressible Vector Fields}
 \label{solenoidalFields}
-\begin{definition}
+\begin{definition}[Solenoidal]
   If $\vec{F}$ satisfies $\nabla \cdot \vec{F} = 0$ everywhere in $\mathscr{D}$, then it is said to be \textit{solenoidal}, \textit{incompressible}, or \textit{divergence-free} in $\mathscr{D}$.
 \end{definition}
 \begin{remark}[Nomenclature]
-  The name ``solenoidal'' arises magnetic fields which are always solenoidal.
+  The name ``solenoidal'' arises from magnetic fields which are always solenoidal.
   However, solenoidal fields are equally important in fluid dynamics, where they are instead known as ``incompressible''.
 \end{remark}
 \begin{proposition}

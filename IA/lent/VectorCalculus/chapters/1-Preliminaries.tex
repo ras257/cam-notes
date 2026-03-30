@@ -6,14 +6,15 @@
 Throughout this course, we will work in $\R^3$ unless stated otherwise, using the standard basis denoted $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$.
 Most results will also be valid in $\R^{n}$ but it is helpful to understand the concepts in $\R^{3}$ before generalising to higher dimensions.
 
-Suffix notation and summation will be used heavily and Newton's dot notation ($\dot{\vec{x}},\ \ddot{\vec{x}},\ \ldots$) for differentiation with respect to $t$, even if $t$ does not represent time.
+Suffix notation and summation convention will be used heavily.
+Further, we will use Newton's dot notation ($\dot{\vec{x}},\ \ddot{\vec{x}}, \ldots$) to denote differentiation with respect to $t$, even if $t$ does not represent time.
 
 \subsection{Calculus on Vectors}
-Many rules of calculus for scalars apply similarly to scalars:
+Many rules of calculus for scalars apply similarly to vectors:
 \begin{align*}
   \dot{\vec{a}}(t) = \deriv{\vec{a}}{t}& = \deriv{}{t}(a_1, a_2, a_3) = (\dot{a}_1, \dot{a}_2, \dot{a}_3) \\
   \deriv{}{t}(\vec{a} \cdot \vec{b}) &= \dot{\vec{a}} \cdot \vec{b} + \vec{a} \cdot \dot{\vec{b}} \\
-  \deriv{}{t}(\vec{a} \times \vec{b}) &= \dot{\vec{a}} \times \vec{b} + \vec{a} \times \dot{\vec{b}} \\
+  \deriv{}{t}(\vec{a} \times \vec{b}) &= \dot{\vec{a}} \times \vec{b} + \vec{a} \times \dot{\vec{b}}
 \end{align*}
 These can be checked using suffix notation and summation convention along with the standard rules of calculus for scalars.
 
@@ -84,8 +85,7 @@ Infinitesimals also have their own product and quotient rules:
 \]
 \subsection{Infinitesimal Vectors}
 In higher dimensions, an infinitesimal vector is one whose components are all infinitesimals.
-For example, $\d{\vec{x}} = (\d{x}, \d{y}, \d{z})$.
-Then we have:
+For example, $\d{\vec{x}} = (\d{x}, \d{y}, \d{z})$, we then have:
 \begin{equation}
   \d{f} = \pderiv{f}{x_i}\d{x_i} \label{infinitesimalTaylor}
 \end{equation}

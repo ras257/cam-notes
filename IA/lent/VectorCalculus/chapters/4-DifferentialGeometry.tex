@@ -30,8 +30,7 @@ So if we split the curve into lots of tiny straight lines between $\vec{x}(t)$ a
 So as $\delta t \to 0$:
 \[
   \deriv{s}{t} = |\dot{\vec{x}}|
-\]
-\label{naturalParam}
+\] \label{naturalParam}\par
 We can integrate this to obtain $s$ as a function of $t$ and then, theoretically, invert this to obtain $t$ as a function of $s$ and therefore write $\vec{x}$ as a function of $s$.
 Parameterisation of the curve using arc length instead of $t$ is called the \textit{natural parameterisation} of the curve.
 \begin{definition}[Composite Curves]
@@ -72,7 +71,7 @@ Parameterisation of the curve using arc length instead of $t$ is called the \tex
 \begin{remark}[Parameterisation]
   In this section we will assume that $\vec{x}$ is \textbf{parameterised by arc length} $s$.
 
-  We will use primes to denote differentiation with respect to $s$.
+  We will use primes to denote differentiation with respect to $s$, i.e. $\vec{x}' = \deriv{\vec{x}}{s}$.
 \end{remark}
 \subsection{Moving Trihedral, Curvature, and Torsion}
 \begin{definition}[Moving Trihedral]
@@ -227,7 +226,7 @@ As with curves, when we refer to a surface, we mean the image of the map rather 
 We call $u, v$ the \textit{parameterisation} of the surface, and for any particular surface, this parameterisation is not unique.
 \begin{example}
   \label{hemisphericalParameterisation}
-  The surface $H_R = \{\vec{x}: |\vec{x}| = R, z < 0\}$ is a hemispherical shell below the $x$-$y$ plane.
+  The surface $H_R = \{\vec{x}: |\vec{x}| = R,\ z < 0\}$ is a hemispherical shell below the $x$-$y$ plane.
 
   We can parameterise this using spherical polar coordinates from \cref{sphericalPolar} with $(\theta, \phi)$ and fix $r = R$ so that:
   \[
@@ -237,11 +236,11 @@ We call $u, v$ the \textit{parameterisation} of the surface, and for any particu
     R\cos\theta \\
     \end{pmatrix}
   \]
-  for $\theta \in (\frac{\pi}{2}, \pi], \phi \in [0, 2\pi)$ so that we only get the lower half of the sphere's surface.
+  for $\theta \in (\frac{\pi}{2}, \pi],\ \phi \in [0, 2\pi)$ so that we only get the lower half of the sphere's surface.
 \end{example}
 \subsection{Surface Elements}
 \label{surfaceElements}
-We can map constant lines of $u$ and $v$, which are straight in $\R^2$, onto the surface and they do not necessarily have to remain straight on the surface.
+If we map lines of constant $u$ and $v$, which are straight in $\R^2$, onto the surface they do not necessarily have to remain straight on the surface.
 Given a surface $S$, we can then divide it up into small regions lying between curves of constant $u$ and curves of constant $v$.
 It would be useful to know what the area of such regions are.
 \begin{lemma}
@@ -252,15 +251,16 @@ It would be useful to know what the area of such regions are.
   The area is given by $||\vec{a}||\vec{b}|\sin\theta|$.
 \end{proof}
 Consider two particular curves with constant $u$ and constant $v$ meeting at $\vec{x}(u, v)$ and the nearby curves of values $u + \delta u$ and $v + \delta v$ respectively.
-The part of $S$ bounded by these curves forms, to a lowest order approximation, a small planar parallelogram with one side given by the vector:
+The part of $S$ bounded by these curves forms, to a lowest order approximation, a small planar parallelogram.
+The side along the curve of constant $v$ is given by the vector:
 \[
   \vec{x}(u + \delta u, v) - \vec{x}(u, v) = \pderiv{\vec{x}}{u} \delta + O(\delta u^2) \text{ using Taylor's Theorem}
 \]
-and the other side being given by:
+and the other side along constant $u$ is given by:
 \[
   \vec{x}(u, v + \delta v) - \vec{x}(u, v) = \pderiv{\vec{x}}{v} \delta v + O(\delta v^2)
 \]
-As $\delta u$ and $\delta v$ get very small, this approaches an exact parallelogram so by \cref{areaParallelogram}, the area of the region for infinitesimal $\d{u}$, $\d{v}$ is:
+As $\delta u$ and $\delta v$ get very small, this approaches an exact parallelogram so by \cref{areaParallelogram}, the area of the region for infinitesimal $\d{u}$ and $\d{v}$ is:
 \[
   \d{S} = \abs{\pderiv{\vec{x}}{u} \times \pderiv{\vec{x}}{v}}\d{u}\d{v}
 \]
@@ -272,16 +272,17 @@ Furthermore, the normal to the surface at $\vec{x}$ is parallel to $\pderiv{\vec
 \begin{definition}[Volume]
   For the purposes of this course, a \textit{volume} is a parameterised region of $\R^3$, that is, a map $\vec{x}(u, v, w)$ from a subset of $\R^3$ to $\R^3$.
 \end{definition}
-\begin{example}
+\begin{example}[Sphere Parameterisation]
   We can parameterise the sphere $V_R = \{\vec{x}: |\vec{x}| \leq R\}$ using spherical polar coordinates $r, \theta, \phi$:
   \[
-    \vec{x}(\theta, \phi, r) = \begin{pmatrix}
+    \vec{x}(r, \theta, \phi) = \begin{pmatrix}
     r\sin\theta\cos\phi \\
     r\sin\theta\sin\phi \\
     r\cos\theta \\
     \end{pmatrix}
   \]
-  where $r \in [0, R], \theta \in [0, \pi]$, and $\phi \in [0, 2\pi)$.
+  where $r \in [0, R],\ \theta \in [0, \pi]$, and $\phi \in [0, 2\pi)$.
+  So in this case we are mapping from a cuboid side lengths $R$, $\pi$, and $2\pi$ in $\R^3$ to a sphere.
 \end{example}
 \subsection{Volume Elements}
 \label{volumeElements}
@@ -296,9 +297,9 @@ When we traverse along the side of a parallelepiped, two of the parameters stay 
 \begin{proof}
   See IA Vectors and Matrices.
 \end{proof}
-Therefore, for infinitesimal $\d{u}, \d{v}, \d{w}$, the volume of such a region is exactly the area of the parallelepiped so:
+Therefore, for infinitesimal $\d{u},\ \d{v}$, and $\d{w}$, the volume of such a region is exactly the area of the parallelepiped and so:
 \[
   \d{V} = \abs{\pderiv{\vec{x}}{u} \cdot \left(\pderiv{\vec{x}}{v} \times \pderiv{\vec{x}}{w}\right)} \d{u}\d{v}\d{w}
 \]
-The infinitesimal volume $\d{V}$ is called a \textit{volume element}.
+This infinitesimal volume $\d{V}$ is called a \textit{volume element}.
 \end{document}
