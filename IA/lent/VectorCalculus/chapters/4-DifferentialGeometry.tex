@@ -207,6 +207,14 @@ We can then use $\vec{b} = \vec{t} \times \vec{n}$ to find $\vec{b}$ and then $\
   \implies& \vec{b}' \cdot \vec{n} = \frac{\vec{n} \cdot (\vec{t} \times \dot{\vec{n}})}{|\dot{\vec{x}}|} \\
   \implies& \tau = - \frac{\vec{n} \cdot (\vec{t} \times \dot{\vec{n}})}{|\dot{\vec{x}}|}
 \end{align*}
+\begin{remark}[Alternative Formulae for Curvature and Torsion]
+  \nonexaminable
+  It can be shown that:
+  \[
+    \kappa = \frac{|\dot{\vec{x}} \times \ddot{\vec{x}}|}{|\dot{\vec{x}}|^3} \text{ and } \tau = \frac{(\dot{\vec{x}} \times \ddot{\vec{x}}) \cdot \dddot{\vec{x}}}{|\dot{\vec{x}} \times \ddot{\vec{x}}|}
+  \]
+  Here the dot notation can be differentiation with respect to any parameter of our choice, whether it be $t$, $s$, or something else, provided we are consistent.
+\end{remark}
 \begin{example}
   Consider the curve $\vec{x}(t) = \left(\frac{1}{\sqrt{2}}t^2, t, t\right)$.
   We have $\dot{\vec{x}} = (\sqrt{2}t, 1, 1)$ so $\deriv{s}{t} = |\dot{\vec{x}}| = \sqrt{2}\sqrt{1 + t^2}$.
