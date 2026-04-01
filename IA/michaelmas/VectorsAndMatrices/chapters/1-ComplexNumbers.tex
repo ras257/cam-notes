@@ -5,16 +5,16 @@
 \begin{definition}[Complex Number]
   We construct $\C$ by adding the element $i$ to $\R$, where $i^2 = -1$.
 
-  Then any complex number $z \in \C$ can be written as:
+  We can then write any complex number $z \in \C$ as:
   \[
-    z = x + iy \quad x, y \in \R
+    z = x + iy \text{ where } x, y \in \R
   \]
 \end{definition}
 We denote the real part of $z$ as $\Re(z) = x$ and the imaginary part as $\Im(z) = y$.
 
-For complex numbers $z_1 = x_1 + i y_1$ and $z_2 = x_2 + i y_2$, we can carry out addition component-wise:
+For complex numbers $z_1 = x_1 + i y_1$ and $z_2 = x_2 + i y_2$, we carry out addition component-wise:
 \[
-  z_1 \pm z_2 = (x_1 \pm x_2) + i(y_ 1 \pm y_2) 
+  z_1 \pm z_2 = (x_1 \pm x_2) + i(y_ 1 \pm y_2)
 \]
 and noting that $i^2 = -1$, we can carry out multiplication:
 \begin{equation}
@@ -41,14 +41,14 @@ which satisfies $zz^{-1} = 1$.
 \end{definition}
 Note that this allows us to write:
 \[
-  \Re(z) = \frac{z + z^{*}}{2} \text{ and }
-  \Im(z) = \frac{z - z^{*}}{2i}
+  \Re(z) = \frac{z + \overline{z}}{2} \text{ and }
+  \Im(z) = \frac{z - \overline{z}}{2i}
 \]
-Some properties satisfied by the complex conjugate are:
+Some properties satisfied by the complex conjugate are: \label{complexConjProperties}
 \begin{itemize}
-  \item $(z^{*})^{*} = z$
-  \item $(z_1 + z_2)^{*} = z^{*}_{1} + z^{*}_{2}$
-  \item $(z_1 z_2)^{*} = z^{*}_{1} z^{*}_{2}$
+  \item $\overline{(\overline{z})} = z$
+  \item $\overline{(z_1 + z_2)} = \overline{z_1} + \overline{z}_{2}$
+  \item $\overline{(z_1 z_2)} = \overline{z_1} \overline{z}_2$
 \end{itemize}
 \begin{definition}[Modulus of a Complex Number]
   For any $z \in \C$ with $z = x + iy$ we define its \textit{modulus} by a real and non-negative number $|z|$, such that:
@@ -57,10 +57,10 @@ Some properties satisfied by the complex conjugate are:
   \]
   The modulus of $z$ is sometimes denoted by $r$.
 \end{definition}
-Note that $|z|^2 = z z^{*}$.
+Note that $|z|^2 = z \overline{z}$.
 We can also use the modulus to write a second form for \cref{inverse}:
 \[
-  z^{-1} = \frac{z^{*}}{|z|^2}
+  z^{-1} = \frac{\overline{z}}{|z|^2}
 \]
 \begin{definition}[Argument of a Complex Number]
   For any $z \in \C \setminus \{0\}$ we define its \textit{argument} by a real number denoted $\theta$ or $\arg(z)$ such that:
@@ -77,11 +77,11 @@ and thus:
 \[
   \tan \theta = \frac{y}{x}
 \]
-If $\theta$ is an argument of $z$ then any $\theta + 2n\pi, n \in \Z$ is also an argument of $z$.
+Due to the periodicity of $\sin$ and $\cos$, if $\theta$ is an argument of $z$ then any $\theta + 2n\pi,\ n \in \Z$ is also an argument of $z$.
 To make the argument of $z$ unique, we restrict the range of $\theta$ to $-\pi < \theta \leq \pi$ and call this argument the ``principal argument''.
 
 \begin{remark}[Notation]
-  We denote the principle argument $\Arg(z)$ where $-\pi < \Arg(z) \leq \pi$ and the multi-valued argument $\arg(z)$ where $\arg(z) = \{\Arg(z) + 2n\pi\;\forall n \in \Z\}$. 
+  We denote the principle argument $\Arg(z)$ where $-\pi < \Arg(z) \leq \pi$ and the multi-valued argument $\arg(z)$ where $\arg(z) = \{\Arg(z) + 2n\pi: n \in \Z\}$.
 \end{remark}
 
 \section{The Argand Diagram}
@@ -89,9 +89,9 @@ The Argand diagram is sometimes called the ``Complex plane''.
 
 To plot a complex number $z = x + iy$ on the Argand diagram, we plot the real part of $z$ along the $x$-axis and the imaginary part of $z$ along the $y$-axis, i.e. as a coordinate $(x, y)$ on a 2D-plane.
 \begin{center}
-\begin{tikzpicture}[scale=0.8]
-  \draw (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
-  \draw (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
+\begin{tikzpicture}[scale=0.8, >=stealth]
+  \draw[->] (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
+  \draw[->] (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
 
   \coordinate (Z) at (2,2.5);
 
@@ -102,8 +102,8 @@ To plot a complex number $z = x + iy$ on the Argand diagram, we plot the real pa
 By representing complex numbers in the Argand diagram then the addition of complex numbers can be treated as vector addition (tip-to-tail):
 \begin{center}
 \begin{tikzpicture}[scale=0.8,>=stealth]
-  \draw (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
-  \draw (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
+  \draw[->] (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
+  \draw[->] (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
 
   \coordinate (Z1) at (1,1.5);
   \coordinate (Z2) at (1,0.5);
@@ -124,9 +124,9 @@ By representing complex numbers in the Argand diagram then the addition of compl
 
 Note that in the Argand diagram the complex conjugate of a complex number $z$ is its reflection in the real axis:
 \begin{center}
-\begin{tikzpicture}[scale=0.8]
-  \draw (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
-  \draw (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
+\begin{tikzpicture}[scale=0.8, >=stealth]
+  \draw[->] (-3.5,0) -- (3.5,0) node[right] {\(\Re\)};
+  \draw[->] (0,-3.5) -- (0,3.5) node[right] {\(\Im\)};
 
   \coordinate (Z) at (2,2.5);
   \coordinate (Zconj) at (2,-2.5);
@@ -140,9 +140,9 @@ Note that in the Argand diagram the complex conjugate of a complex number $z$ is
 
 This makes it easier to visually derive the following properties:
 \begin{itemize}
-  \item $(z_1 + z_2)^{*} = z^{*}_{1} + z^{*}_{2}$
-  \item $(z_1 z_2)^{*} = z^{*}_{1} z^{*}_{2}$
-  \item $|z^{*}| = |z|$
+  \item $\overline{(z_1 + z_2)} = \overline{z_1} + \overline{z}_{2}$
+  \item $\overline{(z_1 z_2)} = \overline{z_1} \overline{z}_2$
+  \item $|\overline{z}| = |z|$
 \end{itemize}
 
 \section{Properties and Consequences}
@@ -160,7 +160,7 @@ This makes it easier to visually derive the following properties:
   The representation of a complex number in terms of its real and imaginary part is unique.
 \end{proposition}
 \begin{proof}
-  Assume that there is two different representations of a complex number $z$, that is, $z = x_1 + iy_1 = x_2 + iy_2$.
+  Suppose that there are two different representations of a complex number $z$, that is, $z = x_1 + iy_1 = x_2 + iy_2$.
   \begin{align*}
     x_1 + iy_1 &= x_2 + iy_2 \\
     x_1 - x_2 &= i(y_2 - y_1) \\
@@ -170,14 +170,14 @@ This makes it easier to visually derive the following properties:
   So any two representations are the same.
 \end{proof}
 \begin{theorem}[Fundemental Theorem of Algebra]
-  A polynomial of degree $n$ with coefficients $c_i \in \C, c_n \neq 0$ can be written as a product of $n$ linear factors. i.e.:
+  A polynomial of degree $n$ with coefficients $c_i \in \C,\ c_n \neq 0$ can be written as a product of $n$ linear factors. i.e.:
   \[
     p(z) = c_n z^n + \cdots + c_0 = c_n(z - \alpha_n) \cdots (z - \alpha_0)
   \]
 \end{theorem}
-Hence $p(z) = 0$ has at least one root in $\C$ and $n$ roots $\alpha_i \in \C$ counted with multiplicity.
+Hence $p(z) = 0$ has at least one distinct root in $\C$ and $n$ roots $\alpha_i \in \C$ counted with multiplicity.
 \begin{proposition}
-  The modulus satisfies the following properties:
+  The modulus satisfies the following properties: \label{modulusProperties}
   \begin{enumerate}
     \item $|z_1 z_2| = |z_1||z_2|$
     \item $|z_1 + z_2| \leq |z_1| + |z_2|$ (Triangle Inequality)
@@ -235,7 +235,7 @@ Hence $p(z) = 0$ has at least one root in $\C$ and $n$ roots $\alpha_i \in \C$ c
   For $n \in \Z$:
   \[
     (\cos \theta + i \sin \theta)^n = \cos n\theta + i \sin n\theta
-  \] 
+  \]
 \end{theorem}
 We first need to prove the following lemma:
 \begin{lemma}
@@ -250,7 +250,7 @@ We first need to prove the following lemma:
   \begin{align*}
     z_1 z_2 &= r_1 r_2 (\cos \theta_1 \cos \theta_2 - \sin \theta_1 \sin \theta_2 + i(\cos \theta_1 \sin \theta_2 + \cos \theta_2 \sin \theta_1)) \\
             &= r_1 r_2 (\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2))
-  \end{align*} 
+  \end{align*}
 \end{proof}
 Now we can move onto the final proof:
 \begin{proof}
@@ -262,12 +262,13 @@ Now we can move onto the final proof:
       }
       {$n = k$}{}
       {$n = k + 1$}{
+        We can rewrite $z^{(k + 1)}$ to apply the induction hypothesis:
         \begin{align*}
           z^{(k+1)} &= z^k z \\
                     &= (\cos(k\theta) + i\sin(k\theta))(\cos \theta + i\sin \theta) \text{ by induction hypothesis}\\
                     &= (\cos(k\theta + \theta) + i\sin(k\theta + \theta)) \text{ by \cref{multLemma}}\\
                     &= \cos(k + 1)\theta + i \sin(k + 1)\theta
-        \end{align*} 
+        \end{align*}
       }
     \end{case}
     \begin{case}{$n < 0$}
@@ -280,7 +281,7 @@ Now we can move onto the final proof:
                                         &= \cos(-m\theta) + i\sin(-m\theta) \\
                                         &= \cos(n\theta) + i\sin(n\theta)
       \end{align*}
-    \end{case} 
+    \end{case}
   \end{proofcases}
   Shown to be true for $n \geq 0$ and $n < 0$ so true $\forall n \in \Z$.
 \end{proof}
@@ -293,9 +294,9 @@ We define the exponential of a complex number $z$, $\exp(z) = e^z$ as:
 This converges $\forall z \in \C$ and has the following properties:
 \begin{enumerate}
   \item $\exp(z)\exp(w) = \exp(z + w)$
-  \item if $z \in \R$ then $e^z$ reduces to the usual exponential
-  \item $e^0 = 1$
-  \item $(e^z)^n = e^{nz}, \forall n \in \Z$
+  \item If $z \in \R$, then $e^z$ reduces to the usual exponential.
+  \item $e^0 = 1$.
+  \item $(e^z)^n = e^{nz},\ \forall n \in \Z$
 \end{enumerate}
 \begin{remark}[Warning]
   In general $(e^{a})^{b} \neq e^{ab}$ for $a, b \in \C$.
@@ -318,18 +319,18 @@ We define sine as:
 \end{align*}
 Similarly to the exponential, if $z \in \R$ these definitions reduce to the analogous ones for real numbers.
 
-From these definitions it follows immediately that $e^{iz} = \cos z + i\sin z$.
+From these definitions it follows immediately that $e^{iz} = \cos z + i\sin z$ for $z \in \C$.
 We also get that for $x \in \R$:
 \[
   \Re(e^{ix}) = \cos x \text{ and } \Im(e^{ix}) = \sin x
 \]
 We can now express any $z \in \C$ as:
 \[
-  z = r(\cos \theta + i\sin\theta) = re^{i\theta}\quad r \geq 0, \theta \in \R
+  z = r(\cos \theta + i\sin\theta) = re^{i\theta}\quad r \geq 0,\ \theta \in \R
 \]
 The complex exponential also has the following property that will be useful later:
 \begin{lemma}
-  $e^{z} = 1 \iff z = 2n \pi i, \forall n \in \Z$
+  $e^{z} = 1 \iff z = 2n \pi i \text{ for some } n \in \Z$
   \label{exp1}
 \end{lemma}
 \begin{proof}
@@ -347,20 +348,38 @@ The complex exponential also has the following property that will be useful late
   \end{proofdirection}
 \end{proof}
 \subsection{Roots of Unity}
-If $z^{N} = 1$ then $z$ is an ``$N$-th root of unity''.
-If we let $z = re^{i\theta}$.
-Then we have that $r^{N}e^{i \theta N} = 1$.
-$r^{N}$ is the modulus so $r^{N} = 1$ and so $r = 1$.
-
-So we require $\cos \theta N + i \sin \theta N = 1$ and so $e^{i \theta N} = 1$ and we know from \cref{exp1} that $\theta N = 2 \pi n$ and so $\theta = \frac{2n \pi}{N}$.
-
-This means that we have $N$ distinct solutions given by $z = e^{\frac{2 n \pi i}{N}}$ for $n = 0, \ldots, N - 1$.
-If we let $\omega = e^{\frac{2 \pi i}{n}}$ then we can rewrite this as $z = (e^{\frac{2 \pi i}{N}})^{n} = \omega^{n}$.
-We call $\omega^{n}$ the $N$-th roots of unity.
+\begin{definition}[$N$-th Root of Unity]
+  If $z^{N} = 1$, then we call $z$ an \textit{$N$-th root of unity}.
+\end{definition}
+We want to find all of the $N$-th roots of unity.
+Any $z \in \C$ can be written as $z = re^{i\theta}$ so:
+\begin{align*}
+  z^N = 1 &\iff r^N e^{i\theta \cdot N} = 1 \\
+          &\iff r^{N} = 1 \text{ and } e^{i \theta \cdot N} = 1 \text{ as the modulus is $r^{N}$} \\
+          &\iff r = 1 \text{ and } i\theta \cdot N = 2k\pi i \text{ for some $k \in \Z$ by \cref{exp1}} \\
+          &\iff z = e^{\frac{2k\pi i}{N}} \text{ for some $k \in \Z$}
+\end{align*}
+Now, notice that:
+\[
+  e^{\frac{2 k_1 \pi i}{N}} = e^{\frac{2 k_2 \pi i}{N}} \iff e^{\frac{2\pi i}{N}(k_1 - k_2)} = 1 \iff k_1 \equiv k_2 \pmod{N}
+\]
+This means that we have exactly $N$ distinct solutions given by:
+\[
+  z^{N} = 1 \iff z \in \left\{e^{\frac{2k \pi i}{N}}: k \in \{0, \ldots, N - 1\}\right\}
+\]
+If we let $\omega = e^{\frac{2 \pi i}{n}}$ then this becomes:
+\[
+  \left\{\omega^{k}: k \in \{0, \ldots, N - 1\}\right\}
+\]
+The complex numbers in this set are exactly the \textit{$N$-th roots of unity}.
+\begin{remark}
+  Although we chose to use the set $\{0, \ldots, N - 1\}$, we could have just as equally picked any other set that contains exactly one of each residue modulo $N$.
+  It is often preferable to choose a set which is symmetric about 0, for example $\{-2, -1, 0, 1, 2\}$ when $N = 5$.
+\end{remark}
 \section{Logarithm and Complex Powers}
 \subsection{Complex Logarithm}
 \begin{definition}[Complex Logarithm]
-  For $z \in \C, z \neq 0$, we define $w = \log z$ by all $w \in \C$ such that $e^{w} = z$.
+  For $z \in \C,\ z \neq 0$, we define $w = \log z$ by all $w \in \C$ such that $e^{w} = z$.
 \end{definition}
 This means that log is the inverse of exp.
 Note that because $e^{z} = e^{z + 2n\pi i}$, $\exp$ is a many-to-one correspondence and so log is \textbf{multi-valued}.
@@ -368,33 +387,41 @@ We can write:
 \[
   z = re^{i\theta} = e^{\log r} e^{i \theta} = e^{\log r + i\theta}
 \]
-so
+so;
 \[
   \log z = \log r + i\theta = \log r + i(\Arg(z) + 2n\pi)\quad\forall \theta \in \arg(z)
 \]
 \begin{remark}
   If we take $\theta \mapsto \theta + 2n\pi \text{ for } n \in \Z$ then $\log z \mapsto \log z + 2n\pi i$
 
-  To make it unique we restrict it to $-\pi < \theta \leq \pi$ and call this the ``principle logarithm''.
+To make it unique we restrict $\theta$ to $-\pi < \theta \leq \pi$ and call this the ``principle logarithm'', sometimes denoted $\operatorname{Log}(z)$.
 \end{remark}
 \begin{example}
-  To determine $\log i$ we know that $|i| = 1$ and $i = e^{i\pi/2}$ so $\Arg(i) = \pi/2$ and $\arg(i) = \{\pi/2 + 2n\pi\;\forall n \in \Z\}$. So:
+  To determine $\log i$ we know that $|i| = 1$ and $i = e^{i\pi/2}$ so $\Arg(i) = \pi/2$ and $\arg(i) = \{\pi/2 + 2n\pi: n \in \Z\}$. So:
   \[
     \log i = i\left(\frac{\pi}{2} + 2n\pi\right)
   \]
 \end{example}
 \subsection{Complex Powers}
 \begin{definition}[Complex Powers]
-  For $z, \alpha \in \C, z\neq0$, we define $z^{\alpha} = e^{\alpha \log z}$.
+  For $z, \alpha \in \C,\ z\neq0$, we define $z^{\alpha} = e^{\alpha \log z}$.
   \label{cPower}
 \end{definition}
 This is multi-valued in general.
 If we take $\theta \mapsto \theta + 2n\pi$ then $z^{\alpha} \mapsto z^{\alpha}e^{2n\pi i \alpha}$.
 \begin{remark}
-  If $\alpha \in \Q$ then $z^{\alpha}$ has finitely many values, otherwise it has infinitely many values.
+  $z^{\alpha}$ has finitely many values if and only if $\alpha \in \Q$.
+  If it has finitely many values, then there must exist $k_1, k_2 \in \Z,\ k_1 \neq k_2$ such that:
+  \begin{align*}
+    e^{2k_1 \pi i \alpha} = e^{2k_2 \pi i \alpha} &\implies e^{2 \pi i \alpha(k_1 - k_2)} = 1 \\
+                                                  &\implies 2 \pi i \alpha(k_1 - k_2) = 2m\pi i \text{ for some $m \in \Z$} \\
+                                                  &\implies \alpha = \frac{m}{k_1 - k_2} \in \Q \text{ as $k_1 \neq k_2$}
+  \end{align*}
+  If $\alpha \in \Q$, $\alpha = a/b$ for $a \in \Z,\ b \in \N$, then $e^{2 b \pi i \alpha} = e^{2 a \pi i} = 1$ so the values must repeat.
 \end{remark}
 \begin{example}
-  To determine $(1 + i)^{1/2}$ we can write $1 + i = \sqrt{2}e^{i\pi/4}$ so:
+  To determine $(1 + i)^{1/2}$ we can write $1 + i = \sqrt{2}e^{i\pi/4}$.
+  Therefore:
   \[
     \log(1 + i) = \log \sqrt{2} + i(\pi/4 + 2\pi n)
   \]
@@ -414,27 +441,30 @@ In the complex plane we can use a point $z_0 \in \C$ and a direction $\omega \in
 \]
 We can eliminate $\lambda$ by taking conjugates:
 \[
-  z^{*} = z^{*}_{0} + \lambda \omega^{*}
+  \overline{z} = \overline{z_0} + \lambda \overline{\omega}
 \]
-Now we can equate two expressions for $\lambda \omega \omega^{*}$:
+Now we can equate two expressions for $\lambda \omega \overline{\omega}$ and so all points on the line satisfy:
 \[
-  \lambda \omega \omega^{*} = w^{*}z - \omega^{*}z_0 = \omega z^{*} - \omega z^{*}_{0}
+  \lambda \omega \overline{\omega} = \overline{\omega}z - \overline{\omega}z_0 = \omega \overline{z} - \omega \overline{z_0}
 \]
-so for all points on the line we also have:
-\[
-  \omega^{*}z - \omega z^{*} = \omega^{*} z_0 - \omega z^{*}_{0}
-\]
+Moreover, points which satisfy this are exactly all of the points on the line as if the above holds provided $\omega \neq 0$ (as if $\omega = 0$ the above holds trivially) since:
+\begin{align*}
+  \omega(\overline{z} - \overline{z_0}) = \overline{\omega}(z - z_0) &\implies \frac{\overline{z} - \overline{z_0}}{\overline{\omega}} = \frac{z - z_0}{\omega} \\
+                                                                     &\implies \frac{z - z_0}{\omega} \in \R \\
+                                                                     &\implies z = z_0 + \lambda \omega \text{ for some } \lambda \in \R
+\end{align*}
 \subsection{Circles}
 To construct a circle centered at $c \in \C$ and radius $\rho > 0$:
 \[
   z = c + \rho e^{i\theta} \quad \theta \in \R
 \]
-Which is equivalent to:
+This is equivalent to:
 \[
   |z - c| = \rho |e^{i\theta}| = \rho
 \]
-and if we then square both sides and use $|z-c|^2 = (z - c)^{*}(z - c)$ then:
+and if we then square both sides and use $|z-c|^2 = \overline{(z - c)}(z - c)$ then:
 \[
-  |z|^2 - cz^{*}  - c^{*} z = \rho^2 - |c|^2
+  |z|^2 - c\overline{z} - \overline{c}z = \rho^2 - |c|^2
 \]
+This is an equivalent formulation of the original circle as $|z - c|, \rho \geq 0$ so squaring does not introduce additional solutions.
 \end{document}

@@ -3,13 +3,12 @@
 \chapter{Basics Of Vectors}
 \section{Definition and Axioms}
 \subsection{Introductory Definitions}
-A vector is specified by a (positive) magnitude and a direction in space.
+A vector is specified by a (non-negative) magnitude and a direction in space.
 We can represent a vector as line segment between two points $A$ and $B$, $\vec{v} = \avec{AB}$.
 $\vec{v}$ has length $|\vec{v}|$ and direction from $A$ to $B$.
-If we chose an origin $O$ then considering a point $A$ it has position vector denoted $\vec{a} = \avec{OA}$.
-\label{vectorSpaceDef}
+If we chose an origin $O$ then considering a point $A$ has \textit{position vector} $\vec{a} = \avec{OA}$.
 \begin{definition}[Vector Space]
-  A \textit{vector space}, $V$, over $\R$ or $\C$ is a collection of vectors $\vec{v} \in V$, together with two operations:
+  A \textit{vector space} $V$ over $\R$ or $\C$ is a collection of vectors, together with two operations: \label{vectorSpaceDef}
   \begin{enumerate}
     \item Addition of two vectors
     \item Multiplication by a scalar (from $\R$ or $\C$ respectively)
@@ -22,22 +21,23 @@ Vector addition has to satisfy the following axioms:
   \item \textbf{Identity -} There exists a vector $\vec{0}$ such that for all $a \in V$, $\vec{a} + \vec{0} = \vec{a}$
   \item \textbf{Inverse -} For all vectors $\vec{a} \in V$, there is a vector ($-\vec{a}$) such that $\vec{a} + (-\vec{a}) = \vec{0}$.
 \end{enumerate}
-Scalar multiplication has to satisfy the following axioms (Where $\lambda$ and $\mu$ are scalars):
+Scalar multiplication has to satisfy the following axioms, for scalar $\lambda$ and $\mu$:
 \begin{enumerate}
   \item $\lambda(\vec{a} + \vec{b}) = \lambda \vec{a} + \lambda \vec{b}$
   \item $(\lambda + \mu)\vec{a} = \lambda \vec{a} + \mu \vec{a}$
   \item $\lambda(\mu \vec{a}) = (\lambda \mu)\vec{a}$
   \item $1(\vec{a}) = \vec{a}$
 \end{enumerate}
-\begin{remark}
-  Vectors under addition are an abelian group.
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Vectors under addition form an abelian group.
+    \item $\R^{n}$ (i.e. the set of all $n$-tuples with entries in $\R$) is a vector space over $\R$ with component-wise addition and component-wise scalar multiplication.
+  \end{itemize}
 \end{remark}
 \begin{remark}[Warning]
-  $\R^{n}$ is a vector space with addition (component-wise) and scalar multiplication.
-  We can represent $\R$ by a line and this could make us think that any line is a vector space however this is not true as the space does not necessarily contain $O$.
-  E.g. $x + y = d$ is not a vector space.
+  We can represent the vector space $\R$ by a line and this could lead us to think that any line is a vector space however this is not true as the space does not necessarily contain $\vec{0}$.
+  For example $x + y = d$ is not a vector space for $d \neq 0$.
 \end{remark}
-
 \subsection{Geometric View}
 Given vectors $\vec{a}$ and $\vec{b}$ which are the position vectors of $A$ and $B$ respectively, we can construct the parallelogram $OACB$:
 \begin{center}
@@ -61,12 +61,9 @@ Given vectors $\vec{a}$ and $\vec{b}$ which are the position vectors of $A$ and 
   \draw[->, thick, black] (O) -- (C) node[midway, right] {$\vec{a} + \vec{b}$};
 \end{tikzpicture}
 \end{center}
-
 and then $\vec{a} + \vec{b} = \vec{c}$, where $\vec{c}$ is the position vector of $C$.
 
-Given a vector $\vec{a}$ which is the position vector of a point $A$ and a $\lambda \in \R$.
-$\lambda \vec{a}$ is a position vector of a point on the line through $OA$, with length $|\lambda \vec{a}| = |\lambda||\vec{a}$.
-
+Given a vector $\vec{a} \neq \vec{0}$ which is the position vector of a point $A$ and some $\lambda \in \R$, $\lambda \vec{a}$ is a position vector of a point on the line through $OA$, with length $|\lambda \vec{a}| = |\lambda||\vec{a}|$.
 \begin{center}
 \begin{tikzpicture}[scale=2,>=stealth]
   \coordinate (O) at (0,0);
@@ -108,60 +105,68 @@ We can also define the ``space'' of all linear combinations of a set of vectors:
 \begin{definition}[Span]
   Given $n$ vectors $\vec{r}_1, \vec{r}_2, \ldots, \vec{r}_n$, their \textit{span} is the set of all linear combinations of those vectors.
   \[
-    \Span\{\vec{r}_1, \vec{r}_2, \ldots, \vec{r}_n\} = \left\{\sum_{i = 1}^{n} \lambda_i \vec{r}_i : \lambda_i \in K\right\}
+    \Span\{\vec{r}_1, \vec{r}_2, \ldots, \vec{r}_n\} = \left\{\sum_{i = 1}^{n} \lambda_i \vec{r}_i : \lambda_i \text{ scalars}\right\}
   \]
-  where $K$ is either $\C$ or $\R$ depending on the vector space.
 \end{definition}
-\begin{definition}[Parallel]
+\begin{definition}[Parallel] \label{parallelDef}
   Any two vectors $\vec{a}$ and $\vec{b}$ are \textit{parallel} if $\vec{a} = \lambda \vec{b}$ or $\vec{b} = \lambda \vec{a}$ for some $\lambda \in \R$.
   We denote this $\vec{a} \parallel \vec{b}$.
 \end{definition}
 \begin{remark}[Note]
   Since we allow $\lambda = 0$, $\vec{0} \parallel \vec{a}$ for any $\vec{a}$.
 \end{remark}
-If $\vec{a} \centernot\parallel \vec{b}$ ($\vec{a}$ and $\vec{b}$ are not parallel), then $\Span\{\vec{a}, \vec{b}\}$ is a plane through $O$, $A$, and $B$.
+If $\vec{a} \centernot\parallel \vec{b}$ ($\vec{a}$ and $\vec{b}$ are not parallel), then $\Span\{\vec{a}, \vec{b}\}$ is the plane passing through $O$, $A$, and $B$.
 \begin{definition}[Unit Vector]
   A \textit{unit vector} is a vector with length $1$.
-  They are denoted $\uvec{v}$.
+  They are sometimes denoted with a hat, for example $\uvec{n}$.
 \end{definition}
-\section{Scalar Product}
+\section{Scalar and Inner Products}
 \label{innerProd}
 The \textit{scalar product} of two vectors within a vector space returns a scalar (either real or complex).
-\subsection{Geometric Viewpoint in \texorpdfstring{$\R^{n}$}{Real Vector Spaces}}
-First consider the usual scalar product in $\R^{n}$.
+\subsection{Geometric Viewpoint in \texorpdfstring{$\R^{3}$}{3 dimensions}}
+We will first define the standard \textit{scalar product} or \textit{dot product} in $\R^{3}$.
 \begin{definition}[Scalar Product]
-  The \textit{scalar product} of two vectors $\vec{a}$ and $\vec{b}$ is defined as:
+  The \textit{scalar or dot product} of two vectors $\vec{a}$ and $\vec{b}$ is defined geometrically as:
   \[
     \vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}|\cos\theta
   \]
   where $\theta$ is the angle between $\vec{a}$ and $\vec{b}$.
 \end{definition}
 \begin{remark}[Note]
-  If $|\vec{a}| = 0$ or $|\vec{b}| = 0$ then $\theta$ is not well defined, but in that case we have $\vec{a} \cdot \vec{b} = 0$.
+  If $|\vec{a}| = 0$ or $|\vec{b}| = 0$ then $\theta$ is not well defined, but in this case we just have $\vec{a} \cdot \vec{b} = 0$.
 \end{remark}
-Intuitively the dot product is the product of the parts of $\vec{a}$ and $\vec{b}$ that are parallel.
+Intuitively the scalar product is the product of the parts of $\vec{a}$ and $\vec{b}$ that are parallel.
 
-The scalar product in $\R^{n}$ satisfies the following properties:
+The scalar product satisfies the following properties:
 \begin{enumerate}
-  \item $\vec{a} \cdot \vec{b} = \vec{b} \cdot \vec{a}$
-  \item $\vec{a} \cdot \vec{a} = |\vec{a}|^2 \geq 0$ (and $|\vec{a}| = 0 \iff \vec{a} = \vec{0}$)
+  \item \textbf{Symmetric -} $\vec{a} \cdot \vec{b} = \vec{b} \cdot \vec{a}$
+  \item \textbf{Positive Definite -} $\vec{a} \cdot \vec{a} = |\vec{a}|^2 \geq 0$ (and $|\vec{a}| = 0 \iff \vec{a} = \vec{0}$)
   \item $(\lambda \vec{a}) \cdot \vec{b} = \lambda (\vec{a} \cdot \vec{b}) = \vec{a} \cdot (\lambda \vec{b})$
-  \item $\vec{a} \cdot (\vec{b} + \vec{c}) = \vec{a} \cdot \vec{b} + \vec{a} \cdot \vec{c}$
+  \item \textbf{Distributive over Addition -} $\vec{a} \cdot (\vec{b} + \vec{c}) = \vec{a} \cdot \vec{b} + \vec{a} \cdot \vec{c}$
 \end{enumerate}
 \begin{definition}[Orthogonal]
-  Any two vectors $\vec{a}$ and $\vec{b}$ are \textit{orthogonal} or \textit{perpendicular} if $\vec{a} \cdot \vec{b} = 0$.
+  Any two vectors $\vec{a}$ and $\vec{b}$ are said to be \textit{orthogonal} or \textit{perpendicular} if $\vec{a} \cdot \vec{b} = 0$.
   We denote this $\vec{a} \perp \vec{b}$.
 \end{definition}
 \begin{remark}[Note]
-  We also also allow $\vec{a} = \vec{0}$ or $\vec{b} = \vec{0}$ and hence $\vec{0}$ is orthogonal to any other vector.
+  This definition allows for $\vec{a} = \vec{0}$ or $\vec{b} = \vec{0}$ and hence $\vec{0}$ is orthogonal to any other vector.
 \end{remark}
 \begin{definition}[Projection]
-  Given two vectors $\vec{a}$ and $\vec{b}$, the projection of $\vec{b}$ onto $\vec{a}$ is:
+  Given a unit vector $\uvec{a}$ and vector $\vec{b}$, the vector projection of $\vec{b}$ onto $\uvec{a}$ is:
   \[
     \uvec{a}|\vec{b}|\cos \theta = (\uvec{a} \cdot \vec{b}) \uvec{a}
   \]
 \end{definition}
-
+\begin{remark}
+  \begin{enumerate}
+    \item If we just want the component of $\vec{b}$ parallel to $\uvec{a}$, then we can just use $(\uvec{a} \cdot \vec{b})$.
+    \item If $\vec{a}$ is instead any non-zero vector, then we can also write the projection of $\vec{b}$ onto the line of $\vec{a}$ as:
+      \[
+        \frac{\vec{a} \cdot \vec{b}}{|\vec{a}|^2} \vec{a} = \frac{\vec{a} \cdot \vec{b}}{\vec{a} \cdot \vec{a}} \vec{a}
+      \]
+  \end{enumerate}
+\end{remark}
+Geometrically, this is:
 \begin{center}
 \begin{tikzpicture}[scale=2,>=stealth]
   \coordinate (O) at (0,0);
@@ -187,64 +192,65 @@ The scalar product in $\R^{n}$ satisfies the following properties:
 \end{center}
 We can use the scalar product to quickly derive the cosine rule:
 \begin{proof}
+  For a triangle $ABC$, we have:
   \begin{align*}
     |\avec{BC}|^2 &= |\avec{AC} - \avec{AB}|^2 \\
                   &= (\avec{AC} - \avec{AB}) \cdot (\avec{AC} - \avec{AB}) \\
                   &= |\avec{AC}|^2 - 2 \avec{AB} \cdot \avec{AC} + |\avec{AB}|^2 \\
                   &= |\avec{AC}|^2 + |\avec{AB}|^2 - 2 |\avec{AB}||\avec{AC}|\cos\theta
   \end{align*}
+  which is the cosine rule.
 \end{proof}
-\subsection{General Algebraic Viewpoint}
-This definition generalises to any other vector space, keeping the same axioms.
-\begin{definition}[Inner/Scalar Product]
-  In a real vector space $V$, an \textit{inner product} or \textit{scalar product} is a map $V \times V \to \R$ that satisfies:
+\subsection{Inner Products}
+We can generalise the properties of the scalar product to an \textit{inner product} on an arbitrary vector space:
+\begin{definition}[Inner Product]
+  In a real vector space $V$, an \textit{inner product} is a map $\cdot: V \times V \to \R$ that satisfies: \label{innerProductDef}
   \begin{enumerate}
     \item \textbf{Symmetry -} $\vec{x} \cdot \vec{y} = \vec{y} \cdot \vec{x}$
     \item \textbf{Linearity in 2nd Argument -} $\vec{x} \cdot(\lambda \vec{y} + \mu \vec{z}) = \lambda \vec{x} \cdot \vec{y} + \mu \vec{x} \cdot \vec{z}$
     \item \textbf{Positive Definiteness - } $\vec{x} \cdot \vec{x} \geq 0$ with equality if and only if $\vec{x} = \vec{0}$
   \end{enumerate}
-  We denote it either $\vec{x} \cdot \vec{y}$ or $\inner{\vec{x}}{\vec{y}}$.
+  We denote the inner product between $\vec{x}$ and $\vec{y}$ as either $\vec{x} \cdot \vec{y}$ or $\inner{\vec{x}}{\vec{y}}$.
 \end{definition}
 \begin{remark}[Note]
-  We get linearity in the first argument also because of symmetry.
+  We only need to require linearity in the second argument as linearity in the first argument follows from symmetry.
 \end{remark}
+So the scalar/dot product we defined on $\R^3$ (and as we will later define on $\R^{n}$ in \cref{innerProd}) is a valid inner product since it satisfies the above three properties.
 \begin{definition}[Norm]
-  The norm of a vector $\vec{a}$ is given by $\sqrt{\vec{a} \cdot \vec{a}}$.
-  We denote this as either $|\vec{a}|$ or $\norm{\vec{a}}$.
+  We define the \textit{norm} of a vector $\vec{a}$ as $\sqrt{\vec{a} \cdot \vec{a}}$.
+  This is denoted as either $|\vec{a}|$ or $\norm{\vec{a}}$.
 \end{definition}
 \begin{theorem}[Cauchy-Schwarz Inequality]
   \label{cauchySchwarz}
-  For all $\vec{x}, \vec{y} \in \R^{n}$,
+  For all $\vec{x}, \vec{y} \in \R^{n}$:
   \[
     |\vec{x} \cdot \vec{y}| \leq |\vec{x}||\vec{y}|
   \]
+  with equality if and only if $\vec{x} \parallel \vec{y}$.
 \end{theorem}
 \begin{proof}
   Consider the expression $|x - \lambda y|^2$, $\lambda \in \R$.
   Then,
   \begin{align*}
     |\vec{x} - \lambda\vec{y}|^2 &\geq 0 \\
-    (\vec{x} - \lambda \vec{y}) \cdot (\vec{x} - \lambda \vec{y}) &\geq 0 \\
-    \abs{\vec{x}}^2 + \lambda^2 \abs{\vec{y}}^2 - 2\lambda \vec{x} \cdot \vec{y} &\geq 0 \\
-    (\lambda^2 \abs{\vec{y}}^2 - 2 \vec{x} \cdot \vec{y} \lambda + \abs{\vec{x}}^2) &\geq 0
+    \implies (\vec{x} - \lambda \vec{y}) \cdot (\vec{x} - \lambda \vec{y}) &\geq 0 \\
+    \implies \abs{\vec{x}}^2 + \lambda^2 \abs{\vec{y}}^2 - 2\lambda \vec{x} \cdot \vec{y} &\geq 0 \\
+    \implies (\lambda^2 \abs{\vec{y}}^2 - 2 \vec{x} \cdot \vec{y} \lambda + \abs{\vec{x}}^2) &\geq 0
   \end{align*}
-  This quadratic always needs to be non-negative so we require the discriminant to be less than or equal to zero.
+  If $\vec{b} = \vec{0}$, then the result follows trivially, otherwise, the above is a quadratic that is is non-negative for all $\lambda \in \R$.
+  Because of this, it must have at most one real root and so its discriminant must be less than or equal to 0, thus:
   \begin{align*}
     4(\vec{x} \cdot \vec{y})^2 - 4 \abs{\vec{x}}^2 \abs{\vec{y}}^2 &\leq 0 \\
-    \abs{\vec{x} \cdot \vec{y}} &\leq \abs{\vec{x}} \abs{\vec{y}}
+    \iff \abs{\vec{x} \cdot \vec{y}} &\leq \abs{\vec{x}} \abs{\vec{y}}
   \end{align*}
+
+  \textbf{Equality}\par
+    In the case of $\vec{b} = \vec{0}$, we have equality and $\vec{a} \parallel \vec{b}$ as every vector is parallel to $\vec{0}$.
+    Otherwise, we require $|\vec{x} \cdot \vec{y}| = |\vec{x}||\vec{y}|$, so there is equality if and only if there is exactly one root in the above quadratic.
+    Thus there is equality if and only if there is a unique value $\lambda \in \R$ such that $|\vec{x} - \lambda \vec{y}| = 0 \iff \vec{x} = \lambda \vec{y} \iff \vec{x} \parallel \vec{y}$, as required.
 \end{proof}
-Notice that this proof holds for all possible scalar products on any real vector space as we only used the axioms of the scalar product.
-\begin{remark}
-  Equality ($\abs{\vec{x} \cdot \vec{y}} = \abs{\vec{x}}\abs{\vec{y}}$) holds if and only if $\vec{x} = \lambda \vec{y}$ or $\vec{y} = \lambda \vec{x}$ for some $\lambda \in \R$ (i.e. $\vec{x}$ and $\vec{y}$ are parallel).
-\end{remark}
-We can now set:
-\[
-  \vec{x} \cdot \vec{y} = |\vec{x}||\vec{y}|\cos\theta
-\]
-to define the angle between $\vec{x}$ and $\vec{y}$ in $\R^{n}$ since Cauchy-Schwarz ensures that $-1 \leq \cos \theta \leq 1$.
 \begin{corollary}[Triangle Inequality]
-  For two vectors $\vec{x}, \vec{y}$
+  For two vectors $\vec{x},\ \vec{y} \in \R^{n}$:
   \[
     \abs{\vec{x} + \vec{y}} \leq \abs{\vec{x}} + \abs{\vec{y}}
   \]
@@ -253,35 +259,52 @@ to define the angle between $\vec{x}$ and $\vec{y}$ in $\R^{n}$ since Cauchy-Sch
   \begin{align*}
     \abs{\vec{x} + \vec{y}}^2 &= (\vec{x} + \vec{y}) \cdot (\vec{x} + \vec{y}) \\
                               &= \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \vec{x} \cdot \vec{y} \\
-                              &\leq \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \abs{\vec{x}}\abs{\vec{y}} \\
+                              &\leq \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \abs{\vec{x} \cdot \vec{y}} \text{ as $a \leq |a|$}\\
+                              &\leq \abs{\vec{x}}^2 + \abs{\vec{y}}^2 + 2 \abs{\vec{x}}\abs{\vec{y}} \text{ by Cauchy-Schwarz}\\
                               &= (\abs{\vec{x}} + \abs{\vec{y}})^2
   \end{align*}
   Therefore $\abs{\vec{x} + \vec{y}} \leq \abs{\vec{x}} + \abs{\vec{y}}$.
 \end{proof}
-
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Exactly as we did with complex numbers in \cref{modulusProperties}, we can also derive the inequality:
+      \[
+        |\vec{x} - \vec{y}| \geq ||\vec{x}| - |\vec{y}||
+      \]
+    \item The above proofs only used the axiomatic properties of inner products and so hold for all possible inner products, not just the scalar/dot product.
+  \end{itemize}
+\end{remark}
 \section{Orthonormal Bases}
 \label{orthonormalBasis}
 \begin{remark}[Note]
-For this section, consider vectors in $\R^{3}$ only.
+  For this section, consider an arbitrary three dimensional vector space $V$.
+  We will rigorously define the notion of ``three dimensional'' later, but for now, it means what you (hopefully) think it means.
 \end{remark}
-Consider vectors $\vec{e}_1, \vec{e}_2, \vec{e}_3$ that are orthonormal:
+A set of vectors $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ is orthonormal if:
 \[
   \abs{\vec{e}_1} = \abs{\vec{e}_2} = \abs{\vec{e}_3} = 1 \text{ and } \vec{e}_i \cdot \vec{e}_j = \begin{cases}
   1 & i=j \\
   0 & i\neq j
   \end{cases}
 \]
-That is, they are all length 1 and are mutually orthogonal.
+that is, they are all length 1 and are mutually orthogonal.
 This is called an \textit{orthonormal basis} and is equivalent to choosing Cartesian axes along these directions.
-There are infinitely many choices for an orthonormal basis in $\R^{3}$.
+There are infinitely many choices for an orthonormal basis in 3D space.
+\begin{remark}
+  Although we specify the basis as the (typically unordered) set $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$, we really mean the ordered tuple $(\vec{e}_1, \vec{e}_2, \vec{e}_3)$ since we are introducing components which depend on the order of the basis vectors.
 
-Any vector in $\R^{3}$ can be written as a combination of these:
+  If components are not needed (such as will be the case in most of IB Linear Algebra), then using an unordered set is fine, however, notationally we will almost always write $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ with the ordering implicitly assumed from the indices.
+\end{remark}
+We define the \textit{components} of $\vec{a} \in V$ as $a_1, a_2, a_3 \in \R$ satisfying:
 \[
   \vec{a} = \sum_{i}^{} a_i \vec{e}_i = a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3
 \]
-Each component of $\vec{a}$ is uniquely determined by $a_i = \vec{e}_i \cdot \vec{a}$
+Each \textit{component} of $\vec{a}$ under this basis is uniquely determined by $a_i = \vec{e}_i \cdot \vec{a}$.
+\begin{remark}[Warning]
+  The components of $\vec{a}$ depend on which choice of basis we use.
+\end{remark}
 
-We will denote $\vec{a}$ as either a row vector or a column vector:
+We will denote $\vec{a}$ using its components in this basis as ether 3-component row vector or column vector:
 \[
   \vec{a} = (a_1, a_2, a_3) \text{ or } \vec{a} =
   \begin{pmatrix}
@@ -290,7 +313,17 @@ We will denote $\vec{a}$ as either a row vector or a column vector:
   a_3 \\
   \end{pmatrix}
 \]
-Now for $\vec{a}, \vec{b} \in \R^{3}$:
+Using this notation, we can represent the basis vectors as:
+\[
+  \vec{e}_1 = (1, 0, 0),\; \vec{e}_2 = (0, 1, 0),\; \vec{e}_3 = (0, 0, 1)
+\]
+\begin{remark} \label{canonicalBasisRemark}
+  In $\R^3$ specifically (i.e. the vector space of all 3-tuples with components in $\R$), we already use this 3-component notation.
+  We call the orthonormal basis defined by $\uvec{i} = (1, 0, 0),\ \uvec{j} = (0, 1, 0),\ \uvec{k} = (0, 0, 1)$ the \textit{canonical basis}.
+
+  However, since every vector in 3D vector space can be identified by its three components in some basis, we often just refer to any 3D space as $\R^3$, even if it isn't using the \textit{canonical} basis of $\R^3$.
+\end{remark}
+For any $\vec{a}, \vec{b}\in V$ we can then find $\vec{a} \cdot \vec{b}$ in terms of their components in this basis using the linearity of the inner product:
 \begin{align*}
   \vec{a} \cdot \vec{b} &= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) \cdot (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
                         &= a_1 b_1 + a_2 b_2 + a_3 b_3
@@ -299,18 +332,9 @@ In particular:
 \[
   \vec{a} \cdot \vec{a} = \abs{\vec{a}}^2 = a^{2}_{1} + a^{2}_{2} + a^{2}_{3}
 \]
-
-The \textit{canonical basis} of $\R^{3}$, the one we use for the representation in terms of row or column vectors is:
-\[
-  \vec{e}_1 = (1, 0, 0),\; \vec{e}_2 = (0, 1, 0),\; \vec{e}_3 = (0, 0, 1)
-\]
-\begin{remark}[Notation]
-The canonical orthonormal basis vectors for $\R^{3}$ are usually denoted $\uvec{i}$, $\uvec{j}$, $\uvec{k}$.
-\end{remark}
-
 \section{Vector Product}
 \begin{remark}[Note]
-For this section, consider vectors in $\R^{3}$ only.
+For this section, consider vectors in $\R^{3}$ only, where from now on, we use $\R^3$ to mean some three dimensional space where we represent a vector as $\vec{a} = (a_1, a_2, a_3)$.
 \end{remark}
 \subsection{Definition}
 \begin{definition}[Vector Product]
@@ -322,9 +346,11 @@ For this section, consider vectors in $\R^{3}$ only.
   It is sometimes denoted $\vec{a} \wedge \vec{b}$.
 \end{definition}
 \begin{remark}[Right-Hand Rule]
-  If $\vec{a}$ is on your first finger and $\vec{b}$ is on your second finger then $\vec{a} \times \vec{b}$ points in the direction of your thumb.
+  By convention, we choose $\uvec{n}$ (out of the two possible choices) so that if $\vec{a}$ is on your first finger and $\vec{b}$ is on your second finger then $\vec{a} \times \vec{b}$ points in the direction of your thumb.
+  We then call $\{\vec{a}, \vec{b}, \vec{a} \times \vec{b}\}$ a \textit{right handed set}.
+  Note that similarly to with a basis, the order of these three vectors matter (up to cycling).
 \end{remark}
-
+Geometrically, this looks like:
 \begin{center}
 \begin{tikzpicture}[>=stealth]
 \draw[thick,->] (0,0) -- (3,0) node[midway,below] {$\vec{a}$};
@@ -334,21 +360,25 @@ For this section, consider vectors in $\R^{3}$ only.
 \end{tikzpicture}
 \end{center}
 \begin{remark}
-  $\uvec{n}$ is not defined if $\vec{a}$ and $\vec{b}$ are parallel but $\theta = 0 \text{ or } \pi$ so $\vec{a} \times \vec{b} = \vec{0}$.
+  We have infinitely many choices for $\uvec{n}$ if $\vec{a}$ and $\vec{b}$ are parallel but then $\theta = 0 \text{ or } \pi$ and so $\vec{a} \times \vec{b} = \vec{0}$ regardless.
 
-  $\theta$ is not defined if $\abs{\vec{a}} = 0$ or $\abs{\vec{b}} = 0$ but then $\vec{a} \times \vec{b} = \vec{0}$ regardless.
+  Similarly, $\theta$ is not defined if $\abs{\vec{a}} = 0$ or $\abs{\vec{b}} = 0$ but then $\vec{a} \times \vec{b} = \vec{0}$ regardless.
 \end{remark}
-Some properties of the vector product are:
+\textbf{Properties of the Vector Product} \label{vectorProdProperties} \par
 \begin{enumerate}
-  \item $\vec{a} \times \vec{b} = - \vec{b} \times \vec{a}$ (Anti-symmetric)
-  \item $\vec{a} \times \vec{a} = \vec{0}$
-  \item $\vec{a} \times \vec{b} = 0 \iff \vec{a} = \lambda \vec{b}$ for some $\lambda \in \R$
+  \item $\vec{a} \times \vec{b} = - \vec{b} \times \vec{a}$ since it now needs to point in the opposite direction for the triple to be right handed.
+    This property makes the vector product \textit{anti-symmetric}.
+  \item $\vec{a} \times \vec{a} = \vec{0}$ as $\vec{a} \parallel \vec{a}$.
+  \item $\vec{a} \times \vec{b} = \vec{0} \iff \vec{a} \parallel \vec{b}$, note that this includes the cases where either $\vec{a} = \vec{0}$ or $\vec{b} = \vec{0}$ as $\vec{0}$ is parallel to every vector.
   \item $(\lambda \vec{a}) \times \vec{b} = \lambda (\vec{a} \times \vec{b}) = \vec{a} \times (\lambda \vec{b})$
-  \item $\vec{a} \times (\vec{b} + \vec{c}) = \vec{a} \times \vec{b} + \vec{a} \times \vec{c}$
-  \item $\vec{a} \cdot (\vec{a} \times \vec{b}) = \vec{b} \cdot (\vec{a} \times \vec{b}) = 0$
+  \item $\vec{a} \times (\vec{b} + \vec{c}) = \vec{a} \times \vec{b} + \vec{a} \times \vec{c}$. This can be seen by considering the component forms of the vector product in \cref{vectorProdComponents} or by considering the projections of $\vec{b}$ and $\vec{c}$ onto the plane perpendicular to $\vec{a}$ and then applying the plane projection and rotation interpretation in \cref{vectorProdRotate} below.
+  \item $\vec{a} \cdot (\vec{a} \times \vec{b}) = \vec{b} \cdot (\vec{a} \times \vec{b}) = 0$ as $\vec{a} \times \vec{b}$ is orthogonal to both $\vec{a}$ and $\vec{b}$.
 \end{enumerate}
 \subsection{Geometric Uses}
-For vectors $\vec{a}, \vec{b}$ then $\vec{a} \times \vec{b}$ is the vector area of the parallelogram.
+For vectors $\vec{a}, \vec{b}$ then $\vec{a} \times \vec{b}$ is the \textit{vector area} of the parallelogram.
+\begin{remark}[Vector Area]
+  For a finite planar area, the vector area is a unit normal scaled by its area.
+\end{remark}
 For example with $\sin \theta \geq 0$ we have:
 \[
   \abs{\vec{a} \times \vec{b}} = \abs{\vec{a}} \abs{\vec{b}} \sin \theta = \text{base} \times \text{perpendicular height} = \text{area}
@@ -395,7 +425,8 @@ This can also be used to find the area of triangle $OAB = \frac{1}{2} \abs{\vec{
 \end{tikzpicture}
 \end{center}
 \label{vectorProdRotate}
-We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then computing $\vec{a} \times \vec{x}$ gives another vector that scales $\vec{x}$ by $|\vec{a}|$ and rotates it by $\pi/2$ in a plane that is orthogonal to $\vec{a}$.
+We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$.
+Since $(\vec{a}, \vec{x}, \vec{a} \times \vec{x})$ has to be an orthogonal right handed triple, computing $\vec{a} \times \vec{x}$ yields another vector that scales $\vec{x}$ by $|\vec{a}|$ and rotates it by $\pi/2$ anti-clockwise (when looking into the tip of $\vec{a}$) in the plane orthogonal to $\vec{a}$.
 \begin{center}
 \begin{tikzpicture}[>=stealth]
 \draw[gray, dashed] (-1,-0.5) -- (3.5, -0.5) -- (4.5, 1.2) -- (0.7, 1.2) -- cycle;
@@ -405,38 +436,44 @@ We can also fix a vector $\vec{a}$ and consider $\vec{a} \perp \vec{x}$. Then co
 \draw[->] (0.6,0) arc [start angle=0,end angle=45,radius=0.6] node[pos=0.7,right] {$\pi/2$};
 \end{tikzpicture}
 \end{center}
-If the vector $\vec{x}$ is not originally on the plane, taking $\vec{a} \times \vec{x}$ first projects $\vec{x}$ onto the plane and then carries out the same operation as above.
-\subsection{Component Expressions}
-Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
-If we impose the further restriction that:
-\begin{align*}
-  \vec{e}_1 \times \vec{e}_2 &= \vec{e}_3 = -\vec{e}_2 \times \vec{e}_1 \\
-  \vec{e}_2 \times \vec{e}_3 &= \vec{e}_1 = -\vec{e}_3 \times \vec{e}_2 \\
-  \vec{e}_3 \times \vec{e}_1 &= \vec{e}_2 = -\vec{e}_3 \times \vec{e}_1
-\end{align*}
-Then this is a \textit{right-handed} orthonormal basis.
+If the vector $\vec{x}$ is not originally on the plane, taking $\vec{a} \times \vec{x}$ first projects $\vec{x}$ onto the plane (due to the $\sin \theta$ in the expression for $\vec{a} \times \vec{x}$) and then carries out the same operation as above.
+So, overall, we can think of $\vec{a} \times \vec{x}$ as the projection of $\vec{x}$ onto the plane orthogonal to $\vec{a}$ which is then rotated by $\pi/2$ anticlockwise.
+\subsection{Component Expressions} \label{vectorProdComponents}
+\begin{definition}[Right-Handed Orthonormal Basis] \label{rightHandedOrtho}
+  Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
+  If we further have that:
+  \begin{align*}
+    \vec{e}_1 \times \vec{e}_2 &= \vec{e}_3 = -\vec{e}_2 \times \vec{e}_1 \\
+    \vec{e}_2 \times \vec{e}_3 &= \vec{e}_1 = -\vec{e}_3 \times \vec{e}_2 \\
+    \vec{e}_3 \times \vec{e}_1 &= \vec{e}_2 = -\vec{e}_3 \times \vec{e}_1
+  \end{align*}
+  then we say that it is a \textit{right-handed} (or sometimes \textit{positively oriented}) orthonormal basis.
+\end{definition}
 Now consider $\vec{a} = (a_1, a_2, a_3)$ and $\vec{b} = (b_1, b_2, b_3)$ then:
 \begin{align*}
   \vec{a} \times \vec{b} &= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) \times (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
                          &= (a_1 b_2 \vec{e}_3 - a_1 b_3 \vec{e}_2 - a_2 b_1 \vec{e}_3 + a_2 b_3 \vec{e}_1 + a_3 b_1 \vec{e}_2 - a_3 b_2 \vec{e}_1) \\
                          &= (a_2 b_3 - a_3 b_2) \vec{e}_1 + (a_3 b_1 - a_1 b_3) \vec{e}_2 + (a_1 b_2 - a_2 b_1) \vec{e}_3
 \end{align*}
-We can also write this as a matrix determinant:
-\[
-  \vec{a} \times \vec{b} =\begin{vmatrix}
-  \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
-  a_1 & a_2 & a_3 \\
-  b_1 & b_2 & b_3 \\
-  \end{vmatrix}
-\]
+\begin{remark}
+  The component expansion of the cross product can be memorised as the expansion of the following matrix determinant along the top row:
+  \[
+    \vec{a} \times \vec{b} = \begin{vmatrix}
+    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+    a_1 & a_2 & a_3 \\
+    b_1 & b_2 & b_3 \\
+    \end{vmatrix}
+  \]
+  Matrix determinants will be covered later in the course in \cref{determinants}.
+\end{remark}
 \section{Triple Products}
 \begin{remark}[Note]
-For this section, consider vectors in $\R^{3}$ only.
+  Again, for this section, consider vectors in $\R^{3}$ only.
 \end{remark}
 \subsection{Scalar Triple Product}
 \label{scalarTripleProduct}
 \begin{definition}
-  Consider $\vec{a}, \vec{b}, \vec{c}$ then the \textit{scalar triple product} is:
+  For $\vec{a}, \vec{b}, \vec{c} \in \R^3$, we define the \textit{scalar triple product} as:
   \[
     [\vec{a}, \vec{b}, \vec{c}] = \vec{a} \cdot (\vec{b} \times \vec{c})
   \]
@@ -446,23 +483,27 @@ Cyclic permutations of $\vec{a}, \vec{b}, \vec{c}$ retain the value of the scala
   &\vec{a} \cdot (\vec{b} \times \vec{c}) = \vec{b} \cdot (\vec{c} \times \vec{a}) = \vec{c} \cdot (\vec{a} \times \vec{b}) \\
   &= -\vec{a} \cdot (\vec{c} \times \vec{b}) = -\vec{b} \cdot (\vec{a} \times \vec{c}) = -\vec{c} \cdot (\vec{b} \times \vec{a})
 \end{align*}
+Moreover, since the dot product is symmetric, the order of $\cdot$ and $\times$ does not matter, so $\vec{a} \cdot (\vec{b} \times \vec{c}) = (\vec{b} \times \vec{c}) \cdot \vec{a}$.
+
 Geometrically, $|\vec{a} \cdot (\vec{b} \times \vec{c})|$ is the volume of the parallelepiped with sides $\vec{a}$, $\vec{b}$, $\vec{c}$.
 \[
   |\vec{a} \cdot (\vec{b} \times \vec{c})| = (\text{area of base}) \times(\text{perpendicular height}) = \text{volume}
 \]
 If this is taken without the modulus then $\vec{a} \cdot (\vec{b} \times \vec{c})$ is a signed volume.
+We also have the following:
 \begin{itemize}
   \item $\vec{a} \cdot (\vec{b} \times \vec{c}) > 0$ then $\vec{a}, \vec{b}, \vec{c}$ constitute a right handed set.
   \item $\vec{a} \cdot (\vec{b} \times \vec{c}) < 0$ then $\vec{a}, \vec{b}, \vec{c}$ constitute a left handed set.
-  \item $\vec{a} \cdot (\vec{b} \times \vec{c}) = 0$ if and only if $\vec{a}, \vec{b}, \vec{c}$ are coplanar. That is, one of them is a linear combination of the other two.
+  \item $\vec{a} \cdot (\vec{b} \times \vec{c}) = 0$ if and only if $\vec{a}, \vec{b}, \vec{c}$ are coplanar, that is, one of them is a linear combination of the other two.
 \end{itemize}
 \subsection{Vector Triple Product}
 \begin{definition}[Vector Triple Product]
-  $\vec{a}, \vec{b}, \vec{c} \in \R^{3}$ then the \textit{vector triple product} is:
-  \[
-    \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c}
-  \]
+  For vectors $\vec{a}, \vec{b}, \vec{c} \in \R^{3}$, we define the \textit{vector triple product} as:
+  \begin{equation}
+    \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c} \label{tripleProductExpansion}
+  \end{equation}
 \end{definition}
+We will show the equivalent form on the right hand side in \cref{suffixApplications} after we have introduced suffix notation and summation convention.
 \begin{remark}[Warning]
   In general the vector triple product is not associative:
   \begin{align*}
@@ -472,11 +513,10 @@ If this is taken without the modulus then $\vec{a} \cdot (\vec{b} \times \vec{c}
 \end{remark}
 \section{Lines, Planes, and Vector Equations}
 \subsection{Lines}
-Any point on the line through a point $\vec{a}$ with direction $\vec{u}$ ($\vec{u} \neq 0$) has position vector given by:
+Considering vectors in either $\R^2$ or $\R^3$, any point on the line through a point $\vec{a}$ with direction $\vec{u} \neq \vec{0}$ has position vector given by:
 \[
   \vec{r} = \vec{a} + \lambda \vec{u} \quad \lambda \in \R
 \]
-
 \begin{center}
 \begin{tikzpicture}[scale=2,>=stealth]
   \coordinate (O) at (0.6,-0.5);
@@ -497,47 +537,53 @@ Any point on the line through a point $\vec{a}$ with direction $\vec{u}$ ($\vec{
   \node[above left] at (A) {$A$};
 \end{tikzpicture}
 \end{center}
-We can rearrange this to get:
+We can rearrange this to yield:
 \begin{align*}
-  (\vec{r} - \vec{a}) &= \lambda \vec{u} \\
-  (\vec{r} - \vec{a}) \times \vec{u} &= \vec{0}
+  \vec{r} &= \lambda \vec{u} \\
+  \iff (\vec{r} - \vec{a}) &= \lambda \vec{u} \\
+  \iff (\vec{r} - \vec{a}) \times \vec{u} &= \vec{0}
 \end{align*}
 or equivalently $\vec{r} \times \vec{u} = \vec{b}$.
+The final implication works both ways here as since $\vec{u} \neq \vec{0}$, $(\vec{r} - \vec{a}) \times \vec{u} = \vec{0} \implies \vec{r} - \vec{a} = \lambda \vec{u}$ from the properties of the vector product seen in \cref{vectorProdProperties}.
 \subsection{Planes}
-Any point on a plane though $\vec{a}$ with two direction vectors $\vec{u}$, $\vec{v}$ ($\vec{u} \centernot\parallel \vec{v}$) has position vector given by:
+Considering vectors $\R^3$, any point on a plane though $\vec{a}$ with two direction vectors $\vec{u}$, $\vec{v}$ such that $\vec{u} \centernot\parallel \vec{v}$ has position vector given by:
 \[
   \vec{r} = \vec{a} + \lambda \vec{u} + \mu \vec{v} \quad \lambda, \mu \in \R
 \]
-A vector normal to the plane is given by $\vec{n} = \vec{u} \times \vec{v}$. Then we can write:
+We can find a vector normal to the plane using the cross product $\vec{n} = \vec{u} \times \vec{v} \neq \vec{0}$.
+The equivalent formulations of the plane then follow:
 \[
   \vec{r} \cdot \vec{n} = \vec{a} \cdot \vec{n} \text{ or } (\vec{r} - \vec{a}) \cdot \vec{n} = 0
 \]
-The component of $\vec{r}$ along $\vec{n}$ is
+This is equivalent as $(\vec{r} - \vec{a}) \cdot \vec{n} \implies \vec{r} - \vec{a} \perp \vec{n}$.
+
+The component of $\vec{r}$ along $\vec{n}$ is:
 \[
   \uvec{n} \cdot \vec{r} = \frac{\vec{n} \cdot \vec{r}}{|\vec{n}|} = \frac{k}{|\vec{n}|}
 \]
-The perpendicular distance from the origin to the plane is $\frac{|k|}{|\vec{n}|}$.
+Thus, the perpendicular distance from the origin to the plane is $\frac{|k|}{|\vec{n}|}$.
 
-If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane containing them as:
+Finally, if $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then the unique plane passing through all three of them is:
 \[
   (\vec{r} - \vec{a}) \cdot [(\vec{b} - \vec{a}) \times (\vec{c} - \vec{a})] = 0
 \]
 \begin{example}[Finding the Intersection Between a Line and a Plane]
-  Consider a line given by $\vec{u} \times \vec{r} = \vec{u} \times \vec{a}$ and a plane given by $\vec{n} \cdot \vec{r} = \vec{n} \cdot \vec{b}$.
+  Consider a line given by $\vec{r} \times \vec{u} = \vec{a} \times \vec{u}$ and a plane given by $\vec{n} \cdot \vec{r} = \vec{n} \cdot \vec{b}$.
 
-  The line can also be written as $\vec{r} \times \vec{u} = \vec{a} \times \vec{u}$.
-  Taking the vector product of this with $\vec{n}$ yields:
+  Taking the vector product the equation for the line with $\vec{n}$ yields:
   \begin{align*}
     (\vec{a} \times \vec{u}) \times \vec{n} &= (\vec{r} \times \vec{u}) \times \vec{n}\\
-                                            &= (\vec{r} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by vector triple product}\\
-                                            &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by definition of plane}\\
-    (\vec{u} \cdot \vec{n})\vec{r} &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{a} \times \vec{u}) \times \vec{n}\\
-    \vec{r} &= \frac{(\vec{b} \cdot\vec{n})\vec{u} - (\vec{a} \times \vec{u})\times\vec{n}}{\vec{u} \cdot\vec{n}} \text{ provided $\vec{u} \cdot \vec{n} = 0$}
+                                            &= (\vec{r} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by the vector triple product}\\
+                                            &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{u} \cdot \vec{n}) \vec{r} \text{ by definition of the plane}\\
+    \implies (\vec{u} \cdot \vec{n})\vec{r} &= (\vec{b} \cdot \vec{n}) \vec{u} - (\vec{a} \times \vec{u}) \times \vec{n}\\
+    \implies \vec{r} &= \frac{(\vec{b} \cdot\vec{n})\vec{u} - (\vec{a} \times \vec{u})\times\vec{n}}{\vec{u} \cdot\vec{n}} \text{, provided $\vec{u} \cdot \vec{n} = 0$}
   \end{align*}
-  In the case that $\vec{u} \cdot \vec{n} = 0$ then $\vec{u}$ is orthogonal to $\vec{n}$ so either:
+  which is then the unique point of intersection between the plane and the line.
+
+  In the case that $\vec{u} \cdot \vec{n} = 0$, $\vec{u}$ is orthogonal to $\vec{n}$ and so either:
   \begin{itemize}
-    \item The line and plane are parallel and never intersect.
-    \item The line is contained entirely within the plane so the intersection is just the line itself.
+    \item The line and plane are parallel and so never intersect.
+    \item The line is contained entirely within the plane and so the intersection is just the line itself.
   \end{itemize}
 \end{example}
 \begin{example}[Shortest Distance Between Two Lines]
@@ -546,7 +592,7 @@ If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane contain
     l_1&: \vec{u}_1 \times (\vec{r}_1 - \vec{a}_1) = \vec{0} \\
     l_2&: \vec{u}_2 \times (\vec{r}_2 - \vec{a}_2) = \vec{0}
  \end{align*}
- The shortest distance between $l_1$ and $l_2$ is attained at a line that is perpendicular to both $l_1$ and $l_2$.
+ The shortest distance between $l_1$ and $l_2$ is attained on a line that is perpendicular to both $l_1$ and $l_2$.
  That is, it is parallel to $\vec{u}_1 \times \vec{u}_2$.
  The shortest distance is then computed by projecting $(\vec{a}_1 - \vec{a}_2)$ onto $(\vec{u}_1 \times \vec{u}_2)$, namely:
  \[
@@ -554,51 +600,61 @@ If $\vec{a}, \vec{b}, \vec{c}$ are coplanar, then we can write the plane contain
  \]
 \end{example}
 \subsection{Vector Equations}
-Our goal is to solve equations of the form:
-\[
-  \vec{r} + \vec{a} \times (\vec{b} \times \vec{r}) = \vec{c}
-\]
-Using the identity $\vec{a} \times (\vec{b} \times \vec{r}) = (\vec{a} \cdot \vec{r}) \vec{b} + (\vec{a} \cdot \vec{b})\vec{r}$ yields:
+Using components to solve vector equations is quite tedious and forces us to pick a basis for our calculations, thus it is often advisable to manipulate only vectors when possible.
+
+For example, suppose we want to solve the following vector equation:
+\begin{equation}
+  \vec{r} + \vec{a} \times (\vec{b} \times \vec{r}) = \vec{c} \label{vectorEquationAst} \tag{$\ast$}
+\end{equation}
+The vector triple product here is difficult to manipulate to we expand it using the identity $\vec{a} \times (\vec{b} \times \vec{r}) = (\vec{a} \cdot \vec{r}) \vec{b} - (\vec{a} \cdot \vec{b})\vec{r}$ yields:
 \[
   \vec{r} + (\vec{a} \cdot \vec{r})\vec{b} - (\vec{a} \cdot \vec{b})\vec{r} = \vec{c}
 \]
-We then take the dot product of both sides with $\vec{a}$:
+If we then take the dot product of both sides with $\vec{a}$:
 \begin{align*}
   \vec{a} \cdot \vec{r} + \cancel{(\vec{a} \cdot \vec{r})(\vec{a} \cdot \vec{b})} - \cancel{(\vec{a} \cdot \vec{b})(\vec{a} \cdot \vec{r})} &= \vec{a} \cdot \vec{c} \\
   \vec{a} \cdot \vec{r} &= \vec{a} \cdot \vec{c}
 \end{align*}
-Thus:
-\begin{align*}
-  \vec{r} + (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{r} &= \vec{c} \\
-  \vec{r}(1 - \vec{a} \cdot \vec{b}) &= \vec{c} - (\vec{a} \cdot \vec{c}) \vec{b}
-\end{align*}
+So all solutions lie on the plane $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$, however we do not know that all of the points on the plane are solutions.
+Substituting $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$ back into the previous equation, we have that all solutions satisfy:
+\begin{align}
+  \vec{r} + (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{r} &= \vec{c} \nonumber \\
+  \implies \vec{r}(1 - \vec{a} \cdot \vec{b}) &= \vec{c} - (\vec{a} \cdot \vec{c}) \vec{b} \label{vectorEquationDag} \tag{$\dag$}
+\end{align}
+We now need to split into cases depending on the value of $\vec{a} \cdot \vec{b}$.
 \begin{proofcases}
   \begin{case}{$\vec{a} \cdot \vec{b} \neq 1$}
-    Then there is a unique solution (i.e. a point) given by:
+    Dividing through by $1 - \vec{a} \cdot \vec{b}$, we see that all solutions must satisfy:
     \[
       \vec{r} = \frac{\vec{c} - (\vec{a} \cdot \vec{c})\vec{b}}{1 - \vec{a} \cdot \vec{b}}
     \]
+    which is a single point and so there is a unique solution in this case.
   \end{case}
   \begin{case}{$\vec{a} \cdot \vec{b} = 1$}
     \begin{proofcases}
-      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c}) \neq 0$}
-        Then there are no solutions.
+      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c})\vec{b} \neq \vec{0}$}
+        In this case \cref{vectorEquationDag} becomes $\vec{0} = \vec{c} - (\vec{a} \cdot \vec{c})\vec{b} \neq \vec{0}$.
+        Since this has to be satisfied, there is no solutions as this equation can never hold.
       \end{case}
-      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c}) = 0$}
-        The set of solutions for $\vec{r}$ is $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$, that is a plane with normal vector $\vec{a}$ passing through $\vec{c}$.
+      \begin{case}{$\vec{c} - (\vec{a} \cdot \vec{c})\vec{b} = \vec{0}$}
+        From the above, we know that all solutions must lie on the plane $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$.
+        Since $\vec{a} \cdot \vec{b} = 1$, \cref{vectorEquationAst} reduces to $(\vec{a} \cdot \vec{r}) \vec{b} = \vec{c}$ and so any point that lies on the plane also satisfies the original equation as $\vec{c} = (\vec{a} \cdot \vec{c})\vec{b}$.
+        Thus the set of solutions is all the points lying on the plane $\vec{a} \cdot \vec{r} = \vec{a} \cdot \vec{c}$.
       \end{case}
     \end{proofcases}
   \end{case}
 \end{proofcases}
-
 \section{Suffix Notation and Summation Convention}
 \begin{remark}[Note]
-  For this section the indices $i, j, k$ will take values in $\{1, 2, 3\}$.
+  Thought this section we will assume the indices $i, j, k$ will take values in $\{1, 2, 3\}$.
   However this usually generalises to higher dimensions provided the vector product is not involved.
 \end{remark}
 \subsection{Kronecker Delta}
-We write vectors $\vec{a}, \vec{b}, \ldots$ in terms of their components $a_i, b_i, \ldots$, with respect to an orthonormal right-handed basis given by $\vec{e}_1, \vec{e}_2, \vec{e}_3$.
+\begin{remark}[Recap]
+  Recall from \cref{orthonormalBasis} that if we pick an orthonormal (and for this section, right-handed basis) we can write the vector $\vec{a}$ in terms of its components $a_i$ with respect to this basis as $\vec{a} = a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{b}_3$
+\end{remark}
 \begin{definition}[Kronecker Delta]
+  We define the \textit{kronecker delta} as:
   \[
     \delta_{i j} = \begin{cases}
     0 & \text{ if } i = j \\
@@ -607,15 +663,16 @@ We write vectors $\vec{a}, \vec{b}, \ldots$ in terms of their components $a_i, b
   \]
 \end{definition}
 This is symmetric, that is, $\delta_{i j} = \delta_{j i}$.
-We can now write:
+By definition of an orthonormal basis, we can now write:
 \[
   \vec{e}_i \cdot \vec{e}_j = \delta_{i j}
 \]
-For vectors $\vec{a}, \vec{b}$ we can write the scalar product as:
+We also saw that for vectors $\vec{a}$ and $\vec{b}$ we can write the scalar product as:
 \[
   \vec{a} \cdot \vec{b} = \sum_{i=1}^{3} a_i b_i
 \]
-\begin{proof}
+We can also more compactly prove this using sums and the kronecker delta:
+\begin{proof}[Using Kronecker Delta]
   \begin{align*}
     \vec{a} \cdot \vec{b} &= \left(\sum_i a_i \vec{e}_i\right) \cdot \left(\sum_j b_j \vec{e}_j\right) \\
                           &= \sum_{i,j} a_i b_j (\vec{e}_i \cdot \vec{e}_j) \\
@@ -625,6 +682,7 @@ For vectors $\vec{a}, \vec{b}$ we can write the scalar product as:
 \end{proof}
 \subsection{Levi-Civita Epsilon}
 \begin{definition}[Levi-Civita Epsilon]
+  We define the \textit{Levi-Civita} epsilon with 3 indices as: \label{lce3}
   \[
     \levi_{i j k} = \begin{cases}
     1 & (i,j,k) \text{ is an even permutation of }(1, 2, 3) \\
@@ -633,21 +691,28 @@ For vectors $\vec{a}, \vec{b}$ we can write the scalar product as:
     \end{cases}
   \]
 \end{definition}
-That is:
-\[
- \levi_{123} = \levi_{231} = \levi_{312} = 1,\; \levi_{132} = \levi_{213} = \levi_{321} = -1,\; \levi_{111} = \levi_{122} = \cdots = 0
-\]
-It is anti-symmetric, that is, if we exchange any two of the indices then the sign changes.
+\begin{remark}[Even/Odd Permutations]
+  We will cover even and odd permutations more thoroughly in \cref{permutationSection} (and from a pure perspective in IA Groups).
+  For now, it is useful to know that:
+  \[
+   \levi_{123} = \levi_{231} = \levi_{312} = 1,\; \levi_{132} = \levi_{213} = \levi_{321} = -1,\; \levi_{111} = \levi_{122} = \cdots = 0
+  \]
+\end{remark}
+We see that it is anti-symmetric, that is, if we exchange any two of the indices then we introduce a sign change.
 
-We can write:
+From how we defined a right-handed orthonormal basis in \cref{rightHandedOrtho}, we see that:
 \[
   \vec{e}_i \times \vec{e}_j = \sum_{k=1}^{3} \levi_{ijk} \vec{e}_k
 \]
-For two vectors $\vec{a}, \vec{b}$:
-\[
-  \vec{a} \times \vec{b} = \sum_{i,j,k = 1}^{3} \levi_{ijk} a_i b_j \vec{e}_k
-\]
+as if $i \neq j$, then $\levi_{i j k} = 0\ \forall k$, otherwise $\levi_{i j k} \in \{\pm 1\}$ for exactly one choice of $k$, which can be checked to be consistent with \cref{rightHandedOrtho}.
+\begin{lemma}[Component Expression for the Cross Product]
+  For two vectors $\vec{a}, \vec{b} \in \R^3$:
+  \[
+    \vec{a} \times \vec{b} = \sum_{i,j,k = 1}^{3} \levi_{ijk} a_i b_j \vec{e}_k
+  \]
+\end{lemma}
 \begin{proof}
+  Writing $\vec{a}$ and $\vec{b}$ in terms of their components, we have:
   \begin{align*}
     \vec{a} \times \vec{b} &= \left(\sum_i a_i \vec{e}_i\right) \times \left(\sum_j b_j \vec{e}_j\right) \\
                            &= \sum_{i,j} a_i b_j (\vec{e}_i \times \vec{e}_j) \\
@@ -655,26 +720,27 @@ For two vectors $\vec{a}, \vec{b}$:
                            &= \sum_{i,j,k} \levi_{i j k} a_i b_j \vec{e}_k
   \end{align*}
 \end{proof}
-We can use this to get a particular element of $\vec{a} \times \vec{b}$, for example:
+We can then use this to get a particular component of $\vec{a} \times \vec{b}$, for example:
 \begin{equation}
   \label{crossComponent}
   (\vec{a} \times \vec{b})_k = \sum_{i, j} \levi_{i j k} a_i b_j \text{ so }
   (\vec{a} \times \vec{b})_1 = \sum_{i, j} \levi_{i j 1} a_i b_j = a_2 b_3 - a_3 b_2
 \end{equation}
-
-As $\levi_{i j 1} = 1 \iff i = 2, j = 3$ and by anti-symmetry, $\levi_{i j 1} = -1 \iff i = 3, j = 2$.
+since $\levi_{i j 1} = 1 \iff i = 2,\ j = 3$ and by anti-symmetry, $\levi_{i j 1} = -1 \iff i = 3,\ j = 2$.
 \subsection{Einstein's Summation Convention}
-Indices that appear twice in an expression are normally summed.
-To simplify notation, we omit the symbol ``$\sum$'' for repeated indices and sum over them.
+Writing out and keeping track of all of these sums is quite tedious so we introduce \textit{Einstein's summation convention}.
+The key idea of which is to omit the symbol ``$\sum$'' for repeated indices and implicitly sum over them.
 \subsubsection{Rules}
 \begin{enumerate}
-  \item If an index appears only once in any term, then it is a ``free index'', so it must appear in every term of the equation, and it can take any value.
-  \item If an index appears twice in a given term, then it is summed over. It is then a ``contracted'', ``repeated'' or ``dummy'' index.
+  \item If an index appears only once in any term, then it is a \textit{free index}.
+    It must appear in every term of the equation and can take any value within a given range (in this case $\{1, 2, 3\}$).
+  \item If an index appears twice in a given term, then it is summed over. It is then a \textit{contracted}, \textit{repeated} or \textit{dummy} index.
   \item No index can appear more than twice in any term.
+    If this occurs, something has gone wrong, either a mistake has been made or we need a explicit sum.
 \end{enumerate}
 \begin{example}
   \begin{enumerate}
-    \item $a_i \delta_{i j} = a_j$ is shorthand for $\sum_{i}$.
+    \item $a_i \delta_{i j} = a_j$ is shorthand for $\sum_{i}$ on the left hand side.
     \item $\vec{a} \cdot \vec{b} = \delta_{i j} a_i b_j = a_i b_i$ is first shorthand for $\sum_{i,j}$ and then $\sum_{i}$
     \item $(\vec{a} \times \vec{b})_i = \levi_{ijk} a_j b_k$ is shorthand for $\sum_{j,k}$.
     \item $\vec{a} \cdot (\vec{b} \times \vec{c}) = \levi_{ijk} a_i b_j c_k$ is shorthand for $\sum_{i,j,k}$
@@ -691,16 +757,21 @@ To simplify notation, we omit the symbol ``$\sum$'' for repeated indices and sum
       \end{vmatrix}$
   \item $\levi_{ijk} \levi_{pqk} = \delta_{i p} \delta_{j q} - \delta_{i q} \delta_{j p}$ (Note that we are summing over $k$ on the LHS)
   \item $\levi_{ijk} \levi_{pjk} = 2\delta_{i p}$ (Note that we are summing over $j, k$ on the RHS)\par
-      This can be derived by setting $q \mapsto j$ in \textbf{ii} and then summing over $j$:
+      This can be derived by setting $q \mapsto j$ in \textbf{ii} so that we are summing over both $j$ and $k$:
       \begin{align*}
         \levi_{i j k}\levi_{p j k} &= \delta_{i p}\delta_{j j} - \delta_{i j}\delta_{j p} \text{ (Summing over $j$)}\\
-                                   &= 3\delta_{i p} - \delta_{i p} \text{ ($\delta_{j j} = 3$ as we are summing)}\\
+                                   &= 3\delta_{i p} - \delta_{i p} \text{ as $\delta_{j j} = 3$}\\
                                    &= 2\delta_{i p}
       \end{align*}
-  \item $\levi_{ijk} \levi_{ijk} = 6$ (as $(1)^2 = (-1)^2$ and there are 6 permutations of three objects)
+  \item $\levi_{ijk} \levi_{ijk} = 6$.
+    This can be derived either by setting $p \mapsto i$ in \textbf{iii} and then summing over $i$:
+    \[
+      \levi_{i j k}\levi_{i j k} = 2\delta_{i i} = 6
+    \]
+    or since the left hand side sums over all possible values of $i, j, k$ and there exactly 6 permutations of 3 objects, the summand is $(-1)^2$ or $1^2$ exactly 6 times and so the result follows.
 \end{enumerate}
-\subsection{Applications of Suffix Notation and Summation Convention}
-We can use this to show the relation:
+\subsection{Applications of Suffix Notation and Summation Convention} \label{suffixApplications}
+We can use this to show the vector triple product relation:
 \[
   \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{c}
 \]
@@ -714,12 +785,12 @@ We can use this to show the relation:
                                                 &= a_j c_j b_i - a_j b_j c_i \text{ (Summing over $j$)}\\
                                                 &= (\vec{a} \cdot \vec{c})b_i - (\vec{a} \cdot \vec{b})c_i
   \end{align*}
-  This holds for $i \in \{1, 2, 3\}$ so the result follows.
+  This holds for $i \in \{1, 2, 3\}$, thus the components of both sides match and so the result follows.
 \end{proof}
-We can also use it to prove:
-\[
-  (\vec{a} \times \vec{b}) \cdot (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{b})(\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c})|\vec{b}|^2
-\]
+We can also use it to prove the identity:
+\begin{equation}
+  (\vec{a} \times \vec{b}) \cdot (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{b})(\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c})|\vec{b}|^2 \label{sphericalTrigIdentity}
+\end{equation}
 \begin{proof}
   \begin{align*}
     (\vec{a} \times \vec{b}) \cdot (\vec{b} \times \vec{c}) &= (\vec{a} \times \vec{b})_i (\vec{b} \times \vec{c})_i \\
@@ -727,32 +798,33 @@ We can also use it to prove:
      &= \levi_{j k i} \levi_{p q i} a_j b_k b_p c_q \\
      &= (\delta_{j p}\delta_{k q} - \delta_{j q}\delta_{k p}) a_j b_k b_p c_q \\
      &= a_j b_k b_j c_k - a_j b_k b_k c_j \\
-     &= a_j b_j b_k c_j - a_j c_j b_k b_k \\
+     &= a_j b_j b_k c_k - a_j c_j b_k b_k \\
      &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) (\vec{b} \cdot \vec{b}) \\
      &= (\vec{a} \cdot \vec{b}) (\vec{b} \cdot \vec{c}) - (\vec{a} \cdot \vec{c}) |\vec{b}|^2
   \end{align*}
 \end{proof}
 
-Finally, we can use it to provide a proof for the Cauchy-Schwarz inequality (\cref{cauchySchwarz}) that works in $\R^{n}$.
+Finally, we can use it to provide another proof for the Cauchy-Schwarz inequality (\cref{cauchySchwarz}) that works in $\R^{n}$:
 \begin{proof}
   \begin{align*}
-    (\vec{x} \cdot \vec{x})(\vec{y} \cdot \vec{y}) - (\vec{x} \cdot \vec{y})^2 &= x_i x_i y_j y_j - x_i y_i x_j y_j \\
-    &= x_i y_j (x_i y_j - x_j y_i) \\
-    &= - x_j y_i (x_i y_j - x_j y_i) \\
-    &= \frac{1}{2}(x_i y_j - x_j y_i)(x_i y_j - x_j y_i) \\
-    &= \frac{1}{2}(x_i y_j - x_j y_i)^2 \\
-    &\geq 0
+    |\vec{x}|^2|\vec{y}|^2 - (\vec{x} \cdot \vec{y})^2 &= (\vec{x} \cdot \vec{x})(\vec{y} \cdot \vec{y}) - (\vec{x} \cdot \vec{y})^2 \\
+                                                       &= x_i x_i y_j y_j - x_i y_i x_j y_j \\
+                                                       &= x_i y_j (x_i y_j - x_j y_i) \\
+                                                       &= - x_j y_i (x_i y_j - x_j y_i) \text{ relabelling dummy indices $i \leftrightarrow j$}\\
+                                                       &= \frac{1}{2}(x_i y_j - x_j y_i)(x_i y_j - x_j y_i) \\
+                                                       &= \frac{1}{2}(x_i y_j - x_j y_i)^2 \\
+                                                       &\geq 0
   \end{align*}
-  Thus $|\vec{x}|^2|\vec{y}|^2 \geq (x \cdot y)^2$ with equality if and only if:
+  Thus $|\vec{x}|^2|\vec{y}|^2 \geq (\vec{x} \cdot \vec{y})^2 \iff |\vec{x}|^2|\vec{y}|^2 \geq |\vec{x} \cdot \vec{y}|$ with equality if and only if $x_i y_j = x_j y_i$ for all $i, j$.
+  If $\vec{y} = \vec{0}$, equality follows trivially, otherwise:
   \[
-    x_i y_j = x_j y_i \iff \frac{x_i}{y_i} = \frac{x_j}{y_j} = \lambda
+    x_i y_j = x_j y_i \iff \frac{x_i}{y_i} = \frac{x_j}{y_j} = \lambda\ \forall i, j \iff \vec{x} = \lambda \vec{y}
   \]
-  for all $i, j$. Equivalently, $x_i = \lambda y_i\ \forall i \iff \vec{x} = \lambda \vec{y}$.
 \end{proof}
 \subsection{Application to Spherical Trigonometry*}
 \nonexaminable
 \subsubsection{Spherical Cosine Rule}
-Consider a unit sphere with center $O$ and points $A, B, C$ on the surface of the sphere with position vectors $\vec{a}, \vec{b}, \vec{c}$.
+Consider a \textbf{unit} sphere with center $O$ and points $A, B, C$ on the surface of the sphere with position vectors $\vec{a}, \vec{b}, \vec{c}$ (which are therefore all unit vectors).
 \begin{center}
 \begin{tikzpicture}[scale=3,>=stealth]
 \draw (0,0) circle (1);
@@ -779,7 +851,7 @@ Consider a unit sphere with center $O$ and points $A, B, C$ on the surface of th
 \node at ($(A)+(0,-0.18)$) {$\alpha$};
 \end{tikzpicture}
 \end{center}
-We define $\delta(A, B)$ to be the arc from $A$ to $B$ along the surface of the sphere.
+We define $\delta(A, B)$ to be the length of the arc from $A$ to $B$ along the surface of the sphere.
 \begin{center}
 \begin{tikzpicture}[scale=2,>=stealth]
 \coordinate (O) at (0,0);
@@ -792,74 +864,83 @@ We define $\delta(A, B)$ to be the arc from $A$ to $B$ along the surface of the 
 \node at (2.2, 0.8) {$\delta(A, B)$};
 
 \draw (0.3,0) arc (0:45:0.3);
-\node at (0.4,0.15) {$\theta$};
+\node[xshift=10] at (0.4,0.15) {$\angle AOB$};
 
 \draw[thick, ->] (O) -- (A) node[midway, above left] {$\vec{a}$};
 \draw[thick, ->] (O) -- (B) node[midway, below] {$\vec{b}$};
 \end{tikzpicture}
 \end{center}
-We denote $\angle AOB = \delta(A, B)$.
-The following properties then hold:
+Since the sphere has unit radius, $\angle AOB = \delta(A, B)$ and further:
+\[
+  \vec{a} \cdot \vec{b} = \cos (\angle AOB) = \cos \delta(A, B) \text{ and } |\vec{a} \times \vec{b}| = \sin \delta(A, B)
+\]
+The angle $\alpha$ is the non-reflex angle between the two planes through $OAB$ and $OAC$ with normals $\vec{a} \times \vec{b}$ and $\vec{a} \times \vec{c}$ respectively.
+The angle between the planes is the angle between the normals and so we can compute $\cos \alpha$ using:
 \begin{align*}
-  \vec{a} \cdot \vec{b} &= \cos (\angle AOB) = \cos \delta(A, B) \\
-  |\vec{a} \times \vec{b}| &= \sin \delta(A, B)
-\end{align*}
-
-Then:
-\begin{align*}
-  \cos \alpha &= \frac{(\vec{a} \times \vec{b}) \cdot (\vec{a} \times \vec{c})}{|\vec{a} \times \vec{b}| |\vec{a} \times \vec{c}|} \\
+  (\vec{a} \times \vec{b}) \cdot (\vec{a} \times \vec{c}) &= |\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|\cos \alpha \\
+  \implies \cos \alpha &= \frac{(\vec{a} \times \vec{b}) \cdot (\vec{a} \times \vec{c})}{|\vec{a} \times \vec{b}| |\vec{a} \times \vec{c}|} \\
                &= - \frac{(\vec{b} \times \vec{a})(\vec{a} \times \vec{c})}{|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|} \\
-               &= \frac{(\vec{b} \cdot \vec{c})|\vec{a}|^2 - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c})}{|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|} \\
-  (\cos \alpha)|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}| &= (\vec{b} \cdot \vec{c}) - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c}) \text{ as $|\vec{a}| = 1$} \\
-  \cos \alpha \sin \delta(A, B) \sin \delta(A, C) &= \cos \delta(B, C) - \cos \delta(B, A) \cos \delta(A, C)
+               &= \frac{(\vec{b} \cdot \vec{c})|\vec{a}|^2 - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c})}{|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}|} \text{ using \cref{sphericalTrigIdentity}} \\
+  \implies (\cos \alpha)|\vec{a} \times \vec{b}||\vec{a} \times \vec{c}| &= (\vec{b} \cdot \vec{c}) - (\vec{b} \cdot \vec{a})(\vec{a} \cdot \vec{c}) \text{ as $|\vec{a}| = 1$} \\
+  \implies \cos \alpha \sin \delta(A, B) \sin \delta(A, C) &= \cos \delta(B, C) - \cos \delta(B, A) \cos \delta(A, C)
 \end{align*}
-This is an analogue of the cosine rule for spherical triangles.
+This is an analogue of the cosine rule but for spherical triangles.
 
 \subsubsection{Vector Definition of Spheres}
-A sphere in $\R^3$ with centre $\vec{a}$ and radius $r \in \R$, $r > 0$ is given by:
+A sphere in $\R^3$ with centre $\vec{a}$ and radius $r \in \R,\ r > 0$ is given by:
 \[
   \Sigma=\{\vec{x} \in \R^3 : |\vec{x} - \vec{a}| = r > 0,\ r \in \R\}
 \]
-This also generalises to $\R^{n}$.
-A hypersphere with centre $\vec{a} \in \R^{n}$ and radius $r \in \R$ is given by:
+This also generalises to $\R^{n}$, a hypersphere with centre $\vec{a} \in \R^{n}$ and radius $r \in \R,\ r > 0$ is given by:
 \[
-  \Sigma =\{\vec{x} \in \R^{n} : |\vec{x} - \vec{a}| = r > 0,\ r \in \R,\ \vec{a} \in \R^{n}\}
+  \Sigma =\{\vec{x} \in \R^{n} : |\vec{x} - \vec{a}| = r > 0,\ r \in \R\}
 \]
 \section{Generalised Real Vectors\texorpdfstring{ -- $\R^{n}$}{}}
 \label{generalisedReal}
 \subsection{Definitions for Real Vectors}
-Thinking of vectors component-wise makes it easier to generalise from 3 to $n$ dimensions.
-
-Define $\R^{n}$ as:
+Recall that we defined $\R^{n}$ as the set of all $n$-tuples with components in $\R$:
 \[
   \R^{n} = \{\vec{x} = (x_1, x_2, \ldots, x_n),\ x_i \in \R\}
 \]
-We write vectors $\vec{x}, \vec{y} \in \R^{n}$ as:
+where we write vectors $\vec{x}, \vec{y} \in \R^{n}$ as:
 \[
   \vec{x} = (x_1, x_2, \ldots, x_n),\ \vec{y} = (y_1, y_2, \ldots, y_n)
 \]
-\subsubsection{Addition}
-We define addition as:
+As discussed, if we define addition component-wise as:
 \[
   \vec{x} + \vec{y} = (x_1 + y_1, x_2 + y_2, \ldots, x_n + y_n)
 \]
-\subsubsection{Scalar Multiplication}
-We define scalar multiplication, for $\lambda \in \R$ as:
+and scalar multiplication by $\lambda \in \R$ as:
 \[
   \lambda \vec{x} = (\lambda x_1, \lambda x_2, \ldots, \lambda x_n)
 \]
-\subsubsection{Inner Product}
-\label{realInnerProduct}
-We define the inner product between $\vec{x}$ and $\vec{y}$ as:
+then $\R^{n}$ forms a vector space.
+
+As we touched on for $\R^3$ in \cref{canonicalBasisRemark}, the \textit{canonical basis} of $\R^{n}$ is $\{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n\}$ where:
 \[
-  \vec{x} \cdot \vec{y} = \sum_{i}^{} x_i y_i = x_1 y_1 + \cdots + x_n y_n
+  \vec{e}_1 = (1, 0, \ldots, 0),\ \vec{e}_2 = (0, 1, \ldots, 0), \ldots,\ \vec{e}_n = (0, 0, \ldots, 1)
 \]
-We can also write:
+We do not already have a preconceived notion of ``angles'' in $\R^{n}$ so we cannot define the scalar product geometrically as we did in $\R^{3}$.
+Instead, for $\vec{x}, \vec{y} \in \R^{n}$ we define the scalar product on $\R^{n}$ as:
 \[
-  \vec{x} \cdot \vec{y} = \delta_{i j} x_i y_j
+  \vec{x} \cdot \vec{y} = \sum_{n = 1}^{n} x_i y_i = x_iy_i = x_i \delta_{i j} y_j \text{ using $\Sigma$ convention}
 \]
+It can be checked that this satisfies the required axioms for an inner product.
+We then \textit{define the angle} between two vectors as $\theta \in [0, \pi]$ satisfying:
+\[
+  \cos \theta = \frac{\vec{x} \cdot \vec{y}}{|\vec{x}||\vec{y}|}
+\]
+which will always exist as the Cauchy-Schwarz inequality (\cref{cauchySchwarz}) ensures that $-1 \leq \cos \theta \leq 1$.
+When $n = 3$, this component sum form is exactly the same as we arrived at for $\R^3$ earlier and so this notion of angle is equivalent to our preconceived notion of angles in $\R^3$.
+Using this definition for the scalar product $\vec{e}_i \cdot \vec{e}_j = \delta_{i j}$ and so the canonical basis is orthonormal.
+
+Finally, we can write any $\vec{x} \in \R^{n}$ as:
+\[
+  \vec{x} = \sum_{i}^{} x_i \vec{e}_i = x_i \vec{e}_i \text{ (using $\Sigma$ convention)}
+\]
+and we can retrieve components using $x_i = \vec{e}_i \cdot \vec{x}$.
 \begin{remark}[Note]
-  When we write vectors in $\R^{n}$ as column vectors, if $\vec{x}, \vec{y} \in \R^{n}$, $\vec{x}^{\trans}$ and $\vec{y}^{\trans}$ will be row vectors and their inner product can be represented as:
+  Later in the course when we introduce matrix multiplication and transposes, we will see that when we write vectors $\vec{x},\ \vec{y} \in \R^{n}$ as column vectors, $\vec{x}^{\trans}$ and $\vec{y}^{\trans}$ will be row vectors and so their inner product can be represented as the matrix product:
   \[
     \vec{x} \cdot \vec{y} = \vec{x}^{\trans} \vec{y} =
     \begin{pmatrix}
@@ -873,42 +954,26 @@ We can also write:
     = \sum_{i}^{} x_i y_i
   \]
 \end{remark}
-\subsubsection{Canonical Basis}
-The \textit{canonical basis} of $\R^{n}$ is $\{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n\}$ where:
+\subsection{2D Cross Product}
+In \cref{lce3}, we defined the Levi-Civita epsilon with 3 indices.
+Later in the course, we will generalise it to $n$ indices, but for now, we can generalise it to two indices to define a ``cross product'' in 2D:
 \[
-  \vec{e}_1 = (1, 0, \ldots, 0),\ \vec{e}_2 = (0, 1, \ldots, 0),\ \cdots,\ \vec{e}_n = (0, 0, \ldots, 1)
-\]
-This is an orthonormal basis so:
-\[
-  \vec{e}_i \cdot \vec{e}_j = \delta_{i j}
-\]
-Any $x \in \R^{n}$ can be written as:
-\[
-  \vec{x} = \sum_{i}^{} x_i \vec{e}_i
-\]
-
-Components of $\vec{x} = (x_1, x_2, \ldots, x_n)$ can be determined from:
-\[
-  x_i = \vec{e}_i \cdot \vec{x}
-\]
-\subsubsection{Generalised Levi-Civita Epsilon}
-\label{generalLCE}
-Define $\levi_{a_1 a_2 \ldots a_n}$ (with $n$ indices) as an extension to the Levi-Civita epsilon.
-\[
-  \levi_{a_1 a_2 \ldots a_n} = \begin{cases}
-  1 & (a_1, a_2, \ldots, a_n) \text{ is an even permutation of }(1, 2, \ldots, n) \\
-  -1 & (a_1, a_2, \ldots, a_n) \text{ is an odd permutation of }(1, 2, \ldots, n) \\
+  \varepsilon_{i j} = \begin{cases}
+  1 & \text{if $(i, j)$ is an even permutation of $(1, 2)$} \\
+  -1 & \text{if $(i, j)$ is an odd permutation of $(1, 2)$} \\
+  0 & \text{ otherwise}
+  \end{cases} = \begin{cases}
+  1 & \text{ if } (i, j) = (1, 2) \\
+  -1 & \text{ if } (i, j) = (2, 1) \\
   0 & \text{ otherwise}
   \end{cases}
 \]
-\subsection{Scalar Cross Product}
-\label{scalarCrossProduct}
-In $\R^{2}$ we can use this to define an additional scalar product:
-\[
-  [\vec{a}, \vec{b}] = \levi_{i j}a_i b_j = a_1 b_2 - a_2 b_1
-\]
-as $\levi_{1 2} = 1$ and $\levi_{2 1} = -1$.
-
+\begin{definition}[2D Cross Product]
+  For $\vec{a}, \vec{b} \in \R^2$ we define: \label{scalarCrossProduct}
+  \[
+    [\vec{a}, \vec{b}] = \levi_{i j}a_i b_j = a_1 b_2 - a_2 b_1
+  \]
+\end{definition}
 Geometrically this represents the signed area of a parallelogram:
 \[
   [\vec{a}, \vec{b}] = |\vec{a}||\vec{b}|\sin\theta
@@ -932,137 +997,168 @@ Geometrically this represents the signed area of a parallelogram:
 \draw[dashed] (B) -- ($(A)+(B)$);
 \end{tikzpicture}
 \end{center}
-This is similar to the vector triple product in  $\R^{3}$ which represents the signed volume of a parallelepiped.
+If the non-reflex angle between $\vec{a}$ and $\vec{b}$ is anticlockwise from $\vec{a}$ to $\vec{b}$, then this signed area is positive, otherwise, it is negative.
+
+This is similar to the scalar triple product (\cref{scalarTripleProduct}) in  $\R^{3}$ which represents the signed volume of a parallelepiped.
 \section{Generalised Complex Vectors\texorpdfstring{ -- $\C^{n}$}{}}
 \subsection{Definitions for Complex Vectors}
-Similarly to in $\R^{n}$ we define $\C^{n}$ as:
+Similarly to in $\R^{n}$ we define $\C^{n}$ as the set of $n$-tuples with the components instead taking values in $\C$:
 \[
   \C^{n} = \{\vec{z} = (z_1, z_2, \ldots, z_n): z_i \in \C\}
 \]
-We write vectors $\vec{z}, \vec{w} \in \C^{n}$ as:
+If we define addition and scalar multiplication component-wise as:
 \[
-  \vec{z} = (z_1, \ldots, z_n),\ \vec{w} = (w_1, \ldots, w_n)
+  \vec{z} + \vec{w} = (z_1 + w_1, \ldots, z_n + w_n) \text{ and } \lambda \vec{z} = (\lambda z_1, \ldots, \lambda z_n)
 \]
-\subsubsection{Addition}
-Exactly as in $\R^{n}$, we define addition as:
-\[
-  \vec{z} + \vec{w} = (z_1 + w_1, \ldots, z_n + w_n)
-\]
-\subsubsection{Scalar Multiplication}
-We also define scalar multiplication similarly:
-\[
-  \lambda \vec{z} = (\lambda z_1, \ldots, \lambda z_n)
-\]
-However, there is important differences depending on if we use real or complex scalars.
+then $\C^{n}$ forms a vector space, regardless of if we take scalars $\lambda$ in $\R$ or $\C$.
+However, the vector space that is formed depends on if we decide to use real or complex scalars.
 \subsubsection{Real Scalars}
-If $\lambda \in \R$, $\C^{n}$ is a \textit{real} vector space.
-For any $z \in \C^{n}$, $z_j = x_j + iy_j$ so:
+If we take only $\lambda \in \R$, then, by definition (\cref{vectorSpaceDef}), we obtain a \textit{real} vector space.
+
+Each component of $\vec{z}$ can be split up as $z_j = x_j + y_j$ for $x_j, y_j \in \R$ and so we can express any $z \in \C^{n}$ as:
 \[
   \vec{z} = \sum_{j}^{} x_j \vec{e}_j + \sum_{j}^{} y_j \vec{f}_j
 \]
-Where:
+where
 \[
   \vec{e}_j = \underbrace{(0, 0, \ldots, 1, \ldots, 0)}_{\text{1 in $j$-th position}} \text{ and }
   \vec{f}_j = \underbrace{(0, 0, \ldots, i, \ldots, 0)}_{\text{$i$ in $j$-th position}}
 \]
-Writing $\vec{z}$ like this is a \textit{real linear combination}.
-So the canonical basis for $\C^{n}$ when it is a \textit{real} vector space is:
+Since all of scalars in this linear combination are all real and not complex, this is a real linear combination, as expected of a real vector space.
+
+When we view $\C^{n}$ as a \textit{real} vector space, the basis:
 \[
   \{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n, \vec{f}_1, \vec{f}_2, \ldots, \vec{f}_n\}
 \]
-This means that it has real dimension $2n$.
+is the canonical basis for $\C^{n}$.
+We will see later in \cref{basesAndDimensions} that this means that $\C^{n}$ has dimension $2n$ over $\R$.
 \subsubsection{Complex Scalars}
-If $\lambda \in \C$, $\C^{n}$ is a \textit{complex} vector space.
-Since we are allowing complex scalars we can write:
+If instead we take $\lambda \in \C$, then we obtain a \textit{complex} vector space.
+Since we are allowing complex scalars we can express the basis vectors $\vec{f}_j$ in terms of $\vec{e}_j$ as:
 \[
   \vec{f}_j = i \vec{e}_j
 \]
-and thus:
+and thus we can express $\vec{z}$ as just:
 \[
   \vec{z} = \sum_{j}^{} z_j \vec{e}_j
 \]
 which is a complex linear combination.
+
 So the canonical basis for $\C^{n}$ as a \textit{complex} vector space is:
 \[
   \{\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n\}
 \]
-This means that is has dimension $n$ over $\C$.
+This means that $\C^{n}$ has dimension $n$ over $\C$.
+\begin{remark}
+  For the rest of this course, when we refer to $\C^{n}$, we mean $\C^{n}$ as complex vector space.
+\end{remark}
 \subsubsection{Inner Product}
 \label{complexInnerProduct}
-The inner product on $\C^{n}$ is defined by:
-\[
-  (\vec{z}, \vec{w}) = \sum_{j}^{} z^{*}_{j} w_j
-\]
-This has the following properties:
+The axioms of an inner product on a vector space over $\C$ are slightly different to those from \cref{innerProductDef} over $\R$.
+We now require that it is \textit{hermitian}, instead of just symmetric.
+This means that exchanging the two inputs takes the complex conjugate.
+\begin{definition}[Complex Inner Product]
+  In a complex vector space $V$, an \textit{inner product} is a map $(\cdot, \cdot): V \times V \to \C$ that satisfies:
+  \begin{enumerate}
+    \item \textbf{Hermitian -} $(\vec{w}, \vec{z}) = \overline{(\vec{z}, \vec{w})}$
+    \item \textbf{Linearity in 2nd Argument -} $(\vec{z}, \lambda \vec{w} + \lambda' \vec{w}') = \lambda(\vec{z}, \vec{w}) + \lambda'(\vec{z}, \vec{w}')$
+    \item \textbf{Positive Definite -} $(\vec{z}, \vec{z}) \geq 0$ with equality if and only if $\vec{z} = \vec{0}$.
+  \end{enumerate}
+\end{definition}
+\begin{remark}
+  \begin{itemize}
+    \item Comparing $(\vec{z}, \vec{z})$ with $0$ is a valid since by the hermitian property:
+      \[
+        (\vec{z}, \vec{z}) = \overline{(\vec{z}, \vec{z})} \implies (\vec{z}, \vec{z}) \in \R
+      \]
+    \item Since $\R \subset \C$, our definition for a real inner product (\cref{innerProductDef}) is a special case of the above since when $(\vec{z}, \vec{w}) \in \R$, $(\vec{z}, \vec{w}) = \overline{(\vec{z}, \vec{w})} = (\vec{w}, \vec{z})$ and so the hermitian property reduces to symmetry.
+    \item Unlike for the real inner product, we do not get linearity in the second argument, instead from the hermitian property, we get \textit{anti-linearity} (or \textit{conjugate-linearity}):
+      \[
+        (\mu \vec{z} + \mu' \vec{z}', \vec{w}) = \overline{\mu}(\vec{z}, \vec{w}) + \overline{\mu'}(\vec{z}', \vec{w})
+      \]
+  \end{itemize}
+\end{remark}
+\begin{definition}[Standard Inner Product on $\C^n$]
+  The \textit{standard inner product} on $\C^{n}$ is defined by:
+  \[
+    (\vec{z}, \vec{w}) = \sum_{j}^{} \overline{z_j} w_j
+  \]
+\end{definition}
+We can then check that this standard inner product satisfies the required axioms:
 \begin{enumerate}
-  \item \textbf{Hermitian -} Exchanging $z$ and $w$ takes the conjugate of the output. That is:
+  \item \textbf{Hermitian -} This holds due to the properties of the complex conjugate shown in \cref{complexConjProperties}:
     \[
-      (\vec{w}, \vec{z}) = (\vec{z}, \vec{w})^{*}
+      \overline{(\vec{w}, \vec{z})} = \overline{(\overline{w_j}z_j)} = \overline{z_j}w_j = (\vec{z}, \vec{w}) \text{ using $\Sigma$ convention}
     \]
-  \item \textbf{Linear/Anti-linear -} It is linear in the second argument and anti-linear in the first argument:
+  \item \textbf{Linearity in 2nd Argument -} It is linear in the second argument as:
     \begin{align*}
-      (\vec{z}, \lambda \vec{w} + \lambda' \vec{w}') &= \lambda(\vec{z}, \vec{w}) + \lambda'(\vec{z}, \vec{w}') \\
-      (\mu \vec{z} + \mu' \vec{z}', \vec{w}) &= \mu^{*}(\vec{z}, \vec{w}) + {\mu'}^{*}(\vec{z}', \vec{w})
+      (\vec{z}, \lambda \vec{w} + \lambda' \vec{w}') &= \overline{z_j}(\lambda w_j + \lambda' w_j') \text{ using $\Sigma$ convention} \\
+                                                     &= \lambda \overline{z_j}w_j + \lambda' \overline{z_j}w_j' \\
+                                                     &= \lambda(\vec{z}, \vec{w}) + \lambda'(\vec{z}, \vec{w}')
     \end{align*}
-  \item \textbf{Positive Definite}
+  \item \textbf{Positive Definite -} Recall that for $z_j \in \C$, $z_j \overline{z_j} = |z_j|^2$ so:
     \[
       (\vec{z}, \vec{z}) = \sum_{j} |z_j|^2 \geq 0
     \]
     Moreover, $(\vec{z}, \vec{z}) = 0$ if and only if $\vec{z} = \vec{0}$.
 \end{enumerate}
-\subsubsection{Norm}
-We define the norm on $\C^{n}$ as:
-\[
-  |\vec{z}|^2 = (\vec{z}, \vec{z})
-\]
-\subsubsection{Orthogonality}
-We say that $\vec{z}, \vec{w} \in \C^{n}$  are \textit{orthogonal} if $(\vec{z}, \vec{w}) = 0$.
+So this defines is a valid inner product on $\C$.
 
-The standard basis for $\C^{n}$ as a complex vector space is \textit{orthonormal}, that is:
-\[
-  (\vec{e}_i, \vec{e}_j) = \delta_{i j}\quad\forall 1 \leq i, j \leq n
-\]
+We can then use this standard inner product to extend the notion of a norm to $\C^{n}$ as:
+\begin{definition}[Norm]
+  We define the norm on $\C^{n}$ as:
+  \[
+    |\vec{z}| = \sqrt{(\vec{z}, \vec{z})}
+  \]
+\end{definition}
+and also the notion of orthogonality:
+\begin{definition}[Orthogonal]
+  We say that $\vec{z}, \vec{w} \in \C^{n}$ are \textit{orthogonal} if $(\vec{z}, \vec{w}) = 0$.
+\end{definition}
+With this, we see that standard basis for $\C^{n}$ as a complex vector space is \textit{orthonormal}, that is $(\vec{e}_i, \vec{e}_j) = \delta_{i j}$.
 \subsection{From Complex to Real Inner Products}
-For $n = 1$, take $z, w \in \C$, then:
+Interestingly, when $n = 1$ (i.e. $\C$), then this standard inner product encodes both the scalar product and the 2D cross product (\cref{scalarCrossProduct}) in $\R^2$.
+
+If we take $z, w \in \C$ then, by definition:
 \[
-  (z, w) = z^{*}w
+  (z, w) = \overline{z}w
 \]
-Now write $z = a_1 + ia_2, w = b_1 + ib_2$, now associate $z$ and $w$ with the vectors $(a_1, a_2)$ and $(b_1, b_2)$ in $\R^2$.
+Now write $z = a_1 + ia_2, w = b_1 + ib_2$, and associate $z$ and $w$ with the real vectors $(a_1, a_2)$ and $(b_1, b_2)$ in $\R^2$.
 Then:
 \begin{align*}
-  z^{*}w &= (a_1 - i a_2)(b_1 + i b_2) \\
+  \overline{z}w &= (a_1 - i a_2)(b_1 + i b_2) \\
          &= (a_1 b_1 + a_2 b_2) + i(a_1 b_2 - a_2 b_1) \\
          &= \vec{a} \cdot \vec{b} + i[\vec{a}, \vec{b}]
 \end{align*}
-so we can recover both scalar products in $\R^{2}$ from the real and imaginary components.
-See \cref{scalarCrossProduct} for a definition of $[\vec{a}, \vec{b}]$.
-\section{General Vector Spaces}
+so we can recover both $\vec{a} \cdot \vec{b}$ and $[\vec{a}, \vec{b}]$ from the real and imaginary components.
+\section{More on General Vector Spaces}
 \begin{remark}[Recap]\par
 Recall the definition and properties of a vector space from \cref{vectorSpaceDef}.
-
-If the scalar multiplication is done by scalars in $\R$ then we have a \textit{real vector space}.
-If the scalar multiplication is done by scalars in $\C$ then we have a \textit{complex vector space}.
+If the scalar multiplication is done by scalars in $\R$ then we have a \textit{real vector space}, if instead it is done by scalars in $\C$, then we have a \textit{complex vector space}.
 
 If we take a real vector space $V$, and consider elements $\vec{v}_1, \ldots, \vec{v}_r \in V$ we can write a \textit{linear combination} of those elements:
 \[
   \lambda_1 \vec{v}_1 + \lambda_2 \vec{v}_2 + \cdots + \lambda_r \vec{v}_r \in V \quad \lambda_i \in \R
 \]
-The \textit{span} of $\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\}$ is:
+We also defined the \textit{span} of $\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\}$ as:
 \[
   \Span\{\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_r\} = \left\{\sum_{i}^{} \lambda_i \vec{v}_i : \lambda_i \in \R\right\}
 \]
+The same definitions hold for complex vectors space but with all occurrences of $\R$ replaced with $\C$.
 \end{remark}
 \subsection{Subspaces}
 \begin{definition}[Subspace]
   A \textit{subspace} $U$ of a vector space $V$ is a subset of $V$ that is itself a vector space under the same operations as defined for $V$.
 
-  Equivalently, a non-empty subset $U \subseteq V$ is a subspace if it satisfies that for every pair of vectors $\vec{v}, \vec{w} \in U$ and for any pair of scalars $\lambda, \mu \in \R$ then, $\lambda \vec{v} + \mu \vec{w} \in U$.
+  Equivalently, a non-empty subset $U \subseteq V$ is a subspace if and only if it satisfies that for every pair of vectors $\vec{v}, \vec{w} \in U$ and for any pair of scalars $\lambda, \mu \in \R$ then, $\lambda \vec{v} + \mu \vec{w} \in U$.
 \end{definition}
-In particular, for any $\vec{v}_1, \ldots, \vec{v}_r$, their span, $\Span\{\vec{v}_1, \ldots, \vec{v}_r\}$, is a subspace of $V$.
+\begin{remark}
+  A proof of this equivalence will be shown in IB Linear Algebra, it is known as the \textit{subspace test}.
+\end{remark}
+In particular, by the subspace test, for any $\vec{v}_1, \ldots, \vec{v}_r \in V$, their span, $\Span\{\vec{v}_1, \ldots, \vec{v}_r\}$, is a subspace of $V$.
 
 The two trivial subspaces of any vector space $V$ are $V$ itself and $\{\vec{0}\}$.
 If a subspace is neither of these, then we say that it is a \textit{proper subspace}.
-
 \subsection{Linear Independence and Dependence}
 \begin{definition}[Linearly Independant]
   Consider a vector space $V$ and vectors $\vec{v}_1, \ldots, \vec{v}_n \in V$.
@@ -1071,73 +1167,60 @@ If a subspace is neither of these, then we say that it is a \textit{proper subsp
     \lambda_1 \vec{v}_1 + \cdots + \lambda_n \vec{v}_n = \vec{0} \quad \lambda_i \in \R \text{ or } \C
   \]
   If this implies that $\lambda_i = 0$ for all $i$ then the vectors that we are considering are said to be \textit{linearly independent}.
-  Otherwise if $\lambda_1 \vec{v}_1 + \cdots + \lambda_n \vec{v}_n = \vec{0}$ with at least one $\lambda_i \neq 0$ then the vectors are \textit{linearly dependant}.
+  Otherwise if $\lambda_1 \vec{v}_1 + \cdots + \lambda_n \vec{v}_n = \vec{0}$ with at least one $\lambda_i \neq 0$ then the vectors are said to be \textit{linearly dependant}.
 \end{definition}
-
-If a set of vectors are linearly independent then we cannot construct one of the vectors as a linear combination of the others.
+Equivalently, a set of vectors are linearly dependent if and only if we can construct one of the vectors as a linear combination of the others.
+Thus to show that a set of vectors is linearly dependent, it suffices to express one of the vectors as a linear combination of the others.
 \begin{example}
   \begin{enumerate}
-    \item $\{\underbrace{(1, 0)}_{\vec{v}_1}, \underbrace{(0, 1)}_{\vec{v}_2}, \underbrace{(0, 2)}_{\vec{v}_3}\} \subseteq \R^2$ is linearly dependant as $\vec{v}_3 = 2\vec{v}_2$ so $0\vec{v}_1 - 2\vec{v}_2 + \vec{v}_3 = \vec{0}$.
+    \item $\{\underbrace{(1, 0)}_{\vec{v}_1}, \underbrace{(0, 1)}_{\vec{v}_2}, \underbrace{(0, 2)}_{\vec{v}_3}\} \subseteq \R^2$ is linearly dependant as $\vec{v}_3 = 2\vec{v}_2$.
     \item $\{\underbrace{(1, 0)}_{\vec{v}_1}, \underbrace{(0, 1)}_{\vec{v}_2}\} \subseteq \R^2$ is linearly independent as $\lambda_1 \vec{v}_1 + \lambda_2 \vec{v}_2 = \vec{0} \implies \lambda_1 = \lambda_2 = 0$
-    \item Any set containing $\vec{0}$ is \textit{linearly dependant} as we can set the scalar for $\vec{0}$ to anything non-zero and then all other scalars to 0.
+    \item Any set containing $\vec{0}$ is \textit{linearly dependant} as we can set the scalar for $\vec{0}$ to anything non-zero and then all other scalars to 0 to achieve a non-trivial linear combination that is equal to $\vec{0}$.
     \item In $\R^3$, $\vec{a}, \vec{b}, \vec{c}$ are linearly independent if and only if $\vec{a} \cdot (\vec{b} \times \vec{c}) \neq 0$.
       This can be seen by considering the volume of the parallelepiped spanned by the three vectors.
  \end{enumerate}
 \end{example}
-\subsection{Inner Products}
-For $\vec{v}, \vec{w} \in V$, denote their inner product by $\vec{v} \cdot \vec{w}$ or $(\vec{v}, \vec{w})$.
-This has the following properties:
-\begin{enumerate}
-  \item $(\vec{v}, \vec{w}) \in \R \text{ or } \C$ depending on if we are in a real or complex vector space.
-  \item \textbf{Hermitian -} $(\vec{v}, \vec{w}) = (\vec{w}, \vec{v})^{*}$.
-    If it is a real vector space $(\vec{w}, \vec{v})^{*} = (\vec{w}, \vec{v})$ so this reduces to symmetry.
-  \item \textbf{Linear/Anti-linear -} It is linear in the second argument and anti-linear in the first argument:
-    \begin{align*}
-      (\vec{v}, \lambda \vec{w} + \lambda' \vec{w}') &= \lambda(\vec{v}, \vec{w}) + \lambda' (\vec{v}, \vec{w}') \\
-      (\mu \vec{v} + \mu \vec{v}', \vec{w}) &= \mu(\vec{v}, \vec{w}) + {\mu'}^{*}(\vec{v}', \vec{w})
-    \end{align*}
-    If this is a real vector space then this reduces to linearity in both arguments.
-  \item \textbf{Positive Definite}
-    \[
-      (\vec{v}, \vec{v}) \geq 0 \text{ and } ((\vec{v}, \vec{v}) = 0 \iff \vec{v} = \vec{0})
-    \]
-\end{enumerate}
 \begin{proposition}
-  If $\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_n$ are non-zero and orthogonal then they are linearly independent.
+  If $\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_n$ are non-zero and mutually orthogonal, i.e. $(\vec{v}_i, \vec{v}_j) = 0$ for $i \neq j$, then they are linearly independent.
 \end{proposition}
 \begin{proof}
   Consider the linear combination:
   \[
     \sum_{i}^{} \alpha_i \vec{v}_i = \vec{0}
   \]
-  Then,
+  If we pick some $j \in \{1, \ldots, n\}$, then:
   \begin{align*}
     \left(\vec{v}_j, \sum_{i}^{} \alpha_i \vec{v}_i\right) &= \sum_{i}^{} \alpha_i (\vec{v}_j, \vec{v}_i) \text{ (By linearity of second argument)}\\
-                                                           &= \alpha_j (\vec{v}_j, \vec{v}_j) \text{ (Because of orthogonality $(\vec{v}_j, \vec{v}_i) = 0$ for $i \neq j$)}\\
-                                                           &= \alpha_j |\vec{v}_j|^2
+                                                           &= \alpha_j (\vec{v}_j, \vec{v}_j) \text{ (Because of orthogonality $(\vec{v}_j, \vec{v}_i) = 0$ for $i \neq j$)}
   \end{align*}
-  So $\alpha_j|\vec{v}_j|^2 = 0$.
-  From positive definiteness we have that $\alpha_j\vec{v}_j = \vec{0}$ but $\vec{v}_j \neq \vec{0}$ so $\alpha_j = 0$.
-  This argument holds for all $j$ so $\alpha_j = 0$ for all $j$ so they must be linearly independent by definition.
+  We also see that $(\vec{v}_j, \vec{0}) = (\vec{v}_j, 0 \cdot \vec{v}_j) = 0$ by linearity and so $\alpha_j(\vec{v}_j, \vec{v}_j) = 0$.
+  Since $\vec{v}_j \neq \vec{0}$, by positive definiteness we have that $(\vec{v}_j, \vec{v}_j) > 0$ and so $\alpha_j = 0$.
+  Our choice of $j$ was entirely arbitrary so $\alpha_j = 0$ for all $j$ so the set $\{\vec{v}_1, \ldots, \vec{v_n}\}$ is linearly independent.
 \end{proof}
+\begin{remark}
+  This proof only used the axioms of an general inner product and so holds regardless what notion of ``orthogonality'' is provided by our choice of inner product.
+\end{remark}
 \subsection{Bases and Dimension}
+\label{basesAndDimension}
 \begin{definition}[Basis]
-  For a vector space $V$, a \textit{basis} is a set $B = \{\vec{e}_1, \ldots, \vec{e}_n\}$ such that:
+  For a vector space $V$, a \textit{basis} is a set of vectors $B = \{\vec{e}_1, \ldots, \vec{e}_n\}$ such that:
   \begin{enumerate}
     \item $B$ \textit{spans} $V$, that is, any $\vec{v} \in V$ can be written as a linear combination of vectors in $B$:
       \[
         \vec{v} = \sum_{i=1}^{n} v_i \vec{e}_i
       \]
     \item $B$ is linearly independent.
-      This implies that the coefficients of the linear combination in \textbf{i} are always \textbf{unique}.
-      That is, there is only one way to express a particular vector as a linear combination of basis vectors.
-      We then call these coefficients, $v_i$, the \textit{components} of $\vec{v}$ with respect to the basis $B$.
   \end{enumerate}
 \end{definition}
+Together, these properties imply every vector in a vector space $V$ has a \textbf{unique} representation as a linear combination of basis vectors.
+We then call these coefficients, $v_i$, the \textit{components} of $\vec{v}$ with respect to the basis $B$.
 \begin{theorem}
   If $B_1$ and $B_2$ are both bases for a vector space $V$, then $|B_1| = |B_2|$.
   \label{basesSize}
 \end{theorem}
+\begin{proof}
+  See IB Linear Algebra.
+\end{proof}
 \begin{definition}[Dimension]
   The number of elements in any basis for $V$ is called the \textit{dimension} of $V$.
   We denote this $\dim V$.
@@ -1146,16 +1229,20 @@ This has the following properties:
   We can use any basis of $V$ to determine its dimension as by \cref{basesSize} the size of all bases for a particular vector space must be equal.
 \end{remark}
 \begin{proposition}
-  \label{addBasis}
-  Consider a vector space $V$ of dimension $n$,
+  Consider a vector space $V$ of dimension $n$, \label{addBasis}
   \begin{enumerate}
-    \item If $Y = \{\vec{w}_1, \ldots, \vec{w}_m\}$ spans $V$ with $m \geq n$ then if $m = n$, $Y$ is a basis for $V$.
+    \item Suppose $Y = \{\vec{w}_1, \ldots, \vec{w}_m\}$ spans $V$ with $m \geq n$.
+      If $m = n$, then $Y$ is a basis for $V$.
       Otherwise, if $m > n$, then we can remove vectors from $Y$ until we have $n$ elements to get a basis for $V$.
-    \item If $X = \{\vec{u}_1, \ldots, \vec{u}_k\}$ is linearly independent with $k \leq n$ then if $k = n$, $X$ is a basis for $V$.
-      Otherwise, if $k < n$ then it cannot be a basis but we can add more linearly independent vectors until we have $n$ elements to get a basis for $V$.
+    \item Suppose $X = \{\vec{u}_1, \ldots, \vec{u}_k\}$ is linearly independent with $k \leq n$.
+      If $k = n$, then $X$ is a basis for $V$.
+      Otherwise, if $k < n$, then it cannot be a basis but we can add more linearly independent vectors until we have $n$ elements to construct a basis for $V$.
   \end{enumerate}
 \end{proposition}
+\begin{proof}
+  See IB Linear Algebra.
+\end{proof}
 \begin{remark}
-  There will always exists a basis for any vector space, regardless of if it has finite or infinite dimension.
+  There will always exists a basis for any vector space for any vector space with finite dimension.
 \end{remark}
 \end{document}
