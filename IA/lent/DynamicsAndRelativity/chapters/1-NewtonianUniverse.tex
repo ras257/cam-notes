@@ -8,7 +8,7 @@ This is an origin and some axes such that points in space are labelled as follow
   \[
     \vec{x} = (x_1, x_2, x_3)
   \]
-Time can be labelled with respect to an arbitrary reference frame, by a real number $t$.
+Time can be labelled with respect to an arbitrary reference frame (i.e. an arbitrary point at which we choose $t = 0$), by a real number $t$.
 \begin{definition}[Point Particle]
   A \textit{point particle} is an idealised object that is completely determined by its position at a given time, $\vec{x}(t)$.
 \end{definition}
@@ -21,20 +21,19 @@ A point particle can be a variety of objects depending on the context. For examp
 \end{definition}
 Recall that in Cartesian coordinates we differentiate a vector by taking the derivative of each component:
 \[
-  \deriv{\vec{x}}{t} = \left(\deriv{x_1}{t}, \deriv{x_2}{t}, \deriv{x_3}{t}\right)
+  \vec{v} = \dot{\vec{x}} = \left(\deriv{x_1}{t}, \deriv{x_2}{t}, \deriv{x_3}{t}\right)
 \]
 \begin{remark}
-  Differentiating in other coordinate systems will be discussed later in the course.
+  Differentiating $\vec{x}$ in other coordinate systems will be discussed later in the course, for example, plane polar coordinates in \cref{polarCoordinates}.
 \end{remark}
-From Vector Calculus, we see that the velocity is always \textbf{tangent} to the trajectory.
+From Vector Calculus, we know that the tangent vector of a curve is a scalar multiple of $\dot{\vec{x}}$ and so the velocity is always \textbf{tangent} to the trajectory of the particle.
 \begin{definition}[Acceleration]
   The \textit{acceleration} is defined to be the vector:
   \[
     \vec{a} \equiv \ddot{\vec{x}} = \dot{\vec{v}} = \deriv[2]{\vec{x}}{t}
   \]
 \end{definition}
-The above structure is \textbf{not} enough to write down Newton's equations.
-
+Just the above structure is \textbf{not} enough to write down Newton's equations.
 Consider a ``free'' particle that does not experience any forces, e.g. the particle is alone in the depths of space, far away from anything else.
 The position of this particle is $\vec{x}(t)$, but which reference frame should we use?
 In one reference frame, the particle could be at rest, however, it could have very complex movement in a different reference frame, for example, one with respect to a moving spaceship.
@@ -45,33 +44,38 @@ In one reference frame, the particle could be at rest, however, it could have ve
     \dot{\vec{v}} = \ddot{\vec{x}} = \vec{0}
   \]
 \end{definition}
+\begin{remark}[Non-Example]
+  Any frame in which its axes are accelerating with respect to an inertial frame (for example a rotating frame) is an non-inertial frame.
+\end{remark}
 \begin{law}[Law of inertia]
   For any free particle, there exists a reference frame in which it has constant velocity.
 \end{law}
-The law of inertia is an improved version of Newton's 1st Law.
+The law of inertia revised version of Newton's 1st Law (a particle moves with constant velocity when not acted on by an external force).
 This is a true statement about the world, but not an obvious one.
+We needed the law of inertia to be able to formula Newton's 2nd Law (\cref{newton2}) as it requires inertial frames to exist.
 \begin{remark}
   In antiquity, it was assumed that the natural state of an object was to be at rest, instead of moving at a constant velocity.
+  Aristotle believed that if no force was acting on an object, it would naturally come to rest.
 \end{remark}
 \section{Galilean Relativity Principle}
 \label{galileanRelativity}
 \begin{definition}[Galilean Transformation]
-  A \textit{Galilean Transformation} is a transformation of $\vec{x}$ to $\vec{x}'$ of the form:
+  A \textit{Galilean Transformation} is a transformation of $\vec{x}$ in a frame $S$ to $\vec{x}'$ in a frame $S'$ of the form:
   \[
     \vec{x}' = R\vec{x} + \vec{k} + \vec{w}t
   \]
   where $R$ is an $3 \times 3$ orthogonal matrix (i.e. it is a rotation and/or reflection), $\vec{k}$ is a constant vector acting as a translation, and $\vec{w}$ is a constant velocity called a \textit{boost}.
 \end{definition}
 It follows that $\ddot{\vec{x}}' = R\ddot{\vec{x}}$ so $\abs{\ddot{\vec{x}}'} = \abs{R\ddot{\vec{x}}} = \abs{\ddot{\vec{x}}}$.
-Thus, $\ddot{\vec{x}}' = \vec{0} \iff \ddot{\vec{x}} = \vec{0}$, so one reference frame is inertial if and only if the other is.
-\begin{definition}[Galilean Relativity Principle]
-  A frame related to an inertial frame by a \textit{Galilean transformation} is also an inertial frame, and all laws of physics are the same in both frames.
-\end{definition}
+Thus, $\ddot{\vec{x}}' = \vec{0} \iff \ddot{\vec{x}} = \vec{0}$, that is, $S$ is inertial if and only if $S'$ is inertial.
+\begin{theoremlike}[Galilean Relativity Principle]{Principle}
+  A frame related to an inertial frame by a \textit{Galilean transformation} is also an inertial frame, \textbf{and} all laws of physics are the same in both frames.
+\end{theoremlike}
 \begin{remark}[Remarks]
   \begin{enumerate}
     \item We can achieve any combination of reflection/rotation, translation, and boost.
-      For example, by setting $R = I$ and $\vec{k} = \vec{0}$, we get just the boost $\vec{x}' = \vec{x} + \vec{w}t$.
-    \item These are not all the transformations that map between inertial frame.
+      For example, by setting $R = I$ and $\vec{k} = \vec{0}$, we obtain:just the boost $\vec{x}' = \vec{x} + \vec{w}t$.
+    \item These are not \textit{all} the transformations that map between inertial frame.
       The others are of the form $\vec{x}' = \lambda\vec{x}$ for $\lambda \in \R$.
       These are rescale the coordinates, for example, if we wish to use different units in different inertial frames.
   \end{enumerate}
@@ -83,13 +87,13 @@ Thus, $\ddot{\vec{x}}' = \vec{0} \iff \ddot{\vec{x}} = \vec{0}$, so one referenc
   However, if the boat was accelerating, the reference frame would not be inertial so there would not be a Galilean transformation between the boat and the shore and so it would not land in the same place.
 \end{example}
 Galilean invariance restricts the type of forces that are possible (See Example Sheet 1).
-It also implies that the laws of physics make reference to no special point, direction, time or velocity.
-All these things must be specified relative to some inertial reference frame.
+It also implies that the laws of physics make reference to no special point (because of $\vec{k}$), direction (because of $R$), or velocity (because of $\vec{w}t$).
+All these things must be specified \textit{relative} to some inertial reference frame.
 
-This means that if we wish to specify a point, velocity or direction, we must specify it relative to something else, however we do not have to do this for acceleration.
+This means that if we wish to specify a point, velocity or direction, we must specify it \textit{relative} to something else, however we do \textbf{not} have to do this for acceleration.
 
-More specifically, you cannot be ``at rest'', you must be ``at rest with respect to something''.
-Acceleration is not relative, so if you are accelerating in an inertial frame then you will be accelerating in all other inertial frames with the same magnitude but not necessarily in the same direction.
+More specifically, you cannot be ``at rest'', you must be ``at rest \textit{with respect to} something''.
+Acceleration is not relative, so if you are accelerating in an inertial frame then you will be accelerating in all other inertial frames with the same magnitude but not necessarily in the same direction (due to a potential rotation/reflection from $\ddot{\vec{x}}' = R \ddot{\vec{x}}$).
 \begin{definition}[Galilean Group]
   The set of Galilean transformations form a group called the \textit{Galilean Group}.
 \end{definition}
@@ -97,7 +101,8 @@ This is often supplemented by time transformations from time $t$ to time $t'$:
 \[
   t' = t + t_0
 \]
-The laws of physics are also invariant under time transformations.
-That is, all inertial frames have the same time, called \textit{absolute time}.
-This means identical clocks in different inertial frames will all tick at the same rate.
+This is equivalent to both frames picking the same scale at which to measure the time passing at the same rate, but with $S'$ starting its clock $t_0$ after $S$.
+The laws of physics are also invariant under such time transformations.
+That is, all inertial frames share the same notion of time, called \textit{absolute time}; identical clocks in different inertial frames will all tick at the same rate since $\d{t'} = \d{t}$.
+When we cover special relativity later (\cref{chapter7}), we will see that when working within special relativity (instead of Galilean relativity), there is no absolute time as different observers can disagree on the time passed between the same two events.
 \end{document}

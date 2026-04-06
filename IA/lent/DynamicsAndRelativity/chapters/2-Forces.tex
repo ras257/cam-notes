@@ -2,7 +2,7 @@
 \begin{document}
 \chapter{Fundamentals of Forces}
 \section{Newton's Second Law}
-Once there is more than one particle in in the universe, there will be \textit{interactions} between the particles.
+Once there is more than one particle in in the universe, there will be \textit{interactions} between these particles.
 In Newtonian physics such interactions are described by \textit{forces}.\quad
 \begin{definition}[Momentum]
   The \textit{momentum} of a point particle is the product of its \textit{mass} and its \textit{velocity}:
@@ -11,8 +11,8 @@ In Newtonian physics such interactions are described by \textit{forces}.\quad
   \]
   where $m$ is the \textit{inertial mass}, often shortened to just \textit{mass}.
 \end{definition}
-The mass is an additional property of point particles.
-It could change with time, but we assume that it is constant unless otherwise specified.
+Mass is an additional property of point particles.
+It could change with time, but we typically assume that it is constant unless otherwise specified.
 \begin{law}[Newton's Second Law]
   In an inertial frame:
   \[
@@ -21,12 +21,15 @@ It could change with time, but we assume that it is constant unless otherwise sp
   That is, the rate of change of momentum is equal to the force.
   \label{newton2}
 \end{law}
-The force $\vec{F}$ depends on the interaction, however, we require that it must only depend on $\vec{x}$ and $\dot{\vec{x}}$.
+The force $\vec{F}$ depends on the interaction, however, we usually require that it must only depend on $\vec{x}$ and $\dot{\vec{x}}$.
 This means that Newton's 2nd law is a second order differential equation for $\vec{x}(t)$.
-Thus, given $\vec{x}$ and $\dot{\vec{x}}$ of all particles in a system at some time, Newton's equations uniquely determine $\vec{x}(t)$ for all future and past times.
-The force cannot depend exclusively on time because there is no preferred time in the universe as we saw in \cref{galileanRelativity}.
-\begin{remark}
-  Newtonian mechanics has been superseded by both quantum mechanics (generally, small things) and relativity (generally, fast things), but nevertheless accurately describes much of the universe.
+Thus, given $\vec{x}(t_0)$ and $\dot{\vec{x}}(t_0)$ of all particles in a system at some time $t_0$, Newton's equations uniquely determine $\vec{x}(t)$ for all future and past times.
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Forces \textit{can} depend on higher derivatives (for example, the \textit{Abraham-Lorentz force} which depends on $\dddot{\vec{x}}$) however we do not consider such forces in classical mechanics so that Newtons 2nd Law remains an explicit equation and is also a well posed initial value problem.
+    \item Forces can also explicitly depend on time, however, we will not consider such forces within this course.
+    \item Newtonian mechanics has been superseded by both quantum mechanics (generally, small things) and relativity (generally, fast things), but nevertheless accurately describes much of the universe.
+  \end{itemize}
 \end{remark}
 \section{Conservative Forces}
 \begin{definition}[Conservative Force]
@@ -74,9 +77,14 @@ If we let $\vec{r} = \vec{x} - \vec{x}_0$ be the vector that points from $\vec{x
   F = -\frac{GMm}{r^2} \uvec{r} \text{ where } \uvec{r} = \frac{\vec{r}}{|\vec{r}|}
 \]
 which is the \textit{inverse square law of gravity}.
-The force is going in the opposite direction to $\uvec{r}$ so the force acting on the particle of mass $m$ at $\vec{x}$ is attractive towards the particle of mass $M$ at $\vec{x}_0$, as expected.
+\begin{remark}
+  The above calculation effectively derives the Vector Calculus identity $\nabla V(r) = \frac{V'(r)}{r} \vec{r}$.
+  Noting that $\nabla$ is invariant under changes of origin, applying this to the gravitational potential energy yields the result for $\vec{F}$ immediately.
+\end{remark}
+The force is going in the \textbf{opposite} direction to $\uvec{r}$ so the force acting on the particle of mass $m$ at $\vec{x}$ is attractive towards the particle of mass $M$ at $\vec{x}_0$, as expected.
 
 Sometimes we write $V = m \Phi$ where $\Phi = -\frac{GM}{|\vec{x} - \vec{x}_0|}$ is called the \textit{gravitational potential}.
+This is useful as then $\Phi$ does not depend on $m$.
 
 Near the surface of the Earth, take $\vec{x}_0 = \vec{0}$ to be the centre of the Earth and $|\vec{x}| = R + z$, where $R$ is the radius of the Earth and $z \ll R$ is the distance above the surface.
 \begin{align*}
@@ -86,11 +94,11 @@ Near the surface of the Earth, take $\vec{x}_0 = \vec{0}$ to be the centre of th
 \end{align*}
 We define $g = \frac{GM}{R^2} \approx \qty{9.81}{\metre\second^{-2}}$ on Earth.
 So $\Phi(R + z) \approx \text{constant} + gz$ near the earth.
-Using this approximation, when we take the gradient, the constant drops out so $\nabla \Phi = g\uvec{z}$.
-Thus $\vec{F} = -m\nabla \Phi = -mg\uvec{z}$ which is a constant downwards force.
+Using this approximation, when we take the gradient, the constant drops out and so $\nabla \Phi = g\uvec{z}$.
+So near the surface of the Earth, $\vec{F} = -m\nabla \Phi = -mg\uvec{z}$, which is a constant downwards force.
 
 This force leads to the simplest nontrivial example of motion due to a force.
-Newton's 2nd Law (\cref{newton2}) tells us that:
+Applying Newton's 2nd Law (\cref{newton2}) we have that:
 \[
   m \ddot{\vec{x}} = m \vec{g} \text{ where } \vec{g} = (0, 0, -g)
 \]
@@ -101,31 +109,34 @@ Considering the $z$ component:
   \implies z &= z_0 + v_0 t - \frac{1}{2}gt^2
 \end{align*}
 where $z_0$ is the initial height and $v_0$ is the initial velocity.
+This is the standard equation for free fall, as expected.
 \begin{remark}[Assumptions]
   \begin{itemize}
     \item We treated the Earth as a point particle, assuming that all of its mass is concentrated in a single point.
-    \item We ignored non-inertial effects as technically the Earth is accelerating so is not an inertial frame.
+    \item We ignored non-inertial effects as technically the Earth is accelerating and so is not \textit{technically} an inertial frame.
   \end{itemize}
 \end{remark}
 \subsection{Energy}
 \label{energySec}
-\begin{definition}[Conserved Energy for Conservative Forces]
+\begin{proposition}[Conserved Energy for Conservative Forces]
   Conservative forces have a \textit{conserved energy}:
   \begin{align*}
     E &= \frac{1}{2}m \dot{\vec{x}} \cdot \dot{\vec{x}} + V(\vec{x}) \\
       &= \frac{1}{2}m \dot{x}_i \dot{x}_i + V(\vec{x})
   \end{align*}
-\end{definition}
-We can check that it is constant by computing $\deriv{E}{t}$:
-\begin{align*}
-  \deriv{E}{t} &= m \dot{x}_i \ddot{x}_i + \pderiv{V}{x_i}\dot{x}_i \\
-  &= \dot{x}_i\left(m \ddot{x}_i + \pderiv{V}{x_i}\right) \\
-  &= 0 \text{ as $\vec{F} = m \ddot{\vec{x}} = -\nabla V$}
-\end{align*}
+\end{proposition}
+\begin{proof}
+  We can check that it is constant by computing $\deriv{E}{t}$:
+  \begin{align*}
+    \deriv{E}{t} &= m \dot{x}_i \ddot{x}_i + \pderiv{V}{x_i}\dot{x}_i \\
+    &= \dot{x}_i\left(m \ddot{x}_i + \pderiv{V}{x_i}\right) \\
+    &= 0 \text{ as $\vec{F} = m \ddot{\vec{x}} = -\nabla V$}
+  \end{align*}
+\end{proof}
 \begin{example}[Escape Velocity]
   \label{escapeVelocity}
   Suppose we throw an object into space and want it to never fall back down.
-  The minimal velocity the object must have to achieve this is called the \textit{escape velocity}.
+  We call the minimal velocity the object must have to achieve this the \textit{escape velocity}.
 
   As the object is thrown:
   \[
@@ -176,8 +187,8 @@ There are two ways to see this:
 \begin{proof}[2]
   Using the fundamental theorem of calculus for line integrals from Vector Calculus, we have:
   \begin{align*}
-    T &= \int_{C} \vec{F} \cdot \d{\vec{x}} \\
-      &= - \int_{C} \nabla V \cdot \d{\vec{x}} \\
+    W &= \int_{C} \vec{F} \cdot \d{\vec{x}} \\
+      &= - \int_{C} \nabla V \cdot \d{\vec{x}} \text{ as $\vec{F}$ is conservative} \\
       &= V(\vec{x}_1) - V(\vec{x}_2)
   \end{align*}
   which again only depends on the endpoints $\vec{x}_1$ and $\vec{x}_2$.
@@ -193,7 +204,6 @@ There are two ways to see this:
 \subsection{Lorentz Force}
 \label{lorentzForce}
 Forces that depend on the velocity typically do not have a conserved energy (e.g. frictional forces), however, the \textit{Lorentz force} is an exception.
-
 \begin{definition}[Lorentz Force]
   Electromagnetic fields exert the following force on a particle with \textit{charge} $q$ at position $\vec{x}$:
   \[
@@ -204,7 +214,7 @@ Forces that depend on the velocity typically do not have a conserved energy (e.g
 \begin{remark}[Charge]
   \textit{Charge} is another property that point particles can have.
   Unlike mass, it can be both positive or negative.
-  For an electron $q \approx \qty{-1.6e-19}{\coulomb}$ which is the negative of the \textit{elementary charge} $e$.
+  For an electron $q \approx \qty{-1.6e-19}{\coulomb}$ which is the negation of the \textit{elementary charge} $e$.
 \end{remark}
 For this course, we will only consider \textit{static} electric and magnetic fields that \textbf{are independent of time}.
 Static electric fields can be written in the form:
@@ -212,7 +222,6 @@ Static electric fields can be written in the form:
   \vec{E} = -\nabla \phi(\vec{x})
 \]
 where $\phi$ is called the \textit{electric potential}.
-
 \begin{proposition}[Conserved Energy in Electromagnetic Field]
   The conserved energy in an electromagnetic field is $E = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} + q\phi(\vec{x})$.
 \end{proposition}
@@ -229,7 +238,7 @@ where $\phi$ is called the \textit{electric potential}.
 \end{proof}
 The velocity-dependent force ($\dot{\vec{x}} \times B$) is orthogonal to the trajectory of the particle so \textbf{does no work on the particle} and thus \textbf{energy is conserved}.
 This is unlike, for example, a frictional force, where the velocity-dependent force is not orthogonal to the trajectory so \textbf{work is done on the particle} and so \textbf{energy is not conserved}.
-
+This is why we require that we are working with electrostatics so that we are able to write $\vec{E} = - \nabla \phi (\vec{x})$ (i.e. the electric force is conservative), but do not impose any restrictions on $\vec{B}$ (since $\vec{x} \cdot \vec{B}$ always conserves energy).
 \subsection{Electric Forces}
 \label{electricForces}
 Electric forces are similar to gravitational forces explored in \cref{gravity}.
@@ -255,7 +264,7 @@ This is called the \textit{Coulomb force}.
 Similarly to with gravity, $\uvec{r}$ points from $\vec{x}_0$ of charge $Q$ to $\vec{x}$ of charge $q$.
 There are two cases:
 \begin{itemize}
-  \item If $Q$ and $q$ both share the same sign, $Qq > 0$ so the force is repulsive (like charges repel).
+  \item If $Q$ and $q$ both share the same sign, $Qq > 0$ and so the force is repulsive (like charges repel).
   \item If $Q$ and $q$ have different signs, then $Qq < 0$ and so the force is attractive (opposite charges attract).
 \end{itemize}
 
@@ -330,6 +339,7 @@ This has three parts:
   \item The initial position $\vec{x}_0$ (arbitrary constants $x_0, y_0, z_0$).
   \item Circular motion amplitude $A$ and angular frequency $\omega$ in the $x$-$y$ plane (arbitrary constants $A$ and $\phi$).
   \item Constant velocity $v_0$ in the $z$ direction (arbitrary constant $v_0$).
+    If this is 0, then we obtain just circular motion in the $x$-$y$ plane.
 \end{enumerate}
 \begin{remark}
   There are six arbitrary constants in total, which is expected for a system of three second order differential equations.
@@ -374,8 +384,7 @@ If $F_x$ is independent of the velocity, then it can always be written in terms 
 \]
 where $x_0$ is an arbitrary reference point and $x'$ is a dummy variable.
 If we differentiate this, using the fundamental theorem of calculus, we see that $F_x(x) = -\deriv{V}{x}$.
-This is the 1D analogue of $\vec{F} = - \nabla V$.
-The following energy is then conserved:
+This is the 1D analogue of $\vec{F} = - \nabla V$ and so the following energy is conserved:
 \[
   E = \frac{1}{2} m \dot{x}^2 + V(x)
 \]
@@ -385,15 +394,16 @@ Since $E = \text{constant}$, this gives us a first order differential equation f
 \[
   \dot{x} = \pm \sqrt{\frac{2}{m}(E - V(x))}
 \]
-This is separable we can rearrange and integrate to yield:
+This is separable so we can rearrange and integrate to yield:
 \begin{equation}
   t - t_0 = \pm \int_{x_0}^{x} \frac{\d{x'}}{\sqrt{\frac{2}{m}(E - V(x'))}} \label{1dIntegral}
 \end{equation}
 where $x'$ is a dummy variable.
 \begin{remark}
-  Although we have both $t_0$ and $x_0$, there is only one constant here as changes to the integration bound $x_0$ can just be absorbed by $t_0$.
-
-  It is also normally clear from context which sign is appropriate to take for the $\pm$.
+  \begin{itemize}
+    \item Although we have both $t_0$ and $x_0$, there is only one constant here as changes to the integration bound $x_0$ can just be absorbed by $t_0$.
+    \item It usually clear from context which sign is appropriate to take for the $\pm$.
+  \end{itemize}
 \end{remark}
 If $x = x_0$, then $t = t_0$ so $t_0$ is the time when $x$ is at its initial position $x_0$.
 The quantity $t - t_0$ is then how long it takes for the particle to go from $x_0$ to $x$ if it has energy $E$.
@@ -410,7 +420,7 @@ In this case we can still analyse the behaviour of the particle by considering t
 Since $E = \frac{1}{2}m \dot{x}^2 + V(x)$ and $\dot{x}^2 \geq 0$, we must have $E \geq V(x)$.
 This restricts the ranges of $x$ where the particle can possibly be if it has energy $E$.
 \begin{center}
-\begin{tikzpicture}[scale=1.3]
+\begin{tikzpicture}[scale=1.3, >=stealth]
   \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
   \draw[->] (0, -1) -- (7, -1) node[right] {$x$};
   \draw[dashed] (0, 0) -- (7, 0) node[right] {$E$};
@@ -433,11 +443,11 @@ The points where $V(x) = E$ have $\dot{x} = 0$ and are called \textit{turning po
 Typically, particles ``bounce off'' the potential at turning points and turn around.
 
 Region 2 of the above graph is bounded so the particle bounces back and forth between turning points so its motion is bounded.
-However, region 1 of the above graph is unbounded so the particle bounces off the turning point and then flies off to $x \to -\infty$ so its motion is unbounded.
+However, region 1 of the above graph is unbounded so the particle bounces off the turning point and then flies off towards $x \to -\infty$ so its motion is unbounded.
 
 A special cases occurs when $E = V(x_0)$ and $V'(x_0) = 0$:
 \begin{center}
-\begin{tikzpicture}[scale=1.3]
+\begin{tikzpicture}[scale=1.3, >=stealth]
   \begin{scope}[scale=0.5]
     \node at (5, 2) {$V''(x_0) < 0$};
     \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
@@ -449,7 +459,7 @@ A special cases occurs when $E = V(x_0)$ and $V'(x_0) = 0$:
     \draw[thick, domain=0:7, smooth, samples=100] plot (\x,{0.2*(\x - 2)*(\x - 4)*(\x - 6)});
   \end{scope}
 
-  \begin{scope}[scale=0.5, xshift=9cm]
+  \begin{scope}[scale=0.5, xshift=9cm, >=stealth]
     \node at (5, 2) {$V''(x_0) > 0$};
     \draw[->] (0, -2) -- (0, 2) node[right] {$V(x)$};
     \draw[->] (0, -1) -- (7, -1) node[right] {$x$};
@@ -487,6 +497,9 @@ There are then three main cases:
     which are oscillations with frequency $\omega = \sqrt{\frac{V''(x_0)}{m}}$.
     For small $A$, the amplitude is small so we stay close to the equilibrium point and so neglecting higher order terms in the Taylor expansion remains valid.
     This is called a \textit{stable equilibrium point}.
+    \begin{remark}
+      During its oscillations it may appear as if the particle is inside a region of the graph where $V > E$, however, arbitrarily displacing the particle from $x_0$ modifies its energy for subsequent motion.
+    \end{remark}
   \end{case}
   \begin{case}{$V''(x_0) < 0$}
     If $V''(x_0) < 0$ (i.e. a maximum point of $V$), then we get an \textit{unstable equilibrium point} and the solution looks like:
@@ -498,8 +511,7 @@ There are then three main cases:
     If $\widetilde{A} \neq 0$, then we have exponential growth so the particle moves far away from the equilibrium point rapidly and so the Taylor expansion breaks down quickly.
     The size of $\gamma$ tells us how quickly the particle moves away from the equilibrium point.
 
-    If $\widetilde{A} = 0$ and $\widetilde{B} \neq 0$, then this corresponds to ``rolling'' up the potential with just enough energy to reach the top as $t \to \infty$.
-    We can see this as when $t \to \infty$, $x \to x_0$ which is at the maximum.
+    If $\widetilde{A} = 0$ and $\widetilde{B} \neq 0$, then this corresponds to ``rolling'' up the potential with just enough energy to reach the top as $t \to \infty$ since as $t \to \infty$, $x \to x_0$ which is at the maximum.
   \end{case}
   \begin{case}{$V''(x_0) = 0$}
     If $V''(x_0) = 0$, then we would need to Taylor expand to a higher order to analyse the system.
@@ -524,6 +536,7 @@ At a mathematical level, dimensional analysis the ability to rescale variables t
   \]
   This equation does not depend on $g$ and $\ell$ so neither can $F$.
   Because of this, the period $\Delta \tau$ of $F(\tau)$ may depend on the initial condition $\theta_0$ but cannot depend $g$ or $\ell$.
+  By definition $F(\tau) = \theta(t)$ and so our goal is to rewrite $F(\tau + \Delta \tau)$ as $\theta(t + \Delta t)$.
   \begin{align*}
     F(\tau + \Delta \tau) = F(\tau) \implies \theta(t) &= F\left(\sqrt{\frac{g}{\ell}}t\right) = F\left(\sqrt{\frac{g}{\ell}}t + \Delta \tau\right) \\
                                                        &= F\left(\sqrt{\frac{g}{\ell}}\left[t + \sqrt{\frac{\ell}{g}}\Delta \tau\right]\right) \\
@@ -565,7 +578,7 @@ The fundamental rule of dimensional analysis is that for all equations, the dime
   \]
   Note that we know that $\theta_0$ is dimensionless as it is the argument to a $\sin$ function.
   We want $[T] = T$.
-  The choice of $T$ as a variable name here is a little confusing, we want the quantity $T$ to have dimensions of time.
+  The choice of $T$ as a variable name here is a little confusing; we want the quantity $T$ to have dimensions of time.
 
   $T$ can only depend on data that we have so must be in the form $T = f(\theta_0)g^{A}\ell^{B}M^{C}$ for constants $A, B, C, D$.
   We use $f(\theta_0)$ since $\theta_0$ is dimensionless so any $f(\theta_0)$ is also dimensionless.
@@ -716,7 +729,7 @@ Therefore:
   \[
    t_0 = \sqrt{\frac{m}{kg}}\artanh(p) \implies t_0 \propto \sqrt{\frac{m}{kg}}
   \]
-  which agrees with our result using dimensional analysis as $\tanh(p)$ must be dimensionless.
+  which agrees with our result using dimensional analysis as $\artanh(p)$ must be dimensionless.
 \end{remark}
 \subsection{Damping}
 Drag also \textit{damps} the small oscillations about a stable equilibrium point.
@@ -741,5 +754,7 @@ There are three cases:
     In this case, we get decay of form $x = (A + t)e^{-\alpha t}$ as $\Omega = 0$.
   \end{case}
 \end{proofcases}
-We solved this in IA Differential Equations and it is discussed in further detail there.
+\begin{remark}
+  We analysed the problem of a damped oscillator in more detail within IA Differential Equations.
+\end{remark}
 \end{document}
