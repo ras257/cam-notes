@@ -18,7 +18,7 @@ The stereographic projection identifies $\C$ with all the points of the sphere e
   Let $a, b, c, d \in \C$ such that $ad - bc \neq 0$.
   The \textit{m\"obius transform}, $\mu: \Cinf \to \Cinf$ is defined as:
 
-  For $c \neq 0$:
+  \textbf{For $c \neq 0$:}
   \[
     z \mapsto \begin{cases}
     \frac{az + b}{cz + d} & \text{if $z \in \C \setminus \{-\frac{d}{c}\}$} \\
@@ -26,7 +26,7 @@ The stereographic projection identifies $\C$ with all the points of the sphere e
     \frac{a}{c} & \text{if $z = \infty$}
     \end{cases}
   \]
-  For $c = 0$:
+  \textbf{For $c = 0$:}
   \[
     z \mapsto \begin{cases}
     \frac{az + b}{d} & \text{if $z \in \C$} \\
@@ -101,15 +101,15 @@ For brevity, we usually just write:
     \item \textbf{Associativity -} Composition of functions is associative, see \cref{assocLemma}.
     \item \textbf{Identity -}
       \[
-        \id: z \mapsto z = \frac{1\cdot z + 0}{0 \cdot z + 1} \in \mob
+        \id_{\Cinf}: z \mapsto z = \frac{1\cdot z + 0}{0 \cdot z + 1} \in \mob
       \]
     \item \textbf{Inverses -} Let:
       \[
         \mu: z \mapsto \frac{az + b}{cz + d},\ \nu: z \mapsto \frac{dz - b}{-cz + a}
       \]
-      Then by \cref{mobComposition}:
+      By \cref{mobComposition}:
       \[
-        \mu \circ \nu = \left(\frac{ad - bc}{ad - bc}\right)z =z
+        \mu \circ \nu(z) = \left(\frac{ad - bc}{ad - bc}\right)z = z \implies \mu \circ \nu = \id_{\Cinf}
       \]
       So $\mu^{-1} = \nu \in \mob$.
     \item \textbf{Closure -} See \cref{mobComposition}.
@@ -130,25 +130,26 @@ One important way to study M\"obius transforms is via their fixed points.
 \end{lemma}
 \begin{proof}
   Let $\mu(z) = \frac{az + b}{cz + d}$.
-  A fixed point $w_i$ satisfies the equation:
-  \[
-    w_i = \frac{aw_i + b}{cw_i + d}
-  \]
+  Since the $w_i$ are distinct, we either have one infinite $w_i$ or none.
   \begin{proofcases}
     \begin{case}{One $w_i$ is infinite}
-      WLOG suppose $w_1 = \infty$, then $c = 0$ so $w_2$ and $w_3$ satisfy:
+      WLOG suppose $w_1 = \infty$.
+      This means that $\mu(\infty) = \infty$ which can only happen when $c = 0$.
+      Neither of $w_2$ and $w_3$ are infinite and $c = 0$ so we need only consider the case where $z \mapsto \frac{az + b}{d}$, thus:
       \[
-        w_i = \frac{aw_i + b}{d} \iff (a-d)w_i + b = 0
+        \mu(w_i) = w_i \implies = \frac{aw_i + b}{d} \implies (a - d)w_i + b = 0 \text{ for $i \in \{2, 3\}$}
       \]
       This is a linear equation with at least 2 distinct roots so must be trivial, that is, $a = d$ and $b = 0$.
       So $\mu(z) = \frac{az}{d} = z = \id$.
     \end{case}
-    \begin{case}{$w_i \neq \infty$}
+    \begin{case}{No infinite $w_i$}
       Now suppose every $w_i \neq \infty$.
+      Since $c \neq 0$ and $\mu(-\frac{d}{c}) = \infty$, $-\frac{d}{c} \notin \Fix(\mu)$ and so we need only consider the case where $z \mapsto \frac{az + b}{cz + d}$.
       \begin{align*}
-        w_i &= \frac{aw_i + b}{cw_i + d} \\
-        cw^{2}_{i} + dw_i &= aw_i + b \\
-        cw^{2}_{i} + (d - a)w_i - b &= 0
+        &\mu(w_i) = w_i \\
+        \implies& w_i = \frac{aw_i + b}{cw_i + d} \\
+        \implies& cw^{2}_{i} + dw_i = aw_i + b \\
+        \implies& cw^{2}_{i} + (d - a)w_i - b = 0
       \end{align*}
       This is a quadratic with at least 3 roots so must be trivial, that is, $b = c = 0$ and $a = d$.
       So again $\mu(z) = \id$.
@@ -164,21 +165,13 @@ One important way to study M\"obius transforms is via their fixed points.
       Then, by definition, $\mu(\infty) = \infty$ so $\infty \in \Fix(\mu)$.
     \end{case}
     \begin{case}{$c \neq 0$}
-      A fixed point of $\mu$ satisfies:
+      For $z \in \C \setminus \{-\frac{d}{c}\}$, a fixed point of $\mu$ satisfies:
       \[
         \mu(z) = \frac{az + b}{cz + d} = z \\
         \iff az + b = cz^2 + dz \\
         \iff cz^2 + (d - a)z - b = 0
       \]
-      This is a quadratic so has at least 2 roots.
-      Note that $z = -\frac{d}{c}$ cannot be a root otherwise we would have:
-      \begin{align*}
-        c\left(-\frac{d}{c}\right)^2 + \left(-\frac{d}{c}\right)(d-a) - b &= 0 \\
-        \frac{d^2}{c} - \frac{d^2}{c} + \frac{ad}{c} - b &= 0 \\
-        \frac{ad}{c} - b &= 0 \\
-        ad - bc &= 0
-      \end{align*}
-      So we must have at least one $z$ satisfying $\mu(z) = z$.
+      This is a quadratic so has at least one distinct root and so we must have at least one $z$ satisfying $\mu(z) = z$.
     \end{case}
     In both cases, $\mu$ fixes at least one point.
   \end{proofcases}
@@ -190,16 +183,15 @@ One important way to study M\"obius transforms is via their fixed points.
   \end{enumerate}
 \end{example}
 \begin{lemma}[Triple Transitivity]
-  For any triples of distinct points $z_1, z_2, z_3 \in \Cinf$ and $w_1, w_2, w_3 \in \Cinf$ there exists a $\mu \in \mob$ such that $\mu(z_i) = w_i$ for $i = 1, 2, 3$.
-  \label{tripleTransitivity}
+  For any triples of distinct points $z_1, z_2, z_3 \in \Cinf$ and $w_1, w_2, w_3 \in \Cinf$ there exists a $\mu \in \mob$ such that $\mu(z_i) = w_i$ for $i = 1, 2, 3$. \label{tripleTransitivity}
 \end{lemma}
 \begin{proof}
-  Let $\alpha \in \mob$ be:
+  Since the points are distinct, let $\alpha \in \mob$ be:
   \[
     \alpha(z) = \left(\frac{z - z_1}{z - z_3}\right) \left(\frac{z_2 - z_3}{z_2 - z_1}\right)
   \]
   \begin{remark}[Note]
-    If one of $z_i$ is infinite, then we can modify $\alpha$ to be:
+    If one of the $z_i$ is infinite, then we can modify $\alpha$ to be:
     \[
       z_1 = \infty \to \frac{z_2 - z_3}{z - z_3},\ z_2 = \infty \to \frac{z - z_1}{z - z_3}, z_3 = \infty \to \frac{z - z_1}{z_2 - z_1}
     \]
@@ -209,7 +201,7 @@ One important way to study M\"obius transforms is via their fixed points.
   \[
     \alpha: z_1 \mapsto 0,\ z_2 \mapsto 1,\ z_3 \mapsto \infty
   \]
-  Similarly, we can write down a $\beta \in \mob$ such that:
+  Similarly, we can construct a $\beta \in \mob$ such that:
   \[
     \beta: w_1 \mapsto 0,\ w_2 \mapsto 1,\ w_3 \mapsto \infty
   \]
@@ -228,7 +220,7 @@ One important way to study M\"obius transforms is via their fixed points.
 
   We say that the action of $\mob$ on $\Cinf$ is \textit{sharply triple transitive}.
 \end{remark}
-\section{Cross Ratio}
+\section{Cross Ratio} \label{crossRatio}
 \begin{definition}[Cross Ratio]
   Let $z_1, z_2, z_3, z_4 \in \Cinf$ be distinct.
   Because $\mob \acts \Cinf$ sharply triple transitively, there is a unique $\alpha \in \mob$ such that:
@@ -243,15 +235,15 @@ One important way to study M\"obius transforms is via their fixed points.
 \begin{remark}[Note]
   We see from \cref{tripleTransitivity} that:
   \[
-    [z_1, z_2, z_3, z_4] = \left(\frac{z_4 - z_1}{z_4 - z_3}\right)\left(\frac{z_2 - z_3}{z_2 - z_1}\right)
+    [z_1, z_2, z_3, z_4] = \frac{(z_4 - z_1)(z_2 - z_3)}{(z_4 - z_3)(z_2 - z_1)}
   \]
 \end{remark}
 \section{Generating Set}
 Similarly to the Dihedral groups, we can use the three-point lemma to find a generating set for $\mob$.
 \begin{proposition}
-  $\mob$ is generated by the set of elements of the following three forms:
+  $\mob$ is generated by the set of elements of the following three forms: \label{mobGenerators}
   \begin{enumerate}
-    \item $\alpha_a : z \mapsto az,\ a \neq 0$
+    \item $\alpha_a : z \mapsto az,\ a \in \C \setminus \{0\}$
     \item $\beta_b: z \mapsto z + b,\ b \in \C$
     \item $\gamma: z \mapsto \frac{1}{z}$
   \end{enumerate}
@@ -260,8 +252,10 @@ Similarly to the Dihedral groups, we can use the three-point lemma to find a gen
   We should \textbf{not} claim that something is \textit{the} generating set, just that it is \textit{a} generating set of the group.
 \end{remark}
 \begin{proof}
-  Let $\mu \in \mob$ be an arbitrary M\"obius transform, and let $z_1 = \mu(0), z_2 = \mu(1), z_3 = \mu(\infty)$.
+  Let $\mu \in \mob$ be an arbitrary M\"obius transform, and let $z_1 = \mu(0),\ z_2 = \mu(1),\ z_3 = \mu(\infty)$.
   Note that since M\"obius transforms are invertible, $z_1$, $z_2$, and $z_3$ must be distinct.
+  We want to construct $\widetilde{\mu}$ using this generating set such that $\widetilde{\mu}(z_1) = 0,\ \widetilde{\mu}(z_2) = 1,\ \widetilde{\mu}(z_3) = \infty$.
+  $\widetilde{\mu}^{-1}$ and $\mu$ would then agree on three distinct points and so the result would follow from \cref{threePointMob}.
 
   \textbf{Step 1 -}
   We first need to construct a $\mu_1$ such that $\mu_1(z_3) = \infty$.
@@ -300,11 +294,7 @@ Similarly to the Dihedral groups, we can use the three-point lemma to find a gen
     \mu_3 \circ \mu_2 \circ \mu_1 (z_2) &= \mu_3 \circ \mu_2 (z_2') = \mu_3(z_2'') = 1 \\
     \mu_3 \circ \mu_2 \circ \mu_1 (z_3) &= \mu_3 \circ \mu_2 (\infty) = \mu_3(\infty) = \infty
   \end{align*}
-  We can now invert this so that $(\mu_3 \circ \mu_2 \circ \mu_1)^{-1} = \mu^{-1}_{1} \circ \mu^{-1}_{2} \circ \mu^{-1}_{3}$ sends:
-  \[
-    \mu^{-1}_{1} \circ \mu^{-1}_{2} \circ \mu^{-1}_{3}: 0 \mapsto z_1,\ 1 \mapsto z_2,\ \infty \mapsto z_3
-  \]
-  This is the same as $\mu$ on three distinct points, therefore by \cref{threePointMob}, $\mu = \mu^{-1}_{1} \circ \mu^{-1}_{2} \circ \mu^{-1}_{3}$ which is a combination of the three generators.
+  Thus $\widetilde{\mu} = \mu_3 \circ \mu_2 \circ \mu_1$ works and is constructed only from elements of the generating set.
 \end{proof}
 \section{Circles}
 \subsection{Generalised Circles}
@@ -312,16 +302,16 @@ Similarly to the Dihedral groups, we can use the three-point lemma to find a gen
   A \textit{circle in} $\Cinf$ is either:
   \begin{enumerate}
     \item  A Euclidean circle in $\C$
-    \item $l \cup \{\infty\}$ where $l \subseteq \C$ is a Euclidean straight line.
+    \item $\ell \cup \{\infty\}$ where $\ell \subseteq \C$ is a Euclidean straight line.
   \end{enumerate}
 \end{definition}
-Euclidean circles are defined by the equation:
+Euclidean circles are defined by $z \in \C$ satisfying the equation:
 \[
-  |z - c| = r \quad z, c\in \C,\ r \in \R^{+}
+  |z - c| = r \quad c\in \C,\ r \in \R^{+}
 \]
-whilst lines are defined by:
+whilst lines are defined by $z \in \C$ satisfying:
 \[
-  |z - a| = |z - b| \quad z, a, b \in \C
+  |z - a| = |z - b| \quad a, b \in \C
 \]
 which is the perpendicular bisector of the line joining $a$ and $b$.
 \subsection{Preserving Circles}
@@ -329,79 +319,85 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
   If $C \subseteq \Cinf$ is a circle and $\mu \in \mob$, then $\mu(C)$ is also a circle.
 \end{theorem}
 \begin{proof}
-  Recall that $\mob$ is generated by:
+  Recall from \cref{mobGenerators} that $\mob$ is generated by:
   \begin{itemize}
-    \item $\alpha_a : z \mapsto az,\ a \neq 0$
+    \item $\alpha_a : z \mapsto az,\ a \in \C \setminus \{0\}$
     \item $\beta_b: z \mapsto z + b,\ b \in \C$
     \item $\gamma: z \mapsto \frac{1}{z}$
   \end{itemize}
   So it is sufficient to check that $\alpha_a(C)$, $\beta_b(C)$, and $\gamma(C)$ are all circles.
-  For $\alpha_a$ and $\beta_b$, this is easy as dilations, rotations, and translations preserve euclidean circles and lines.
-  So we just need to check it for $\gamma$.
+  For $\alpha_a$ and $\beta_b$, this is immediate as we know that dilations, rotations, and translations preserve euclidean circles and lines.
+  Thus it we need only explicitly test this for $\gamma$.
   \begin{proofcases}
     \begin{case}{$C$ is a Euclidean Circle}
       If $C$ is a Euclidean circle, then $\gamma(C)$ has equation:
       \begin{align*}
-        \abs{\frac{1}{z} - c} &= r \\
+        \abs{\gamma^{-1}(z) - c} = \abs{\frac{1}{z} - c} &= r \\
         \abs{\frac{1}{z} - c}^2 &= r^2 \\
-        \left(\frac{1}{z} - c\right)\left(\frac{1}{z^{*}} - c^{*}\right) &= r^2 \\
-        \frac{1}{|z|^2} - \frac{c}{z^{*}} - \frac{c^{*}}{z} + |c|^2 -r^2 &= 0 \\
-        \left(|c|^2 - |r|^2\right)|z|^2 - cz - c^{*}z^{*} + 1 &= 0
+        \left(\frac{1}{z} - c\right)\left(\frac{1}{\overline{z}} - \overline{c}\right) &= r^2 \\
+        \frac{1}{|z|^2} - \frac{c}{\overline{z}} - \frac{\overline{c}}{z} + |c|^2 -r^2 &= 0 \\
+        \left(|c|^2 - |r|^2\right)|z|^2 - cz - \overline{c}\overline{z} + 1 &= 0
       \end{align*}
-      If $|c|^2 = |r|^2$, then the equation becomes:
+      If $|c|^2 = |r|^2$, we expect it to become a line with with infinity as the circle passes through the origin.
+      As $|c| = |r|$, $c \neq 0$ else the circle would just be a single point, we can therefore divide through by $|c|^2 = c \overline{c}$:
       \begin{align*}
-        cz + c^{*}z^{*} &= 1 \\
-        \frac{z}{c^{*}} + \frac{z^{*}}{c} &= \frac{1}{|c|^2} \\
-        |z|^2 &= |z|^2 - \frac{z}{c^{*}} - \frac{z^{*}}{c} + \frac{1}{|c|^2} \\
+        cz + \overline{c}\overline{z} &= 1 \\
+        \frac{z}{\overline{c}} + \frac{\overline{z}}{c} &= \frac{1}{|c|^2} \\
+        |z|^2 &= |z|^2 - \frac{z}{\overline{c}} - \frac{\overline{z}}{c} + \frac{1}{|c|^2} \\
         |z|^2 &= \abs{z - \frac{1}{c}}^2 \\
         |z| &= \abs{z - \frac{1}{c}}
       \end{align*}
-      which is a euclidean straight line.
+      which is a euclidean straight line, say $\ell$.
       Note that $|c|^2 = |r|^2$ so $z = 0$ is on the circle.
-      $\gamma(0) = \infty$ so $\gamma(C) = l \cup \{\infty\}$, as required.
+      $\gamma(0) = \infty$ so $\gamma(C) = \ell \cup \{\infty\}$, as required.
 
-      Otherwise, if $|c|^2 \neq |r|^2$ then the equation becomes:
+      Otherwise, if $|c|^2 \neq |r|^2$, we expect a euclidean circle as $C$ does not pass through the origin.
+      We then try to manipulate the equation so that it is in the expanded form for a circle:
       \begin{align*}
-        |z|^2 - \left(\frac{c}{|c|^2 - r^2}\right) z - \left(\frac{c^{*}}{|c|^2 - r^2}\right)z^{*} + \frac{1}{|c|^2 - r^2} &= 0 \\
-        \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 &= \frac{|c|^2}{(|c|^2 - r^2)^2} - \frac{1}{|c|^2 - r^2} \\
-        \abs{z - \frac{c^{*}}{|c|^2 - r^2}}^2 &= \frac{r^2}{(|c|^2 - r^2)^2} \\
-        \abs{z - \frac{c^{*}}{|c|^2 - r^2}} &= \frac{r}{\abs{|c|^2 - r^2}} \in \R^{+}
+        |z|^2 - \left(\frac{c}{|c|^2 - r^2}\right) z - \left(\frac{\overline{c}}{|c|^2 - r^2}\right)\overline{z} + \frac{1}{|c|^2 - r^2} &= 0 \\
+        \abs{z - \frac{\overline{c}}{|c|^2 - r^2}}^2 &= \frac{|c|^2}{(|c|^2 - r^2)^2} - \frac{1}{|c|^2 - r^2} \\
+        \abs{z - \frac{\overline{c}}{|c|^2 - r^2}}^2 &= \frac{r^2}{(|c|^2 - r^2)^2} \\
+        \abs{z - \frac{\overline{c}}{|c|^2 - r^2}} &= \frac{r}{\abs{|c|^2 - r^2}} \in \R^{+}
       \end{align*}
       which is a circle.
     \end{case}
     \begin{case}{$C$ is a line}
-      So $C = l \cup \{\infty\}$.
-      We first consider the euclidean line $l \subseteq \C$.
-      $\gamma(l)$ has equation:
+      So $C = \ell \cup \{\infty\}$.
+      We first consider the euclidean line $\ell \subseteq \C$.
+      $\gamma(\ell)$ has equation:
       \begin{align*}
+        \abs{\gamma^{-1}(z) - a} &= \abs{\gamma^{-1}(z) - b} \\
         \abs{\frac{1}{z} - a} &= \abs{\frac{1}{z} - b} \\
         \abs{\frac{1}{z} - a}^2 &= \abs{\frac{1}{z} - b}^2 \\
-        \left(\frac{1}{z} - a\right)\left(\frac{1}{z^{*}} - a^{*}\right) &= \left(\frac{1}{z} - b\right)\left(\frac{1}{z^{*}} - b^{*}\right) \\
-        \cancel{\frac{1}{z^2}} - \frac{a}{z^{*}} - \frac{a^{*}}{z} + |a|^2 &= \cancel{\frac{1}{z^2}} - \frac{b}{z^{*}} - \frac{b^{*}}{z} + |b|^2 \\
-        |z|^2(|a|^2 - |b|^2) - z(a - b) - z^{*}(a^{*} - b^{*}) &= 0
+        \left(\frac{1}{z} - a\right)\left(\frac{1}{\overline{z}} - \overline{a}\right) &= \left(\frac{1}{z} - b\right)\left(\frac{1}{\overline{z}} - \overline{b}\right) \\
+        \cancel{\frac{1}{z^2}} - \frac{a}{\overline{z}} - \frac{\overline{a}}{z} + |a|^2 &= \cancel{\frac{1}{z^2}} - \frac{b}{\overline{z}} - \frac{\overline{b}}{z} + |b|^2 \\
+        |z|^2(|a|^2 - |b|^2) - z(a - b) - \overline{z}(\overline{a} - \overline{b}) &= 0
       \end{align*}
-      If $|a|^2 = |b|^2$, then the equation becomes:
+      If $|a|^2 = |b|^2$, we expect it to become a line with infinity as $\ell$ passes through the origin.
+      We also expect it to pass through the origin as $\gamma(\infty) = 0$ so we are aiming for both points that define the line to have the same modulus and so the first and last terms of each sides should be the same:
       \begin{align*}
-        z(a - b) + z^{*}(a^{*} - b^{*}) &= 0 \\
-        \left(\frac{a}{2} - \frac{b}{2}\right)z - \left(\frac{b}{2} - \frac{a}{2}\right)z &+ \left(\frac{a^{*}}{2} - \frac{b^{*}}{2}\right)z^{*} - \left(\frac{b^{*}}{2} - \frac{a^{*}}{2}\right)z^{*} = 0 \\
-        -\left(\frac{b}{2} - \frac{a}{2}\right)z - \left(\frac{b^{*}}{2} - \frac{a^{*}}{2}\right)z^{*} &= -\left(\frac{a}{2} - \frac{b}{2}\right)z -\left(\frac{a^{*}}{2} - \frac{b^{*}}{2}\right)z^{*}
+        z(a - b) + \overline{z}(\overline{a} - \overline{b}) &= 0 \\
+        \left(\frac{a}{2} - \frac{b}{2}\right)z - \left(\frac{b}{2} - \frac{a}{2}\right)z &+ \left(\frac{\overline{a}}{2} - \frac{\overline{b}}{2}\right)\overline{z} - \left(\frac{\overline{b}}{2} - \frac{\overline{a}}{2}\right)\overline{z} = 0 \\
+        -\left(\frac{b}{2} - \frac{a}{2}\right)z - \left(\frac{\overline{b}}{2} - \frac{\overline{a}}{2}\right)\overline{z} &= -\left(\frac{a}{2} - \frac{b}{2}\right)z -\left(\frac{\overline{a}}{2} - \frac{\overline{b}}{2}\right)\overline{z}
       \end{align*}
-      We can then add $|z|^2$ and $\frac{|a - b|^2}{4}$ to both sides to yield:
+      We can then add $|z|^2$ and $\frac{|a - b|^2}{4}$ (which is the symmetry we expected) to both sides to yield:
       \[
-        \abs{z - \frac{b^{*} - a^{*}}{2}} = \abs{z - \frac{a^{*} - b^{*}}{2}}
+        \abs{z - \frac{\overline{b} - \overline{a}}{2}} = \abs{z - \frac{\overline{a} - \overline{b}}{2}}
       \]
-      which is a euclidean straight line.
+      which is a euclidean straight line, say $\ell'$.
       $z = 0$ is on the original line and $\gamma(0) = \infty$.
       Likewise, $z = 0$ is on the transformed line and $\gamma(\infty) = 0$.
-      So $\gamma(l \cup \{\infty\}) = l' \cup \{\infty\}$ as required.
+      So $\gamma(\ell \cup \{\infty\}) = \ell' \cup \{\infty\}$ as required.
 
-      Otherwise, if $|a|^2 \neq |b|^2$ then the equation becomes:
+      Otherwise, if $|a|^2 \neq |b|^2$, we expect a euclidean circle as $\ell$ does not pass through the origin.
+      We do however expect the circle to pass through the origin as $\gamma(\infty) = 0$ so we want $|r| = |c|$ (i.e. we will need to add a constant term to each side).
+      Proceeding similarly to before with this goal in mind, we have:
       \begin{align*}
-        |z|^2(|a|^2 - |b|^2) - z(a - b) - z^{*}(a^{*} - b^{*}) &= 0 \\
-        |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{a^{*} - b^{*}}{|a|^2 - |b|^2}\right)z^{*} &= 0 \\
-        |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{a^{*} - b^{*}}{|a|^2 - |b|^2}\right)z^{*} + \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} &= \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} \\
-        \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}}^2 &= \frac{|a -  b|^2}{(|a|^2 - |b|^2)^2} \\
-        \abs{z - \frac{a^{*} - b^{*}}{|a|^2 - |b|^2}} &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
+        |z|^2(|a|^2 - |b|^2) - z(a - b) - \overline{z}(\overline{a} - \overline{b}) &= 0 \\
+        |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{\overline{a} - \overline{b}}{|a|^2 - |b|^2}\right)\overline{z} &= 0 \\
+        |z|^2 - \left(\frac{a - b}{|a|^2 - |b|^2}\right)z - \left(\frac{\overline{a} - \overline{b}}{|a|^2 - |b|^2}\right)\overline{z} + \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} &= \frac{|a - b|^2}{(|a|^2 - |b|^2)^2} \\
+        \abs{z - \frac{\overline{a} - \overline{b}}{|a|^2 - |b|^2}}^2 &= \frac{|a -  b|^2}{(|a|^2 - |b|^2)^2} \\
+        \abs{z - \frac{\overline{a} - \overline{b}}{|a|^2 - |b|^2}} &= \frac{|a -  b|}{\abs{|a|^2 - |b|^2}} \in \R^{+}\\
       \end{align*}
       which is a circle.
       Finally, $\gamma(\infty) = 0$ which is on the circle.
@@ -410,23 +406,28 @@ which is the perpendicular bisector of the line joining $a$ and $b$.
   In all cases, $\gamma$ sends generalised circles to generalised circles.
 \end{proof}
 \begin{corollary}
-  Four points $z_1, z_2, z_3, z_4 \in \Cinf$ lie on a circle if and only if:
+  Four distinct points $z_1, z_2, z_3, z_4 \in \Cinf$ lie on a circle if and only if:
   \[
-    [z_1, z_2, z_3, z_4] \in \R \cup \{\infty\}
+    [z_1, z_2, z_3, z_4] \in \R
   \]
+  where $[z_1, z_2, z_3, z_4]$ is the cross ratio as defined in \cref{crossRatio}.
 \end{corollary}
+\begin{remark}
+  If the four points are not distinct, then we can always find such a circle.
+  This is because if three points are collinear, then we can find a euclidean line passing through them, otherwise we can find a euclidean circle passing through them.
+\end{remark}
 \begin{proof}
-  Let $\alpha \in \mob$ such that:
+  By \cref{tripleTransitivity}, there exists $\alpha \in \mob$ such that:
   \[
     \alpha(z_1) = 0,\ \alpha(z_2) = 1,\ \alpha(z_3) = \infty
   \]
   so $[z_1, z_2, z_3, z_4] = \alpha(z_4)$ by definition.
   \begin{proofdirection}{Assume the points lie on a circle}
     If $z_1, z_2, z_3, z_4$ lie on a circle, then $0, 1, \infty, \alpha(z_4)$ will lie on $\alpha(C)$, which, by the theorem is also a circle.
-    But the only circle containing $0, 1, \infty$ is the line $\R \cup \{\infty\}$ so $\alpha(z_4) \in \R \cup \{\infty\}$.
+    But the only circle containing $0, 1, \infty$ is the line $\R \cup \{\infty\}$ so since $z_4 \neq z_1 \implies \alpha(z_4) \neq \infty$ and thus $\alpha(z_4) \in \R$.
   \end{proofdirection}
-  \begin{proofdirection}{Assume $\alpha(z_4) \in \R \cup \{\infty\}$}
-    $\alpha(z_4) \in \R \cup \{\infty\}$, which we know is a circle that $0, 1, \infty$ lie on.
+  \begin{proofdirection}{Assume $\alpha(z_4) \in \R$}
+    So the points $0, 1, \infty, \alpha(z_4)$ all lie on the circle $\R \cup \{\infty\}$.
     Therefore:
     \[
       z_1, \ldots, z_4 \in \alpha^{-1} (\R \cup \{\infty\})

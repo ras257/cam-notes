@@ -502,7 +502,7 @@ To do this, we first need some geometric lemmas, the first of which is a basic f
 To prove the theorem we need to define two elements of $D_{2n}$:
 \begin{enumerate}
  \item Rotation by $2\pi/n$, $r(z) = e^{\frac{2\pi i}{n}}z$.
- \item Reflection in the real axis, $s(z) = z^{*}$.
+ \item Reflection in the real axis, $s(z) = \overline{z}$.
 \end{enumerate}
 We can now tackle the theorem which classifies the elements of $D_{2n}$:
 \begin{theorem}
@@ -529,9 +529,9 @@ We can now tackle the theorem which classifies the elements of $D_{2n}$:
 
   Similarly for $s$:
   \begin{align*}
-    |s(x) - s(y)| &= |x^{*} - y^{*}| \\
-                  &= |(x - y)^{*}| \\
-                  &= |x-y|
+    |s(x) - s(y)| &= |\overline{x} - \overline{y}| \\
+                  &= |\overline{(x - y)}| \\
+                  &= |x - y|
   \end{align*}
   So $s$ is also an isometry.
   Furthermore:
@@ -620,8 +620,8 @@ To better understand the group operations on $D_{2n}$ we need to understand all 
   As described in the above remark, it suffices to check that the two expressions do the same thing to three non-collinear points.
   We again pick the convenient points $x = 1, y = e^{\frac{2\pi i}{n}}, z = e^{-\frac{2\pi i}{n}}$:
   \begin{align*}
-    sr(x) &= s\left(e^{\frac{2\pi i}{n}}\right) = \left(e^{\frac{2\pi i }{n}}\right)^{*} = e^{-\frac{2\pi i}{n}} = r^{-1}(x) = r^{-1}s(x) \\
-    sr(y) &= s\left(e^{\frac{4\pi i}{n}}\right) = \left(e^{\frac{4\pi i }{n}}\right)^{*} = e^{-\frac{4\pi i}{n}} = r^{-1}(z) = r^{-1}s(y) \\
+    sr(x) &= s\left(e^{\frac{2\pi i}{n}}\right) = \overline{\left(e^{\frac{2\pi i }{n}}\right)} = e^{-\frac{2\pi i}{n}} = r^{-1}(x) = r^{-1}s(x) \\
+    sr(y) &= s\left(e^{\frac{4\pi i}{n}}\right) = \overline{\left(e^{\frac{4\pi i }{n}}\right)} = e^{-\frac{4\pi i}{n}} = r^{-1}(z) = r^{-1}s(y) \\
     sr(z) &= s(1) = 1 =  r^{-1}(y) = r^{-1}s(z)
   \end{align*}
 \end{proof}
