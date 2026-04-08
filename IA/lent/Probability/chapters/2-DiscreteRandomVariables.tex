@@ -27,6 +27,7 @@ We will now cover some important discrete probability distributions.
   \[
     \Omega = \{0, 1\},\ p_0 = \P(\{0\}) = 1 - p,\ p_1 = \P(\{1\}) = p
   \]
+  It is denoted as $\ber(p)$.
 \end{definition}
 This means Bernoulli distributions model the outcome of a single trial with two outcomes, for example the toss of a biased coin.
 If we associate tails with 0 and heads with 1 then:
@@ -190,7 +191,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
   \[
     \{X_1 \leq x_1, \ldots, X_n \leq x_n\} = \{X_1 \leq x_1\} \cap \cdots \cap \{X_n \leq x_n\} \in \salg
   \]
-  as $\{X_i \leq x_i\} \in \salg\ \forall i \in \{1, \ldots, n\}$ as all the $X_i$ are random variables.
+  as $\{X_i \leq x_i\} \in \salg\ \forall i \in \{1, \ldots, n\}$ since all the $X_i$ are random variables.
 \end{definition}
 \begin{remark}[Notation]
   We write $\{X_1 \leq x_1, \ldots, X_n \leq x_n\} \equiv \{\omega: X(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\}$.
@@ -203,7 +204,7 @@ We impose the restriction that $\{\omega \in \Omega : X(\Omega) \leq x\} \in \sa
   For a discrete random variable $X$ taking values in a countable set $S$, the \textit{probability mass function}, \textit{pmf}, or \textit{distribution} of $X$ is defined to be:
   \label{pmf}
   \[
-    p_X: X \to S,\ x \mapsto \P(X = x) = \P(\{\omega \in \Omega: X(\omega) = x\})\
+    p_X: S \to [0, 1],\ x \mapsto \P(X = x) = \P(\{\omega \in \Omega: X(\omega) = x\})\
   \]
   We also use the notation $p_x$ to mean $\P(X = x)$ if it is clear what distribution we are referencing.
 \end{definition}
@@ -225,8 +226,8 @@ Recall from \cref{independentEvents} that two events $A, B \in \salg$ are indepe
   \]
 \end{definition}
 This builds on our definition for independence of events.
-For discrete random variables $X_1, X_2$, we using the events $\{X_1 = x_1\}$ and $\{X_2 = x_2\}$ but require that these events are independent \textbf{for all} possible $x_1 \in S_1$ and $x_2 \in S_2$.
-If this is the case then:
+For discrete random variables $X_1$ and $X_2$, we use the events $\{X_1 = x_1\}$ and $\{X_2 = x_2\}$ but require that these events are independent \textbf{for all} possible $x_1 \in S_1$ and $x_2 \in S_2$.
+If this is the case then we are really just applying the definition of independence for these events:
 \begin{align*}
   \P(X_1 = x_1, X_2 = x_2) &= \P(\{X_1 = x_1\} \cap \{X_2 = x_2\}) \\
                            &= \P(\{X_1 = x_1\})\P(\{X_2 = x_2\}) \text{ by independence of events} \\
@@ -243,7 +244,7 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
     \P(X_1 = x_1, X_2 = x_2) &= \sum_{x_3} \P(X_1 = x_1, X_2 = x_2, X_3 = x_3) \\
                              &= \sum_{x_3} \P(X_1 = x_2)\P(X_2 = x_2)\P(X_3 = x_3) \\
                              &= \P(X_1 = x_1)\P(X_2 = x_2) \sum_{x_3} \P(X_3 = x_3) \\
-                             &= \P(X_1 = x_1)\P(X_2 = x_2) \\
+                             &= \P(X_1 = x_1)\P(X_2 = x_2)
   \end{align*}
   Therefore, $X_1$ and $X_2$ are independent.
 \end{proof}
@@ -263,8 +264,8 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
 \end{proof}
 \begin{example}
   \label{binomialAsBernSum}
-  Consider tossing a $p$-coin $N$ times independently, as usual, we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N},\ \salg = \powerset{\Omega}$.
-  For some $\omega \in \Omega$, label the elements of $\omega$ as $(\omega_1, \ldots, \omega_n)$ where $\omega_i$ is the outcome of the $i$-th toss.
+  Consider tossing a $p$-coin $N$ times independently, as usual we associate tails with 0 and heads with 1 so that $\Omega =\{0, 1\}^{N},\ \salg = \powerset{\Omega}$.
+  For some $\omega \in \Omega$, label the elements of $\omega$ as $(\omega_1, \ldots, \omega_N)$ where $\omega_i$ is the outcome of the $i$-th toss.
 
   We calculate the probability of a singleton event $\{\omega\}$ as:
   \[
@@ -279,13 +280,13 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
   \]
 
   For all $\forall k = 1, \ldots, N$, define the random variables $X_k: \Omega \to \{0, 1\}$, $X_k(\omega) = \omega_k$.
-  These are all random variable as for all $x \in \R$, $\{\omega \in \Omega: X_k(\omega) \leq x\} \in \powerset{\omega} = \salg$ and are all discrete r.v.s as they take values in the countable set $\{0, 1\}$.
+  These are all random variable as for all $x \in \R$, $\{\omega \in \Omega: X_k(\omega) \leq x\} \in \powerset{\Omega} = \salg$ and are all discrete r.v.s as they take values in the countable set $\{0, 1\}$.
 
   As these are independent tosses, for any $k$ (i.e. the $k$-th toss):
   \[
-    \P(X_k = 1) = \P(\omega_k = 1) = p \text{ and } \P(X_k = 0) = \P(\omega_k = 0) = 1 - p
+    \P(X_k = 1) = \P(\{\omega \in \Omega : \omega_k = 1\}) = p \text{ and } \P(X_k = 0) = \P(\{\omega \in \Omega: \omega_k = 0\}) = 1 - p
   \]
-  So $X_k$ is Bernoulli r.v. (see \cref{bernoulliDist}) with parameter $p$.
+  So $X_k$ is Bernoulli r.v. (see \cref{bernoulliDist}) with parameter $p$, i.e. $X_k \sim \ber(p)$.
 
   We can also show that $X_1, \ldots, X_n$ are independent r.v.s.
   For $\forall x_1, \ldots, x_N \in \{0, 1\}$:
@@ -305,8 +306,8 @@ for all $x_1 \in S_1$ and $x_2 \in S_2$.
   \[
     \P(S_N = k) = \binom{N}{k}p^{k}(1-p)^{N - k}
   \]
-  which is $\binomial(N, p)$ so $S_N$ is a binomial r.v.
-  So a binomial r.v. with parameters $N$ and $p$ can also be though of as the sum of $N$ Bernoulli r.v.s with parameter $p$.
+  which is $\binomial(N, p)$.
+  Thus, a binomial r.v. with parameters $N$ and $p$ can also be though of as the sum of $N$ Bernoulli r.v.s with parameter $p$.
 \end{example}
 \subsection{Expectation}
 \label{discreteExpectation}
@@ -364,7 +365,7 @@ This formula for expectation is used more often than the one in the definition.
   To find the expected value, $\Omega_X = \N_0$ so:
   \begin{align*}
     \E[X] &= \sum_{k = 0}^{\infty} k \cdot \P(X = k) \\
-          &= \sum_{k = 1}^{\infty} k \cdot e^{-\lambda} \frac{\lambda^{k}}{k!} \text{ discard first terms as 0} \\
+          &= \sum_{k = 1}^{\infty} k \cdot e^{-\lambda} \frac{\lambda^{k}}{k!} \text{ discard first term as 0} \\
           &= e^{-\lambda} \lambda \sum_{k = 1}^{\infty} \frac{\lambda^{k - 1}}{(k - 1)!} \\
           &= e^{-\lambda} \lambda \sum_{k = 0}^{\infty} \frac{\lambda^{k}}{k!} \text{ re-indexing $k \mapsto k - 1$} \\
           &= e^{-\lambda} \lambda e^{\lambda} = \lambda
@@ -397,30 +398,65 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
 \begin{definition}[Integrable random variable]
   If $\E[|X|] < \infty$, then we say that $X$ is \textit{integrable}.
 \end{definition}
+\begin{remark}
+  $X$ is integrable if and only if $\E[X]$ is well defined and finite since $|X| = X^{+} + X^{-}$.
+\end{remark}
 \subsubsection{Properties of Expectation}
 \begin{proposition}[Basic Properties of Expectation]
-\label{expectationProperties}
-\begin{enumerate}
+\begin{enumerate} \label{expectationProperties}
   \item If $X \geq 0$, then $\E[X] \geq 0$
   \item If $X \geq 0$ and $\E[X] = 0$, then $\P(X = 0) = 1$.
   \item If $c \in \R$, then $\E[cX] = c\E[X]$ and $\E[c + X] = c + \E[X]$.
   \item If $X$ and $Y$ are integrable random variables, then:
     \[
-      \E(X + Y) = \E(X) + \E(Y)
+      \E[X + Y] = \E[X] + \E[Y]
     \]
   \item Let $c_1, \ldots, c_n \in \R$ and $X_1, \ldots, X_n$ integrable random variables, then:
     \[
       \E\left[\sum_{i = 1}^{n} c_i X_i\right] = \sum_{i = 1}^{n} c_i \E[X_i]
     \]
-    by combining \textbf{iii} and \textbf{iv}.
-    We require that they are integrable so that there is not issues with adding infinities.
+    We require that they are integrable so that the expected values are well defined and there is not issues with adding infinities.
+  \item If $X$ and $Y$ are integrable and $X(\omega) \leq Y(\omega)\ \forall \omega \in \Omega$, then $\E[X] \leq \E[Y]$.
 \end{enumerate}
 \end{proposition}
 \begin{proof}
   \begin{enumerate}
-    \item The sum only consists of non-negative terms as $\P: \salg \to [0, 1]$ and $X \geq 0$.
+    \item The sum $\sum_{x \in \Omega_X} x\P(X = x)$ consists only of non-negative terms as $\P: \salg \to [0, 1]$ and $X \geq 0$.
     \item $\sum_{x \in \Omega_X} x \cdot \P(X = x) = 0 \implies x \cdot \P(X = x) = 0\ \forall x \implies \P(X = x) = 0\ \forall x \neq 0$.
       So $\P(\Omega) = \sum_{x \in \Omega_x} \P(X = x) = \P(X = 0) \implies \P(X = 0) = 1$.
+    \item Let $Y(\omega) = cX(\omega)$.
+      \begin{align*}
+        \E[Y] &= \sum_{\omega \in \Omega} \P(\{\omega\})Y(\omega) \\
+              &= \sum_{\omega \in \Omega} \P(\{\omega\}) \cdot cX(\omega) \\
+              &= c \sum_{\omega \in \Omega} \P(\{\omega\}) X(\omega) = c\E[X]
+      \end{align*}
+      Similarly, let $Z(\omega) = X(\Omega) + c$.
+      \begin{align*}
+        \E[Z] &= \sum_{\omega \in \Omega} \P(\{\omega\})Z(\omega) \\
+              &= \sum_{\omega \in \Omega} \P(\{\omega\})(X(\omega) + c) \\
+              &= \sum_{\omega \in \Omega} \P(\{\omega\})X(\omega) + c \sum_{\omega \in \Omega} \P(\{\omega\}) \\
+              &= \E[X] + c
+      \end{align*}
+    \item Let $Z(\omega) = X(\omega) + Y(\omega)$.
+      \begin{align*}
+        \E[Z] &= \sum_{\omega \in \Omega} \P(\{\omega\})Z(\omega) \\
+              &= \sum_{\omega \in \Omega} \P(\{\omega\})(X(\omega) + Y(\omega)) \\
+              &= \sum_{\omega \in \Omega} \P(\{\omega\})X(\omega) + \sum_{\omega \in \Omega} \P(\{\omega\})Y(\omega) \\
+              &= \E[X] + \E[Y]
+      \end{align*}
+      where we can split up the sum as $X$ and $Y$ are integrable so $\E[X]$ and $\E[Y]$ exist and are finite.
+    \item Follows from using \textbf{iii} and induction with \textbf{iv}.
+    \item Define $Z = Y - X \geq 0$ so by \textbf{i}, $\E[Z] \geq 0$.
+      By \textbf{v}:
+      \[
+        \E[Z] = \E[Y] - \E[X] \geq 0 \implies \E[X] \leq \E[Y]
+      \]
+  \end{enumerate}
+\end{proof}
+\begin{proof}[Alternative Proofs for \textbf{ii} and \textbf{iii}]
+  We can also prove \textbf{ii} and \textbf{iii} using the alternative sum for the expectation:
+  \begin{enumerate}
+    \setcounter{enumi}{1}
     \item Let $Y(\omega) = cX(\omega)$.
       \begin{align*}
         \sum_{y \in \Omega_Y} y \cdot \P(Y = y) &= \sum_{x \in \Omega_X} cx \cdot \P(Y = cx) \\
@@ -433,16 +469,16 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
         \sum_{z \in \Omega_Z} z \cdot \P(Z = z) &= \sum_{x \in \Omega_X} (x + c) \cdot \P(Z = x + c) \\
                                                 &= \sum_{x \in \Omega_X} (x + c) \cdot \P(X = x) \text{ as $\{Z = x + c\} = \{X = x\}$} \\
                                                 &= \sum_{x \in \Omega_X} x \cdot \P(X = x) + c\sum_{x \in \Omega_X} \P(X = x) \\
-                                                &= \E(X) + c \P(\Omega) = \E(X) + c
+                                                &= \E[X] + c \P(\Omega) = \E[X] + c
       \end{align*}
     \item Let $Z(\omega) = X(\omega) + Y(\omega)$.
+      We can rewrite the sum for the expectation of $Z$ as the sum over all possible pairs $(x, y)$:
       \begin{align*}
-        \E(Z) &= \sum_{x \in \Omega_X} \sum_{y \in \Omega_y} (x + y) \P(X = x, y = Y) \\
+        \E[Z] &= \sum_{(x, y) \in \Omega_X \times \Omega_Y} (x + y) \P(X = x, y = Y) \\
               &= \sum_{x \in \Omega_X} x \cdot \sum_{y \in \Omega_X} \P(X = x, y = Y) + \sum_{y \in \Omega_Y} y \cdot \sum_{x \in \Omega_X} \P(X = x, y = Y) \\
               &= \sum_{x \in \Omega_X} x \cdot \P(X = x) + \sum_{y \in \Omega_y} y \cdot \P(Y = y) \\
               &= \E[X] + \E[Y]
       \end{align*}
-    \item Follows from using \textbf{iii} and induction with \textbf{iv}.
   \end{enumerate}
 \end{proof}
 \begin{remark}
@@ -458,6 +494,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
   \[
     \E[X] = \E\left[\sum_{i = 1}^{N} B_i\right] = \sum_{i = 1}^{N} \E[B_i] = \sum_{i = 1}^{N} p = Np
   \]
+  which agrees with what we found using the standard method.
 \end{remark}
 \begin{lemma}[Countably Infinite Expectation Sum]
   If $X_1, X_2, \ldots$ are non-negative discrete r.v.s, then:
@@ -468,13 +505,24 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
 \end{lemma}
 \begin{proof}
   $\Omega$ is countable as they are discrete random variables.
+  Using the definition of expectation:
+  \[
+    \E\left[\sum_{n = 1}^{\infty} X_n\right] = \sum_{\omega \in \Omega} \left(\sum_{n = 1}^{\infty} X_n(\omega)\right)\P(\{\omega\})
+  \]
+  All the terms of the overall sum are positive since $X_n$ are all non-negative random variables.
+  Sine all the terms are non-negative, we are able to rearrange terms to swap the summation order without the convergence/divergence behaviour:
   \begin{align*}
-    \E\left[\sum_{n = 1}^{\infty} X_n\right] &= \sum_{\omega \in \Omega} \left(\sum_{n = 1}^{\infty} X_n(\omega)\right)\P(\{\omega\}) \\
-                                             &= \sum_{n = 1}^{\infty} \sum_{\omega \in \Omega} X_n(\omega)\P(\{\omega\}) \\
+    \E\left[\sum_{n = 1}^{\infty} X_n\right] &= \sum_{n = 1}^{\infty} \sum_{\omega \in \Omega} X_n(\omega)\P(\{\omega\}) \\
                                              &= \sum_{n = 1}^{\infty} \E[X_n]
   \end{align*}
-  We are able to swap the two sums without issues as the terms are non-negative.
 \end{proof}
+\begin{remark}
+  \nonexaminable
+  \begin{itemize}
+    \item The interchange of these sums is justified by the summation version of Tonellli's Theorem.
+    \item The above can also be shown using the Beppo-Levi monotone convergence theorem as this justifies moving limits into expectations.
+  \end{itemize}
+\end{remark}
 \begin{example}[Expectation of Indicator Function]
   \label{expOfIndicator}
   Let $A \in \salg$ and $X(\omega) = 1_A(\omega)$.
@@ -494,7 +542,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
     \E[g(X)] = \sum_{x \in \Omega_x} g(x) \cdot \P(X = x)
   \]
 \end{proposition}
-\begin{proof}
+\begin{proof}[From alternative expectation sum]
   Set $Y = g(X)$.
   \[
     \E[Y] = \sum_{y \in \Omega_Y} y \cdot \P(Y = y) \\
@@ -512,11 +560,20 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
           &= \sum_{y \in \Omega_y} y \cdot \sum_{x \in g^{-1}(\{y\})} \P(X = x) \\
           &= \sum_{y \in \Omega_y} \sum_{x \in g^{-1}(\{y\})} g(x) \cdot \P(X = x) \text{ as $g(x) = y\ \forall x \in g^{-1}(\{y\})$}
   \end{align*}
-  The sets $g^{-1}(\{y\})$ for all $y \in \Omega_Y$ just define a partition of $\Omega_x$ so summing over all elements of all partition is equivalent to summing over $\Omega_X$.
+  The sets $g^{-1}(\{y\})$ for all $y \in \Omega_Y$ just define a partition of $\Omega_X$ so summing over all elements of all partition is equivalent to summing over $\Omega_X$.
   Thus:
   \[
     \E[Y] = \E[g(X)] = \sum_{x \in \Omega_X} g(x) \cdot \P(X = x)
   \]
+\end{proof}
+\begin{proof}[From definition]
+  Similarly to how we proved the alternative sum for expectation:
+  \begin{align*}
+    \E[g(X)] &= \sum_{\omega \in \Omega} \P(\{\omega\}) g(X(\omega)) \\
+             &= \sum_{x \in \Omega_X} \sum_{\omega \in \{X = x\}} \P(\{\omega\}) g(X(\omega)) \\
+             &= \sum_{x \in \Omega_X} g(x) \sum_{\omega \in \{X = x\}} \P(\{\omega\}) \\
+             &= \sum_{x \in \Omega_X} g(x) \P(X = x)
+  \end{align*}
 \end{proof}
 \begin{lemma}[Expectation of a discrete r.v. in $\N$]
   If $X$ is a discrete random variable that only takes values in $\N$, then:
@@ -537,10 +594,8 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
   \end{itemize}
   Therefore, since $X(\omega) \geq 0$ and $X(\omega) \in \N$ for all $\omega$, we have the following:
   \[
-    X(\omega) = \sum_{k = 1}^{\infty} 1(X(\omega) \geq k) = \sum_{k = 0}^{\infty} 1(X(\omega) > k)
+    X(\omega) = \sum_{k = 1}^{\infty} 1(X(\omega) \geq k) = \sum_{k = 0}^{\infty} 1(X(\omega) > k)\ \forall \omega \in \Omega
   \]
-  for all $\omega$.
-
   Taking the expectation, as they are non-negative, we can apply \cref{sumExpectationSwap}:
   \[
     \E[X] = \E\left[\sum_{k = 1}^{\infty} 1(X \geq k)\right] = \sum_{k = 1}^{\infty} \E[1(X \geq k)] = \sum_{k = 1}^{\infty} \P(X \geq k)
@@ -548,7 +603,7 @@ When $\E[X]$ is well-defined, then we have the same formula as before:
   using $\E[1_A] = \P(A)$ from \cref{expOfIndicator} and similarly for the sum starting from 0.
 \end{proof}
 \subsection{Indicator Functions}
-We introduce the indicator in \cref{indicatorFunction} and found that $\E[1(A)] = \P(A)$ in \cref{expOfIndicator}.
+We introduced the indicator in \cref{indicatorFunction} and found that $\E[1(A)] = \P(A)$ in \cref{expOfIndicator}.
 
 There are a few useful properties of the indicator function:
 \subsubsection{Properties of the Indicator}
@@ -567,7 +622,14 @@ We can also use indicator functions to provide an alternative proof for the Prin
 \begin{proof}
   We can extend property \textbf{iii} above to $n$ events $A_1, A_2, \ldots, A_n \in \salg$:
   \begin{align*}
+    1(A_1 \cup \cdots \cup A_n) &= 1((A^{\comp}_1 \cap \cdots \cap A^{\comp}_n)^{\comp}) \\
+                                &= 1 - 1(A^{\comp}_1 \cap \cdots A^{\comp}_n) \\
+                                &= 1 - \prod_{i = 1}^{n} (1 - 1(A_i))
+  \end{align*}
+  Therefore:
+  \begin{align*}
     1(A_1 \cup \cdots \cup A_n) &= 1 - \prod_{i = 1}^{n} (1 - 1(A_i)) \\
+                                &= \sum_{i = 1}^{n} 1(A_i) - \sum_{i_1 < i_2} 1(A_{i_1})1(A_{i_2}) + \cdots + (-1)^{n + 1}1(A_1)\cdots1(A_n) \\
                                 &= \sum_{i = 1}^{n} 1(A_i) - \sum_{i_1 < i_2} 1(A_{i_1} \cap A_{i_2}) + \cdots + (-1)^{n + 1}1(A_1 \cap \cdots \cap A_n) \\
                                 &= \sum_{k = 1}^{n} (-1)^{k + 1} \sum_{1 \leq i_1 < \ldots < i_k \leq n} 1(A_{i_1} \cap \cdots \cap A_{i_k})
   \end{align*}
@@ -600,7 +662,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
 
 \end{definition}
 \begin{remark}[Notation]
-  Standard deviation is often denoted as $\sigma$ and so the variance is sometimes written as $\sigma^2$.
+  Standard deviation is usually denoted as $\sigma$ and so the variance is frequently written as $\sigma^2$.
 \end{remark}
 \begin{proposition}[Properties of Variance]
   \begin{enumerate}
@@ -633,16 +695,20 @@ We can also use indicator functions to provide an alternative proof for the Prin
       \Var(X) &= \E[X^2 - 2X\E[X] + (\E[X])^2] \\
               &= \E[X^2] - 2\E[X]\E[X] + (\E[X])^2 \\
               &= \E[X^2] - (\E[X])^2
-    \end{align*}  %TODO note above positive
+    \end{align*}
   \item Define the function $f(c) = \E[(X - c)^2]$.
     \begin{align*}
       f(c) &= \E[X^2 - 2cX + c^2] \\
            &= \E[X^2] - 2c\E[X] + c^2 \\
       \implies \deriv{f}{c} &= -2\E[X] + 2c
     \end{align*}
-    So $\min\limits_{c \in \R}f(c) = f(\E(X)) = \E[(X - \E[X])^2] = \Var(X)$.
+    So $\min\limits_{c \in \R}f(c) = f(\E[X]) = \E[(X - \E[X])^2] = \Var(X)$.
 \end{enumerate}
 \end{proof}
+\begin{remark}
+  Combining \textbf{i} and \textbf{iv} tell us that $\E[X^2] \geq \E[X]^2$.
+  We will see later that is this an application of \textit{Jensen's inequality} (\cref{jensensInequality}).
+\end{remark}
 \begin{example}
   \label{varianceExample}
   \begin{enumerate}
@@ -773,13 +839,22 @@ We can also use indicator functions to provide an alternative proof for the Prin
   Let $Z = (X, Y)$ and define $h(Z) = f(X)g(Y)$.
   Using \cref{expectationFunction}, we have:
   \begin{align*}
-    \E(h(Z)) &= \sum_{(x, y)} h(x, y)\P(Z = (x, y)) \\
+    \E[h(Z)] &= \sum_{(x, y)} h(x, y)\P(Z = (x, y)) \\
              &= \sum_{(x, y)} f(X)g(Y)\P(X = x, Y = y) \\
              &= \sum_{(x, y)} f(X)g(Y)\P(X = x)\P(Y = y) \text{ as $X \perp Y$}\\
              &= \left[\sum_{x} f(X)\P(X = x)\right]\left[\sum_{y} g(Y)\P(Y = y)\right] \\
              &= \E[f(X)]\E[g(Y)]
   \end{align*}
   Thus $\E[f(X)g(Y)] = \E[h(Z)] = \E[f(X)]\E[g(Y)]$.
+\end{proof}
+\begin{proof}[Alternatively]
+  We know from \cref{rvFunctionIndependence} that $X \perp Y \implies f(X) \perp g(Y)$ and so it is enough to show that for $X \perp Y$, $\E[XY] = \E[X]\E[Y]$.
+  \begin{align*}
+    \E[XY] &= \sum_{(x, y)} xy \cdot \P(X = x, Y = y) \\
+           &= \left[\sum_{x} x\P(X = x)\right]\left[\sum_{y} y\P(Y = y)\right] \\
+           &= \E[X]\E[Y]
+  \end{align*}
+  so the result follows.
 \end{proof}
 \begin{corollary}
   If $X$ and $Y$ are independent, then $\Cov(X, Y) = 0$.
@@ -804,7 +879,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
   \]
 \end{proof}
 \begin{corollary}
-  If $X_1, \ldots, X_n$ are independent random variables then $\Var(\sum_{i = 1}^{n} X_i) = \sum_{i = 1}^{n} \Var(X_i)$.
+  If $X_1, \ldots, X_n$ are independent random variables, then $\Var(\sum_{i = 1}^{n} X_i) = \sum_{i = 1}^{n} \Var(X_i)$.
 \end{corollary}
 \begin{proof}
   Using \cref{covarianceProperties} \textbf{vii}:
@@ -816,32 +891,43 @@ We can also use indicator functions to provide an alternative proof for the Prin
 \end{proof}
 \begin{remark}
   $\Cov(X, Y) = 0 \centernot \implies$ $X$ and $Y$ are independent. \label{covarianceCounterExample}
+  \begin{itemize}
+    \item \textbf{Coin Flipping --} Let $X_1, X_2, X_3$ be independent Bernoulli random variables with parameter $\frac{1}{2}$ and recall that $\E[X_i] = \frac{1}{2}$.
 
-  For example, let $X_1, X_2, X_3$ be independent Bernoulli random variables with parameter $\frac{1}{2}$ and recall that $\E[X_i] = \frac{1}{2}$.
+    Set $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, $Z_1 = Y_1 X_3$, and $Z_2 = Y_2 X_3$.
+    We then have
+    \[
+      \E[Y_1] = \E[Y_2] = 2\left(\frac{1}{2}\right) - 1 = 0
+    \]
+    and
+    \[
+      \E[Z_1] = \E[Y_1 X_3] = \E[Y_1]\E[X_3] = 0
+    \]
+    and by the same argument $\E[Z_2] = 0$.
 
-  Set $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, $Z_1 = Y_1 X_3$, and $Z_2 = Y_2 X_3$.
-  We then have
-  \[
-    \E[Y_1] = \E[Y_2] = 2\left(\frac{1}{2}\right) - 1 = 0
-  \]
-  and
-  \[
-    \E[Z_1] = \E[Y_1 X_3] = \E[Y_1]\E[X_3] = 0
-  \]
-  so by the same argument $\E[Z_2] = 0$.
+    So $\Cov(Z_1, Z_2) = \E[Z_1Z_2] - \cancelto{0}{\E[Z_1]\E[Z_2]} = \E[Y_1 Y_2 X^2_3] = \E[Y_1]\E[Y_2]\E[X^2_3] = 0$.
+    Thus the covariance of $Z_1$ and $Z_2$ is 0.
 
-  So $\Cov(Z_1, Z_2) = \E[Z_1Z_2] - \cancelto{0}{\E[Z_1]\E[Z_2]} = \E[Y_1 Y_2 X^2_3] = \E[Y_1]\E[Y_2]\E[X^2_3] = 0$.
-  Thus the covariance of $Z_1$ and $Z_2$ is 0.
+    However, $Z_1$ is not independent of $Z_2$ since:
+    \[
+      \P(Z_1 = 0, Z_2 = 0) = \P(X_3 = 0) = \frac{1}{2}
+    \]
+    but:
+    \[
+      \P(Z_1 = 0) = \P(Z_2 = 0) = \frac{1}{2} \implies \P(Z_1 = 0)\P(Z_2 = 0) = \frac{1}{4} \neq \frac{1}{2}
+    \]
+    so $Z_1$ and $Z_2$ are not independent, despite having 0 covariance.
+  \item \textbf{Sign Changes --} Let $X \sim \uniform[-1, 1]$ (see \cref{uniformDist}) and let $T$ be a discrete random variable taking the value 1 with probability $1/2$ and $-1$ with probability $1/2$.
 
-  However, $Z_1$ is not independent of $Z_2$ since:
-  \[
-    \P(Z_1 = 0, Z_2 = 0) = \P(X_3 = 0) = \frac{1}{2}
-  \]
-  but:
-  \[
-    \P(Z_1 = 0) = \P(Z_2 = 0) = \frac{1}{2} \implies \P(Z_1 = 0)\P(Z_2 = 0) = \frac{1}{4} \neq \frac{1}{2}
-  \]
-  so $Z_1$ and $Z_2$ are not independent, despite having 0 covariance.
+    Firstly, note that $\E[X] = 0$ and $\E[T] = 0$.
+    Since $X \perp T$:
+    \[
+      \Cov(X, XT) = \E[TX^2] - \E[X]\E[T] = \E[T]\E[X^2] = 0
+    \]
+    So $X$ and $XT$ have zero covariance but clearly $X$ depends on $XT$ as $T$ just changes the sign of $X$ so knowing one gives you plenty of information on the other.
+  \item \textbf{Intuition --} Other than these counterexamples, an intuitive reason for why this fails is because the covariance only measures how \textit{linearly related} two random variables are.
+    We can have two random variables that are not linearly related at all and so have covariance 0, but still depend on each other, for example if they took values in an annulus on the $(x, y)$-plane (as knowing one would lock the other into a restricted region).
+  \end{itemize}
 \end{remark}
 \begin{example}
   Take $S_n \sim \binomial(n, p)$.
@@ -872,15 +958,15 @@ We can also use indicator functions to provide an alternative proof for the Prin
     X \geq a \cdot 1(X \geq a)
   \]
   as either $X \geq a$, in which case $X \geq a \cdot 1$ which is true, or $X < a$, in which case $X \geq a \cdot 0 = 0$, which is also true.
-  Taking expectations and using \cref{expOfIndicator} we get that:
+  Taking expectations we use \cref{expectationProperties} \textbf{vi} and \cref{expOfIndicator} to yield:
   \[
     \E[X] \geq a \cdot \P(X \geq a)
   \]
-  and the result follows.
+  from which the result follows.
 \end{proof}
 \subsection{Chebyshev's Inequality}
 \begin{proposition}[Chebyshev's Inequality]
-  If $X$ is a random variable with $\E[X] < \infty$, then $\forall a > 0$:
+  If $X$ is a random variable with $\E[X] < \infty$ and $a > 0$, then:
   \[
     \P(|X - \E[X]| \geq a) \leq \frac{\Var(X)}{a^2}
   \]
@@ -914,32 +1000,26 @@ We can also use indicator functions to provide an alternative proof for the Prin
   \[
     \E[(X - tY)^2] = \E[X^2] - 2t\E[XY] + t^2 \E[Y^2] \geq 0
   \]
-  We know wish to find some $t$ which leads to the inequality.
-  To do this, let $f(t) = \E[X^2] -2t\E[XY] + t^2 \E[Y^2]$.
-  We then have $f'(t) = -2\E[XY] + 2t\E[Y^2]$ and so the minimum of $f(t)$ is attained at $t_{*} = \frac{\E[XY]}{\E[Y^2]}$.
-  Evaluating $f$ at $t_{*}$, we must get a non-negative value so:
-  \[
-    \E[X^2] - 2 \frac{(\E[XY])^2}{\E[Y^2]} + \frac{(\E[XY])^2}{\E[Y^2]} \geq 0 \implies (\E[XY])^2 \leq \E[X^2]\E[Y^2]
-  \]
+  Exactly as how we proved the Cauchy-Schwarz inequality in IA Vectors and Matrices, we note that this quadratic in $t$ can have at most one root as it is non-negative and so its discriminant must be non-positive.
+  Thus:
+  \begin{align*}
+    (-2\E[XY])^2 - 4\E[Y^2]\E[X^2] \leq 0 \implies \E[XY] \leq \sqrt{\E[X^2]\E[Y^2]}
+  \end{align*}
+  since $\E[XY] \geq 0$ as $X, Y \geq 0$.
 \end{proof}
 \begin{lemma}
   We get equality in Cauchy-Schwarz if and only if one random variable is a constant multiple of the other.
 \end{lemma}
 \begin{proof}
-  \begin{proofdirection}{Assume we have equality}
-    $\E[|XY|] = \sqrt{\E[X^2]\E[Y^2]}$ so must have $f(t_*) = 0$, therefore:
-    \begin{align*}
-      f(t_*) = \E[(X - t_*Y)^2] = 0 \implies& \P(X - t_*Y = 0) = 1 \\
-      \implies& \P(X = t_*Y) = 1
-    \end{align*}
-    So $X$ is a constant multiple of $Y$.
-  \end{proofdirection}
-  \begin{proofdirection}{Assume one is a multiple of the other}
-    For the converse, if $X = cY$, then:
-    \[
-      \E[|XY|] = |c|\E[Y^2] = \sqrt{c^2\E[Y^2]^2} = \sqrt{c^2\E[Y^2]\E[Y^2]} = \sqrt{\E[X^2]\E[Y^2]}
-    \]
-  \end{proofdirection}
+  We have equality if and only if the discriminant of the quadratic is 0.
+  This is only true if and only if there is exactly one root:
+  \begin{align*}
+    &\ \ \E[|XY|]^2 = \E[X^2]\E[Y^2] \\
+    &\iff \exists t_* \in \R \text{ s.t. } \E[(X - t_{*}Y)^2] = 0 \\
+    &\iff \P(X - t_*Y = 0) = 1 \text{ by \cref{expectationProperties}} \\
+    &\iff \P(X = t_* Y) = 1 \\
+    &\iff \text{$X$ is a constant multiple of $Y$}
+  \end{align*}
 \end{proof}
 \subsection{Jensen's Inequality}
 \begin{definition}[Convex Function]
@@ -948,7 +1028,7 @@ We can also use indicator functions to provide an alternative proof for the Prin
     f(tx + (1 - t)y) \leq tf(x) + (1 - t)f(y)
   \]
 \end{definition}
-That is, a function is convex if it lies below the chord between any two points on the curve:
+That is, a function is convex if it always lies below the chord between any two points on the curve:
 \begin{center}
 \begin{tikzpicture}[>=stealth, scale=1.4]
   \draw[->] (0, 0) -- (0, 3);
@@ -964,6 +1044,11 @@ That is, a function is convex if it lies below the chord between any two points 
   \draw (1, 0.36) -- (2.5, 2.25);
 \end{tikzpicture}
 \end{center}
+\begin{remark}
+  There is also less general, but more practical characterisation of convexity:
+
+  Twice differentiable functions are convex on an interval if and only if their second derivative is non-negative within the interval.
+\end{remark}
 \begin{lemma}
   Let $f: \R \to \R$ be a convex function.
   $f$ is the supremum of all the lines lying below it.
@@ -972,7 +1057,7 @@ That is, a function is convex if it lies below the chord between any two points 
   \[
     f(m) = am + b \text{ and } f(x) \geq ax + b\ \forall x
   \]
-  So the entire curve lies above the tangent at a given point:
+  Intuitively, the entire curve lies above its tangent at any given point:
   \begin{center}
   \begin{tikzpicture}[>=stealth]
     \draw[->] (0, 0) -- (0, 3);
@@ -989,7 +1074,7 @@ That is, a function is convex if it lies below the chord between any two points 
   \end{center}
 \end{lemma}
 \begin{proof}
-  Let $m \in \R$ and $x < m < y$.
+  Fix some $m \in \R$ and let $x, y \in \R$ be arbitrary such that $x < m < y$.
   To use convexity, since $x < m < y$, we can write:
   \[
     m = tx + (1 - t)y
@@ -1007,10 +1092,10 @@ That is, a function is convex if it lies below the chord between any two points 
   \begin{align*}
     t(f(m) - f(x)) &\leq (1 - t)(f(y) - f(m)) \\
     t(m - x)(f(m) - f(x)) &\leq (1 - t)(m - x)(f(y) - f(m)) \\
-    (1 - t)(y - m)(f(m) - f(x)) &= (1 - t)(m - x)(f(y) - f(m)) \\
+    (1 - t)(y - m)(f(m) - f(x)) &\leq (1 - t)(m - x)(f(y) - f(m)) \\
     \frac{f(m) - f(x)}{m - x} &\leq \frac{f(y) - f(m)}{y- m}
   \end{align*}
-  Since this is for any $m$, this tells us that the slope at $y$ is grater than the slope at $x$:
+  Since this is for any $m$ satisfying $x < m < y$, this effectively us that the slope at $y$ is greater than the slope at $x$:
   \begin{center}
   \begin{tikzpicture}[>=stealth]
     \draw[->] (0, 0) -- (0, 3);
@@ -1029,14 +1114,40 @@ That is, a function is convex if it lies below the chord between any two points 
     \fill (2.5, 2.25) circle (1.5pt);
   \end{tikzpicture}
   \end{center}
-  Let $a = \sup\limits_{x < m}\frac{f(m) - f(x)}{m - x}$ and so $\frac{f(m) - f(x)}{m - x} \leq a$ $\forall x < m$.
-
-  Combining this with the other inequality, $\forall x < m < y$:
+  Let $a = \sup\limits_{x < m}\frac{f(m) - f(x)}{m - x}$ (essentially the derivative of $f$ at $m$) and so $\frac{f(m) - f(x)}{m - x} \leq a$.
+  Similarly $a \leq \frac{f(y) - f(m)}{y - m}$ and so we have:
   \[
     \frac{f(m) - f(x)}{m - x} \leq a \leq \frac{f(y) - f(m)}{y - m}
   \]
-  If $z < m$, then we use the left hand inequality to yield $f(z) \geq a(z - m) + f(m)$.
-  If $z > m$, then we use the right hand inequality to yield the same result.
+  Geometrically, this is like saying that the gradient of the tangent at $m$ lies between the gradients of the lies between the 2 chords corresponding to $x \leftrightarrow m$ and $m \leftrightarrow y$:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (0, 0) -- (0, 3);
+    \draw[->] (0, 0) -- (3, 0);
+
+    \begin{scope}
+      \clip (0, 0) rectangle (3, 3);
+      \draw[very thin, domain=0:3, smooth, samples=100, gray!80] plot (\x,{(0.6 * \x)^2});
+    \end{scope}
+
+    \coordinate (X) at (1, 0.36);
+    \coordinate (M) at (1.75, 1.1);
+    \coordinate (Y) at (2.5, 2.25);
+    \draw[dashed] (1, 0) node[below] {$x$} -- (X);
+    \fill (1, 0.36) circle (1.5pt);
+
+    \draw[dashed] (1.75, 0) node[below] {$m$} -- (M);
+    \fill (1.75, 1.1) circle (1.5pt);
+
+    \draw[dashed] (2.5, 0) node[below] {$y$} -- (Y);
+    \fill (2.5, 2.25) circle (1.5pt);
+
+    \draw (X) -- (M) -- (Y);
+    \draw (0.875, 0) -- (3, 2.68);
+  \end{tikzpicture}
+  \end{center}
+  Since $x, y$ were arbitrary, for any $z \in \R$, if $z < m$, then we use the left hand inequality to yield $f(z) \geq a(z - m) + f(m)$.
+  Otherwise, if $z > m$, then we use the right hand inequality to yield the same result.
   Therefore, $f(z) \geq az + (f(m) - am)\ \forall z$ and we get equality when $z = m$, as required.
 \end{proof}
 \begin{proposition}[Jensen's Inequality]
@@ -1054,7 +1165,7 @@ That is, a function is convex if it lies below the chord between any two points 
   \[
     \E[f(X)] \geq a\E[X] + b = am + b = f(m) = f(\E[X])
   \]
-  as taking expectations preserves inequalities.
+  as taking expectations preserves inequalities (\cref{expectationProperties} \textbf{vi})
 \end{proof}
 \begin{remark}[Memorisation]
   To remember which way the inequality goes, consider $f(x) = x^2$.
@@ -1065,6 +1176,8 @@ Let $f: \R \to \R$ be convex with the extra property that for $m = \E[X]$, $\exi
 \[
   f(m) = am + b \text{ and } f(x) > ax + b\ \forall x \neq m
 \]
+i.e. we have equality only at the tangent point $m$.
+
 What should $X$ satisfy so that $\E[f(X)] = f(\E[X])$?
 We have that $f(X) \geq aX + b \implies f(X) - (aX + b) \geq 0$ so we can construct a new non-negative random variable $f(X) - (aX + b)$.
 
@@ -1073,10 +1186,12 @@ Taking expectations, we have:
   \E[f(X)] \geq a \E[X] + b = am + b = f(m) = f(\E[X])
 \]
 We want $\E[f(X)] = f(\E[X])$ so this forces $\E[f(X)] = a \E[X] + b = \E[aX + b]$ and so:
-\begin{align*}
-  \E[f(X) - (aX + b)] = 0 &\implies \P(f(X) = aX + b) = 1 \\
-\end{align*}
-Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so $\P(f(X) = aX + b) = 1 \implies \P(X = \E[X]) = 1$.
+\[
+  \E[f(X) - (aX + b)] = 0 \iff \P(f(X) = aX + b) = 1
+\]
+Since under our new restrictions, $f(x) = ax + b$ if only if $x = m = \E[X]$ so $\P(f(X) = aX + b) = 1 \iff \P(X = \E[X]) = 1$.
+
+So in this slightly restricted case, $\E[f(X)] = f(\E[X]) \iff \P(X = \E[X]) = 1$.
 \begin{corollary}
   If $f$ be a convex function, then $\forall x_1, \ldots, x_n \in \R$:
   \label{jensenCorollary}
@@ -1156,12 +1271,12 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
 \end{proposition}
 \begin{proof}
   \begin{align*}
-    \P(X + Y = z) &= \sum_{y} \P(X + Y = z, Y = y) \text{ by law of total probability} \\
+    \P(X + Y = z) &= \sum_{y} \P(X + Y = z, Y = y) \text{ using marginal distribution} \\
                   &= \sum_{y} \P(X = z - y, Y = y) \\
                   &= \sum_{y} \P(X = z - y)\P(Y = y) \text{ by independence}
   \end{align*}
 \end{proof}
-\begin{example}[Convolution of Poisson r.v.s]
+\begin{example}[Sum of Poisson r.v.s]
   \label{poissonConvolution}
   Let $X$ and $Y$ be independent Poisson r.v.s with parameters $\lambda$ and $\mu$  respectively:
   \begin{align*}
@@ -1177,9 +1292,9 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
   Let $X$ be a random variable and let $B \in \salg$ be an event with $\P(B) > 0$.
   The \textit{conditional expectation of $X$ given $B$} is:
   \[
-    \E[X \vert B] = \frac{\E[X \cdot I_B]}{\P(B)}
+    \E[X \vert B] = \frac{\E[X \cdot 1_B]}{\P(B)}
   \]
-  where $I_B$ is the indicator of $B$.
+  where $1_B$ is the indicator of $B$.
 \end{definition}
 \begin{remark}[Note]
   All of the properties that we showed for normal expectation in \cref{expectationProperties} apply to conditional expectation, provided that we are always conditioning using the same event.
@@ -1189,6 +1304,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
   \[
     \E[1_A \vert B] = \frac{\E[1_A 1_B]}{\P(B)} = \frac{\E[1(A \cap B)]}{\P(B)} = \frac{\P(A \cap B)}{\P(B)}
   \]
+  which is consistent with the expectation of an indicator being the probability of the event.
 \end{remark}
 \begin{proposition}[Law of Total Expectation]
   If $X$ be a discrete random variable and $(\Omega_n)$ is a partition of $\Omega$ into disjoint sets all with $\P(\Omega_n) > 0$, then:
@@ -1202,7 +1318,7 @@ We can use the law of total probability (\cref{lawOfTotalProb}), to find $\P(X =
   \begin{align*}
     \E[X] &= \E[X \cdot 1(\Omega)] \\
           &= \E\left[X \cdot \sum_{n} 1(\Omega_n)\right] \\
-          &= \sum_{n} \E[X \cdot 1(\Omega_n)] \\
+          &= \sum_{n} \E[X \cdot 1(\Omega_n)] \text{ by linearity of expectation}\\
           &= \sum_{n} \E[X \vert \Omega_n]\P(\Omega_n)
   \end{align*}
 \end{proof}
@@ -1211,15 +1327,19 @@ Since $\{Y = y\}$ is just an event, we can find the conditional expectation of $
 \[
   \E[X \vert Y = y] = \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)}
 \]
-We can also use the formula for expectation from \cref{expectationPartition} to expand this:
+We can also use the alternative formula for expectation from \cref{expectationPartition} to expand this:
+\[
+  \E[X \cdot 1(Y = y)] = \sum_{x} x \cdot \P(X = x, Y = y) \\
+\]
+as we need $X = x$ \textbf{and} $Y = y$ for it to contribute to the expectation.
+Thus:
 \begin{align}
-  \E[X \vert Y = y] &= \frac{\E[X \cdot 1(Y = y)]}{\P(Y = y)} \nonumber \\
-                    &= \sum_{x} x \cdot \frac{\P(X = x, Y = y)}{\P(Y = y)} \nonumber \\
+  \E[X \vert Y = y] &= \sum_{x} x \cdot \frac{\P(X = x, Y = y)}{\P(Y = y)} \nonumber \\
                     &= \sum_{x} x \cdot \P(X = x \vert Y = y) \label{conditionalExpectationSum}
 \end{align}
-So we see that it is the expectation of the conditional distribution of $X$ given $Y = y$.
+So we see that $\E[X \vert Y = y]$ is the expectation of the conditional distribution of $X$ given $Y = y$ which intuitively makes sense.
 
-$\E[X \vert Y = y]$ is a function of $y$ so we can define $g(y) = \E[X \vert Y = y]$.
+We see that $\E[X \vert Y = y]$ is a function of $y$ so we can define $g(y) = \E[X \vert Y = y]$.
 We can then use this to define the expectation of one discrete random variable given another discrete random variable:
 \begin{definition}[Expectation of $X$ given $Y$]
   Let $X$ and $Y$ be two discrete random variables and let $g(y) = \E[X \vert Y = y]$.
@@ -1243,7 +1363,7 @@ We can then use this to define the expectation of one discrete random variable g
 \begin{example}[Conditonal Expectation of r.v.]
   \label{coinExpectationEx}
   Suppose we toss a $p$-coin $n$ times independently.
-  Let $X_i = 1(\text{$i$-th toss is heads})$ for $i = 1, \ldots, n$ and let:
+  Let $X_i = 1(\text{$i$-th toss is heads})$ for $i \in \{1, \ldots, n\}$ and let:
   \[
     Y_n = X_1 + \cdots + X_n
   \]
@@ -1251,11 +1371,11 @@ We can then use this to define the expectation of one discrete random variable g
   Let $g(y) = \E[X_1 \vert Y_n = y]$, then:
   \begin{align*}
     g(y) &= \frac{\E[X_1 \cdot 1(Y_n = y)]}{\P(Y_n = y)} \\
-         &= \frac{\P(X_1 = 1, Y_n = y)}{\P(Y_n = y)} \\
+         &= \frac{1 \cdot \P(X_1 = 1, Y_n = y) + 0 \cdot \P(X_1 = 1, Y_n = y)}{\P(Y_n = y)} \\
          &= \frac{p \cdot \binom{n - 1}{y - 1}p^{y - 1} (1 - p)^{n - y}}{\binom{n}{y} p^{y}(1-p)^{n-y}} \\
          &= \frac{y}{n}
   \end{align*}
-  and so $\E[X_1 \vert Y_n] = \frac{Y_n}{n}$.
+  and so $\E[X_1 \vert Y_n] = g(Y_n) = \frac{Y_n}{n}$.
 \end{example}
 \begin{proposition}[Properties of conditional expectation of 2 r.v.s]
   For discrete random variables $X$, $Y$, $Z$ and $c \in \R$:
@@ -1306,12 +1426,13 @@ We can then use this to define the expectation of one discrete random variable g
     \item
       Taking expectations of the definition:
       \begin{align*}
-        \E[\E[X \vert Y]] &= \sum_{y} \E[X \vert Y = y]\E[1(Y = y)] \\
+        \E[\E[X \vert Y]] &= \E[g(Y)] \\
+                          &= \sum_{y} g(y) \P(Y = y) \text{ by \cref{expectationFunction}} \\
                           &= \sum_{y} \E[X \vert Y = y]\P(Y = y) \\
                           &= \E[X] \text{ by law of total expectation (\cref{lawOfTotalExp})}
       \end{align*}
     \item
-      Using the definition:
+      Using the sum form:
       \begin{align*}
         \E[X \vert Y] &= \sum_{y} 1(Y = y)\E[X \vert Y = y] \\
                       &= \sum_{y} 1(Y = y)\sum_{x} x \cdot \P(X = x \vert Y = y) \text{ using \cref{conditionalExpectationSum}} \\
@@ -1340,6 +1461,16 @@ We can then use this to define the expectation of one discrete random variable g
     \item Using \textbf{vii} and \textbf{ii}, $\E[X \vert X] = X\E[1 \vert X] = X$.
   \end{enumerate}
 \end{proof}
+\begin{remark}
+  Properties \textbf{v} and \textbf{vii} can also be shown by directly working with $g(y)$ before substituting in $Y$.
+
+  For example, for \textbf{vii}, let $t(y) = \E[h(Y) \cdot X \vert Y = y]$ and $g(y) = \E[X \vert Y = y]$
+  \begin{align*}
+    t(y) &= \E[h(y) \cdot X \vert Y = y] \\
+         &= h(y)g(y) \implies \E[h(Y) \cdot X \vert Y] \\
+         &= t(Y) = h(Y)g(Y) = h(Y)\E[X \vert Y]
+  \end{align*}
+\end{remark}
 \begin{example}[\Cref{coinExpectationEx} revisited]
   In \cref{coinExpectationEx}, we found $\E[X_1 \vert Y_n]$ by finding $g(y) = \E[X_1 \vert Y = y]$ and then evaluating $g(Y)$.
 
@@ -1347,10 +1478,10 @@ We can then use this to define the expectation of one discrete random variable g
   \[
     \E[X_1 + \cdots + X_n \vert Y_n] = \E[Y_n \vert Y_n] = Y_n
   \]
-  By symmetry $\E[X_i \vert Y_n] = \E[X_1 \vert Y_n]$ as all $X_i$ are independent and identically distributed.
+  By symmetry $\E[X_i \vert Y_n] = \E[X_1 \vert Y_n]$ as the $X_i$ are independent and identically distributed.
   So using property \textbf{iii}:
   \[
-    \E[X_1 + \cdots X_n \vert Y_n] = \sum_{i = 1}^{n} \E[X_y \vert Y_n] = n \E[X_1 \vert Y_n]
+    \E[X_1 + \cdots X_n \vert Y_n] = \sum_{i = 1}^{n} \E[X_y \vert Y_n] = n \cdot \E[X_1 \vert Y_n]
   \]
   Thus, $\E[X_1 \vert Y_n] = \frac{Y_n}{n}$ which agrees with our original answer in \cref{coinExpectationEx}.
 \end{example}
