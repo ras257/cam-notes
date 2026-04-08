@@ -7,9 +7,7 @@
     \item \textbf{Linear -} Dependant variable and its derivatives only appear linearly.
     \item \textbf{Ordinary (ODE) -} Involves a function of one variable.
   \end{itemize}
-  \begin{example}
-    For example, $x^2y + y' = 0$ is a first order linear ODE.
-  \end{example}
+  For example, $x^2y + y' = 0$ is a first order linear ODE.
 \end{remark}
 \section{Exponential Function}
 \begin{definition}[Exponential Function]
@@ -38,14 +36,14 @@ The exponential function also has the following key property:
 \[
   \exp(x_1)\exp(x_2) = \exp(x_1 + x_2)
 \]
-This means acts similarly to exponentiation so we write $\exp(x) = e^{x}$ where:
+This means that it acts similarly to exponentiation and so we write $\exp(x) = e^{x}$ where:
 \[
   e = \exp(1) = \lim_{k \to \infty} \left(1 + \frac{1}{k}\right)^{k}
 \]
-The inverse function of the exponential function is the natural logarithm, $\ln x$ or $\log_{e} x$, where $\exp(\ln x) = x$.
-It follows that $a^{x} = (e^{\ln a})^{x} = e^{x \ln a}$ and thus $\deriv{}{x}a^{x} = \ln a e^{x \ln a} = a^{x} \ln a$.
+The inverse function of the exponential function is the natural logarithm, $\log x$, $\ln x$, or $\log_{e} x$, where $\exp(\log x) = x$.
+It follows that $a^{x} = (e^{\ln a})^{x} = e^{x \log a}$ and thus $\deriv{}{x}a^{x} = (\log a) e^{x \log a} = a^{x} \log a$.
 \begin{definition}[Eigenfunction]
-  An \textit{eigenfunction} of the derivative operator is is a function that is unchanged up to multiplicative scaling by the \textit{eigenvalue}, under the action of the operator.
+  An \textit{eigenfunction} of the derivative operator is is a function that is unchanged up to multiplicative scaling by the \textit{eigenvalue} under the action of the operator.
   That is:
   \[
     \deriv{}{x}f(x) = \lambda f(x)
@@ -54,8 +52,9 @@ It follows that $a^{x} = (e^{\ln a})^{x} = e^{x \ln a}$ and thus $\deriv{}{x}a^{
 \end{definition}
 From the properties we discussed earlier we can see that $e^{\lambda x}$ is an eigenfunction of the derivative operator.
 \section{First Order Linear ODEs}
-\begin{remark}
-  Any $n$-th order linear ODE has $n$ independent solutions.
+\begin{remark}[Number of Solutions]
+  Any $n$-th order linear ODE has $n$ independent solutions, so we expect first order linear ODEs to have only 1 independent solution.
+  We will properly define the notion of independent functions later in \cref{linearDependence}.
 \end{remark}
 \begin{definition}[Homogeneous]
   A \textit{homogeneous} ODE is one in which all terms involve the dependant variable or its derivatives.
@@ -63,14 +62,14 @@ From the properties we discussed earlier we can see that $e^{\lambda x}$ is an e
 This means that $y = 0$ is always a solution of a homogeneous ODE.
 This is called the ``trivial solution''.
 \begin{remark}
-  For any linear homogeneous ODE, any constant multiple of a solution is also a solution.
+  For any linear homogeneous ODE, any constant multiple of a solution is also a solution as we can just cancel the factor on both sides.
 \end{remark}
 \subsection{Homogeneous Linear ODEs with Constant Coefficients}
 \begin{definition}[Constant Coefficients]
   A differential equation has \textit{constant coefficients} if the independent variable does not appear explicitly.
 \end{definition}
 
-Solutions of linear homogeneous ODEs with constant coefficients (for any order) are of the form $e^{\lambda x}$ (i.e. $x^{n}e^{\lambda x}$ and linear combinations of these).
+Solutions of linear homogeneous ODEs with constant coefficients (for any order) are linear combinations of functions of the form $x^{n}e^{\lambda x}$ where $n \in \N_0$ and $\lambda \in \C$.
 \begin{example}
   \[
     5\deriv{y}{x} - 3y = 0
@@ -83,26 +82,27 @@ Solutions of linear homogeneous ODEs with constant coefficients (for any order) 
   $A= 0$ gives the trivial solution so for non-trivial solutions we must have $5\lambda - 3 = 0$.
   This is called the ``characteristic equation''.
   \[
-    \lambda = \frac{3}{5} \implies y = Ae^{\frac{3x}{5}}
+    5\lambda - 3 = 0 \implies \lambda = \frac{3}{5} \implies y = Ae^{\frac{3x}{5}}
   \]
   This is called the ``general solution''.
-  To specify a unique solution requires us to apply suitable boundary condition(s).
-  In general, we need $n$ boundary conditions to get a unique solution for an $n$-th order ODE.
+  To specify a unique solution, we need to apply suitable boundary condition(s).
+  In general, we need $n$ boundary conditions to get a specify a unique solution for an $n$-th order ODE.
 
-  For example if we had the boundary condition $y(0) = y_0$ then $A = y_0$ so the solution is $y = y_0 e^{3x/5}$.
+  For example if we had the boundary condition $y(0) = y_0$, then $A = y_0$ and so the solution is $y = y_0 e^{3x/5}$.
 \end{example}
 
 \subsection{Discrete Equations}
 It is sometimes useful to consider a function evaluated at discrete points.
 \begin{example}
   Consider again $5y' - 3y = 0$, $y(0) = y_0$.
-  We can then approximate the equation by a discrete form at some set of points $\{x_n\}$ with $x_n = nh$ with $x_0 = 0$.
+  We can then approximate the equation by a discrete form at some set of points $\{x_n\}$ with $x_n = x_0 + nh$.
+  Here, we will take $x_0 = 0$.
 
   One way we can approximate the derivative is with the ``Forward Euler Scheme'':
   \[
     \at{\deriv{y}{x}}{x_n} \approx \frac{y_{n+1} - y_n}{h}
   \]
-  This is not a great approximation but is sufficient for this example.
+  This is not a great approximation but is sufficient for this example:
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (6.5, 0) node[right] {$x$};
@@ -142,18 +142,19 @@ It is sometimes useful to consider a function evaluated at discrete points.
   Substituting this back into the original DE yields:
   \begin{align*}
     5\left(\frac{y_{n+1}-y_n}{h}\right) - 3y_n &= 0 \\
-    y_{n+1} &= \left(1 + \frac{3}{5}h\right)y_n
+    \implies y_{n+1} &= \left(1 + \frac{3}{5}h\right)y_n
   \end{align*}
   This is a \textit{recurrence relation} for $y_n$.
   \begin{align*}
     y_n &= \left(1 + \frac{3}{5}h\right)y_{n-1} = \left(1 + \frac{3}{5}h\right)^2 y_{n - 2} = \cdots \\
         &= \left(1 + \frac{3}{5}h\right)^{n}y_0 = \left(1 + \frac{3x_n}{5n}\right)^{n}y_0
   \end{align*}
-  Now take $x_n = x$ ($n$ steps from $x = 0$ to $x$) as $n \to \infty$ (and $h \to 0$):
+  Now take $x_n = x$, i.e. after we have taken $n$ we have gone from $x_0 = 0$ to $x_n = x$.
+  We then take $n \to \infty$ (and therefore also $h \to 0$ so that $nh = x$ remains fixed at $x$):
   \[
     y(x) = \lim_{n \to \infty} y_n = \lim_{n \to \infty} y_0 \left(1 + \frac{3x}{5n}\right)^{n} = y_0 \exp\left(\frac{3x}{5}\right)
   \]
-  which agrees with the continuous case.
+  which agrees with solving the continuous case directly.
 \end{example}
 \subsection{Series Solutions}
 Series solutions are a powerful way to solve ODEs.
@@ -178,9 +179,9 @@ We can then determine the coefficients $a_n$ by substituting into the ODE.
   We can then substitute into the ODE multiplied by $x$:
   \begin{align*}
     5xy' - 3xy &= 0 \\
-    \sum_{n=1}^{\infty} (5na_n - 3a_{n-1})x^{n} &= 0 \\
+    \sum_{n=1}^{\infty} (5na_n - 3a_{n-1})x^{n} &= 0
   \end{align*}
-  This is true for all $x$ so $5na_n -3a_{n-1}$ must be zero for all $n\geq1$.
+  This is true for all $x$ so $5na_n - 3a_{n-1}$ must be zero for all $n \geq 1$.
   Thus:
   \begin{align*}
     a_n &= \frac{5}{3n}a_{n-1},\ n\geq1 \\
@@ -188,38 +189,40 @@ We can then determine the coefficients $a_n$ by substituting into the ODE.
         &\;\;\vdots \\
         &= \left(\frac{3}{5}\right)^{n} \frac{1}{n!}a_0
   \end{align*}
-  so:
+  and so:
   \[
     y(x) = a_0 \sum_{n=0}^{\infty} \frac{1}{n!}\left(\frac{3x}{5}\right)^{n} = a_0 \exp\left(\frac{3x}{5}\right)
   \]
-  which agrees with the other methods.
+  which agrees with the other two methods.
 \end{example}
 \section{Forced ODEs}
 \begin{definition}[Forced]
   A \textit{forced} ODE is one which includes terms that \textbf{do not} include the dependant variable or its derivatives.
-  This is the same as it being \textit{non-homogeneous} or \textit{inhomogeneous}.
+  Such ODEs are often also called \textit{non-homogeneous} or \textit{inhomogeneous}.
 \end{definition}
 \begin{remark}
-  In general, $y = 0$ is \textbf{not} a solution to forced ODEs.
+  Unlike with homogeneous ODEs, $y = 0$ is \textbf{not} always a solution to a forced ODE.
 \end{remark}
 \subsubsection{Method To Solved Forced ODEs}
 \begin{enumerate}
-  \item Find \textbf{any} solution of the forced equation.
-        This gives you a particular integral (P.I.), $y_p(x)$.
-  \item Write general solution as $y(x) = y_p(x) + y_c(x)$ and find complimentary function (C.F.), $y_c(x)$, that satisfies the corresponding homogeneous equation.
-  \item Combine $y_p$ and $y_c$ to get general solution.
+  \item Find \textbf{any} solution of the full forced equation.
+    This gives you a particular integral (P.I.), $y_p(x)$.
+  \item Find complimentary function (C.F.), $y_c(x)$, that satisfies the corresponding homogeneous equation.
+  \item We then have that $y(x) = y_p(x) + y_c(x)$ satisfies the full equation.
+    Since we know it will only have one independent solution, we are done.
 \end{enumerate}
 \begin{remark}[Warning]
   This only works for \textbf{linear} forced ODEs otherwise the superposition of two solutions is not always a solution.
 \end{remark}
 \subsection{Constant Forcing}
 \begin{example}
-  Consider $5y' - 3y = 10$.
-  10 is called the ``constant forcing term''.
+  Consider the ODE $5y' - 3y = 10$.
+  We call 10 the ``constant forcing term''.
 
-  We first guess that $y_p(x)$ is a constant, thus $y_p(x) = - \frac{10}{3}$.
-  $y_c(x) = Ae^{\frac{3x}{5}}$ is the solution of the homogeneous equation ($5y' - 3y = 0$).
-  So the general solution is:
+  We first guess that $y_p(x)$ is a constant, say $\mu$.
+  Substituting in, we see that $\mu = - \frac{10}{3}$ and so $y_p(x) = - \frac{10}{3}$.
+  We know already that $y_c(x) = Ae^{\frac{3x}{5}}$ is the solution of the homogeneous equation $5y' - 3y = 0$.
+  Therefore the general solution is:
   \[
     y(x) = Ae^{\frac{3x}{5}} - \frac{10}{3}
   \]
@@ -241,13 +244,13 @@ In eigenfunction forcing, the forcing term is an eigenfunction of the differenti
     \deriv{b}{t} + k_b b &= \underbrace{k_a a_0 e^{-k_a t}}_{\text{forcing}} \\
     \label{radioactive}
   \end{align*}
-  Try a P.I., $b_p(t) = \beta e^{-k_a t}$:
+  Try a P.I., $b_p(t) = \beta e^{-k_a t}$, and for now, assume that $k_a \neq k_b$:
   \begin{align*}
     (k_b - k_a)\beta e^{-k_a t} &= k_a a_0e^{-k_a t} \\
-    \implies \beta &= \frac{k_a a_0}{k_b - k_a}\quad(k_a \neq k_b)
+    \implies \beta &= \frac{k_a a_0}{k_b - k_a}\quad(\text{ as } k_a \neq k_b)
   \end{align*}
-  $b_c(t)$ solves $b_c' + k_b b_c = 0$ so $b_c(t) = De^{-k_b t}$.
-  So the general solution is:
+  $b_c(t)$ solves the homogeneous equation $b_c' + k_b b_c = 0$ so $b_c(t) = De^{-k_b t}$.
+  Thus the general solution is:
   \[
     b(t) = De^{-k_b t} + \frac{k_a}{k_b - k_a}a_0 e^{-k_a t}
   \]
@@ -289,14 +292,14 @@ In eigenfunction forcing, the forcing term is an eigenfunction of the differenti
     \draw[thick, domain=0:5, smooth, samples=100] plot (\x,{((\ka * \azero)/(\kb - \ka)) * (exp(-\ka*\x) - exp(-\kb*\x)});
   \end{tikzpicture}
   \end{center}
-  If $k_a = k_b$, we need a different P.I., this will be discussed later in \cref{differentPI}.
+  If $k_a = k_b$, we need to use a different P.I., this will be discussed later in \cref{differentPI}.
 \end{example}
 \section{Non-Constant Coefficients}
 The general form of a first order linear ODE with \textit{non-constant coefficients}, that is, the independent variable appears explicitly, is:
 \[
   a(x)\deriv{y}{x} + b(x)y = c(x)
 \]
-or the ``standard-form'':
+or the more common ``standard-form'':
 \[
   \deriv{y}{x} + p(x)y = f(x)
 \]
@@ -308,15 +311,17 @@ Start by multiplying the ODE by $\mu$:
 \]
 We want the left hand side to be equal to $(\mu y)' = \mu y' + \mu' y$.
 This is true if $\mu' = \mu p$.
-So we require that
+So we require that:
 \[
-  \frac{\mu'}{\mu} = p \implies \int p \d{x} = \int \frac{\mu'}{\mu} \d{x} = \ln \mu \quad\text{(Up to a constant)}
+  \frac{\mu'}{\mu} = p \implies \int p \d{x} = \int \frac{\mu'}{\mu} \d{x} = \log \mu \quad\text{(Up to a constant)}
 \]
-Thus:
+and so:
 \[
   \mu(x) = \exp\left[\int^x P(u) \d{u}\right]
 \]
-which is unique up to an irrelevant constant factor as this multiple would just cancel out on either side of the DE as it is linear.
+which is unique up to an irrelevant constant factor as this multiple would just cancel out on either side of the DE.
+
+Since the left hand side is now the derivative of $\mu y$, we can hypothetically integrate both sides:
 \[
   \deriv{}{x}(\mu y) = \mu f \implies \mu y = \int^x \mu(u)f(u) \d{u}
 \]
@@ -328,18 +333,18 @@ which is unique up to an irrelevant constant factor as this multiple would just 
   \]
   So the I.F. is:
   \begin{align*}
-    \ln \mu &= \int_{}^{x} \left(\frac{1}{u} - 1\right) \d{u} \\
-            &= \ln x - x \\
-            &= \ln(xe^{-x}) \\
-    \mu &= xe^{-x}
+    \log \mu &= \int_{}^{x} \left(\frac{1}{u} - 1\right) \d{u} \\
+            &= \log x - x \\
+            &= \log(xe^{-x}) \\
+    \implies \mu &= xe^{-x}
   \end{align*}
   Therefore:
   \begin{align*}
     \deriv{}{x}(xe^{-x}y) &= \frac{x}{x}e^{-x} = e^{-x}\\
-    xe^{-x}y &=-e^{-x} + C \\
-    y &= -\frac{1}{x} + \frac{C}{x}e^{x}
+    \implies xe^{-x}y &=-e^{-x} + C \\
+    \implies y &= -\frac{1}{x} + \frac{C}{x}e^{x}
   \end{align*}
-  Note that we could set $C=1$ if we want finite $y$ as $x \to 0$.
+  If we require that $y$ is finite as $x \to 0$, then we would need to set $C = 1$.
 \end{example}
 \begin{example}[Radioactive Decay Revisited]
   Recall from \cref{radioactive} we had:
@@ -354,7 +359,7 @@ which is unique up to an irrelevant constant factor as this multiple would just 
     \begin{case}{$k_b \neq k_a$}
       \begin{align*}
         e^{k_b t}b &= \frac{k_0 a_0}{k_b - k_a}e^{(k_b - k_a)t} +C \\
-              b(t) &= \underbrace{\frac{k_0 a_0}{k_b - k_a}e^{-k_a t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
+        \implies  b(t) &= \underbrace{\frac{k_0 a_0}{k_b - k_a}e^{-k_a t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
       \end{align*}
       Which agrees with what we had earlier.
     \end{case}
@@ -363,9 +368,10 @@ which is unique up to an irrelevant constant factor as this multiple would just 
       So the right hand side is just $k_a a_0$ which is independent of $t$ so:
       \begin{align*}
         e^{k_b t}b &= k_a a_0 t + C \\
-        b(t) &= \underbrace{k_a a_0 t e^{-k_b t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
+        \implies b(t) &= \underbrace{k_a a_0 t e^{-k_b t}}_{\text{P.I.}} + \underbrace{Ce^{-k_b t}}_{\text{C.F.}}
       \end{align*}
-      So $\text{P.I.} \propto t e^{-k_b t}$ not just $e^{-k_b t}$, so if we tried $\beta t e^{-k_b t}$ earlier we would have gotten this result.
+      So $\text{P.I.} \propto t e^{-k_b t}$ not just $e^{-k_b t}$.
+      Had we tried $\beta t e^{-k_b t}$ earlier we would have gotten this result, however using an integrating factor like this removes some of the guesswork.
       \begin{center}
       \begin{tikzpicture}[scale=1.13]
         \draw[->] (0, 0) -- (5, 0) node[right] {$t$};
@@ -428,23 +434,27 @@ We can solve these by direct integration:
     \d{f} = P(x, y)\d{x} + Q(x, y)\d{y}
   \]
 \end{definition}
-If \cref{nonLinearGeneral} is exact then $\d{f} = 0$ so $f(x, y) = \text{constant}$ is a solution.
-We can use the multivariate chain rule (\cref{multiChainRule}) to get:
+If \cref{nonLinearGeneral} is exact, then $\d{f} = 0$ and so $f(x, y) = \text{constant}$ is a solution.
+If it is exact, then by the multivariate chain rule (\cref{multiChainRule}) we have:
 \[
   \d{f} = \underbrace{\pderiv{f}{x}}_{P(x, y)} \d{x} + \underbrace{\pderiv{f}{y}}_{Q(x, y)} \d{y}
 \]
 So we need to solve $\pderiv{f}{x} = P$ and $\pderiv{f}{y} = Q$.
-We know that partial derivatives commute so:
+We know that partial derivatives commute so we must have:
 \[
   \pderiv{P}{y} = \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial^2 f}{\partial x \partial y} = \pderiv{Q}{x}
 \]
 Therefore, a \textit{necessary} but not sufficient condition for the ODE to be exact is:
 \[
-  \pderiv{P}{y} = \pderiv{Q}{x}
+  \text{ODE is exact} \implies \pderiv{P}{y} = \pderiv{Q}{x}
 \]
+In fact, the converse of this turns out to be true:
 \begin{theorem}
   If $\pderiv{P}{y} = \pderiv{Q}{x}$ throughout a simply connected domain $\mathcal{D}$, $P\d{x} + Q\d{y}$ is an exact differential of a single-valued function $f(x, y)$ in $\mathcal{D}$.
 \end{theorem}
+\begin{proof}
+  See IA Vector Calculus section 5.1.3.
+\end{proof}
 \begin{definition}[Simply Connected]
   A domain $\mathcal{D}$ is \textit{simply connected} if it is path connected and any closed curve in $\mathcal{D}$ can be continuously shrunk to a point in $\mathcal{D}$ without leaving $\mathcal{D}$.
 \end{definition}
@@ -452,7 +462,7 @@ Therefore, a \textit{necessary} but not sufficient condition for the ODE to be e
   A domain $\mathcal{D}$  is \textit{path connected} if every pair of points in $\mathcal{D}$ can be connected by a path in $\mathcal{D}$.
 \end{definition}
 \begin{example}
-Here are some examples of some path connected and simply connected domains:
+Here are some examples and non-examples of some path connected and simply connected domains:
 \begin{center}
 \begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
   \def\xshiftleft{-2cm}
@@ -499,22 +509,27 @@ Here are some examples of some path connected and simply connected domains:
   \[
     \pderiv{P}{y} = -6y \text{ and } \pderiv{Q}{x} = -6y \implies \pderiv{P}{y} = \pderiv{Q}{x}
   \]
-  So this is exact in any simply connected domain.
+  So in a simply connected domain, this ODE is exact.
+
+  We can proceed by either integrating $P$ with respect to $x$ or integrating $Q$ with respect to $y$.
+  Here we will use $P$:
   \begin{align*}
     P = \at{\pderiv{f}{x}}{y} &= 2x - 3y^2 \\
-    \implies f(x, y) &= \int 2x - 3y^2 \d{x} \\
+    \implies f(x, y) &= \int  (2x - 3y^2) \d{x} \\
                      &= x^2 - 3xy^2 + h(y)
   \end{align*}
-  Note we have a constant of integration that is a function of $y$ as $\pderiv{}{x}h(y) = 0$.
+  We obtained a constant of integration that is a function of $y$ as $\pderiv{}{x}h(y) = 0$.
+
+  We know that:
   \[
     Q = \at{\pderiv{f}{y}}{x} = 6y^2 - 6xy
   \]
   But we can also get $\at{(\partial f)/(\partial y)}{x}$ by differentiating our current expression for $f(x, y)$ with respect to $y$:
   \begin{align*}
     \at{\pderiv{f}{y}}{x} &= \pderiv{}{y}(x^2 - 3xy^2 + h(y)) \\
-                          &= -6xy + \deriv{h}{y}\\
+                          &= -6xy + \deriv{h}{y}
   \end{align*}
-  Equating the two expressions for $\at{(\partial f)/(\partial y)}{x}$ yields:
+  Equating the two expressions for $\at{(\partial f)/(\partial y)}{x}$, we have:
   \begin{align*}
     \deriv{h}{y} - 6xy &= 6y^2 - 6xy \\
     \deriv{h}{y} &= 6y^2 \\
@@ -528,15 +543,16 @@ Here are some examples of some path connected and simply connected domains:
   \[
     x^2 - 3xy^2 + 2y^3 = A
   \]
+  for an arbitrary constant $A$.
 \end{example}
 \section{Solution Curves and Isoclines}
 Non-linear ODEs are often impossible to solve in a simple closed form.
-However we can analyse the behaviour of solutions with graphical methods.
+However, we can analyse the behaviour of solutions without actually needing to solve by utilising graphical methods.
 \subsection{Solution Curves}
 Consider $\deriv{y}{t} = f(t, y)$.
-Each initial condition (e.g. $y(0) = y_0$) generates a distinct \textit{solution curve} or \textit{trajectory}.
+Each initial condition (i.e. $y(t_0) = y_0$) generates a distinct \textit{solution curve} or \textit{trajectory}.
 
-For example with $y = y_0 e^{x}$:
+For example with $y = y_0 e^{x}$, a few solution curves are:
 \begin{center}
 \begin{tikzpicture}[scale=1.13]
   \draw[->] (0, 0) -- (4, 0) node[right] {$t$};
@@ -554,10 +570,9 @@ For example with $y = y_0 e^{x}$:
 \end{tikzpicture}
 \end{center}
 \begin{remark}
-  Solution curves cannot cross if $f(t, y)$ is single valued.
+  Solution curves cannot cross (in the sense of intersecting with different tangents and not just touching) if $\deriv{y}{t} = f(t, y)$ is single valued, as if they did, $\deriv{y}{t}$ would take multiple different values at a single point.
 \end{remark}
-
-This is useful as we can sketch the solution curve without needing to solve the ODE.
+We can sketch families of solution curves without needing to solve the ODE using the expression for $\deriv{y}{t}$.
 \begin{example}
   Consider the ODE:
   \[
@@ -631,7 +646,6 @@ This is useful as we can sketch the solution curve without needing to solve the 
     \item At $A = 0$ we have the constant solution $-1$.
     \item $y \to 1$ as $t \to \infty$ for $A \neq 0$
   \end{itemize}
-
   We can also get some general behaviour directly from the ODE without needing to solve it:
   \begin{itemize}
     \item $\deriv{y}{t} = 0\ \forall t \text{ if } |y| = 1$.
@@ -645,11 +659,11 @@ This is useful as we can sketch the solution curve without needing to solve the 
 \]
 \subsubsection{Slope Field}
 A \textit{slope field} represents the gradient at a particular point by short ``sticks'', one centred on each point.
-It is tangent to the solution curve.
+It is tangent to solution curves.
 \begin{example}
   Consider again $\dot{y} = t(1-y^2)$.
   For $t > 0$, $\dot{y} > 0$ for $|y| < 1$ and $\dot{y} < 0$ for $|y| > 1$.
-  Here is the slope field:
+  We can see this behaviour in the slope field:
   \begin{center}
   \begin{tikzpicture}[scale=1.13]
     \def\f(#1,#2){(#1)*(1-(#2)^2)}
@@ -681,7 +695,7 @@ It is tangent to the solution curve.
 \end{example}
 \subsubsection{Isoclines}
 \textit{Isoclines} are curves along which $\dot{y} = \text{constant}$.
-This can sometimes be useful when sketching solution curves.
+Isoclines are often useful guides when sketching solution curves.
 \begin{example}
   For the same example.
   Consider a constant $D$ where $t(1-y^2) = D$ thus:
@@ -721,7 +735,7 @@ This can sometimes be useful when sketching solution curves.
     \draw[dashed] (9,-1) -- (0, -1) node[left] {$-1$};
   \end{tikzpicture}
   \end{center}
-  If we plot the slope field only along the isoclines, we see that the slope field is constant along each of the isoclines, as expected.
+  If we plot the slope field only along the isoclines, we see that the slope field is constant along each of the isoclines, as expected:
   \begin{center}
   \begin{tikzpicture}[scale=1.13]
     \def\f(#1,#2){(#1)*(1-(#2)^2)}
@@ -769,27 +783,25 @@ This can sometimes be useful when sketching solution curves.
   \end{tikzpicture}
   \end{center}
 \end{example}
-
 \section{Fixed Points}
 \begin{definition}[Fixed Point]
   A \textit{fixed point} or \textit{equilibrium} point of an ODE, $\deriv{y}{t} = f(t, y)$, is a constant solution $y = c$.
-  That is $\deriv{y}{t} = 0$ for all $t$.
+  That is, $f(c, t) = 0 = \deriv{}{t}(c)$ for all $t$.
 \end{definition}
 \begin{definition}[Stable Fixed Point]
-  A fixed point $y = c$ is \textit{stable} if whenever $y$ deviates slightly from $c$, $y$ \textbf{converges} to $y = c$ as $t \to \infty$.
+  A fixed point $y = c$ is \textit{stable} if whenever $y$ deviates slightly from $c$, then $y$ \textbf{converges} to $y = c$ as $t \to \infty$.
 \end{definition}
 \begin{definition}[Unstable Fixed Point]
-  A fixed point $y = c$ is \textit{unstable} if whenever $y$ deviates slightly from $c$, $y$ \textbf{diverges} from $y = c$ as $t \to \infty$.
+  A fixed point $y = c$ is \textit{unstable} if whenever $y$ deviates slightly from $c$, then $y$ \textbf{diverges} from $y = c$ as $t \to \infty$.
 \end{definition}
 \begin{example}
   Again with $\dot{y} = t(1-y^2)$, we have fixed points at $y = \pm 1$.
   However they have very different character.
-  Solution curves approach $y = 1$ as $t \to \infty$ so $y = 1$ is a \textit{stable} fixed point but diverge from $y = -1$ as $t \to \infty$ so $y = - 1$ is an \textit{unstable} fixed point.
+  Visually, we see that solution curves approach $y = 1$ as $t \to \infty$ so $y = 1$ is a \textit{stable} fixed point but diverge from $y = -1$ as $t \to \infty$ so $y = - 1$ is an \textit{unstable} fixed point.
 \end{example}
 \subsection{Perturbation Analysis and Stability}
 \label{pertubationSec}
-Let $y = c$ be a fixed point of $\deriv{y}{t} = f(t, y)$.
-That is $f(t, c) = 0$ for all $t$.
+Let $y = c$ be a fixed point of $\deriv{y}{t} = f(t, y)$, that is $f(t, c) = 0$ for all $t$.
 
 We then perturb by some small $\varepsilon(t)$ about the fixed point:
 \[
@@ -797,7 +809,8 @@ We then perturb by some small $\varepsilon(t)$ about the fixed point:
 \]
 Therefore:
 \begin{align*}
-  \deriv{\varepsilon}{t} &= f(t, c + \varepsilon) \\
+  \deriv{\varepsilon}{t} &= \deriv{y}{t} \\
+                         &= f(t, c + \varepsilon) \\
                          &= \underbrace{f(t, c)}_{=0} + \varepsilon \pderiv{f}{y}(t, c) + O(\varepsilon^2) \text{ (by \cref{taylorsThm}, Taylor's Theorem)}\\
                          &= \varepsilon \pderiv{f}{y}(t, c) + O(\varepsilon^2)
 \end{align*}
@@ -807,7 +820,7 @@ Since $\varepsilon$ is small we can just consider the linear approximation, thus
 \]
 This is now a linear ODE which is simpler to solve.
 If $\pderiv{f}{y}(t, c) = 0$ then we need higher order terms in the Taylor series to determine stability.
-As $t \to \infty$, if $\varepsilon \to 0$ then it is a stable fixed point, if $|\varepsilon| \to \infty$ then it is an unstable fixed point.
+As $t \to \infty$, if $\varepsilon \to 0$ then it is a stable fixed point, if instead $|\varepsilon| \to \infty$ then it is an unstable fixed point.
 \begin{example}
   Again with $\dot{y} = \underbrace{t(1 - y^2)}_{f(t, y)}$.
   We already know we have fixed points at $y = \pm 1$.
@@ -829,29 +842,35 @@ As $t \to \infty$, if $\varepsilon \to 0$ then it is a stable fixed point, if $|
     \deriv{\varepsilon}{t} \approx 2t\varepsilon \implies
     \varepsilon(t) = \varepsilon_0 e^{t^2}
   \]
-  Now as $t \to \infty$, $|\varepsilon| \to \infty$ so the solution curve diverges from $y =-1$ so it is an \textit{unstable} fixed point.
-  This analysis is only for small $\varepsilon$, so we really know the behaviour very close to $y = -1$.
+  As $t \to \infty$, $|\varepsilon| \to \infty$ so the solution curve diverges from $y =-1$ and so it is an \textit{unstable} fixed point.
+
+  This analysis is only for small $\varepsilon$, so we only really know what happens to solution curves very close to the fixed point solutions.
+  All we are asking is if we perturb slightly away from the constant solution, does the solution come back towards or drift away from the fixed point solution.
 \end{example}
 \section{Autonomous Systems and Phase Portraits}
 \label{autoAndPhaseSec}
-An \textit{autonomous} system is a special case where:
-\[
-  \deriv{y}{t} = f(y)\quad\text{(No explicit $t$ dependence)}
-\]
+\begin{definition}[Autonomous System]
+  An \textit{autonomous} system is a special case of an ODE where $t$ does not appear explicitly, i.e. it can be written as:
+  \[
+    \deriv{y}{t} = f(y)
+  \]
+\end{definition}
 This is separable so:
 \[
   \int_{}^{y} \frac{\d{u}}{f(u)} = t - t_0
 \]
 If $y(t)$ is a solution them so is $y(t - t_0)$ $\forall t_0$ as any time shift can just be absorbed into the constant of integration.
-Although it is separable we may not be able to solve it in a closed form.
+We can also see this property directly from the ODE; since the slope of the solution does not depend on the $t$ coordinate, any two initial conditions with the same $y_0$ value will evolve in the same way, regardless of the initial $t_0$ and so will be horizontal translations of each other.
 
-Near a fixed point $y = c$ (so $f(c) = 0$), we have:
+Although it is separable the integral may not have a closed form and so we may still wish to analyse fixed points.
+For a fixed point $y = c$, we need $f(c)$.
+Again, perturbing by a small $\varepsilon(t)$ about the fixed point with $y(t) = c + \varepsilon(t)$, we have:
 \[
-  \deriv{\varepsilon}{t} \approx \varepsilon \underbrace{\deriv{f}{y}(c)}_{\text{constant}} = \varepsilon k \implies
+  \deriv{\varepsilon}{t} \approx \varepsilon \underbrace{\deriv{f}{y}(c)}_{\text{constant} k} = \varepsilon k \implies
   \varepsilon(t) \approx \varepsilon_0 e^{kt}
 \]
-If $k = f'(c) < 0 \implies$ stable fixed point.
-If $k = f'(c) > 0 \implies$ unstable fixed point.
+If $k = f'(c) < 0 \longrightarrow$ stable fixed point.
+If $k = f'(c) > 0 \longrightarrow$ unstable fixed point.
 \begin{example}[Chemical Kinetics]
   Consider a chemical reaction between $A$ and $B$ that produces $C$ and $D$.
   \[
@@ -866,8 +885,9 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
   Initial No. & $a_0$ & $b_0$ & 0 & 0
   \end{tabular}
   \end{center}
-  This means that if we react one molecule of A with one of B, we get one of C and one of D.
-  As one $A$ produces one $C$ and one $B$ produced one $C$ we have:
+  where if we react one molecule of A with one of B, we get one of C and one of D.
+
+  Since one $A$ produces one $C$ and one $B$ produced one $C$ we have:
   \begin{align*}
     a(t) + c(t) = a_0 \implies a(t) &= a_0 - c(t) \\
     b(t) + c(t) = b_0 \implies b(t) &= b_0 - c(t)
@@ -881,18 +901,21 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
     \deriv{c}{t} &= \lambda a(t)b(t) \\
                  &= \underbrace{\lambda[a_0 - c(t)][b_0 - c(t)]}_{f(c)}
   \end{align*}
-  So this is an autonomous non-linear first-order ODE.
-  We require $f(c) = 0$ for a fixed point so there are fixed points at $c = a_0$ and $c = b_0$.
-  These correspond to when all of A has been consumed and when all of B has been consumed.
+  which is an autonomous non-linear first-order ODE.
+  We require $f(c) = 0$ for a fixed point and so there are fixed points at $c = a_0$ and $c = b_0$.
+  These correspond to when all of A has been consumed and when all of B has been consumed respectively.
 
-  Assume $a_0 < b_0$, so $c = b_0$ is unphysical.
+  Assume that $a_0 < b_0$.
+  In this case, the fixed point $c = b_0$ is unphysical as if we start with less $A$ than $B$ then there is no way we can use up all of $B$ before $A$ in this reaction.
+
+  We now take the derivative of $f(c)$ to analyse the stability of the fixed points:
   \[
     \deriv{f}{c} = \lambda (2c - a_0 -b_0) \implies \deriv{f}{c} = \begin{cases}
     \lambda(a_0 - b_0) & \text{ at }c=a_0 \\
     \lambda(b_0 - a_0) & \text{ at }c=b_0
     \end{cases}
   \]
-  For $a_0 < b_0$, $c = a_0$ is a \textit{stable fixed point} and $c = b_0$ is \textit{unstable}.
+  So in the case of $a_0 < b_0$, $c = a_0$ is a \textit{stable fixed point} and $c = b_0$ is \textit{unstable}.
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (4, 0) node[right] {$c$};
@@ -906,9 +929,9 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
     \node[below right] at (3, 0) {$b_0$};
   \end{tikzpicture}
   \end{center}
-  From this we can see that if we have more than $a_0$, $\deriv{c}{t} < 0$ so less is produced, and if we have less than $a_0$, $\deriv{c}{t} > 0$ so more is produced.
-  On the other hand, if we have more than $b_0$, more is produced and if we have less than $b_0$ then less is produced.
-  In both cases we end up further from $b_0$.
+  From this we can see that if we have more $C$ than $a_0$, $\deriv{c}{t} < 0$ so although it is unphysical, the amount of $C$ decreases, and if we have less than $a_0$, $\deriv{c}{t} > 0$ so more is produced.
+  On the other hand, if we have more than $b_0$, more is produced and if we have less than $b_0$ then the amount of $C$ decreases.
+  In both cases $c$ moves away from $b_0$.
 
   We can also draw a 1D phase portrait:
   \begin{center}
@@ -934,17 +957,18 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
     \deriv{y}{t} &= (\alpha - \beta)y - \gamma y^2 \\
                  &= \underbrace{\lambda y\left(1 - \frac{y}{Y}\right)}_{f(y)}
   \end{align*}
-  For constants $\lambda, Y$.
-  This is called the differential logistic equation, it is also an autonomous ODE.
+  for constants $\lambda = \alpha - \beta$ and $Y = \frac{\alpha - \beta}{\gamma}$.
+  This is called the differential logistic equation and is an autonomous ODE.
 
-  The fixed points are $y= 0$ and $y = Y$.
+  $f(y) = 0 \implies y = 0 \text{ or } y = Y$ and so the fixed points are $y = 0$ and $y = Y$.
+  To analyse the stability:
   \[
     \deriv{f}{y} = \lambda\left(1-\frac{2y}{Y}\right) = \begin{cases}
     \lambda & \text{ at }y=0 \\
     -\lambda & \text{ at } y=Y
     \end{cases}
   \]
-  For $\lambda > 0$ (birth rate $>$ isolated death rate, $\alpha > \beta$), then $y = 0$ is unstable and $y = Y$ is stable.
+  For $\lambda > 0$ (i.e. birth rate $>$ isolated death rate, $\alpha > \beta$), the fixed point $y = 0$ is unstable and the fixed point $y = Y$ is stable:
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (6, 0) node[right] {$y$};
@@ -969,7 +993,8 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
       \draw (-3, 0) circle (0.07) node[below left] {$0$};
     \end{tikzpicture}
   \end{center}
-  If we solve the ODE and plot solution curves, we can see that the result agrees with our analysis:
+  We can in fact solve this ODE.
+  If we solve it and plot solution curves, we see that the result agrees with our stability analysis:
   \begin{center}
   \begin{tikzpicture}[scale=1.13]
     \def\yconst{1.5}
@@ -989,14 +1014,15 @@ If $k = f'(c) > 0 \implies$ unstable fixed point.
   \end{center}
 \end{example}
 \section{Fixed Points in Discrete Equations}
-\textit{First order} discrete equation that links $x_n$ and $x_{n + 1}$:
-\[
-  x_{n + 1} = f(x_n)
-\]
-Note that $f(x_n)$ does not explicitly depend on $n$, similarly to autonomous systems.
+\begin{definition}[First Order Discrete Equation]
+  \textit{First order} discrete equation is an equation relating $x_n$ and $x_{n + 1}$ of the form:
+  \[
+    x_{n + 1} = f(x_n)
+  \]
+  Note that $f(x_n)$ does not explicitly depend on $n$, similarly to in an autonomous system.
+\end{definition}
 \begin{definition}
-  A \textit{fixed point} of a first order discrete equation is a value of $x_n$ such that $x_{n + 1} = x_n$.
-  This means that $f(x_{n}) = x_{n}$.
+  A \textit{fixed point} of a first order discrete equation is a value of $x_n$ such that $x_{n + 1} = x_n$, that is $f(x_{n}) = x_{n}$.
 \end{definition}
 We can also determine stability using perturbation analysis.
 Let $x_F$ be a fixed point and $\varepsilon_n$ be a small perturbation:
@@ -1007,15 +1033,15 @@ Therefore:
 \begin{align*}
   x_{n + 1} = x_F + \varepsilon_{n + 1} &= f(x_F + \varepsilon_n) \\
   x_F + \varepsilon_{n+1} &= \underbrace{f(x_F)}_{x_F} + \varepsilon_n \deriv{f}{x}(x_F) + O(\varepsilon^{2}_{n}) \\
-  \varepsilon_{n+1} & =\varepsilon_n \deriv{f}{x}(x_F) + O(\varepsilon^{2}_{n})
+  \implies \varepsilon_{n+1} & =\varepsilon_n \deriv{f}{x}(x_F) + O(\varepsilon^{2}_{n})
 \end{align*}
-Since $\varepsilon$ is small we can linearise:
+Since $\varepsilon$ is small we can linearise this as:
 \[
   \varepsilon_{n+1} \approx \varepsilon_n \deriv{f}{x}(x_F)
 \]
 Note that if $\deriv{f}{x}(x_F) = 0$, then we would need to use higher order terms in the Taylor expansion.
 
-This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_F$ unstable.
+From this relationship, we see that $|f'(x_F)| < 1 \implies \text{$x_F$ stable fixed point}$ and $|f'(x_F)| > 1 \implies \text{$x_F$ unstable fixed point}$.
 \begin{example}
   Consider the discrete equation:
   \[
@@ -1041,8 +1067,7 @@ This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_
     \draw[thick, smooth, samples=100, domain=0:5] plot ({\x}, {\rconst * (0.2*\x)*(1 - (0.2 * \x))});
   \end{tikzpicture}
   \end{center}
-  Since we are requiring that $x_n \geq 0$, we need to make sure that every $x_n$ is in the range $0 \leq x_{n} \leq 1$ otherwise $f(x_n) = x_{n+1}$ would be negative.
-  To do this we require $0 \leq r \leq 4$.
+  Since we are requiring that $x_n \geq 0$, we need to make sure that every $x_n$ is in the range $0 \leq x_{n} \leq 1$ otherwise $f(x_n) = x_{n+1}$ would be negative and so we require $0 \leq r \leq 4$.
 
   This has fixed points when:
   \begin{align*}
@@ -1051,18 +1076,17 @@ This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_
   \end{align*}
   Again because we require $x_n \geq 0$, $x_n = 1-\frac{1}{r}$ is only relevant if $r \geq 1$.
 
-  To look at their stability:
+  To analyse their stability:
   \[
     f'(x) = r(1-2x) = \begin{cases}
     r & \text{ at } x = 0 \\
     2 - r & \text{ at } x = 1 - \frac{1}{r}
     \end{cases}
   \]
-  So $x_n = 0$ is stable for $0 < r < 1$ or unstable for $r > 1$ and $x_n = 1 - \frac{1}{r}$ is stable for $1 < r < 3$ or unstable for $r > 3$ or $r < 1$.
+  So $x_n = 0$ is stable for $0 < r < 1$ but is unstable for $r > 1$ and $x_n = 1 - \frac{1}{r}$ is stable for $1 < r < 3$ but is unstable for $r > 3$ or $r < 1$.
 
   We can illustrate the behaviour of discrete equations using \textit{cobweb diagrams}.
-  Take $0 < r < 1$ so we expect to only have one fixed point.
-
+  If we take $0 < r < 1$, then we expect to see only one fixed point at 0:
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (7, 0) node[right] {$x_n$};
@@ -1088,11 +1112,11 @@ This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_
     \node[below] at (0.4, 0) {$\scriptstyle \cdots$};
   \end{tikzpicture}
   \end{center}
-
   The fixed points are where the line $x_{n + 1} = x_n$ and $f(x_n)$ intersect.
   In this case this is only at 0, as expected.
+  We also see that this solution is attracted towards 0 which is consistent with 0 being a stable fixed point for $0 < r < 1$.
 
-  If we instead take $1 < r < 2$, then we get an unstable fixed point at $0$ and a stable fixed point at $1 - \frac{1}{r}$:
+  If we instead take $1 < r < 2$, then we obtain an unstable fixed point at $0$ and a stable fixed point at $1 - \frac{1}{r}$:
   \begin{center}
   \begin{tikzpicture}[scale=1.2]
     \draw[->] (0, 0) -- (7, 0) node[right] {$x_n$};
@@ -1118,5 +1142,6 @@ This means that: $|f'(x_F)| < 1 \implies x_F$ stable, $|f'(x_F)| > 1 \implies x_
     \node[below] at (2.4, 0) {$\scriptstyle \cdots$};
   \end{tikzpicture}
   \end{center}
+  We can see how this solution moves away from the unstable fixed point at 0 and towards the stable fixed point at $1 - \frac{1}{r}$.
 \end{example}
 \end{document}
