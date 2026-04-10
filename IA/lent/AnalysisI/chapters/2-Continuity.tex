@@ -114,17 +114,18 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
 \end{definition}
 \begin{remark}[Note]
   Again, we can choose to exclude $0$ by restricting to $0 < |z - a|$ as above, or by restricting to $z \in X \setminus \{a\}$.
+  We need to do this as we could have a function that diverges to infinity as $x \to a$ but with $f(a) = 0$.
 \end{remark}
 \begin{example}
   \label{sinxExample}
   Consider again $f(x) = \frac{\sin x}{x}$ with domain $\R \setminus \{0\}$.
   We claim that $\frac{\sin x}{x} \to 1$ as $x \to 0$.
 
-  We can show geometrically that:
+  We can show geometrically using a unit circle that:
   \begin{equation}
     \cos x < \frac{\sin x}{x} < 1 \label{trigBound}
   \end{equation}
-  for all $x \in (0, \frac{\pi}{2})$ using a unit circle.
+  for all $x \in (0, \frac{\pi}{2})$.
   Therefore:
   \[
     \abs{\frac{\sin x}{x} - 1} < 1 - \cos x = 2 \sin^2 \left(\frac{x}{2}\right)
@@ -133,55 +134,76 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   \[
     2\sin\left(\frac{x}{2}\right) < x \implies 2\sin^2\left(\frac{x}{2}\right) < \frac{x^2}{2}
   \]
-  Hence $\forall \varepsilon > 0$, we need to choose $\delta(\varepsilon)$ such that:
+  Hence $\forall \varepsilon > 0$ we need to choose $\delta(\varepsilon)$ such that:
   \[
     |x - 0| < \delta \implies \abs{\frac{\sin x}{x} - 1} < \frac{x^2}{2} < \varepsilon
   \]
-  Choosing $\delta = \sqrt{2\varepsilon}$ satisfies this so $f(x) \to 1$ as $x \to 0$.
+  Choosing $\delta = \sqrt{2\varepsilon}$ satisfies this and so $f(x) \to 1$ as $x \to 0$.
 \end{example}
 \subsection{Limit Properties}
 \begin{lemma}
-  Let $f: X \subseteq \C \to \C$ and $a \in \C$ be either in $X$ or an accumulation point of $X$.
+  Let $f: X \subseteq \C \to \C$ and $a \in \C$ be an accumulation point of $X$.
   \begin{enumerate}
-    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X$ with $z_n \to a$ for a non-constant $z_n$.
-    \item $f(z)$ diverges as $z \to a$ if and only if $(f(z_n))_n$ diverges for every $(z_n)_{n \in \N}$ with $z_n \to a$ for a non-constant $z_n$.
+    \item $f(z) \to y$ as $z \to a$ if and only if $f(z_n) \to y$ for every sequence $(z_n)$ on $X \setminus \{a\}$ with $z_n \to a$.
+    \item $f(z)$ diverges to infinity as $z \to a$ if and only if $(f(z_n))_n$ diverges to infinity for every $(z_n)_{n \in \N}$ on $X \setminus \{a\}$ with $z_n \to a$.
   \end{enumerate}
 \end{lemma}
 \begin{proof}[\textbf{i}]
   \begin{proofdirection}{Assume $f(z) \to y$ as $z \to a$}
-    Suppose we have a sequence $(z_n)$ on $X$ with $z_n \to a$.
+    Suppose we have a sequence $(z_n)$ on $X \setminus \{a\}$ with $z_n \to a$.
 
-    Since $f(z) \to y$, $\forall \varepsilon > 0\ \exists \delta > 0$ s.t. $|z - a| < \delta \implies |f(z) - y| < \varepsilon$.
-    Since $z_n \to a$, for all such $\delta$, $\exists N$ s.t. $|z_n - a| < \delta\ \forall n \geq N$ and so $|f(z_n) - y| < \varepsilon\ \forall n \geq N$.
+    Since $f(z) \to y$, $\forall \varepsilon > 0\ \exists \delta > 0$ s.t. $0 < |z - a| < \delta \implies |f(z) - y| < \varepsilon$.
+    Since $z_n \to a$, for all such $\delta$, $\exists N$ s.t. $|z_n - a| < \delta\ \forall n \geq N$ and so, since $z_n \neq a$, $|f(z_n) - y| < \varepsilon\ \forall n \geq N$.
 
     Thus given some $\varepsilon > 0$, $\exists N \text{ s.t. } |f(z_n) - y| < \varepsilon\ \forall n > N$ so $f(z_n) \to y$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $f(z_n) \to y$ for every sequence with $z_n \to a$}
-    %TODO Check constant sequences
     For the purposes of contradiction, assume that $f(z) \centernot\to y$ as $z \to a$.
-    Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } |z - a| < \delta$ but $|f(z) - y| \geq \varepsilon$.
+    Then $\exists \varepsilon > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } 0 < |z - a| < \delta$ but $|f(z) - y| \geq \varepsilon$.
 
     For some such $\varepsilon$, consider $\delta = \frac{1}{n}$.
-    By the above, we can always find some $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$.
-    We define the sequence $(z_n)$ a sequence of such $z_n$.
-    Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - y| \geq \varepsilon$ so $f(z_n) \centernot\to y$.
+    By the above, we can always find some $z_n \in X \setminus \{a\}$ such that $|z_n - a| < \frac{1}{n} = \delta$ but $|f(z_n) - y| \geq \varepsilon$.
+    We construct the sequence $(z_n)$ as a sequence of such $z_n$.
+    Thus we have constructed a sequence with $z_n \to a$, however $\exists \varepsilon > 0 \text{ s.t. } |f(z_n) - y| \geq \varepsilon\ \forall n$ and so $f(z_n) \centernot\to y$.
     This is a contradiction so we must have $f(z) \to y$.
   \end{proofdirection}
 \end{proof}
 \begin{proof}[\textbf{ii}]
-  Unfinished. %TODO
+  \begin{proofdirection}{Assume $f(z)$ diverges to $\infty$ as $z \to a$}
+    Suppose we have a sequence $(z_n)$ on $X \setminus \{a\}$ with $z_n \to a$.
+
+    Since $f(z)$ diverges to $\infty$, $\forall L > 0\ \exists \delta > 0$ s.t. $0 < |z - a| < \delta \implies |f(z)| > L$.
+    Since $z_n \to a$, for all such $\delta$, $\exists N$ s.t. $|z_n - a| < \delta\ \forall n \geq N$ and so, since $z_n \neq a$, $|f(z_n)| > L\ \forall n \geq N$.
+
+    Thus given some $L > 0$, $\exists N \text{ s.t. } |f(z_n)| > L\ \forall n > N$.
+    Finally, since $f(z)$ diverges to $\infty$, $\lim_{z \to a} \frac{f(z)}{|f(z)|}$ exists and so by \textbf{(i)}, $\lim_{n \to \infty} \frac{f(z_n)}{|f(z_n)|}$ also exists.
+    Therefore $f(z_n)$ diverges to $\infty$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f(z_n) \to y$ for every sequence with $z_n \to a$}
+    For the purposes of contradiction, assume that $f(z)$ does not diverge to $\infty$ as $z \to a$.
+
+    If $\lim_{x \to a} \frac{f(z)}{|f(z)|}$ does not exist, then by \textbf{(i)}, neither does $\lim_{n \to \infty} \frac{f(z_n)}{|f(z_n)|}$ for any sequence $z_n$ on $X \setminus \{a\}$ with $z_n \to a$ and so $z_n$ does not diverge to $\infty$.
+
+    Otherwise, $\exists L > 0 \text{ s.t. } \forall \delta > 0\ \exists z = z(\delta) \text{ s.t. } 0 < |z - a| < \delta$ but $|f(z)| \leq L$.
+    For some such $L$, consider $\delta = \frac{1}{n}$.
+    By the above, we can always find some $z_n \in X \setminus \{a\}$ such that $|z_n - a| < \frac{1}{n} = \delta$ but $|f(z_n)| \leq L$.
+    We construct the sequence $(z_n)$ as a sequence of such $z_n$.
+    Thus we have constructed a sequence with $z_n \to a$, however $\exists L > 0 \text{ s.t. } |f(z_n)| \leq L\ \forall n$ and so $f(z_n)$ does not diverge to $\infty$.
+
+    In either case, we have a contradiction and so $f(z)$ must diverge to $\infty$ as $z \to a$.
+  \end{proofdirection}
 \end{proof}
 \begin{lemma}[Uniqueness of Limits]
-  If $f: X \subseteq \C \to \C$  has a limit at $a \in \C$, then this limit is unique.
+  If $f: X \subseteq \C \to \C$ has a limit as $z \to a$, then this limit is unique.
 \end{lemma}
 \begin{proof}
   Suppose $f(z) \to y$ as $z \to a$ and $f(z) \to x$ as $z \to a$.
   Then $\forall \varepsilon > 0$:
   \begin{align*}
-    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
-    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - b| < \delta_2 \implies |f(z) - x| < \varepsilon
+    \exists \delta_1 = \delta_1(\varepsilon) > 0 \text{ s.t. } 0 < |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
+    \exists \delta_2 = \delta_2(\varepsilon) > 0 \text{ s.t. } 0 < |z - a| < \delta_2 \implies |f(z) - x| < \varepsilon
   \end{align*}
-  Hence $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$:
+  Hence $\forall z \text{ s.t. } 0 < |z - a| < \min\{\delta_1, \delta_2\}$ (there must be some such $z$ as $a$ is an accumulation point and $\delta_1, \delta_2 > 0$):
   \[
     |x - y| = |(x - f(z)) - (y - f(z))| \leq |f(z) - x| + |f(z) - y| < 2\varepsilon
   \]
@@ -191,21 +213,21 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
   The limit is unique so we write $\lim\limits_{z \to a} f(z)$ to mean the unique limit of $f(z)$ as $z \to a$.
 \end{remark}
 \begin{lemma}[Limit Laws]
-  Let $f, g: X \subseteq \C \to \C$ and $a \in \C$ either in $X$ or an accumulation point.
-  Suppose $\lim_{z \to a} f(z) = y$ and $\lim_{z \to a} g(z) = x$ then:
+  Let $f, g: X \subseteq \C \to \C$ and $a \in \C$ be an accumulation point of $X$.
+  If $\lim_{z \to a} f(z) = y$ and $\lim_{z \to a} g(z) = x$, then:
   \label{limitLaws}
   \begin{enumerate}
     \item $\lim_{z \to a} (f(z) + g(z)) = y + x$
     \item $\lim_{z \to a} (f(z)g(z)) = yx$
-    \item If $g(z) \neq 0$ and $x \neq 0$, then $\lim_{z \to a} \frac{f(z)}{g(z)} = \frac{y}{x}$.
+    \item If $g(z) \neq 0$ in some region around $a$ (but not necessarily at $a$) and $x \neq 0$, then $\lim_{z \to a} \frac{f(z)}{g(z)} = \frac{y}{x}$.
   \end{enumerate}
 \end{lemma}
 \begin{proof}
   Suppose $f(z) \to y$ as $z \to a$ and $f(z) \to x$ as $z \to a$.
   Then $\forall \varepsilon > 0$:
   \begin{align*}
-    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
-    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - x| < \varepsilon
+    \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } 0 < |z - a| < \delta_1 \implies |f(z) - y| < \varepsilon \\
+    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } 0 < |z - a| < \delta_2 \implies |g(z) - x| < \varepsilon
   \end{align*}
   \begin{enumerate}
     \item $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$ we have:
@@ -215,7 +237,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
       which is a constant multiple of $\varepsilon$, so as $\varepsilon$ is arbitrary, $\lim_{z \to a} (f(z) + g(z)) = y + x$.
     \item We can also pick $\varepsilon = 1$ so that:
       \[
-        \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - y| < \varepsilon \implies |f(z)| < 1 + |y|
+        \exists \delta_3 \text{ s.t. } 0 < |z - a| < \delta_3 \implies |f(z) - y| < \varepsilon \implies |f(z)| < 1 + |y|
       \]
       Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
       \begin{align*}
@@ -230,7 +252,8 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
       \[
         \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |g(z) - x| < \abs{\frac{x}{2}} \implies |g(z)| > \abs{\frac{x}{2}} > 0
       \]
-      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      Since $g$ is non-zero in some region around $a$, $\exists \delta_4 > 0 \text{ s.t. } 0 < |z - a| < \delta_4 \implies g(z) \neq 0$.
+      Then $\forall z \text{ s.t. } 0 < |z - a| < \min\{\delta_1, \delta_2, \delta_3, \delta_4\}$:
       \begin{align*}
         \abs{\frac{1}{g(z)} - \frac{1}{x}} &= \frac{1}{|x||g(z)|}|g(z) - x| \\
                                        &< \frac{\varepsilon}{|x||\frac{x}{2}|}
@@ -239,7 +262,14 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
       \end{enumerate}
 \end{proof}
 \begin{remark}
-  The strategies used here are similar to those used when proving \cref{limitLaws} and \cref{reciprocalConvergence}, however, instead of bounding the whole sequence, we just introduce a new threshold $\delta$ such that if $|z - a| < \delta$, then $|f(z)|$ is bounded by some constant.
+  \begin{itemize}
+    \item The strategies used here are similar to those used when proving \cref{limitLaws} and \cref{reciprocalConvergence}, however, instead of bounding the whole sequence or its tail, we just introduce a new threshold $\delta$ such that if $0 < |z - a| < \delta$, then $|f(z)|$ is bounded by some constant.
+    \item The proof for \textbf{(ii)} demonstrated that if $f(z) \to y$ as $z \to a$, then $\exists M, \delta > 0$ such that $0 < |z - a| < \delta \implies |f(z)| \leq M$.
+
+      Similarly, the proof for \textbf{(iii)} demonstrated that if $g(z) \to x \neq 0$, then $\exists B, \delta > 0$ such that $0 < |z - a| < \delta \implies |g(z)| \geq B$.
+
+      This is similar to how we bounded convergent sequences, however it only holds for $z$ sufficiently close to $a$ but not at $a$.
+  \end{itemize}
 \end{remark}
 \section{Continuity of Functions}
 \subsection{Continuity Definition}
@@ -254,22 +284,22 @@ What does it mean for a function to be continuous at a point $a$?
 \end{definition}
 \begin{remark}
   \label{continuityLimit}
-  For any $a \in X$, either:
   \begin{itemize}
     \item Unlike in the definition for a limit (\cref{limitDef}), we do not require that $0 < |z - a|$ or $z \in X \setminus \{a\}$, this is because at $z = a$, we clearly have $0 = |f(z) - f(a)| < \varepsilon$ as a function can take only a single value for each input.
       Thus, it makes no difference to the definition of continuity whether we choose to include $z = a$ for consideration.
-    \item If $a$ is an accumulation point (so attempting to $z \to a$ is valid), then $f$ is continuous if and only if $\lim\limits_{z \to a} f(z) = f(a)$.
-    \item If $a$ is an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
+    \item If $a \in X$ is an accumulation point (so attempting to take $z \to a$ is valid), then $f$ is continuous if and only if $\lim\limits_{z \to a} f(z) = f(a)$.
+
+      If $a \in X$ is instead an isolated point, then, somewhat tautologically, $f$ is continuous at $a$ because $|z - a| < \delta \implies z = a \implies f(z) = f(a)$ for $\delta$ sufficiently small.
   \end{itemize}
 \end{remark}
 \begin{example}
   \begin{enumerate}
-    \item The function $f(z) = z$, the identity function, is continuous at any $a \in \C$ as $\forall \varepsilon > 0$:
+    \item The function $f: \C \to \C,\ z \mapsto z$, the identity function, is continuous at any $a \in \C$ as $\forall \varepsilon > 0$:
       \[
         |z - a| < \delta(\varepsilon) \implies |f(z) - f(a)| = |z - a| < \varepsilon
       \]
       by picking $\delta(\varepsilon) = \varepsilon$.
-    \item The function $f(z) = |z|$ is continuous  at any $a \in \C$ as $\forall \varepsilon > 0$:
+    \item The function $f: \C \to \R,\ z \mapsto |z|$ is continuous at any $a \in \C$ as $\forall \varepsilon > 0$:
       \[
         |z - a| < \delta(\varepsilon) \implies |f(z) - f(a)| = ||z| - |a|| \leq |z - a| < \varepsilon
       \]
@@ -304,12 +334,12 @@ There is also another notion of continuity using sequences.
 \end{proposition}
 \begin{proof}
   \begin{proofdirection}{Assume $f$ is continuous}
-    By continuity of $f$, $\forall \varepsilon > 0,\ \exists \delta = \delta(\varepsilon) \text{ s.t. } |z - a| < \delta \implies |f(z) - f(a)| < \varepsilon$.
+    By the continuity of $f$, $\forall \varepsilon > 0,\ \exists \delta = \delta(\varepsilon) \text{ s.t. } |z - a| < \delta \implies |f(z) - f(a)| < \varepsilon$.
 
     Take any sequence $(z_n)$ on $X$ with $z_n \to a$.
     Since it converges to $a$, $\exists N = N(\delta(\varepsilon)) \text{ s.t. } |z_n - a| < \delta\ \forall n \geq N \implies |f(z_n) - f(a)| < \varepsilon\ \forall n \geq N$.
 
-    Thus for arbitrary $\varepsilon > 0,\ \exists N(\varepsilon) \text{ s.t. } |f(z_n) - f(a)| < \varepsilon \ \forall n \geq n$ so $f(z_n) \to f(a)$.
+    Thus for arbitrary $\varepsilon > 0,\ \exists N(\varepsilon) \text{ s.t. } |f(z_n) - f(a)| < \varepsilon \ \forall n \geq n$ and so $f(z_n) \to f(a)$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $f$ is sequentially continuous}
     For the purposes of contradiction, assume that $f$ is not continuous at $a$.
@@ -317,9 +347,9 @@ There is also another notion of continuity using sequences.
 
     For some such $\varepsilon$, consider $\delta = \frac{1}{n}$.
     By the above, we can always find some $z_n$ such that $|z_n - a| < \frac{1}{n} = \delta$.
-    We define the sequence $(z_n)$ a sequence of such $z_n$.
-    Thus we have constructed a sequence with $z_n \to a$, however $\forall n, |f(z_n) - f(a)| \geq \varepsilon$ so $f(z_n) \centernot\to f(a)$.
-    Hence $(z_n)$ contradicts sequential continuity at $a$.
+    We define the sequence $(z_n)$ as a sequence of such $z_n$.
+    Thus we have constructed a sequence with $z_n \to a$, however $|f(z_n) - f(a)| \geq \varepsilon\ \forall n$ so $f(z_n) \centernot\to f(a)$.
+    Hence the sequence $(z_n)$ contradicts sequential continuity at $a$ and so $f$ must be continuous at $a$.
   \end{proofdirection}
 \end{proof}
 \begin{example}[Using Sequential Continuity]
@@ -363,14 +393,15 @@ There is also another notion of continuity using sequences.
       is discontinuous at every point in $\R$.
 
       \begin{itemize}
-        \item For $a \in \Q$, there exists a sequence $(x_n)$ on $\R$ with $x_n \to a$.
+        \item For $a \in \Q$, the sequence $x_n = a - \frac{\sqrt{2}}{n}$ on $\R \setminus \Q$ has $x_n \to a$.
           But $f(x_n) = 0\ \forall n \implies f(x_n) \to 0$ but $0 \neq 1 = f(a)$ and so $f$ is not continuous at $a$.
-        \item For $a \in \R \setminus \Q$, there exists a sequence $(x_n)$ on $\R \setminus \Q$ with $x_n \to a$.
+        \item For $a \in \R \setminus \Q$, the sequence $x_n$ on $\Q$ which is the truncated decimal expansion of $a$ has $x_n \to a$.
           But $f(x_n) = 1\ \forall n \implies f(x_n) \to 1$ but $1 \neq 0 = f(a)$ and so $f$ is not continuous at $a$
       \end{itemize}
       Therefore it is not continuous for all points in $\Q \cup (\R \setminus \Q) = \R$.
+      Note that in future we can just assume such sequences on $\Q$ or $\R \setminus \Q$ exist because $\Q$ is dense in $\R$.
 
-      This can also be shown using the non sequential definition of continuity, again utilising that both irrational and rational numbers are dense in the reals.
+      This can also be shown using the non sequential definition of continuity, utilising again that both irrational and rational numbers are dense in the reals.
   \end{enumerate}
 \end{example}
 \subsection{Continuity Properties}
@@ -415,7 +446,7 @@ There is also another notion of continuity using sequences.
       Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
       \begin{align*}
         \abs{\frac{1}{f(z)} - \frac{1}{f(a)}} &= \frac{1}{|f(a)||f(z)|}|f(z) - f(a)| \\
-                                       &< \frac{\varepsilon}{|f(a)||\frac{f(a)}{2}|}
+                                       &< \frac{\varepsilon}{|f(a)|\abs{\frac{f(a)}{2}}}
       \end{align*}
       which is a constant multiple of $\varepsilon$, so $\frac{1}{f}$ is continuous at $a$.
   \end{enumerate}
@@ -435,7 +466,7 @@ Function composition also preserves continuity.
   \]
   Since $f$ is continuous at $a$, using $\delta_1$ in place of $\varepsilon$ in the definition:
   \[
-    \exists \delta_2(\delta_1) = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \text{ for } z \in U \implies |f(z) - f(a)| < \delta_1
+    \exists \delta_2(\delta_1) \text{ s.t. } |z - a| < \delta_2 \text{ for } z \in U \implies |f(z) - f(a)| < \delta_1
   \]
   Bringing this all together, $\forall \varepsilon > 0$:
   \begin{align*}
@@ -494,6 +525,7 @@ Function composition also preserves continuity.
 
   Since $y_n \in f(X)$, $\exists x_n \in X$ such that $f(x_n) = y_n$.
   Similarly to before, we can use this construct a sequence $(x_n)$ in $X$.
+
   Since $X$ is bounded, $(x_n)$ must also be bounded and so as in the previous argument, we can construct a sequence $x_{n_k} \to x \in X$.
   $f$ is continuous by assumption so:
   \[
@@ -503,7 +535,7 @@ Function composition also preserves continuity.
   Since $y_n \to y$ and all subsequences must converge to the same limit (\cref{subseqenceConvergence}), we have $y = f(x) \in f(X)$, which is the required result.
 \end{proof}
 \begin{theorem}[Extreme Value Theorem]
-  Let $X \subseteq \R$ be a bounded closed set.
+  Let $X \subset \R$ be a bounded closed set.
   If $f: X \to \R$ is continuous, then $\exists a, b \in X$ such that:
   \label{EVT}
   \[
@@ -554,7 +586,7 @@ Function composition also preserves continuity.
   \[
     |f(x) - f(d)| < \varepsilon \iff - \varepsilon < f(x) - f(d) < \varepsilon \implies f(x) > f(d) - \varepsilon = y \implies x \notin S
   \]
-  So $\forall x \in [a, b] \text{ s.t. } |x - d| < \delta \implies x \notin S$, therefore $S \cap (d - \delta, d) = \emptyset$ which contradicts that $d$ is the supremum of $S$.
+  So $\forall x \in [a, b] \text{ s.t. } |x - d| < \delta \implies x \notin S$, therefore $S \cap (d - \delta, d] = \emptyset$ which contradicts that $d$ is the supremum of $S$ since $d - \delta < d$ is an upper bound for $S$.
 
   \textbf{Claim $f(d) \geq y$}\par
   Suppose, for contradiction, that $f(d) < y$.
@@ -582,10 +614,10 @@ Function composition also preserves continuity.
 \begin{example}[$n$-th Roots]
   We can apply the intermediate value theorem to show the existence of $n$-th roots.
 
-  Take $t > 0$ and consider $f: [0, 1 + t] \to \R, x \mapsto x^{N}$ for some $N \in \N$.
+  Take $t > 0$ and consider $f: [0, 1 + t] \to \R,\ x \mapsto x^{N}$ for some $N \in \N$.
   This is a continuous function and since $(1 + t)^{N} \geq t$ using binomial theorem, we have:
   \[
-    0 = f(0) < t < (1 + t)^{N} = f(1 + t)
+    0 = f(0) < t \leq (1 + t)^{N} = f(1 + t)
   \]
   Applying the intermediate value theorem, we conclude that $\exists c \in [0, 1 + t]$ such that $f(c) = t \iff c^{N} = t$.
   Hence $c$ is an $N$-th root of $t$.
@@ -608,7 +640,7 @@ Function composition also preserves continuity.
   \]
 \end{remark}
 \begin{proposition}[Inverse Function Theorem -- Version 1]
-  Let $f: [a, b] \to \R$ be a continuous function that is strictly decreasing or strictly increasing and let $c = \min\{f(a), f(b)\}, d = \max\{f(a), f(b)\}$.
+  Let $f: [a, b] \to \R$ be a continuous function that is strictly decreasing or strictly increasing and let $c = \min\{f(a), f(b)\},\ d = \max\{f(a), f(b)\}$.
   \label{inverseFunctionMonotone}
 
   Then $f: [a, b] \to [c, d]$ is a bijection and there exists a continuous inverse $f^{-1}: [c, d] \to [a, b]$ which is strictly increasing if $f$ is and strictly decreasing if $f$ is.

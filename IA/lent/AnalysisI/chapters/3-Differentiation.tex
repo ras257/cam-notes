@@ -15,7 +15,7 @@ What is the derivative of a function at a point?
   The value of this limit is then called the \textit{derivative} of $f$ at $a$ and is denoted $f'(a)$ or $\deriv{f}{x}(a)$.
 \end{definition}
 \begin{remark}[Note]
-  Here both $x \in X$ and $a + h \in X$, we cannot approach it from outside of the domain.
+  Here both $x \in X$ and $a + h \in X$ as we cannot approach $a$ from outside of the domain.
 \end{remark}
 \begin{remark}
   We can't make sense of the derivative at an isolated point of the domain.
@@ -24,7 +24,7 @@ What is the derivative of a function at a point?
 For accumulation points, we can distinguish how we approach $a$:
 \begin{itemize}
   \item For interior points, we can approach in any direction.
-    If the limits from different direction disagree, then the limit does not exist.
+    If the limits from different directions disagree, then the limit does not exist.
   \item For non-interior points, the domain restricts how we can approach $a$.
 \end{itemize}
 We need to be careful about non-interior points however most of the theory for this course will build on the first case.
@@ -44,7 +44,7 @@ We need to be careful about non-interior points however most of the theory for t
       \]
       But if we approach it along the imaginary axis by setting $h = i\lambda$:
       \[
-        \lim_{\lambda \to 0} \frac{f(z + i\lambda) - f(z)}{i\lambda} = \lim_{\lambda \to 0} \frac{-i\lambda}{\lambda} = -1
+        \lim_{\lambda \to 0} \frac{f(z + i\lambda) - f(z)}{i\lambda} = \lim_{\lambda \to 0} \frac{-i\lambda}{\lambda} = -i
       \]
       So the limit from different directions disagrees and so does not exist.
     \item Consider $f(x) = \sin x$. This is differentiable at all points on $\R$:
@@ -90,7 +90,7 @@ We can derive some properties of derivatives from the properties of limits (\cre
         \left(\frac{1}{f}\right)'(a) &= \lim_{h \to 0} \frac{1}{h} \left[\frac{1}{f(a + h)} - \frac{1}{f(a)}\right] \\
                                      &= \lim_{h \to 0} \frac{1}{h} \left[\frac{f(a) - f(a + h)}{f(a + h)f(a)}\right] \\
                                      &= -\lim_{h \to 0} \frac{1}{h} [f(a + h) - f(a)] \lim_{h \to 0} \frac{1}{f(a + h)f(a)} \\
-                                     &= -\frac{f'(a)}{(f(a))^2} \text{since $f$ is continuous at $a$}
+                                     &= -\frac{f'(a)}{(f(a))^2} \text{ since $f$ is continuous at $a$}
       \end{align*}
   \end{enumerate}
 \end{proof}
@@ -120,7 +120,7 @@ We would like to know the derivative of $f \circ g$ but it is not possible to do
   \begin{enumerate}
     \item This tells us that $f(a + h) \approx f(a) + Ah$ and the function $\varepsilon(h)$ quantifies the error we make in this approximation.
     \item We can also write $f(a + h) = f(a) + Ah + o(|h|)$ to mean the same thing using \textit{little-}$o$ notation from IA Differential Equations.
-    \item In the proof we see that in both directions, $A = f'(a)$.
+    \item In the proof we see that in both directions, $A = f'(a)$ and so this must always be the case as if we have such a function, then $A = f'(a)$.
   \end{enumerate}
 \end{remark}
 \begin{proof}
@@ -234,7 +234,7 @@ There is also a relationship between the differentiability and continuity of a f
                         &= f(a) + A \lim_{h \to 0} h + \lim_{h \to 0} \varepsilon_f(h)|h| \\
                         &= f(a)
   \end{align*}
-  and so $f$ is continuous at $a$ by \cref{continuityLimit}.
+  and so $f$ is continuous at $a$ by the remark in \cref{continuityLimit}.
 \end{proof}
 \section{Mean Value Theorems}
 We can think of derivatives as \textit{instantaneous rates of change} and in this section we will relate these to \textit{average rates of change} over an interval.
@@ -252,28 +252,46 @@ We can think of derivatives as \textit{instantaneous rates of change} and in thi
   \[
     f(x_{\text{min}}) = \inf_{z \in [a, b]} f(z) \text{ and } f(x_{\text{max}}) = \sup_{z \in [a, b]} f(z)
   \]
+  Because $f(a) = f(b)$, if the function is not constant, then the extreme values cannot both occur at the endpoints of $[a, b]$ and so there must be an extreme value attained at some value in $(a, b)$.
+  \begin{proofcases}
+    \begin{case}{$f(x_{\text{min}}) = f(x_{\text{max}})$}
+      If $f(x_{\text{min}}) = f(x_{\text{max}})$, then the function must be fixed at $f(a)$ and so $f'(c) = 0\ \forall c \in (a, b)$.
+    \end{case}
+    \begin{case}{$f(x_{\text{min}}) < f(a)$}
+      Since $f(x_{\text{min}}) < f(a) = f(b)$, $x_{\text{min}} \in (a, b)$.
+      We wish to show that $f'(x_{\text{min}}) = 0$.
 
-  Let $h_n$ be a sequence that decreases to $0$ from above.
-  If $x_{\text{min}} \in (a, b)$, then:
-  \[
-   \frac{f(x_{\text{min}} + h_n) - f(x_{\text{min}})}{h_n} \geq 0 \text{ and }
-   \frac{f(x_{\text{min}} - h_n) - f(x_{\text{min}})}{-h_n} \leq 0
-  \]
-  since $f(x_{\text{min}})$ is a minimum.
-  So as $h_n \to 0$, the derivative of $f$ at $x_{\text{min}}$ is trapped below by 0 and above by $0$ and so $f'(x_{\text{min}}) = 0$.
-
-  Similarly, if $x_{\text{max}} \in (a, b)$, then:
-  \[
-   \frac{f(x_{\text{max}} + h_n) - f(x_{\text{max}})}{h_n} \leq 0 \text{ and }
-   \frac{f(x_{\text{max}} - h_n) - f(x_{\text{max}})}{-h_n} \geq 0
-  \]
-  since $f(x_{\text{max}})$ is a maximum and so by the same argument, $f'(x_{\text{max}}) = 0$.
-
-  So if either of $x_{\text{min}}$ or $x_{\text{max}}$ is in $(a, b)$, then we have found $c$ such that $f'(c) = 0$.
-
-  If $f$ is constant, then $f'(c) = 0\ \forall c \in (a, b)$ and so we are done.
-  Otherwise, either $f(x_{\text{max}}) > f(a)$, which means that $x_{\text{max}} \in (a, b)$, or $f(x_{\text{min}}) < f(a)$, which means that $x_{\text{min}} \in (a, b)$, in either case, we are done by the above.
+      Let $h_n$ be a sequence that decreases to $0$ from above.
+      If $x_{\text{min}} \in (a, b)$, then:
+      \[
+       \frac{f(x_{\text{min}} + h_n) - f(x_{\text{min}})}{h_n} \geq 0 \text{ and }
+       \frac{f(x_{\text{min}} - h_n) - f(x_{\text{min}})}{-h_n} \leq 0
+      \]
+      since $f(x_{\text{min}})$ is a minimum.
+      Since $f$ is differentiable on $(a, b)$, as $h_n \to 0$ both of the above limit to $f'(x_{\text{min}})$.
+      Thus $f'(x_{\text{min}})$ is trapped below and above by 0 and so $f'(x_{\text{min}}) = 0$.
+    \end{case}
+    \begin{case}{$f(x_{\text{max}}) > f(a)$}
+      Since $f(x_{\text{max}}) > f(a) = f(b)$, $x_{\text{max}} \in (a, b)$.
+      Similarly to before:
+      \[
+       \frac{f(x_{\text{max}} + h_n) - f(x_{\text{max}})}{h_n} \leq 0 \text{ and }
+       \frac{f(x_{\text{max}} - h_n) - f(x_{\text{max}})}{-h_n} \geq 0
+      \]
+      since $f(x_{\text{max}})$ is a maximum and so by the same argument, $f'(x_{\text{max}}) = 0$.
+    \end{case}
+  \end{proofcases}
 \end{proof}
+\begin{remark}
+  Instead of using sequences $h_n$ decreasing to 0 from above, we also directly use the \textit{left and right limits}, for example in \textbf{Case 2}, since $f'(x_{\text{min}})$ exists:
+  \[
+    f'(x_{\text{min}}) = \begin{cases}
+     \lim_{h \to 0^{+}} \frac{f(x_{\text{min}} + h) - f(x_{\text{min}})}{h} \geq 0 \\
+     \lim_{h \to 0^{-}} \frac{f(x_{\text{min}} + h) - f(x_{\text{min}})}{h} \leq 0
+    \end{cases}
+  \]
+  where $h \to 0^{+}$ and $h \to 0^{-}$ mean the limit as $h$ approaches 0 from above and below respectively.
+\end{remark}
 \begin{theorem}[Mean Value Theorem]
   If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that:
   \label{MVT}
@@ -291,7 +309,7 @@ We can think of derivatives as \textit{instantaneous rates of change} and in thi
   \[
     \ell(x) = f(a) + \frac{f(b) - f(a)}{b - a}(x - a)
   \]
-  We then set $\phi(x) = f(x) - \ell(x)$ so that $\phi(a) = \phi(b) = 0$.
+  If we subtract this line from $f(x)$, then the values at $a$ and $b$ must both be 0, i.e let $\phi(x) = f(x) - \ell(x)$ so that $\phi(a) = \phi(b) = 0$.
   Furthermore, $\ell$ and $f$ are continuous on $[a, b]$ so since addition preserves continuity (\cref{continuityLaws}), $\phi$ is also continuous on $[a, b]$.
   Thus, by Rolle's Theorem (\cref{rollesTheorem}), $\exists c \in (a, b)$ such that $\phi'(c) = 0$.
 
@@ -312,15 +330,15 @@ We can think of derivatives as \textit{instantaneous rates of change} and in thi
   If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then:
   \label{derivativeIncreasingRelation}
   \begin{enumerate}
-    \item $f' \geq 0$ on $(a, b) \implies f$ is increasing.
+    \item $f' \geq 0$ on $(a, b) \iff f$ is increasing.
     \item $f' > 0$ on $(a, b) \implies f$ is strictly increasing.
-    \item $f' \leq 0$ on $(a, b) \implies f$ is decreasing.
+    \item $f' \leq 0$ on $(a, b) \iff f$ is decreasing.
     \item $f' < 0$ on $(a, b) \implies f$ is strictly decreasing.
-    \item $f' = 0$ on $(a, b) \implies f$ is constant.
+    \item $f' = 0$ on $(a, b) \iff f$ is constant.
   \end{enumerate}
 \end{corollary}
 \begin{proof}
-  See Example Sheet 2 Q1e.
+  See Example Sheet 2 Q1e and Q10.
 \end{proof}
 \begin{remark}[Warning]
   We cannot just replace $[a, b]$ with any arbitrary $X \subseteq \R$.
@@ -334,7 +352,7 @@ We can think of derivatives as \textit{instantaneous rates of change} and in thi
     \end{cases}
   \]
   This is a continuous function and, since $\sqrt{2}$ is not in the domain of $f$, $f'(x) = 0\ \forall x \in \Q$.
-  However, this function is not constant.
+  However, this function is clearly not constant.
 \end{remark}
 We can generalise the relation between $f'(z) = 0$ and constant functions into $\C$:
 \begin{corollary}
@@ -358,7 +376,7 @@ We can generalise the relation between $f'(z) = 0$ and constant functions into $
 \end{proof}
 Now that we have introduced differentiation and some associated theorems, we can prove the full inverse function theorem that we saw a more basic version of in \cref{inverseFunctionMonotone}.
 \begin{theorem}[Inverse Function Theorem -- Version 2]
-  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $f'(x) > 0\ \forall x \in (a, b)$, then $f: [a, b] \to [f(a), f(b)]$ is bijective and $f^{-1} : [f(a), f(b)] \to [a, b]$ is continuous and differentiable in $(f(a), f(b))$ with derivative: \label{inverseFunction2}
+  If $f: [a, b] \to \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$ and $f'(x) > 0\ \forall x \in (a, b)$, then $f: [a, b] \to [f(a), f(b)]$ is bijective and $f^{-1} : [f(a), f(b)] \to [a, b]$ is continuous on $[f(a), f(b)]$ and differentiable in $(f(a), f(b))$ with derivative: \label{inverseFunction2}
   \[
     (f^{-1})'(y) = \frac{1}{f'(f^{-1}(y))}
   \]
@@ -369,7 +387,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   We just need to show the differentiability of $f^{-1}$.
   Consider any arbitrary $y \in (f(a), f(b))$, since $f$ is a bijection there is a unique $x \in [a, b]$ such that $x = f^{-1}(y)$.
 
-  Given arbitrary $h$ such that $y + h \in (f(a), f(b))$, define $k(h)$ such that $y + h = f(x + k)$.
+  Given arbitrary $h$ such that $y + h \in (f(a), f(b))$, since $f$ is bijective we can define $k(h)$ such that $y + h = f(x + k)$.
   Doing this allows us to utilise the differentiability of $f$.
 
   Noting that $k = f^{-1}(y + h) - x$, we can attempt to find the derivative of $f^{-1}$:
@@ -393,11 +411,10 @@ Now that we have introduced differentiation and some associated theorems, we can
   so we are done.
 \end{proof}
 \begin{remark}
-  It is crucial that we have $f'(x) > 0\ \forall x \in [a, b]$ for the above.
-  If we instead have $f'(x) < 0\ \forall x \in [a, b]$, then the result still holds by applying the theorem to $g(x) = -f(x)$.
+  In the above we required that $f'(x) > 0\ \forall x \in [a, b]$ so that $f$ was monotonically increasing, however if we instead have $f'(x) < 0\ \forall x \in [a, b]$, then the result still holds by instead applying the theorem to $g(x) = -f(x)$.
 \end{remark}
 \begin{proposition}[Local Inverse Function Theorem]
-  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $\exists x_0 \in (a, b)$ such that $f'(x_0) \neq 0$, then in some region around $x_0$ there is an inverse function $f^{-1}$ that is differentiable.
+  If $f: [a, b] \to \R$ is continuous and differentiable on $(a, b)$ and $\exists x_0 \in (a, b)$ such that $f'(x_0) \neq 0$, then in some region around $x_0$ there is an inverse function $f^{-1}$ in that region that is differentiable.
 \end{proposition}
 \begin{proof}
   See Example Sheet 3.
@@ -408,7 +425,7 @@ Now that we have introduced differentiation and some associated theorems, we can
 \begin{example}
   \label{smoothRational}
   \begin{enumerate}
-    \item Fix some $R > 0$ and define $f: [0, R] \to \R$, $x \mapsto x^{N}$ for some $N \in \N$.
+    \item Fix some $R > 0$ and define $f: [0, R] \to \R$, $x \mapsto x^{N}$ for some $N \in \N$ (we need $N \neq 0$ else $f$ is not strictly increasing).
       $f$ is continuous on $[0, R]$ and differentiable on $(0, R)$ with $f'(x) = N x^{N - 1} > 0\ \forall x \in (0, R)$.
       Thus by the inverse function theorem, $f: [0, R] \to [0, R^{N}]$ is a bijection and $f^{-1}(y) = y^{\frac{1}{N}}$ is differentiable with derivative:
       \[
@@ -426,7 +443,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   \end{enumerate}
 \end{example}
 \begin{proposition}[Cauchy Mean Value Theorem]
-  If $f, g: [a, b] \to \R$  are continuous and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that: \label{cauchyMVT}
+  If $f, g: [a, b] \to \R$ are continuous on $[a, b]$ and differentiable on $(a, b)$, then $\exists c \in (a, b)$ such that: \label{cauchyMVT}
   \[
     g'(c)[f(b) - f(a)] = f'(c)[g(b) - g(a)]
   \]
@@ -439,31 +456,34 @@ Now that we have introduced differentiation and some associated theorems, we can
 \begin{proof}
   We want to reduce to Rolle's Theorem (\cref{rollesTheorem}) as we did for the proof of MVT \cref{MVT}.
 
-  Consider $\phi(x)$ defined by:
+  We want:
+  \[
+    g'(c)[f(b) - f(a)] - f'(c)[g(b) - g(a)] = 0
+  \]
+  Like we did in the proof for \cref{MVT} we want to try to use Rolle's Theorem (\cref{rollesTheorem}) the LHS should be the derivative of some function $\phi$ evaluated at $c$ which satisfies $\phi(a) = \phi(b) = 0$.
+  The function $\phi(x)$ defined by:
   \[
     \phi(x) = [g(x) - g(a)][f(b) - f(a)] - [g(b) - g(a)][f(x) - f(a)] \\
   \]
-  Since $f, g$ are continuous and differentiable, so is $\phi$.
-  Computing its derivative, we have:
-  \[
-    \phi'(x) = g'(x)[f(b) - f(a)] - f'(x)[g(b) - g(a)]
-  \]
-  We also see that $\phi(a) = \phi(b) = 0$, thus we can apply Rolle's theorem and so $\exists c \in (a, b)$ such that:
+  satisfies this.
+  It is also continuous and differentiable on the correct intervals as $f$ and $g$ are.
+
+  So applying Rolle's theorem, $\exists c \in (a, b)$:
   \[
     \phi'(c) = 0 \implies g'(c)[f(b) - f(a)] - f'(c)[g(b) - g(a)] = 0
   \]
 \end{proof}
-\begin{proposition}[L' H\^opital's Rule]
-  Let $-\infty \leq a < b \leq \infty$ and let $f, g: [a, b] \to \R$ be continuous and differentiable on $(a, b)$.
+\begin{proposition}[L'H\^opital's Rule]
+  Let $-\infty \leq a < b \leq \infty$ and let $f, g: [a, b] \to \R$ be continuous on $[a, b]$ and differentiable on $(a, b)$.
   Suppose $g(x) \neq 0\ \forall x \in (a, b)$ and $\lim_{x \to a} \frac{f'(x)}{g'(x)} = A$ for some $-\infty \leq A \leq \infty$ (where the cases of $\pm \infty$ are suitably interpreted). \label{lHopitals}
 
-  If either $f(x), g(x) \to 0$ as $x \to a$ or $f(x), g(x) \to \pm \infty$ as $x \to a$, then:
+  As $x \to a$, if either $f(x), g(x) \to 0$ or $f(x), g(x) \to \pm \infty$, then:
   \[
     \lim_{x \to a} \frac{f(x)}{g(x)} = A
   \]
 \end{proposition}
 \begin{proof}
-  See Example Sheet 3.
+  See Example Sheet 3 Q4.
 \end{proof}
 \begin{example}
   In \cref{sinxExample}, we saw that $\lim_{x \to 0} \frac{\sin x}{x} = 1$.
@@ -480,8 +500,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   Iterating this, we obtain the notion of an \textit{$n$-times differentiable} function, whose \textit{$n$-th derivative} is denoted $f^{(n)}$.
 \end{definition}
 \begin{definition}[Continiously Differentiable]
-  \label{ctsDifferentiable}
-  We say that $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous.
+  We say that $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous. \label{ctsDifferentiable}
 \end{definition}
 \begin{remark}
   Recall from \cref{diffCont} that if $f$ is differentiable at $a$, then it is also continuous at $a$.
