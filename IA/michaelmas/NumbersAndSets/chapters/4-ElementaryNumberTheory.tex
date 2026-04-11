@@ -24,7 +24,7 @@ All other factors of $b$ are called \textit{proper factors} (or \textit{non-triv
   }
   {$n < k$}{}
   {$n = k$}{
-     If $k$ itself is prime then we are done.
+     If $k$ itself is prime, then we are done.
 
      Otherwise, if $k$ is composite we can write $k = ab$ with $1 < a, b < k$.
      Then by the hypothesis, $a$ and $b$ can be written as a product of primes.
@@ -53,7 +53,7 @@ To prove that a number's prime factorisation is unique, we need to introduce a f
   Given $a, b \in \N$, we say that $c \in \N$ is the \textit{highest common factor} ($\hcf$) or \textit{greatest common divisor} ($\gcd$) of $a$ and $b$ if:
   \begin{enumerate}
     \item $c \mid a$ and $c \mid b$ ($c$ is a common divisor of $a$ and $b$).
-    \item $d \mid a$ and $d \mid b$ then $d \mid c$ (Every common divisor of $a$ and $b$ divides $c$).
+    \item $d \mid a$ and $d \mid b$ then $d \mid c$ (every common divisor of $a$ and $b$ divides $c$).
   \end{enumerate}
   We denote this $c = \hcf(a, b) = \gcd(a, b)$ or sometimes $(a, b)$.
 \end{definition}
@@ -65,9 +65,7 @@ To prove that a number's prime factorisation is unique, we need to introduce a f
 We now need to show that that $\hcf(a, b)$ always exists.
 \section{Euclid's Algorithm}
 \begin{proposition}[Division Algorithm]
-  \label{divisionAlgorithm}
-  Let $n, k \in \N$.
-  Then we can write $n = qk + r$ for some $q, r \in \Z$ and $0 \leq r \leq k - 1$.
+  For any $n, k \in \N$, we can write $n = qk + r$ for some $q, r \in \Z$ and $0 \leq r \leq k - 1$. \label{divisionAlgorithm}
 \end{proposition}
 \begin{remark}[Notation]
   We use ``$q$'' to mean \textit{quotient} and ``$r$'' to mean \textit{remainder}.
@@ -75,7 +73,8 @@ We now need to show that that $\hcf(a, b)$ always exists.
 \begin{proof}
   \induction
   {$n = 1$}{
-    If $k = 1$ then $q = 1$ and $r = 0$, if $k > 1$ then $q = 0$ and $r = 1$
+    If $k = 1$, then $q = 1$ and $r = 0$.
+    Otherwise if $k > 1$, then $q = 0$ and $r = 1$
   }
   {$n = p - 1$}{
     So $p - 1= qk + r$ with $0 \leq r \leq k-1$.
@@ -91,9 +90,9 @@ We now need to show that that $\hcf(a, b)$ always exists.
     \end{proofcases}
   }
 \end{proof}
-\begin{remark}
-  The quotient and remainder obtained for each $n$ are unique.
-\end{remark}
+\begin{lemma}
+  The quotient and remainder obtained for each $n$ and $k$ are unique.
+\end{lemma}
 \begin{proof}
   Suppose we have $n = qk + r = q' k + r'$, then $(q - q')k = r' - r$.
   Since $0 \leq r, r' \leq k -1$, we have $-k < r' - r < k$.
@@ -163,7 +162,7 @@ Output & $r_n$& -- & 6 \\
   As $1$ is the last non-zero remainder, $\hcf(87, 52) = 1$.
 \end{example}
 \begin{definition}[Coprime]
-  If $\hcf(a, b) = 1$ then $a$ and $b$ are \textit{coprime} or \textit{relatively prime}.
+  We say that $a$ and $b$ are \textit{coprime} or \textit{relatively prime} if $\hcf(a, b) = 1$.
 \end{definition}
 If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ that equals $\hcf(a, b)$.
 \begin{example}
@@ -177,7 +176,7 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
   \end{align*}
 \end{example}
 \begin{theorem}[B\'ezout's Identity]
-  For all $a, b \in \N$, there exists $x, y \in \Z$ such that
+  For all $a, b \in \N$, there exists $x, y \in \Z$ such that:
   \[
     xa + yb = \hcf(a, b)
     \label{bezoutsIdentity}
@@ -186,17 +185,17 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
 \begin{proof}[Using Euclid's Algorithm -- Constructive]
   We run Euclid's algorithm within inputs $a, b$ to obtain the output $r_n$.
   At step $n$ we have $r_n = xr_{n-1} + yr_{n-2}$ for some $x, y \in \Z$.
-  But at step $n-1$ we see that $r_{n-1}$ is also expressible as $r_{n-1} = xr_{n-2} + yr_{n-3}$ for some $x, y \in \Z$.
+  But at step $n-1$ we see that $r_{n-1}$ is also expressible as $r_{n-1} = xr_{n-2} + yr_{n-3}$ for some other $x, y \in \Z$.
   We can combine these to get:
   \[
     r_{n} = xr_{n-2} + yr_{n-3} \text{ for some }x, y \in \Z
   \]
   We can continue this inductively.
-  Therefore for $\forall i = 1, \ldots, n-1$:
+  Therefore for $\forall i \in \{1, \ldots, n - 1\}$:
   \[
     r_n = xr_i + yr_{i-1} \text{ for some }x, y \in \Z
   \]
-  Thus $r_n = xa + yb$ for some $x, y \in \Z$ by steps 1 and 2.
+  So using steps 1 and 2, we have that $r_n = xa + yb$ for some $x, y \in \Z$.
 \end{proof}
 \begin{remark}
   Euclid's algorithm not only proves the existence of $x, y \in \Z$ but it gives a quick way to find them.
@@ -209,16 +208,16 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
   We now want to show that $h = \hcf(a, b)$.
   \begin{enumerate}
     \item Suppose $h \nmid a$. Then by the division algorithm we can write $a = qh + r$ for $q, r \in \Z$, with $0 < r < h$.
-      Hence $r = a - qh = a - q(xa + yb) = a(1-qx) - qyb$ so $r$ is also a positive linear combination of $a$ and $b$ but $r < h$ which contradicts the definition of $h$.
-      So $h \mid a$.
-      We can then do the same thing with $b$ to get $h \mid b$.
+      Hence $r = a - qh = a - q(xa + yb) = a(1-qx) - qyb$ and so $r$ is also a positive linear combination of $a$ and $b$.
+      However, we also have that $0 < r < h$ which contradicts the definition of $h$.
+      So $h \mid a$ and, by a similar argument, $h \mid b$ also.
     \item Given a $d$ such that $d \mid a$ and $d \mid b$, we have $d \mid ax + by,\ \forall x, y \in \Z$.
       So in particular, $d \mid h$.
   \end{enumerate}
   So $h = \hcf(a, b)$.
 \end{proof}
 \begin{remark}
-  This existence proof tells us that such coefficients exists but does not give us a way to find them.
+  This existence proof tells us that such coefficients exist but does not give us a way to find them.
 \end{remark}
 \begin{corollary}[B\'ezout's Identity Continued]
   For all $a, b \in \N$, the equation:
@@ -231,7 +230,7 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
   Let $h = \hcf(a, b)$.
   \begin{proofdirection}{Assume there is a solution}
     So there are $x, y \in \Z$ such that $ax + by = c$.
-    Then since $h \mid a$ and $h \mid b$, $h \mid c$.
+    Since $h \mid a$ and $h \mid b$, $h \mid c$.
   \end{proofdirection}
   \begin{proofdirection}{Assume $h \mid c$}
     Then by \cref{bezoutsIdentity}, we know that there exists $x, y \in \Z$ such that $h = ax + by$.
@@ -239,7 +238,7 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
     \[
       c = \frac{c}{h} \cdot h = a \left(x \cdot \frac{c}{h}\right) + b \left(y \cdot \frac{c}{h}\right)
     \]
-    $h \mid c$ so $\frac{c}{h} \in \Z$, thus $x' = x \cdot \frac{c}{h}, y' = y \cdot \frac{c}{h}$ is an integer solution.
+    $h \mid c$ so $\frac{c}{h} \in \Z$, thus $x' = x \cdot \frac{c}{h},\ y' = y \cdot \frac{c}{h}$ is an integer solution.
   \end{proofdirection}
 \end{proof}
 \section{Fundamental Theorem of Arithmetic}
@@ -252,30 +251,28 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
   Since $p$ is prime and $p \nmid a$ we must have $\hcf(a, p) = 1$.
   Applying B\'ezout's Identity, $\exists x, y \in \Z$ such that $xp + ya = 1$.
   We now multiply the equation by $b$ to get $p(xb) + ab(y) = b$.
-  Since $p \mid ab$, $p \mid b$.
+  Since $p \mid ab$, we must also have $p \mid b$.
 
-  The same argument works if we suppose $p \nmid b$.
-  Therefore we cannot have a case where $p \nmid a$ and $p \nmid b$.
-  Thus $p \mid a$ or $p \mid b$.
+  The same argument works if we suppose $p \nmid b \implies p \mid a$.
+  Therefore we cannot have a case where $p \nmid a$ and $p \nmid b$, that is, $p \mid a$ or $p \mid b$.
 \end{proof}
 \begin{remark}
   Similarly, by induction, if $p \mid a_1 a_2 \ldots a_n$, then $p \mid a_i$  for some $i = 1, 2, \ldots, n$.
 \end{remark}
 \begin{theorem}[Fundemental Theorem of Arithmetic]
-  \label{uniquePrimeFactorisation}
-  Every natural number $n \geq 2$ is expressible as a product of primes, uniquely up to reordering.
+  Every natural number $n \geq 2$ is expressible as a product of primes, unique up to reordering. \label{uniquePrimeFactorisation}
 \end{theorem}
 \begin{proof}
   The existence of such a factorisation follows from \cref{prodPrimes}\par
-  \induction
+  \quietinduction
   {$n = 2$}{
-    Clearly true as 2 itself is prime.
+    Clearly true as 2 itself is the smallest prime so there cannot be any other prime factorisations.
   }
   {$n < k$}{
     So all $n < k$ have a unique (up to reordering) prime factorisation.
   }
   {$n = k$}{
-    Suppose $k = p_1 p_2 \cdots p_m = q_1 q_2 \cdots q_l$ where $p_i, q_i$ are all prime.
+    Suppose $k = p_1 p_2 \cdots p_m = q_1 q_2 \cdots q_l$ where $p_i$ and $q_i$ are all prime.
     We have that $p_1 \mid n$ so $p_1 \mid q_1 q_2 \cdots q_l$ so by the previous proposition $p_1 | q_i$ for some $i$.
     WLOG we can relabel the $q_j$, so we may assume that $p_1 \mid q_1$.
     But since $p_1$ and $q_1$ are prime, we must have $p_1 = q_1$.
@@ -285,15 +282,15 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
       \frac{k}{p_1} = p_2 p_3\cdots p_m = q_2 q_3 \cdots q_l
     \]
     But because $p_1 \geq 2$, $\frac{k}{p_1} < k$ so by the induction hypothesis, $p_2 p_3 \cdots p_m$ and $q_2 q_3 \cdots q_l$ must be the same prime factorisation.
-    Thus $m=l$ and after reordering $p_2 = q_2, \cdots, p_k = q_k$.
+    Thus $m=l$ and after reordering $p_2 = q_2, \ldots,\ p_k = q_k$.
     So $k$ has a unique prime factorisation.
   }
 \end{proof}
 \begin{remark}
   \nonexaminable
-  There are arithmetical systems permitting addition and multiplication in which factorisation is not unique.
+  There are arithmetical systems permitting addition and multiplication in which prime factorisations are not unique.
 
-  For example, consider $\Z\left[\sqrt{-3}\right]$, this means all complex numbers of the form $x + iy\sqrt{3}$ where $x, y \in \Z$.
+  For example, consider $\Z\left[\sqrt{-3}\right]$, this is all numbers of the form $x + y\sqrt{3}$ where $x, y \in \Z$.
   We can add and multiply two elements and stay within $\Z\left[\sqrt{-3}\right]$.
   E.g. $(1 + \sqrt{-3}) + (1 - \sqrt{-3}) = 2$, $(1 + \sqrt{-3})(1 - \sqrt{-3}) = 4$.
   In $\Z\left[\sqrt{-3}\right]$ you can also define what it means to be ``prime'', and both $1 \pm \sqrt{-3}$ happen to be ``prime'' in this sense.
@@ -304,31 +301,30 @@ If we reverse Euclid's algorithm we can get a linear combination of $a$ and $b$ 
 \begin{enumerate}
   \item If we know a numbers prime factorisation, we can use this to find all factors of this number.
 
-    For example, $n = 2^{3} \cdot 3^{7} \cdot 11$ has factors $2^{a}3^{b}11^{c}$ where $0 \leq a \leq3, 0 \leq b \leq7, 0 \leq c \leq 1$.
+    For example, $n = 2^{3} \cdot 3^{7} \cdot 11$ has factors $2^{a}3^{b}11^{c}$ where $0 \leq a \leq3,\ 0 \leq b \leq7,\ 0 \leq c \leq 1$.
     We know there are no others.
     If, for example $7 \mid n$ then we would have a factorisation of $n$ involving 7, contradicting uniqueness.
 
     More generally, the factors of $n = p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ are the numbers of the form:
     \[
-      p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k} \text{ with } 0\leq b_i \leq a_i\ \forall i = 1, \ldots, k
+      p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k} \text{ with } 0\leq b_i \leq a_i\ \forall i \in \{1, \ldots, k\}
     \]
   \item The common factors of $2^{2} \cdot 3^{7} \cdot 5 \cdot 11^{3}$ and $2^{4} \cdot 3^{2} \cdot 11 \cdot 13$ are all numbers of the form $2^{a}3^{b}11^{c}$ with $0 \leq a \leq 3, 0\leq b \leq , 0\leq c\leq 1$.
     So the hcf is then $2^{3} \cdot 3^{2} \cdot 11$.
 
-    In general, the hcf of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i b_i \geq 0$ is:
+    In general, the hcf of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i, b_i \geq 0$ is:
     \[
       p^{\min\{a_1, b_1\}}_{1} \cdots p^{\min\{a_k, b_k\}}_{k}
     \]
-  \item The common multiples of $2^{2} \cdot 3^{7} \cdot 5 \cdot 11^{3}$ and $2^{4} \cdot 3^{2} \cdot 11 \cdot 13$ are all numbers of the form $2^{a}3^{b}5^{c}11^{d}13^{e} \cdot N$ where $a \geq 4, b \geq 7, c \geq 1, d\geq 3, e\geq 1$ and $N$ is any other integer.
+  \item The common multiples of $2^{2} \cdot 3^{7} \cdot 5 \cdot 11^{3}$ and $2^{4} \cdot 3^{2} \cdot 11 \cdot 13$ are all numbers of the form $2^{a}3^{b}5^{c}11^{d}13^{e} \cdot N$ where $a \geq 4,\ b \geq 7,\ c \geq 1,\ d\geq 3,\ e\geq 1$ and $N$ is any other integer.
     Hence the \textit{least common multiple} (lcm) is $2^{4} \cdot 3^{7} \cdot 5 \cdot 11^{3} \cdot 13$ and every other common multiple is a multiple of this.
 
 
-    In general, the lcm of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i b_i \geq 0$ is:
+    In general, the lcm of $p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}$ and $p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k}$ where $a_i, b_i \geq 0$ is:
     \[
       p^{\max\{a_1, b_1\}}_{1} \cdots p^{\max\{a_k, b_k\}}_{k}
     \]
-  \item Note that $\min\{a_i, b_i\} + \max\{a_i, b_i\} = a_i + b_i$.
-    Therefore we have:
+  \item Note that since $\min\{a_i, b_i\} + \max\{a_i, b_i\} = a_i + b_i$, we have:
     \[
       \hcf(x, y)\lcm(x, y) = p^{a_1 + b_1}_{1} + \cdots + p^{a_k + b_k}_{k} = x \cdot y
     \]
@@ -339,23 +335,24 @@ We can also use the Fundamental Theorem of Arithmetic to provide an alternative 
   Suppose there are finitely many primes: $p_1, p_2, \ldots p_k$.
   Since any number is uniquely expressed as a product of primes, any number can be expressed as:
   \[
-    p^{j_1}_{1} p^{j_2}_{2} \cdots p^{j_k}_{k}
+    p^{a_1}_{1} p^{a_2}_{2} \cdots p^{a_k}_{k}
   \]
   We can rewrite this as:
   \[
-    m^2 p^{i_1}_{1} p^{i_2}_{2} \cdots p^{i_k}_{k} \text{ where } i_i = \begin{cases}
-    0 & \text{ if $j_i$ even} \\
-    1 & \text{ if $j_i$ odd}
+    m^2 p^{b_1}_{1} p^{b_2}_{2} \cdots p^{b_k}_{k} \text{ where } a_i = \begin{cases}
+    0 & \text{ if $b_i$ even} \\
+    1 & \text{ if $b_i$ odd}
     \end{cases}
   \]
   Let $N \in \N$.
-  Given an $n \leq N$ of the above form, we must have $m \leq \sqrt{N}$.
-  Then there are at most $\sqrt{N}$ possible values for $m$ and then $2^{k}$ choices for the exponents, therefore there is at most $2^{k}\sqrt{N}$ numbers $n$ in the above form with $n \leq N$.
-  If $N > 2^{k}\sqrt{N}$, that is $N > 4^{k}$, then there must be a number $n \leq N$ that this not of the above form.
+  Given an $n \leq N$ of the above form, we must have $m \leq \sqrt{N}$ and so there are at most $\sqrt{N}$ possible values for $m$.
+  We also have $2^{k}$ choices for the exponents $b_i$, and thus there is at most $2^{k}\sqrt{N}$ numbers $n$ in the above form with $n \leq N$.
+
+  However, now if we pick $N > 2^{k}\sqrt{N}$, that is $N > 4^{k}$, then there must be a number $n \leq N$ that this not of the above form.
   So this number must have a prime factor that is not in $p_1, \ldots, p_k$.
 \end{proof}
 \begin{remark}
-  Euclid's proof tells us that the $k$-th prime is less than $2^{2^{k}}$, however Erd\H{o}s' proof tells us that the $k$-th prime is less than $4^{k}$.
-  In fact, the $k$-th prime occurs $\sim k \ln k$.
+  Euclid's proof tells us that the $k$-th prime is less than $2^{2^{k}}$, however Erd\H{o}s' proof tells us that the $k$-th prime is less than $4^{k}$ (since the prime factorisation for $n$ can only contain primes less than or equal to $n$).
+  In fact, the $k$-th prime occurs $\sim k \log k$.
 \end{remark}
 \end{document}
