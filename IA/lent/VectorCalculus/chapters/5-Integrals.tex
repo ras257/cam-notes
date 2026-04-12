@@ -9,7 +9,7 @@
     \int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{a}^{b} \vec{F}(\vec{x}(t)) \cdot \deriv{\vec{x}}{t} \d{t}
   \]
 \end{definition}
-An alternative, but equivalent definition, is to split the curve up at points $\vec{x}_0, \ldots, \vec{x}_n$ on the curve in that order with $\vec{x}_0 = \vec{x}(a)$ and $\vec{x}_N = \vec{x}(b)$.
+An alternative, but equivalent definition, is to split the curve up at points $\vec{x}_0, \ldots, \vec{x}_n$ on the curve in that order with $\vec{x}_0 = \vec{x}(a)$ and $\vec{x}_n = \vec{x}(b)$.
 We then let $\delta \vec{x}_n = \vec{x}_{n + 1} - \vec{x}_n$ for $n \in \{0, \ldots, N - 1\}$.
 Then we define the line integral as:
 \[
@@ -115,7 +115,7 @@ and split them up using:
       We can now evaluate the integral:
       \begin{align*}
         \int_{C_3} \vec{F} \cdot \d{\vec{x}} &= \eval{e^{b \sin \theta}}{0}{\pi/2} + \int_{0}^{\pi/2} b^2 \sin \theta e^{a \cos \theta} (-a + 2\cos \theta + a \cos^2 \theta) \d{\theta} \\
-                                             &= e^{b} - 1 + \int_{1}^{0} b^2e^{ai}(1 - 2u - au^2) \d{u} \text{ using $u = \cos \theta$}\\
+                                             &= e^{b} - 1 + \int_{1}^{0} b^2e^{au}(1 - 2u - au^2) \d{u} \text{ using $u = \cos \theta$}\\
                                              &= e^{b} - 1 + \eval{b^2 e^{au}(1 - u^2)}{1}{0} \\
                                              &= e^{b} - 1 + b^2
       \end{align*}
@@ -169,7 +169,7 @@ We also know from \cref{infinitesimalsGrad} that $\d{f} = \nabla f \cdot \d{\vec
 \begin{proof}[Alternative]
 Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have:
 \[
-  \int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{C} \nabla f \cdot \dot{\vec{x}} \d{t} = \int \deriv{f}{t} \d{t} = f(\vec{b}) - f(\vec{a})
+\int_{C} \vec{F} \cdot \d{\vec{x}} = \int_{C} \nabla f \cdot \dot{\vec{x}} \d{t} = \int_{t_1}^{t_2} \deriv{f}{t} \d{t} = f(\vec{b}) - f(\vec{a})
 \]
 \end{proof}
 \begin{remark}[Notation]
@@ -180,7 +180,7 @@ Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have
   If $\vec{F}$ is conservative and $C$ is a closed curve, then $\oint_C \vec{F} \cdot \d{\vec{x}} = 0$.
 \end{corollary}
 \begin{proof}
-  Since $\vec{F}$ is conservative, we can write $F = \nabla f$ for a \textbf{single valued} $f$.
+  Since $\vec{F}$ is conservative, we can write $\vec{F} = \nabla f$ for a \textbf{single valued} $f$.
   The curve is closed so the value of the integral is $f(\vec{a}) - f(\vec{a})$ which is zero since $f$ is single valued.
 \end{proof}
 \begin{proposition}
@@ -232,7 +232,7 @@ Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have
         \int_{(-1, 0, 0)}^{(1, 0, 0)} \vec{F} \cdot \d{\vec{x}} = \eval{x^3 + y^2}{(-1, 0, 0)}{(1, 0, 0)} = 2
       \]
       which agrees with our answers, despite the different paths.
-    \item In \textbf{v}, we integrated $\vec{F} = (y^2 e^{x}, e^{y} + 2ye^{x}) = \nabla(e^{y}, y^2e^{x})$ which is conservative and so we can shortcut the rather involved integration to obtain:
+    \item In \textbf{v}, we integrated $\vec{F} = (y^2 e^{x}, e^{y} + 2ye^{x}) = \nabla(e^{y} + y^2e^{x})$ which is conservative and so we can shortcut the rather involved integration to obtain:
       \[
         \int_{C_3} \vec{F} \cdot \d{\vec{x}} = \eval{e^{y} + y^2e^{x}}{(a, 0, 0)}{(0, b, 0)} = e^{b} + b^2 - 1
       \]
@@ -242,7 +242,7 @@ Since $\deriv{f}{t} = \dot{\vec{x}} \cdot \nabla f$ from \cref{MVCGrad}, we have
 
       Suppose that $\nabla \times \vec{F}$ had actually been $\vec{0}$, we could not have concluded that $\vec{F}$ would be conservative.
       The domain of $\vec{F}$ does not include the $z$-axis apart from $\vec{0}$ as $\vec{e}_\phi$ is not defined there.
-      So we could shrink a curve around the $z$ axis to a point by passing it through the ``gap'' at the origin, however, the derivatives of $F$ are not defined at the origin and so $\nabla \times \vec{F}$ is also not defined there so we are not working in a simply connected domain.
+      So we could shrink a curve around the $z$ axis to a point by passing it through the ``gap'' at the origin, however, the derivatives of $\vec{F}$ are not defined at the origin and so $\nabla \times \vec{F}$ is also not defined there so we are not working in a simply connected domain.
   \end{itemize}
 \end{example}
 \section{Area Integrals}
@@ -281,7 +281,7 @@ We then sum these over the range of $y$ and let $\delta y \to 0$ to obtain:
 
 We could also sum vertical strips to obtain:
 \[
-  \int_{x_{\text{min}}}^{x^{\text{max}}} \left(\int_{Y(x)} f(x, y) \d{y}\right) \d{x}
+  \int_{x_{\text{min}}}^{x_{\text{max}}} \left(\int_{Y(x)} f(x, y) \d{y}\right) \d{x}
 \]
 where $Y(x) = \{y: (x, y) \in A\}$.
 
@@ -623,7 +623,7 @@ Again, similarly to area integrals, we can do the integrals in a different order
   \end{align*}
   Thus $\int_{V} \vec{F} \d{V} = \frac{8}{3}abc^3(1, 0, 0)$.
 
-  We could have seen that $\int_{V} yz \d{V} = 0$ directly from the symmetry of the cuboid as for each $y \in [-b, b]$, $-y \in [-b, b]$ which has an opposite contribution to the integrand $yz$ and so they cancel out.
+  We could have seen that $\int_{V} yz \d{V} = 0$ directly from the symmetry of the cuboid as for each $y \in [0, b]$, $-y \in [-b, 0]$ which has an opposite contribution to the integrand $yz$ and so they cancel out.
 \end{example}
 \subsection{Change of Variables}
 \begin{proposition}[Change of variables for volume integrals]
@@ -654,7 +654,7 @@ Again, similarly to area integrals, we can do the integrals in a different order
   \[
     \int_V f \d{x} \d{y} \d{z} = \int_{V'} F |J|\d{u} \d{v} \d{w}
   \]
-  Integrating all the contributions of $F(u, v, w) \d{V}$ gives the result.
+  as required.
 \end{proof}
 The reciprocal rule for the Jacobian (\cref{JacobianReciprocal}) also extends to 3D so:
 \[
@@ -764,7 +764,7 @@ Importantly, a closed orientable surface has a well-defined interior and exterio
 
 These definitions apply only to surfaces of finite extent.
 For surfaces of infinite extent, for example the $(x, y)$-plane in $\R^3$, we will treat them as the limit of a finite surface.
-Since a finite proportion of the $(x, y)$-plane is an open surface and is orientable, as we take the limit, the surface becomes the full plane.
+A finite proportion of the $(x, y)$-plane is an open surface and is orientable and so we treat is as such before taking the limit so it becomes the full plane.
 \section{Surface Integrals and Flux}
 \subsection{Definitons}
 Integrating over a 2D surface $S$ embedded in $\R^3$ is performed similarly to an area integral.
@@ -816,7 +816,7 @@ and so:
 Using these results, we can reduce a surface integral to an area integral in the flat $(u, v)$-plane.
 \subsection{Examples}
 \begin{example}[Surface Area of Shell]
-  Find the surface area of the hemispherical shell $H_R = \{\vec{x}: |\vec{x}| = R, z < 0\}$.
+  Find the surface area of the hemispherical shell $H_R = \{\vec{x} \in \R^3: |\vec{x}| = R, z < 0\}$.
 
   We can use the parameterisation of $H_R$ from \cref{hemisphericalParameterisation}:
   \[
@@ -824,7 +824,7 @@ Using these results, we can reduce a surface integral to an area integral in the
     R \sin \theta \cos \phi \\
     R \sin \theta \sin \phi \\
     R \cos \theta \\
-    \end{pmatrix} \quad \theta \in (\pi/2, \pi], \phi \in [0, 2\pi)
+    \end{pmatrix} \quad \theta \in (\pi/2, \pi],\ \phi \in [0, 2\pi)
   \]
   We now need to find $\d{S}$:
   \[
@@ -858,7 +858,7 @@ Using these results, we can reduce a surface integral to an area integral in the
   \[
     \vec{F}(\vec{x}) = \frac{\alpha}{|\vec{x}|^3} \vec{x}
   \]
-  where $\alpha$ is a constant through the surface of the sphere $S_R = \{\vec{x}: |\vec{x}| = R\}$, choosing the normal that points away from the origin.
+  where $\alpha$ is a constant through the surface of the sphere $S_R = \{\vec{x} \in \R^3: |\vec{x}| = R\}$, choosing the normal that points away from the origin.
 
   We can again parameterise the surface using $\theta$ and $\phi$ but instead with $\theta \in [0, \pi]$ and $\phi \in [0, 2\pi]$.
   Because we use the same parameterisation, we can reuse the result for $\pderiv{\vec{x}}{\theta} \times \pderiv{\vec{x}}{\phi}$ from the previous example and so:
@@ -897,7 +897,7 @@ Using these results, we can reduce a surface integral to an area integral in the
   \end{align*}
 \end{example}
 \begin{example}[Flux Through an Infinite Plane]
-  Find the flux of $\vec{F}(\vec{x}) = (y^2 e^{-(y^2 + z^2)}, e^{-y^4}, -x^2 e^{-(y^2 + z^2)})$ through the infinite plane $\Pi = \{\vec{x} : x - z = 0\}$ where the normal points in the direction of positive $x$.
+  Find the flux of $\vec{F}(\vec{x}) = (y^2 e^{-(y^2 + z^2)}, e^{-y^4}, -x^2 e^{-(y^2 + z^2)})$ through the infinite plane $\Pi = \{\vec{x} \in \R^3 : x - z = 0\}$ where the normal points in the direction of positive $x$.
 
   We can parameterise the plane using $x$ and $y$ so that $\vec{x} = (x, y, x)$ since $x = z$.
 
@@ -952,7 +952,7 @@ Using these results, we can reduce a surface integral to an area integral in the
   \[
     \d{\vec{S}} = \vec{n} \d{S} = \left(\frac{1}{\sqrt{2}}, 0, -\frac{1}{\sqrt{2}}\right) \d{x}\d{y}
   \]
-  This however, is not correct, because the area of a surface element is not just $\d{x}\d{y}$.
+  This however, is not correct, because the area of a surface element is $\abs{\pderiv{\vec{x}}{x} \times \pderiv{\vec{x}}{y}}\d{x}\d{y}$ not just $\d{x}\d{y}$.
 \end{remark}
 \subsection{Useful Results}
 \subsubsection{Spherical Surfaces}
