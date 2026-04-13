@@ -73,7 +73,7 @@
     \item \textbf{Zero linear map -} $T: V \to W$ with $\vec{x} \mapsto \vec{0}$.
       Then we have $\im T = \{\vec{0}\}$ and $\ker T = V$.
     \item \textbf{Identity map -} $T: V \to V$ with $\vec{x} \mapsto \vec{x}$.
-      Then we have $\im T = V$ and $\ker T = \{\vec{0}\}$.
+      We then have $\im T = V$ and $\ker T = \{\vec{0}\}$.
     \item Consider $T: \R^2 \to \R^2$ and $\vec{x}' = T(\vec{x})$ with:
       \[
         x'_1 = 2x_1 + x_2 \text{ and } x'_2 = x_1 - 3x_2
@@ -113,15 +113,15 @@
         \mu\begin{pmatrix}
         1 \\
         -3 \\
-        \end{pmatrix},\ \lambda, \mu \in \
-        \right\}
+        \end{pmatrix}: \lambda, \mu \in \R
+        \right\} = \R^2
       \]
       Furthermore, $2x_1 + x_2 = 0$ and $x_1 - 3x_2 = 0 \implies x_1 = x_2 = 0$ so:
       \[
         \ker T = \left\{\begin{pmatrix}
         0 \\
         0 \\
-        \end{pmatrix}\right\}
+        \end{pmatrix}\right\} = \{\vec{0}\}
       \]
   \end{enumerate}
 \end{example}
@@ -194,11 +194,11 @@ So we only need to consider $m \leq n$.
         T(\underbrace{\alpha_{m + 1}\vec{e}_{m + 1} + \cdots + \alpha_n \vec{e}_n}_{\vec{x}}) = \vec{0}
       \]
       So $\vec{x} \in \ker T$ and the basis of $\ker T$ is $\{\vec{e}_1, \ldots, \vec{e}_n\}$.
-      Therefore there exists $\alpha_1, \cdots \alpha_m$ such that:
+      Therefore there exists $\alpha_1, \ldots, \alpha_m$ such that:
       \[
         \vec{x} = \alpha_1 \vec{e}_1 + \cdots + \alpha_m \vec{e}_m
       \]
-      We can now equate our two expressions for $\vec{x}$ to get:
+      We can now equate our two expressions for $\vec{x}$ to yield:
       \[
         \alpha_1 \vec{e}_1 + \cdots \alpha_m \vec{e}_m - \alpha_{m + 1}\vec{e}_{m + 1} - \cdots - \alpha_n \vec{e}_n = \vec{0}
       \]
@@ -227,7 +227,7 @@ So we only need to consider $m \leq n$.
 \section{Matrices as Linear Maps}
 \label{matricesAsLinearMaps}
 Let $M$ be a matrix with entries $M_{i j} \in \R$, where $i$ labels rows and $j$ labels columns.
-Then the map defined by $T: \R^{n} \to \R^{n}$, $T(\vec{x}) = \vec{x}' = M\vec{x}$ for $\vec{x}, \vec{x}' \in \R^{n}$ with $x'_i = M_{i j}x_j$, is a linear map.
+Then the map defined by $T: \R^{n} \to \R^{n}$, $T(\vec{x}) = \vec{x}' = M\vec{x}$ for $\vec{x}, \vec{x}' \in \R^{n}$ where $x'_i = M_{i j}x_j$, is a linear map.
 \begin{example}
   Given $n = 2$:
   \[
@@ -277,11 +277,11 @@ The components are then related in the following form:
 \[
   M_{i j} = (\vec{C}_j)_i = (\vec{R}_i)_j
 \]
-If $\{\vec{e}_1, \ldots, \vec{e}_n\}$ is the standard basis of $\R^{n}$:
+If $\{\vec{e}_1, \ldots, \vec{e}_n\}$ is the standard basis for $\R^{n}$:
 \[
   \vec{e}_i \mapsto \vec{e}_i' = T(\vec{e}_i) = M\vec{e}_i = \vec{C}_i
 \]
-That is, multiplying a matrix by the $i$-th element of the standard basis extracts the $i$-th column.
+That is, multiplying a matrix by the $i$-th element of the standard basis extracts the $i$-th column:
 \[
   \begin{pmatrix}
   M_{1 1} & \cdots & M_{1 n} \\
@@ -299,11 +299,11 @@ This means the image of $\vec{x}$ under $T$ a linear combination of the columns 
 Therefore, $\im T = \im M = \Span\{\vec{C}_1, \ldots, \vec{C}_n\}$.
 
 We can also determine the kernel of $T$ using its matrix representation.
-Consider an element of the image, $\vec{x}'$, of $\vec{x}$ under $T$:
+Consider an element of the image $\vec{x}' = T(\vec{x})$:
 \[
   x_i' = M_{i j}x_j = (\vec{R}_i)_j x_j = \vec{R}_i \cdot \vec{x}
 \]
-so
+so:
 \[
   \vec{x}' = \begin{pmatrix}
   x_i' \\
@@ -312,17 +312,17 @@ so
   \end{pmatrix}
   =
   \begin{pmatrix}
-  \vec{R}_i \cdot x \\
+  \vec{R}_i \cdot \vec{x} \\
   \vdots \\
-  \vec{R}_n \cdot x \\
+  \vec{R}_n \cdot \vec{x} \\
   \end{pmatrix}
 \]
-If $\vec{x} \in \ker T$ then $\vec{x}' = \vec{0}$ so $\vec{R}_1 \cdot \vec{x} = \cdots = \vec{R}_n \cdot \vec{x} = 0$.
-Therefore the kernel of $T$ is all vectors that are orthogonal to all rows of the matrix:
+So $\vec{x} \in \ker T \iff \vec{R}_1 \cdot \vec{x} = \cdots = \vec{R}_n \cdot \vec{x} = 0$.
+So the kernel of $T$ is exactly all vectors that are orthogonal to all rows of the matrix:
 \[
-  \ker T = \ker M = \{\vec{x} \in \R^{n}: \vec{R}_i \cdot \vec{x} = \vec{0},\ \forall i = 1, \ldots n\}
+  \ker T = \ker M = \{\vec{x} \in \R^{n}: \vec{R}_i \cdot \vec{x} = \vec{0}\ \forall i \in \{1, \ldots, n\}\}
 \]
-This is a subspace of $\R^{n}$ as a linear combination of such vectors would also satisfy the above property and therefore would also be in the subspace.
+We know that $\ker T$ is a subspace of $\R^{n}$ so the kernel is the subspace orthogonal to all rows of $M$.
 \begin{remark}[Summary]
   \begin{itemize}
     \item $\im M$ is the span of the columns of $M$.
@@ -338,7 +338,7 @@ This is a subspace of $\R^{n}$ as a linear combination of such vectors would als
     \item For $T: \R^3 \to \R^3$, $\vec{x}' = M \vec{x}$ given by:
       \begin{align*}
         x_1' &= 3x_1 + x_2 + 5x_3 \\
-        x_2' &= -x_1 + 2x_3 \\
+        x_2' &= -x_1 - 2x_3 \\
         x_3' &= 2x_1 + x_2 + 3x_3
       \end{align*}
       This can be converted into matrix form:
@@ -463,11 +463,11 @@ Rotation of angle $\theta$ with axis $\vec{e}_1, \vec{e}_2, \vec{e}_3$:
   \end{pmatrix}
 \end{align*}
 \begin{remark}[Warning]
-  These look like they all have the same format, however, for $\vec{e}_2$, the negative is on the other $\sin \theta$.
+  These look like they all have the same format, however note that for $\vec{e}_2$, the negative is on the other $\sin \theta$.
 \end{remark}
 \subsubsection{Rotation about a unit vector}
 Consider a rotation of $\theta$ anticlockwise about a unit vector $\vec{n}$.
-For $x \in \R^{3}$
+For $\vec{x} \in \R^{3}$
 \[
   \vec{x}' = R\vec{x},\ \vec{x}_i' = R_{i j}x_j
 \]
@@ -512,7 +512,7 @@ So we can write:
 \[
   \vec{x}_{\perp}' = (\cos \theta)\vec{x} - (\cos \theta)(\vec{x} \cdot \vec{n})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
 \]
-As it is a linear map, the image of $\vec{x}$ is just the sum of the images of its components so:
+As it is a linear map, the image of $\vec{x}$ is just the sum of $x_{\perp}'$ and $x_{\parallel}'$ so:
 \[
   \vec{x}' = \vec{x}_{\parallel}' + \vec{x}_{\perp}' = (\cos \theta)\vec{x} + (1 - \cos\theta)(\vec{x} \cdot \vec{n})\vec{n} + (\sin \theta)(\vec{n} \times \vec{x})
 \]
@@ -563,10 +563,13 @@ This has matrix representation:
   \end{pmatrix}
 \]
 \subsubsection{Shear}
-Given orthogonal unit vectors $\vec{a}$ and $\vec{b}$ ($|\vec{a}| = |\vec{b}| = 1$, $\vec{a} \cdot \vec{b}  = 0$), a shear with parameter $\lambda$ is defined by:
+Given orthogonal unit vectors $\vec{a}$ and $\vec{b}$ ($|\vec{a}| = |\vec{b}| = 1$, $\vec{a} \cdot \vec{b}  = 0$), a shear with parameter $\lambda$ along $\vec{a}$ is defined by:
 \[
   \vec{x}' = S\vec{x} = \vec{x} + \lambda \vec{a} (\vec{x} \cdot \vec{b})
 \]
+We take the component of $\vec{x}$ parallel to $\vec{b}$, scale it by $\lambda$ and point it in the direction of $\vec{a}$, then add this back onto $\vec{x}$.
+
+If we shear $\vec{b}$, this looks like:
 \begin{center}
 \begin{tikzpicture}[scale=2,>=Stealth]
 \def\sf{0.5}
@@ -590,7 +593,7 @@ Given orthogonal unit vectors $\vec{a}$ and $\vec{b}$ ($|\vec{a}| = |\vec{b}| = 
 \draw[->,thick] (1.4,0.5) -- (2.6,0.5) node[midway,above]{Shear, $\lambda = 0.5$};
 \end{tikzpicture}
 \end{center}
-This has matrix representation:
+A general shear has matrix representation:
 \[
   x_i' = S_{i j}x_j,\ S_{i j} = \delta_{i j} + \lambda a_i b_j
 \]
@@ -604,22 +607,27 @@ Note that $S\vec{a} = \vec{a}$, $S\vec{b} = \vec{b} + \lambda \vec{a}$, and $S\v
   \[
     \{\vec{e}_1, \ldots, \vec{e}_n\} \text{ for $V$ and }
     \{\vec{f}_1, \ldots, \vec{f}_m\} \text{ for $W$}
-  \]Then $T$ can be represented by the \textit{matrix} $M$, which is an \textit{$m \times n$ array} with entries $M_{i j} \in \R \text{ or }\C$ for rows $i = 1, \ldots, m$ and columns $j = 1, \ldots, n$.
+  \]
+  We can represent $T$ using the \textit{matrix} $M$, which is an \textit{$m \times n$ array} with entries $M_{i j} \in \R \text{ or }\C$ for rows $i \in \{1, \ldots, m\}$ and columns $j \in \{1, \ldots, n\}$.
 
   We define the matrix components to be the $M_{i j}$ such that:
   \[
-    T(\vec{e}_j) = \sum_{i} M_{i j}\vec{f}_i
+    T(\vec{e}_j) = \sum_{i = 1}^{m} M_{i j}\vec{f}_i
   \]
+  A unique set of such coefficients will always exist as $T(\vec{e}_j) \in W$ and $\{\vec{f}_1, \ldots, \vec{f}_m\}$ is a basis for $W$.
 \end{definition}
-This ensures that for any $\vec{x} \in V$ and its image $\vec{x}' \in W$ where:
+Since $T$ is linear, for any $\vec{x} \in V$:
+\begin{align*}
+  T(\vec{x}) &= T\left(\sum_{j = 1}^{n} x_j \vec{e}_j\right) \\
+             &= \sum_{j = 1}^{n} x_j T(\vec{e}_j) \\
+             &= \sum_{i = 1}^{m} \left[\sum_{j = 1}^{n} M_{i j} x_j\right] \vec{f}_i
+\end{align*}
+Its image $\vec{x}' = T(\vec{x}) \in W$ and so has a unique set of components with respect to the basis for $W$.
+From the above, we see that these components are:
 \[
-  \vec{x} = \sum_{j} x_j \vec{e}_j,\ \vec{x}' = \sum_{i} x_i' \vec{f}_i
+  x_i' = \sum_{j = 1}^{n} M_{i j}x_j
 \]
-the relation $\vec{x}' = T(\vec{x})$ holds if and only if the components of $\vec{x}'$ are:
-\[
-  x_i'=\sum_{j} M_{i j}x_j
-\]
-or more explicitly:
+We can also write this in \textit{matrix notation} as:
 \[
   \begin{pmatrix}
   x_1' \\
@@ -637,35 +645,34 @@ or more explicitly:
   x_n \\
   \end{pmatrix}
 \]
+where the vectors $\vec{x}$ and $\vec{x}'$ are written in column notation with their components with respect to the relevant bases.
 
-This can be seen if we take the image of $\vec{x}$ in terms of the basis for $V$:
-\begin{align*}
-  T(\vec{x}) &= T(x_j \vec{e}_j) \text{ (Using $\Sigma$ convention)} \\
-             &= x_j T(\vec{e}_j) \text{ (As $T$ is a linear map)}\\
-             &= M_{i j}x_j \vec{f}_i
-\end{align*}
-\begin{remark}[Summary]\par
-  To summarise, given real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$,
-  once we fix the bases for $V$ and $W$, then:
-  \begin{enumerate}
-    \item $V$ is identified with either $\R^{n}$ or $\C^{n}$
-    \item $W$ is identified with either $\R^{m}$ or $\C^{m}$
-    \item $T$ is identified with an $m \times n$ matrix $M$
-  \end{enumerate}
-\end{remark}
+This means that when given real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$ along with a linear map $T: V \to W$, once we decide bases for $V$ and $W$:
+\begin{enumerate}
+  \item Elements of $V$ are identified with column vectors in either $\R^{n}$ or $\C^{n}$ (depending on if $V$ is a real or complex vector space).
+  \item Elements of $W$ are identified with column vectors in either $\R^{m}$ or $\C^{m}$ (depending on if $W$ is a real or complex vector space).
+  \item $T$ is identified with an $m \times n$ matrix $M$.
+\end{enumerate}
+This will become clearer in \cref{identificationExample}.
 \subsubsection{Addition and Scalar Multiplication}
 Consider another linear map $S: V \to W$ represented with a matrix $N$ with respect to the same bases as $T$.
-Then, for scalars $\alpha$ and $\beta$ we can consider the linear map $\alpha T + \beta S$ represented by a matrix $\alpha M + \beta N$ with coefficients:
+We saw that for scalars $\alpha$ and $\beta$ we can consider the linear map $\alpha T + \beta S$.
+To find $m \times n$ matrix representing $\alpha T + \beta S$, using summation convention:
+\begin{align*}
+  (\alpha T + \beta S)(\vec{e}_j) &= \alpha T(\vec{e}_j) + \beta S(\vec{e}_j) \\
+                                  &= \alpha M_{i j}\vec{f}_i + \beta N_{i j}\vec{f}_i \\
+                                  &= (\alpha M_{i j} + \beta N_{i j})\vec{f}_i
+\end{align*}
+So the map has matrix representation $L_{i j} = \alpha M_{i j} + \beta N_{i j}$ and so we define matrix addition and scalar multiplication by:
 \[
-  (\alpha M + \beta N)_{i j} = \alpha M_{i j} + \beta N_{i j}
+  L = \alpha M + \beta N \text{ where } L_{i j} = \alpha M_{i j} + \beta N_{i j}
 \]
-That is, addition and \textbf{scalar} multiplication in matrices takes place entry by entry.
 \begin{remark}
   Since addition takes place entry by entry, the dimensions of both matrices must be equal otherwise the matrices do not \textit{conform under addition}.
 \end{remark}
-\begin{example}
+\begin{example} \label{identificationExample}
   Consider $V = M_{2\times2}(\R)$ ($2\times2$ matrices with real entries) and $W = \R^{3}$.
-  So $\dim V = 4$ and $\dim W = 3$.
+  So $\dim V = 4$ (as there are 4 independent components) and $\dim W = 3$.
 
   Consider the linear map:
   \[
@@ -703,9 +710,9 @@ That is, addition and \textbf{scalar} multiplication in matrices takes place ent
   \]
   And the standard basis for $W$:
   \[
-    \{\vec{f}_1 = (1, 0, 0), \vec{f}_2 = (0, 1, 0), \vec{f}_3 = (0, 0, 1)\}
+    \{\vec{f}_1 = (1, 0, 0),\ \vec{f}_2 = (0, 1, 0),\ \vec{f}_3 = (0, 0, 1)\}
   \]
-  To determine $M$, we find $T(\vec{e}_i)$ for $i = 1, \ldots, 4$.
+  To determine $M$, we find $T(\vec{e}_i)$ for $i \in \{1, \ldots, 4\}$.
   \[
     T(\vec{e}_1) = \begin{pmatrix}
     1 \\
@@ -751,6 +758,7 @@ That is, addition and \textbf{scalar} multiplication in matrices takes place ent
     0 & 1 \\
     \end{pmatrix}
   \]
+  so in this basis we identify the matrix with the vector $(a, b, c, d) \in \R^4$.
   Thus:
   \[
     T\begin{pmatrix}
@@ -775,61 +783,68 @@ That is, addition and \textbf{scalar} multiplication in matrices takes place ent
     d\\
     \end{pmatrix}
   \]
-  In this example we identified $V$ with $\R^{4}$, $W$ with $\R^{3}$, and represented $T$ as $M\vec{x}$ where $\vec{x} \in \R^4$ and $M$ is a $3\times4$ matrix.
+  In this example we identified $V$ with $\R^{4}$, $W$ with $\R^{3}$, and represented $T$ as the $3\times4$ matrix $M$.
 \end{example}
 \subsection{Matrix Multiplication}
-Consider linear maps $T: V \to U, S: U \to V$ and compose them.
-If $T$ is represented by $M$ and $S$ is represented by $N$ then $T \circ S$ will be represented by $L = MN$.
+Consider linear maps $T: V \to W, S: U \to V$ where $\dim U = l$, $\dim V = m$, and $\dim W = n$.
 Let:
 \begin{align*}
-  \{\vec{e}_1, \ldots, \vec{e}_n\}& \text{ be a basis for $V$, $\dim V = n$} \\
-  \{\vec{f}_1, \ldots, \vec{f}_m\}& \text{ be a basis for $W$, $\dim W = m$} \\
-  \{\vec{g}_1, \ldots, \vec{g}_l\}& \text{ be a basis for $U$, $\dim U = l$}
+  \{\vec{e}_1, \ldots, \vec{e}_l\}& \text{ be a basis for $U$} \\
+  \{\vec{f}_1, \ldots, \vec{f}_m\}& \text{ be a basis for $V$} \\
+  \{\vec{g}_1, \ldots, \vec{g}_n\}& \text{ be a basis for $W$}
 \end{align*}
-The matrix $L$ then has coefficients given by:
+We can then represent $T$ by an $n \times m$ matrix $M$ and $S$ by a $m \times l$ matrix $N$.
+We saw that $T \circ S: U \to W$ is also a linear map and so we wish to find an $n \times l$ matrix representing it.
+Using summation convention where $i \in \{1, \ldots, n\},\ j \in \{1, \ldots, l\},\ k \in \{1, \ldots, m\}$:
+\begin{align*}
+  (T \circ S)(\vec{e}_j) &= T(N_{k j}\vec{f}_k) \\
+                         &= N_{k j} T(\vec{f}_k) \\
+                         &= M_{i k} N_{k j} \vec{g}_i
+\end{align*}
+So $T$ has matrix representation $L_{i j} = M_{i k}N_{k j}$ (summation convention over $k$).
+We then define the matrix product $MN$ as:
 \[
-  L_{i k} = M_{i j}N_{j k}
+  L = MN \text{ where } L_{i j} = M_{i k}N_{k j} \text{ with $\Sigma$ convention}
 \]
-Note that $M$ is an $m \times n$ matrix, $N$ is an $n \times l$ matrix and $L$ is an $m \times l$ matrix.
+We write this as multiplication as this captures that it represents the \textit{composition $T \circ S$} since for any  $\vec{x} \in U$:
+\[
+  L \vec{x} = MN\vec{x} = M(N\vec{x})
+\]
+since matrix multiplication is associative.
+
+Recalling that $M$ is an $n \times m$ matrix, $N$ is an $m \times l$ matrix and $L$ is an $n \times l$ matrix, we can write matrix multiplication in matrix notation as:
 \[
   \begin{pmatrix}
-  V_{1 1} & \cdots & V_{1 l} \\
+  L_{1 1} & \cdots & L_{1 l} \\
   \vdots & \ddots & \vdots \\
-  V_{m 1} & \cdots & V_{m l} \\
+  L_{n 1} & \cdots & L_{n l} \\
   \end{pmatrix} =
   \begin{pmatrix}
-  M_{1 1} & \cdots & M_{1 n} \\
+  M_{1 1} & \cdots & M_{1 m} \\
   \vdots & \ddots & \vdots \\
-  M_{m 1} & \cdots & M_{m n} \\
+  M_{n 1} & \cdots & M_{n m} \\
   \end{pmatrix}
   \begin{pmatrix}
   N_{1 1} & \cdots & N_{1 l} \\
   \vdots & \ddots & \vdots \\
-  N_{n 1} & \cdots & N_{n l} \\
+  N_{m 1} & \cdots & N_{m l} \\
   \end{pmatrix}
 \]
 \begin{remark}[Remarks]
   \begin{itemize}
     \item The number of columns of $M$ must match the number of rows of $N$ otherwise the matrices do not \textit{conform under multiplication}.
     \item $L$ has the same number of rows as $M$ and the same number of columns as $N$.
+    \item An easy way to remember both of the above is if you write the dimensions of the matrices in the order they are being multiplied, for example for an $n \times k$ matrix $M$ and $m \times l$ matrix $N$:
+      \[
+        MN \to (n \times k) (m \times l)
+      \]
+      then we require the two middle indices to be the same, i.e. $k = m$, then the result will have the two outer indices as its dimensions, i.e. $n \times l$.
   \end{itemize}
 \end{remark}
-We can also define the elements of $L$ using the rows of $M$ and the columns of $N$:
-\[
-  L_{i k} = (MN)_{i k} = [\vec{R}_i(M)]_j [\vec{C}_k(N)]_j = \vec{R}_i(M) \cdot \vec{C}_k(N)
-\]
-If we apply $MN$ to a vector $\vec{x} \in U$ we obtain:
-\[
-  (MN)\vec{x} = M(N\vec{x})
-\]
-with
-\[
-  [M(N\vec{x})]_i = M_{i j}(N\vec{x})_j
-\]
-and thus
-\[
-  (MN)_{i k}x_k = M_{i j}N_{j k}x_k
-\]
+We can also find the entries $L_{i j}$ using a dot product between the $i$-th row of $M$ and the $j$-th column of $N$:
+\begin{equation}
+  L_{i j} = (MN)_{i j} = M_{i k}N_{k j} = [\vec{R}_i(M)]_k [\vec{C}_j(N)]_k = \vec{R}_i(M) \cdot \vec{C}_j(N) \label{matrixMultRC}
+\end{equation}
 \subsubsection{Properties of Matrix Multiplication}
 For any three matrices $M, N, L$ that have the correct dimensions to conform, and scalars $\lambda, \mu \in \R \text{ or } \C$:
 \begin{enumerate}
@@ -845,13 +860,15 @@ Consider three matrices $L\ (n \times m),\ M\ (n \times m)$, and $N\ (m \times n
 
 We say that $L$ is a \textit{left inverse} of $N$ if:
 \[
-  LN = I \text{ (Identity of size $n \times n$)}
+  LN = I_n \text{ (Identity of size $n \times n$)}
 \]
 We say that $M$ is a \textit{right inverse} of $N$ if:
 \[
-  NM = I \text{ (Identity of size $m \times m$)}
+  NM = I_m \text{ (Identity of size $m \times m$)}
 \]
 If $N$ has both a left and right inverse, then it must be square, that is, $m = n$.
+An intuitive reason for this is if $N$ is not square, then one of its inverses will need to uniquely invert a transformation from a higher dimension to a lower dimension which is not possible as we ``lost'' information when transforming down so cannot uniquely transform back.
+
 We can also write:
 \[
   L = L \underbrace{(NM)}_{I} = \underbrace{(LN)}_{I}M = M
@@ -861,8 +878,9 @@ We then denote both $L$ and $M$ as $N^{-1}$ and call this the \textit{inverse} o
 \[
   N N^{-1} = N^{-1} N = I
 \]
+So to summarise, if $N$ has both a left and right inverse, then it must be square and both inverses must be equal.
 \begin{remark}
-  If $N$ has an inverse then $N$ is a square matrix.
+  If $N$ has an inverse, then $N$ is a square matrix (since having an inverse $N^{-1}$ implies that it has both a left and right inverse).
   But, $N$ is square $\centernot\implies$ $N$ has an inverse.
   This is because not all square matrices have inverses, for example, the zero matrix.
 
@@ -874,26 +892,26 @@ We then denote both $L$ and $M$ as $N^{-1}$ and call this the \textit{inverse} o
     (MN)^{-1} = N^{-1} M^{-1}
   \]
 \end{proposition}
+\begin{remark}
+  $M$ and $N$ must both be square matrices as they are invertible and they must share the same dimensions otherwise we would not be able to take the product $MN$.
+\end{remark}
 \begin{proof}
   \[
     (N^{-1} M^{-1})MN = N^{-1} (M^{-1} M) N = N^{-1} N = I
   \]
   So $(MN)^{-1} = N^{-1} M^{-1}$.
 \end{proof}
-\begin{remark}
-  $M$ and $N$ must both be square matrices as they are invertible and they must share the same dimensions otherwise we would not be able to take the product $MN$.
-\end{remark}
 \begin{example}[Inverses of Geometric Transforms]
   \begin{enumerate}
     \item \textbf{Rotation -} For $\Rot(\theta, \vec{n})$ we have:
       \[
         (\Rot(\theta, \vec{n}))^{-1} = \Rot(-\theta, \vec{n})
       \]
-    \item \textbf{Shear -} If we fix $\vec{a}, \vec{b}$:
+    \item \textbf{Shear -} If we fix $\vec{a}, \vec{b}$, then:
       \[
         S(\lambda)^{-1} = S(-\lambda)
       \]
-    \item \textbf{Reflection -} If $H$ is a reflection in a plane with unit normal $\vec{n}$ then:
+    \item \textbf{Reflection -} If $H$ is a reflection in a plane with unit normal, $\vec{n}$ then:
       \[
         H^{-1} = H
       \]
@@ -908,7 +926,7 @@ We then denote both $L$ and $M$ as $N^{-1}$ and call this the \textit{inverse} o
     (M^{\trans})_{i j} = M_{j i}
   \]
 \end{definition}
-or more explicitly:
+or in matrix notation:
 \[
   \begin{pmatrix}
   M_{1 1} & \cdots & M_{1 n} \\
@@ -931,24 +949,24 @@ or more explicitly:
       \vdots \\
       x_n \\
       \end{pmatrix}^{\trans} =
-      (x_1, \cdots, x_n)
+      (x_1, \ldots, x_n)
     \]
   \item $(NM)^{\trans} = M^{\trans}N^{\trans}$
   \item $(\alpha M + \beta N)^{\trans} = \alpha M^{\trans} + \beta N^{\trans}$
 \end{enumerate}
 \begin{definition}[Symmetric and Antisymmetric]
-  If $M$ is a square matrix then $M$ is:
+  For a square matrix $M$, we say that $M$ is:
   \begin{itemize}
     \item \textbf{Symmetric -} If $M^{\trans} = M$ or equivalently, $M_{i j} = M_{j i}$
     \item \textbf{Antisymmetric -} If $M^{\trans} = -M$ or equivalently, $M_{i j} = -M_{j i}$
   \end{itemize}
 \end{definition}
 \begin{definition}[Hermitian Conjugate]
-  The \textit{hermitian conjugate} of a matrix $M$ of size $m \times n$ with complex entries is given by:
+  The \textit{hermitian conjugate} of a matrix $M$ of size $m \times n$ with entries in $\C$ is given by:
   \[
     M^{\dag} = \overline{(M^{\trans})}
   \]
-  This has coefficients:
+  where the entries are computed as:
   \[
     (M^{\dag})_{i j} = \overline{M_{j i}}
   \]
@@ -962,22 +980,22 @@ or more explicitly:
   \item $(MN)^{\dag} = N^{\dag} M^{\dag}$
 \end{enumerate}
 \begin{definition}[Hermitian and Anti-Hermitian]
-  If $M$ is square, then $M$ is:
+  For a square matrix $M$, we say that $M$ is:
   \begin{itemize}
-    \item \textbf{Hermitian -} If $M^{\dag} = M$ or $M_{i j} = \overline{M_{j i}}$
-    \item \textbf{Anti-Hermitian -} If $M^{\dag} = -M$ or $M_{i j} = -\overline{M_{j i}}$
+    \item \textbf{Hermitian -} If $M^{\dag} = M$ or equivalently $M_{i j} = \overline{M_{j i}}$
+    \item \textbf{Anti-Hermitian -} If $M^{\dag} = -M$ or equivalently $M_{i j} = -\overline{M_{j i}}$
   \end{itemize}
-  Anti-Hermitian is sometimes called \textit{skew-hermitian}.
+  Anti-hermitian matrices are sometimes also called \textit{skew-hermitian}.
 \end{definition}
 \begin{remark}[Note]
   If the matrices and scalars are all real, the hermitian conjugate just reduces to the regular matrix transpose.
 \end{remark}
 \begin{remark}
-  We can use the transpose to write the inner product on $\R^n$ (\cref{realInnerProduct}) as:
+  We can use the transpose to write the scalar product/standard inner product on $\R^n$ (\cref{realInnerProduct}) as:
   \[
     \vec{u} \cdot \vec{v} = \vec{u}^{\trans}\vec{v}
   \]
-  and we can use the hermitian conjugate to write the inner product on $\C^n$ (\cref{complexInnerProduct}) as:
+  and we can use the hermitian conjugate to write the standard inner product on $\C^n$ (\cref{complexInnerProduct}) as:
   \[
     (\vec{u}, \vec{v}) = \vec{u}^{\dag}\vec{v}
   \]
@@ -995,7 +1013,7 @@ or more explicitly:
   \item $\tr(\alpha M + \beta N) = \alpha \tr(M) + \beta \tr(N)$
   \item $\tr(MN) = \tr(NM)$
   \item $\tr(M^{\trans}) = \tr(M)$
-  \item $\tr(I) = n$ where $I$ is an $n \times n$ identity matrix.
+  \item $\tr(I_n) = n$ where $I_n$ is an $n \times n$ identity matrix.
 \end{enumerate}
 \subsection{Decomposition of a Square Matrix}
 \label{matrixDecomp}
@@ -1009,42 +1027,51 @@ Note that $S^{\trans} = \frac{1}{2}(M^{\trans} + M) = S$, so $S$ is symmetric an
 The symmetric part can be further decomposed.
 Let:
 \[
-  T = S - \frac{1}{n}\tr(S)I \quad \text{($I$ of size $n \times n$)}
+  T = S - \frac{1}{n}\tr(S)I_n
 \]
-Note that this means that $\tr(T) = \tr(S) - \frac{\tr(S)}{n}\tr(I) = 0$, so $T$ is called \textit{traceless}.
+Note that this means that $\tr(T) = \tr(S) - \frac{\tr(S)}{n}\tr(I_n) = 0$, so $T$ is called \textit{traceless}.
 We also have that $\tr(S) = \tr(M)$ and $\tr(A) = 0$.
 Therefore $S$ is decomposed further into:
 \[
-  S = T + \frac{1}{n}\tr(M)I
+  S = T + \frac{1}{n}\tr(M)I_n
 \]
 Substituting back into the original decomposition yields:
 \[
-  M = T + A + \frac{1}{n}\tr(M)I
+  M = T + A + \frac{1}{n}\tr(M)I_n
 \]
 Where $T$ is symmetric and traceless, $A$ is antisymmetric, and $\frac{1}{n}\tr(M)I$ is diagonal with all entries equal, this is called the \textit{isotropic} part.
 \subsection{Orthogonal and Unitary Matrices}
 \label{orthogonalMatrices}
 \begin{definition}[Orthogonal Matrix]
-  A real $n \times n$ matrix $U$ is \textit{orthogonal} if and only if:
+  We say that a real $n \times n$ matrix $U$ is \textit{orthogonal} if:
   \[
     U^{\trans}U = UU^{\trans} = I
   \]
   or equivalently $U^{-1} = U^{\trans}$.
 \end{definition}
-This means that the columns and the rows of $U$ are orthonormal.
-Equivalently, $U$ is orthogonal if and only if it preserves inner products, that is:
+We saw in \cref{matrixMultRC} that $(NM)_{i j} = \vec{R}_i(N) \cdot \vec{C}_j(M)$ so:
+\begin{align*}
+  U^{\trans}U &= I \iff \vec{R}_i(U^{\trans}) \cdot \vec{C}_j(U) = \vec{C}_i(U) \cdot \vec{C}_j(U) = \delta_{i j} \\
+  UU^{\trans} &= I \iff \vec{R}_i(U) \cdot \vec{C}_j(U^{\trans}) = \vec{R}_i(U) \cdot \vec{R}_j(U) = \delta_{i j}
+\end{align*}
+So equivalently, an $n \times n$ real matrix $U$ is orthogonal if and only if its columns are an orthonormal basis for $\R^{n}$ and its rows are an orthonormal basis for $\R^{n}$.
+
+This also allows us to deduce that $U$ is orthogonal if and only if it preserves the scalar product/standard inner product, that is:
 \[
   (U\vec{x}) \cdot (U\vec{y}) = \vec{x} \cdot \vec{y} \quad \forall \vec{x}, \vec{y} \in \R^{n}
 \]
 and from this, $U$ preserves norms and angles.
+\begin{remark}
+  See IA Groups section 9.4.2 for an in-depth proof of the equivalence of the above properties.
+\end{remark}
 \begin{definition}[Unitary Matrix]
-  A complex $n \times n$ matrix, is \textit{unitary} if and only if:
+  We say that a complex $n \times n$ matrix is \textit{unitary} if:
   \[
     U^{\dag}U = UU^{\dag} = I
   \]
   or equivalently $U^{-1} = U^{\dag}$.
 \end{definition}
-Equivalently, $U$ is unitary if and only if it preserves inner products:
+Equivalently, $U$ is unitary if and only if it preserves the standard inner product on $\C^{n}$:
 \[
   (U\vec{z}, U\vec{w}) = (U\vec{z})^{\dag} (U\vec{w}) = \vec{z}^{\dag} \vec{w}
 \]
@@ -1100,6 +1127,7 @@ Equivalently, $U$ is unitary if and only if it preserves inner products:
     \sin \theta &  -\cos \theta \\
     \end{pmatrix}
   \]
+  So in 2D, the only orthogonal matrices are those corresponding to reflations or rotations.
 \end{example}
 \section{Determinants} \label{determinants}
 Consider a map $\R^{n} \to \R^{n}$ given by a real $n \times n$ matrix $M$:
