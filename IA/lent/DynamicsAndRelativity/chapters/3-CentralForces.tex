@@ -2,7 +2,7 @@
 \begin{document}
 \chapter{Central Forces}
 An important class of potentials depend only on the distance to some origin.
-For example in \cref{gravity}, we saw that the force one one mass depends on its radial distance to another mass, so, if we treat the other mass s the origin, the force on the first particle depends only on its distance $r$ to that origin.
+For example in \cref{gravity}, we saw that the force one one mass depends on its radial distance to another mass, so, if we treat the other mass as the origin, the force on the first particle depends only on its distance $r$ to that origin.
 Similarly, in \cref{electricForces}, we saw that the force on one charge depends on its radial distance to another charge.
 
 We can therefore express such potentials $V$ as a function of the radial distance:
@@ -138,7 +138,7 @@ We can differentiate again to get $\ddot{\vec{x}}$:
 To write Newton's second law for a central force, recall from \cref{radialForce} that $\vec{F} = -\deriv{V}{r}\uvec{r}$.
 Combining this with the above, we have:
 \[
-  m\ddot{x} = m(\ddot{r} - r \dot{\theta}^2)\uvec{r} + m(r \ddot{\theta}  + 2\dot{r} \dot{\theta}) \uvec{\theta} = -\deriv{V}{r}\uvec{r}
+  m\ddot{\vec{x}} = m(\ddot{r} - r \dot{\theta}^2)\uvec{r} + m(r \ddot{\theta}  + 2\dot{r} \dot{\theta}) \uvec{\theta} = -\deriv{V}{r}\uvec{r}
 \]
 Since $\uvec{r}$ and $\uvec{\theta}$ form an orthonormal basis, we can equate the radial and angular components to yield:
 \begin{align}
@@ -167,7 +167,7 @@ Note that $\uvec{r}$ and $\uvec{\theta}$ are orthogonal unit vectors so their cr
 To get rid of the $\theta$ dependence in \cref{eqnRadial}, we can substitute $\dot{\theta} = \ell/r^2$:
 \begin{align*}
   m\left(\ddot{r} - r\frac{\ell^2}{r^4}\right) &= -\deriv{V}{r} \\
-  m\ddot{r} &= - \deriv{V}{r} + \frac{m\ell^2}{r^3} \\
+  \implies m\ddot{r} &= - \deriv{V}{r} + \frac{m\ell^2}{r^3} \\
             &= -\deriv{}{r}\left(V + \frac{m\ell^2}{2r^2}\right) \\
             &= -\deriv{V_{\text{eff}}}{r}
 \end{align*}
@@ -626,7 +626,7 @@ We wish to find the angle $\phi$ through which the particle is scattered, as see
 \end{tikzpicture}
 \end{center}
 Energy is conserved so the incoming velocity has the same magnitude as the outgoing velocity.
-Since angular momentum is also conserved, the impact parameters for a particle from the incoming direction and for a particle from the outgoing direction.
+Since angular momentum is also conserved, the impact parameters for a particle from the incoming direction and for a particle from the outgoing direction are equal.
 This gives rise to the symmetry in the diagram above.
 
 Using this symmetry, we have that $\pi = \phi + 2\alpha$.
@@ -648,6 +648,9 @@ Rearranging for $\phi$, we have:
   \tan^2(\phi/2) &= \frac{\kappa^2}{m^2b^2v^4} \\
   \implies \phi &= 2 \arctan\left(\frac{\kappa}{bmv^2}\right)
 \end{align*}
-For paths where the non-interacting trajectory would pass very close to the target, the impact parameter is very small and so we get large scattering angles.
-This allows us to use scattering to find subatomic distances by measuring relatively large $\phi$ and then finding $b$.
+For paths where the non-interacting trajectory would pass very close to the target, the impact parameter is very small and so we would expect to get large scattering angles.
+This allows us to use scattering of a particle with initial velocity $v$ to find subatomic distances by measuring relatively large $\phi$ and then finding $b$ using:
+\[
+  b = \frac{\kappa}{mv^2 \tan(\phi/2)}
+\]
 \end{document}

@@ -3,7 +3,7 @@
 \chapter{Systems of Particles}
 \label{systemsOfParticles}
 \section{General Systems of Particles}
-Suppose we have $N$ particles indexed by $i = 1, \ldots, N$ with momenta $\vec{p}_i = m_i \dot{\vec{x}}_i$ and all obeying Newton's law individually, that is, for each particle:
+Suppose we have $N$ particles indexed by $i \in \{1, \ldots, N\}$ with momenta $\vec{p}_i = m_i \dot{\vec{x}}_i$ and all obeying Newton's law individually, that is, for each particle:
 \[
   \dot{\vec{p}}_i = \vec{F}_i
 \]
@@ -71,7 +71,7 @@ Thus, $\dot{\vec{P}} = \vec{F}$ and since $\vec{P} = M \dot{\vec{R}}$, we then h
   M \ddot{\vec{R}} = \vec{F} = \sum_{i = 1}^{N} \vec{F}^\text{ext}_i \label{comN2}
 \end{equation}
 So the centre of mass accelerates just like a point particle subject to an external force $\vec{F}$.
-The system cannot accelerate itself without an external force.
+The system cannot accelerate its centre of mass without an external force.
 \begin{remark}
   This property of systems of particles is what allows us to treat the Earth as a point particle as all the internal forces between individual particles cancel each other out when considering the centre of mass of the whole system.
 \end{remark}
@@ -113,7 +113,7 @@ We then have:
 \end{equation}
 We would like to show that $\dot{\vec{L}} = \vec{G}$ so that the rate of change of the total angular momentum is just the external torque, however, we cannot just use Newtons 3rd Law to show that the sum in \cref{rateOfTotalAngular} vanishes.
 
-If the force $\vec{F}_{i j}$ between particles $i$ and $j$ comes from a potential that depends on the distance from $\vec{x}_i$ to $\vec{x}_j$ then:
+In the case of the force $\vec{F}_{i j}$ between particles $i$ and $j$ comes from a potential that depends on the distance from $\vec{x}_i$ to $\vec{x}_j$, then we have that:
 \begin{align*}
   \vec{F}_{i j} &= -\nabla_{\vec{x}_i} (V(|\vec{x}_i - \vec{x}_j|)) \\
                 &= -V' (|\vec{x}_i - \vec{x}_j|) \frac{\vec{x}_i - \vec{x}_j}{|\vec{x}_i - \vec{x}_j|}
@@ -177,7 +177,8 @@ Here, we will take forces between particles to depend on their separation only:
   \]
 \end{definition}
 \begin{remark}[Note]
-  For each pair of particles, there are two associated forces $\vec{F}_{ij}$ and $\vec{F}_{ji}$, however there is only a single potential $V_{i j} = V_{j i}$ which is why we only take the sum over $i < j$ to avoid double counting potentials.
+  For each pair of particles, there are two associated forces $\vec{F}_{ij}$ and $\vec{F}_{ji}$, however there is only a single potential $V_{i j} = V_{j i}$.
+  This is because although particle $i$ interacts with particle $j$ and particle $j$ interacts with particle $i$, there is only one physical interaction occurring, which is why we only take the sum over $i < j$ and not $i \neq j$ to avoid double counting potentials.
 \end{remark}
 
 We can check that the total energy is conserved by finding $\dot{E}$.
@@ -256,7 +257,8 @@ That is, if $m_1 \gg m_2$, then:
 \[
   \mu = \frac{m_1 m_2}{m_1 + m_2} \approx \frac{m_1m_2}{m_1} = m_2
 \]
-So in this limit, the more massive object is essentially stationary and the lighter object orbits around it and so we have reduced the problem to the one body Kepler problem (\cref{keplerSection}) for the relative position $\vec{r}$.
+So in this limit, we have reduced the problem to the one body Kepler problem (\cref{keplerSection}) for the relative position $\vec{r}$.
+Since the more massive object is essentially stationary, we are effectively finding the motion of $\vec{x}_2$ about a fixed point.
 \begin{remark}
   We see that the two body problem can be reduced to the Kepler problem, however, the \textit{three body problem} does not have a closed form solution.
   It is a chaotic system and very small perturbations to the initial conditions grow exponentially.
