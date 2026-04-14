@@ -41,9 +41,7 @@
   \end{enumerate}
 \end{example}
 \begin{lemma}
-  \label{quotientCosets}
-  Suppose $H \leq G$.
-  Then $H \lhd G$ if and only if
+  For a subgroup $H \leq G$, $H \lhd G$ if and only if: \label{quotientCosets}
   \[
     gH = Hg
   \]
@@ -152,15 +150,14 @@ In general, for groups $A, B, C$:
 \end{remark}
 \subsection{Isomorphism Theorem}
 \begin{theorem}[First Isomorphism Theorem]
-  \label{isomorphismTheorem}
-  If $\phi: G \to H$ is a homomorphism, then:
+  If $\phi: G \to H$ is a homomorphism, then: \label{isomorphismTheorem}
   \[
     G /\ker\phi \cong \im \phi
   \]
 \end{theorem}
 \begin{proof}
   Since $\ker \phi \lhd G$, the quotient $G / \ker \phi$ is indeed a group.
-  Define $\overline{\phi}: G / \ker \phi \to \im \phi$, $g \ker \phi \mapsto \phi(g)$.
+  Define $\Psi: G / \ker \phi \to \im \phi$, $g \ker \phi \mapsto \phi(g)$.
 
   \textbf{Well Defined -} Suppose that $g_1 \ker \phi = g_2 \ker \phi$.
   Therefore for some $k \in \ker \phi$:
@@ -169,44 +166,44 @@ In general, for groups $A, B, C$:
   \]
   Then we see that:
   \begin{align*}
-    \overline{\phi}(g_1 \ker \phi) &= \phi(g_1) \\
-                                   &= \phi(g_2 k) \\
-                                   &= \phi(g_2)\phi(k) \text{ as $\phi$ is a homomorphism} \\
-                                   &= \phi(g_2) \\
-                                   &= \overline{\phi}(g_2 \ker \phi)
+    \Psi(g_1 \ker \phi) &= \phi(g_1) \\
+                        &= \phi(g_2 k) \\
+                        &= \phi(g_2)\phi(k) \text{ as $\phi$ is a homomorphism} \\
+                        &= \phi(g_2) \\
+                        &= \Psi(g_2 \ker \phi)
   \end{align*}
-  So $\overline{\phi}$ is well defined.
+  So $\Phi$ is well defined.
 
   \textbf{Homomorphism -} For $g_1, g_2 \in G$.
   \begin{align*}
-    \overline{\phi}((g_1 \ker \phi)(g_2 \ker \phi)) &= \overline{\phi}(g_1 g_2 \ker \phi) \\
-                                                    &= \phi(g_1g_2) \\
-                                                    &= \phi(g_1)\phi(g_2) \\
-                                                    &= \overline{\phi}(g_1 \ker \phi)\overline{\phi}(g_2 \ker \phi)
+    \Psi((g_1 \ker \phi)(g_2 \ker \phi)) &= \Psi(g_1 g_2 \ker \phi) \\
+                                         &= \phi(g_1g_2) \\
+                                         &= \phi(g_1)\phi(g_2) \\
+                                         &= \Psi(g_1 \ker \phi)\Psi(g_2 \ker \phi)
   \end{align*}
-  So $\overline{\phi}$ is a homomorphism.
+  So $\Psi$ is a homomorphism.
 
-  \textbf{Injectivity -} If $g \ker \phi \in \ker \overline{\phi}$ then $\overline{\phi}(g \ker \phi) = e$.
+  \textbf{Injectivity -} If $g \ker \phi \in \ker \Psi$ then $\Psi(g \ker \phi) = e$.
   Then:
   \[
-    \overline{\phi}(g \ker \phi) = \phi(g) = e
+    \Psi(g \ker \phi) = \phi(g) = e
   \]
   So $g \in \ker \phi$.
   Therefore,
   \[
     g \ker \phi = \ker \phi
   \]
-  That is, $g \ker \phi \in \ker \overline{\phi} \implies g \ker \phi = \ker \phi$, the trivial coset.
-  Therefore, $\ker \overline{\phi} = \{\ker \phi\}$ so $\ker \overline{\phi}$ is trivial and thus $\overline{\phi}$ is injective.
+  That is, $g \ker \phi \in \ker \Psi \implies g \ker \phi = \ker \phi$, the trivial coset.
+  Therefore, $\ker \Psi = \{\ker \phi\}$ so $\ker \Psi$ is trivial and thus $\Psi$ is injective.
 
   \textbf{Surjectivity -} A typical element of $\im \phi$ is $\phi(g)$ for some $g \in G$.
   By definition:
   \[
-    \phi(g) = \overline{\phi}(g \ker \phi)
+    \phi(g) = \Psi(g \ker \phi)
   \]
-  so $\overline{\phi}$ is surjective.
+  so $\Psi$ is surjective.
 
-  Therefore, $\overline{\phi}$ is a well defined bijective homomorphism so $G / \ker \phi \cong \im \phi$
+  Therefore, $\Psi$ is a well defined bijective homomorphism so $G / \ker \phi \cong \im \phi$
 \end{proof}
 \begin{example}
   \begin{enumerate}
@@ -224,11 +221,11 @@ In general, for groups $A, B, C$:
     \[
       \R / \Z \cong U(1)
     \]
+    Remember that $\R / \Z$ are the cosets of $\Z$ in $\R$ so this has the same cyclic property as $U(1)$.
   \end{enumerate}
 \end{example}
 \begin{corollary}
-  \label{firstIsomorphismCorollary}
-  If $|G| < \infty$ and $\phi: G \to H$ is a homomorphism, then $|G| = |\im \phi||\ker \phi|$.
+  If $|G| < \infty$ and $\phi: G \to H$ is a homomorphism, then $|G| = |\im \phi||\ker \phi|$. \label{firstIsomorphismCorollary}
 \end{corollary}
 \begin{proof}
   By Lagrange's theorem (\cref{lagrangesTheorem}), $|G / \ker \phi||\ker \phi| = |G|$.
