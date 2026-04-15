@@ -63,7 +63,7 @@ jobs:
           echo "main_files=" >> $GITHUB_OUTPUT
         fi
 
-    - name: Compile changed Main.tex files
+    - name: Compile changed main.tex files
       if: steps.changes.outputs.main_files != ''
       run: |
         mkdir output
@@ -91,7 +91,7 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+        ssh-keyscan -T 15 -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
     - name: Deploy folder via rsync
       run: |
