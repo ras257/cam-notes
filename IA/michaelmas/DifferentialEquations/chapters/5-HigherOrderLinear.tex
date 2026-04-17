@@ -1304,21 +1304,20 @@ Complimentary functions, $y^{(c)}$ satisfy the homogeneous discrete equation:
 \[
   ay^{(c)}_{n + 2} + by^{(c)}_{n + 1} + cy^{(c)}_n = 0
 \]
-If we try $y^{(c)}_n \propto k^{n}$:
+If we try $y^{(c)}_n \propto k^{n}$, then we obtain the \textit{characteristic equation}:
 \begin{align*}
   ak^{n + 2} + bk^{n + 1} + ck^{n} = 0 \\
   \implies ak^2 + bk + c = 0
 \end{align*}
 which has roots $k_1$ and $k_2$.
-This is the characteristic equation.
-We then have general complimentary function:
+The general complimentary function is then:
 \[
   y^{(c)}_n  = \begin{cases}
-  Ak^{n}_{1} + Bk^{n}_{2} & \text{ if }k_1 \neq k_2 \\
-  Ak^{n}_{1} + Bnk^{n}_1 & \text{ if }k_1 = k_2
+  Ak^{n}_{1} + Bk^{n}_{2} & \text{ if } k_1 \neq k_2 \\
+  Ak^{n}_{1} + Bnk^{n}_1 & \text{ if } k_1 = k_2
   \end{cases}
 \]
-This is similar to how $y_c = Ae^{\lambda x} + Bxe^{\lambda x}$ for degenerate second order ODEs.
+In the case of $k_1 = k_2$, this is similar to we had $y_c = Ae^{\lambda x} + Bxe^{\lambda x}$ for degenerate second order ODEs.
 \subsubsection{Particular Integrals}
 Similarly to with second order ODEs, we can use the form of the forcing term $f_n$ to guess what type of particular integral might work.
 Again, we can superpose terms if needed as the equation is linear.
@@ -1328,7 +1327,7 @@ $f_n$ & $y^{(p)}_n$ \\
 \hline
 $k^{n}$ & $Ak^{n}$ if $k \neq k_1 \text{ or }k_2$ \\
 $k^{n}_{1}$ & $Ank^{n}_{1}$ \\
-$n^{p},\ p \in \Z_{\geq 0}$ & $An^{p} + Bn^{p - 1} + \cdots + Cn + D$
+$n^{p},\ p \in \N_0$ & $An^{p} + Bn^{p - 1} + \cdots + Cn + D$
 \end{tabular}
 \end{center}
 \begin{example}[Fibonacci Sequence]
@@ -1340,9 +1339,9 @@ $n^{p},\ p \in \Z_{\geq 0}$ & $An^{p} + Bn^{p - 1} + \cdots + Cn + D$
   \]
   This has characteristic equation:
   \[
-    k^2 - k - 1 = 0 \implies k = \frac{1 \pm \sqrt{5}}{2}
+    k^2 - k - 1 = 0 \iff k = \frac{1 \pm \sqrt{5}}{2}
   \]
-  These roots are the \textit{golden ratios}, $\phi_1$ and $\phi_2$:
+  These roots are the \textit{golden ratios} $\phi_1$ and $\phi_2$:
   \[
     \phi_1 = \frac{1 + \sqrt{5}}{2} \approx 1.618\ldots \text{ and } \phi_2 = \frac{1 - \sqrt{5}}{2} =-\frac{1}{\phi_1}
   \]
@@ -1362,10 +1361,11 @@ $n^{p},\ p \in \Z_{\geq 0}$ & $An^{p} + Bn^{p - 1} + \cdots + Cn + D$
   \[
     y_n = \frac{1}{\sqrt{5}}(\phi^{n + 1}_1 - \phi^{n + 1}_2) = \frac{1}{\sqrt{5}}\left(\phi^{n + 1}_1 - \left(-\frac{1}{\phi_1}\right)^{n + 1}\right)
   \]
-  Since $\phi_1 > 1$, $y_n \to \frac{\phi^{n + 1}_1}{\sqrt{5}}$ as $n \to \infty$ so:
+  Since $\phi_1 > 1$, $y_n \sim \frac{\phi^{n + 1}_1}{\sqrt{5}}$ as $n \to \infty$ and so:
   \[
     \lim_{n \to \infty} \frac{y_{n + 1}}{y_n} = \phi_1
   \]
+  That is, the ratio between successive terms approaches a constant $\phi_1$.
 \end{example}
 \section{Series Solutions}
 When we cannot find simple closed form solutions, series solutions may be useful.
