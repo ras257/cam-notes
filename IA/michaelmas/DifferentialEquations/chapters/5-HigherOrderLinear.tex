@@ -1,15 +1,14 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Higher Order Linear ODEs}
-We will focus on 2nd order here, but many methods are also applicable to higher orders.
+We will focus on 2nd order here, but many of these methods are also applicable to higher order differential equations.
 \section{Constant Coefficients}
 The general form of a 2nd order linear ODE with constant coefficients is:
 \begin{equation}
   \label{general2ndConst}
   \underbrace{a \deriv[2]{y}{x} + b \deriv{y}{x} + cy}_{\mathcal{D}y} = f(x)
 \end{equation}
-with $a, b, c$ constants.
-Where $\mathcal{D}y$ is a linear differential operator, defined as:
+with $a, b, c$ constants where $\mathcal{D}y$ is a linear differential operator, defined as:
 \[
   \mathcal{D} \equiv a \deriv[2]{}{x} + b \deriv{}{x} + c
 \]
@@ -20,7 +19,7 @@ Where $\mathcal{D}y$ is a linear differential operator, defined as:
   \]
   This is also known as the \textit{principle of superposition}.
 \end{definition}
-We can exploit this property to solve \cref{general2ndConst}:
+We can exploit this property to solve DEs of the form in \cref{general2ndConst}:
 \label{constantCoeffMethod}
 \begin{enumerate}
   \item Find complimentary functions (C.F.), $y_c$, that satisfy the corresponding homogeneous equation:
@@ -44,36 +43,36 @@ with $C_1, C_2$ constants.
   \[
     \sum_{i=1}^{n} C_i f_i(x) = 0\ \forall x
   \]
-  for $n$ constants, $C_i$, \textbf{not} all of which are $0$.
-  Otherwise they are \textit{linearly independent}.
+  for $n$ constants, $C_i$, \textbf{not all} of which are $0$.
+  If such constants do not exist (i.e. all of them are 0), then the functions are said to be \textit{linearly independent}.
 \end{definition}
 \begin{remark}
-  This is the same idea as linear dependence for vectors.
+  This is the same idea as linear dependence for vectors apart from it needs to be true for all values of $x$.
 \end{remark}
 Equivalently, if one or more of the functions $f_i(x)$  can be written as a linear combination of the others, they are linearly \textbf{dependant}.
 \subsection{Complimentary Functions}
-Recall that:
+Recall that $e^{\lambda x}$ is an eigenfunction of the operator $\deriv{}{x}$:
 \[
-  \deriv{}{x} e^{\lambda x} = \lambda e^{\lambda x} \text{ (Eigenfunction)}
+  \deriv{}{x} e^{\lambda x} = \lambda e^{\lambda x}
 \]
-$e^{\lambda x}$ is also an eigenfunction of $\mathcal{D}$ because:
+We see that $e^{\lambda x}$ is also an eigenfunction of $\mathcal{D}$ since:
 \begin{align*}
   \mathcal{D}(e^{\lambda x}) &= a \deriv[2]{}{x} e^{\lambda x} + b \deriv{}{x} e^{\lambda x} + c \\
                              &= \underbrace{(a\lambda^2 + b\lambda + c)}_{\text{eigenvalue}} e^{\lambda x}
 \end{align*}
 The complimentary functions of \cref{general2ndConst} satisfy $\mathcal{D}y_c = 0$, that is, they are eigenfunctions with eigenvalue $0$.
-Thus:
+We then obtain the \textit{characteristic equation}:
 \[
-  y_c = A e^{\lambda x} \text{ with } \underbrace{a \lambda^2 + b\lambda + c = 0}_{\text{characteristic equation}}
+  a \lambda^2 + b\lambda + c = 0
 \]
-Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it must have two roots $\lambda_1$ and $\lambda_2$.
+Since this is a 2nd degree polynomial it must have two roots $\lambda_1$ and $\lambda_2$ in $\C$.
 \begin{proofcases}
   \begin{case}{$\lambda_1 \neq \lambda_2$}
     We then have two linearly independent complimentary functions:
     \[
-      y_{c_1} \propto e^{\lambda_1 x}, y_{c_2} \propto e^{\lambda_2 x}
+      y_{c_1} \propto e^{\lambda_1 x} \text{ and } y_{c_2} \propto e^{\lambda_2 x}
     \]
-    So the most general complimentary function is a linear combination:
+    So the most general complimentary function is a linear combination of these two:
     \[
       y_c = C_1 y_{c_1}(x) + C_2 y_{c_2}(x)
     \]
@@ -88,17 +87,18 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
     \end{remark}
   \end{case}
   \begin{case}{$\lambda = \lambda_2$ -- Degenerate Case}
-    So now we have only one linearly independent complimentary function of the form $e^{\lambda_1 x}$.
+    This means that we have only one linearly independent complimentary function of the form $e^{\lambda_1 x}$.
     See \cref{detuningExample} for how to deal with this case.
   \end{case}
 \end{proofcases}
 \begin{example}[Real, non-degenerate roots]
+  Consider the differential equation:
   \[
     \deriv[2]{y}{x} - 5\deriv{y}{x} + 6y = 0
   \]
-  The characteristic equation is then:
+  The characteristic equation is:
   \[
-    \lambda^2 - 5\lambda + 6 = 0 \implies \lambda_1 = 3, \lambda_2 = 2
+    \lambda^2 - 5\lambda + 6 = 0 \implies \lambda_1 = 3,\ \lambda_2 = 2
   \]
   So the general complimentary function is:
   \[
@@ -107,11 +107,11 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
   with $A, B$ constants.
 \end{example}
 \begin{example}[Complex, non-degenerate roots]
-  \label{complexNonDegenerate}
+  Consider the differential equation: \label{complexNonDegenerate}
   \[
     \deriv[2]{y}{x} + 4y = 0
   \]
-  The characteristic equation is then:
+  The characteristic equation is:
   \[
     \lambda^2 + 4 = 0 \implies \lambda_1 = 2i, \lambda_2 = -2i
   \]
@@ -127,7 +127,7 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
   Whether $\alpha, \beta$ are complex depends on the boundary conditions of the problem.
 \end{example}
 \begin{example}[Degenerate roots and ``detuning'']
-  \label{detuningExample}
+  Consider the differential equation: \label{detuningExample}
   \[
     \deriv[2]{y}{x} - 4\deriv{y}{x} + 4y = 0
   \]
@@ -137,7 +137,7 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
   \]
   Therefore we have degenerate roots and only one linearly independent complimentary function $e^{2x}$.
 
-  \textbf{Detuning - }Remove the degeneracy by considering a slightly modified (\textit{detuned}) equation.
+  \textbf{Detuning -} We remove the degeneracy by considering a slightly modified (\textit{detuned}) equation.
   \[
     \deriv[2]{y}{x} - 4 \deriv{y}{x} + (4 - \varepsilon^2)y = 0 \quad (\varepsilon \ll 1)
   \]
@@ -162,7 +162,7 @@ Since the characteristic equation of $\mathcal{D}$ is a 2nd degree polynomial it
 
   Now let:
   \[
-    \alpha = A + B, \beta = \varepsilon(A - B)
+    \alpha = A + B,\ \beta = \varepsilon(A - B)
   \]
   Both $\alpha$ and $\beta$ are $O(1)$ as they do not depend on $\varepsilon$ so are unchanged as $\varepsilon \to 0$.
   As we take $\varepsilon \to 0$, the detuned equation becomes the original equation, so the general solution of the original degenerate equation is:
@@ -242,7 +242,7 @@ In other words, the \textit{state of the system} is fully specified at any $x$ b
   y^{(n-1)}(x) \\
   \end{pmatrix}
 \]
-That is, given such a $\vec{Y}(x_0)$ at any fixed $x_0$, we can determine the Taylor series for the solution and use this to determine $y$ and all of its derivatives at any $x$.
+That is, given such a $\vec{Y}(x_0)$ at any fixed $x_0$, we can determine the Taylor series for the solution and use this to determine the taylor series for $y$ about $x_0$.
 \begin{remark}
   \begin{itemize}
     \item At any $x$, $\vec{Y}(x)$ defines a point in $n$-dimensional \textit{phase space}.
@@ -285,7 +285,7 @@ That is, given such a $\vec{Y}(x_0)$ at any fixed $x_0$, we can determine the Ta
     \draw[->, very thick] (0, 0) -- (0.6569, 1.5078) node[right] {$\vec{Y}_2(x)$};
   \end{tikzpicture}
   \end{center}
-  $\vec{Y}_1$ and $\vec{Y}_2$ are linearly independent vectors.
+  $\vec{Y}_1$ and $\vec{Y}_2$ are linearly independent vectors for all $x$ as for an arbitrary fixed $x$, $\lambda_1 \vec{Y}_1 + \lambda_2 \vec{Y}_2 = \vec{0} \implies \lambda_1 = \lambda_2 = 0$, so since $x$ was arbitrary, they are linearly independent for all $x$.
   This means that they form a basis for the 2D phase space.
 \end{example}
 \section{Wronskian and Linear Dependence}
@@ -294,16 +294,16 @@ Recall that a set of functions $\{y_i(x)\}$ are linearly dependant if:
 \[
   \sum_{i=1}^{n} c_i y_i(x) = 0\ \forall x,\ c_i \text{ not all 0}
 \]
-Since this holds for all $x$ we can differentiate it $1, 2, \ldots, n-1$  times.
+Since this holds for all $x$ we can differentiate it $k$ times.
 Therefore:
 \[
-  \sum_{i=1}^{n} c_i y^{(k)}_i(x) = 0\ \forall x, k = 1, \ldots, n-1
+  \sum_{i=1}^{n} c_i y^{(k)}_i(x) = 0\ \forall x
 \]
-This sum the $k$-th entry in the sum of all the solution vectors, so we have:
+This sum the $k$-th entry in the sum of all the solution vectors and so we have:
 \[
   \sum_{i=1}^{n} c_i \vec{Y}_i(x) = 0\ \forall x
 \]
-So if $\{y_i\}$ is linearly dependant, then $\{\vec{Y}_i(x)\}$ are linearly dependant for all $x$.
+So if $\{y_i\}$ is a set of linearly dependant functions, then the set of solution vectors $\{\vec{Y}_i(x)\}$ is linearly dependant for all $x$.
 
 We can form a \textit{fundamental matrix}, $\Psi(x)$, whose columns are the solution vectors:
 \[
@@ -326,7 +326,7 @@ We can form a \textit{fundamental matrix}, $\Psi(x)$, whose columns are the solu
   \]
 \end{definition}
 \begin{remark}[Note]
-  In this case, the Wronskian is the determinant of the fundamental matrix, that is:
+  In this case with solution vectors, the Wronskian is the determinant of the fundamental matrix, that is:
   \[
     W(x) =
     \det(\Psi(x)) =
@@ -340,9 +340,9 @@ We can form a \textit{fundamental matrix}, $\Psi(x)$, whose columns are the solu
 Recall that if a matrix has linearly dependant columns then its determinant is 0.
 Therefore we have:
 \[
-  \{y_i(x)\} \text{ is linearly \textbf{dependant}} \implies \{\vec{Y}_i(x)\} \text{ is linearly \textbf{dependant}} \implies W(x) = 0\ \forall x
+  \{y_i(x)\} \text{ is linearly \textbf{dependant}} \implies \{\vec{Y}_i(x)\} \text{ is linearly \textbf{dependant}}\ \forall x \implies W(x) = 0\ \forall x
 \]
-Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$ then $\{y_i(x)\}$ are linearly \textbf{independent}.
+Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$, then the set of functions $\{y_i(x)\}$ is linearly \textbf{independent}.
 \begin{remark}[Warning]
   $W(x) = 0\ \forall x$  does \textbf{not} necessarily imply that $\{y_i(x)\}$ are linearly dependant.
 \end{remark}
@@ -363,7 +363,7 @@ Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$ then $\
     \end{vmatrix}
     = 2(\cos^2 2x + \sin^2 2x) = 2
   \]
-  Since $W(x) \neq 0\ \forall x$, $y_1$ and $y_2$ are linearly independent.
+  Since $W(0) = 2 \neq 0$, $y_1$ and $y_2$ are linearly independent.
 \end{example}
 \section{Abel's Theorem}
 \begin{theorem}
@@ -402,7 +402,7 @@ Taking the contrapositive, it follows that if $W(x) \neq 0$ for some $x$ then $\
   \end{align*}
 \end{proof}
 \begin{remark}
-  The geometric interpretation of this is the solution vectors are always collinear or never collinear as $x$ varies.
+  The geometric interpretation of this is that the two solution vectors are always collinear or never collinear as $x$ varies.
 \end{remark}
 \begin{remark}[Generalisation]
   Abel's theorem holds for solutions of $n$-th order linear homogeneous ODEs.
@@ -425,17 +425,17 @@ We can find $W(x)$ without knowing solutions to the ODE.
   \begin{align*}
     W(x) &= W(x_0)\exp\left[-\int_{x_0}^{x} \frac{\d{u}}{u}\right] \\
          &= W(x_0)\exp\left[-\ln\left(\frac{x}{x_0}\right)\right] \\
-         &= \frac{W(x_0)x_0}{x}
+         &= \frac{x_0 W(x_0)}{x}
   \end{align*}
 \end{example}
 \subsection{Finding Second Solutions}
 Abel's identity can be used to find a second solution $y_2$ given a known solution $y_1$.
 \[
-  y_1 y_2' + y_2 y_1' = W(x_0)\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
+  y_1 y_2' - y_2 y_1' = W(x_0)\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
 \]
 Dividing by $y^{2}_{1}$ we have:
 \[
-  y_2' \frac{1}{y_1} + y_2 \frac{y_1'}{y^{2}_{1}} = \frac{W(x_0)}{y^{2}_{1}}\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
+  \frac{y_1 y_2' - y_2 y_1'}{y^2_1} = \frac{W(x_0)}{y^{2}_{1}}\exp\left[-\int_{x_0}^{x} p(u) \d{u}\right]
 \]
 So provided we know $y_1$ this is a first order ODE for $y_2$:
 \[
@@ -452,27 +452,31 @@ This is the same result that we had using the reduction of order method in \cref
   \end{equation}
   with $a, b, c$ constants.
 \end{definition}
-\begin{remark}[Note]
-  These are called \textit{equidimensional} as quantities on the left hand side have consistent physical dimensions.
+\begin{remark}[Nomenclature]
+  \begin{itemize}
+    \item The name \textit{equidimensional} originates from the fact that the quantities on the left hand side have consistent physical dimensions.
+    \item Equations of this form are also sometimes referred to as \textit{Euler-Cauchy} equations.
+  \end{itemize}
 \end{remark}
 \subsection{Scaling Property}
 If it is homogeneous, then we have a scaling property of solutions.
 \begin{proposition}
-  If $g(x)$ is a solution of \cref{generalEquidimensional} with $f(x) = 0$, then so is $y = g(\alpha x)$ where $\alpha$ is a constant.
+  If $g(x)$ is a solution of \cref{generalEquidimensional} with $f(x) = 0$ (i.e. it is homogeneous), then so is $y = g(\alpha x)$ where $\alpha$ is a constant.
 \end{proposition}
 \begin{proof}
+  Setting $y(x) = g(\alpha x)$, we have:
   \begin{align*}
-    \deriv{}{x}(g(\alpha x)) &= \alpha g'(\alpha x) \\
+    \deriv{y}{x} = \deriv{}{x}(g(\alpha x)) &= \alpha g'(\alpha x) \\
     x \deriv{y}{x} &= (\alpha x)g'(\alpha x) \\
     x^2 \deriv[2]{y}{x} &= (\alpha x)^2 g''(\alpha x)
   \end{align*}
   Substituting back into \cref{generalEquidimensional} yields:
   \begin{align*}
     ax^2 \deriv[2]{y}{x} + bx \deriv{y}{x} + cy &= a (\alpha x)^2 g''(\alpha x) + b(\alpha x)g'(\alpha x) + cg(\alpha x) \\
-                                                &= au^2 g''(u) + bu g'(u) + cg(u) \\
+                                                &= au^2 g''(u) + bu g'(u) + cg(u) \text{\quad($u = \alpha x$)}\\
                                                 &=0 \text{ as $g(u)$ is a solution}
   \end{align*}
-  so $g(\alpha x)$ is also a solution.
+  so $y(x) = g(\alpha x)$ is also a solution.
 \end{proof}
 
 \subsection{Solving By Eigenfunctions}
@@ -490,17 +494,18 @@ Since this is true for all $x$ we must have:
 \[
   ak^2 + k(b - a) + c = 0
 \]
-In general this will have two roots $k_1, k_2$.
-If $k_1 \neq k_2$ then the general complimentary function is:
+In general this will have two roots $k_1$ and $k_2$.
+If $k_1 \neq k_2$, then the general complimentary function is:
 \[
   y_c = Ax^{k_1} + Bx^{k_2}
 \]
 with $A, B$ constants.
-\subsection{Solving By Substitution}
-Substitute $z = \ln x$, so:
+\subsection{Solving By Substitution} \label{equidimensionalSub}
+If we substitute $z = \ln x$, we obtain:
 \[
   \deriv{y}{z} = \deriv{x}{z} \deriv{y}{x} = e^{z} \deriv{y}{x} = x \deriv{y}{x}
 \]
+and:
 \begin{align*}
   \deriv[2]{y}{z} &= e^{z} \deriv{y}{x} + e^{2z} \deriv[2]{y}{x} \\
                   &= \deriv{y}{z} + x^2 \deriv[2]{y}{x}
@@ -523,10 +528,9 @@ In the non-degenerate case we have:
 \end{align*}
 We also know from \cref{detuningExample} that in the degenerate case we have:
 \begin{align*}
-  y_c &= Ae^{kz} + Bze^{kz} \\
-      &= Ax^{k} + B(\ln x)x^{k}
+  y_c &= (A + Bz)e^{kz} \\
+      &= (A + B(\ln x))x^{k}
 \end{align*}
-
 \section{Inhomogeneous (Forced) 2nd Order ODEs}
 This section covers methods to find particular integrals.
 \subsection{Constant Coefficients}
@@ -557,6 +561,7 @@ Since it is a linear ODE, we can also superpose terms to try and find a particul
   \]
 
   Try a particular integral $y_p = \underbrace{Ax + B}_{\text{for }2x} + \underbrace{Ce^{4x}}_{\text{for }e^{4x}}$.
+  We then have:
   \begin{align*}
     y_p' &= A + 4Ce^{4x} \\
     y_p'' &= 16Ce^{4x}
@@ -570,11 +575,11 @@ Since it is a linear ODE, we can also superpose terms to try and find a particul
   \[
     y_p = \frac{1}{3}x + \frac{5}{18} + \frac{1}{2}e^{4x}
   \]
-  The complimentary function is:
+  The most general complimentary function is:
   \[
     y_c = \alpha e^{2x} + \beta e^{3x}
   \]
-  Therefore, the general solution is:
+  and so the general solution is:
   \[
     y = \alpha e^{2x} + \beta e^{3x} + \frac{1}{2}e^{4x} + \frac{1}{3}x + \frac{5}{18}
   \]
@@ -655,16 +660,16 @@ We know that the general complimentary function is:
 \]
 provided we are in the non-degenerate case ($k_1 \neq k_2$).
 
-If $f(x) \propto x^{m}$, then we should try a particular integral of the form $Cx^{m}$  for $m \neq k_1$ and $m \neq k_2$.
-In the resonant case, $f(x) \propto x^{k_1} \text{ or }x^{k_2}$, then the particular integral is:
+In the non-resonant case, if $f(x) \propto x^{m}$, then we should try a particular integral of the form $Cx^{m}$ for $m \neq k_1$ and $m \neq k_2$.
+In the resonant case, i.e. $f(x) \propto x^{k_1} \text{ or }x^{k_2}$, then the particular integral is:
 \[
   y_p \propto (\ln x) x^{k_1}
 \]
-This follows from transforming by $z = \ln x$.
-The particular integral is $y_p = ze^{k_1 z}$ in the case of constant coefficients.
-This is then $(\ln x)x^{k_1}$ after substituting back in with $x$.
+This follows from our earlier transformation by $z = \ln x$ in \cref{equidimensionalSub}.
+From we know that for the degenerate with constant coefficients the particular integral is $y_p = ze^{k_1 z}$.
+This then becomes $y_p = (\ln x)x^{k_1}$ after substituting back in with $x$.
 \begin{remark}[Note]
-  If the homogeneous equation is degenerate $(k_1 = k_2)$, we may need to try:
+  If the homogeneous equation is also degenerate (i.e. $k_1 = k_2$), we may need to try:
   \[
     y_p = (\ln x)^2 x^{k_1}
   \]
@@ -768,7 +773,7 @@ Note that changing the lower limit/including an integration constant is unnecess
            &= -\frac{1}{4}\cos2x \left[x - \frac{1}{2}\sin2x\cos2x\right] - \frac{1}{16}\sin2x [2\cos^2 2x - 1] \\
            &= -\frac{1}{4}x\cos2x + \underbrace{\frac{1}{16}\sin2x}_{\text{C.F.}}
   \end{align*}
-  Since $\sin2x$ is a complimentary function, it can be removed, thus $y_p = -\frac{1}{4}x\cos 2x$ which is $x \times (\text{A complimentary function})$, as expected.
+  Since $\sin2x$ is a complimentary function, it can be removed, thus $y_p = -\frac{1}{4}x\cos 2x$ which is $x \times (\text{Non-resonant P.I.})$, as expected.
 \end{example}
 \section{Forced ODEs -- Transients and Damping}
 \label{forcedODEs}
@@ -810,9 +815,10 @@ This has constant coefficients so we have characteristic equation:
       \lambda_1, \lambda_2 = -\kappa \pm i \sqrt{1 - \kappa^2}
     \]
     So the general solution is:
-    \[
-      y(\tau) = e^{-\kappa \tau}\left[A\sin\left(\tau\sqrt{1-\kappa^2}\right) + B\cos\left(\tau\sqrt{1 - \kappa^2}\right)\right]
-    \]
+    \begin{align*}
+      y(\tau) &= e^{-\kappa \tau}\left[A\sin\left(\tau\sqrt{1-\kappa^2}\right) + B\cos\left(\tau\sqrt{1 - \kappa^2}\right)\right] \\
+      \implies y(t) &= e^{-\kappa \omega_0 t}\left[A\sin\left(t \omega_0\sqrt{1-\kappa^2}\right) + B\cos\left(t \omega_0\sqrt{1 - \kappa^2}\right)\right] \\
+    \end{align*}
     where $A, B$ are constants.
     \begin{center}
     \begin{tikzpicture}
@@ -830,7 +836,7 @@ This has constant coefficients so we have characteristic equation:
     \end{center}
     The oscillations are at $\omega_{\text{free}} = \omega_0\sqrt{1 -\kappa^2}$.
     Note that as $\kappa \to 0$, $\omega_{\text{free}} \to \omega_0$.
-    This makes sense as when $\kappa = 0$, there is no damping so we expect it to oscillate at the natural frequency $\omega_0$.
+    This makes sense as when $\kappa = 0$ there is no damping so we expect it to oscillate at the natural frequency $\omega_0$.
     The period of the oscillations is:
     \[
       T=\frac{2\pi}{\omega_{\text{free}}} = \frac{2\pi}{\omega_0\sqrt{1 - \kappa^2}}
@@ -880,6 +886,8 @@ This has constant coefficients so we have characteristic equation:
       \node at (1.2, -1) {$Be^{-|\lambda_2| \tau}$};
       \node at (4.5, 0.8) {$y(\tau)$};
 
+      \node at (7.5, 2.5) {$A > 0,\ B < 0$};
+
       \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{\aconst * exp(\lone*\x)});
       \draw[gray!70, dashed, domain=0:10, smooth, samples=100] plot (\x,{\bconst * exp(\ltwo*\x)});
       \draw[thick, domain=0:10, smooth, samples=100] plot (\x,{\aconst * exp(\lone*\x) + \bconst * exp(\ltwo * \x)});
@@ -892,7 +900,7 @@ This has constant coefficients so we have characteristic equation:
   In all three cases, the free/unforced response decays eventually towards 0.
 \end{remark}
 \subsection{Forced Response}
-Initially, the solution will be similar to just C.F. + P.I, this is the \textit{transient response}.
+If we add a forcing term, initially the solution will be similar to C.F. + P.I, this is the \textit{transient response}.
 But as time progresses, the system settles down to a specific particular integral, the \textit{steady state response}, for any choice of initial conditions.
 \begin{example}
   Consider the ODE.
@@ -919,7 +927,7 @@ But as time progresses, the system settles down to a specific particular integra
   \]
   We can then eliminate $C$:
   \[
-    -\frac{D(\omega^{2}_{0} - \omega^2)^2}{\mu \omega} = 1 + D\mu\omega \implies D=\frac{-\mu\omega}{(\omega^{2}_{0}-\omega^2)^2 + \mu^2\omega^2}
+    -\frac{D(\omega^{2}_{0} - \omega^2)^2}{\mu \omega} = 1 + D\mu\omega \implies D = -\frac{\mu\omega}{(\omega^{2}_{0}-\omega^2)^2 + \mu^2\omega^2}
   \]
   and therefore:
   \[
@@ -932,6 +940,8 @@ But as time progresses, the system settles down to a specific particular integra
   \[
     y_p(t) = \frac{F_0/m}{(\omega^{2}_{0} - \omega^2)^2 +\mu^2\omega^2}[(\omega^{2}_{0} - \omega^2)\sin\omega t - \mu \omega \cos \omega t]
   \]
+  Notice how the amplitude of $y_p$ \textbf{does not} depend on time.
+
   If we then plot $y(t) = y_c + y_p$ together with $y_c$ and $y_p$, we see that the solution is originally influenced by both $y_c$ and $y_p$.
   This is the \textit{transient response}.
   Then as $t$ increases, $y_c$ decays so the solution approaches $y_p$.
@@ -988,7 +998,7 @@ Consider a system that experiences a sudden force between time $t = T - \varepsi
   \draw[thick, domain=2:5, smooth, samples=100] plot (\x,{2.8*exp(-(\x - 3.5)^2) - 0.3});
 \end{tikzpicture}
 \end{center}
-For example, when modelling striking a mass on a spring or a car going over a kerb.
+This kind of force could occur when, for example, modelling striking a mass on a spring or a car going over a kerb.
 \begin{example}
   \label{impulseExample}
   Recall from \cref{forcedODEs} the ODE that models a damped forced oscillator:
@@ -1001,11 +1011,11 @@ For example, when modelling striking a mass on a spring or a car going over a ke
   \[
     \lim_{\varepsilon \to 0^{+}} \left(m \eval{\dot{y}}{T - \varepsilon}{T + \varepsilon} + \underbrace{b \eval{y}{T - \varepsilon}{T+\varepsilon}}_{0 \text{ if $y$ continuous}} + \underbrace{k \int_{T-\varepsilon}^{T+\varepsilon} y \d{t}}_{0 \text{ if $y$ finite}}\right) = \underbrace{\lim_{\varepsilon \to 0^{+}} \int_{T-\varepsilon}^{T+\varepsilon} F(t) \d{t}}_{I\text{, Impulse}}
   \]
-  We see that, if $y$ is finite and continuous, as $\varepsilon \to 0^{+}$, the only term that survives is the first term:
+  We see that, if $y$ is finite and continuous, as $\varepsilon \to 0^{+}$, the only term on the left hand side that does not vanish is the first term:
   \[
     \lim_{\varepsilon \to 0^{+}} \left(m \eval{\dot{y}}{T-\varepsilon}{T+\varepsilon}\right) =I
   \]
-  So the velocity, $\dot{y}$, is discontinuous at $t = T$.
+  So if $I \neq 0$, the velocity $\dot{y}$ is discontinuous at $t = T$.
   As $\varepsilon \to 0$, only the impulse $I$ matters for subsequent motion.
 
   \begin{center}
@@ -1025,7 +1035,7 @@ For example, when modelling striking a mass on a spring or a car going over a ke
 The Dirac delta function formalises the concept of an impulsive force.
 Consider the family of functions $D(t; \varepsilon)$ such that:
 \[
-  \lim_{\varepsilon \to 0} D(t; \varepsilon) = 0\ \forall t\neq0 \text{ and } \int_{-\infty}^{\infty} D(t; \varepsilon) \d{t} = 1
+  \lim_{\varepsilon \to 0} D(t; \varepsilon) = 0\ \forall t \neq0 \text{ and } \int_{-\infty}^{\infty} D(t; \varepsilon) \d{t} = 1
 \]
 The impulsive force we considered earlier in \cref{impulseExample} is then:
 \[
@@ -1102,11 +1112,9 @@ So we then have:
 \]
 This is known as the \textit{jump condition}.
 \begin{remark}[Note]
-  The continuity of $y$ at $x = 0$ is required otherwise $y'$ is undefined at $x = 0$.
-  We would then have $y' \propto \delta(x)$ with $y''$ being even worse behaved so it would not be possible for it to be a solution to the DE.
+  The continuity of $y$ at $x = 0$ is required otherwise $y'$ would be like $y' \propto \delta(x)$ with $y''$ being even worse behaved and so it would not be possible for it to be a solution to the DE.
   (Further discussion on this later)
 \end{remark}
-In general, the highest-order term in the ODE ``addresses'' the delta function forcing as all the lower order terms must be finite (else we would run into the issues described above) so will vanish in the limit.
 \begin{example}
   Find $y(x)$ for $0 \leq x \leq \pi$, where:
   \[
@@ -1116,29 +1124,26 @@ In general, the highest-order term in the ODE ``addresses'' the delta function f
 
   For $0 \leq x < \frac{\pi}{2}$, $y'' - y= 0$ so:
   \[
-    y = \alpha e^{x} + \beta e^{-x}
+    y = A \cosh x + B \sinh x
   \]
-  Applying $y(0) = 0$ we see that $\alpha = - \beta$ thus $y = A \sinh x$ for some constant $A$.
+  Applying $y(0) = 0$ we see that $B = 0$ thus so $y = A \sinh x$ for some constant $A$.
 
-  For $\frac{\pi}{2} < x \leq \pi$, we have the same DE but a different boundary condition, $y(\pi) = 0$:
+  For $\frac{\pi}{2} < x \leq \pi$, we have the same DE but a different boundary condition, $y(\pi) = 0$.
+  In this case, noticing that $\sinh \pi$ and $\cosh \pi$ are not particularly nice to deal with, we can write the general form of $y'' - y = 0$ as:
   \[
-    \alpha e^{\pi} + \beta e^{-\pi} = 0 \implies \beta = - \alpha e^{2\pi}
+    y = C \cosh(x - \pi) + D \sinh(x - \pi)
   \]
-  Therefore:
-  \[
-    y = \alpha(e^{x} - e^{2\pi - x}) = -\alpha e^{\pi}(e^{\pi - x} - e^{-(\pi - x)}) = C\sinh(\pi - x)
-  \]
-  for some constant $C$.
+  and so $y(\pi) = 0 \implies C = 0$ so $y = D\sinh(x - \pi)$ for some constant $D$.
 
   For $y$ to be continuous at $\pi / 2$, we need to join the solutions at $x = \frac{\pi}{2}$.
   \[
-    A\sinh(\pi/2) = C\sinh(\pi/2) \implies A = C
+    A\sinh(\pi/2) = -D\sinh(\pi/2) \implies D = -A
   \]
 
   Now applying the jump condition:
   \begin{align*}
     \lim_{\varepsilon \to 0^{+}} \eval{y'}{\pi/2 - \varepsilon}{\pi/2 + \varepsilon} &= 3 \\
-    -A\cosh(\pi/2) - A\cosh(\pi/2) &= 3 \implies A  = C = -\frac{3}{2\cosh(\pi/2)}
+    -A\cosh(-\pi/2) - A\cosh(\pi/2) &= 3 \implies A = -\frac{3}{2\cosh(\pi/2)}
   \end{align*}
   So the final solution is:
   \[
@@ -1148,7 +1153,7 @@ In general, the highest-order term in the ODE ``addresses'' the delta function f
     \end{cases}
   \]
 
-  From the plot, we can see that $y$ is continuous at $\pi/2$ but $y'$ is not.
+  From the plot, we can see that $y$ is continuous at $\pi/2$ but $y'$ is not, as expected:
   \begin{center}
   \begin{tikzpicture}[scale=1.5]
     \draw[->] (0, 0) node[left] {0} -- (7, 0) node[right] {$t$};
@@ -1168,7 +1173,7 @@ In general, the highest-order term in the ODE ``addresses'' the delta function f
 \begin{definition}[Heaviside Step Function]
   The \textit{Heaviside} step function is defined by:
   \[
-    H(x) = \int_{-\infty}^{x} \delta(t) \d{r}
+    H(x) = \int_{-\infty}^{x} \delta(t) \d{t}
   \]
 \end{definition}
 From the properties of the Dirac delta, it follows that:
@@ -1237,7 +1242,7 @@ So $y'$ is also continuous at $x = 0$.
 
 If we evaluate the DE at $\varepsilon$ and $-\varepsilon$ and then take the difference:
 \[
-  \eval{y''}{-\varepsilon}{\varepsilon} + \eval{p(x)y'}{-\varepsilon}{\varepsilon} + \eval{q(x)y}{-\varepsilon}{\varepsilon} = \eval{H(x)}{-\varepsilon}{\varepsilon}
+  \eval{y''}{-\varepsilon}{\varepsilon} + \eval{p(x)y'}{-\varepsilon}{\varepsilon} + \eval{q(x)y}{-\varepsilon}{\varepsilon} = \eval{H(x)}{-\varepsilon}{\varepsilon} = 1
 \]
 Then, as $\varepsilon \to 0$, we get:
 \[
