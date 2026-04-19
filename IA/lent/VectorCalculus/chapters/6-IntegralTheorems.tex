@@ -40,7 +40,7 @@
     \draw[dashed] (2.02, 1.2) -- (2.02, 0) node[below, scale=0.8] {$x^{+}(y)$};
   \end{tikzpicture}
   \end{center}
-  We can then divide $C$ into a right hand part $C^{+}$, on which $x = x^{+}(y)$ for each $y$ in the range $y_{\text{min}} \leq y \leq y_{\text{max}}$ and left hand part $C^{-}$ on which $x = x^{-}(y)$.
+  We can then divide $C$ into a right hand part $C^{+}$, which is parametrised as $(x^{+}(y), y)$ for each $y$ in the range $y_{\text{min}} \leq y \leq y_{\text{max}}$ and left hand part $C^{-}$, which is parametrised as $(x^{-}(y), y)$.
   In the above diagram, $C^{+}$ goes from $P_2 \to P_1$ and $C^{-}$ goes from $P_1 \to P_2$.
 
   We can now evaluate the area integral of $\pderiv{Q}{x}$:
@@ -49,15 +49,15 @@
                                        &= \int_{y_{\text{min}}}^{y_{\text{max}}} [Q(x^{+}(y), y) - Q(x^{-}(y), y)] \d{y} \text{ using FTC} \\
                                        &= \int_{y_{\text{min}}}^{y_{\text{max}}} Q(x^{+}(y), y) \d{y} + \int_{y_{\text{max}}}^{y_{\text{min}}} Q(x^{-}(y), y) \d{y} \\
                                        &= \int_{C^{+}} Q(x, y) \d{y} + \int_{C^{-}} Q(x, y) \d{y} \\
-                                       &= \oint Q \d{y}
+                                       &= \oint_C Q \d{y}
   \end{align*}
   Similarly, for $\pderiv{P}{y}$:
   \begin{align*}
     \int_{A} \pderiv{P}{y} \d{y} \d{x} &= \int_{x_{\text{min}}}^{x_{\text{max}}} \left(\int_{y^{-}(x)}^{y^{+}(x)} \pderiv{P}{y} \d{y}\right) \d{x} \\
                                        &= \int_{x_{\text{min}}}^{x_{\text{max}}} [P(x, y^{+}(x)) - P(x, y^{-}(x))] \d{x} \text{ using FTC} \\
-                                       &= -\int_{x_{\text{max}}}^{x_{\text{min}}} P(x, y^{-}(x)) \d{x} - \int_{x_{\text{min}}}^{x_{\text{max}}} P(x, y^{+}(x)) \d{x} \\
-                                       &= -\int_{C^{+}} P(x, y) \d{x} - \int_{C^{-}} P(x, y) \d{x} \\
-                                       &= -\oint P \d{x}
+                                       &= -\int_{x_{\text{min}}}^{x_{\text{max}}} P(x, y^{-}(x)) \d{x} - \int_{x_{\text{max}}}^{x_{\text{min}}} P(x, y^{+}(x)) \d{x} \\
+                                       &= -\int_{C^{-}} P(x, y) \d{x} - \int_{C^{+}} P(x, y) \d{x} \\
+                                       &= -\oint_C P \d{x}
   \end{align*}
   So for simple shapes, we are done.
 
@@ -116,13 +116,13 @@
   We can split up $\int_{A} \pderiv{P}{y} \d{x} \d{y}$ using a similar technique and so the result follows for non-simple shapes too.
 \end{remark}
 \begin{example}[Area of an ellipse]
-  Let $A$ be the elliptical region $\frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1$ and let $P = -\frac{1}{2}y, Q = \frac{1}{2}x$.
-  $\pderiv{Q}{x} - \pderiv{P}{y} = 1$ and so:
+  Let $A$ be the elliptical region $\frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1$ and let $P = -\frac{1}{2}y,\ Q = \frac{1}{2}x$.
+  We see that $\pderiv{Q}{x} - \pderiv{P}{y} = 1$ and so:
   \[
     \int_{A} \left(\pderiv{Q}{x} - \pderiv{P}{y}\right) \d{x} \d{y} = \int_{A} 1 \d{x}\d{y} = \text{Area of A}
   \]
   By Greens theorem, this area integral will be the same as the line integral around the boundary ellipse $\partial A$.
-  We can parameterise $\partial A$ using $(a \cos t, b \sin t)$, $t \in [0, 2\pi)$ and so:
+  We can parameterise $\partial A$ using $(a \cos t, b \sin t)$ for $t \in [0, 2\pi)$ and so:
   \[
     \oint_{\partial A} (P \d{x} + Q \d{y}) = \int_{0}^{2\pi} \left(-\frac{1}{2}b \sin t (-a \sin t) + \frac{1}{2}a \cos t (b \cos t)\right) \d{t} = \pi ab
   \]
@@ -258,10 +258,10 @@ In the limit as these cross cuts approach each other, $\widetilde{A}$ becomes th
   \]
   where $C$ is traversed in the ``positive sense'' with regard to the normal on $S$.
 
-  That is, the flux of $\nabla \times \vec{F}$ through $\vec{S}$ is equal to the line integral of $\vec{F}$ over the boundary of $S$, $C = \partial S$.
+  That is, the flux of $\nabla \times \vec{F}$ through the surface $S$ is equal to the line integral of $\vec{F}$ over the boundary of $S$, $C = \partial S$.
 \end{theorem}
 \begin{remark}
-  Green's Theorem in the plane (\cref{greensTheorem}) is a special 2D case of Stoke's Theorem.
+  Green's Theorem in the plane (\cref{greensTheorem}) is a special 2D case of Stokes' Theorem.
 
   Suppose that $S$ is a flat surface in the plane $z = 0$ and that $\vec{F} = (P, Q, 0)$.
   We then see that $\nabla \times \vec{F} = (0, 0, \pderiv{Q}{x} - \pderiv{P}{y})$ and $\d{S} = (0, 0, 1)\d{x}\d{y}$ and so by Stokes' Theorem:
@@ -298,7 +298,7 @@ Equivalently, if I walk along $C$ with my feet on $C$ and my head in the directi
 \begin{proof}[Stokes' Theorem]
 \nonexaminable
   We can prove Stokes' Theorem from Green's Theorem (\cref{greensTheorem}).
-  We can parameterise $S$ using $(u, v) \in D \subset R^2$, then by the chain rule:
+  We can parameterise $S$ using $(u, v) \in D \subset \R^2$, then by the chain rule:
   \[
     \d{\vec{x}} = \pderiv{\vec{x}}{u} \d{u} + \pderiv{\vec{x}}{v} \d{v}
   \]
@@ -342,6 +342,8 @@ Equivalently, if I walk along $C$ with my feet on $C$ and my head in the directi
     \rho^4 \\
     \end{pmatrix}
   \]
+  with $\rho \in [0, 1]$ and $\phi \in [0, 2\pi]$.
+
   To figure out what this looks like, since the surface is radially symmetric, consider the curve $z = x^4,\ x \geq 0$ in the $(x, z)$-plane.
   The surface is then just the surface of revolution of this.
 
@@ -388,12 +390,20 @@ Equivalently, if I walk along $C$ with my feet on $C$ and my head in the directi
   We can parameterise $C$ as $x = \cos \phi$, $y = \sin \phi$, $z = 1$ where $\phi$ decreases from $2\pi$ to $0$.
   Therefore, the line integral over $C$ is:
   \[
-    \oint_{C} \vec{F} \cdot \d{\vec{x}} = \int_{2\pi}^{0} x^2 y \deriv{x}{\phi} \d{\phi} = - \int_{2\pi}^{0} \cos^2 \phi \sin^2 \phi \d{\phi} = \frac{\pi}{4}
+    \oint_{C} \vec{F} \cdot \d{\vec{x}} = \int_{2\pi}^{0} \begin{pmatrix}
+    x^2 y \\
+    0 \\
+    0 \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+    - \sin \phi \\
+    \cos \phi \\
+    0 \\
+    \end{pmatrix} \d{\phi} = \int_{0}^{2\pi} \cos^2 \phi \sin^2 \phi \d{\phi} = \frac{\pi}{4}
   \]
   So they agree, as expected.
 \end{example}
 \subsection{Closed Surfaces}
-Although we stated that Stoke's Theorem is for open surfaces, it also applies to closed surfaces $S$.
+Although we stated that Stokes' Theorem is for open surfaces, it also applies to closed surfaces $S$.
 However, for a closed surface $S$, $\partial S = \emptyset$ and so the line integral over $\partial S$ is 0.
 This means that:
 \[
@@ -540,7 +550,7 @@ So the line integral over $C_2$ is:
 \]
 On $C_1$, we need the direction of increasing $\phi$ so we parameterise $C_1$ as:
 \[
-  \vec{x}(t) = (\cos t, \frac{1}{2} \sin t, 0)
+  \vec{x}(t) = \left(\cos t, \frac{1}{2} \sin t, 0\right)
 \]
 where $t$ increases from $0$ to $2\pi$.
 On $C_1$, $\vec{F}(\vec{x}(t)) = (\frac{1}{2} \sin t, 0, \cos^2 t + \frac{1}{2} \sin^2 t)$.
@@ -603,10 +613,10 @@ as expected.
   \]
   Therefore, $\vec{e}_1 \cdot \d{\vec{S}} = \pm \d{y} \d{z}$.
   Since we require the outward normal, we must take the $+$ sign.
-  Carrying out a similar process on $S^{-}$, we have $\vec{e}_1 \cdot \d{S} = - \d{y}\d{z}$.
+  Carrying out a similar process on $S^{-}$, we have $\vec{e}_1 \cdot \d{\vec{S}} = - \d{y}\d{z}$.
   Thus:
   \[
-    \int_{V} \pderiv{F_1}{x} \d{V} = \int_{S+} F_1 \vec{e}_1 \cdot \d{\vec{S}} \d{S} + \int_{S-} F_1 \vec{e}_1 \cdot \d{\vec{S}} \d{S} = \int_{S} F_1 \vec{e}_1 \cdot \d{\vec{S}}
+    \int_{V} \pderiv{F_1}{x} \d{V} = \int_{S+} F_1 \vec{e}_1 \cdot \d{\vec{S}} + \int_{S-} F_1 \vec{e}_1 \cdot \d{\vec{S}} = \int_{S} F_1 \vec{e}_1 \cdot \d{\vec{S}}
   \]
   Similarly for the other components of $\vec{F}$, we have:
   \[
@@ -623,7 +633,7 @@ as expected.
   For more complicated shapes, we can just use the same shape splitting technique as in the proof for Green's Theorem in the plane.
 \end{proof}
 \begin{example}
-  What is the flux of the vector field $\vec{F} = (y, x, z^6)$ through the surface of the sphere $V_r = \{\vec{x} : |\vec{x}| < R\}$?
+  What is the flux of the vector field $\vec{F} = (y, x, z^6)$ through the surface of the sphere $V_r = \{\vec{x} \in \R^3: |\vec{x}| < R\}$?
 
   By the divergence theorem, it is $\int_{V_R} 6z^{5} \d{V}$ which is $0$ since we are integrating a function which is odd in $z$ over a sphere.
 
@@ -666,7 +676,6 @@ as expected.
 
   For $m, n \in \N_0$, we have:
   \begin{align*}
-    \int_{0}^{2\pi} \sin^{2m + 1} \phi \d{\phi} = \int_{0}^{2\pi} \cos^{2m + 1} \phi \d{\phi} &= 0 \\
     \int_{0}^{2\pi} \sin^{2m + 1} \cos^n \phi \d{\phi} = \int_{0}^{2\pi} \sin^{m} \phi \cos^{2n + 1} \phi \d{\phi} &= 0 \\
     \int_{0}^{\pi} \sin^{m} \theta \cos^{2n + 1}\theta \d{\theta} &= 0
   \end{align*}
@@ -916,10 +925,10 @@ where $\eta$ is a differential form, $\d{\eta}$ its exterior derivative and $\Om
 \section{Scalar Potentials for Irrotational Vector Fields}
 \label{scalarPotentials}
 In \cref{conservativeFields}, we stated that in a simply connected domain, an irrotational vector field is conservative.
-That is, if $\nabla \cdot \vec{F} = \vec{0}$ everywhere in a simply connected domain $\mathscr{D}$, then there exists a single valued scalar potential $f$ such that $\vec{F} = \nabla f$.
+That is, if $\nabla \times \vec{F} = \vec{0}$ everywhere in a simply connected domain $\mathscr{D}$, then there exists a single valued scalar potential $f$ such that $\vec{F} = \nabla f$.
 We now have the tools to prove this assertion.
 \begin{proof}
-  We first need to show that if $\oint \vec{F} \cdot \d{\vec{x}} = 0$ for all closed curves $C$ then $\int_{\vec{a}}^{\vec{b}} \vec{F} \cdot  \d{\vec{x}}$ is path independent.
+  We first need to show that if $\oint_C \vec{F} \cdot \d{\vec{x}} = 0$ for all closed curves $C$ then $\int_{\vec{a}}^{\vec{b}} \vec{F} \cdot  \d{\vec{x}}$ is path independent.
   Consider two any two possible paths $C_1$, $C_2$ from $\vec{a}$ to $\vec{b}$ and let $C = C_1 - C_2$.
   Since $C$ is a closed curve, we have:
   \[
@@ -929,7 +938,7 @@ We now have the tools to prove this assertion.
 
   We can now prove the main result.
   Given an irrotational vector field $\vec{F}$, and an arbitrary closed curve $C$, let $S$ be a surface that spans $C$, that is, $C = \partial S$.
-  By Stokes' Theorem $\int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}} = \oint \vec{F} \cdot \d{\vec{x}} = 0$, and so by the above, the line integral of $\vec{F}$ is path independent.
+  By Stokes' Theorem $\oint_{C} \vec{F} \cdot \d{\vec{x}} = \int_{S} \nabla \times \vec{F} \cdot \d{\vec{S}} = 0$, and so by the above, the line integral of $\vec{F}$ is path independent.
 
   Since the line integral is path independent, we can define the single valued the scalar function:
   \[
@@ -982,7 +991,7 @@ The above two coordinate independent forms can be used to derive these identitie
   \]
 \end{theorem}
 \begin{proof}
-  Let $\vec{F} = \phi \nabla \psi$ using an identity from \cref{vectorIdentities}, we have:
+  Let $\vec{F} = \phi \nabla \psi$, then using an identity from \cref{vectorIdentities}, we have:
   \begin{align*}
     \nabla \cdot \vec{F} = \nabla \cdot (\phi \nabla \psi) &= \phi (\nabla \cdot (\nabla \psi)) + \nabla \psi \cdot \nabla \phi \\
                                                            &= \phi \nabla^2 \psi + \nabla \phi \cdot \nabla \psi
@@ -1030,7 +1039,7 @@ We first need a lemma about dot products:
   This means that $(\vec{b} - \vec{c}) \perp \vec{a}$ for all $\vec{a}$, but the only vector orthogonal to every vector is $\vec{0}$ and so $\vec{b} = \vec{c}$.
 \end{proof}
 \begin{proposition}
-  If $f$ is a scalar field then:
+  If $f$ is a scalar field, then:
   \label{gradVolumeIdentity}
   \[
     \int_{V} \nabla f \d{V} = \int_{\partial V} f \d{\vec{S}}
@@ -1077,6 +1086,8 @@ We first need a lemma about dot products:
   \textbf{Using the Identity}\par
   To confirm the identity, we can calculate $\int_{\partial V}  f \d{\vec{S}}$ by considering six separate surfaces, one for each side of the cube.
 
+  On the three sides with $x = 0$, $y = 0$, and $z = 0$ respectively, $f = 0$ and so on these sides $\int f \d{\vec{S}} = \vec{0}$.
+
   On the top side, $z = 2$, $f = 2xy$, $\vec{n} = (0, 0, 1)$, and $\d{S} = \d{x}\d{y}$ so:
   \[
     \int_{\text{top}} f \d{\vec{S}} = \int_{0}^{2} \int_{0}^{2} 2xy \begin{pmatrix}
@@ -1089,8 +1100,7 @@ We first need a lemma about dot products:
     8 \\
     \end{pmatrix}
   \]
-  On the bottom side $z = 0$, so $f = 0$, thus $\int_{\text{bottom}} f \d{\vec{S}} = \vec{0}$.
-  Two of the other sides yield $\vec{0}$ and other other two yield $(8, 0, 0)$ and $(0, 8, 0)$ so the result is verified.
+  and similarly the other two sides yield $(8, 0, 0)$ and $(0, 8, 0)$ so the result is verified.
 \end{example}
 \section{Maxwell's Equations and Continuity Equations}
 \subsection{Maxwell's Equations}
@@ -1126,7 +1136,7 @@ Using \cref{maxwell2}, the differential form of Gauss's law for magnetism, and t
   \int_{\partial V} \vec{B} \cdot \d{\vec{S}} = \int_{V} \nabla \cdot \vec{B} \d{V} = 0
 \]
 This is the integral form of \textit{Gauss's Law for magnetism} and tells us that the net magnetic flux through a closed surface is always zero.
-This means that a total magnetic charge cannot build up at a point in space, so we cannot have a north pole without an accompanying south pole, that is we cannot have \textit{magnetic monopoles}.
+This means that a total magnetic charge cannot build up at a point in space, so we cannot have a north pole without an accompanying south pole, i.e. we cannot have \textit{magnetic monopoles}.
 \subsubsection{Faraday's Law of Induction}
 \nonexaminable
 Suppose $S$ is a fixed open surface.

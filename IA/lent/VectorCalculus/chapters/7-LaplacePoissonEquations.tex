@@ -158,7 +158,7 @@ If such as solution exists, then we have:
 \begin{align*}
   \int_{\mathscr{D}} f \d{V} &= \int_{\mathscr{D}} \nabla \cdot (\nabla \phi) \d{V} \\
                              &= \int_{\partial \mathscr{D}} \nabla \phi \cdot \d{\vec{S}} \text{ by divergence theorem (\cref{divergenceTheorem})}\\
-                             &= \int_{\partial S} g \d{S} \text{ using the boundary condition}
+                             &= \int_{\partial \mathscr{D}} g \d{S} \text{ using the boundary condition}
 \end{align*}
 Therefore, if $\int_{\mathscr{D}} f \d{V} \neq \int_{\partial \mathscr{D}} g \d{S}$, the problem is ill-posed and so there is no solution for $\phi$.
 This means for von Neumann boundary conditions, we cannot just specify any function $g$ whereas for Dirichlet boundary conditions, there are no such constraints.
@@ -283,7 +283,7 @@ If this is the case, then we can add limits to the indefinite integral:
 We can also apply a similar method if we instead have a radial cylindrical symmetry $f = f(\rho)$.
 We again assume that $\phi$ is also radially symmetric and so $\phi = \phi(\rho)$ and $\nabla \phi = \phi'(\rho) \vec{e}_\rho$.
 \begin{remark}[Note]
-  To show that $\nabla f(\rho) = f'(\rho) \vec{e}_\rho$, we can use grad in cylindrical polar coordinates from \cref{cylindricalOperators}.
+  To show that $\nabla \phi(\rho) = \phi'(\rho) \vec{e}_\rho$, we can use grad in cylindrical polar coordinates from \cref{cylindricalOperators}.
 \end{remark}
 In this case, we then instead consider the total source strength within a cylinder $\mathscr{C}_R$ of radius $R$ and height 1.
 \[
@@ -293,10 +293,16 @@ Similarly to in the spherical case:
 \begin{align*}
   F_R &= \int_{\mathscr{C}_R} \nabla^2 \phi \d{V} \\
       &= \int_{\partial \mathscr{C}_R} \nabla \phi \cdot \d{\vec{S}} \\
-      &= R\int_{\partial \mathscr{C}_R} \phi'(\rho) \vec{e}_\rho \cdot \vec{e}_\rho \d{x} \text{ as $\vec{n} = R \vec{e}_\rho$} \\
-      &= R\phi'(R) \int_{\partial \mathscr{C}_R} \d{S} \\
-      &= 2\pi R \phi'(R) \text{ as surface area of $\mathscr{C}_R$ is $2\pi R$}
+      &= \int_{\partial \mathscr{C}_R} \phi'(\rho)\vec{e}_\rho \cdot \d{\vec{S}}
 \end{align*}
+Since the divergence theorem (\cref{divergenceTheorem}) requires a closed surface, we need to consider the flux integrals over both the curved part and circular caps of $\partial \mathscr{C}_R$.
+For the curved part:
+\begin{align*}
+  \int_{\text{curved}} \phi'(\rho)\vec{e}_\rho \cdot \d{\vec{S}} &= R\int_{\text{curved}} \phi'(\rho) \vec{e}_\rho \cdot \vec{e}_\rho \d{S} \text{ as $\vec{n} = R \vec{e}_\rho$} \\
+                                                                 &= R\phi'(R) \int_{\text{curved}} \d{S} \\
+                                                                 &= 2\pi R \phi'(R) \text{ as curved surface area is $2\pi R$}
+\end{align*}
+The flux integrals through the circular caps of $\partial \mathscr{C}_R$ disappear as $\vec{n} = \pm \vec{e}_z$ and $\vec{e}_\rho \cdot \vec{e}_z = 0$.
 Therefore:
 \[
   2\pi R \phi'(R) = 2\pi \int_{0}^{R} \rho f(\rho) \d{\rho} \implies \phi'(R) = \frac{1}{R} \int_{0}^{R} \rho f(\rho) \d{\rho}
