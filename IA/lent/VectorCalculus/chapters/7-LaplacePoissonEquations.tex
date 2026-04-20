@@ -423,7 +423,7 @@ We thus obtain:
 \begin{equation}
   \phi(r) = -\frac{F}{4\pi r}\ \forall r > 0 \label{pointSourceField}
 \end{equation}
-This is the field produced by a \textit{point source} of strength $F$ at the origin.
+This is the scalar potential for a \textit{point source} of strength $F$ at the origin.
 \begin{remark}[Point Sources]
   \nonexaminable
   Instead of taking the limit as $\varepsilon \to 0$ as we did above, we can also consider a point source of strength $F$ at the origin as a source field $f(\vec{x}) = F\delta(\vec{x})$ where $\delta(\vec{x}) \equiv \delta(x)\delta(y)\delta(y)$ and $\delta(x)$ is the \textit{Dirac delta function} introduced in IA Differential Equations.
@@ -598,11 +598,10 @@ This is the average of $\phi$ over the surface of the sphere.
   If $V$ achieves its maximum on $\partial V$ then we are done, so suppose that $\phi$ achieves its maximum at some interior point $\vec{a}$.
   So by definition of a maximum over $V$, $\phi(\vec{x}) \leq \phi(\vec{a})\ \forall \vec{x} \in V$.
 
-  Now consider $\partial B_r (\vec{a})$.
-  Suppose $\exists \vec{x} \in \partial B_r(\vec{a})$ such that $\phi(\vec{x}) < \phi(\vec{a})$, then the average value over $\partial B_r(\vec{a})$, that is, $\overline{\phi}_r(\vec{a})$, would also be strictly less than $\phi(\vec{a})$ which contradicts the result from \cref{sphereAverage} that $\overline{\phi}_r(\vec{a}) = \phi(\vec{a})$.
-  Hence $\phi(\vec{x}) = \phi(\vec{a})\ \forall \vec{x} \in \partial B_r(\vec{a})$.
+  Suppose $\exists \vec{x} \in B_r(\vec{a})$ such that $\phi(\vec{x}) < \phi(\vec{a})$, then the average value over $B_r(\vec{a})$, that is, $\overline{\phi}_r(\vec{a})$, would also be strictly less than $\phi(\vec{a})$ which contradicts the result from \cref{sphereAverage} that $\overline{\phi}_r(\vec{a}) = \phi(\vec{a})$.
+  Hence $\phi(\vec{x}) = \phi(\vec{a})\ \forall \vec{x} \in B_r(\vec{a})$.
 
-  We now increase $r$ until it is large enough for $\partial B_r(\vec{a})$ to intersect the boundary $\partial V$ at some point $\vec{b}$.
+  We now increase $r$ until it is large enough for $B_r(\vec{a})$ to intersect the boundary $\partial V$ at some point $\vec{b}$.
   We then have that $\phi(\vec{b}) = \phi(\vec{a})$ so $\phi$ also obtains its maximum over $V$ at $\vec{b} \in \partial V$.
 \end{proof}
 \begin{remark}
