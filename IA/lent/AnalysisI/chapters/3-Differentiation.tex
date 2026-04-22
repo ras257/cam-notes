@@ -500,7 +500,7 @@ Now that we have introduced differentiation and some associated theorems, we can
   Iterating this, we obtain the notion of an \textit{$n$-times differentiable} function, whose \textit{$n$-th derivative} is denoted $f^{(n)}$.
 \end{definition}
 \begin{definition}[Continiously Differentiable]
-  We say that $f$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous. \label{ctsDifferentiable}
+  We say that $f: X \subseteq \C \to \C$ is \textit{$n$-times} continuously differentiable and write $f \in C^{n}(X)$ if $f$ is $n$-times differentiable and $f^{(n)}: X \to \R$ is continuous. \label{ctsDifferentiable}
 \end{definition}
 \begin{remark}
   Recall from \cref{diffCont} that if $f$ is differentiable at $a$, then it is also continuous at $a$.
@@ -538,14 +538,14 @@ We would like to know how good of an approximation we can make using this under 
   \]
 \end{definition}
 \begin{definition}[Taylor Remainder]
-  For $f: X \to \C$ that are $n$-times differentiable, $x_0 \in X$, and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as: \label{taylorRemainder}
+  For $f: X \to \C$ that are $(n - 1)$-times differentiable, $x_0 \in X$, and $h$ such that $x_0 + h \in X$, we define the \textit{Taylor remainder} $R_{n, f, x_0}(h)$ as: \label{taylorRemainder}
   \begin{align*}
     R_{n, f, x_0}(h) &= f(x_0 + h) - T_{n - 1, f, x_0}(x_0 + h) \\
                      &= f(x_0 + h) - \sum_{k = 0}^{n - 1} \frac{f^{(k)}(x_0)}{k!}h^{k}
   \end{align*}
 \end{definition}
 \begin{theorem}[Taylor's Theorem -- Lagrange Remainder]
-  If $f: [a, a + h]$ is continuous and $n$ times differentiable on $(a, a + h)$ with its first $n - 1$ derivatives also continuous, then $\exists \theta \in (0, 1)$ such that:
+  If $f: X \to \R$ is continuous on $[a, a + h] \subset X$ and $n$ times differentiable on $(a, a + h)$, then $\exists \theta \in (0, 1)$ such that:
   \label{lagrangeRemainder}
   \[
     R_{n, f, a}(h) = \frac{h^{n}}{n!}f^{(n)}(a + \theta h)
@@ -558,16 +558,16 @@ We would like to know how good of an approximation we can make using this under 
 \begin{remark}[Remarks]
   \begin{itemize}
     \item All of the requirements above are satisfied if $f \in C^{n}((c, d))$ and $[a, a + h] \subset (c, d)$.
-      This is usually true when we are using Taylor's theorem and the above statement requires as little as possible about the function.
+      This is usually true when we are using Taylor's theorem, however the above statement requires as little as possible about the function.
     \item For $n = 1$ this reduces to the mean value theorem (\cref{MVT}).
     \item We do not need $h > 0$, as if $h = -t < 0$ and $f$ has $n - 1$ derivatives that are continuous on $[a - t, a]$ and is $n$ times differentiable on $(a - t, a)$, then we can apply the above to $g(x) = f(-x)$:
       \begin{align*}
         f(a + h) = g(-a + t) &= \sum_{n=0}^{n - 1} \frac{g^{(k)}(-a)}{k!} t^{k} + \frac{t^{n}}{n!}g^{(n)}(-a + \theta t) \\
                              &= \sum_{n=0}^{n - 1} \frac{(-1)^{k}f^{(k)}(a)}{k!} t^{k} + \frac{(-1)^{n}t^{n}}{n!}f^{(n)}(a - \theta t) \\
                              &= \sum_{n=0}^{n - 1} \frac{f^{(k)}(a)}{k!} (-t)^{k} + \frac{(-t)^{n}}{n!}f^{(n)}(a - \theta t) \\
-                             &= \sum_{n=0}^{n - 1} \frac{f^{(k)}(a)}{k!} (h)^{k} + \frac{(-t)^{n}}{n!}f^{(n)}(a + \theta h)
+                             &= \sum_{n=0}^{n - 1} \frac{f^{(k)}(a)}{k!} h^{k} + \frac{h^{n}}{n!}f^{(n)}(a + \theta h)
       \end{align*}
-    \item If $f \in C^{n}((c, d))$, with $[a, a + h] \subset (c, d)$, then $f^{(n)}$ is continuous and hence bounded on $[a, a + h]$ and so $\exists M_n$ s.t. $M_n = \sup\limits_{x \in [a, a + h]} |f^{(n)}(x)|$.
+    \item If $f \in C^{n}((c, d))$, with $[a, a + h] \subset (c, d)$, then $f^{(n)}$ is also continuous and hence by EVT (\cref{EVT}) is bounded on $[a, a + h]$ and so $\exists M_n$ s.t. $M_n = \sup\limits_{x \in [a, a + h]} |f^{(n)}(x)|$.
 
       The Taylor remainder then satisfies:
       \[
@@ -580,6 +580,7 @@ We would like to know how good of an approximation we can make using this under 
 \begin{proof}[1 -- Similarly to MVT (\cref{MVT})]\par
   WLOG take $a = 0$, as if $a \neq 0$, then we can just apply the theorem to $g(x) = f(x + a)$.
 
+  Since $f$ is $n$ times differentiable on $(a, a + h)$, it first $n - 1$ derivatives must also be continuous in this interval.
   Similarly to the proof of the MVT, we would like to construct a function that we can apply Rolle's Theorem (\cref{rollesTheorem}) and so we define:
   \[
     \phi: [0, h] \to \R,\ t \mapsto f(t) - T_{n - 1, f, 0}(t) - \frac{t^{n}}{n!} B
@@ -635,7 +636,7 @@ We would like to know how good of an approximation we can make using this under 
           &= \sum_{k = 0}^{n - 2} \frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} - \sum_{n=0}^{n - 1} \frac{f^{(k + 1)}(t)}{k!}(h - t)^{k} \\
           &= -\frac{f^{(n)}(t)}{(n - 1)!}(h - t)^{n - 1}
   \end{align*}
-  Now, we need to construct a function to apply Rolle's theorem (\cref{rollesTheorem}) on, so, for $p = 1, \ldots, n$ define:
+  Now, we need to construct a function to apply Rolle's theorem (\cref{rollesTheorem}) on, so, for $p \in \{1, \ldots, n\}$ define:
   \[
     \phi_p(t) = g(t) - \frac{(h - t)^{p}}{h^{p}}g(0)
   \]
