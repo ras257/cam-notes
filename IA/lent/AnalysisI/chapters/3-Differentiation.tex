@@ -655,11 +655,14 @@ We would like to know how good of an approximation we can make using this under 
     &\implies g(0) = \frac{h^{n}(1 - \theta)^{n - p}}{p(n - 1)!}f^{(n)}(\theta h)
   \end{align*}
   Finally, since $g(0) = f(h) - T_{n - 1, f, 0}(h)$, we see that:
-  \[
-    f(h) = T_{n - 1, f, 0}(h) + \frac{h^{n}}{p(n - 1)!}(1 - \theta)^{n - p}f^{(n)}(\theta h)
-  \]
+  \begin{equation}
+    f(h) = T_{n - 1, f, 0}(h) + \frac{h^{n}}{p(n - 1)!}(1 - \theta)^{n - p}f^{(n)}(\theta h) \label{pRemainder}
+  \end{equation}
   so taking $p = n$ yields the desired result.
 \end{proof}
+\begin{remark}
+  This form of the remainder where we can pick any $p \in \{1, \ldots, n\}$ is known as the \textit{Schl\"omilch Remainder}.
+\end{remark}
 \begin{theorem}[Taylors Theorem -- Cauchy Remainder]
   Suppose we have $f$ satisfying the requirements from \cref{lagrangeRemainder}, then $\exists \theta \in (0, 1)$ such that:
   \label{cauchyRemainder}
