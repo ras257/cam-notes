@@ -3,78 +3,83 @@
 \chapter{Eigenvalues and Eigenvectors}
 \section{Introduction}
 \begin{theorem}[Fundemental Theorem of Algebra]
-  \label{FTA}
-  Let $p(z)$ be a polynomial of degree $m \geq 1$:
+  Let $p(z)$ be a polynomial of degree $m \geq 1$: \label{FTA}
   \[
     p(z) = \sum_{j = 0}^{m}  c_jz^{j}
   \]
   where $c_j \in \C$, and $c_m \neq 0$.
-  Then $p(z) = 0$ has exactly $m$ roots (not necessarily distinct) counted with multiplicity in $\C$.
+  We then have that $p(z) = 0$ has exactly $m$ roots (not necessarily distinct) counted with multiplicity in $\C$.
 \end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
 \begin{definition}[Multiplicity]
-  The root $z = w$ has \textit{multiplicity} $k$ if $(z - w)^{k}$ is a factor of $p(z)$ but $(z - w)^{k + 1}$ is not.
+  We say the root $z = w$ has \textit{multiplicity} $k$ if $(z - w)^{k}$ is a factor of $p(z)$ but $(z - w)^{k + 1}$ is not.
 \end{definition}
 \begin{definition}[Eigenvector and Eigenvalue]
   Let $T: V \to V$ be a linear map.
-  Then $v \in V$ with $\vec{v} \neq 0$ is an \textit{eigenvector} of $T$ if:
+  We say that $\vec{v} \in V$ is an \textit{eigenvector} of $T$ if:
   \[
-    T(\vec{v}) = \lambda \vec{v}
+    T(\vec{v}) = \lambda \vec{v} \text{ and } \vec{v} \neq 0
   \]
   for a scalar $\lambda$ called the \textit{eigenvalue}.
 \end{definition}
-If $V = \R^{n} \text{ or } \C^{n}$, and $T$ is given in terms of an $n \times n$ matrix $A$, then:
+If $V = \R^{n} \text{ or } \C^{n}$ and $T$ is given in terms of an $n \times n$ matrix $A$, then:
 \[
   A\vec{v} = \lambda \vec{v} \iff (A - \lambda I)\vec{v} = 0
 \]
 For a given $\lambda$, this holds for some vector $\vec{v} \neq 0$ if and only if $\det (A - \lambda I) = 0$.
-This is because we require the kernel of $A - \lambda I$ to be nontrivial.
-
-The equation obtained from this is called the \textit{characteristic equation}.
+This is because we require the kernel of $A - \lambda I$ to be nontrivial, which by rank nullity theorem happens if and only if $\rank A \neq \dim V$.
 \begin{definition}[Characteristic Polynomial]
   For a matrix $A$, the \textit{characteristic polynomial} of degree $n$, $\chi_A$, is defined as:
   \[
     \chi_A(t) = \det (A - t I)
   \]
+  The equation $\chi_A(t) = 0$ is then called the \textit{characteristic equation}.
 \end{definition}
-From the definition of the determinant,
+From the definition of the determinant:
 \begin{align*}
   \chi_A(t) &= \det (A - tI) \\
-            &= \levi_{j_1 \ldots j_n}(A_{j_1 1} - t\delta_{j_1 1}) \cdots (A_{j_n n} - t\delta_{j_n n}) \\
+            &= \levi_{j_1 \ldots j_n}(A_{j_1 1} - t\delta_{j_1 1}) \cdots (A_{j_n n} - t\delta_{j_n n}) \text{ ($\Sigma$ convention)} \\
             &= c_0 + c_1 t + \cdots + c_n t^{n}
 \end{align*}
-for some constants $c_0, \ldots, c_n$.
+for some coefficients $c_0, \ldots, c_n$.
 
 From this we can conclude the following:
 \label{eigenvalueTrDet}
 \begin{enumerate}
-  \item $\chi_A(t)$ has degree $n$, and thus has $n$ roots.
-    Hence, an $n \times n$ matrix has $n$ eigenvalues accounting for multiplicity.
-  \item If $A$ is real, then all $c_i \in \R$, and thus eigenvalues are either real or come in conjugate pairs.
-  \item
-    $c_n = (-1)^{n}$ as we multiply $-t$ by itself $n$ times.
-    Moreover:
+  \item $c_n = (-1)^{n}$ as the is only term of the sum from which we can only obtain $t^{n}$ is:
     \[
-      c_{n - 1} = (-1)^{n - 1}(A_{1 1} + \ldots + A_{n n}) = (-1)^{n - 1}\tr A
+      (A_{1 1} - t) \cdots (A_{n n} - t) = (-1)^{n} t^{n} + \cdots
     \]
-    We also know that $-\frac{c_{n - 1}}{c_n}$ is the sum of the roots, hence:
+  \item Since the coefficient of $t^{n}$ is non-zero, $\chi_A(t)$ is a degree $n$ polynomial and thus has $n$ roots counted with multiplicity.
+    Hence, an $n \times n$ matrix has $n$ eigenvalues accounting for multiplicity.
+  \item If $A$ is real, then $c_i \in \R\ \forall i$, and thus eigenvalues are either real or come in conjugate pairs.
+  \item To find $c_{n - 1}$, we note that we can only obtain $t^{n - 1}$ from terms where exactly $n - 1$ or $n$ of the $\delta$ are $1$.
+    However, since $i_1, \ldots, i_n$ has to be a permutation of $1, \ldots, n$ for the Levi-Civita epsilon to be non-zero, we cannot have exactly $n - 1$ of the $\delta$ equal to 1.
+    Thus $t^{n - 1}$ can only be obtained from the term:
+    \begin{align*}
+      (A_{1 1} - t) \cdots (A_{n n} - t) &= (-1)^{n} t^{n} + (-1)^{n - 1}(A_{1 1} + \cdots + A_{n n}) + \cdots \\
+      \implies c_{n - 1} &= (-1)^{n - 1} \tr A
+    \end{align*}
+    We also know that $-\frac{c_{n - 1}}{c_n}$ is the sum of the roots $\lambda_1, \ldots, \lambda_n$, hence:
     \[
-      t_1 + \cdots + t_n = -\frac{c_{n - 1}}{(-1)^n} = -\frac{(-1)^{n - 1}}{(-1)^{n}} = \tr A
+      \lambda_1 + \cdots + \lambda_n = -\frac{c_{n - 1}}{(-1)^n} = -\frac{(-1)^{n - 1}}{(-1)^{n}} = \tr A
     \]
     so the trace of a matrix is the sum of its eigenvalues.
-
-    Finally,
+  \item Finally, to find $c_0$ we see that:
     \[
       c_0 = \chi_A(0) = \det A
     \]
     We also know that $(-1)^{n} \frac{c_0}{c_n} = c_0$ is the product of the roots, hence:
     \[
-      \det A = t_1 \cdots t_n
+      \det A = \lambda_1 \cdots \lambda_n
     \]
     so the determinant of a matrix is the product of its eigenvalues.
 \end{enumerate}
 \begin{example}
   \begin{enumerate}
-    \item $V = \C^{2}$, $A = \begin{pmatrix}
+    \item $V = \C^{2}$ and $A = \begin{pmatrix}
         0 & -1 \\
         1 & 0 \\
         \end{pmatrix}$
@@ -86,9 +91,9 @@ From this we can conclude the following:
         1 & -t \\
         \end{pmatrix} = t^2  + 1
       \]
-      \textbf{Eigenvalues -} $\lambda = \pm i$.\par
+      \textbf{Eigenvalues -} $\lambda = \pm i$, both with multiplicity 1. \par
       \textbf{Eigenvectors -}
-      To get the eigenvector for $\lambda = i$:
+      To get the eigenvector for $\lambda = i$, we need to find the kernel of the matrix $A - iI$:
       \[
         (A - iI)\vec{v} =
         \begin{pmatrix}
@@ -108,12 +113,12 @@ From this we can conclude the following:
         -i \\
         \end{pmatrix}
       \]
-      for all $\alpha \in \C$.
-      Similarly, for $\lambda = -i$, the associated eigenvector is  $\vec{v} = \alpha\begin{pmatrix}
+      for any $\alpha \in \C$.
+      Similarly, for $\lambda = -i$, the associated eigenvector is $\vec{v} = \alpha\begin{pmatrix}
       1 \\
       i \\
-      \end{pmatrix}$ for all $\alpha \in \C$.
-    \item $V = \R^2$, $A = \begin{pmatrix}
+      \end{pmatrix}$ for any $\alpha \in \C$.
+    \item $V = \R^2$ and $A = \begin{pmatrix}
       1 & 1 \\
       0 & 1 \\
       \end{pmatrix}$
@@ -131,10 +136,10 @@ From this we can conclude the following:
         y \\
         \end{pmatrix} = \vec{0} \implies y = 0
       \]
-      So the associated eigenvector is $\vec{v} = \alpha \begin{pmatrix}
+      So since $x$ can take any value, the associated eigenvector is $\vec{v} = \alpha \begin{pmatrix}
       1 \\
       0 \\
-      \end{pmatrix}$ for all $\alpha \in \R$.
+      \end{pmatrix}$ for any $\alpha \in \R$.
   \end{enumerate}
 \end{example}
 \section{Eigenspaces and Multiplicity}
@@ -143,14 +148,15 @@ From this we can conclude the following:
   \[
     E_\lambda = \{\vec{v} : A \vec{v} = \lambda \vec{v}\} = \ker (A - \lambda I)
   \]
-  It is the collection of eigenvectors associated with a particular eigenvalue.
+  It is the collection of eigenvectors associated with a particular eigenvalue, along with $\vec{0}$.
 \end{definition}
 \begin{definition}[Algebraic Multiplicity]
   The \textit{algebraic multiplicity}, denoted $M(\lambda)$ or $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ in the characteristic polynomial $\chi_A(t)$.
 \end{definition}
-By the fundamental theorem of algebra (\cref{FTA}), if $A$ is an $n \times n$ matrix, then the sum of all the algebraic multiplicities must be $n$. That is:
+By the fundamental theorem of algebra (\cref{FTA}), if $A$ is an $n \times n$ matrix, then since the degree of the characteristic polynomial is $n$, the sum of all the algebraic multiplicities must be $n$.
+That is:
 \[
-  \sum_{\lambda} M(\lambda) = n
+  \sum_{\lambda} M_\lambda = n
 \]
 \begin{definition}[Geometric Multiplicity]
   The \textit{geometric multiplicity}, denoted $m(\lambda)$ or $m_\lambda$, of an eigenvalue $\lambda$ is the dimension of its eigenspace:
@@ -160,20 +166,19 @@ By the fundamental theorem of algebra (\cref{FTA}), if $A$ is an $n \times n$ ma
 \end{definition}
 Equivalently, $m(\lambda)$ is the maximum number of linearly independent eigenvectors associated with the eigenvalue $\lambda$.
 \begin{proposition}
-  \label{multiplicityRelation}
-  If $A$ is an $n \times n$ matrix with an eigenvalue $\lambda$, then $M_\lambda \geq m_\lambda$
+  If $\lambda$ is an eigenvalue of an $n \times n$ matrix $A$, then $M_\lambda \geq m_\lambda$. \label{multiplicityRelation}
 \end{proposition}
 \begin{proof}
-  See \cref{multiplicityProof}.
+  Proved later in \cref{multiplicityProof}.
 \end{proof}
-Note that this means if an eigenvalue as $M_\lambda = 1 \implies m_\lambda = 1$ since $m_\lambda > 0$.
+This means if an eigenvalue has $M_\lambda = 1$, then it must also have $m_\lambda = 1$ as $m_\lambda > 0$ (because we need at least one non-zero eigenvector for an eigenvalue $\lambda$ to exist).
 \begin{definition}
-  The \textit{defect}, denoted $\Delta_\lambda$ of an eigenvalue $\lambda$ is defined as:
+  The \textit{defect}, denoted $\Delta_\lambda$, of an eigenvalue $\lambda$ is defined as:
   \[
     \Delta_\lambda = M_\lambda - m_\lambda
   \]
 \end{definition}
-By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
+By \cref{multiplicityRelation}, we have that $\Delta_\lambda \geq 0$.
 \begin{example}
   \begin{enumerate}
     \item Consider the matrix:\[
@@ -184,7 +189,7 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
       \end{pmatrix}
     \]
     \textbf{Characteristic Polynomial -} $\chi_A(t) = (4 - t)^3$.\par
-    \textbf{Eigenvalues -} $A$ only has one eigenvalue $\lambda = 4$ with $M_\lambda = 3$.\par
+    \textbf{Eigenvalues -} $A$ only has one eigenvalue $\lambda = 4$ with $M_4 = 3$.\par
     \textbf{Eigenvectors}
     \[
       (A - 4\lambda)\vec{v} = \begin{pmatrix}
@@ -203,7 +208,7 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
     1 \\
     0 \\
     0 \\
-    \end{pmatrix}$, thus $m_\lambda = 1$ as the eigenspace is:
+    \end{pmatrix}$, thus $m_4 = 1$ as the eigenspace is:
     \[
       E_\lambda = \Span\left\{\begin{pmatrix}
       1 \\
@@ -222,18 +227,24 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
     Moreover, any vector $\vec{u}$ on the plane is unchanged, that is, $H \vec{u} = \vec{u}$ for all $\vec{u} \perp \vec{n}$.
     So we also have eigenvalue $\lambda = 1$ with $E_1 = \{\vec{x} : \vec{x} \cdot \vec{n} = \vec{0}\}$.
 
-    Since $m_{-1} = 1$ and $m_1 = 2$ and $m_1 + m_2 \leq 3$, we must have all eigenvalues.
-    Furthermore, since $M_\lambda \geq m_\lambda$, we must have $M_1 = 2$ and $M_{1} = 1$ so the geometric and algebraic multiplicities coincide for each eigenvalue.
-  \item Consider a rotation $\Rot(\theta) \in \R^2$,
+    Since $m_{-1} = 1$ and $m_1 = 2$, we must have all eigenvalues since we require $m_1 + m_2 \leq M_1 + M_2 \leq 3$.
+
+    Furthermore, since $M_\lambda \geq m_\lambda\ \forall \lambda$, we must have $M_1 = 2$ and $M_1 = 1$ so the geometric and algebraic multiplicities coincide for each eigenvalue.
+  \item Consider a rotation $\Rot(\theta) \in \R^2$.
+    This has matrix representation:
     \[
       \Rot(\theta) = \begin{pmatrix}
       \cos \theta & -\sin \theta \\
       \sin \theta & \cos \theta \\
       \end{pmatrix}
     \]
-    \textbf{Characteristic Polynomial -} $\chi_{\Rot(\theta)}(t) = t^2 - 2t \cos \theta + 1$.\par
-    \textbf{Eigenvalues -} It does not have real eigenvalues but does have eigenvalues in $\C$, $\lambda = e^{\pm i\theta}$.
-    Note that this is a conjugate pair, as expected.\par
+    \textbf{Characteristic Polynomial}
+    \begin{align*}
+      \chi_{\Rot(\theta)}(t) &= t^2 - 2t \cos \theta + 1 \\
+                             &= t^2 - t(e^{i\theta} + e^{-i\theta}) + e^{i\theta}e^{-i\theta} \\
+                             &= (t - e^{i\theta})(t - e^{-i\theta})
+    \end{align*}
+    \textbf{Eigenvalues -} It does not have any real eigenvalues but does have a pair of complex conjugate eigenvalues, $\lambda = e^{\pm i\theta}$. \par
     \textbf{Eigenvectors -} The associated eigenvectors are:
     \[
       \vec{v} = \alpha \begin{pmatrix}
@@ -242,8 +253,8 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
       \end{pmatrix}
     \]
     Since these both have $m_\lambda = 1$, they must also both have $M_\lambda = 1$.
-  \item Consider a rotation by and $\theta$ about $\vec{n}$, $R(\theta, \vec{n})$.
-    Note that:
+  \item Consider a rotation by angle $\theta$ about the unit vector $\vec{n}$, i.e. $R(\theta, \vec{n})$.
+    We see that:
     \[
       R(\theta, \vec{n})\vec{n} = \vec{n}
     \]
@@ -252,9 +263,8 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
     If we consider a basis given by $\vec{n}$ and two orthogonal vectors lying in the plane, $\vec{n}$ is unchanged under $R$ whereas the two vectors are rotated in the plane, similarity to as in \textbf{iii}.
 
     From \textbf{iii}, we know the rotation in the plane has eigenvalues $e^{\pm i \theta}$.
-    Note that there are no other real eigenvalues unless $\theta = n\pi$, in which case, all vectors on the plane are eigenvectors with eigenvalue $\lambda = -1$ and algebraic multiplicity $M_{-1} = 2$ as both $e^{+i\pi}$ and $e^{-i\pi}$ coincide.
-
-    So we have found all three complex eigenvalues.
+    Provided $\theta \neq n\pi$, these are distinct and a complex conjugate pair so each have algebraic multiplicity and geometric multiplicity 1.
+    Otherwise, if $\theta = n\pi$, then all vectors on the plane are eigenvectors with eigenvalue $\lambda = -1$ so $m_{-1} = 2$ and algebraic multiplicity $M_{-1} = 2$ as both $e^{+i\pi}$ and $e^{-i\pi}$ coincide.
   \item Consider the matrix
     \[
       A = \begin{pmatrix}
@@ -264,7 +274,7 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
       \end{pmatrix}
     \]
     \textbf{Characteristic Polynomial -} $\chi_A(t) = -(t + 2)^3$.\par
-    \textbf{Eigenvalues -} $A$ only has eigenvalue $\lambda = -2$ with $M_\lambda = 3$.\par
+    \textbf{Eigenvalues -} $A$ only has eigenvalue $\lambda = -2$ with $M_{-2} = 3$.\par
     \textbf{Eigenvectors -} For the eigenvectors:
     \[
       (A + 2I) \vec{v} =
@@ -281,7 +291,7 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
     \]
     By eliminating $z$, we see that the general solution for this is:
     \[
-      \begin{pmatrix}
+      \vec{v} = \begin{pmatrix}
       x \\
       y \\
       x + y \\
@@ -307,36 +317,35 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
       0 \\
       1 \\
       1 \\
-      \end{pmatrix}\right\} \implies m_\lambda = 2
+      \end{pmatrix}\right\} \implies m_{-2} = 2
     \]
-    So the eigenvalues do not form a basis of $\C^{3}$.
-    The defect is $\Delta_\lambda = 3 - 2 = 1$.
+    So the eigenvectors for $\lambda = -2$ do not form a basis of $\R^{3}$.
+    The defect is $\Delta_{-2} = 3 - 2 = 1$.
   \end{enumerate}
 \end{example}
 \section{Diagonalisation and Similarity}
-\begin{proposition}[Diagonalisble]
-  \label{diagonalProp}
-  If $A$ is a $n \times n$ matrix acting on $V = \R^{n}$ or $\C^{n}$, then the following statements are equivalent:
+\begin{proposition}[Diagonalisble Matrix]
+  If $A$ is a $n \times n$ matrix acting on $V = \R^{n}$ or $\C^{n}$, then the following statements are equivalent: \label{diagonalProp}
   \begin{itemize}
-    \item There exists a basis of eigenvectors for $V$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$ with $A \vec{v}_i = \lambda_i \vec{v}_i$.
+    \item There exists a basis of eigenvectors for $V$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$ where $A \vec{v}_i = \lambda_i \vec{v}_i$.
 
       \textit{(Summation convention not used)}
     \item There exits an $n \times n$ invertible matrix $P$ with:
       \[
         P^{-1} A P = D = \begin{pmatrix}
-        \lambda_1 &  &  \\
+        \lambda_1 &  & O \\
          & \ddots &  \\
-         &  & \lambda_n \\
+        O &  & \lambda_n \\
         \end{pmatrix}
       \]
       where $D$ is a \textit{diagonal matrix}, that is, all non-diagonal entries are $0$.
   \end{itemize}
-  If either of these conditions is satisfied, $A$ is \textit{diagonalisable}.
+  If either of these equivalent conditions is satisfied, then we say that $A$ is \textit{diagonalisable}.
 \end{proposition}
+We first need to study linearly independent eigenvectors to be able to prove this equivalence.
 \subsection{Linearly Independent Eigenvectors}
 \begin{theorem}
-  \label{linearlyIndependantEigenvectors}
-  If an $n \times n$ matrix $A$ has distinct eigenvalues $\lambda_1, \ldots, \lambda_r$ with corresponding eigenvectors $\vec{v}_1, \ldots, \vec{v}_r$ then, $\{\vec{v}_1, \ldots, \vec{v}_r\}$ are linearly independent.
+  If an $n \times n$ matrix $A$ has distinct eigenvalues $\lambda_1, \ldots, \lambda_r$ with corresponding eigenvectors $\vec{v}_1, \ldots, \vec{v}_r$, then the set of vectors $\{\vec{v}_1, \ldots, \vec{v}_r\}$ is linearly independent. \label{linearlyIndependantEigenvectors}
 \end{theorem}
 \begin{proof}
   Suppose, for contradiction, that $\{\vec{v}_1, \ldots, \vec{v}_r\}$ are linearly dependant.
@@ -356,29 +365,57 @@ By \cref{multiplicityRelation}, we have $\Delta_\lambda \geq 0$.
   \[
     (A - \lambda_1 I) \sum_{j = 1}^{p} \alpha_j \vec{v}_j = \sum_{j = 2}^{p} \alpha_j(\lambda_j - \lambda_1)\vec{v}_j
   \]
-  Since $(A - \lambda_1 I)\vec{v}_1 = \vec{0}$.
-
-  The above is a linear combination with $p - 1$ non-zero coefficients which contradicts the fact that $p$ was minimal.
-  Thus $\{\vec{v}_1, \ldots, \vec{v}_r\}$ is linearly independent.
+  as $(A - \lambda_1 I)\vec{v}_1 = (\lambda_1 - \lambda_1)\vec{v}_1 = \vec{0}$.
+  This is also a non-trivial linear combination as the eigenvectors are distinct so only the first term of the sum disappears.
+  However, this is a linear combination of $p - 1$ of the vectors and so we have contradicted the minimality of $p$.
+  Thus the set $\{\vec{v}_1, \ldots, \vec{v}_r\}$ is linearly independent.
 \end{proof}
-\begin{remark}[Note]
-  The above theorem and proof only hold when each eigenvalue has geometric multiplicity one, that is, each eigenvalue has exactly one associated eigenvector.
-  However this does generalise to the following:
+We can actually extend this to the case when the eigenvalues are not distinct (i.e. we have multiple eigenvectors from the same eigenspace), provided that the associated eigenvectors from each eigenspace are themselves linearly independent.
+The following case of this is particularly useful:
+\begin{corollary}
+  Let $B_\lambda = \left\{\vec{v}^{(\lambda)}_1, \ldots, \vec{v}^{(\lambda)}_{m_{\lambda}}\right\}$ be a basis for the eigenspace $E_\lambda$ associated with the eigenvalue $\lambda$.
 
-  Let $B_\lambda$ be a basis for the eigenspace $E_\lambda$ associated with $\lambda$.
   If $\lambda_1, \ldots, \lambda_r$ are distinct, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set.
+\end{corollary}
+\begin{proof}
+  \nonexaminable
+  Consider a linear combination $\vec{x}$ of the vectors in $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$:
+  \[
+    \vec{x} = \underbrace{\left[\alpha^{(\lambda_1)}_1 \vec{v}^{(\lambda_1)}_1 + \cdots + \alpha^{(\lambda_1)}_{m_{\lambda_1}} \vec{v}^{(\lambda_1)}_{m_{\lambda_1}}\right]}_{\in E_{\lambda_1}}
+    + \cdots +
+    \underbrace{\left[\alpha^{(\lambda_r)}_1 \vec{v}^{(\lambda_r)}_1 + \cdots + \alpha^{(\lambda_r)}_{m_{\lambda_r}} \vec{v}^{(\lambda_r)}_{m_{\lambda_r}}\right]}_{\in E_{\lambda_r}} = \vec{0}
+  \]
+  As we have above, we can group together terms which involve vectors from the basis each eigenspace and are therefore in the eigenspace for that eigenvalue.
+  Since each of these groups is in the eigenspace, they are themselves an eigenvector for their corresponding eigenvalue and so can be written as:
+  \[
+    \alpha^{(\lambda_i)}_1 \vec{v}^{(\lambda_i)}_1 + \cdots + \alpha^{(\lambda_i)}_{m_{\lambda_i}} \vec{v}^{(\lambda_i)}_{m_{\lambda_i}} = \beta_i \vec{w}_i
+  \]
+  for some $\vec{w}_i \in E_{\lambda_i} \setminus \{\vec{0}\}$ where $\beta_i = 0$ if the group is $\vec{0}$ (in which case $\vec{w}_i$ can be picked to be any eigenvector -- which is non-zero by definition) and $\beta_i = 1$ otherwise (in which case $\vec{w}_i$ is the group itself).
 
-  See \cref{gramSchmidt} for a construction of this in the case of Hermitian matrices.
+  So:
+  \[
+    \vec{x} = \beta_1 \vec{v}_1 + \cdots + \beta_r \vec{v}_r = \vec{0}
+  \]
+  Thus by the theorem, as $\lambda_1, \ldots, \lambda_n$ are distinct and $\vec{v}_1, \ldots, \vec{v}_r$ are their corresponding eigenvectors, we have that $\beta_1 = \cdots = \beta_r = 0$.
+  So for any $i \in \{1, \ldots, r\}$:
+  \begin{align*}
+    \alpha^{(\lambda_i)}_1 \vec{v}^{(\lambda_i)}_1 + \cdots + \alpha^{(\lambda_i)}_{m_{\lambda_i}} \vec{v}^{(\lambda_i)}_{m_{\lambda_i}} &= \vec{0} \\
+    \implies \alpha^{(\lambda_i)}_1 = \cdots = \alpha^{(\lambda_i)}_{m_{\lambda_i}} &= 0
+  \end{align*}
+  as the vectors for the basis of each eigenspace must be linearly independent.
+  Therefore, we have that $\alpha^{(\lambda_i)}_j = 0\ \forall i, j$ so the set of vectors $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is linearly independent.
+\end{proof}
+\begin{remark}
+  See \cref{gramSchmidt} for a construction of this linearly indecent set in the case of Hermitian matrices.
 \end{remark}
-We can now prove \cref{diagonalProp}
+We can now prove \cref{diagonalProp}.
 \begin{proof}[\Cref{diagonalProp}]
-  For any matrix $P$:
+  For any matrix $P$ and diagonal matrix $D$ with entries $\lambda_1, \ldots, \lambda_n$:
   \begin{itemize}
     \item $AP$ has columns $A\vec{C}_i(P)$.
     \item $PD$ has columns $\lambda_i\vec{C}_i(P)$ as $D$ is diagonal.
   \end{itemize}
-  where $D$ is a diagonal matrix as in the proposition.
-  So $AP = PD \iff A \vec{C}_i(P) = \lambda_i \vec{C}_i(P)\ \forall i = 1, \ldots, n$.
+  So $AP = PD \iff A \vec{C}_i(P) = \lambda_i \vec{C}_i(P)\ \forall i \in \{1, \ldots, n\}$.
 
   \begin{proofdirection}{Suppose there exists a basis of eigenvectors for $V$}
     Given a basis of eigenvectors for $V$, the above relation allows us to determine such a $P$ as $\vec{C}_i(P)$ satisfies $A\vec{C}_i(P) = \lambda \vec{C}_i$ so we can take $\vec{C}_i(P) = \vec{v}_i$.
@@ -386,31 +423,27 @@ We can now prove \cref{diagonalProp}
     Since we know what the eigenvectors form a basis for $V$, they are linearly independent and therefore the columns of $P$ are linearly independent so $\det P \neq 0$.
     Thus $P$ is invertible so we have constructed a $P$ such that $P^{-1} A P = D$.
   \end{proofdirection}
-  \begin{proofdirection}{Suppose there exists such an invertible $P$}
+  \begin{proofdirection}{Suppose there exists such an invertible $P$ and diagonal $D$}
     Since $P$ is invertible, $P^{-1} A P = D \iff AP = PD$.
     By the relation $A\vec{C}_i(P) = \lambda_i \vec{C}_i(P)$, we see that the columns of $P$ are eigenvectors.
-    The columns of $P$ span $V$ so we have found a basis of eigenvectors for $V$.
+    Since $P$ is invertible the columns of $P$ are linearly independent and span $V$ so we have found a basis of eigenvectors for $V$.
   \end{proofdirection}
 \end{proof}
 \begin{remark}
-  We see that the columns of $P$ are the eigenvectors of $A$.
-  Since we need $P$ to be invertible, they must form a basis for $V$, which agrees with the equivalence of the two statements.
+  We see that the columns of $P$ are always eigenvectors of $A$ with their associated eigenvalues in the corresponding columns of $D$.
+  This gives us a way to diagonalise a matrix if we find its eigenvectors and eigenvalues.
 \end{remark}
 \subsection{Criteria For Diagonalisability}
-\subsubsection{A sufficient but not necessary condition}
-\begin{proposition}
+\begin{proposition}[A sufficient but not necessary condition]
   If an $n \times n$ matrix has $n$ distinct eigenvalues, then it is diagonalisable.
 \end{proposition}
 \begin{proof}
 If an $n \times n$ matrix has $n$ distinct eigenvalues, then by \cref{linearlyIndependantEigenvectors}, we have $n$ eigenvectors which are linearly independent.
-This provides a basis of eigenvectors for $\R^{n}$ or $\C^{n}$.
-So from \cref{diagonalProp}, $A$ is diagonalisable.
+This always provides a basis of eigenvectors for $V$, so by \cref{diagonalProp}, $A$ is diagonalisable.
 \end{proof}
-Note that we require that all $n$ eigenvalues are distinct as otherwise we could have an eigenvalue with $m_\lambda < M_\lambda$ so would have less than $n$ linearly independent eigenvectors so would be unable to form a basis.
-\subsubsection{A necessary and sufficient condition}
-\begin{proposition}
-  \label{diagonalisationIFF}
-  $A$ is diagonalisable if and only if for all eigenvalues $\lambda$, $M_\lambda = m_\lambda$
+Note that we require that all $n$ eigenvalues are distinct as otherwise we could have an eigenvalue with $m_\lambda < M_\lambda$ which would result in us having less than $n$ linearly independent eigenvectors and so we would be unable to form a basis.
+\begin{proposition}[A necessary and sufficient condition]
+  $A$ is diagonalisable if and only if for all eigenvalues $\lambda$ we have $M_\lambda = m_\lambda$. \label{diagonalisationIFF}
 \end{proposition}
 \begin{proof}
   \begin{proofdirection}{Suppose $A$ is diagonalisable}
@@ -423,16 +456,16 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
     So we must have $m_\lambda = M_\lambda$ for all eigenvalues.
   \end{proofdirection}
   \begin{proofdirection}{Suppose $M_\lambda = m_\lambda$ for all $\lambda$}
-    If $\lambda_i$ with $i = 1, \ldots, r$ are all the distinct eigenvalues of a matrix, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set, and its number of elements is:
+    If $\lambda_i$ for $i \in \{1, \ldots, r\}$ are all the \textbf{distinct} eigenvalues of a matrix, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is a linearly independent set, and its number of elements is:
     \[
-      \sum_{i} m_{\lambda_i} = \sum_{i} M_{\lambda_i} = n
+      \sum_{i = 1}^{r} \dim(E_{\lambda_i}) = \sum_{i = 1}^{r} m_{\lambda_i} = \sum_{i = 1}^{r} M_{\lambda_i} = n
     \]
-    so it must form a basis.
+    so it must form a basis as it contains exactly $n$ linearly independent vectors.
   \end{proofdirection}
 \end{proof}
 \subsection{Similarity}
 \begin{definition}
-  We say that two $n \times n$ matrices $A$ and $B$ are \textit{similar} if there exists an $n \times n$ invertible matrix $P$ such that:
+  We say that the two $n \times n$ matrices $A$ and $B$ are \textit{similar} if there exists an $n \times n$ invertible matrix $P$ such that:
   \[
     B = P^{-1}AP
   \]
@@ -442,8 +475,7 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   See \cref{COBSpecialCases}.
 \end{remark}
 \begin{proposition}
-  \label{similarProperties}
-  If $A$ and $B$ are similar, then:
+  If $A$ and $B$ are similar, then: \label{similarProperties}
   \begin{enumerate}
     \item $\det A = \det B$
     \item $\tr A= \tr B$
@@ -473,44 +505,47 @@ Note that we require that all $n$ eigenvalues are distinct as otherwise we could
   \end{enumerate}
 \end{proof}
 \begin{remark}
-  For the particular case of $B = D$ where $D$ is a diagonal matrix, this means that $A$ is diagonalisable.
-  Utilising the fact that the determinant of a diagonal matrix is the product of the diagonal entries, we then have:
+  A matrix $A$ is similar to a diagonal matrix $D$ is equivalent to $A$ being diagonalisable.
+
+  So if $A$ is diagonalisable, since the determinant of a diagonal matrix is the product of the diagonal entries, we then have:
   \begin{enumerate}
     \item $\tr A = \sum_{i} \lambda_i$
     \item $\det A = \prod_{i} \lambda_i$
     \item $\chi_A(t) = (\lambda_1 - t) \cdots(\lambda_n - t)$
   \end{enumerate}
-  These results are consistent with \cref{eigenvalueTrDet}.
+  Which is consistent with \cref{eigenvalueTrDet}.
 \end{remark}
 We can use these relations between similar matrices to provide a proof for \cref{multiplicityRelation}.
 \begin{proof}
   \nonexaminable
   \label{multiplicityProof}
-  Consider a basis for $E_\lambda$, $\{\vec{v}_1, \ldots, \vec{v}_r\}$ with $r = \dim E_\lambda = m_\lambda$.
+  Consider a basis $\{\vec{v}_1, \ldots, \vec{v}_r\}$ for $E_\lambda$ where $r = \dim E_\lambda = m_\lambda$.
   Using \cref{addBasis}, we can extend this to a basis for $V = \R^{n}$ or $\C^{n}$ by adding the vectors $\{\vec{w}_{r + 1}, \ldots, \vec{w}_n\}$.
 
   Define the $n \times n$ matrix P with columns such that:
   \begin{align*}
-    \vec{C}_i(P) &= \vec{v}_i \text{ for } i = 1, \ldots, r \\
-    \vec{C}_j(P) &= \vec{w}_i \text{ for } j = r + 1, \ldots, n \\
+    \vec{C}_i(P) &= \vec{v}_i \text{ for } i \in \{1, \ldots, r\} \\
+    \vec{C}_j(P) &= \vec{w}_j \text{ for } j \in \{r + 1, \ldots, n\}
   \end{align*}
-  Then, since $\vec{v}_i \in E_\lambda$ for $i = 1, \ldots, r$ we have:
+  Then, since $\vec{v}_i \in E_\lambda$ for $i \in \{1, \ldots, r\}$ we have:
   \[
     A \vec{C}_i = A \vec{v}_i = \lambda \vec{v}_i
   \]
-  and for $\vec{C}_j$:
+  and since $\{\vec{v}_1, \ldots, \vec{v}_r, \vec{w}_{r + 1}, \ldots, \vec{w}_n\}$ is a basis for $V$, for $j \in \{r + 1, \ldots, n\}$ we have:
   \[
-    A \vec{C}_j = A \vec{w}_j = \sum_{i} B_{i j}\vec{v}_i + \sum_{k} B_{k j}\vec{w}_k
+    A \vec{C}_j = A \vec{w}_j = \sum_{i = 1}^{r} B_{i j}\vec{v}_i + \sum_{k = r + 1}^{n} B_{k j}\vec{w}_k
   \]
-  where $B$ is an $n \times n$ matrix with entries:
+  where we construct $B$ as an $n \times n$ matrix with entries:
   \[
     B_{i j} = \begin{cases}
-    \lambda \delta_{i j} & i, j = 1, \ldots, r \\
-    0 & i = r + 1, \ldots, n \text{ and }j = 1, \ldots, r  \\
-    \text{unknown} & i = 1, \ldots, n \text{ and }j = r + 1, \ldots, n
+    \lambda \delta_{i j} & i, j \in \{1, \ldots, r\} \\
+    0 & i \in \{r + 1, \ldots, n\} \text{ and } j \in \{1, \ldots, r\}  \\
+    \text{unknown} & i \in \{1, \ldots, n\} \text{ and } j \in \{r + 1, \ldots, n\}
     \end{cases}
   \]
-  We can rewrite with as $AP = PB$ and then, as $P$ is invertible since its columns form a basis for $V$, we have:
+  The ``unknown'' terms are the required coefficients for the linear combination of basis vectors to form $A \vec{w}_j$ and the remaining entries are picked conveniently for the rest of the proof.
+
+  We can rewrite this as $AP = PB$ and then, as $P$ is invertible since its columns form a basis for $V$, we have:
   \[
     P^{-1}AP = B =
       \left(\begin{array}{c|c}
@@ -518,10 +553,10 @@ We can use these relations between similar matrices to provide a proof for \cref
       O & \hat{B}
       \end{array}\right)
   \]
-  Where $?$ and $\hat{B}$ denote the unknown elements.
+  Where $?$ and $\hat{B}$ are block matrices containing the ``unknown'' elements.
   From \cref{blockDeterminants}:
   \[
-    \det(B - tI) = \det(\lambda I - tI)\det(\hat{B} - tI) = (\lambda - t)^{r}\det(\hat{B} - tI)
+    \chi_B(t) = \det(B - tI) = \det(\lambda I - tI)\det(\hat{B} - tI) = (\lambda - t)^{r}\det(\hat{B} - tI)
   \]
   From \cref{similarProperties}$, \chi_A(t) = \chi_B(t)$.
   Therefore:
@@ -541,11 +576,11 @@ We can use these relations between similar matrices to provide a proof for \cref
   \[
     A^{\trans} = A \iff A_{i j} = A_{j i}
   \]
-  \textbf{Complex Inner Product -} For $\vec{v}, \vec{w} \in \C^{n}$:
+  \textbf{Standard Complex Inner Product -} For $\vec{v}, \vec{w} \in \C^{n}$:
   \[
     \vec{v}^{\dag}\vec{w} = \sum_{i} \overline{v_i}w_i
   \]
-  \textbf{Real Inner Product - } For $\vec{v}, \vec{w} \in \R^{n}$, this reduces to:
+  \textbf{Real Scalar Product - } For $\vec{v}, \vec{w} \in \R^{n}$, this reduces to:
   \[
     \vec{v}^{\trans}\vec{w} = \sum_{i} v_i w_i
   \]
@@ -557,12 +592,12 @@ We can use these relations between similar matrices to provide a proof for \cref
   \]
 \end{remark}
 \begin{theorem}
-  \label{hermitianProperties}
-  If $A$ is a $n \times n$ Hermitian matrix, then:
+  If $A$ is a $n \times n$ Hermitian matrix, then: \label{hermitianProperties}
   \begin{enumerate}
     \item Every eigenvalue of $A$ is real.
-    \item Eigenvectors $\vec{v}, \vec{w}$ with distinct eigenvalues, $\lambda, \mu$ are orthogonal, that is, $\vec{v}^{\dag} \vec{w} = 0$
-    \item If $A$ is symmetric, then for any eigenvalues $\lambda$, we can construct a real eigenvector $\vec{v}$ so that \textbf{ii} reduces to  $\vec{v}^{\trans} \vec{w} = 0$
+    \item Eigenvectors $\vec{v}$ and $\vec{w}$ with distinct eigenvalues $\lambda$ and $\mu$ respectively are orthogonal, that is, $\vec{v}^{\dag} \vec{w} = 0$
+    \item If $A$ is symmetric, then for any eigenvalue $\lambda$, we can construct a real eigenvector $\vec{v}$.
+      In this case \textbf{ii} then reduces to $\vec{v}^{\trans} \vec{w} = 0$
   \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -588,8 +623,8 @@ We can use these relations between similar matrices to provide a proof for \cref
     Let $\vec{v} = \vec{u} + i \vec{u}'$ with $\vec{u}, \vec{u}' \in \R^{n}$.
     Then:
     \begin{align*}
-      A \vec{v} = \lambda \vec{v} \\
-      A \vec{u} + i(A \vec{u}') = \lambda \vec{u} + i(\lambda \vec{u})
+      A \vec{v} &= \lambda \vec{v} \\
+      A \vec{u} + i(A \vec{u}') &= \lambda \vec{u} + i(\lambda \vec{u})
     \end{align*}
     Since $\lambda \in \R$, we must have:
     \[
@@ -600,8 +635,7 @@ We can use these relations between similar matrices to provide a proof for \cref
 \end{proof}
 \subsection{Gram-Schmidt Orthogonalisation}
 \label{gramSchmidt}
-Given a linearly independent set of vectors in $\C^{n}$ $\{\vec{w}_1, \ldots, \vec{w}_r\}$.
-Using the \textit{Gram-Schmidt Process}, we can construct a sequence of sets of the form:
+Given a linearly independent set of $r$ vectors $\{\vec{w}_1, \ldots, \vec{w}_r\}$ in $\C^{n}$, using the \textit{Gram-Schmidt Process} we can construct a sequence of sets of the form:
 \begin{center}
 \begin{tabular}{c}
 $\{\vec{w}_1, \vec{w}_2, \vec{w}_3, \ldots, \vec{w}_r\} $ \\
@@ -611,7 +645,7 @@ $\vdots$ \\
 $\{\vec{u}_1, \vec{u}_2, \vec{u}_3,\ldots, \vec{u}_r\} $ \\
 \end{tabular}
 \end{center}
-where the final set, $\{\vec{u}_1, \vec{u}_2, \ldots, \vec{u}_n\}$, is an orthonormal set.
+where importantly the final set, $\{\vec{u}_1, \vec{u}_2, \ldots, \vec{u}_n\}$, is an orthonormal set.
 
 At each step of the process:
 \begin{itemize}
@@ -622,18 +656,24 @@ At each step of the process:
 \end{itemize}
 \subsubsection{Construction}
 \begin{itemize}
-  \item \textbf{Step 1 -} Define $\vec{u}_1$ and $\vec{w}_j'$ for $j = 2, \ldots, r$ as:
+  \item \textbf{Step 1 -} Define $\vec{u}_1$ and $\vec{w}_j'$ for $j \in \{2, \ldots, r\}$ as:
     \[
       \vec{u}_1 = \frac{\vec{w}_1}{|\vec{w}_1|},\ \vec{w}_j' = \vec{w}_j  - (\vec{u}^{\dag}_{1}\vec{w}_j)\vec{u}_1
     \]
-    This guarantees that $|\vec{u}_1| = 1$. We also see that:
+    This guarantees that $|\vec{u}_1| = 1$.
+    Note that since $\vec{u}_1$ is a unit vector, $(\vec{u}^{\dag}_1 \vec{w}_j)\vec{u}_1$ is the projection of $\vec{w}_j$ onto $\vec{u}_1$ and so $\vec{w}_j'$ gives the vector component of $\vec{w}_j$ orthogonal to $\vec{u}_1$ .
+
+     We also see that:
     \begin{align*}
       \vec{u}^{\dag}_{1}\vec{w}_j' &= \vec{u}^{\dag}_{1}(\vec{w}_j - (\vec{u}^{\dag}_{1}\vec{w}_j)\vec{u}_1) \\
                                    &= \vec{u}^{\dag}_{1}\vec{w}_j - (\vec{u}^{\dag}_{1}\vec{w}_j)(\underbrace{\vec{u}^{\dag}_{1}\vec{u}_1}_{|\vec{u}_1| = 1}) \\
                                    &= \vec{u}^{\dag}_{1}\vec{w}_j -\vec{u}^{\dag}_{1}\vec{w}_j = 0
     \end{align*}
-    So $\vec{u}^{\dag}_{1}\vec{w}_j' = 0$ for $j = 2, \ldots, r$.
-  \item \textbf{Step 2 -} Define $\vec{u}_2$ and $\vec{w}_j''$ for $j = 3, \ldots, r$ as:
+    So $\vec{u}^{\dag}_{1}\vec{w}_j' = 0$ for $j \in \{2, \ldots, r\}$.
+
+    Their span is preserved as every vector in $\{\vec{u}_1, \vec{w}_2', \ldots, \vec{w}_r'\}$ is a linear combination of vectors in $\{\vec{w}_1, \ldots, \vec{w}_r\}$.
+    This also ensures that they are linearly independent as if we were unable to construct any of the vectors as a non-trivial linear combination of the others, we are still unable to after this first step as we are taking linear combinations of linear combinations of the original vectors which in itself is a linear combination of the original vectors.
+  \item \textbf{Step 2 -} Define $\vec{u}_2$ and $\vec{w}_j''$ for $j \in \{3, \ldots, r\}$ as:
     \[
       \vec{u}_2 = \frac{\vec{w}_2'}{|\vec{w}_2|},\ \vec{w}_j'' = \vec{w}_j' - (\vec{u}^{\dag}_{2}\vec{w}_j')\vec{u}_2
     \]
@@ -645,11 +685,11 @@ At each step of the process:
           \vec{u}^{\dag}_{1}\vec{u}_2 = \frac{\vec{u}^{\dag}_{1}\vec{w}_2'}{|\vec{w}_2|} = 0
         \]
         where $\vec{u}^{\dag}_{1}\vec{w}_2' = 0$ by the construction from the previous step.
-      \item $\vec{u}_1$ is orthogonal to $\vec{w}_j''$ for $j = 3, \ldots, r$ since:
+      \item $\vec{u}_1$ is orthogonal to $\vec{w}_j''$ for $j \in \{3, \ldots, r\}$ since:
         \[
           \vec{u}^{\dag}_{1}\vec{w}_j'' = \underbrace{\vec{u}^{\dag}_{1}\vec{w}_j}_{=0} -(\vec{u}^{\dag}_{2}\vec{w}_j')(\underbrace{\vec{u}^{\dag}_{1}\vec{u}_2}_{=0}) =0
         \]
-      \item $\vec{u}_2$ is orthogonal to $\vec{w}_j''$ for $j = 3, \ldots, r$ because $\vec{u}^{\dag}_{2}\vec{w}_j'' = 0$ by the same argument as in Step 1.
+      \item $\vec{u}_2$ is orthogonal to $\vec{w}_j''$ for $j \in \{3, \ldots, r\}$ since $\vec{u}^{\dag}_{2}\vec{w}_j'' = 0$ by the same argument as in \textbf{Step 1}.
     \end{itemize}
   \item \textbf{Step ...}\par
     Repeatedly apply the same construction for $r$ steps total.
@@ -657,11 +697,14 @@ At each step of the process:
 Since the construction at each step preserves the properties listed earlier, we will end up with an orthonormal set of vectors.
 
 If we have a Hermitian matrix $A$, we can use this process to obtain an orthonormal basis $B_\lambda$ for each eigenspace $E_\lambda$.
-Since we established that all the eigenvectors associated with different eigenvalues of a hermitian matrix are orthogonal, if $\lambda_1, \ldots, \lambda_r$ are distinct eigenvalues of $A$, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ is an orthonormal set.
+Since we established that all the eigenvectors associated with different eigenvalues of a hermitian matrix are orthogonal, if $\lambda_1, \ldots, \lambda_r$ are distinct eigenvalues of $A$, then $B_{\lambda_1} \cup \cdots \cup B_{\lambda_r}$ can be picked to be an \textbf{orthonormal} set and not just a linearly independent set.
 \subsection{Unitary and Orthogonal Diagonalisation}
 \begin{theorem}
   If $A$ is a $n \times n$ hermitian matrix, then $A$ is diagonalisable.
 \end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
 More specifically, if $A$ is hermitian, then all of the following equivalent statements hold:
 \begin{enumerate}
   \item There exists a basis for $\C^{n}$ of eigenvectors $\vec{u}_1, \ldots, \vec{u}_n \in \C^{n}$ with $A \vec{u}_i = \lambda_i \vec{u}_i$.
@@ -671,19 +714,21 @@ More specifically, if $A$ is hermitian, then all of the following equivalent sta
       \item $C_i(P) = \vec{u}_i$, i.e., the columns of $P$ are the eigenvectors.
     \end{itemize}
 \end{enumerate}
-\begin{remark}
-  In addition, the eigenvectors, $\vec{u}_i$ can be chosen to be orthonormal, that is:
-  \[
-    \vec{u}^{\dag}_{i}\vec{u}_j = \delta_{i j}
-  \]
-  Equivalently, the matrix $P$ can be chosen to be unitary, so that $P^{-1} = P^{\dag}$ and thus $P^{\dag} A P = D$.
-
-  When working with real matrices, for a $n \times n$ real \textbf{symmetric} matrix $A$ ($A^{\trans} = A$), the eigenvectors can be taken to be $\vec{u}_1, \ldots, \vec{u}_n \in \R^{n}$ (see \cref{hermitianProperties}) and can be chosen so that:
-  \[
-    \vec{u}^{\trans}_{i} \vec{u}_j = \vec{u}_i \cdot \vec{u}_j= \delta_{i j}
-  \]
-  Equivalently, $P$ can be chosen to be orthogonal, so that $P^{-1} = P^{\trans}$ and thus $P^{\trans} A P = D$.
-\end{remark}
+\subsubsection{Unitary Diagonalisation}
+Moreover, using the Gram-Schmidt process, the eigenvectors, $\vec{u}_i$ can be chosen to be orthonormal, that is:
+\[
+  \vec{u}^{\dag}_{i}\vec{u}_j = \delta_{i j}
+\]
+Equivalently, the matrix $P$ can be chosen to be unitary (as a matrix is unitary if and only if its columns are mutually orthogonal under the standard complex inner product), so that $P^{-1} = P^{\dag}$ and thus $P^{\dag} A P = D$.
+This is called a \textit{unitary diagonalisation}.
+\subsection{Orthogonal Diagonalisation}
+In the case of real matrices, for a $n \times n$ real \textbf{symmetric} matrix $A$ (i.e. one with $A^{\trans} = A$), the eigenvectors can be taken to be $\vec{u}_1, \ldots, \vec{u}_n \in \R^{n}$ (see \cref{hermitianProperties}).
+As in the case of hermitian matrices, we can chose these eigenvectors so that:
+\[
+  \vec{u}^{\trans}_{i} \vec{u}_j = \vec{u}_i \cdot \vec{u}_j= \delta_{i j}
+\]
+Since $P$ will therefore be real and so $P$ being unitary reduces to $P$ being orthogonal (i.e. $P^{\trans} P = I$) and so we have $P^{\dag} A P = P^{\trans} A P = D$.
+This is called an \textit{orthogonal diagonalisation}.
 \section{Change of Basis}
 \label{changeOfBasis}
 Consider the real or complex vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$.
@@ -703,7 +748,8 @@ Suppose that the bases are related by:
 \[
   \vec{e}_i' = \sum_{k} \vec{e}_k P_{k i} \text{ and } \vec{f}_j' = \sum_{l} \vec{f}_l Q_{l j}
 \]
-where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of which are invertible.
+where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix.
+Both $P$ and $Q$ must be invertible as their columns are the new basis vectors (which by definition must be linearly independent), with respect to the original bases and our choice of bases does not affect linear independence as it is an intrinsic property of the vectors themselves.
 \begin{proposition}[Change of Basis Formula]
   If $A, B, P, Q$ are defined as above, then:
   \[
@@ -730,7 +776,7 @@ where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of whi
   We can then compare the coefficients of $\vec{f}_j$ in each expression for $T(\vec{e}_i)$:
   \begin{align*}
     \sum_{k} A_{j k}P_{k i} &= \sum_{k} Q_{j k}B_{k i} \\
-    (AP)_{j i} &= (QB)_{j i} \\
+    (AP)_{j i} &= (QB)_{j i} \ \forall i, j \\
     \implies AP &= QB
   \end{align*}
   Since $P$ and $Q$ are invertible, the result follows.
@@ -808,71 +854,62 @@ where $P$ is a $n \times n$ matrix and $Q$ is a $m \times m$ matrix, both of whi
   \[
     T(\vec{e}_1') = 2\vec{f}_1',\ T(\vec{e}_2') = 4\vec{f}_2'
   \]
-  We can check our answer by ensuring that the images of the original basis match:
+  We can check our answer by manually computing the components of the images of the new basis vectors for $V$ in terms of the new basis vectors for $W$:
   \begin{align*}
     T(\vec{e}_1') &= T(\vec{e}_1) - T(\vec{e}_2) \\
-                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 - (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3)) \\
+                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 - (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3) \\
                   &= 2\vec{f}_1 -2 \vec{f}_3 \\
                   &= 2\vec{f}_1'
   \end{align*}
   and:
   \begin{align*}
     T(\vec{e}_2') &= T(\vec{e}_1) + T(\vec{e}_2) \\
-                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 + (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3)) \\
+                  &= \vec{f}_1 + 2\vec{f}_2 - \vec{f}_3 + (-\vec{f}_1 + 2\vec{f}_2 + \vec{f}_3) \\
                   &= 4\vec{f}_2 \\
                   &= 4\vec{f}_2'
   \end{align*}
-  which is consistent \tick
+  which is consistent with the columns of $B$ from the change of basis formula.
 \end{example}
 \begin{remark}[Special Cases]
-  \label{COBSpecialCases}
-  \begin{enumerate}
-    \item If $V = W$ and both have the same bases, that is, $\vec{e}_i = \vec{f}_i$ and $\vec{e}_i' = \vec{f}_i'$, then $P = Q$ so the change of basis formula becomes:
-      \[
-        B = P^{-1} A P
-      \]
-      Therefore, matrices represent the same linear map $T: V \to V$ if and only if they are \textbf{similar}.
-    \item Consider the case $V = W = \R^{n} \text{ or }\C^{n}$ both with the standard basis $\{\vec{e}_i\}$.
+  Consider the case where $V = W$ and both have the same basis, that is, $\vec{e}_i = \vec{f}_i$ and $\vec{e}_i' = \vec{f}_i'$. \label{COBSpecialCases}
 
-      If there exists a basis of eigenvectors of $T$, $\{\vec{v}_1, \ldots, \vec{v}_n\}$, then we can construct this to be the new basis $\{\vec{e}_i' = \vec{v}_i\}$ and define $B$ to be the matrix of $T$ with respect to this new basis.
+  We then have that $P = Q$ so the change of basis formula becomes:
+  \[
+    B = P^{-1} A P
+  \]
+  Therefore, matrices represent the same linear map $T: V \to V$ if and only if they are \textbf{similar}.
 
-      It then follows that:
-      \[
-        B = D
-      \]
-      where $D$ is a diagonal matrix with $\lambda_1, \ldots, \lambda_n$ on the diagonal where $T(\vec{v}_i) = \lambda_i \vec{v}_i$ and thus $D = P^{-1} A P$.
-      By definition:
-      \[
-        \vec{v}_i  = \sum_{j} \vec{e}_j P_{j i}
-      \]
-      That is, the eigenvectors are the columns of $P$.
-      Hence $P$ is both the change of basis matrix and also the matrix that diagonalises $A$.
-  \end{enumerate}
+  Moreover, if there exists a basis of eigenvectors $\{\vec{v}_1, \ldots, \vec{v}_n\}$ of $T$ with eigenvalues $\lambda_1, \ldots, \lambda_n$, then we can construct this to be the new basis $\{\vec{e}_i' = \vec{v}_i\}$ and define $B$ to be the matrix of $T$ with respect to this new basis.
+  Since the columns of $B$ are the components of $T(\vec{e}_i')  = T(\vec{v}_i) = \lambda \vec{v}_i$ with respect to the new basis $\{\vec{e}_i' = \vec{v}_i\}$, we have that $B = D$ where $D$ is a diagonal matrix with $\lambda_1, \ldots, \lambda_n$ on the diagonal.
+  So applying the change of basis formula, we obtain that $D = B = P^{-1} A P$.
+
+  By how we define $P$ as a change of basis matrix, it columns are the eigenvectors of $T$ with respect to the original basis $\{\vec{e}_i\}$.
+  Hence $P$ is both the change of basis matrix and also the matrix that diagonalises $A$.
 \end{remark}
 \subsection{Changes in Vector Components Under Change of Basis}
-We can also arrive at the change of basis formula by considering vectors within the two vector spaces under both sets of bases.
+We can also arrive at the change of basis formula by considering the components vectors within both of the vector spaces with respect both sets of bases.
 
-Consider a real or complex vector space $V$ and $\vec{x} \in V$.
-Assume that $\{\vec{e}_i\}$ and $\{\vec{e}_i'\}$ are two bases of $V$ related by $P$ where:
+Consider a vector space $V$ and arbitrary $\vec{x} \in V$.
+Suppose that $\{\vec{e}_i\}$ and $\{\vec{e}_i'\}$ are two bases of $V$ related by the change of basis matrix $P$ where:
 \[
   \vec{x} = x_i \vec{e}_i = x_i' \vec{e}_i'
 \]
 Since the bases are related by $P$, we have:
 \[
-  \vec{e}_j' = \sum_{i} \vec{e}_i P_{i j}
+  \vec{e}_j' = \vec{e}_i P_{i j}
 \]
-Substituting this into the relation from $\vec{x}$, we have:
+Substituting this into the relation for $\vec{x}$, we have:
 \[
   \vec{x} = x_i \vec{e}_i = x_j' \vec{e}_j' = x_j'(\vec{e}_i P_{i j}) = (P_{i j}x_j')\vec{e}_i
 \]
 As the basis vectors are linearly independent, we can compare coefficients to yield:
+\begin{equation}
+  x_i = P_{i j}x_j' \label{vectorComponentsCOB}
+\end{equation}
+This is the relation between the components of $\vec{x}$ with respect two different bases related by the change of basis matrix $P$.
+If we associate $\vec{x}$ in these different basis with column vectors in $\R^{n}$ or $\C^{n}$ (depending on if $V$ is real or complex), then the relationship between these components can be written as:
 \[
-  x_i = P_{i j}x_j'
-\]
-This is the relation between vector components with respect to different bases related by $P$.
-In matrix form this can be written as:
-\[
-  \vec{x} = \begin{pmatrix}
+  \begin{pmatrix}
   x_1 \\
   \vdots \\
   x_n \\
@@ -887,7 +924,6 @@ In matrix form this can be written as:
   \vdots \\
   x_n' \\
   \end{pmatrix}
-  = P\vec{x}'
 \]
 Similarly, consider a vector space $W$ and $y \in W$.
 Assume $\{\vec{f}_i\}$ and $\{\vec{f}_i'\}$ are two bases of $W$ related by $Q$ where:
@@ -896,31 +932,53 @@ Assume $\{\vec{f}_i\}$ and $\{\vec{f}_i'\}$ are two bases of $W$ related by $Q$ 
 \]
 Since the bases are related by $Q$, by a similar argument to above, we have:
 \[
-  y_i = Q_{i j}y_j' \text{ or equivalently } \vec{y} = Q\vec{y}'
+  y_i = Q_{i j}y_j' \text{ or equivalently }
+  \begin{pmatrix}
+  y_1 \\
+  \vdots \\
+  y_n \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+  Q_{1 1} & \cdots & Q_{1 n} \\
+  \vdots & \ddots & \vdots \\
+  Q_{n 1} & \cdots & Q_{n n} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  y_1' \\
+  \vdots \\
+  y_n' \\
+  \end{pmatrix}
 \]
-Now, if we consider the definition of a linear map $T: V \to W$ in terms of a matrix $A$ in the original basis and a matrix $B$ in the new basis, we have:
+Now, if we consider the definition of a linear map $T: V \to W$ in terms of a matrix $A$ in the original basis and a matrix $B$ in the new basis, then purely treating $\vec{x}$, $\vec{x}'$ etc as column vectors in $\R^{n}$ or $\C^{n}$ with their components in each basis then we have:
 \[
   \vec{y} = T(\vec{x}) \iff \vec{y} = A\vec{x} \text{ and } \vec{y}' = B\vec{x}'
 \]
 Therefore,
 \[
-  B\vec{x}' = \vec{y}' = Q^{-1} \vec{y} = Q^{-1}A \vec{x} = (Q^{-1} A P)\vec{x}'
+  \vec{y}' = B\vec{x}' \iff Q^{-1}A \vec{x} = BP^{-1} \vec{x}
 \]
-Thus $B = Q^{-1} A P$.
+Thus since $\vec{x}$ is arbitrary, we can define $\vec{x}$ using its components with respect to the original basis as $x_j = \delta_{i r}$ for some $r$ that we can choose freely later.
+We then have:
+\begin{align*}
+  [Q^{-1}A \vec{x}]_i &= [Q^{-1} A]_{i j} x_j = [Q^{-1} A]_{i r} \\
+                      &= [BP^{-1} \vec{x}]_i = [BP^{-1}]_{i j} x_j = [BP^{-1}]_{i r}
+\end{align*}
+thus as $i$ and $r$ were arbitrary, all entries of $Q^{-1} A$ and $BP^{-1}$ are the same and so $B = Q^{-1} A P$.
 \section{Cayley-Hamilton Theorem}
 \begin{theorem}[Cayley-Hamilton Theorem]
-  If $A$ is an $n \times n$ matrix with:
+  If $A$ is an $n \times n$ matrix with characteristic polynomial:
   \[
     \chi_A(t) = \det(A - tI) = \sum_{r = 0}^{n} c_r t^{r}
   \]
-  then,
+  and we define $\chi_A$ for matrix inputs $M$:
   \[
-    \chi_A(A) = \sum_{r = 0}^{n} c_r A^{r} = O
+    \chi_A(M) = \sum_{r = 0}^{n} c_r M^{r} \text{ where } M^{0} = I
   \]
+  Then, we have that $\chi_A(A) = O$ where $O$ is the zero matrix.
   That is, a matrix satisfies its own characteristic polynomial.
 \end{theorem}
 We will cover multiple different proofs of varying complexity for different types of matrices.
-\begin{proof}[For $2 \times 2$ Matrices]
+\begin{proof}[For $2 \times 2$ matrices]
   We can write a general $2 \times 2$ matrix as:
   \[
     A = \begin{pmatrix}
@@ -928,20 +986,19 @@ We will cover multiple different proofs of varying complexity for different type
     A_{2 1} & A_{2 2} \\
     \end{pmatrix}
   \]
-  Then:
+  Thus:
   \begin{align*}
     \chi_A(t) &= t^2 - (\tr A)t + \det A \\
               &= t^2 - (A_{1 1} + A_{2 2})t + (A_{1 1}A_{2 2} - A_{1 2}A_{2 2})
   \end{align*}
   Then by substitution of $A$ into $\chi_A(t)$ we see that $\chi_A(A) = O$.
 \end{proof}
-\begin{proof}[Diagonalisible $n \times n$ Matrices]
-  Consider an $n \times n$ matrix $A$ with eigenvalues $\lambda_i$ and invertible matrix $P$ such that:
+\begin{proof}[For diagonalisible $n \times n$ matrices]
+  Suppose the $n \times n$ matrix $A$ is diagonalisable, that is there exists an invertible matrix $P$ and diagonal matrix $D$ with entries that are eigenvalues of $A$ $\lambda_1, \ldots, \lambda_n$ such that:
   \[
     P^{-1} A P = D
   \]
-  where $D$ is a diagonal matrix with $\lambda_i$ on the diagonal.
-  Note that $D^{r}$ is also diagonal with:
+  We first note that $D^{r}$ is also diagonal with:
   \[
     D^{r} = \begin{pmatrix}
     \lambda^{r}_{1} &  & \\
@@ -957,18 +1014,20 @@ We will cover multiple different proofs of varying complexity for different type
                         &  & \chi_A(\lambda_n) \\
     \end{pmatrix} = O
   \]
-  But $A = PDP^{-1}$ so $A^{r} = (PDP^{-1})^{r} = PD^{r}P^{-1}$.
+  since $\chi_A(\lambda_i) = 0$ as they are eigenvalues.
+
+  We also see that since $A^{r} = (PDP^{-1})^{r} = PD^{r}P^{-1}$.
   So when substituting $A$ into $\chi_A$ we can pull out $P$ and $P^{-1}$.
   Hence:
   \begin{align*}
-    \chi_A(A) &= \chi(PDP^{-1}) \\
-              &= P\chi_A(D)P^{-1} \\
-              &= O
+    \chi_A(A) &= \sum_{r = 1}^{n} c_r (PDP^{-1})^{r} \\
+              &= P\left[\sum_{r = 1}^{n} c_r D^{r}\right]P^{-1} \\
+              &= P\chi_A(D)P^{-1} = O
   \end{align*}
 \end{proof}
-\begin{proof}[General $n \times n$ Matrix]
+\begin{proof}[For a general $n \times n$ matrix]
   \nonexaminable
-  Let $M = A- tI$, then
+  For convenience, let $M = A - tI$, then
   \[
     \chi_A(t) = \det M = \sum_{r = 0}^{n} c_r t^{r}
   \]
@@ -976,9 +1035,8 @@ We will cover multiple different proofs of varying complexity for different type
   \[
     \widetilde{M}M = (\det M)I
   \]
-  From \cref{adjugateDef}, we see that every entry of $\widetilde{M}$ is a cofactor of $M$.
-  Therefore, each entry will be a polynomial in $t$ of degree at most $n - 1$.
-  We can then define the matrices $B_r$ such that:
+  From \cref{adjugateDef}, we see that every entry of $\widetilde{M}$ is a cofactor of $M$ and so each entry of $\widetilde{M}$ will be a polynomial in $t$ of degree at most $n - 1$.
+  Taking the coefficients of each of these polynomials, we define the $n \times n$ matrices $B_r$ such that:
   \[
     \widetilde{M} = \sum_{r = 0}^{n - 1}  B_r t^{r}
   \]
@@ -1022,8 +1080,28 @@ We will cover multiple different proofs of varying complexity for different type
   \[
     \mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x} = x_i A_{i j} x_j
   \]
-  where $A$ is a real symmetric matrix.
+  where $A$ is a real \textbf{symmetric} matrix.
 \end{definition}
+\begin{remark}
+  Given a real square matrix $M$, we saw in \cref{matrixDecomp} that we can decompose $M$ into:
+  \[
+    M = S + A
+  \]
+  where $S$ is symmetric and $A$ is antisymmetric.
+
+  Let $k = \vec{x}^{\trans}A\vec{x}$.
+  Since $k$ is a scalar $k = k^{\trans}$, so:
+  \[
+   k = k^{\trans} = (\vec{x}^{\trans} A \vec{x})^{\trans} = \vec{x}^{\trans} A^{\trans} \vec{x} = - \vec{x}^{\trans} A \vec{x} = -k \implies k = \vec{x}^{\trans} A \vec{x} = 0
+  \]
+  Thus for any antisymmetric matrix $A$, we have that $\vec{x}^{\trans}A\vec{x} = 0$.
+
+  Therefore:
+  \[
+    \vec{x}^{\trans} M \vec{x} = \vec{x}^{\trans}(S + A)\vec{x} = \vec{x}^{\trans}S\vec{x}
+  \]
+  This is why we always use a symmetric matrix for a quadratic form as if we used a general matrix it could just be reduced to a quadratic form with a symmetric matrix.
+\end{remark}
 Since $A$ is a real symmetric matrix it can be diagonalised as:
 \[
   P^{\trans} A P = D = \begin{pmatrix}
@@ -1034,7 +1112,7 @@ Since $A$ is a real symmetric matrix it can be diagonalised as:
 \]
 where $\lambda_i$ are real eigenvalues and $P$ is a real orthogonal $n \times n$ matrix with orthonormal eigenvectors $\vec{u}_i$ as its columns.
 
-If we set $\vec{x}' = P^{\trans} \vec{x} \iff \vec{x} = P\vec{x}'$, we can diagonalise $\mathcal{F}$.
+If we set $\vec{x}' = P^{\trans} \vec{x} \iff \vec{x} = P\vec{x}'$, then we can diagonalise the quadratic form $\mathcal{F}$.
 Noting that $\vec{x}^{\trans} = (\vec{x}')^{\trans}P^{\trans}$, we have:
 \[
   \mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x} = (\vec{x}')^{\trans} P^{\trans} A \vec{x} = (\vec{x}')^{\trans}P^{\trans}AP\vec{x}' = (\vec{x}')^{\trans}D\vec{x}'
@@ -1042,9 +1120,9 @@ Noting that $\vec{x}^{\trans} = (\vec{x}')^{\trans}P^{\trans}$, we have:
 Since $D$ is diagonal, we can easily compute this in terms of the components of $\vec{x}'$:
 \begin{equation}
   \label{quadraticFormSum}
-  \mathcal{F}(\vec{x}) = (\vec{x}')^{\trans}D \vec{x}' = \sum_{i}\lambda_i (x_i')^2
+  \mathcal{F}(\vec{x}) = (\vec{x}')^{\trans}D \vec{x}' = \sum_{i, j} x_i' \delta_{i j} \lambda_i x_j'  = \sum_{i}\lambda_i (x_i')^2
 \end{equation}
-We can write $\vec{x}'$ and $\vec{x}$ in the standard basis as:
+Since $\vec{x}', \vec{x} \in \R^{n}$, we can in the standard basis for $\R^{n}$ as:
 \begin{align*}
   \vec{x}' &= x_1' \vec{e}_1 + \cdots + x_n' \vec{e}_n \\
   \vec{x} &= x_1 \vec{e}_1 + \cdots + x_n \vec{e}_n
@@ -1058,15 +1136,16 @@ We can then take the dot product of this with $\vec{u}_i$ to extract the $i$-th 
 \[
   x_i' = \vec{x} \cdot \vec{u}_i
 \]
-So $x_i'$ are the components of $\vec{x}$ with respect to the new orthonormal basis vectors $\vec{u}_i$. We call the new axes along the these directions the \textit{principal axes} of $\mathcal{F}$.
+So $x_i'$ are the components of $\vec{x}$ with respect to a new orthonormal basis defined by the eigenvectors $\{\vec{u}_i\}$ which is consistent with what we saw in \cref{vectorComponentsCOB}.
 
-Since these are related to the standard axes by the orthogonal matrix $P$, from \cref{orthogonalMatrices}, we see that:
+We call the new axes along the these directions the \textit{principal axes} of $\mathcal{F}$.
+
+Finally, we note that the norm of $\vec{x}$ is independent of basis so:
 \[
-  |\vec{x}|^2 = x_i x_i = x_i'x_i'
+  |\vec{x}|^2 = x_i x_i = x_i' x_i' = |\vec{x}'|^2
 \]
-so the norm of $\vec{x}$ is calculated the same way in both bases.
 \begin{example}[Quadratic Forms in 2D]
-  In $\R^2$, the general quadratic form is $\mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x}$ with:
+  In $\R^2$, the general quadratic form is $\mathcal{F}(\vec{x}) = \vec{x}^{\trans}A\vec{x}$ where $A$ is the general $2 \times 2$ symmetric matrix:
   \[
     A = \begin{pmatrix}
     \alpha & \beta \\
@@ -1352,31 +1431,13 @@ so the norm of $\vec{x}$ is calculated the same way in both bases.
     \end{case}
   \end{proofcases}
 \end{example}
-\begin{remark}
-  Given a real square matrix $M$, we saw in \cref{matrixDecomp} that we can decompose $M$ into:
-  \[
-    M = S + A
-  \]
-  where $S$ is symmetric and $A$ is antisymmetric.
-
-  Let $k = \vec{x}^{\trans}A\vec{x}$, then:
-  \[
-    k = \vec{x}^{\trans}A\vec{x} = (\vec{x}^{\trans}A^{\trans}\vec{x})^{\trans} = -(\vec{x}^{\trans}A\vec{x})^{\trans} = -k^{\trans} = -k \implies k=\vec{x}^{\trans}A\vec{x} = 0
-  \]
-  So for an antisymmetric matrix $A$, $\vec{x}^{\trans}A\vec{x} = 0$.
-  Therefore:
-  \[
-    \vec{x}^{\trans} M \vec{x} = \vec{x}^{\trans}(S + A)\vec{x} = \vec{x}^{\trans}S\vec{x}
-  \]
-  This is why for quadratic forms we always use a symmetric matrix as if we used a general matrix, it could just be reduced to a quadratic form with a symmetric matrix.
-\end{remark}
 \section{Quadrics and Conics}
 \subsection{Quadrics}
 A \textit{quadric} in $\R^{n}$ is a hypersurface defined by:
 \[
   Q(\vec{x}) = \vec{x}^{\trans}A\vec{x} + \vec{b}^{\trans}\vec{x} + c = 0
 \]
-for some real $n \times n$ real symmetric matrix $A$, $b \in \R^{n}$, and $c \in \R$.
+for some real $n \times n$ real symmetric matrix $A$, a vector $\vec{b} \in \R^{n}$, and $c \in \R$.
 
 We can also write $Q(\vec{x})$ in component form as:
 \[
@@ -1390,7 +1451,17 @@ We now wish to classify solutions of this equation up to \textit{geometrical equ
 \end{itemize}
 If $A$ is invertible, we can ``complete the square'' to simplify the equation.
 Let $\vec{y} = \vec{x} + \frac{1}{2}A^{-1}\vec{b}$.
-Noting that $A^{\trans} = A \implies A^{-1} A^{\trans} = I \implies (A^{-1})^{\trans} = A^{-1}$, we then have:
+Since the vector $\frac{1}{2}A^{-1} \vec{b}$ is fixed, this is simply a change of origin.
+\begin{remark}
+  For an invertible square matrix $A$, the hermitian conjugate and inverse commute:
+  \[
+    (A^{-1})^{\dag} A^{\dag} = (A A^{-1})^{\dag} = I^{\dag} = I \implies (A^{-1})^{\dag} = (A^{\dag})^{-1}
+  \]
+  It the follows that, if $A$ is hermitian, i.e. $A^{\dag} = A$, then $(A^{-1})^{\dag} = A^{-1}$ so the inverse is also hermitian.
+
+  In the case of real matrices this reduces to $(A^{-1})^{\trans} = (A^{\trans})^{-1}$ and for symmetric matrices the inverse is also symmetric, i.e. $(A^{-1})^{\trans} = A^{-1}$.
+\end{remark}
+By the above remark, we have that:
 \[
   \vec{y}^{\trans} = \vec{x}^{\trans} + \frac{1}{2}\vec{b}^{\trans}A^{-1}
 \]
@@ -1406,7 +1477,7 @@ Therefore:
 \[
   \mathcal{F}(\vec{y}) = k \iff Q(\vec{x}) = 0
 \]
-Now, we diagonalise $\mathcal{F}$ as we did for the quadratic forms.
+Now, we diagonalise $\mathcal{F}$ as we did for the quadratic forms, which geometrically is equivalent to an orthogonal transformation about the origin.
 We know that the orthonormal eigenvectors give the principal axes, then the eigenvalues of $A$ along with the value of $k$ determine the geometrical nature of the quadric.
 \subsubsection{Geometric Cases}
 \begin{enumerate}
@@ -1448,7 +1519,13 @@ Quadrics in $\R^2$ are curves called \textit{conics}.
     Since $\det A = 0$, we must have an eigenvalue of 0.
 
     Consider $\lambda_1 > 0$ and $\lambda_2 = 0$.
-    After diagonalising $A$ in the original formula for $Q(\vec{x})$, we get:
+    After performing $\vec{x} = P\vec{x}'$ to diagonalise $x^{\trans} A x^{\trans}$ in the original formula for $Q(\vec{x})$, we obtain:
+    \begin{align*}
+      Q(\vec{x}') &= (\vec{x}')^{\trans} D \vec{x} + \underbrace{\vec{b}^{\trans} P}_{= \vec{b}'} \vec{x}' + c \\
+                  &= (\vec{x}')^{\trans} D \vec{x} + \vec{b}'\vec{x}' + c \\
+                  &= \lambda_1 (x_1')^2 + b_1' x_1' + b_2' x_2' + c
+    \end{align*}
+    So taking $Q(\vec{x}') = 0$ we obtain:
     \begin{align*}
       \lambda_1(x_1')^2 + b_1'x_1' + b_2'x_2' + c &= 0 \\
       \lambda_1(x_1')^2 + b_1'x_1' + \frac{1}{4\lambda_1}(b_1')^2 - \frac{1}{4\lambda_1}(b_1')^2 + b_2'x_2' + c &= 0 \\
@@ -1482,7 +1559,9 @@ Quadrics in $\R^2$ are curves called \textit{conics}.
     \end{proofcases}
   \end{case}
   Note that all changes of coordinates have been translations or orthogonal transformations about a given point.
-  Therefore, all the transformations have preserved distances and angles so solutions are geometrically equivalent. 
+  Therefore, all the transformations have preserved distances and angles so solutions are geometrically equivalent.
+
+  It is important to note that although a line might appear to be vertical, this may only be true with respect to the principal axes and not the standard axes.
 \end{proofcases}
 \subsubsection{Standard Forms for Conics in Cartesian Coordinates}
 \begin{proofcases}
@@ -1570,7 +1649,7 @@ The 4 conic sections (circle, parabola, hyperbola, and ellipse) can be obtained 
 \begin{itemize}
   \item Plane \textbf{horizontal} $\to$ \textbf{Circle}
   \item Plane \textbf{parallel to the slant} of the cone $\to$ \textbf{Parabola}
-  \item Plane \textbf{vertical} $\to$ \textbf{Hyperbola} (only one which intersects both cones simultaneously)
+  \item Plane \textbf{vertical} $\to$ \textbf{Hyperbola} (only one which intersects both cones simultaneously, hence its two branches)
   \item Otherwise $\to$ \textbf{Ellipse}
 \end{itemize}
 \begin{definition}[Conic Sections]
@@ -1632,13 +1711,14 @@ The 4 conic sections (circle, parabola, hyperbola, and ellipse) can be obtained 
     \end{tikzpicture}
     \end{center}
     We must have $|PF| = e|PM|$ and so we obtain:
-    \[
+    \begin{equation}
       \sqrt{(x - ae)^2 + y^2} = e\left(x - \frac{a}{e}\right) \implies
-      \frac{x^2}{a^2} - \frac{y^2}{a^2(e^2 - 1)} = 1
-    \]
+      \frac{x^2}{a^2} - \frac{y^2}{a^2(e^2 - 1)} = 1 \label{hyperbolaCartesian}
+    \end{equation}
     with $b = a\sqrt{e^2 - 1}$.
   \end{case}
   \begin{case}{$e = 1$}
+    Recalling that in the case of $e = 1$ we pick a focus and then take the distance to the further of the two directrices (as otherwise $|PM| = 0$ always):
     \begin{center}
     \begin{tikzpicture}[>=stealth]
       \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
@@ -1649,7 +1729,7 @@ The 4 conic sections (circle, parabola, hyperbola, and ellipse) can be obtained 
 
       \fill (1, 0) circle (1pt) node[above] {$F$} node[below] {\small$(a, 0)$};
 
-      \draw[dashed] (-0.25, -2) node[below] {\small$x = -\frac{a}{e}$} -- (-0.25, 2);
+      \draw[dashed] (-0.25, -2) node[below] {\small$x = -a$} -- (-0.25, 2);
       \draw[thick] (1, 0) -- (1.2, 1.095) node[above] {$P$} -- (-0.25, 1.095) node[left] {$M$};
     \end{tikzpicture}
     \end{center}
@@ -1711,7 +1791,7 @@ Hence, the focus-directrix property is given by:
     \end{center}
   \end{case}
   \begin{case}{$e = 1$ -- Parabola}
-    Since $e = 1$, we have $\ell = 2a$ so $r = \frac{2a}{1 + e\cos \theta}$.
+    Since $e = 1$, we have $\ell = 2a$ so $r = \frac{2a}{1 + \cos \theta}$.
     \begin{center}
     \begin{tikzpicture}[>=stealth]
       \draw[->] (0, -2) -- (0, 2) node[above] {$y$};
@@ -1742,30 +1822,34 @@ Hence, the focus-directrix property is given by:
     \end{tikzpicture}
     \end{center}
   \end{case}
+  Note that we only get a single branch of the hyperbola because we chose to only plot $r \geq 0$.
+  The asymptotes occur when $1 + e \cos \theta = 0$, i.e. at lines parallel to $\theta = \pm \arccos(1/e)$.
+  These lines have gradient $m = \tan(\theta) = \pm \sqrt{e^2 - 1}$ which is consistent with how in \cref{hyperbolaCartesian}, for large $x$ and $y$, the constant term is negligible so $y \approx \pm x\sqrt{e^2 - 1}$.
 \end{proofcases}
 \section{Jordan Canonical/Normal Forms}
-This gives us a classification for $n \times n$ complex matrices up to similarity.
+This section gives us a classification for $n \times n$ complex matrices up to similarity.
+Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to \C^{n}$ which is similar to the matrix $B$ some a change of basis.
+Depending on the eigenvalues and eigenvectors of $A$, we can find a matrix $B$ that will always be similar to $A$.
 
-Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to \C^{n}$ which is similar to the matrix $B$ after a change of basis.
+In the case of $n = 2$:
 \begin{proposition}[Jordan normal forms in $\C^2$]
-  \label{2x2Similar}
-  Let $A$ be a $2 \times 2$ complex matrix $A$ with eigenvalues $\lambda_1$ and $\lambda_2$:
+  Let $A$ be a $2 \times 2$ complex matrix $A$ with eigenvalues $\lambda_1$ and $\lambda_2$: \label{2x2Similar}
   \begin{enumerate}
-    \item If $\lambda_1 \neq \lambda_2$, then $A$ is similar to:
+    \item If $\lambda_1 \neq \lambda_2$, then $A$ is similar to the matrix:
       \[
         B = \begin{pmatrix}
         \lambda_1 & 0 \\
         0 & \lambda_2 \\
         \end{pmatrix}
       \]
-    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 2$, then $A$ is similar to:
+    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 2$, then $A$ is similar to the matrix:
       \[
         B = \begin{pmatrix}
         \lambda & 0 \\
         0 & \lambda \\
         \end{pmatrix}
       \]
-    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 1$, then $A$ is similar to:
+    \item If $\lambda_1 = \lambda_2 = \lambda$ and $m_\lambda = 1$, then $A$ is similar to the matrix:
       \[
         B = \begin{pmatrix}
         \lambda & 1 \\
@@ -1791,7 +1875,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
         0 & \lambda_2 \\
         \end{pmatrix}
       \]
-    \item For $\lambda_1 = \lambda_2 = \lambda$ and $M_\lambda = m_{\lambda} = 2$ we can diagonalise so the same argument applies.
+    \item For $\lambda_1 = \lambda_2 = \lambda$ and $M_\lambda = m_{\lambda} = 2$ we can still diagonalise so the same argument applies.
     \item For $\lambda_1 = \lambda_2 = \lambda$ and $M_\lambda = 2 \neq m_{\lambda} = 1$, let $\vec{v}$ be an eigenvector for $\lambda$ and extend this to a basis for $\C^{2}$ by adjoining a vector $\vec{w}$ that is linearly independent to $\vec{v}$.
 
       Since $\vec{v}$ is an eigenvector, $A \vec{v} = \lambda \vec{v}$.
@@ -1810,7 +1894,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
         \end{pmatrix}
       \]
       This matrix must be similar to $A$ as it represents the same transform in a different basis.
-      It therefore needs to have the same repeated eigenvalue $\lambda$ so we require that $\beta = \lambda$.
+      It therefore needs to have the same characteristic polynomial and hence the same repeated eigenvalue $\lambda$ so we require that $\beta = \lambda$.
 
       Now defining $\vec{u} = \alpha \vec{v}$, we have that:
       \[
@@ -1820,8 +1904,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
         \end{pmatrix}
       \]
       represents $T$ with respect to the basis $\{\vec{u}, \vec{w}\}$ as $A\vec{u} = \lambda \vec{u}$ and $A\vec{w} = \vec{u} + \lambda \vec{w}$.
-      Therefore, $B = P^{-1} A P$ where $\vec{u}, \vec{w}$ are the columns of $P$.
-      So $A$ is similar to $B$.
+      Therefore, $B = P^{-1} A P$ where $\vec{u}, \vec{w}$ are the columns of $P$ and so $A$ is similar to $B$.
   \end{enumerate}
 \end{proof}
 \begin{theorem}[Jordan normal forms in $\C^n$]
@@ -1834,7 +1917,7 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
      &  &  & \multicolumn{1}{|c}{J_{n_r}(\lambda_r)} \\
     \end{pmatrix}
   \]
-  where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are eigenvalues of $A$ and $B$.
+  where all other entries are 0, $n_1 + \cdots n_r = n$, and $\lambda_1, \ldots, \lambda_r$ are eigenvalues of $A$ (and also $B$).
 
   Each \textit{Jordan block} $J_p(\lambda)$ is a $p \times p$ matrix of the form:
   \[
@@ -1848,8 +1931,11 @@ Consider an $n \times n$ matrix $A$ corresponding to a linear map $T: \C^{n} \to
   \]
   where the main diagonal has only $\lambda$, the diagonal above has only $1$, and everything else is 0.
 \end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
 \begin{remark}[Note]
-  The same eigenvalue may appear in more than one block.
+  The same eigenvalue may appear in more than one block as $\lambda_1, \ldots, \lambda_k$ need not be distinct.
 
   For example, considering the matrices in \cref{2x2Similar}:
   \begin{enumerate}
@@ -1970,8 +2056,8 @@ We can write this in terms of the components of $\vec{x}$ and $\vec{y}$:
 \]
 We saw this originally in \cref{scalarCrossProduct}.
 
-Note that this ``inner product'' is \textbf{not} positive definite as $(\vec{x}, \vec{x})$ is not necessarily positive.
-However, it is still bilinear and symmetric (See \cref{innerProd} for details of the normal inner product on $\R^{2}$).
+Note that this ``inner product'' is \textbf{not} positive definite as $(\vec{x}, \vec{x}) = x^2_0 - x^2_1$ is not necessarily positive.
+However, it is still bilinear and symmetric (See \cref{innerProd} for the usual axioms for inner products on real vector spaces).
 
 Consider the vectors $\vec{e}_0 = \begin{pmatrix}
 1 \\
@@ -1989,9 +2075,9 @@ Notice that:
 This is similar to how basis vectors are orthonormal when using the standard inner product.
 We generalise the notion of orthonormality to this new ``inner product'' as above so that the standard basis vectors are orthonormal in this metric.
 \begin{definition}[Minkowski Space]
-  The inner product defined for all $\vec{x}, \vec{y} \in \R^2$ by $\vec{x}^{\trans}J\vec{y}$ is called the \textit{Minkowski metric}.
+  The metric for all $\vec{x}, \vec{y} \in \R^2$ by $\vec{x}^{\trans}J\vec{y}$ is called the \textit{Minkowski metric}.
 
-  Futhermore, $\R^2$ equipped with the Minkowski metric is called the \textit{Minkowski space}.
+  Furthermore, $\R^2$ equipped with the Minkowski metric is called the \textit{Minkowski space}.
 \end{definition}
 Consider a matrix associated with a linear map $T: \R^2 \to R^2$ of the form:
 \[
@@ -2005,7 +2091,7 @@ We say that this matrix preserves the Minkowski metric if and only if:
   &(M\vec{x}, M\vec{y}) = (\vec{x}, \vec{y})\ \forall \vec{x}, \vec{y} \in \R^2 \\
   \iff& (M\vec{x})^{\trans}J(M\vec{y}) = \vec{x}^{\trans}J\vec{y} \ \forall \vec{x}, \vec{y} \in \R^2 \\
   \iff& \vec{x}^{\trans}(M^{\trans}JM)\vec{y} = \vec{x}^{\trans}J\vec{y} \ \forall \vec{x}, \vec{y} \in \R^2 \\
-  \iff& M^{\trans}JM = J
+  \iff& M^{\trans}JM = J \text{ (by taking $x_i = \delta_{i p}$ and $y_j = \delta_{j q}$)}
 \end{align*}
 The matrices $M$ for which this holds form a group.
 If we take determinants of each side, we see that matrices in this group must necessarily have $\det M = \pm 1$:
@@ -2017,105 +2103,71 @@ If we take determinants of each side, we see that matrices in this group must ne
 \end{definition}
 
 \textbf{General form of M}\par
-To find the general form of a matrix $M$ in the Lorentz group, we will use a method similar to when we determined the general form of orthogonal matrices in $\R^2$ in \cref{orthoExampleR2}.
+We could find the general form of $M$ from $M^{\trans}JM = J$ however here we will use a method similar to when we determined the general form of orthogonal matrices in $\R^2$ in \cref{orthoExampleR2}.
 
+Suppose that we have such a matrix $M$ that preserves the metric.
 First, we use the fact that $(\vec{e}_0, \vec{e}_0) = 1$, so if $M$ is to preserve the Minkowski metric, we must have $(M\vec{e}_0, M\vec{e}_0) = 1$.
 Thus:
 \[
-  \vec{e}^{\trans}_0 M^{\trans} J M \vec{e}_0 =
-  (1, 0)\begin{pmatrix}
-  M_{0 0} & M_{1 0} \\
-  M_{0 1} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  1 & 0 \\
-  0 & -1 \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  M_{0 0} & M_{0 1} \\
-  M_{1 0} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  1 \\
-  0 \\
-  \end{pmatrix} = M_{0 0}^2 - M_{1 0}^2 = 1
+  (M\vec{e}_0, M\vec{e}_0) = [M\vec{e}_0]^2_0 - [M\vec{e}_0]^2_1 = M_{0 0}^2 - M_{1 0}^2 = 1
 \]
 Similarly, since $(\vec{e}_1, \vec{e}_1) = -1$, we must have $(M\vec{e}_1, M\vec{e}_1) = -1$:
 \[
-  \vec{e}^{\trans}_1 M^{\trans} J M \vec{e}_1 =
-  (0, 1)\begin{pmatrix}
-  M_{0 0} & M_{1 0} \\
-  M_{0 1} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  1 & 0 \\
-  0 & -1 \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  M_{0 0} & M_{0 1} \\
-  M_{1 0} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  0 \\
-  1 \\
-  \end{pmatrix} = M_{0 1}^2 - M_{1 1}^2 = -1
+  (M\vec{e}_1, M\vec{e}_1) = [M\vec{e}_1]^2_0 - [M\vec{e}_1]^2_1 = M_{0 1}^2 - M_{1 1}^2 = -1
 \]
 Now using $(\vec{e}_0, \vec{e}_1) = 0$, so $(M\vec{e}_0, M\vec{e}_1) = 0$:
 \[
-  \vec{e}^{\trans}_0 M^{\trans} J M \vec{e}_1 =
-  (1, 0)\begin{pmatrix}
-  M_{0 0} & M_{1 0} \\
-  M_{0 1} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  1 & 0 \\
-  0 & -1 \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  M_{0 0} & M_{0 1} \\
-  M_{1 0} & M_{1 1} \\
-  \end{pmatrix}
-  \begin{pmatrix}
-  0 \\
-  1 \\
-  \end{pmatrix} = M_{0 0}M_{0 1} - M_{1 0}M_{1 1} = 0
+  (M\vec{e}_0, M\vec{e}_1) = [M\vec{e}_0]^2_0 - [M\vec{e}_0]^2_1 = M_{0 0}M_{0 1} - M_{1 0}M_{1 1} = 0
 \]
 
-From $M_{0 0}^2 - M_{1 0}^2 = 1$, we have that $M_{0 0} = \pm \cosh \theta$ and $M_{1 0} = \pm \sinh \theta$ for some $\theta$.
-Since $M_{0 0} > 0$, we must have $M_{0 0} = \cosh \theta$.
-We can then also set $M_{1 0} = \sinh \theta$ as we can just set $\theta \mapsto -\theta$ without affecting $M_{0 0}$.
+From $M_{0 0}^2 - M_{1 0}^2 = 1$ and $M_{0 0} > 0$ we can write $M_{0 0} = \cosh \theta$ and $M_{1 0} = \pm \sinh \theta$ for some $\theta$.
 
 Similarly, from $M_{0 1}^2 - M_{1 1}^2 = -1$, we have that $M_{1 1} = \pm \cosh \phi$ and $M_{0 1} = \sinh \phi$.
-Since we require $\det M = 1$, we must have $M_{1 1} = \cosh \phi$.
+Since we require $\det M = 1$, we must have $M_{1 1} = \cosh \phi$ as if $M_{1 1} = - \cosh \phi$ then we would have $\cosh(\phi + \theta) = -1$, which is a contradiction.
 
 Finally, using $M_{0 0}M_{0 1} - M_{1 0}M_{1 1} = 0$, we have:
 \[
   \cosh \theta \sinh \phi - \sinh \theta \cosh \phi = \sinh(\phi - \theta) = 0 \implies \phi = \theta
 \]
-Thus, we must have:
+So if $M$ preserves the metric, we must have:
 \[
   M(\theta) = \begin{pmatrix}
   \cosh \theta & \sinh \theta \\
   \sinh \theta & \cosh \theta \\
   \end{pmatrix}
 \]
-for some $\theta$.
+for some $\theta \in \R$.
+We can also check that $M(\theta)$ preserves the metric \textbf{for all} $\theta \in \R$:
+\[
+  M^{\trans} J M = \begin{pmatrix}
+  \cosh \theta & \sinh \theta \\
+  \sinh \theta & \cosh \theta \\
+  \end{pmatrix} \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} \begin{pmatrix}
+  \cosh \theta & \sinh \theta \\
+  \sinh \theta & \cosh \theta \\
+  \end{pmatrix} = \begin{pmatrix}
+  1 & 0 \\
+  0 & -1 \\
+  \end{pmatrix} = J
+\]
+So the Lorentz group is exactly the set of matrices $\{M(\theta): \theta \in \R\}$.
 
-Similarly to rotation matrices, we can relate the product of two such matrices to another matrix.
-For $M$ in the Lorentz group, we have:
-\begin{align*}
+Similarly to rotation matrices, we can relate the product of two matrices in the Lorentz group to another matrix:
+\begin{align}
   M(\theta_1)M(\theta_2) &=
   \begin{pmatrix}
   \cosh \theta_1 \cosh \theta_2 + \sinh \theta_1 \sinh \theta_2 & \cosh \theta_1 \sinh \theta_2 + \cosh \theta_2 \sinh \theta_1 \\
   \sinh \theta_1 \cosh \theta_2 + \sinh \theta_2 \cosh \theta_1 & \sinh \theta_1 \sinh \theta_2 + \cosh \theta_1 \cosh \theta_2 \\
-  \end{pmatrix} \\
+  \end{pmatrix} \nonumber \\
   &= \begin{pmatrix}
   \cosh(\theta_1 + \theta_2) & \sinh(\theta_1 + \theta_2) \\
   \sinh(\theta_1 + \theta_2) & \cosh(\theta_1 + \theta_2) \\
-  \end{pmatrix} \\
-  &= M(\theta_1 + \theta_2)
-\end{align*}
-
+  \end{pmatrix} \nonumber \\
+  &= M(\theta_1 + \theta_2) \label{lorentzProduct}
+\end{align}
 \subsubsection{Geometric Interpretation}
 Suppose we require $(\vec{x}, \vec{x}) = k$ to be constant.
 Note that this is not fixing the standard euclidean norm of $\vec{x}$, we are instead fixing the \textit{psuedonorm} given by the Minkowski metric.
@@ -2196,8 +2248,7 @@ We can rewrite:
   \end{pmatrix}
 \]
 When working with special relativity use \textit{natural units}.
-This means that we normalise the speed of light to be $c = 1$.
-This means that all other velocities $v$ must be in the range $-1 < v < 1$.
+This means that we normalise the speed of light to be $c = 1$ and so all other velocities $v$ must be in the range $-1 < v < 1$.
 We can then let $v = \tanh \theta$ for some $\theta$.
 
 We then rename $x_0 \mapsto t$ to represent the \textit{time coordinate} and rename $x_1 \mapsto x$ to represent the \textit{space coordinate}.
@@ -2207,20 +2258,20 @@ The image of $\vec{x}$, $\vec{x}' = M\vec{x}$, then has components:
   t' = \frac{1}{\sqrt{1 - v^2}}(t + vx) \text{ and } x' = \frac{1}{\sqrt{1 - v^2}}(x + vt)
 \]
 
-$x$ and $t$ represent a space and time coordinate in one spacetime reference frame and $x'$ and $t'$ are those but in some other reference frame with relative velocity $v$ to the initial frame.
+$x$ and $t$ represent a space and time coordinate in one space-time reference frame and $x'$ and $t'$ are those but in some other reference frame in which the original frame has velocity $v$.
 
-This means that \textit{Lorentz transformations} relate the space and time coordinates for observers with relative velocity $v$, this is used heavily in \textit{Special Relativity} and is covered further in the course Dynamics and Relativity.
+This means that \textit{Lorentz transformations} relate the space and time coordinates for observers with relative velocity $v$, this is used heavily in \textit{Special Relativity} and is covered further in IA Dynamics and Relativity.
 
 The factor $\gamma(v) = \frac{1}{\sqrt{1 - v^2}}$ is called the \textit{Lorentz factor} and gives rise to time dilation and length contraction effects.
 
 
 Here we employed the active point of view by considering the transformation of vectors and saw that these transformations are moving the body, however, if we consider the passive point of view, then we can instead see the transformation as changing the reference frame whilst keeping the body fixed.
 \subsubsection{Composition of Velocities}
-We can use the product formula derived above to compose relativistic velocities:
+We can use the product formula derived in \cref{lorentzProduct} to compose relativistic velocities:
 \[
   M(\theta_1)M(\theta_2) = M(\underbrace{\theta_1 + \theta_2}_{\theta_3})
 \]
-If we set $v_i = \tanh(\theta_i)$ for $i = 1, 2, 3$, then:
+If we set $v_i = \tanh(\theta_i)$ for $i \in \{1, 2, 3\}$, then:
 \begin{align*}
   &\frac{1}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}}
   \begin{pmatrix}
@@ -2236,9 +2287,9 @@ If we set $v_i = \tanh(\theta_i)$ for $i = 1, 2, 3$, then:
   1 & v_3 \\
   v_3 & 1 \\
   \end{pmatrix} \\
-  \implies& \frac{1 + v_1 v_2}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}} = \frac{1}{\sqrt{1 - v^{2}_{3}}} \text{ and }
+  \iff& \frac{1 + v_1 v_2}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}} = \frac{1}{\sqrt{1 - v^{2}_{3}}} \text{ and }
   \frac{v_1 + v_2}{\sqrt{1 - v^{2}_{1}}\sqrt{1 - v^{2}_{2}}} = \frac{v_3}{\sqrt{1 - v^{2}_{3}}} \\
   \implies& v_3 = \frac{v_1 + v_2}{1 + v_1v_2}
 \end{align*}
-which is the composition of relativistic velocities in natural units (i.e. all $|v_i| < 1$).
+which is the composition of relativistic velocities in natural units (i.e. $|v_i| < 1$ for all $i$).
 \end{document}

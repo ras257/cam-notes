@@ -1130,14 +1130,16 @@ Equivalently, $U$ is unitary if and only if it preserves the standard inner prod
   So in 2D, the only orthogonal matrices are those corresponding to reflations or rotations.
 \end{example}
 \section{Determinants} \label{determinants}
-Consider a map $\R^{n} \to \R^{n}$ given by a real $n \times n$ matrix $M$:
+Often, we want to find the inverse of a matrix so that we can invert a linear map.
+Consider a map $\R^{n} \to \R^{n}$ given by a real $n \times n$ square matrix $M$:
 \[
   \vec{x}' = M\vec{x}
 \]
-Assume that $M$ is invertible so has inverse $M^{-1}$, then:
+Assuming that $M$ is invertible, it has inverse $M^{-1}$ so:
 \[
   \vec{x} = M^{-1}\vec{x}'
 \]
+The \textit{determinant} of square matrix tells us whether or not the matrix $M$ is invertible.
 \subsection{Determinants in \texorpdfstring{$\R^2$}{2D}}
 Consider:
 \[
@@ -1150,22 +1152,16 @@ Consider:
   -M_{2 1} & M_{1 1} \\
   \end{pmatrix}
 \]
-Note that:
+We see that that:
 \[
-  \widetilde{M}M =
-  (M_{1 1}M_{2 2} - M_{1 2}M_{2 1})I
+  \widetilde{M}M = (M_{1 1}M_{2 2} - M_{1 2}M_{2 1})I = (\det M) I
 \]
-Then we have:
-\[
-  \vec{x}' = M\vec{x} \implies \widetilde{M}\vec{x}' = \widetilde{M} M \vec{x} = (\det M)\vec{x}
-\]
-with $\det M = M_{1 1}M_{2 2} - M_{1 2}M_{2 1}$
-
-Therefore, if $\det M \neq 0$, we have:
+where we define $\det M = M_{1 1}M_{2 2} - M_{1 2}M_{2 1}$.
+Thus if $\det M \neq 0$, we have:
 \[
   M^{-1} = \frac{\widetilde{M}}{\det M}
 \]
-and so $M$ is invertible.
+so $M$ is invertible.
 \begin{remark}
   Note that we can write $\det(M) = [M\vec{e}_1, M\vec{e}_2]$ using the scalar cross product from \cref{scalarCrossProduct}.
   Therefore, $\det M$ is the signed area of the parallelogram spanned by the images of the basis vectors under $M$.
@@ -1182,8 +1178,8 @@ Recall the scalar triple product from \cref{scalarTripleProduct}:
 \]
 This gives the signed volume of the parallelepiped defined by the three vectors.
 
-Under the action of a $3 \times 3$ matrix $M$, volumes will be scaled by a factor of $\det M$.
-To find this scale factor, we compute the triple product of the images of the basis vectors:
+For a $3 \times 3$ matrix $M$, we can define $\det M$ to be the scale factor by which it scales volume.
+Since the scalar triple product gives us the signed volume of a parallelepiped spanned by three vectors, the triple product $[M\vec{e}_1, M\vec{e}_2, M\vec{e}_3]$ gives us the signed volume of the unit cube defined by $\vec{e}_1, \vec{e}_2, \vec{e}_3$ \textit{after} it has been transformed by $M$:
 \begin{align*}
   [M\vec{e}_1, M\vec{e}_2, M\vec{e}_3] &= [\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)] \\
                                        &= [M_{i 1}\vec{e}_i, M_{j 2}\vec{e}_j, M_{k 3}\vec{e}_k] \\
@@ -1207,7 +1203,7 @@ We then define $\det M$ in $\R^{3}$ as:
     \end{vmatrix}
   \]
 \end{remark}
-To construct $\widetilde{M}$, we need rows of $\widetilde{M}$ such that $\vec{R}_i(\widetilde{M}) \cdot \vec{C}_j(M) = (\det M) \delta_{i j}$ so that $(\widetilde{M}M)_{i j} = (\det M)\delta_{i j}$ and thus $\widetilde{M}M = (\det M)I$.
+To construct $\widetilde{M}$, we need rows of $\widetilde{M}$ such that $(\widetilde{M}M)_{i j} = \vec{R}_i(\widetilde{M}) \cdot \vec{C}_j(M) = (\det M) \delta_{i j}$ so that $\widetilde{M}M = (\det M)I$.
 
 This means that we need rows so that if they have a different index to the columns, they are orthogonal.
 That is, $\vec{R}_1(\widetilde{M})$ needs to be orthogonal to $\vec{C}_2(M)$ and $\vec{C}_3(M)$ and so on.
@@ -1231,9 +1227,9 @@ Therefore, provided $\det M \neq 0$, similarly to in $\R^2$:
 
 This process also provides us with multiple statements that are equivalent to $\det M \neq 0$:
 \begin{itemize}
- \item $\{M\vec{e}_1, M\vec{e}_2, M\vec{e}_3\} = \{\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)\}$ are linearly independent
- \item $\im M = \R^3$
- \item $\rank M = 3$
+ \item $\{M\vec{e}_1, M\vec{e}_2, M\vec{e}_3\} = \{\vec{C}_1(M), \vec{C}_2(M), \vec{C}_3(M)\}$ are linearly independent as the scalar triple product is $0$.
+ \item $\im M = \R^3$ as it has three linearly independent columns.
+ \item $\rank M = 3$ since $\rank M = \im M$.
 \end{itemize}
 \begin{remark}
   General $3 \times 3$ determinants can be expanded in terms of $2 \times 2$ determinants:
@@ -1265,7 +1261,7 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
 \end{definition}
 \begin{remark}[Notation]
   \begin{itemize}
-    \item $S_n$ is the set of all permutations of the elements $1, \ldots, n$.
+    \item $S_n$ is the set of all permutations of the elements $\{1, \ldots, n\}$.
       This has $n!$ elements
     \item We usually use the ``two-line'' notation to describe permutations.
       For example, for a $\rho \in S_n$, we would write:
@@ -1336,6 +1332,9 @@ The goal of this section is to rigorously define a general Levi-Civita Epsilon f
 \begin{proposition}
   Any $q$-cycle can be written as a product of 2-cycles.
 \end{proposition}
+\begin{proof}
+  See IA Groups.
+\end{proof}
 \begin{example}
   For example:
   \[
@@ -1376,7 +1375,7 @@ That is, if we swap any of the two indices then we get a change in sign.
   \end{align*}
 \end{definition}
 \begin{remark}
-  In $\R^2$, this is the scalar cross product and in $\R^3$ this is the scalar triple product.
+  In $\R^2$, this is the 2D cross product and in $\R^3$ this is the scalar triple product.
 \end{remark}
 \subsubsection{Properties of Alternating Forms}
 \begin{enumerate}
@@ -1388,7 +1387,7 @@ That is, if we swap any of the two indices then we get a change in sign.
     \[
       [\vec{v}_{\rho(1)}, \ldots, \vec{v}_{\rho(n)}] = \varepsilon(\rho)[\vec{v}_1, \ldots, \vec{v}_n]
     \]
-    This is because exchanging $\vec{v}_p$ and $\vec{v}_q$ for any $p \neq q$ changes the sign of the alternating form and $\varepsilon(\rho)$ depends on how many transpositions are needed to achieve the permutation.
+    This is because transposing $\vec{v}_p$ and $\vec{v}_q$ for any $p \neq q$ changes the sign of the alternating form and $\varepsilon(\rho)$ depends on how many transpositions are needed to achieve the permutation.
   \item \textbf{Action on the Canonical Basis -} There is only one permutation of $1, \ldots, n$ where $(\vec{e}_1)_{\rho(1)} \cdots (\vec{e}_n)_{\rho(n)}$ is non-zero, namely the identity permutation.
     This has sign $+1$, so we have:
     \[
@@ -1402,7 +1401,7 @@ The above three properties axiomatically determine alternating forms but there a
     \[
       [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_q, \ldots, \vec{v}_n] = 0
     \]
-    This follows from \textbf{ii} as $\varepsilon(\rho) = 0$ if two indices are mapped to the same one.
+    This follows from if we swap the vectors $\vec{v}_p$ and $\vec{v}_q$ the value of the alternating form does not change but it should pick up a factor of $-1$ from anti-symmetry, hence it must be 0.
   \item If the vectors are linearly dependant then we can write $\vec{v}_p = \sum_{i \neq p} \lambda_i \vec{v}_i$, therefore:
     \[
       [\vec{v}_1, \ldots, \vec{v}_p, \ldots, \vec{v}_n] = 0
@@ -1510,7 +1509,7 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
     This follows immediately from \cref{alternatingFormIndependent}.
 \end{enumerate}
 \begin{remark}
-  As a consequence of the proof for \textbf{v}, under a column operation:
+  As a consequence of the proof for \textbf{v}, if we do not impose that $\vec{C}_i(M) + \lambda \vec{C}_j(M) = \vec{0}$, we still have $\det N = \det M$ so under a column operation:
   \[
     \vec{C}_i \mapsto \vec{C}_i + \lambda \vec{C}_j \quad i \neq j
   \]
@@ -1525,29 +1524,35 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
   \[
     \varepsilon(\rho)M_{\rho(1) 1} \cdots M_{\rho(n) n}
   \]
-  for some $\rho \in S_n$.
+  for some fixed $\rho \in S_n$.
   Take any $\sigma \in S_n$, we then have:
   \[
-    M_{\rho(1) 1} \cdots M_{\rho(n) n} = M_{\rho(\sigma(1)) \sigma(1)} \cdots M_{\rho(\sigma(n)) \sigma(n)}
+    \varepsilon(\rho) M_{\rho(1) 1} \cdots M_{\rho(n) n} = \varepsilon(\rho) M_{\rho(\sigma(1)) \sigma(1)} \cdots M_{\rho(\sigma(n)) \sigma(n)}
   \]
   as introducing the $\sigma$ only permutes the order in which the elements are multiplied so the value is unchanged.
 
-  Now if we take $\rho = \sigma^{-1}$, $\varepsilon(\rho) = \varepsilon(\sigma^{-1}) = \varepsilon(\sigma)$ and thus:
+  If we pick $\sigma = \rho^{-1}$, then we see that:
+  \begin{align*}
+    \varepsilon(\rho) M_{\rho(1) 1} \cdots M_{\rho(n) n} &= \varepsilon(\rho) M_{1 \rho^{-1}(1)} \cdots M_{1 \rho^{-1}(n)} \\
+                                                         &= \varepsilon(\rho^{-1}) M_{1 \rho^{-1}(1)} \cdots M_{1 \rho^{-1}(n)} \text{ as $\varepsilon(\rho) = \varepsilon(\rho^{-1})$}
+  \end{align*}
+  Each $\rho \in S_n$ has an inverse so the sum over all $\rho \in S_n$ will have the same terms as the sum over all $\rho^{-1} \in S_n$, thus:
   \begin{align*}
     \det M &= \sum_{\rho \in S_n} \varepsilon(\rho) M_{\rho(1) 1} \cdots M_{\rho(n) n} \\
-           &= \sum_{\sigma \in S_n} \varepsilon(\sigma) M_{1 \sigma(1)} \cdots M_{n \sigma(n)} \\
+           &= \sum_{\rho \in S_n} \varepsilon(\rho^{-1}) M_{\rho^{-1}(1) 1} \cdots M_{\rho^{-1}(n) n} \\
+           &= \sum_{\rho \in S_n} \varepsilon(\rho) M_{1 \rho(1)} \cdots M_{n \rho(n)} \\
            &= \det(M^{\trans})
   \end{align*}
-  as, by definition, $(M^{\trans})_{i j} = M_{j i}$.
+  Since, by definition, $(M^{\trans})_{i j} = M_{j i}$.
 \end{proof}
 \begin{remark}
   Since the columns of $M^{\trans}$ are the rows of $M$, all of the properties above for columns hold equally for rows.
 
-  So under a row operation:
+  In particular, under a row operation:
   \[
     \vec{R}_i \mapsto \vec{R}_i +\lambda \vec{R}_j \quad i \neq j
   \]
-  $\det M$ is unchanged.
+  $\det M$ is also unchanged.
 \end{remark}
 \begin{enumerate}
   \setcounter{enumi}{7}
@@ -1582,15 +1587,19 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
   \]
   Similarly to in the proof of \textbf{vii}, we can write:
   \begin{align*}
-    M_{\sigma(1) \rho(1)} \cdots M_{\sigma(n) \rho(n)} &= \varepsilon(\rho^{-1}) M_{\sigma(1) \rho(\rho^{-1}(1))} \cdots M_{\sigma(n) \rho(\rho^{-1}(n))} \\
-                                                       &= \varepsilon(\rho) M_{\sigma(1) 1} \cdots M_{\sigma(n) n}
+    M_{\sigma(1) \rho(1)} \cdots M_{\sigma(n) \rho(n)} &= M_{\sigma(\rho^{-1}(1)) 1} \cdots M_{\sigma(n) n} \\
+                                                       &= M_{\alpha(1) 1} \cdots M_{\alpha(n) n} \text{ let $\alpha = \sigma \circ \rho$}
   \end{align*}
-  Therefore:
+  Taking the sum over all $\sigma \in S_n$  is the same as taking the sum over all $\sigma \circ \rho = \alpha \in S_n$.
+  This is because $\alpha_1 = \alpha_2 \iff \sigma_1 \circ \rho = \sigma_2 \circ \rho \iff \sigma_1 = \sigma_2$.
+
+  Therefore, using that $\varepsilon(\sigma) = \varepsilon(\alpha \rho^{-1}) = \varepsilon(\alpha)\varepsilon(\rho)$, we have:
   \begin{align*}
-    \det MN &= \sum_{\rho} N_{\rho(1) 1} \cdots N_{\rho(n) n} \varepsilon(\rho) \sum_{\sigma} \varepsilon(\sigma) M_{\sigma(1) 1} \cdots M_{\sigma(n) n} \\
+    \det MN &= \sum_{\rho} N_{\rho(1) 1} \cdots N_{\rho(n) n} \varepsilon(\rho) \sum_{\alpha} \varepsilon(\alpha) M_{\alpha(1) 1} \cdots M_{\alpha(n) n} \\
             &= \det M \sum_{\rho} \varepsilon(\rho) N_{\rho(1) 1} \cdots N_{\rho(n) n} \\
             &= (\det M)(\det N)
   \end{align*}
+  as required.
 \end{proof}
 \label{orthoDeterminant}
 \begin{enumerate}
@@ -1614,31 +1623,20 @@ We also use vertical bars to denote the determinant of an $n \times n$  matrix
   The determinant of this matrix, denoted by $M^{i j}$, is called a \textit{minor} of $M$.
 \end{definition}
 \begin{definition}[Cofactor]
-  For an $n \times n$ matrix $M$, consider its columns and rows:
-  \[
-    \vec{C}_j = \sum_{i} M_{i j}\vec{e}_i,\ \vec{R}_i = \sum_{j} M_{i j}\vec{e}_j
-  \]
-  Then, the determinant of $M$ can be written as:
+  We define the \textit{cofactor} $\Delta_{i j}$ to be the following determinant:
   \begin{align*}
-    \det M &= [\vec{C}_1, \ldots, \vec{C}_n] \\
-           &= \sum_{i} M_{i j} \Delta_{i j} \text{ for any fixed $j$} \\
-           &= \sum_{j} M_{i j} \Delta_{i j} \text{ for any fixed $i$}
-  \end{align*}
-  where the $\Delta_{i j}$ are called \textit{cofactors.}
-  \begin{align*}
-    \Delta_{i j} &= [\vec{C}_1, \ldots, \vec{C}_{j - 1}, \vec{e}_i, \vec{C}_{j + 1}, \ldots, \vec{C}_n] \\
-                 &= [\vec{R}_1, \ldots, \vec{R}_{i - 1}, \vec{e}_j, \vec{R}_{i + 1}, \ldots, \vec{R}_n] \\
-                 &= \left(\begin{array}{c c c}
+    \Delta_{i j} &= \det \left(\begin{array}{c c c}
                     A & \multicolumn{1}{|c}{\scriptstyle{\substack{0 \\ \vdots}}} & \multicolumn{1}{|c}{B} \\ \cline{1-1} \cline{3-3}
                     \scriptstyle{0\ \cdots\ 0} & \scriptstyle{1} & \scriptstyle{0\ \cdots\ 0} \\ \cline{1-1} \cline{3-3}
                     C & \multicolumn{1}{|c}{\scriptstyle{\substack{\vdots \\ 0}}} & \multicolumn{1}{|c}{D}
                     \end{array}\right)
   \end{align*}
   where the zeroes are in column $j$ and row $i$.
+
+  That is, $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ by replacing the entry $M_{i j}$ by $1$ and all other entries in row $i$ and column $j$ with $0$.
 \end{definition}
-The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ by replacing the entry $M_{i j}$ by $1$ and all other entries in row $i$ and column $j$ with $0$.
 \begin{remark}[Relation between $\Delta_{i j}$ and $M^{i j}$]
-  By reordering rows and columns, noting that swapping a row or column introduces a $-1$, we have:
+  By reordering rows and columns, noting that swapping a row or column introduces a factor of $-1$, we have:
   \begin{align*}
     \Delta_{i j} &=
     \det \left(\begin{array}{c c c}
@@ -1652,18 +1650,22 @@ The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ b
     0 & \cdots & 1
     \end{array}\right)
   \end{align*}
-  The determinant of this matrix is the same as the determinant of the top left block matrices as if we have a permutation of $n - 1$ elements and introduce a new element $n$ that is always mapped to itself the sign of the permutation is unchanged.
-  That is:
+  We can show that the determinant of this matrix (say $N$), is the same as the determinant of the block matrix in the top left:
   \begin{align*}
     \det \left(\begin{array}{c c c}
     A & \multicolumn{1}{|c}{B} & \multicolumn{1}{|c}{0} \\ \cline{1-2}
     C & \multicolumn{1}{|c}{D} & \multicolumn{1}{|c}{\vdots} \\ \cline{1-2}
     0 & \cdots & 1
-    \end{array}\right)
-    &= \sum_{i_1, \ldots, i_n = 1}^{n} \levi_{i_1 \ldots i_n} M_{i_1 1} \ldots M_{i_n n} \\
-    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n-1} \levi_{i_1 \ldots i_{n-1} n} M_{i_1 1} \ldots M_{i_{n-1} n-1} M_{n n} \\
-    &= \sum_{i_1, \ldots, i_{n-1} = 1}^{n-1} \levi_{i_1 \ldots i_{n-1}} M_{i_1 1} \ldots M_{i_{n-1} n-1} \\
-    &=\det \left(\begin{array}{c|c}
+    \end{array}\right) = \det N
+    &= \sum_{\sigma \in S_n} \varepsilon(\sigma) N_{\sigma(1) 1} \ldots N_{\sigma(n) n} \\
+    &= \sum_{\sigma \in S_n} \varepsilon(\sigma) N_{\sigma(1) 1} \ldots N_{\sigma(n - 1) n - 1} \delta_{\sigma(n) n}
+  \end{align*}
+  For the terms in this sum to be non-zero we require that $\sigma(n) = n$.
+  This means that $\sigma$ does not affect $n$ and so $\sigma \in S_{n - 1} \subset S_n$.
+  Thus:
+  \begin{align*}
+    \det N &= \sum_{\sigma \in S_{n - 1}} \varepsilon(\sigma) N_{\sigma(1) 1} \ldots N_{\sigma(n - 1) n - 1} \\
+    &= \det \left(\begin{array}{c|c}
       A & B \\ \hline
       C & D
     \end{array}\right)
@@ -1677,26 +1679,18 @@ The cofactor $\Delta_{i j}$ is the determinant of the matrix obtained from $M$ b
                 &= (-1)^{i + j}M^{i j}
   \end{align*}
 \end{remark}
-Hence we have the following expansion about any column $j$:
-\[
-  \det M = \sum_{i} M_{i j}\Delta_{i j} = \sum_{i} (-1)^{i + j}M_{i j}M^{i j}
-\]
-or about any row $i$:
-\[
-  \det M = \sum_{j} M_{i j}\Delta_{i j} = \sum_{j} (-1)^{i + j}M_{i j}M^{i j}
-\]
 \begin{theorem}[Laplace Expansion Formula]
   Consider an $n \times n$ matrix $M$.
-  Then for any fixed $j$:
+  For any fixed $j$:
   \[
-    \det M = \sum_{i} M_{i j}\Delta_{i j}
+    \det M = \sum_{i} M_{i j}\Delta_{i j} = \sum_{i} M_{i j}\Delta_{i j} = \sum_{i} (-1)^{i + j}M_{i j}M^{i j}
   \]
 \end{theorem}
 \begin{remark}[Notation]
   For brevity, we will write an over-line over an element in a list to denote the list without that particular element
   For example:
   \[
-    1, \ldots, \overline{4}, \ldots 7 \equiv 1, 2, 3, 5, 6, 7
+    1, 2, 3, \overline{4}, 5, 6, 7 \equiv 1, 2, 3, 5, 6, 7
   \]
 \end{remark}
 \begin{proof}
@@ -1704,20 +1698,21 @@ or about any row $i$:
     \det M &= \sum_{i_1, \ldots, i_n = 1}^{n} \varepsilon_{i_1 \ldots i_n} M_{i_1 1} \cdots M_{i_n n} \\
            &= \sum_{i_j = 1}^{n} M_{i_j j} \sum_{i_1, \ldots, \overline{i_j}, \ldots, i_n = 1}^{n} \varepsilon_{i_1 \ldots i_n} M_{i_1 1} \cdots \overline{M_{i_j j}} \cdots M_{i_n n}
   \end{align*}
-  Consider $\sigma \in S_n$, the permutation that moves $i_j$ to the $j$-th position, and the shifts the elements $j, \cdots, i_j - 1$ to the right into the gap left by $i_j$.
+  Let $\sigma$ be the permutation that moves $i_j$ to the $j$-th position, and the shifts the elements $j, \ldots, i_j - 1$ to the right into the gap left by $i_j$.
   If $i_j > j$, then $\sigma$ is written as:
-  \[
-    \sigma = \begin{pmatrix}
-    1 & \cdots & j & j + 1 & j + 2 & \cdots & i_j -1 & i_j & i_j + 1 & \cdots & n \\
-    1 & \cdots & i_j & j & j + 1 & \cdots & i_j - 2 & i_j - 1 & i_j + 1 & \cdots & n \\
-    \end{pmatrix}
-  \]
+  \begin{align*}
+    \sigma &= \begin{pmatrix}
+      1 & \cdots & j - 1 & j & j + 1 & j + 2 & \cdots & i_j -1 & i_j & i_j + 1 & \cdots & n \\
+      1 & \cdots & j - 1 & i_j & j & j + 1 & \cdots & i_j - 2 & i_j - 1 & i_j + 1 & \cdots & n \\
+    \end{pmatrix} \\
+           &= \cycle{j i_j} \cycle{{j + 1} i_j} \cdots \cycle{{i_j - 2} i_j} \cycle{{i_j - 1} i_j}
+  \end{align*}
   If $i_j < j$, then we construct $\sigma$ analogously apart from that the elements $i_j + 1, \ldots, j$ are shifted to the left.
-  To achieve the permutation $\sigma$ we need to perform $|j - i_j|$ transpositions, thus $\varepsilon(\sigma) = (-1)^{j - i_j}$.
+  We can achieve the permutation $\sigma$ by performing $|j - i_j|$ transpositions, thus $\varepsilon(\sigma) = (-1)^{j - i_j}$.
 
-  Now consider the permutation $\rho \in S_{n - 1}$:
+  Now consider the permutation $\rho$, we want this to be the permutation so that $\rho \sigma$ is the same as the original permutation $(i_1, \ldots, i_j)$:
   \[
-    \rho =\begin{pmatrix}
+    \rho = \begin{pmatrix}
     1 & \cdots & \cdots & \overline{i_j} & \cdots & n \\
     i_1 & \cdots & \overline{i_j} & \cdots & \cdots & i_n \\
     \end{pmatrix}
@@ -1725,7 +1720,7 @@ or about any row $i$:
   so $\rho$ sends $1, 2, \ldots, \overline{i_j}, \ldots, n$ (1 to $n$ excluding $i_j$) to $i_1, \ldots, \overline{i_j}, \ldots, i_n$ (some permutation of 1 to $n$ excluding $i_j$), thus $\varepsilon(\rho) = \levi_{i_1 \ldots \overline{i_j} \ldots i_n}$.
   Since $i_j$ is not included in $\rho$, it is unchanged under $\rho$.
 
-  Note that $\rho \sigma$ reorders $(1, \ldots, n)$ to $(i_1, \ldots, i_n)$ so $\varepsilon(\rho\sigma) = \levi_{i_1 \ldots i_n}$.
+  Thus $\rho \sigma$ reorders $(1, \ldots, n)$ to $(i_1, \ldots, i_n)$ and so $\varepsilon(\rho\sigma) = \levi_{i_1 \ldots i_n}$.
   Therefore:
   \[
     \varepsilon(\rho \sigma) = \levi_{i_1 \ldots i_n} = \varepsilon(\rho) \varepsilon(\sigma) = (-1)^{j - i_j} \levi_{i_1 \ldots \overline{i_j} \ldots i_n}
@@ -1746,29 +1741,27 @@ or about any row $i$:
   \end{align*}
 \end{proof}
 \begin{remark}
-  Since $\det M = \det M^{\trans}$, the above holds for an expansion about any row $i$.
+  Since $\det M = \det M^{\trans}$, the above holds for an expansion about any fixed row $i$, that is:
+  \[
+    \det M = \sum_{j} M_{i j} \Delta_{i j} = \sum_{j} (-1)^{i + j}M_{i j}M^{i j}
+  \]
 \end{remark}
-Reasoning as above, if
-\[
-  \vec{C}_k = \sum_{i} M_{i k}\vec{e}_i
-\]
-then:
+If $\vec{C}_k$ is the $k$-th column of $M$, then for any fixed $j$:
 \[
   [\vec{C}_1, \ldots, \vec{C}_{j - 1}, \vec{C}_k, \vec{C}_{j + 1}, \ldots, \vec{C}_n] = \sum_{i} M_{i k} \Delta_{i j} =
   \begin{cases}
-  \det M & \text{ if }j = k \\
-  0 & \text{ if } j \neq k
+  \det M & \text{ if } k = j \\
+  0 & \text{ if } k \neq j
   \end{cases}
 \]
-as if two columns are identical $\det M = 0$.
+Since if two columns are identical then $\det M = 0$, otherwise the above expansion applies so we get $\det M$.
 Hence:
 \begin{align*}
   \sum_{i} M_{i k}\Delta_{i j} &= (\det M)\delta_{j k} \\
   \sum_{j} M_{l j}\Delta_{i j} &= (\det M)\delta_{l i}
 \end{align*}
 \begin{definition}[Adjugate]
-  \label{adjugateDef}
-  The \textit{adjugate} of a matrix $M$ is defined to be:
+  The \textit{adjugate} of a matrix $M$ is defined to be: \label{adjugateDef}
   \[
     \widetilde{M} = \adj M = \Delta^{\trans}
   \]
@@ -1794,11 +1787,15 @@ Therefore:
 \[
   \widetilde{M} M = M \widetilde{M} = (\det M)I
 \]
-and if $\det M \neq 0$, then $M^{-1}$ exists:
+Thus if $\det M \neq 0$, then $M^{-1}$ exists:
 \[
   M^{-1} = \frac{1}{\det M}\widetilde{M} = \frac{1}{\det M}(\adj M)
 \]
-This is the inverse of $M$.
+Furthermore, if and inverse $M^{-1}$ exists, using $\det AB = \det A \det B$:
+\[
+  M^{-1} M = I \implies \det M^{-1} \det M = 1 \implies \det M \neq 0
+\]
+So an inverse for the square matrix $M$ exists if and only if $\det M \neq 0$.
 \begin{example}
   \label{determinantExample}
   Consider the matrix $M$:
@@ -1919,11 +1916,11 @@ We can write this as:
 \[
   A\vec{x} = \vec{b}
 \]
-Multiply \cref{system1} by $A_{2 2}$ and subtract \cref{system2} multiplied by $A_{1 2}$:
+If we multiply \cref{system1} by $A_{2 2}$ and subtract \cref{system2} multiplied by $A_{1 2}$, then we have:
 \[
   (A_{1 1}A_{2 2} - A_{1 2}A_{2 1})x_1 = A_{2 2}b_1 - A_{1 2}b_2
 \]
-Similarly multiply \cref{system2} by $A_{1 1}$ and subtract \cref{system1} multiplied by $A_{2 1}$:
+Similarly on multiplying \cref{system2} by $A_{1 1}$ and subtract \cref{system1} multiplied by $A_{2 1}$:
 \[
   (A_{1 1}A_{2 2} - A_{1 2}A_{2 1})x_2 = A_{1 1}b_2 - A_{2 1}b_1
 \]
@@ -1970,6 +1967,7 @@ So in summary, given $A\vec{x} = \vec{b}$, if $A^{-1}$ exists, we can write:
 \[
   \vec{x} = A^{-1} \vec{b}
 \]
+so there is a unique solution for $\vec{x}$.
 \subsection{General Case}
 Consider a system of $n$ linear equations with $n$ unknowns $x_i$ written in vector-matrix form as:
 \[
@@ -1977,7 +1975,7 @@ Consider a system of $n$ linear equations with $n$ unknowns $x_i$ written in vec
 \]
 where $\vec{x}, \vec{b} \in \R^{n}$ and $A$ is an $n \times n$ matrix.
 
-A solution for $A\vec{x} = \vec{b}$ exists if and only if we can find $A\vec{x}_0 = \vec{b}$ for some $\vec{x}_0$, equivalently, $\vec{b} \in \im A$.
+A solution for $A\vec{x} = \vec{b}$ exists if and only if we can find $A\vec{x}_0 = \vec{b}$ for some $\vec{x}_0$, or equivalently $\vec{b} \in \im A$.
 
 If there is a such a solution we have:
 \begin{align*}
@@ -1986,7 +1984,7 @@ If there is a such a solution we have:
   \iff& A\vec{x} - A\vec{x}_0 = \vec{0} \\
   \iff& A(\vec{x} - \vec{x}_0) = \vec{0}
 \end{align*}
-So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$ ($\vec{u} \in \ker A$).
+So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ satisfies the \textit{homogeneous equation} $A\vec{u} = \vec{0}$, or equivalently, $\vec{u} \in \ker A$.
 \begin{proofcases}
   \begin{case}{$\det A \neq 0$}
     Recall that the image of a matrix is the span of its columns and the determinant is zero if and only if its columns are linearly independent.
@@ -1998,6 +1996,7 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
     Furthermore, $A\vec{u} = 0 \iff \vec{u} = \vec{0}$ so there is a unique solution, $\vec{x}_0 = A^{-1} \vec{b}$, to the original system.
   \end{case}
   \begin{case}{$\det A = 0$}
+    We see that:
     \[
       \det A = 0 \iff \im A \neq \R^{n} \iff \rank A < n \iff \nullity A > 0
     \]
@@ -2009,8 +2008,9 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
     \]
     where $k = \nullity A$.
 
-    Now if $b \in \im A$, we have a particular solution $\vec{x}_0$, so there is infinitely many solutions given by $\vec{x} = \vec{x}_0 + \vec{u}$.
-    Otherwise, if $b \notin \im A$, there is no solutions.
+    Now if $\vec{b} \in \im A$, we have a particular solution $\vec{x}_0$, so there is infinitely many solutions given by $\vec{x} = \vec{x}_0 + \vec{u}$.
+
+    Otherwise, if $\vec{b} \notin \im A$, there is no solutions.
   \end{case}
 \end{proofcases}
 \subsubsection{Summary}
@@ -2019,12 +2019,12 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
     \[
       \vec{x} = A^{-1}\vec{b}
     \]
-  \item $\det A = 0$ and $\vec{b} \centernot\in \im A$, so there is no solution.
+  \item $\det A = 0$ and $\vec{b} \centernot\in \im A$, there is no solution.
   \item $\det A = 0$ and $\vec{b} \in \im A$, there are infinitely many solutions given by:
     \[
       \vec{x} = \vec{x}_0 + \vec{u}
     \]
-    where $\vec{x}_0$ is a particular solution and $\vec{u} \in \ker A$.
+    where $\vec{x}_0$ is any particular solution and $\vec{u} \in \ker A$.
 \end{enumerate}
 \begin{example}
   Solve $A\vec{x} = \vec{b}$ with:
@@ -2089,7 +2089,7 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
       So the solution is a point, as expected.
     \end{case}
     \begin{case}{$x = 1$}
-      So $\det A = 0$ and
+      So $\det A = 0$ and $A$ is:
       \[
         A = \begin{pmatrix}
         1 & 1 & 1 \\
@@ -2124,44 +2124,49 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
         \end{pmatrix} \in \im A
         \iff y = 1
       \]
-      If $y \neq 1$, then we have no solutions.
-
-      Otherwise, if $y  = 1$, a particular solution of $A\vec{x} = \vec{b}$ is:
-      \[
-        \vec{x}_0 = \begin{pmatrix}
-        1 \\
-        0 \\
-        0 \\
-        \end{pmatrix}
-      \]
-      So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $\vec{u} \in \ker A$:
-      \[
-        \vec{x} =
-        \begin{pmatrix}
-        1 \\
-        0 \\
-        0 \\
-        \end{pmatrix} +
-        \lambda \begin{pmatrix}
-        1 \\
-        -1 \\
-        0 \\
-        \end{pmatrix} +
-        \mu \begin{pmatrix}
-        1 \\
-        0 \\
-        -1 \\
-        \end{pmatrix}=
-        \begin{pmatrix}
-        1 + \lambda + \mu \\
-        -\lambda \\
-        -\mu \\
-        \end{pmatrix}
-      \]
-      Which describes a plane.
+      \begin{proofcases}
+        \begin{case}{$y \neq 1$}
+          If $y \neq 1$, then we have no solutions as $\vec{b} \notin \im A$.
+        \end{case}
+        \begin{case}{$y = 1$}
+          Otherwise, if $y  = 1$, a particular solution of $A\vec{x} = \vec{b}$ is:
+          \[
+            \vec{x}_0 = \begin{pmatrix}
+            1 \\
+            0 \\
+            0 \\
+            \end{pmatrix}
+          \]
+          So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $\vec{u} \in \ker A$:
+          \[
+            \vec{x} =
+            \begin{pmatrix}
+            1 \\
+            0 \\
+            0 \\
+            \end{pmatrix} +
+            \lambda \begin{pmatrix}
+            1 \\
+            -1 \\
+            0 \\
+            \end{pmatrix} +
+            \mu \begin{pmatrix}
+            1 \\
+            0 \\
+            -1 \\
+            \end{pmatrix}=
+            \begin{pmatrix}
+            1 + \lambda + \mu \\
+            -\lambda \\
+            -\mu \\
+            \end{pmatrix} \quad \lambda, \mu \in \R
+          \]
+          Which describes a plane in $\R^3$.
+        \end{case}
+      \end{proofcases}
     \end{case}
     \begin{case}{$x = -2$}
-      So $\det A = 0$ and
+      So $\det A = 0$ and $A$ is:
       \[
         A = \begin{pmatrix}
         1 & -2 & 1 \\
@@ -2190,7 +2195,7 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
         1 \\
         \end{pmatrix}\right\}
       \]
-      Checking when $b \in \im A$:
+      We then need to check when $\vec{b} \in \im A$:
       \[
         \vec{b} = \begin{pmatrix}
         1 \\
@@ -2209,41 +2214,46 @@ So $\vec{x}$ is also solution if and only if $\vec{u} = \vec{x} - \vec{x}_0$ sat
         \end{pmatrix}
         \iff y = -2
       \]
-      If $y \neq -2$, then we have no solutions.
-
-      Otherwise, if $y = -2$, a particular solution of $A\vec{x} = \vec{b}$ is:
-      \[
-        \vec{x}_0 = \begin{pmatrix}
-        0 \\
-        0 \\
-        1 \\
-        \end{pmatrix}
-      \]
-      So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $u \in \ker A$:
-      \[
-        \vec{x} = \begin{pmatrix}
-        0 \\
-        0 \\
-        1 \\
-        \end{pmatrix} +
-        \lambda \begin{pmatrix}
-        1 \\
-        1 \\
-        1 \\
-        \end{pmatrix}=
-        \begin{pmatrix}
-        \lambda \\
-        \lambda \\
-        1 + \lambda \\
-        \end{pmatrix}
-      \]
-      Which describes a line.
+      \begin{proofcases}
+        \begin{case}{$y \neq -2$}
+          If $y \neq -2$, then we have no solutions as $\vec{b} \notin \im A$.
+        \end{case}
+        \begin{case}{$y = -2$}
+          Otherwise, if $y = -2$, a particular solution of $A\vec{x} = \vec{b}$ is:
+          \[
+            \vec{x}_0 = \begin{pmatrix}
+            0 \\
+            0 \\
+            1 \\
+            \end{pmatrix}
+          \]
+          So the general solution is $\vec{x} = \vec{x}_0 + \vec{u}$ where $u \in \ker A$:
+          \[
+            \vec{x} = \begin{pmatrix}
+            0 \\
+            0 \\
+            1 \\
+            \end{pmatrix} +
+            \lambda \begin{pmatrix}
+            1 \\
+            1 \\
+            1 \\
+            \end{pmatrix}=
+            \begin{pmatrix}
+            \lambda \\
+            \lambda \\
+            1 + \lambda \\
+            \end{pmatrix} \quad \lambda \in \R
+          \]
+          Which describes a line in $\R^3$.
+        \end{case}
+      \end{proofcases}
     \end{case}
   \end{proofcases}
 \end{example}
 \subsection{Geometric Interpretation of the Homogeneous Case}
 Consider the problem $A \vec{u} = \vec{0}$.
-Then if $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$:
+If $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$, then this is equivalent to:
 \[
   A \vec{u} = \vec{0} \iff \begin{cases}
   \vec{R}_1 \cdot \vec{u} = 0 \\
@@ -2252,7 +2262,7 @@ Then if $\vec{R}_1, \vec{R}_2, \vec{R}_3$ are the rows of $A$:
   \end{cases}
 \]
 Each of these equations describes a plane that passes through $\vec{0}$ with normal $\vec{R}_i$.
-Then, the solution of $A \vec{u} = 0$, which is $\ker A$, is the intersection of the three planes.
+The solution of $A \vec{u} = 0$, which is $\ker A$, is then the intersection of these three planes.
 \begin{proofcases}
   \begin{case}{$\rank A  = 3$}
     $\rank A = 3 \iff \nullity = 0$ so $\ker A = \{\vec{0}\}$.
@@ -2278,7 +2288,7 @@ Then, the solution of $A \vec{u} = 0$, which is $\ker A$, is the intersection of
 \end{remark}
 \subsection{Geometric Interpretation of the General Case}
 Consider the problem $A\vec{x} = \vec{b}$.
-Then:
+In terms of the rows of $A$, this is equivalent to:
 \[
   A \vec{x} = \vec{b} \iff \begin{cases}
   \vec{R}_1 \cdot \vec{x} = b_1 \\
@@ -2286,7 +2296,7 @@ Then:
   \vec{R}_2 \cdot \vec{x} = b_3
   \end{cases}
 \]
-These are three equations of planes with $\vec{R}_i$ but not necessarily passing through $\vec{0}$.
+These are three equations of planes with normals $\vec{R}_i$ but not necessarily passing through $\vec{0}$.
 \begin{proofcases}
   \begin{case}{$\rank A = 3$}
     $\rank A = 3 \iff \det A \neq 0$.
@@ -2348,9 +2358,10 @@ Consider a system of $m$ equations in $n$ unknowns:
   \vdots \hspace{11.5em}&\;\;\vdots \\
   A_{m 1}x_1 + A_{m 2}x_2 + \cdots + A_{m n}x_n &= b_m
 \end{align*}
-Without loss of generality, assume $A_{1 1} \neq 0$ as at this stage we can reorder the equations as desired.
+Without loss of generality, assume $A_{1 1} \neq 0$ as at this stage we can just reorder the equations as desired.
+If there are no rows whose leading coefficient is non-zero, then we relabel $x_2 \mapsto x_1$, $x_3 \mapsto x_2, \ldots, x_n \mapsto x_{n - 1}$, $x_1 \mapsto x_n$ and then try again (if this process never succeeds then all of the coefficients are 0 and so the system either has infinitely many solutions if $b_1 = \cdots = b_m = 0$, or is inconsistent).
 \begin{remark}[Notation]
-  We will use a superscript $i$ to denote a coefficient at step $i$ of the process.
+  We will use a superscript $i$ to denote a coefficient after step $i$ of the process.
   For example $A^{(i)}_{1 2}$ and $b^{(i)}_1$.
 \end{remark}
 \subsubsection{Steps for Gaussian Elimination}
@@ -2358,20 +2369,22 @@ Without loss of generality, assume $A_{1 1} \neq 0$ as at this stage we can reor
   \item We subtract multiples of the first equation from all other equations until the coefficient of $x_1$ in all other equations is 0.
     \begin{align*}
       A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
-      A^{(1)}_{2 2}x_2 + A^{(1)}_{2 3}x_3 + \cdots + A^{(1)}_{2 n}x_n &= b^{(1)}_2 \\
-      A^{(1)}_{3 2}x_2 + A^{(1)}_{3 3}x_3 + \cdots + A^{(1)}_{3 n}x_n &= b^{(1)}_3 \\
+      A^{(2)}_{2 2}x_2 + A^{(2)}_{2 3}x_3 + \cdots + A^{(2)}_{2 n}x_n &= b^{(2)}_2 \\
+      A^{(2)}_{3 2}x_2 + A^{(2)}_{3 3}x_3 + \cdots + A^{(2)}_{3 n}x_n &= b^{(2)}_3 \\
       \vdots \hspace{11.5em}&\;\;\vdots \\
-      A^{(1)}_{m 2}x_2 + A^{(1)}_{m 3}x_3 + \cdots + A^{(1)}_{m n}x_n &= b^{(1)}_m
+      A^{(2)}_{m 2}x_2 + A^{(2)}_{m 3}x_3 + \cdots + A^{(2)}_{m n}x_n &= b^{(2)}_m
     \end{align*}
-  \item We then subtract multiples of the second equation from all later equations it until the coefficient of $x_2$ in all later equations is 0.
+  \item We now repeat this process.
+    Again, we assume that $A^{(2)}_{2 2} = 0$, reordering/relabelling as we did before.
+    We then subtract multiples of the second equation from all later equations it until the coefficient of $x_2$ in all later equations is 0.
     \begin{align*}
       A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
       A^{(2)}_{2 2}x_2 + A^{(2)}_{2 3}x_3 + \cdots + A^{(2)}_{2 n}x_n &= b^{(2)}_2 \\
-      A^{(2)}_{3 3}x_3 + \cdots + A^{(2)}_{3 n}x_n &= b^{(2)}_3 \\
+      A^{(3)}_{3 3}x_3 + \cdots + A^{(3)}_{3 n}x_n &= b^{(3)}_3 \\
       \vdots \hspace{7.5em}&\;\;\vdots \\
-      A^{(2)}_{m 3}x_3 + \cdots + A^{(2)}_{m n}x_n &= b^{(2)}_m
+      A^{(3)}_{m 3}x_3 + \cdots + A^{(3)}_{m n}x_n &= b^{(3)}_m
     \end{align*}
-  \item Repeat this process for each later equation until there are either no more equations or the left hand side of all further equations is 0.
+  \item We continue this this process for each later equation until there are either no more equations or the left hand side of all further equations is 0.
     The transformed system of equations is then as follows:
     \begin{align*}
       A^{(1)}_{1 1}x_1 + A^{(1)}_{1 2}x_2 + A^{(1)}_{1 3} + \cdots + A^{(1)}_{1 n}x_n &= b^{(1)}_1 \\
@@ -2383,29 +2396,35 @@ Without loss of generality, assume $A_{1 1} \neq 0$ as at this stage we can reor
       &\;\;\vdots \\
       0 &= b^{(r)}_{m}
     \end{align*}
-    where $A^{(i)}_{i i} \neq 0$ for all $i$.
+    where $A^{(i)}_{i i} \neq 0$ for all $i$ and $r \leq m$.
 \end{enumerate}
 \subsubsection{Outcomes}
-\begin{enumerate}
-  \item If $r = n \leq m$  and $b^{(i)}_i = 0$ for $i = r + 1, \ldots, m$, then there is a unique solution.
+\begin{proofcases}
+  \begin{case}{Overdetermined System}
+    If $r < m$ and $b^{(r)}_i \neq 0$ for some $i \in \{r + 1, \ldots, m\}$, then there is no solution as the transformed equations require that $b^{(r)}_i = 0$ for all $i \in \{r + 1, \ldots, m\}$ and so the system is inconsistent.
 
-    Since $r = n$, the last equation is simply $A^{(n)}_{n n}x_n = b^{(n)}_n$.
-    $A^{(n)}_{n n} \neq 0$ so $x_n$ can be determined.
-    We can then substitute this value for $x_n$ back into the previous equation to find $x_{n - 1}$.
-    This process can then be reacted to find all other $x_i$.
-  \item If $r < m$ and $b^{(r)}_i \neq 0$ for some $i = r + 1, \ldots, m$, then there is no solutions.
+    Such systems are said to be \textit{overdetermined}.
+  \end{case}
+  \begin{case}{Determined System}
+    If $r = n \leq m$ and $b^{(i)}_i = 0$ for all $i \in \{r + 1, \ldots, m\}$, then there is a unique solution.
+    Since $r = n$, the last non-zero equation is simply $A^{(n)}_{n n}x_n = b^{(n)}_n$.
+    We know that $A^{(n)}_{n n} \neq 0$ and so $x_n$ can be determined by dividing through by $A^{(n)}_{n n}$.
+    We can then \textit{back substitute} this value for $x_n$ back into the previous equation to find $x_{n - 1}$, noting again that $A^{(n - 1)}_{n - 1\ n - 1} \neq 0$.
+    This process can then be repeated to find all of the other $x_i$.
 
-    The equations require that $b^{(r)}_i = 0$ for all $i = r + 1, \ldots, m$ so this is inconsistent, thus there is no solution.
+    Such systems are said to be \textit{determined}.
+  \end{case}
+  \begin{case}{Underdetermined System}
+    If $r < n$ and $b^{(i)}_i = 0$ for all $i \in \{r + 1, \ldots, m\}$, then there are infinitely many solutions. On choosing values for $x_{r + 1}, \ldots, x_n$, we can then use the last non-zero equation to solve for $x_r$ and then back substitute as in \textbf{Case 2} to find $x_1, \ldots, x_{r - 1}$.
+    Since we can pick any values for $x_{r + 1}, \ldots, x_n$, there are infinitely many solutions.
 
-    If instead $b^{(r)}_i = 0$ for all $i = r + 1 \ldots m$, then we solve as in \textbf{i}.
-  \item If $r = m < n$, then there are infinitely many solutions.
-
-    If we choose values for $x_{r + 1}, \ldots, x_n$, we can solve for $x_1, \ldots, x_r$.
-    However, since we could pick any values for $x_{r + 1}, \ldots, x_n$, there are infinitely many solutions.
-\end{enumerate}
+    Such systems are said to be \textit{underdetermined}.
+  \end{case}
+\end{proofcases}
 \subsubsection{Matrix Approach}
-We can rewrite this system as $A\vec{x} = \vec{b}$ where $A$ is a $m \times n$ matrix.
-This can be re-expressed using row and column operations as above to obtain $M\vec{x} = \vec{d}$ with $M$:
+As we did previously, we can rewrite this system as $A\vec{x} = \vec{b}$ where $A$ is a $m \times n$ matrix and $\vec{x} \in \R^{n}$.
+Carrying out Gaussian elimination is equivalent to performing row operations (to add the equations to each other) and column operations (to effectively relabel variables) on this matrix, along with transforming the vector $\vec{b}$.
+After performing gaussian elimination, this can be re-expressed as $M\vec{x} = \vec{d}$ where:
 \[
   M = \left(\begin{array}{c|c}
   \begin{matrix}
@@ -2418,19 +2437,25 @@ This can be re-expressed using row and column operations as above to obtain $M\v
   M_{r (r+1)} & \cdots & M_{r n} \\
   \end{matrix} \\ \hline
   O & O
-\end{array}\right)
+  \end{array}\right) \text{ and } \vec{d} = \begin{pmatrix}
+  b^{(1)}_1 \\
+  \vdots \\
+  b^{(r)}_m \\
+  \end{pmatrix}
 \]
-this is called an \textit{echelon form}.
+and $M_{i j} = A^{(i)}_{i j}$.
+
+This is called an \textit{echelon form}.
 The upper left block is \textit{upper triangular}, that is, below the diagonal there are only zeros.
-The diagonal of the upper left block is also non zero as $M_{i i} \neq 0$ for $i = 1, \ldots, r$.
+The diagonal of the upper left block is also non zero as $M_{i i} \neq 0$ for $i \in \{1, \ldots, r\}$.
 The lower two blocks are all zeros.
 
-In the matrix approach:
+It can be show that row and column operations do not affect the rank of the matrix and so we have that:
 \[
   r = \rank M = \rank A
 \]
 Furthermore, if $n = m$, then $\det A = \pm \det M$.
-If $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{1 1} \cdots M_{r r} \neq 0$ so both $A$ and $M$ are invertible.
+Moreover, if $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{1 1} \cdots M_{r r} \neq 0$ so both $A$ and $M$ are invertible, as expected for a determined system.
 
 \subsubsection{Examples of Solving via Gaussian Elimination}
 \begin{example}[Unique Solution]
@@ -2438,28 +2463,27 @@ If $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{
   \begin{align*}
     x_1 - x_2 + x_3 &= 8 \\
     2x_1 + 3x_2 - x_3 &= -2 \\
-    3x_1 - 2x_2 - 9x_3 &= 9 \\
+    3x_1 - 2x_2 - 9x_3 &= 9
   \end{align*}
   \begin{enumerate}
     \item \textbf{Step 1 -} $\vec{R}_2 \mapsto \vec{R}_2 - 2\vec{R}_1$ and $\vec{R}_3 \mapsto \vec{R}_3 - 3\vec{R}_1$
     \begin{align*}
       x_1 - x_2 + x_3 &= 8 \\
       5x_2 - 3x_3 &= -18 \\
-      x_2 - 12x_3 &= -15 \\
+      x_2 - 12x_3 &= -15
     \end{align*}
     \item \textbf{Step 2 -} $\vec{R}_3 \mapsto \vec{R}_3 - \frac{1}{5}\vec{R}_2$
     \begin{align*}
       x_1 - x_2 + x_3 &= 8 \\
       5x_2 - 3x_3 &= -18 \\
-      -\frac{57}{3}x_3 &= -\frac{57}{3} \\
+      -\frac{57}{5}x_3 &= -\frac{57}{5}
     \end{align*}
   \end{enumerate}
-  Last non-zero equation has unknown $x_3$ so $r = 3$.
   Since $r = m = n = 3$, we should have a unique solution which we can obtain via back substitution:
   \begin{align*}
-    \frac{-57}{3}x_3 = -\frac{57}{3} &\implies x_3 = 1 \\
-    5x_2 - 3(1) = -18 &\implies x_2 = -3 \\
-    x_1 - (-3)+ 1 = 8 &\implies x_1 = 4
+    \frac{-57}{5}x_3 = -\frac{57}{5} &\implies x_3 = 1 \\
+    \rightsquigarrow 5x_2 - 3(1) = -18 &\implies x_2 = -3 \\
+    \rightsquigarrow x_1 - (-3)+ 1 = 8 &\implies x_1 = 4
   \end{align*}
 \end{example}
 \begin{example}[Overdetermined System]
@@ -2476,20 +2500,19 @@ If $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{
       \[
         -2x_3 = b - 18
       \]
-    \item \textbf{Step 3 -} Apply $\vec{R}_4 \mapsto \vec{R}_4 - \frac{6}{57}\vec{R}_3$ to yield the transformed system:
+    \item \textbf{Step 3 -} Apply $\vec{R}_4 \mapsto \vec{R}_4 - \frac{10}{57}\vec{R}_3$ to yield the transformed system:
       \begin{align*}
         x_1 - x_2 + x_3 &= 8 \\
         5x_2 - 3x_3 &= -18 \\
-        -\frac{57}{3}x_3 &= -\frac{57}{3} \\
+        -\frac{57}{5}x_3 &= -\frac{57}{5} \\
         0 &= b - 16
       \end{align*}
   \end{enumerate}
-  Again $r = 3$, but now $r = 3 < m = 4$.
-  If $b = 16$, then the equations are consistent so the solution is as before.
-  Otherwise, there is no solution.
+  Again $r = 3$, but now $r = 3 < 4 = m$.
+  If $b = 16$, then the equations are consistent so the solution is as before, otherwise, there is no solution and the system is overdetermined.
 \end{example}
 \begin{example}[Underdetermined System]
-  Consider the same system of equations but with only two equations
+  Consider the same system of equations but now with only the first two equations
   \begin{align*}
     x_1 - x_2 + x_3 &= 8 \\
     2x_1 + 3x_2 - x_3 &= -2
@@ -2499,10 +2522,48 @@ If $n = m = r$, that is M is just the upper triangular block, then $\det M = M_{
     x_1 - x_2 + x_3 &= 8 \\
     5x_2 - 3x_3 &= -18
   \end{align*}
-  So the system is \textit{underdetermined}, $r = 2 = m < n = 3$.
-  We can pick any value for $x_3$, say $t$ and then solve for $x_1, x_2$:
+  We see that $r = 2 = m < n = 3$.
+  So the system is \textit{underdetermined} and we expect there to be infinitely many solutions.
+  We can pick any value for $x_3$, say $x_3 = t$, and then solve for $x_1$ and $x_2$ by back substitution:
   \[
     x_1 = \frac{2}{5}(11 - t),\ x_2 = \frac{3}{5}(t - 6)
   \]
+  The solution $\vec{x}$ can then be written in vector notation as:
+  \[
+    \vec{x} = \begin{pmatrix}
+    \frac{22}{5} - \frac{2}{5}t \\
+    -\frac{18}{5} + \frac{3}{5}t \\
+    t \\
+    \end{pmatrix} = \begin{pmatrix}
+    \frac{22}{5} \\
+    -\frac{18}{5} \\
+    0 \\
+    \end{pmatrix} + t \begin{pmatrix}
+    -\frac{2}{5} \\
+    \frac{3}{5} \\
+    1 \\
+    \end{pmatrix}
+  \]
+  which is straight line.
+
+  This makes sense as the original matrix representation of the system is:
+  \[
+    A\vec{x} = \begin{pmatrix}
+    1 & -1 & 1 \\
+    2 & 3 & -1 \\
+    \end{pmatrix} \begin{pmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+    \end{pmatrix} = \begin{pmatrix}
+    8 \\
+    -2 \\
+    \end{pmatrix}
+  \]
+  We can never have $\rank A = 3$ since the columns are vectors in $\R^2$ and so systems like these will always have infinitely many solutions (provided they are consistent).
+
+  We see that in this case $\rank A = 2$ so since the dimension of the domain is $3$, by rank nullity theorem, we have $\nullity A = 1$.
+  We also see that $(-2/5, 3/5, 1)$ is orthogonal to both rows of $A$ and so the span of this vector is $\ker A$.
+  Since $(22/5, -18/5, 0)$ is a particular solution, the infinitely many solutions will lie on a line passing through this, which is consistent with our result from Gaussian elimination.
 \end{example}
 \end{document}
