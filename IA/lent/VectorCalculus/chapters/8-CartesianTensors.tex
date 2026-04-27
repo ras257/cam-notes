@@ -20,7 +20,7 @@ More precisely, suppose that $\vec{v}$ has components $v_i$ with respect to $\{\
 If we dot both sides with $\vec{e}_i'$, we see that:
 \begin{align*}
   v_k' \vec{e}_i' \cdot \vec{e}_k' = v_j \vec{e}_i' \cdot \vec{e}_j \\
-  \implies v_k \delta_{i k} = v_j \vec{e}_i \cdot \vec{e}_j
+  \implies v_k' \delta_{i k} = v_j \vec{e}_i' \cdot \vec{e}_j
 \end{align*}
 So we can write:
 \begin{equation}
@@ -153,7 +153,7 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
 \begin{itemize}
   \item Temperature $\Theta$ is an example of a scalar, it is invariant under a change of basis.
   \item Position $\vec{x}$, velocity $\vec{v}$ and acceleration $\vec{a}$ are all vectors, so are tensors of rank 1.
-  \item The Kronecker Delta is a tensor of rank 2. We can actually define the Kronecker delta to be the same for in every basis, that is $\delta_{i j}' = \delta_{j j}$.
+  \item The Kronecker Delta is a tensor of rank 2. We can actually define the Kronecker delta to be the same for in every basis, that is $\delta_{i j}' = \delta_{i j}$.
     To check it is a tensor, we can just check it satisfies the transformation rule:
     \[
       R_{i p}R_{j q}\delta_{p q} = R_{i p}R_{j p} = (R R^{\trans})_{i j} = \delta_{i j} = \delta_{i j}'
@@ -169,7 +169,7 @@ Similarly to the vector transformation rule, \cref{invVectorTransform}, the tens
     Again by its definition, it is the same in every basis.
     From IA Vectors and Matrices, we know that:
     \[
-      \levi_{i j k}\det A = A_{i p}A_{j q}A_{k r}
+      \levi_{i j k}\det A = A_{i p}A_{j q}A_{k r}\levi_{p q r}
     \]
     We can use this fact to check it satisfies the transformation rule:
     \begin{align*}
@@ -277,7 +277,7 @@ It is difficult to come up with things that aren't tensors because the concept o
 \end{proof}
 \subsection{Contraction}
 \begin{definition}[Contraction]
-  A \textit{contraction} of a tensor of rank $n$ occurs when we make two indices equal and sum, resulting in an object of rank $n - 2$.
+  A \textit{contraction} of a tensor of rank $n$ occurs when we set two indices equal and sum, resulting in an object of rank $n - 2$.
 \end{definition}
 \begin{lemma}
   A contraction of a tensor is also a tensor. \label{contractionTensor}
@@ -333,7 +333,7 @@ It is difficult to come up with things that aren't tensors because the concept o
         \cos \theta = \frac{\vec{u} \cdot \vec{v}}{\sqrt{(\vec{u} \cdot \vec{u})(\vec{v} \cdot \vec{v})}}
       \]
       which is also a scalar so is invariant under basis changes.
-    \item If $\vec{a}$ and $\vec{b}$ are vectors, then $\vec{a} \times \vec{b} = \levi_{i j k}a_jb_k$ is a rank tensor (i.e. a vector) since it is a double inner product of three tensors.
+    \item If $\vec{a}$ and $\vec{b}$ are vectors, then $\vec{a} \times \vec{b} = \levi_{i j k}a_jb_k$ is a rank 1 tensor (i.e. a vector) since it is a double inner product of three tensors.
   \end{enumerate}
 \end{example}
 \section{The Quotient Theorem}
@@ -343,23 +343,23 @@ It is difficult to come up with things that aren't tensors because the concept o
   Given an object $T_{ijk\ldots}$ of some rank, if the product of $T$ with an arbitrary tensor $A$ of a given rank is also a tensor, then $T$ is itself a tensor.
 
   Here, the ``product'', can be an outer product, inner product, or both.
-  The important thing is that $A$ is arbitrary apart from its rank.
+  The important thing is that $A$ is \textbf{arbitrary} apart from its rank.
 \end{theorem}
-\begin{proof}[Rank 2 \& 2 -- Inner product]
+\begin{proof}[Rank 2 \& 1 -- Inner product]
   Let $T$ be an object of rank 2 such that $w_i = T_{i j}v_j$ is a tensor for all vectors $\vec{v}$.
 
   By assumption $\vec{w}$ is a rank 1 tensor so:
   \begin{align*}
     T_{i j}'v_j' = w_i' &= R_{i p}w_p \text{ using \cref{vectorTransform}} \\
                         &= R_{i p}T_{p q}v_q \\
-                        &= R_{i p}T_{p q}R_{j q}v'_q \text{ using \cref{invVectorTransform}} \\
+                        &= R_{i p}T_{p q}R_{j q}v'_j \text{ using \cref{invVectorTransform}} \\
     \implies (T_{i j}' - R_{i p}R_{j q}T_{p q})v'_j &= 0
   \end{align*}
-  Since this is true for arbitrary $\vec{v}$, and therefore arbitrary $v'_j$, so $T_{i j}' = R_{i p}R_{j q}T_{p q}$ so $T$ obeys the tensor transformation law (\cref{tensorTransform}) and so $T$ is a tensor.
+  Since this is true for arbitrary $\vec{v}$, and therefore arbitrary $v'_j$, we have that $T_{i j}' = R_{i p}R_{j q}T_{p q}$ so $T$ obeys the tensor transformation law (\cref{tensorTransform}) and so $T$ is a tensor.
 \end{proof}
-\begin{example}
+\begin{remark}
   The above case of the quotient theorem tells us that the conductivity tensor $\sigma$ from \cref{conductivityTensor} must be a tensor since $\vec{J}$ and $\vec{E}$ are vectors and $J_i = \sigma_{i j}E_j$.
-\end{example}
+\end{remark}
 \begin{proof}[Rank 2 \& 3 -- Inner Product]
   Let $T$ be an object of rank 2 such that $W_{i j} = T_{k i}A_{j k}$ is a tensor for all rank 2 tensors $A$.
   \begin{align*}
@@ -388,7 +388,7 @@ For each tensor we can always construct such a map, conversely, given such a map
 \[
   T_{111\ldots} = T(\vec{e}_1, \ldots, \vec{e}_1)
 \]
-This is similar to how if we are given a linear map from $\R^3$ to $R^3$, we can create a matrix from it and vice versa.
+This is similar to how if we are given a linear map from $\R^3$ to $\R^3$, given a basis, we can create a matrix from it and vice versa.
 
 Furthermore, we can use the Quotient Theorem (\cref{quotientTheorem}) to show that $T_{ijk\ldots}$ is in fact a tensor.
 Hence there is an equivalence between tensors and multi-linear maps.
@@ -398,7 +398,7 @@ Recall that in a new basis $A' = P^{\trans} A P$ where $P$ is the orthogonal cha
 This is identical to the rank 2 transformation law in \cref{rank2Transform} with $P = R^{\trans}$.
 
 Bu why $P = R^{\trans} = R^{-1}$ rather than just $R$?
-This is easiest to visualise using the transformation of a vector $\vec{v}$ in 2D.
+This is easiest to think about using the transformation of a vector $\vec{v}$ in 2D.
 Suppose that $\{\vec{e}_1', \vec{e}_2'\}$ are the original basis vectors $\{\vec{e}_1, \vec{e}_2\}$ rotated through an angle $\theta$ so that $P$ is a rotation matrix with angle $\theta$.
 There are then two ways we could find the components of $\vec{v}$ in the new basis:
 \begin{enumerate}
@@ -416,8 +416,7 @@ So the rank 2 case, \cref{rank2Transform} represents \textbf{(ii)} where $R$ is 
   \begin{align*}
     U_{i j}' &= T_{j i}' \\
              &= R_{j p}R_{i q}T_{p q} \text{ since $T$ is a tensor}\\
-             &= R_{i q}R_{j p}U_{q p} \\
-             &= R_{i p}R_{j q}U_{p q} \text{ swapping dummy indices $p \leftrightarrow q$}
+             &= R_{i q}R_{j p}U_{q p}
   \end{align*}
   So $T_{j i}$ is a tensor.
 \end{proof}
@@ -426,7 +425,7 @@ So the rank 2 case, \cref{rank2Transform} represents \textbf{(ii)} where $R$ is 
 \end{remark}
 \begin{definition}
   A tensor $T_{ijk\ldots}$ is \textit{symmetric} in $i$ and $j$ if $T_{ijk\ldots} = T_{jik\ldots}$.
-  These two indices can be any two and do not have to be adjacent.
+  A tensor can be symmetric in any two two indices, not only adjacent ones.
 \end{definition}
 \begin{remark}
   For second rank tensors, $T_{i j}$ is symmetric if and only if the corresponding matrix $T = (T_{i j})$ is a symmetric matrix.
@@ -439,7 +438,7 @@ For example, for rank 2:
                                    &= T_{j i}' \text{ using \cref{tensorTransform}}
 \end{align*}
 \begin{definition}
-  A tensor $T_{ijk\ldots}$ is \textit{anti-symmetric} in $i$ and $j$ is $T_{ijk\ldots} = - T_{jik\ldots}$.
+  A tensor $T_{ijk\ldots}$ is \textit{anti-symmetric} in $i$ and $j$ if $T_{ijk\ldots} = - T_{jik\ldots}$.
 \end{definition}
 \begin{remark}[Remarks]
   \begin{itemize}
@@ -451,7 +450,7 @@ For example, for rank 2:
   $\delta_{i j}$ is a totally symmetric tensor of rank 2 and $\varepsilon_{i j k}$ is a totally anti-symmetric tensor of rank 3.
 \end{example}
 \begin{lemma}
-  If $S_{i j}$ is symmetric and $A_{i j}$ is antisymmetric then $S_{i j}A_{i j} = 0$. \label{ASProd}
+  If $S_{i j}$ is symmetric and $A_{i j}$ is antisymmetric, then $S_{i j}A_{i j} = 0$. \label{ASProd}
 \end{lemma}
 \begin{proof}
   \begin{align*}
@@ -470,7 +469,8 @@ For example, if $S_{i j k}$ is symmetric in $i$ and $k$ and $A_{pqrs}$ is antisy
   \]
   where $S$ is a symmetric tensor and $A$ is an antisymmetric tensor.
 \end{proposition}
-\begin{proof}
+\begin{proof}\par
+  \textbf{Existence}\par
   For existence, let:
   \begin{equation}
     S_{i j} = \frac{1}{2}(T_{i j} + T_{j i}) \text{ and } A_{i j} = \frac{1}{2}(T_{i j} - T_{j i}) \label{tensorDecompStar} \tag{$\star$}
@@ -481,23 +481,27 @@ For example, if $S_{i j k}$ is symmetric in $i$ and $k$ and $A_{pqrs}$ is antisy
     A_{j i} &= \frac{1}{2}(T_{j i} - T_{i j}) = -\frac{1}{2}(T_{i j} - T_{j i}) = -A_{i j} \implies A \text{ is anti-symmetric}
   \end{align*}
 
-  For uniqueness, if we have $T_{i j} = S_{i j} + A_{i j}$ for some symmetric $S$ and anti-symmetric $A$ then:
+  \textbf{Uniqueness}\par
+  For uniqueness, suppose that we have $T_{i j} = S_{i j} + A_{i j}$ for some symmetric $S$ and anti-symmetric $A$ then:
   \begin{align*}
-    T_{i j} + T_{j i} = S_{i j} + A_{i j} + S_{j i} + A_{j i} = 2 S_{i j}
-    T_{i j} - T_{j i} = S_{i j} + A_{i j} - S_{j i} - A_{j i} = 2 A_{i j}
+    T_{i j} + T_{j i} &= S_{i j} + A_{i j} + S_{j i} + A_{j i} = 2 S_{i j} \\
+    T_{i j} - T_{j i} &= S_{i j} + A_{i j} - S_{j i} - A_{j i} = 2 A_{i j}
   \end{align*}
   So $S_{i j}$ and $A_{i j}$ must be as in \cref{tensorDecompStar}.
 
   This also shows us that $S$ and $A$ must also be tensors since $T$ is a tensor and we can write $A$ and $S$ as a linear combination of the tensors $T_{i j}$ and $T_{ji}$ (which by \cref{tensorIndexSwap}, is also a tensor).
 \end{proof}
-\begin{proposition}[Decomposition of antisymmetric tensors]
+\begin{remark}
+  Note that this decomposition still works for any object of rank 2 (that we do not necessarily know is a tensor), we just then cannot conclude that $S$ and $A$ are tensors.
+\end{remark}
+\begin{proposition}[Decomposition of antisymmetric second rank tensors]
   If $A_{i j}$ is an antisymmetric tensor, then we can write it in terms of a vector $\vec{\omega}$ as:
   \[
     A_{i j} = \levi_{i j k}\omega_k \text{ where } \omega_i = \frac{1}{2}\levi_{i j k}A_{j k}
   \]
 \end{proposition}
 \begin{proof}
-  $\vec{\omega}$ as defined above is clearly a tensor as it is a contraction of $\varepsilon$ and $A$.
+  $\vec{\omega}$ as defined above is clearly a vector as it is an inner product of a rank 3 tensor $\varepsilon$ and a rank 2 tensor $A$ so will be a tensor of rank $3 + 2 - 2 \cdot 2 = 1$.
 
   We can then check that $A_{i j}$ is indeed the above expression:
   \begin{align*}
@@ -527,11 +531,11 @@ where $S$ is a symmetric tensor and $\vec{\omega}$ is a vector.
     A_{1 2} \\
     \end{pmatrix}
   \]
-  Since an antisymmetric tensor of rank 2 has only thee degrees of freedom, it is not surprising that it can be written in terms of a single vector with three components.
+  Since an antisymmetric tensor of rank 2 has only three degrees of freedom, it is not surprising that it can be written in terms of a single vector with three components.
 \end{remark}
 \subsection{Worked Example}
 \begin{remark}[Question]
-  Suppose that $C$ is an object of rank 2 such that $C_{i j}S_{i j}$ is a scalar for any symmetric tensor $S$ of rank 2.
+  Suppose that $C$ is an object of rank 2 such that $C_{i j}S_{i j}$ is a scalar for any \textbf{symmetric} tensor $S$ of rank 2.
   Show that $C$ may not be a tensor but that its symmetric part is.
 \end{remark}
 We would like to apply the Quotient Theorem but cannot apply it directly as $S$ is \textbf{not arbitrary} since it is restricted to being symmetric.
@@ -586,7 +590,7 @@ For any \textbf{symmetric} second-rank tensor $S$ we can chose a basis in which:
   0 & 0 & \lambda_3 \\
   \end{pmatrix} \equiv D
 \]
-This is a direct consequence of the fact from 1A Vectors and matrices that a real symmetric matrix can be diagonalised using an orthogonal change of basis matrix $P$, satisfying $P^{\trans} S P = D$ for a diagonal matrix $D$ with the eigenvalues of the matrix on its diagonal.
+This is a direct consequence of the fact from 1A Vectors and Matrices that a real symmetric matrix can be diagonalised using an orthogonal change of basis matrix $P$, satisfying $P^{\trans} S P = D$ for a diagonal matrix $D$ with the eigenvalues of the matrix on its diagonal.
 We then let $R = P^{\trans}$ be the corresponding rotation matrix for the tensor transformation law.
 We then see that:
 \[
@@ -613,12 +617,13 @@ The total angular momentum is then:
 \begin{align*}
   \vec{L} &= \int_{V} \rho(\vec{x})(\vec{x} \times (\vec{\omega} \times \vec{x})) \d{V} \\
           &= \int_{V} \rho(\vec{x})((\vec{x} \cdot \vec{x})\vec{\omega} - (\vec{\omega} \cdot \vec{x})\vec{x}) \d{V} \\
-  \implies L_I &= \int_{V} \rho(\vec{x}) (x_k x_k \omega_i - \omega_j x_j x_i)\d{V} \\
+  \implies L_i &= \int_{V} \rho(\vec{x}) (x_k x_k \omega_i - \omega_j x_j x_i)\d{V} \\
+               &= \int_{V} \rho(\vec{x}) (x_k x_k \delta_{i j} \omega_j - \omega_j x_j x_i)\d{V} \\
                &= I_{i j}\omega_j
 \end{align*}
 where $I_{i j}$ is the \textit{inertia tensor}, defined as:
 \[
-  I_{i j} \int_{V} \rho(\vec{x})(x_k x_k \delta_{i j} - x_ix_j) \d{V}
+  I_{i j} = \int_{V} \rho(\vec{x})(x_k x_k \delta_{i j} - x_ix_j) \d{V}
 \]
 This tensor is an innate property of the body, independent of the choice of axis in $\vec{\omega}$.
 This means that we can then calculate the inertia tensor for the body once and then use it for any choice of $\vec{\omega}$.
@@ -638,7 +643,7 @@ The above is the inertia tensor about the origin, but we can instead define it a
 \end{remark}
 \subsection{Worked Example}
 \begin{remark}[Question]
-  A cube of uniform density and mass $M$ occupies $V = \{\vec{x} : x, y, z \in [0, a]\}$.
+  A cube of uniform density and mass $M$ occupies $V = \{\vec{x} \in \R^3: x, y, z \in [0, a]\}$.
   Find its inertia tensor about the origin and then calculate its principal axes.
 \end{remark}
 We can calculate the components directly:
@@ -721,7 +726,7 @@ In fact we can find the most general cases of isotropic tensors for each rank:
   It quite often appears in Tripos exams, but with the form above given.
 \end{remark}
 \begin{lemma}
-  The most general isotropic tensor of rank 2 is $\alpha \delta_{i j}$ for some scalar $\alpha$. \label{general2ndRankIso}
+  The most general isotropic tensor of rank 2 is $\lambda \delta_{i j}$ for some scalar $\lambda$. \label{general2ndRankIso}
 \end{lemma}
 \begin{proof}
   Let $T_{i j}$ be any isotropic second rank tensor.
@@ -783,7 +788,7 @@ There is a similar proof for the general form for third-rank isotropic tensors, 
   Since the medium is isotropic, it has the same physical properties in all directions and so $\sigma_{i j}$ must be an isotropic tensor.
   So by \cref{general2ndRankIso}, $\sigma_{i j} = \lambda \delta_{i j}$ for some scalar $\lambda$ and therefore:
   \[
-    J_i = \lambda \delta_{i j}E_j
+    J_i = \lambda \delta_{i j}E_j = \lambda E_j
   \]
   or equivalently $\vec{J} = \lambda \vec{E}$ and so the direction of $\vec{E}$ does not affect the current.
 \end{remark}
@@ -874,7 +879,7 @@ It should not matter if we had used a different basis and so we expect the resul
 $\vec{x}$ is a vector so obeys the inverse vector transformation law (\cref{invVectorTransform}), that is:
 \begin{align*}
   x_i &= R_{j i}x_j' \\
-  \implies \pderiv{x_i}{x_k} &= R_{j i} \pderiv{x_j'}{x_k'} = R_{j i} \delta_{j k} = R_{k i}
+  \implies \pderiv{x_i}{x_k'} &= R_{j i} \pderiv{x_j'}{x_k'} = R_{j i} \delta_{j k} = R_{k i}
 \end{align*}
 We can then use this to derive the chain rule for the change of basis.
 If we let $\bullet$ be a placeholder for \textbf{any} tensor expression, then:
@@ -887,7 +892,7 @@ If we use the notation $\partial_i$ for $\partial/\partial x_i$ then we have:
 \]
 in other words $\nabla$, whose components are $\partial_i$ is a \textit{vector} differential operator as it obeys the vector transformation law in \cref{vectorTransform}.
 \begin{lemma}
-  If $\vec{F}(\vec{x})$ is a vector field, then $\nabla \cdot \vec{F}$ is a scalar, i.e., it does not depend on the basis.
+  If $\vec{F}(\vec{x})$ is a vector field, then $\nabla \cdot \vec{F}$ is a scalar, i.e., it does not depend on the choice of basis.
 \end{lemma}
 \begin{proof}
   We need to show that $(\nabla \cdot \vec{F})' = \nabla \cdot \vec{F}$:
