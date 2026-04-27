@@ -4,7 +4,7 @@
 \section{General and Special Linear Groups}
 Let $M_n(\R)$ be the set of $n \times n$ matrices with real entries.
 From Vectors and Matrices we know that matrix multiplication is associative and the identity matrix provides an identity for matrix multiplication.
-However, not all matrices are invertible, recall that:
+However, not all matrices are invertible:
 \begin{lemma}
   A matrix $A \in M_n(\R)$ has an inverse if and only if $\det A \neq 0$.
 \end{lemma}
@@ -122,7 +122,7 @@ There is a natural action of $\GL_n(\R)$ on $M_n(\R)$ by conjugation, that is:
     We know that $P \in GL_n(\R)$ as we know that it has an inverse given by the matrix representing $\phi^{-1} \circ \psi$.
 
     So $B \in \GL_n(\R)A$.
-    Thus, the set of all matrices representing $\alpha$ is contained in the orbit.
+    Thus, the set of all matrices representing $\alpha$ is a subset of the orbit.
   \end{proofdirection}
   \begin{proofdirection}{Suppose a matrix $B$ is in the orbit of $A$}
     Conversely, if $B = PAP^{-1}$, for some $P \in \GL_n(\R)$, then by setting:
@@ -132,7 +132,7 @@ There is a natural action of $\GL_n(\R)$ on $M_n(\R)$ by conjugation, that is:
     we get a basis $\{\vec{u}_i = \psi(\vec{e}_i)\}$ for $V$.
     In this basis, $B$ represents $\alpha$.
 
-    Thus the orbit is contained in the set of matrices representing $\alpha$
+    Thus the orbit is a subset of the set of matrices representing $\alpha$.
   \end{proofdirection}
 \end{proof}
 \section{M\"obius Transformations Revisited}
@@ -170,9 +170,9 @@ Now that we have studied quotient groups in \cref{quotientGroups}, we can more p
   \[
     b = c = 0 \text{ and } a = d
   \]
-  So $\ker \Phi$ is exactly the matrices in $\C_\times$.
+  We also require that $ad - bc = ad = a^2 \neq 0 \iff a \in \C \setminus \{0\}$ so $\ker \Phi$ is exactly the matrices in $\C_\times$.
   Since $\ker \Phi \lhd \GL_2(\C)$, we have $\C_\times \lhd \GL_2(\C)$.
-  Finally, by the Isomorphism Theorem (\cref{isomorphismTheorem}), we have $M \cong \GL_2 /\C_\times$.
+  Finally, by the First Isomorphism Theorem (\cref{isomorphismTheorem}), we have $M \cong \GL_2 /\C_\times$.
 \end{proof}
 \section{Orthogonal Groups}
 \subsection{Orthogonal Group}
@@ -216,25 +216,26 @@ We can now characterise $O(n)$ using the dot product:
   That is, $O(n)$ is the set of all matrices that preserves the dot product.
 \end{lemma}
 \begin{proof}
-  If $A \in \GL_n(\R)$ preserves the dot product, then $(A\vec{x})\cdot(A\vec{y}) = \vec{x} \cdot \vec{y}$ for all $\vec{x} , \vec{y} \in \R^{n}$.
-
-  For any $v \in \R^{n}$, we then have:
-  \begin{align*}
-    \norm{A \vec{v}}^2 &= (A \vec{v}) \cdot (A \vec{v}) \\
-                    &= \vec{v} \cdot \vec{v} \\
-                    &= \norm{\vec{v}}^2
-  \end{align*}
-  Thus $\norm{A \vec{v}} = \norm{\vec{v}}$ so $A \in O(n)$
-
-  Conversely, if $A \in O(n)$, then for any $\vec{x} , \vec{y} \in \R^{n}$ then:
-  \begin{align*}
-    2(A \vec{x}) \cdot (A \vec{y}) &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A\vec{x} - A\vec{y}}^2 \text{ (by polarisation identity)}\\
-                                   &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A(\vec{x} - \vec{y})}^2 \\
-                                   &= \norm{\vec{x}}^2 + \norm{\vec{y}}^2 - \norm{\vec{x} - \vec{y}}^2 \text{ (as $A \in O(n)$))}\\
-                                   &= 2(\vec{x} \cdot \vec{y}) \text{ (by polarisation identity)}
-  \end{align*}
-  Thus $(A\vec{x})\cdot(A \vec{y}) = \vec{x} \cdot \vec{y}$ so $A$ preserves the dot product.
-  Therefore both characterisations of $O(n)$ are equivalent.
+  We can show that these two characterisations are equivalent as follows:
+  \begin{proofdirection}{Suppose $A \in \GL_n(\R)$ preserves the dot product}
+    For any $\vec{v} \in \R^{n}$ we have:
+    \begin{align*}
+      \norm{A \vec{v}}^2 &= (A \vec{v}) \cdot (A \vec{v}) \\
+                      &= \vec{v} \cdot \vec{v} \\
+                      &= \norm{\vec{v}}^2
+    \end{align*}
+    Thus $\norm{A \vec{v}} = \norm{\vec{v}}$ so $A \in O(n)$
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose $A \in \GL_n(\R)$ preserves norms}
+    For any $\vec{x}, \vec{y} \in \R^{n}$ we have:
+    \begin{align*}
+      2(A \vec{x}) \cdot (A \vec{y}) &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A\vec{x} - A\vec{y}}^2 \text{ (by polarisation identity)}\\
+                                     &= \norm{A\vec{x}}^2 + \norm{A\vec{y}}^2 - \norm{A(\vec{x} - \vec{y})}^2 \\
+                                     &= \norm{\vec{x}}^2 + \norm{\vec{y}}^2 - \norm{\vec{x} - \vec{y}}^2 \text{ (as $\norm{A\vec{u}} = \norm{\vec{u}}\ \forall \vec{u} \in \R^{n}$)}\\
+                                     &= 2(\vec{x} \cdot \vec{y}) \text{ (by polarisation identity)}
+    \end{align*}
+    Thus $(A\vec{x})\cdot(A \vec{y}) = \vec{x} \cdot \vec{y}$ so $A$ preserves the dot product.
+  \end{proofdirection}
 \end{proof}
 This quickly leads to a nice characterisation of matrices in $O(n)$:
 \begin{lemma}[Matrices in $O(n)$]
@@ -246,9 +247,7 @@ This quickly leads to a nice characterisation of matrices in $O(n)$:
     \item $A^{\trans} A = I$
   \end{enumerate}
 \end{lemma}
-\begin{proof}
-  Let $A = (a_{i j})$.
-
+\begin{proof}\par
   (\textbf{i} $\implies$ \textbf{ii})\par
   \begin{indentenvironment}
     Let $\{\vec{e}_1, \ldots, \vec{e}_n\}$ be the standard basis for $\R^{n}$.
@@ -307,14 +306,14 @@ Note that:
 \[
   \SO(n) = \ker(\det: O(n) \to \{\pm 1\})
 \]
-So $\SO \lhd O(n)$.
+So $\SO(n) \lhd O(n)$.
 Furthermore, since we know that there are orthogonal matrices with $\det A = -1$, we have that $|O(n):\SO(n)| = 2$.
 Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminus \SO(n)$, are provided by \textit{reflections}.
 \subsection{Reflections and Rotations}
 \begin{definition}[Reflections]
   Any $\vec{v} \in \R^{n} \setminus \{\vec{0}\}$ defines an \textit{orthogonal plane}:
   \[
-    P_{\vec{v}} = \{x \in \R^{n}: \vec{x} \cdot \vec{v} = 0\}
+    P_{\vec{v}} = \{\vec{x} \in \R^{n}: \vec{x} \cdot \vec{v} = 0\}
   \]
   The \textit{reflection} in the plane $P_{\vec{v}}$ is defined to be:
   \[
@@ -376,8 +375,7 @@ Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminu
   Since similar matrices always have the same determinant $S_{\vec{v}}$ has the same determinant in all bases, thus $\det S_{\vec{v}} = -1$ and $S_{\vec{v}} \notin \SO(n)$.
 \end{remark}
 \begin{theorem}[Reflections Generate $O(n)$]
-  \label{reflectionsGenerate}
-  Every $A \in O(n)$ is a product of \textbf{at most} $n$ reflections.
+  Every $A \in O(n)$ is a product of \textbf{at most} $n$ reflections. \label{reflectionsGenerate}
 \end{theorem}
 \begin{proof}
   \induction
@@ -411,8 +409,8 @@ Examples of orthogonal matrices with $\det A = -1$, i.e. those in $O(n) \setminu
     \[
       (S_{\vec{v}}A)\vec{e}_n = \vec{e}_n
     \]
-    So $S_{\vec{v}}A$ is an orthogonal transformation that preserves $\vec{e}_n$.
-    Since orthogonal transformations preserve the dot product, so the plane $P_{\vec{e}_n}$ orthogonal to $\vec{e}_n$ must also be preserved.
+    So $S_{\vec{v}}A$ is an orthogonal transformation that fixes $\vec{e}_n$.
+    Since orthogonal transformations preserve the dot product, so the plane $P_{\vec{e}_n}$ orthogonal to $\vec{e}_n$ must also be preserved (i.e. every vector on the plane is sent to a vector on the plane).
     The plane $P_{\vec{e}_n} = \R^{n - 1} \times \{0\}$ as it is just all the vectors where the $n$-th component is 0.
 
     If we restrict $S_{\vec{v}}A$ to $P_{\vec{e}_n}$, it is still an orthogonal transformation, so, by the induction hypothesis, there exists $\vec{v}_1, \ldots, \vec{v}_{n - 1} \in \R^{n - 1} \setminus \{\vec{0}\}$ such that:
@@ -469,7 +467,7 @@ Orthogonal transformations are especially easy to analyse in low dimensions.
     \end{pmatrix}
   \]
   with $\det A = a^2 + b^2 = 1$.
-  Then $a = \cos \theta$ and $b = \sin \theta$ for some $\theta$ so:
+  We can then write $a = \cos \theta$ and $b = \sin \theta$ for some $\theta \in \R$ so:
   \[
     A = \begin{pmatrix}
     \cos \theta & \sin \theta \\
