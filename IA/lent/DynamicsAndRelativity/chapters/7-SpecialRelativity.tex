@@ -8,7 +8,7 @@ The speed of light $c$ is \textbf{exactly equal to}:
   c = \qty{299792458}{\metre\second^{-1}} \approx \qty{3e8}{\metre\second^{-1}}
 \]
 \begin{remark}[Note]
-  The speed of light is exactly this value because one metre is defined as the distance travelled by light in a vacuum during a time of $1/299792458$ seconds.
+  The speed of light is exactly this value because one metre is \textit{defined} as the distance travelled by light in a vacuum during a time of $1/299792458$ seconds.
 \end{remark}
 
 A theory with a ``preferred velocity'' cannot be Galilean invariant.
@@ -207,7 +207,7 @@ The following type of diagram is called a \textit{space-time diagram}:
 \textbf{Features of a space-time diagram}:
 \begin{itemize}
   \item A point $P$ on a space-time diagram is called an \textit{event} and represents a point in space and time.
-  \item The trajectory of a particle through a space-time diagram is called a \textit{word line} or \textit{worldline}.
+  \item The trajectory of a particle through a space-time diagram is called a \textit{world line} or \textit{worldline}.
   \item The dashed lines on the diagram represent light rays emitted from the particle.
   \item Since the axes are $ct$ and $x$, rays of light must travel at $\pm\ang{45}$ as they have $x = a \pm ct$ for some constant $a$.
 \end{itemize}
@@ -297,8 +297,10 @@ So $P_1$ and $P_2$ are simultaneous in $S$ as they lie on the same line of const
 \begin{example}[Einstein's Relativity Train]
   Suppose we have a train travelling along a track at a constant speed with a source of light at the centre of the train that emits light in both directions.
 
-  In the frame of the train, the train has velocity $0$ and so the light rays will reach the front and the back of the train at the same time.
+  In the frame of the train, the train has velocity $0$ and so the light rays will reach the front and the back of the train at the same time, so the two events are simultaneous in this frame.
+
   In the frame of the platform, the train has velocity $v$ so, provided this is non-zero, since the speed of light is the same in both frames, train will have moved forward in the time it takes for the light rays to travel and so they will reach the back of the train first first.
+  This means that the two events are not simultaneous in this frame.
 
   In Galilean physics, the observer on the platform would see light going at $c + v$ in one direction and $c - v$ in the other, so would also see them reaching both ends at the same time.
 \end{example}
@@ -333,7 +335,7 @@ The future light cone contains every event that can be influenced by $P$ and the
 
 The lines of simultaneity in $S'$ have gradient $\frac{v}{c}$ in the $S$ space-time diagram and so can make at most an angle of \ang{45} with the $x$ axis as $v \to c$.
 We can find a frame where $P$ and $R$ (or any other event outside the light cones) are simultaneous since the line joining them makes an angle $<\ang{45}$ and so this could be a line of simultaneity in a different frame.
-However, we cannot make $P$ and $Q$ (or any other event in the past or future light cone) simultaneous since this would need a vertical line which cannot be a line of simultaneity in a different frame.
+However, we cannot make $P$ and $Q$ (or any other event in the past or future light cone) simultaneous since this would need a line steeper than $\ang{45}$ which cannot be a line of simultaneity in a different frame.
 
 So any event in the future light cone for $P$ must be to the future of $P$ in \textbf{every frame}, and similarly, every event in the past light cone for $P$, must be to the future of $P$ in \textbf{every frame}, this ensures causality.
 \begin{remark}
@@ -450,7 +452,7 @@ Now consider a frame $S$ in which the frame $S'$ is moving with velocity $v$:
 Our objective is to calculate $L$ given $L'$.
 We know that:
 \begin{align*}
-  P_1 = (0, 1) \text{ in both $S$ and $S'$} \\
+  P_1 = (0, 0) \text{ in both $S$ and $S'$} \\
   P_2 = (ct', x') = (0, L') \text{ in $S'$}
 \end{align*}
 We can then apply an inverse Lorentz transformation to find $P_2$ in $S$:
@@ -461,8 +463,9 @@ In $S$, the front of the rod at $P_2$ moved with a speed $v$ for a time $t$, so 
 \[
   \at{x}{P_3} = \at{x}{P_2} - v \cdot \at{t}{P_2} = \gamma L - v \cdot \frac{\gamma v L'}{c^2} = \gamma L' \left(1 - \frac{v^2}{c^2}\right) = \frac{L'}{\gamma}
 \]
-Since $P_1$ and $P_3$ are simultaneous in $S$, the length of the rod $L$ in $S$ is $L = \at{x}{P_3} = \frac{L'}{\gamma}$
-$v < c$ and so $\gamma > 1$, thus a moving rod appears shorter.
+Since $P_1$ and $P_3$ are simultaneous in $S$, the length of the rod $L$ in $S$ is $L = \at{x}{P_3} = \frac{L'}{\gamma}$.
+
+We know that $\gamma > 1$, thus a rod moving with $S'$ appears shorter in $S$ than it does in $S'$.
 \begin{example}[Ladder and Barn]
   Suppose we have a ladder with length $2L$ and barn of length $L$ open at both ends.
   Person $A$ is holding a ladder and is moving towards the front of the barn and person $B$ is watching from outside the barn.
@@ -572,7 +575,7 @@ Invariance of $(\Delta s)^2$ is equivalent to:
   \end{pmatrix} \begin{pmatrix}
   \gamma & - \frac{\gamma v}{c} \\
   - \frac{\gamma v}{c} & \gamma \\
-  \end{pmatrix} \begin{pmatrix}
+  \end{pmatrix}^{\trans} \begin{pmatrix}
   1 & 0 \\
   0 & -1 \\
   \end{pmatrix} \begin{pmatrix}
@@ -583,7 +586,7 @@ Invariance of $(\Delta s)^2$ is equivalent to:
   \Delta x \\
   \end{pmatrix}
 \end{align*}
-So we must have:
+So since the matrix for the Lorentz transform is symmetric, we must have:
 \[
   \begin{pmatrix}
   \gamma & - \frac{\gamma v}{c} \\
@@ -599,10 +602,15 @@ So we must have:
   0 & -1 \\
   \end{pmatrix}
 \]
-This Matrix is called the \textit{Minkowski} metric.
+The matrix in the middle which is preserved is called  is called the \textit{Minkowski} metric.
 We saw this briefly at the end of IA Vectors and Matrices.
 \begin{remark}
-  We can compare this to how if we have a rotation matrix $R$, we have that $R R^{\trans} = R I R^{\trans} = I$, so they preserve the euclidean metric/norm.
+  The euclidean metric can be written as $\vec{x}^{\trans} \vec{x} = \vec{x}^{\trans} I \vec{x}$.
+  So we can compare the above to how if we have a rotation matrix $R$, we have that $R R^{\trans} = R I R^{\trans} = I$ and so:
+  \[
+    (R\vec{x})^{\trans}(R\vec{x}) = \vec{x}^{\trans} R^{\trans} R \vec{x} = \vec{x}^{\trans} \vec{x}
+  \]
+  so they preserve the euclidean metric/norm.
 \end{remark}
 \begin{remark}[Warning]
   Unlike the euclidean metric, the Minkowski metric is \textbf{not} positive definite, that is, we can have $(\Delta s)^2 < 0$.
@@ -666,7 +674,6 @@ We can generalise the Minkowski metric to 4 Dimensions (1 time dimension and 3 s
   If we are using indices on this matrix, we typically use Greek letter $\mu$ and $\nu$ instead of $i$ and $j$, for example $\eta_{\mu \nu}$.
   Furthermore, by convention, we also take $\mu$ and $\nu$ running from 0 to 3 instead of 1 to 4 as we would typically expect.
 \end{remark}
-
 An event in space-time is given by a \textit{4-vector}:
 \[
   X = (ct, x, y, z)
@@ -686,6 +693,18 @@ The invariant distance between the origin and the event $X$ is given by the inne
 \begin{remark}
   In index notation this would be $X^{\mu}\eta_{\mu \nu}X^{\nu}$.
 \end{remark}
+We also see that $X \cdot Y = Y \cdot X$ because the matrix $\eta$ is symmetric.
+\begin{remark}[Notation]
+  We often abbreviate the spatial component of a 4-vector as $(ct, \vec{x})$ where $\vec{x} \in \R^3$.
+  We then have $X \cdot X = c^2 t^2 - |\vec{x}|^2$.
+\end{remark}
+So if we consider the two events $X_1 = (ct_1, \vec{x}_1)$ and $X = (ct_2, \vec{x}_2)$:
+\begin{align*}
+  (X_1 - X_2) \cdot (X_1 - X_2) &= X_1 \cdot X_1 - 2 X_1 \cdot X_2 + X_2 \cdot X_2 \\
+                                &= c^2 t^2_1 - \vec{x}_1 \cdot \vec{x}_1 - 2c^2t_1t_2 + 2\vec{x}_1 \cdot \vec{x}_2 + c^2 t^2_2 - \vec{x}_2 \cdot \vec{x}_2\\
+                                &= c^2(t_1 - t_2)^2 - (\vec{x}_1 \cdot \vec{x}_2) \cdot (\vec{x}_1 \cdot \vec{x}_2) \\
+                                &= c^2(\Delta t)^2 - |\Delta \vec{x}|^2
+\end{align*}
 As discussed earlier, this inner product is not positive definite:
 \begin{center}
 \begin{tabular}{c|c}
@@ -700,7 +719,7 @@ Four dimensional Lorentz transformations are $4 \times 4$ matrices $\Lambda$ suc
 \[
   X' = \Lambda X
 \]
-The defining feature of Lorentz transformations is that they leave this inner product invariant.
+and importantly they leave this inner product invariant.
 That is, $X' \cdot X' = X \cdot X$.
 This happens if and only if $\Lambda^{\trans} \eta \Lambda = \eta$, i.e. they preserve the Minkowski metric.
 
@@ -772,9 +791,6 @@ To achieve this, we will first find a time $\tau$ that is \textit{invariant} und
 \[
   U \equiv \deriv{X}{\tau}
 \]
-\begin{remark}[Notation]
-  We often abbreviate the spatial component of a 4-vector as $(ct, \vec{x})$ where $\vec{x} \in \R^3$.
-\end{remark}
 Suppose we have two points along a worldline $(ct_1, \vec{x}_1)$ and $(ct_2, \vec{x}_2)$.
 We know that the invariant interval $(\Delta s)^2$ is the same in all inertial frames.
 \begin{definition}[Proper Time]
@@ -785,18 +801,23 @@ We know that the invariant interval $(\Delta s)^2$ is the same in all inertial f
 \end{definition}
 \begin{remark}[Note]
   Because we are considering two points on a worldline and worldlines must be contained within the light cone, the two events must be time-like, so $(\Delta s)^2 > 0$ and so $\Delta s \in \R^{+}$.
+
+  Worldlines must be contained entirely within the light cone centred at any point of a worldline trajectory otherwise there would be a frame in which the particle was at two different positions simultaneously.
+  This means that the previous trajectory of the particle must be contained within the past light cone and the future trajectory must be contained within the future light cone.
 \end{remark}
 Since all frames agree on $\Delta s$ and $c$, they also must agree on $\Delta \tau$.
 We can then parameterise any worldline using $\tau$ as $\vec{x}(\tau)$ and $t(\tau)$.
 Since all frames agree on $\tau$, they will also agree on this parameterisation.
 \begin{remark}
   Proper time is like a Lorentzian version of the euclidean arc length along a curve.
-  This is because in euclidean geometry, rotated frames might not agree on the positions of the endpoints of the curve, but will agree on the arc length between them.
-  So in Lorentzian geometry, transformed frames might not agree on the space-times of a pair of events, but will agree on the $\Delta \tau$ between them in the parameterisation.
+
+  In Euclidean geometry, rotated frames might not agree on the positions of the endpoints of the curve, but will agree on the arc length between them.
+
+  In Lorentzian geometry, transformed frames might not agree on the space-times of a pair of events, but will agree on the $\Delta \tau$ between them in the parameterisation.
 \end{remark}
 Along a small segment of a parameterised worldline, we have:
 \begin{align*}
-  \d{\tau} &= \frac{1}{c}\sqrt{(\Delta s)^2} \\
+  \d{\tau} &= \frac{1}{c}\sqrt{(\d{s})^2} \\
            &= \sqrt{\d{t^2} - \frac{1}{c^2}(\d{x^2} + \d{y^2} + \d{z^2})} \\
            &= \d{t} \sqrt{1 - \frac{1}{c^2} \left[\left(\deriv{x}{t}\right)^2 + \left(\deriv{y}{t}\right)^2 + \left(\deriv{z}{t}\right)^2\right]} \\
            &= \d{t} \sqrt{1 - \frac{1}{c^2} \abs{\deriv{\vec{x}}{t}}^2}
@@ -833,10 +854,7 @@ We now know that $\tau$ is invariant and we can parameterise a trajectory along 
 \]
 Since this is a 4-vector, we know that it transforms by $X' = \Lambda X$, so using that $\deriv{t}{\tau} = \gamma$, we have:
 \[
-  \deriv{X}{\tau} = \begin{pmatrix}
-  c \deriv{t}{\tau} \\
-  \deriv{\vec{x}}{\tau} \\
-  \end{pmatrix} = \deriv{t}{\tau}\begin{pmatrix}
+  \deriv{X}{\tau} = \deriv{X}{t} \deriv{t}{\tau} = \deriv{t}{\tau}\begin{pmatrix}
   c \\
   \deriv{\vec{x}}{t} \\
   \end{pmatrix} = \gamma \begin{pmatrix}
@@ -865,8 +883,8 @@ If we compute $U \cdot U$, we see that it is just $c^2$:
 \begin{equation}
   U \cdot U = \gamma^2 c^2 - \gamma^2 |\vec{u}|^2 = (c^2 - |\vec{u}|^2)\gamma^2 = c^2 \label{udotu}
 \end{equation}
-which is constant in all frames, as expected.
-We can also use this to find a 4-velocity given 3-velocity $\vec{u}$ by solving $U \cdot U = c^2$ for the time component.
+which is the same in all frames, as expected.
+We can also use this to find a 4-velocity given a 3-velocity $\vec{u}$ by solving $U \cdot U = c^2$ for the time component.
 \subsection{4-Momentum}
 Now we have defined a 4-velocity, we can define a \textit{4-momentum}:
 \begin{definition}[4-Momentum]
@@ -920,7 +938,7 @@ We can also calculate $P \cdot P$ in terms of the relativistic energy and 3-velo
   P \cdot P = \frac{E^2}{c^2} - |\vec{p}|^2 \implies E^2 = |\vec{p}|^2 c^2 + m^2 c^4 \label{4MomentumDot}
 \end{align}
 We can also check if the 4-momentum is consistent in the non-relativistic limit.
-We defined $\vec{p} = m\gamma \vec{u}$ and in the non-relativistic limit $\frac{|\vec{u}|}{c^2} \ll 1 \implies \gamma \approx 1$, so we find that $\vec{p} \approx m \vec{u}$ which is the non-relativistic momentum.
+We defined $\vec{p} = m\gamma \vec{u}$ and in the non-relativistic limit $\frac{|\vec{u}|^2}{c^2} \ll 1 \implies \gamma \approx 1$, so we find that $\vec{p} \approx m \vec{u}$ which is the non-relativistic momentum.
 We can expand the energy as:
 \begin{align}
   E = m\gamma c^2 &= \frac{mc^2}{\sqrt{1 - \frac{u^2}{c^2}}} \nonumber \\
@@ -1009,14 +1027,14 @@ Since the 4-momentum is conserved, we must have:
   P_{h} = P_{\gamma} + P_{\gamma'}
 \]
 where $P_{\gamma}$ and $P_{\gamma'}$ are the 4-momenta of the photons $\gamma$ and $\gamma'$.
-This equation is currently Lorentz invariant (i.e it is equivalent in all frames).
+This equation is currently Lorentz invariant (i.e. it is equivalent in all frames).
 However, to proceed, we need to decide a frame to work in.
 There are two ``canonical'' options:
 \begin{itemize}
-  \item The \textit{lab frame}, in which the particles are moving.
+  \item The \textit{lab frame}, in which the particles are moving non-trivially.
   \item The \textit{centre of mass} or \textit{centre of momentum} frame, in which the total 3-momentum vanishes.
 \end{itemize}
-The centre of momentum frame is often more convenient than the lab frame when studying particle decays that start with one particle as we pick the rest frame of the unstable particle so its 4-momentum vanishes.
+The centre of momentum frame is often more convenient than the lab frame when studying particle decays that start with one particle as we pick the rest frame of the unstable particle and so the total 3-momentum is just $\vec{0}$.
 \subsubsection{In the Centre of Momentum Frame}
 The Higgs boson is at rest so its 3-momentum is $\vec{0}$ and its energy is the rest mass energy $E = m_h c^2$.
 Its 4-momentum $P_h$ is then:
@@ -1102,7 +1120,7 @@ To compute this inner product, we can write $P_h$ and $P_\gamma$ in their most g
   P_{h} = \begin{pmatrix}
   E_h/c \\
   \vec{p}_{h} \\
-  \end{pmatrix} \text{ and } P_{\gamma} = \frac{E\gamma}{c} \begin{pmatrix}
+  \end{pmatrix} \text{ and } P_{\gamma} = \frac{E_\gamma}{c} \begin{pmatrix}
   1 \\
   \uvec{n} \\
   \end{pmatrix}
@@ -1199,7 +1217,7 @@ Substituting back into \cref{eqnCollisionLab}, we have:
 \[
   2m^2 c^2 + 2m(E_1 - E_3) - \frac{2E_1E_3}{c^2} = -2|\vec{p}_1||\vec{p}_3|\cos\phi
 \]
-So if we are given $E_1$ and $E_3$, similarly to in the lab frame for particle decay, we can use $E_i^2 = |\vec{p}_i|^2 c^2 + m^2 c^4$ to eliminate the $|\vec{p}_1|$ and $|\vec{p}_3|$ and therefore obtain $\phi$ in terms of $E_1$ and $E_3$.
+So if we are given $E_1$ and $E_3$, similarly to in the lab frame for particle decay, we can use $E_i^2 = |\vec{p}_i|^2 c^2 + m^2 c^4$ to eliminate $|\vec{p}_1|$ and $|\vec{p}_3|$ and therefore obtain $\phi$ in terms of $E_1$ and $E_3$.
 \begin{remark}[Example Sheet]
   In Example Sheet 4 Q7, you will explore an example of \textit{Compton scattering}.
   This is when a photon scatters off a massive particle.
@@ -1224,7 +1242,7 @@ It is the most convenient here to work in the centre of momentum frame:
   \end{scope}
   \end{tikzpicture}
 \end{center}
-Let the incoming particles $P_1$ and $P_2$ have mass $m$ and the created particle have mass $M$.
+Let the incoming particles $P_1$ and $P_2$ have mass $m$ and the created particle have rest mass $M$.
 We expect to need at least enough energy before the collision to be able to create the particle, i.e. its rest mass energy $Mc^2$.
 
 By conservation of 4-momentum:
@@ -1268,10 +1286,14 @@ Since we are just interested in finding a lower bound for $E_1$, we do not need 
     \end{pmatrix}
   \]
   So $P_1 \cdot P_2 = E_1 m_2$.
-  From \cref{4MomentumDot}, we know that the energy $E_1$ must be greater than the rest mass energy since $E_1 = \sqrt{|\vec{p}_1|^2 c^2 + m^2_1 c^4} \geq m_1c^2$.
+  We know that the energy $E_1$ must be greater than the rest mass energy since $E_1 = m_1 \gamma c^2 \geq m_1 c^2$ as $\gamma \geq 1$.
   Thus $P_1 \cdot P_2 = E_1m_2 \geq m_1m_2 c^2$.
 \end{proof}
 \begin{remark}[Note]
+  We could have also argued that $E_1$ is greater than the rest mass energy by using \cref{4MomentumDot}:
+  \[
+    E_1 = \sqrt{|\vec{p}_1|^2 c^2 + m_1^2 c^4} \geq m_1 c^2
+  \]
   We chose the positive root for $E_1$ as had we chosen the other sign, we would obtain negative kinetic energy when taking the non-relativistic limit.
 
   The proper orthochronous Lorentz transformations (those which do not reverse time -- \cref{properOrthochronous}), will always preserve the positivity of energy.
@@ -1297,7 +1319,7 @@ So the total ``kinetic energy'' of the incoming particles, $2(E_1 - mc^2)$, must
   \[
     A = \deriv{U}{\tau}
   \]
-  Note that this is for massive particles only as $U$ does not exist for massless particles -- see \cref{masslessParticles}).
+  Note that this is for massive particles only as $U$ does not exist for massless particles -- see \cref{masslessParticles}.
 \end{definition}
 We know that $U \cdot U = 0$, so on differentiating with respect to $\tau$, we have, $2 U \cdot A = 0$ so $U$ and $A$ are ``orthogonal'' with respect to this inner product.
 \begin{remark}[Recap]
@@ -1349,7 +1371,7 @@ So, since $\gamma = 1$ and $\dot{\gamma} = 0$, in $S'$, we have:
 \begin{remark}
   We will see later that this form of constant acceptation follows from a constant force.
 \end{remark}
-So if we know that $a'$ is constant, what is $a$, i.e. its acceleration when viewed by an external observer.
+So if we know that $a'$ is constant, what is $a$? (i.e. its acceleration when viewed by an external observer).
 
 Since the frame $S'$ is instantaneously moving at a speed $u$ in our observers frame $S$, we can recover $A$ from $A'$ using an inverse Lorentz transformation by speed $u$:
 \[
@@ -1402,15 +1424,19 @@ This is an equation for a hyperbola and so an accelerated particle follows a \te
     \clip (-4, -3) rectangle (4, 3);
     \draw[very thick, rotate=180, domain=-1.4:0, smooth, variable=\t] plot ({-sec(\t r)},{tan(\t r)});
   \end{scope}
-  \draw[dashed] (-3, -3) -- (3, 3) node[left, scale=0.7] {Rindler Horizon};
-  \draw[dashed] (-3, 3) -- (3, -3);
+  \draw[dotted, thick] (0, 0) -- (3, 3) node[above, scale=0.5] {Rindler Horizon};
 
-\fill (-2, 0) circle (1.5pt) node[below] {$A$};
+  \fill (-2, 0) circle (1.5pt) node[below] {$A$};
+  \fill (1.8, 1.5) circle (1.5pt) node[right] {$P$};
+  \node[scale=0.5] at (1.8, 0.6) {Past light cone};
+
+  \draw[dashed] (-2.7, -3) -- (1.8, 1.5) -- (3, 0.3);
 \end{tikzpicture}
 \end{center}
-Suppose $A$ tries to transmit a message to the accelerated particle.
-Firstly, note that $A$ and the particle are always space-like separated so an event at $A$ can never be simultaneous with one on the worldline of the accelerated particle.
-Further, because the accelerated particle asymptotes to the line $ct = x$, any light rays transmitted from the point $A$ can never reach the particle.
+Any point $P$ on the trajectory can only receive information from events that are in its past light cone.
+This means that any messages from $A$ can never reach the accelerated particle, even if they travel at the speed of light.
+
+In fact, if the particle continues accelerating like this, its trajectory will asymptote to the line $ct = x$ and so it can never receive any information from events in space-time to left of this line.
 
 This concept is known as the \textit{Rindler Horizon}, it separates the accessible and inaccessible regions of space-time for an accelerated observer.
 This turns out to be similar to the event horizon of a black hole.
@@ -1451,7 +1477,7 @@ Equating spatial components of \cref{fEquate}, we have:
 \[
   \deriv{\vec{p}}{\tau} = \gamma \vec{f} \implies \gamma \deriv{\vec{p}}{t} = \gamma \vec{f} \implies \deriv{\vec{p}}{t} = \vec{f}
 \]
-So $\vec{f}$ is Newtonian force 4-vector appearing in Newtons 2nd Law (\cref{newton2}).
+So $\vec{f}$ is Newtonian force 3-vector as appearing in Newtons 2nd Law (\cref{newton2}).
 However, note that here $\vec{p} = m\gamma\vec{u}$ is the relativistic 3-momentum and not the standard non-relativistic momentum as it uses the relativistic mass $m\gamma$ instead of just $m$.
 
 Had we just been presented with $\dot{\vec{p}} = \vec{f}$, it would not have been clear that this was relativistically invariant, however, it infect is because it was derive directly from 4-vectors which transform appropriately under Lorentz transformations.
