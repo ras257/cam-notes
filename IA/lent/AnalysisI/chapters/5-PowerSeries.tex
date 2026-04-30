@@ -34,7 +34,7 @@ This is a subtle question, and essentially boils down to if we are able to swap 
   \[
     \lim_{x \to a} \lim_{n \to \infty} f_n(x) = \lim_{n \to \infty} \lim_{x \to a} f_n(x)
   \]
-  Swapping these limits is non-trivial, for example, if we define $S_{m, n} = \frac{m}{n + m}$:
+  However, swapping these limits is non-trivial, for example, if we define $S_{m, n} = \frac{m}{n + m}$:
   \begin{align*}
     \lim_{n \to \infty} \lim_{m \to \infty} S_{m, n} = 1 \\
     \lim_{m \to \infty} \lim_{n \to \infty} S_{m, n} = 0
@@ -72,7 +72,7 @@ contains any other points?
   If $\sum_{n=0}^{\infty} c_n (x - a)^{n}$ converges at a point $x \in \C$ and $|y - a| < |x - a|$ for some $y \in \C$, then $\sum_{n = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely. \label{powerSeriesConvLemma}
 \end{lemma}
 \begin{remark}[Statement in words]
-  If the power series converges at a point $x$, then it must converge absolutely at any points closer to the centre $a$ than $x$.
+  If the power series converges at a point $x$, then it must converge absolutely at any points strictly closer to the centre $a$ than $x$.
 \end{remark}
 \begin{proof}
   The proof idea here is to try to use a comparison to the geometric series.
@@ -81,7 +81,7 @@ contains any other points?
   Let $r = \frac{|y - a|}{|x - a|} < 1$, we then have:
   \begin{align*}
     |c_n(y - a)^{n}| &= |c_n(x - a)^{n}| \cdot \abs{\frac{y - a}{x - a}}^{n} \\
-                     &\leq |c_n(x - a)^{n}| \cdot r^{n}
+                     &= |c_n(x - a)^{n}| \cdot r^{n}
   \end{align*}
   By assumption, $\sum_{n = 1}^{\infty} c_n(x - a)^{n}$ converges, so by the $n$-th term test (\cref{nthTermTest}), $c_n(x - a)^{n} \to 0$ as $n \to \infty$.
   Thus $c_n(x - a)^{n}$ must be bounded so $\exists M > 0$ such that $|c_n(x - a)^{n}| \leq M\ \forall n$.
@@ -97,7 +97,7 @@ contains any other points?
     \item $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ converges absolutely for $|x - a| < R$.
     \item If $R < \infty$, then $\sum_{n =0}^{\infty} c_n(x - a)^{n}$ diverges for $|x - a| > R$.
   \end{enumerate}
-  We call $R$ the \textit{radius of convergence} (\textit{r.o.c}) of the power series.
+  We call $R$ the \textit{radius of convergence} (\textit{r.o.c.}) of the power series.
 \end{proposition}
 \begin{remark}[Remarks]
   \begin{itemize}
@@ -123,7 +123,7 @@ contains any other points?
 
       If $|y - a| < R = \sup A$, then, by definition of supremum, $\exists r \in A$ with $|y - a| < r \leq R$.
       Since $r \in A$, $\exists x \in \C$ with $|x - a| = r > |y - a|$ such that $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ converges.
-      So by \cref{powerSeriesConvLemma}, $\sum_{i = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely.
+      So by \cref{powerSeriesConvLemma}, $\sum_{n = 0}^{\infty} c_n(y - a)^{n}$ converges absolutely.
     \end{case}
   \end{proofcases}
   So in both cases, a suitable radius of convergence $R$ exists.
@@ -146,7 +146,7 @@ To compute the radius of converges of a power series, we can adapt the usual tes
   If instead $|x - a|L > 1$, then $\lim_{n \to \infty} \sqrt[n]{|c_n(x - a)^{n}|} > 1$.
   This means that $|c_n(x - a)^{n}| > 1$ for sufficiently large $n$ and so $c_n(x - a)^{n} \centernot\to 0$, thus the power series diverges by the $n$-th term test (\cref{nthTermTest}).
 
-  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
+  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, we have shown that it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
 \end{proof}
 \begin{proposition}[Ratio Test for Power Series]
   If $(c_n)$ is a sequence of coefficients on $\C$ such that: \label{ratioPowerSeries}
@@ -165,7 +165,7 @@ To compute the radius of converges of a power series, we can adapt the usual tes
   If instead $|x - a|L > 1$, then $\lim_{n \to \infty} \abs{\frac{c_{n + 1}(x - a)^{n + 1}}{c_n(x - a)^{n}}} > 1$.
   This means that for sufficiently large $n$, $|c_{n + 1}(x - a)^{n + 1}| > |c_n(x - a)^{n}| \geq 0$ and so $c_n(x - a)^{n} \centernot\to 0$, thus the power series diverges by the $n$-th term test (\cref{nthTermTest}).
 
-  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
+  In the case of $L = 0$, it must always converge so $R = \infty$, otherwise, we have shown it converges absolutely for $|x - a| < \frac{1}{L}$ and diverges for $|x - a| > \frac{1}{L}$ so its radius of convergence must be $R = \frac{1}{L}$.
 \end{proof}
 \begin{remark}[Note]
   If the limits do not exist but instead converge to infinity, i.e. $\abs{\frac{c_{n + 1}}{c_n}} \to \infty$ or $\sqrt[n]{c_n} \to \infty$, then $R = 0$.
@@ -174,6 +174,7 @@ To compute the radius of converges of a power series, we can adapt the usual tes
 \begin{example} \label{rConvExamples}
   \begin{enumerate}
     \item The power series $\sum_{n = 0}^{\infty} \frac{x^{n}}{n!}$ converges on all of $\C$, i.e. $R = \infty$.
+
       This has $c_n = \frac{1}{n!}$.
       Using the ratio test:
       \[
@@ -243,7 +244,7 @@ We first need to check that power series are continuous inside their radius of c
   \[
     f: B_R(a) \to \C,\ X \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n} \text{ where } B_R(a) = \{x \in \C: |x - a| < R\}
   \]
-  is continuous inside $D_r(a) = \{x \in \C: |z - a| \leq r\}$, for every $r < R$.
+  is continuous inside $D_r(a) = \{x \in \C: |x - a| \leq r\}$ for every $r < R$.
 \end{proposition}
 \begin{remark}
   In the special case of functions of real inputs, we would have $f: (a - R, a + R) \to \C$ is continuous inside $[a - r,  a + r]$ for every $r < R$.
@@ -273,20 +274,20 @@ We first need to check that power series are continuous inside their radius of c
   \begin{align*}
     |f(x) - f(x_0)| &= |S_N(x) + T_N(x) - S_N(x_0) - T_N(x_0)| \\
                     &\leq |S_N(x) - S_N(x_0)| + |T_N(x)| + |T_N(x_0)| \\
-                    &\leq |S_N(x) - S_N(x)| + 2\varepsilon \quad \forall x \in D_r(a)
+                    &\leq |S_N(x) - S_N(x_0)| + 2\varepsilon \quad \forall x \in D_r(a)
   \end{align*}
   Although it seems like a bad idea to make such a harsh approximation using the triangle inequality, in this case, we already knew that the tail can be made arbitrarily small.
 
-  Finally, since $S_N(x)$ is a finite degree $N$ polynomial, it is continuous at $x_0$ so $\exists \delta(\varepsilon)$ such that $|x - x_0| < \delta \implies |S_N(x) - S_N(x_0)| < \varepsilon$, so $f$ is continuous at $x_0$.
+  Finally, since $S_N(x)$ is a finite degree $N$ polynomial, it is continuous at $x_0$ so $\exists \delta(\varepsilon) > 0$ such that $|x - x_0| < \delta \implies |S_N(x) - S_N(x_0)| < \varepsilon$, so $f$ is continuous at $x_0$.
 
-  Therefore, given arbitrary $r < R$, $f$ is continuous at $x_0$ for all $x_0 \in D$.
+  Therefore, given arbitrary $r < R$, $f$ is continuous at $x_0$ for all $x_0 \in D_r(a)$.
 \end{proof}
 \begin{remark}[Strategy]
   In this proof, we were able to conclude that for sufficiently large $N$, we can make the tail arbitrarily small and so, in some sense, we can just consider the finite polynomial $S_N$, which is continuous.
 \end{remark}
 We will first show that power series allow for term by term integration as we can then use the fundamental theorem of calculus to conclude that they are differentiable.
 \begin{proposition}[Integration of Power Series]
-  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a real power series with a radius of convergence $R > 0$ then: \label{powerSeriesInt}
+  If $\sum_{n = 0}^{\infty} c_n(x - a)^{n}$ is a \textbf{real power series} with a radius of convergence $R > 0$ then: \label{powerSeriesInt}
   \[
     f: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^{n}
   \]
@@ -360,7 +361,7 @@ We will first show that power series allow for term by term integration as we ca
     \int_{a}^{x} g(t) \d{t} &= \sum_{n = 1}^{\infty} \left[\int_{a}^{x} nc_n(t - a)^{n - 1} \d{t}\right] \\
                             &= \sum_{n = 1}^{\infty} c_n(x - a)^{n} = f(x) - c_0\ \forall x \in [a - r, a + r]
   \end{align*}
-  Since $g$ is continuous on $[a - r, a + r]$, by the FTC (\cref{FTCDiff}):
+  Since $g$ is continuous on $[a - r, a + r]$, by the first FTC (\cref{FTCDiff}):
   \[
     \deriv{}{x}\left[\int_{a}^{x} g(t) \d{t}\right] = g(x)\ \forall x \in [a - r, a + r]
   \]
@@ -459,7 +460,7 @@ Since this power series only has real coefficients, if we restrict the domain to
     \item $e(x + y) = e(x)e(y)$.
     \item $e(x) > 0$.
     \item $e$ is strictly increasing.
-    \item $e(x) \to \infty$ as $x \to \infty$ and $e(x) \to 0$ as $x \to - \infty$.
+    \item $e(x) \to \infty$ as $x \to \infty$ and $e(x) \to 0^{+}$ as $x \to - \infty$.
     \item $e: \R \to (0, \infty)$ is a bijection.
   \end{enumerate}
 \end{lemma}
@@ -611,6 +612,7 @@ Since $e: \R \to (0, \infty)$ is a bijection, it must have an inverse.
   \end{enumerate}
 \end{proof}
 By property \textbf{iv}, we now have that  $x^{\alpha} = \Gamma_{\alpha}(x)$ for $\alpha \in \Q$.
+For $\alpha \in \R \setminus \Q$, we do not have a notion of what $x^{\alpha}$ should be using square roots/powers so we in fact \textit{define} $x^{\alpha} = \Gamma_{\alpha}(x)$.
 
 If we define $e = e(1) = \sum_{n = 1}^{\infty} \frac{1}{n!} \implies \ell(e) = 1$, then we can identify:
 \[
@@ -722,6 +724,7 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
   \[
     c\left(\frac{\omega}{2}\right) = 0 \text{ and } s\left(\frac{\omega}{2}\right) = 1
   \]
+  with $\omega \in (\sqrt{2}, \sqrt{3})$.
 \end{proposition}
 \begin{proof}
   We start by considering the interval $x \in (0, 2)$ and showing that $c(x)$ is strictly decreasing in this range.
@@ -731,7 +734,7 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
   \begin{align*}
     c'(x) = -s(x) &= -\left[x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots\right] \\
                   &= -\underbrace{\left(x - \frac{x^3}{3!}\right)}_{>0} - \underbrace{\left(\frac{x^5}{5!} - \frac{x^7}{7!}\right)}_{>0} - \cdots  \\
-                  &< 0
+                  &< 0 \text{ since $\frac{x^{2r + 1}}{(2r + 1)!} - \frac{x^{2r + 3}}{(2r + 3)!} > 0$ for $x \in (0, 2)$}
   \end{align*}
   So since $c'(x) < 0$ for $x \in (0, 2)$, using Rolle's Theorem (\cref{rolle'sTheorem}), we conclude that $c(x)$ has at most one root in $(0, 2)$.
   To show the existence of a root, we can show that it is negative at some point in $(0, 2)$ and positive at another point in $(0, 2)$.
@@ -754,7 +757,7 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
     \item $s(\omega) = s(2\omega) = 0$, $c(\omega) = -1$ and $c(2\omega) = 1$
     \item $s(x + \omega) = -s(x)$ and $c(x + \omega) = -c(x)\ \forall x \in \R$.
     \item $s\left(x + \frac{\omega}{2}\right) = c(x)$, $c\left(x + \frac{\omega}{2}\right) = -s(x)\ \forall x \in \R$.
-    \item $s(x) = 0 \iff x = k\omega$ for $k \in \Z$.
+    \item $s(x) = 0 \iff x = k\omega$ for some $k \in \Z$.
     \item $s$ and $c$ are periodic with smallest positive period $2\omega$, that is:
       \[
         s(x + 2\omega) = s(x) \text{ and } c(x + 2\omega) = c(x)\ \forall x \in \R
@@ -836,7 +839,7 @@ and $\ell(x) = \log(x)$ for $x \in \Q$.
       \begin{align*}
         \operatorname{cis}(x + p) &= \operatorname{cis}(x)\ \forall x \in \R \\
         c(x + p) + is(x + p) &= c(x) + is(x)\ \forall x \in \R \\
-        c(x + p) &= c(x) \text{ and } s(x + p) = s(x)\ \forall x \in \R
+        \implies c(x + p) &= c(x) \text{ and } s(x + p) = s(x)\ \forall x \in \R
       \end{align*}
       which is a contradiction as $2\omega$ is the least positive period of $s$ and $c$, so $2\omega$ must also be the least positive period of $\operatorname{cis}(x)$.
     \item Follows immediately from \cref{trigPeriodicIdentities}.
