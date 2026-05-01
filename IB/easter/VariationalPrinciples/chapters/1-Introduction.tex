@@ -1,0 +1,160 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Introduction}
+\section{Motivational Problem}
+How do we find the shortest path between 2 points:
+\begin{enumerate}
+  \item in Euclidean space?
+  \item on the surface of a sphere?
+  \item on any general curved surface, say in $\R^{3}$?
+\end{enumerate}
+For \textbf{(i)}, we could write the path as $y = y(x)$ for $a \leq x \leq b$.
+Its length is then:
+\[
+  L[y] = \int_{a}^{b} \sqrt{1 + (y')^2} \d{x}
+\]
+and we can do a similar thing in other cases.
+Here $L$ is an example of a \textit{functional}.
+It is a map from a function $y(x)$ to $\R$.
+This means our problem reduces to wanting know which function $y(x)$ minimises this functional.
+
+In this course, we will develop tools to allow us to determine minima and maxima of functions.
+\section{\texorpdfstring{Review of Calculus on $\R^{n}$}{Review of Calculus in n-dimensions}}
+Consider a function $f: \R^{n} \to \R$ and we write a general point as $\vec{x} = (x_1, \ldots, x_n) \in \R^{n}$.
+Assuming that $f$ is at least twice continuously differentiable.
+We say that $\vec{a} \in \R^{n}$ is a stationary point of $f$ if and only if $\nabla f(\vec{a}) = \vec{0}$.
+We can then investigate the behaviour around such a point by using a Taylor expansion.
+\[
+  f(\vec{x}) = f(\vec{a}) + \sum_{i = 1}^{n} (x_i - a_i)\cancelto{0}{(\nabla_i f(\vec{a}))} + \frac{1}{2}\sum_{i, j = 1}^{n} (x_i - a_i)(x_j - a_j)H_{ij}(\vec{a}) + O(|\vec{x} - \vec{a}|^3)
+\]
+where $H_{i j}(\vec{a}) = \frac{\partial^2 f}{\partial x_i \partial x_j}(\vec{a})$ which is symmetric (i.e. $H_{i j} = H_{j i}$) as partial derivatives commute.
+Without loss in generality, we assume that $\vec{a} = \vec{0}$ (as if not we can just translate) so:
+\[
+  f(\vec{x}) - f(\vec{0}) = \frac{1}{2}x_i H_{i j}(\vec{0})x_j + O(|\vec{x}|^3) \quad  \text{(using $\Sigma$ convention)}
+\]
+From IA Vectors and Matrices, since it is symmetric, we can carry out an orthogonal diagonalisation, picking our matrix so that it is a rotation (we can reorder columns to ensure $\det R = 1$).
+We then have $x_i = R_{i j}x_j'$ and we choose $R$ so that $H' = R^{\trans} H R$ is diagonal:
+\[
+  H_{i j}' = \begin{pmatrix}
+  \lambda_1 &  &  \\
+   & \ddots &  \\
+   &  & \lambda_n \\
+  \end{pmatrix}
+\]
+where $\lambda_i$ are the eigenvalues of $H$, which since $H$ is real and symmetric, must be real.
+Thus:
+\[
+  f(\vec{x}) - f(\vec{0}) = \frac{1}{2}\lambda_i (x_i')^2 + O(|\vec{x}'|^3)
+\]
+\begin{itemize}
+  \item If $\lambda_i > 0\ \forall i \in \{1, \ldots, n\}$ then $f(\vec{x}) > f(\vec{0})$ for small enough $\vec{x}$, i.e. $\vec{x} = \vec{0}$ is a local minimum.
+  \item Similarly, if $\lambda_i < 0\ \forall i \in \{1, \ldots, n\}$, then $f(\vec{x}) < f(\vec{0})$ for small enough $\vec{x}$, i.e. $\vec{x} = \vec{0}$ is a local maximum.
+  \item If there exists a positive eigenvalue and a negative eigenvalue, then we have a saddle point as the function increases in one direction but decreases in another.
+  \item The remaining cases are \textit{degenerate stationary points} and here the behaviour depends on $O(|\vec{x}'|^3)$ terms.
+\end{itemize}
+\begin{remark}[In 2D]
+  For $n = 2$, we see that $\tr H = \lambda_1 + \lambda_2$ and $\det H = \lambda_1 \lambda_2$ so:
+  \begin{itemize}
+    \item If $\det H > 0$ and $\tr H > 0$, then we have a local minimum.
+    \item If $\det H > 0$ and $\tr H < 0$, then we have a local maximum.
+    \item If $\det H < 0$, then we have a saddle point as the eigenvalues are non-zero and have opposite signs.
+    \item If $\det H = 0$, then one of the eigenvalues is $0$ and so this is a degenerate case.
+  \end{itemize}
+\end{remark}
+\begin{remark}
+  If we have a local minimum that is \textbf{not} a \textit{global} minimum, then either:
+  \begin{itemize}
+    \item There is another stationary point that is the global minimum.
+    \item The function is defined only on a subset of $\R^{n}$ and so the global minimum could occur on the boundary of the domain.
+    \item The function has no global minimum, for example it is unbounded below.
+  \end{itemize}
+  and similarly in the case of maxima.
+\end{remark}
+\begin{example}
+  Consider the function $f: \R^2 \to \R,\ (x, y) \mapsto x^3 + y^3 - 3xy$.
+  We see that:
+  \begin{align*}
+    \nabla f = \begin{pmatrix}
+    3x^2 - 3y \\
+    3y^2 - 3x \\
+  \end{pmatrix} = \vec{0} &\iff x^2 = y \text{ and } y^2 = x \\
+  &\implies y^4 = y \\
+  &\implies y = 0 \text{ and } x = 1 \\
+  &\ \ \text{ or } y = 1 \text{ and } x = 0 \text{ since $y \in \R$}
+  \end{align*}
+  So the stationary points are at $(0, 0)$ and $(1, 1)$.
+
+  We can also find the hessian $H$:
+  \[
+    H = \begin{pmatrix}
+    6x & -3 \\
+    -3 & 6y \\
+    \end{pmatrix} \implies \det H = 9(4xy - 1) \text{ and } \tr H = 6(x + y)
+  \]
+  At $(1, 1)$, $\det H = 27 > 0$ and $\tr H = 12 > 0$, so it is a local minimum with $f = - 1$.
+  At $(0, 0)$, $\det H = -9 < 0$, so it is a saddle point with $f = 0$.
+  The directions for the saddle can be found using the eigenvectors of the hessian:
+  \begin{align*}
+    \lambda_1 = - 3 &\text{ and } \vec{e}_1 = \begin{pmatrix}
+    1 \\
+    1 \\
+    \end{pmatrix} \\
+      \lambda_2 = 3 &\text{ and } \vec{e}_2 = \begin{pmatrix}
+    1 \\
+    -1 \\
+    \end{pmatrix}
+  \end{align*}
+  So $(0, 0)$ is a local maximum along $y = x$ but is a local minimum along $y = -x$.
+
+  For large negative or positive values of $x$ and $y$, the function decreases or increases without bound and so it does not have a global minimum or maximum.
+\end{example}
+\section{Convex Functions}
+\begin{definition}[Convex Set]
+  A set $S \subseteq \R^{n}$ is called \textit{convex} if for all $\vec{x}, \vec{y} \in S$ and for every $t \in (0, 1)$, the point $t \vec{x} + (1 - t)\vec{y}$ is also in $S$.
+\end{definition}
+\begin{remark}[Intuition]
+  A set is convex if for any two points, every point on the line segment joining these to points is contained within the set.
+\end{remark}
+\begin{definition}[Graph]
+  Let $f$ be a function with domain $D(f) \subseteq \R^{n}$, i.e. $f: D(f) \to \R$.
+  The \textit{graph} of $f$ is the surface $z = f(\vec{x})$ in $\R^{n + 1}$ with coordinates $(\vec{x}, z)$.
+\end{definition}
+\begin{definition}[Chord]
+  A \textit{chord} of $f$ is a line segment joining two point on a graph .
+\end{definition}
+\begin{definition}[Convex Function]
+  A function $f$ is \textit{convex} if both:
+  \begin{enumerate}
+    \item The set $D(f)$ is convex.
+    \item The graph of $f$ lies below, or on, its chords.
+      More precisely, for any $\vec{x}, \vec{y} \in D(f)$ and all $t \in (0, 1)$:
+      \begin{equation}
+        f(t \vec{x} + (1 - t)\vec{y}) \leq t f(\vec{x}) + (1 - t) f(\vec{y}) \label{convexFn}
+      \end{equation}
+      where \textbf{(i)} ensures that $t\vec{x} + (1 - t)\vec{y} \in D(f)$ always.
+  \end{enumerate}
+\end{definition}
+\begin{definition}[Strictly Convex Function]
+  A function $f$ is \textit{strictly convex} if it is convex but we instead adapt \textbf{(ii)} above so that the inequality in \cref{convexFn} is strict and $\vec{x} \neq \vec{y}$:
+  \begin{equation}
+    f(t \vec{x} + (1 - t)\vec{y}) < t f(\vec{x}) + (1 - t) f(\vec{y}) \label{strictConvexFn}
+  \end{equation}
+  i.e. the graph of $f$ always lies below its chords.
+\end{definition}
+\begin{remark}
+  We say that $f$ is concave if $-f$ is convex and similarly for the strict case.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider $f(x) = x^2$.
+      \[
+        [(1 - t)x + ty]^2 - (1 - t)x^2 - ty^2 = - t(1 - t)(x - y) < 0
+      \]
+      since $t \in (0, 1)$ and $x \neq y$.
+      Thus $f$ is strictly convex.
+    \item Consider $f(x) = e^{x}$ and $g(x) = e^{-x}$, these are both strictly convex functions.
+    \item Consider $f(x) = |x|$.
+      This is convex, but is not strictly convex, as if we pick two points on the same branch, then their chord lies on the graph.
+  \end{enumerate}
+\end{example}
+\end{document}

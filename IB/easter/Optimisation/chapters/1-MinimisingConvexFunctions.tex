@@ -1,0 +1,128 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Minimising Convex Functions}
+\section{Introduction to Minimisation}
+In this course we will studying minimising $f(\vec{x})$ subject to $h(\vec{x}) = \vec{b}$ for $\vec{x} \in \mathcal{X}$.
+Without loss in generality, we can also assume that we are minimising functions as maximising $f(\vec{x})$ is equivalent to minimising $-f(\vec{x})$.
+
+We may also have a \textit{inequality constraint}, such as $h(\vec{x}) \leq \vec{b}$ where we interpret this as $y_i \leq b_i$ for each of the components of $h(\vec{x}) = \vec{y}$ and $\vec{b}$.
+
+The function $f: \R^{n} \to \R$ is known as the \textit{objective function}, $h(\vec{x}) = \vec{b}$ is known as a \textit{functional constraint}, and $x \in \mathcal{X}$ is known as a \textit{regional constraint}.
+
+If $\vec{x}^{*}$ solves the problem, then we call it the \textit{optimal solution}, and for this value $f(\vec{x}^{*})$ is known as the \textit{optimal value/cost}.
+
+The set:
+\[
+  \mathcal{X}(\vec{b}) = \{\vec{x} \in \R^{n}: h(\vec{x}) = \vec{b},\ \vec{x} \in \mathcal{X}\}
+\]
+is called the \textit{feasible set}.
+
+We can in fact assume that we always have an equality constraint as $h(\vec{x}) \leq \vec{b}$ is the same as the constraint $h(\vec{x}) + \vec{s} = \vec{b},\ \vec{s} \geq 0$.
+These additional variables $\vec{s}$ are called \textit{slack variables}.
+\section{Convexity}
+\subsection{Defining Convexity}
+\begin{definition}[Convex Set]
+  A set $S \subseteq \R^{n}$ is called \textit{convex} if for all $\vec{x}, \vec{y} \in S$ and for every $\lambda \in [0, 1]$, the point $\lambda \vec{x} + (1 - \lambda)\vec{y}$ is also in $S$.
+\end{definition}
+\begin{remark}[Intuition]
+  A set is convex if for any two points, every point on the line segment joining these to points is contained within the set.
+\end{remark}
+\begin{definition}[Convex Function]
+  A function $f: S \to \R$  is called a \textit{convex function} if $S$ is convex and for every $\vec{x}, \vec{y} \in S$ and $\lambda \in [0, 1]$ we have:
+  \[
+    f(\lambda \vec{x} + (1 - \lambda)\vec{y}) \leq \lambda f(\vec{x}) + (1 - \lambda) f(\vec{y})
+  \]
+\end{definition}
+\begin{remark}[Intuition]
+  A function is convex if the function value evaluated at a point on the line segment between any two points is less than the chord between those two points on the curve.
+\end{remark}
+\begin{remark}
+  \begin{itemize}
+    \item If $-f$ is convex, then we call $f$ \textit{concave}.
+    \item If $f$ is linear, then this inequality always holds and so linear functions are always both convex and concave.
+  \end{itemize}
+\end{remark}
+\subsection{Conditions for Convexity}
+\begin{theorem}[First-order Condition for Convexity]
+  A differentiable function $f: \R^{n} \to \R$ is convex if and only if for all $\vec{x}, \vec{y} \in \R^{n}$ we have: \label{firstOrderCond}
+  \[
+    f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x})^{\trans} \nabla f(\vec{x})
+  \]
+\end{theorem}
+\begin{remark}
+  This tells us that if $f$ is convex and we have a point $\vec{x}$ with $\nabla f(\vec{x}) = \vec{0}$, then $\vec{x}$ is the minimiser of $f$ as then $f(\vec{y}) \geq f(\vec{x})\ \forall \vec{y} \in \R^{n}$.
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is convex}
+    When $n = 1$, we have:
+    \[
+      f(x + t(y - x)) \leq (1 - t)f(x) + tf(y)\ \forall t \in [0, 1]
+    \]
+    This means that
+    \[
+      f(y) \geq f(x) + \frac{f(x + t(y - x)) - f(x)}{t}
+    \]
+    Taking $t \to 0$, since $f$ is differentiable:
+    \[
+      f(y) \geq f(x) + (y - x)f'(x)
+    \]
+    For the general case, we define:
+    \[
+      g: [0, 1] \to \R,\ t \mapsto f((1 - t)\vec{x} + t\vec{y})
+    \]
+    $g$ is convex because $f$ is a convex function so using the 1D result:
+    \begin{align*}
+      g(1) &\geq g(0) + (1 - 0)g'(0) \\
+      \implies f(\vec{y}) &= f(\vec{x}) + 1 \cdot \at{\deriv{}{t}[(1 - t)\vec{x} + t\vec{y}]}{t = 0} [\nabla f((1 - 0)\vec{x} + 0 \cdot \vec{y})]^{\trans} \\
+                          &= f(\vec{x}) + (\vec{y} - \vec{x}) [\nabla f(\vec{x})]^{\trans}
+    \end{align*}
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the inequality holds}
+    Let $\vec{x}_t = (1 - t)\vec{x} + t\vec{y}$, the first order conditions tells us that:
+    \begin{align*}
+      f(\vec{x}) \geq f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{x} - \vec{x}_t) \\
+      f(\vec{y}) \geq f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t)
+    \end{align*}
+    Multiplying the first inequality by $(1 - t)$ and the second by $t$ and summing, we have that:
+    \begin{align*}
+      (1 - t)f(\vec{x}) + tf(\vec{y}) &\geq f(\vec{x}_t) \\
+                                      &= f((1 - t)\vec{x} + t\vec{y})
+    \end{align*}
+  \end{proofdirection}
+\end{proof}
+\begin{definition}[Hessian]
+  We define the \textit{hessian matrix} $\nabla^2 f(\vec{x})$ as:
+  \[
+    [\nabla^2 f(\vec{x})]_{i j} = \frac{\partial^2 f(\vec{x})}{\partial x_i \partial x_j}
+  \]
+\end{definition}
+\begin{remark}[Recap]
+  Recall from IA Differential Equations that:
+  \[
+    f(\vec{y}) = f(\vec{x}) + (\vec{y} - \vec{x})^{\trans} \nabla f(\vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} [\nabla^2 f(\vec{x})] (\vec{y} - \vec{x}) + \cdots
+  \]
+  This is derived by applying the 1D Taylor series to $g(t) = f(\vec{x} + (\vec{y} - \vec{x})t)$.
+\end{remark}
+\begin{definition}[Positive Semi-definite]
+  A symmetric matrix $A$ is \textit{positive semi-definite} if for any $\vec{x} \in \R^{n}$ we have:
+  \[
+    \vec{x}^{\trans} A \vec{x} \geq 0
+  \]
+  We then write $A \succeq 0$.
+  Equivalently, all of the eigenvalues of $A$ are non-negative.
+\end{definition}
+\begin{theorem}[Second-order Condition for Convexity]
+  A twice differentiable function $f: \R^{n} \to \R$ is \textit{convex} if and only if its hessian $\nabla^2 f(\vec{x}) \succeq 0$.
+\end{theorem}
+\begin{proof}
+  Here will only prove one direction however the converse also holds.
+  \begin{proofdirection}{Assume $f$ is convex}
+    For any $\vec{x}, \vec{y} \in \R^{n}$, by applying the Lagrange remainder to $g(t)$ as defined above, there exists $\vec{z} \in \R^{n}$ on the line joining $\vec{x}$ and $\vec{y}$ such that:
+    \begin{align*}
+      f(\vec{y}) &= f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \\
+                 &\geq f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x})
+    \end{align*}
+    So by \cref{firstOrderCond}, $f$ is convex.
+  \end{proofdirection}
+\end{proof}
+\end{document}
