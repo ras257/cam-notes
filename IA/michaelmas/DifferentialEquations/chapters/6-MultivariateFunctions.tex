@@ -68,7 +68,7 @@ So to define the notion of a stationary point, we require that $\deriv{f}{s} = 0
 \begin{definition}[Stationary Point]
   A stationary point is a point where:
   \[
-    \deriv{f}{s} = 0\ \forall \uvec{s}
+    \deriv{f}{s} = 0\ \forall \uvec{s} \in \R^{n} \text{ with } |\uvec{s}| = 1
   \]
 \end{definition}
 So at stationary points:
@@ -218,7 +218,7 @@ We then have:
     f_{y x} & f_{y y} \\
     \end{pmatrix}
   \]
-  This is symmetric as $f_{x y} = f_{y x}$.
+  This is symmetric as $f_{x y} = f_{y x}$ since partial derivatives commute.
 \end{definition}
 The multivariate Taylor series is then:
 \begin{align*}
@@ -242,11 +242,11 @@ where $\delta \vec{x} = \vec{x} - \vec{x}_0$.
   \begin{itemize}
     \item \textit{Positive definite}, if:
       \[
-        \vec{x}^{\trans} H \vec{x} > 0\ \forall \vec{x} \in \R^{n}, \vec{x} \neq \vec{0}
+        \vec{x}^{\trans} H \vec{x} > 0\ \forall \vec{x} \in \R^{n},\ \vec{x} \neq \vec{0}
       \]
     \item \textit{Negative definite}, if:
       \[
-        \vec{x}^{\trans} H \vec{x} < 0\ \forall \vec{x} \in \R^{n}, \vec{x} \neq \vec{0}
+        \vec{x}^{\trans} H \vec{x} < 0\ \forall \vec{x} \in \R^{n},\ \vec{x} \neq \vec{0}
       \]
     \item \textit{Indefinite} otherwise.
   \end{itemize}
@@ -285,6 +285,7 @@ Since the definiteness of $H$ depends on whether the relation holds for all $\de
   \item \textbf{Any} eigenvalues are 0 $\to$ Need higher order terms in the Taylor series to classify the stationary point.
 \end{itemize}
 \begin{example}
+  Consider the function $f: \R^2 \to \R$ given by:
   \[
     f(x, y) = x^2 + y^4
   \]
@@ -330,8 +331,7 @@ For $f(x_1, x_2, \ldots, x_n)$, the sub-determinants of the leading principal mi
 \end{align*}
 So the signature of $H$ is: sign of $|H_1|$, sign of $|H_2|$, ..., sign of $|H_n|$.
 \begin{theorem}[Slyvesters Critereon]
-  \label{syvestersCritereon}
-  For a symmetric matrix $H$:
+  For a symmetric matrix $H$: \label{syvestersCritereon}
   \begin{align*}
     H \text{ is positive definite} &\iff \text{ signature is: }+, +, +, \cdots, +\\
     H \text{ is negative definite} &\iff \text{ signature is: }-, +, -, +, \cdots
@@ -443,7 +443,7 @@ We can also write this in vector form:
 \[
   \dot{\vec{Y}} = M\vec{Y} + \vec{F}
 \]
-where
+where:
 \[
   M = \begin{pmatrix}
   a & b \\
@@ -453,7 +453,7 @@ where
   y_1(t) \\
   y_2(t) \\
   \end{pmatrix},\
-  F = \begin{pmatrix}
+  \vec{F} = \begin{pmatrix}
   f_1(t) \\
   f_2(t) \\
   \end{pmatrix}
@@ -771,7 +771,8 @@ There are a few possibilities:
         This type of fixed point where all solutions are flowing away is called a \textit{unstable node}
       \end{case}
       \begin{case}{$\lambda_1, \lambda_2 < 0$ -- Stable Node}
-        Same as in the previous case but with the arrows reversed and now the term with $e^{\lambda_2 t}$ dominates as $|\lambda_2| < |\lambda_1|$.
+        Same as in the previous case but with the arrows reversed.
+        The shape is still the same as now it is large negative $t$ that determines the shape away from the origin so since $|\lambda_1| > |\lambda_2|$ solution trajectories tend towards the line $\vec{v}_1$ as $t$ shrinks.
 
         In this case, since all solutions flow towards the fixed point, it is called a \textit{stable node}.
       \end{case}
@@ -1126,7 +1127,7 @@ On the path we have $\psi(x(t), t)$ so we can use the multivariate chain rule (\
   \deriv{\psi}{t} &= \pderiv{\psi}{t} + \pderiv{\psi}{x} \deriv{x}{t} \\
                    &= \pderiv{\psi}{x}\left(c + \deriv{x}{t}\right)
 \end{align*}
-If we choose $x(t)$ such that $\deriv{x}{t} = -c$, then
+If we choose $x(t)$ such that $\deriv{x}{t} = -c$, then:
 \[
   x(t)  = x_0 - ct
 \]
@@ -1147,7 +1148,8 @@ These paths are referred to as \textit{characteristics} of the PDE.
   }
 \end{tikzpicture}
 \end{center}
-Since $\psi$ is constant along characteristics, suppose for each characteristic the value of $\psi$ is given by $f(x_0)$ for an arbitrary $f(x_0)$.
+Since $\psi$ is constant along characteristics, suppose for each characteristic the value of $\psi$ along the characteristic $x = x_0 - ct$ is given by $f(x_0)$ for an arbitrary function differentiable $f$.
+
 The general solution to the first order wave equation is then:
 \[
   \psi(x, t) = f(x_0) = f(x + ct)
@@ -1209,7 +1211,7 @@ These solutions are left moving wave solutions and only have waves propagating i
                     &= e^{-t} - 5\pderiv{\psi}{x} + 5\pderiv{\psi}{x} \\
                     &= e^{-t}
   \end{align*}
-  Integrating with respect to $t$, we have $\psi(x, t) = f(x_0) - e^{-t}$.
+  Integrating with respect to $t$, since the constant of integration depends on the characteristic we have $\psi(x, t) = f(x_0) - e^{-t}$.
   So the general solution is:
   \[
     \psi(x, t) = f(x - 5t) - e^{-t}
@@ -1344,7 +1346,7 @@ where $\kappa$ is a constant known as the \textit{diffusion coefficient}.
 
   It is possible to find \textit{similarity solutions} of the form $T(x, t) = \Theta(\eta)$ where we define $\eta$ as:
   \[
-    \eta \equiv \frac{x}{2\sqrt{\kappa t}}
+    \eta(x, t) \equiv \frac{x}{2\sqrt{\kappa t}}
   \]
   The motivation for trying a solution of this form comes from analysing the physical dimensions of the diffusion equation.
 
@@ -1390,7 +1392,7 @@ where $\kappa$ is a constant known as the \textit{diffusion coefficient}.
   \[
     T(x, t) = 1 - \erf\left(\frac{x}{2\sqrt{\kappa t}}\right)
   \]
-  If we plot this solution over time (lighter plot for larger $t$), we see that it tends towards a uniform temperature of $T = 1$ along the whole rod as $t \to \infty$.
+  If we plot this solution over time (where we use a lighter plot for larger $t$), we see that it tends towards a uniform temperature of $T = 1$ along the whole rod as $t \to \infty$.
   \begin{center}
   \begin{tikzpicture}[scale=1.3]
     % From https://tex.stackexchange.com/questions/107423/erf-function-in-latex

@@ -1377,11 +1377,10 @@ Consider a general second order linear homogeneous ODE:
 Note that this is a slightly different, but equivalent, form of the general equation.
 Using the above form will simplify matters later.
 
-The feasibility of finding a series solution around $x = x_0$ depends on the nature of $p(x)$, $q(x)$ and $r(x)$ around $x_0$.
+The feasibility of finding a series solution around $x = x_0$ depends on the nature of $p(x)$, $q(x)$, and $r(x)$ around $x_0$.
 \subsection{Classification of Singular Points}
 \begin{definition}[Ordinary and Singular Points]
   The point $x = x_0$ is an \textit{ordinary point} if $\frac{q(x)}{p(x)}$ and $\frac{r(x)}{p(x)}$ are analytic at $x_0$.
-
   Otherwise, $x_0$ is a \textit{singular point.}
 \end{definition}
 \begin{remark}[Note]
@@ -1447,16 +1446,17 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
   \]
   Consider $x_0 = 0$, although $\frac{q}{p}$ is well behaved as $x \to 0$, if we try and find the Taylor series, we find that the second derivative of $\frac{q}{p}$ is undefined at $x = 0$.
   So $x = 0$ is a singular point.
+
+  To check if it is a regular singular point:
   \[
-    x \frac{q}{p} = -\frac{2x^2}{1 + \sqrt{x}}
+    x \cdot \frac{q}{p} = -\frac{2x^2}{1 + \sqrt{x}}
   \]
   This also does not have a Taylor series about $x = 0$.
   So $x = 0$ is an irregular singular point.
 \end{example}
 \subsection{Method of Frobenius}
 \begin{theorem}[Fuch's Theorem]
-  \label{fuchTheorem}
-  \begin{enumerate}
+  \begin{enumerate}\label{fuchTheorem}
     \item
       If $x = x_0$ is an \textbf{ordinary point}, then there are two linearly independent solutions of the form:
       \[
@@ -1469,7 +1469,7 @@ The feasibility of finding a series solution around $x = x_0$ depends on the nat
       \[
         y = \sum_{n=0}^{\infty} a_n(x - x_0)^{n + \sigma} = (x - x_0)^{\sigma} \sum_{n=0}^{\infty} a_n(x - x_0)^{n}
       \]
-      where $\sigma \in \C$ and $a_0 \neq 0$ (as if we had $a_0 = 0$, the sum would effectively start at $n = 1$ so we could re-index and $\sigma$ would not be unique).
+      where $\sigma \in \C$ and $a_0 \neq 0$ (as if we had $a_0 = 0$, the sum would effectively start at $n = 1$ so we could re-index and so $\sigma$ would not be unique).
       This is called a \textit{Frobenius series}.
   \end{enumerate}
 \end{theorem}
