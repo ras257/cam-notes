@@ -2,7 +2,11 @@
 \begin{document}
 \chapter{Minimising Convex Functions}
 \section{Introduction to Minimisation}
-In this course we will studying minimising $f(\vec{x})$ subject to $h(\vec{x}) = \vec{b}$ for $\vec{x} \in \mathcal{X}$.
+In this course we will study problems of the form:
+\begin{mini*}
+  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+  \addConstraint{h(\vec{x})}{= \vec{b}}
+\end{mini*}
 Without loss in generality, we can also assume that we are minimising functions as maximising $f(\vec{x})$ is equivalent to minimising $-f(\vec{x})$.
 
 We may also have a \textit{inequality constraint}, such as $h(\vec{x}) \leq \vec{b}$ where we interpret this as $y_i \leq b_i$ for each of the components of $h(\vec{x}) = \vec{y}$ and $\vec{b}$.
