@@ -1,0 +1,51 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Legendre Transform}
+\section{Definition and Properties}
+\begin{definition}
+  The \textit{Legendre transform} of $f: D(f) \to \R$ is defined as:
+  \[
+    f^{*}(\vec{p}) = \sup_{\vec{x} \in D(f)}  [\vec{p} \cdot \vec{x} - f(\vec{x})]
+  \]
+  with $D(f^{*}) = \{\vec{p} \in \R^{n}: \text{the supremum on the right hand side is finite}\}$.
+\end{definition}
+\begin{lemma}
+  The Legendre transform $f^{*}$ as defined above is convex.
+\end{lemma}
+\begin{proof}
+  Let $\vec{p}, \vec{q} \in D(f^{*})$ and $t \in (0, 1)$ be arbitrary.
+  We want to show that the following is finite:
+  \begin{align*}
+    &\sup_{\vec{x} \in D(f)} [((1 - t)\vec{p} + t\vec{q})\cdot \vec{x} - f(\vec{x})] \\
+    &= \sup_{\vec{x} \in D(f)} [(1 - t)(\vec{p}\cdot \vec{x} - f(\vec{x})) + t(\vec{q} \cdot \vec{x} - f(\vec{x}))] \\
+    &\leq (1 - t) \sup_{\vec{x} \in D(f)} (\vec{p} \cdot \vec{x} - f(\vec{x})) + t \sup_{\vec{x} \in D(f)} (\vec{q} \cdot \vec{x} - f(\vec{x}))
+  \end{align*}
+  The right hand side of this is finite as $\vec{p}, \vec{q} \in D(f^{*})$ and so $(1 - t)\vec{p} + t\vec{q} \in D(f^{*})\ \forall t \in (0, 1)$, i.e. $D(f^{*})$ is a convex set.
+
+  The above inequality also tells us that:
+  \[
+    f^{*}((1 - t)\vec{p} + t\vec{q}) \leq (1 - t) f^{*}(\vec{p}) + t f^{*}(\vec{q})\ \forall t \in (0, 1)
+  \]
+  and so $f^{*}$ is a convex function.
+\end{proof}
+\begin{proposition}
+  If $f$ is convex, then so is $F_{\vec{p}}(\vec{x}) = f(\vec{x}) - \vec{p} \cdot \vec{x}$.
+\end{proposition}
+\begin{proof}
+  For arbitrary $\vec{x}, \vec{y} \in D(f)$ and $t \in (0, 1)$:
+  \begin{align*}
+    F_\vec{p}((1 - t)\vec{x} + t\vec{y}) &= f((1 - t)\vec{x} + t\vec{y}) - \vec{p} \cdot ((1 - t)\vec{x} + t\vec{y}) \\
+                                         &\leq (1 - t)f(\vec{x}) + t f(\vec{y}) - \vec{p} \cdot ((1 - t)\vec{x} + t\vec{y}) \\
+                                         &= (1 - t)F_\vec{p}(\vec{x}) + tF_{\vec{p}}(\vec{y})
+  \end{align*}
+  So $F_{\vec{p}}$ is convex.
+\end{proof}
+\begin{corollary}
+  If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$  is a \textbf{global maximum} occurring at the point $\vec{x}(\vec{p})$ which is given by finding $\vec{x}$ such that $\nabla f(\vec{x}) = \vec{p}$.
+
+  The Legendre transform of $f$ is then:
+  \[
+    f^{*}(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
+  \]
+\end{corollary}
+\end{document}

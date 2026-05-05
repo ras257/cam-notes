@@ -109,6 +109,7 @@ Thus:
   For large negative or positive values of $x$ and $y$, the function decreases or increases without bound and so it does not have a global minimum or maximum.
 \end{example}
 \section{Convex Functions}
+\subsection{Defining Convexity}
 \begin{definition}[Convex Set]
   A set $S \subseteq \R^{n}$ is called \textit{convex} if for all $\vec{x}, \vec{y} \in S$ and for every $t \in (0, 1)$, the point $t \vec{x} + (1 - t)\vec{y}$ is also in $S$.
 \end{definition}
@@ -135,9 +136,9 @@ Thus:
   \end{enumerate}
 \end{definition}
 \begin{definition}[Strictly Convex Function]
-  A function $f$ is \textit{strictly convex} if it is convex but we instead adapt \textbf{(ii)} above so that the inequality in \cref{convexFn} is strict and $\vec{x} \neq \vec{y}$:
+  A function $f$ is \textit{strictly convex} if it is convex but we instead adapt \textbf{(ii)} above so that the inequality in \cref{convexFn} is strict:
   \begin{equation}
-    f(t \vec{x} + (1 - t)\vec{y}) < t f(\vec{x}) + (1 - t) f(\vec{y}) \label{strictConvexFn}
+    f(t \vec{x} + (1 - t)\vec{y}) < t f(\vec{x}) + (1 - t) f(\vec{y})\ \forall \vec{x} \neq \vec{y} \label{strictConvexFn}
   \end{equation}
   i.e. the graph of $f$ always lies below its chords.
 \end{definition}
@@ -156,5 +157,156 @@ Thus:
     \item Consider $f(x) = |x|$.
       This is convex, but is not strictly convex, as if we pick two points on the same branch, then their chord lies on the graph.
   \end{enumerate}
+\end{example}
+\subsection{First Order Conditions}
+\begin{theorem}
+  If $f$ is differentiable then convexity is equivalent to:
+  \[
+    f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x})\ \forall \vec{x}, \vec{y} \in D(f)
+  \]
+  That is, the graph of $f$ lies on or above any of its tangent planes.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is convex}
+    Fix $\vec{x}, \vec{y} \in D(f)$ and define:
+    \[
+      h(t) = (1 - t)f(\vec{x}) + tf(\vec{y}) - f((1 - t)\vec{x} + t\vec{y})
+    \]
+    We then have:
+    \[
+      h'(0) = - f(\vec{x}) + f(\vec{y}) - (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x})
+    \]
+    So we wish to show $h'(0) \geq 0$.
+    \[
+      h'(0) = \lim_{t \to 0} \frac{h(t) - h(0)}{t} = \lim_{t \to 0} \frac{h(t)}{t}
+    \]
+    Since $f$ is convex, $h(t) \geq 0\ \forall t \in (0, 1) \implies h'(0) \geq 0$ and so the result follows.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the inequality holds}
+    For any $\vec{x}, \vec{y}, \vec{z} \in D(f)$ we have:
+    \begin{align*}
+      f(\vec{x}) &\geq f(\vec{z}) + (\vec{x} - \vec{z}) \cdot \nabla f(\vec{z}) \\
+      f(\vec{y}) &\geq f(\vec{z}) + (\vec{y} - \vec{z}) \cdot \nabla f(\vec{z})
+    \end{align*}
+    So:
+    \[
+      (1 - t)f(\vec{x}) + tf(\vec{y}) \geq f(\vec{z}) + [(1 - t)\vec{x} + t\vec{y} -  \vec{z}] \cdot \nabla f(\vec{z})
+    \]
+    $\vec{z}$ is arbitrary so we can pick $\vec{z} = (1 - t)\vec{x} + t\vec{y}$ and so:
+    \[
+      (1 - t)f(\vec{x}) + tf(\vec{y}) \geq f((1 - t)\vec{x} + t\vec{y})\ \forall \vec{x}, \vec{y} \in D(f), \ t \in (0, 1)
+    \]
+    i.e. $f$ is convex.
+  \end{proofdirection}
+\end{proof}
+\begin{corollary}
+  If $f$ is convex and differentiable, then any stationary point is a global minimum.
+\end{corollary}
+\begin{proof}
+  If $\vec{a}$ is a stationary point then $\nabla f(\vec{\vec{a}}) = \vec{0}$ so:
+  \[
+    f(\vec{y}) \geq f(\vec{\vec{a}})\ \forall \vec{y} \in D(f)
+  \]
+  i.e. there is a global minimum at $\vec{a}$.
+\end{proof}
+\begin{proposition}[Alternative First Order Conditon]
+  An equivalent first order condition is: \label{altFirstOrderCond}
+  \[
+    (\vec{y} - \vec{x}) \cdot (\nabla f(\vec{y}) - \nabla f(\vec{x})) \geq 0\ \forall \vec{x}, \vec{y} \in D(f)
+  \]
+\end{proposition}
+\begin{remark}
+  For $n = 1$ this becomes $(y - x)(f'(y) - f'(x)) \geq 0$ and so $y \geq x \implies f'(y) \geq f'(x)$, i.e. $f$ is monotonically increasing.
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Assume the original first order condition holds}
+    We have:
+    \begin{align*}
+      f(\vec{y}) &\geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x}) \\
+      f(\vec{x}) &\geq f(\vec{y}) + (\vec{x} - \vec{y}) \cdot \nabla f(\vec{y})
+    \end{align*}
+    Taking the sum of these two inequalities, the result follows.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume assume that the new first order condition holds}
+    Let $\vec{z} = (1 - t)\vec{x} + t\vec{y}$ and consider:
+    \begin{align*}
+      f(\vec{x}) - f(\vec{y}) &= \eval{f(\vec{z})}{t = 0}{t = 1} \\
+                              &= \int_{0}^{1} \deriv{}{t}[f(\vec{z}(t))] \d{t} \\
+                              &= \int_{0}^{1} (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x}) \d{t}
+    \end{align*}
+    We then have:
+    \begin{align*}
+      f(\vec{y}) - f(\vec{x}) - (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x}) &= \int_{0}^{1} (\vec{y} - \vec{x}) \cdot [\nabla f(\vec{z}) - \nabla f(\vec{x})] \d{t}
+    \end{align*}
+    Replacing $\vec{y} \mapsto \vec{z}$:
+    \[
+      t(\vec{y} - \vec{x}) \cdot [\nabla f(\vec{z}) - \nabla f(\vec{x})] \implies (\vec{y} - \vec{x}) \cdot [\nabla f(\vec{z}) - \nabla f(\vec{x})] \geq 0
+    \]
+    Thus the integral on the right hand side is non-negative and so:
+    \[
+      f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x})
+    \]
+  \end{proofdirection}
+\end{proof}
+\section{Second Order Conditions}
+\begin{theorem}[Second Order Condition for Convexity]
+  If $f$ has a continuous second derivative then convexity is equivalent to all eigenvalues of the Hessian $H(\vec{x})$ being non-negative for all $\vec{x} \in D(f)$, i.e. $H(\vec{x})$ is positive semi-definite for all $\vec{x} \in D(f)$.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is convex}
+    Using \cref{altFirstOrderCond}, setting $\vec{y} = \vec{x} + \vec{h}$:
+    \[
+      \vec{h} \cdot [\nabla f(\vec{x} + \vec{h}) - \nabla f(\vec{x})] \geq 0
+    \]
+    Using a Taylor expansion:
+    \[
+      \nabla_i f(\vec{x} + \vec{h}) = \nabla_i f(\vec{x}) + h_j H_{i j}(\vec{x}) + O(|\vec{h}|^3)
+    \]
+    and so:
+    \[
+      h_i H_{i j}(\vec{x}) h_j + O(|\vec{h}|^3) \geq 0
+    \]
+    Suppose for contradiction that $H(\vec{x})$ has a negative eigenvalue $\lambda$ with eigenvector $\vec{e}$ then we could set $\vec{h} = h \vec{e}$ giving:
+    \[
+      \lambda h^2 |\vec{e}|^2 + O(|\vec{h}|^3) \geq 0
+    \]
+    but this should hold for arbitrary $h$ and $\lambda < 0$ so for small enough $h$ the left hand side is negative and so we have a contradiction.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the second order condition holds}
+    For ease, we will just consider the case of $n = 1$ so $H(x) = f''(x)$ so the second order condition tells us $f''(x) \geq 0\ \forall x \in D(f)$.
+    We then have:
+    \begin{align*}
+      0 &\leq \operatorname{sign}(y - x) \int_{x}^{y} f''(z) \d{z} \\
+        &= \operatorname{sign}(y - x) (f'(y) - f'(x)) \\
+    \end{align*}
+    Multiplying both sides by $|y - x|$ we have:
+    \[
+      0 \leq (y - x)(f'(y) - f'(x))
+    \]
+    since $|y - x| \operatorname{sign}(y - x) = y - x$.
+    This is \cref{altFirstOrderCond} in the case of $n = 1$ and so we are done.
+  \end{proofdirection}
+\end{proof}
+\begin{example}
+  Consider the function:
+  \[
+    f(x, y) = \frac{1}{xy} \text{ with } D(f) = \{(x, y) \in \R^2: x > 0, y > 0\}
+  \]
+  We see that:
+  \[
+    H = \frac{1}{xy} \begin{pmatrix}
+    \frac{2}{x^2} & \frac{1}{xy} \\
+    \frac{1}{xy} & \frac{1}{y2} \\
+    \end{pmatrix}
+  \]
+  We see that $\det H = \frac{3}{x^{4}y^4} > 0$ and $\tr H = \frac{2}{xy}(\frac{1}{x^2} + \frac{1}{y^2}) > 0$.
+  So the eigenvalues of $H$ are strictly positive in $D(f)$ and so it is convex.
+
+  We might be tempted to instead set:
+  \[
+    D(f) = \{(x, y) \in \R^{2}: xy > 0\}
+  \]
+  as the inequalities still hold with this domain.
+  However this set is not convex and so $f$ cannot be convex, despite the Hessian conditions still holding.
 \end{example}
 \end{document}

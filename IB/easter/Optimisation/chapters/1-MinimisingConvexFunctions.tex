@@ -116,7 +116,7 @@ These additional variables $\vec{s}$ are called \textit{slack variables}.
 \end{theorem}
 \begin{proof}
   Here will only prove one direction however the converse also holds.
-  \begin{proofdirection}{Assume $f$ is convex}
+\begin{proofdirection}{Assume $f$ is convex}
     For any $\vec{x}, \vec{y} \in \R^{n}$, by applying the Lagrange remainder to $g(t)$ as defined above, there exists $\vec{z} \in \R^{n}$ on the line joining $\vec{x}$ and $\vec{y}$ such that:
     \begin{align*}
       f(\vec{y}) &= f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \\
@@ -125,4 +125,193 @@ These additional variables $\vec{s}$ are called \textit{slack variables}.
     So by \cref{firstOrderCond}, $f$ is convex.
   \end{proofdirection}
 \end{proof}
+\section{Gradient Descent}
+\subsection{Algorithm}
+Observe that:
+\[
+  f(\vec{y}) \approx f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x})
+\]
+If $\vec{y} - \vec{x} = -\varepsilon\nabla f(\vec{x})$ then:
+\begin{align*}
+  f(\vec{y}) &\approx f(\vec{x}) + \nabla f(\vec{x})^{\trans}(-\varepsilon \nabla f(\vec{x})) \\
+             &= f(\vec{x}) - \varepsilon \norm{\nabla f(\vec{x})}^2
+\end{align*}
+\subsubsection{Steps for Gradient Descent}
+\begin{enumerate}
+  \item Start from some $\vec{x}_0$ with $t = 0$.
+  \item Repeat:
+    \begin{enumerate}
+      \item Find a descent direction $\vec{\nu}_t$ such as $-\nabla f(\vec{x}_t)$.
+      \item Choose a step size $\eta_t$
+      \item Update $\vec{x}_{t + 1} = \vec{x}_t + \eta_t \vec{\nu}_t$
+    \end{enumerate}
+  \item Stop when some stopping criteria are satisfied.
+    For example $\nabla f(\vec{x}_t)$ is sufficiently close to $0$.
+\end{enumerate}
+There are however some potential issues with gradient descent:
+\begin{itemize}
+  \item The step size may need to be modified.
+    For very curved functions, a large step size may just oscillate around the minimizer and for very flat functions, a small step size is quite inefficient.
+\end{itemize}
+\subsection{Smoothness and Strong Convexity}
+\begin{definition}[$\beta$-smooth]
+  A twice-differentiable function $f: \R^{n} \to \R$ is \textit{$\beta$-smooth} for $\beta > 0$ if $\nabla^2 f(\vec{x}) \preceq \beta I$ for all $\vec{x} \in \R^{n}$.
+\end{definition}
+\begin{definition}[$\alpha$-strong convexity]
+  A twice-differentiable function $f: \R^{n} \to \R$ is \textit{$\alpha$-strongly convex} for $\alpha > 0$ if $\nabla^2 f(\vec{x}) \succeq \alpha I$ for all $\vec{x} \in \R^{n}$.
+\end{definition}
+\begin{remark}
+  We say that $A \preceq B$ if $B - A \succeq 0$, i.e. $B - A$ is a positive semi-definite matrix.
+  Equivalently, $\nabla^2 f(\vec{x}) \preceq \beta I$ means that all of the eigenvalues of $\nabla^2 f(\vec{x})$ are $\leq \beta$.
+\end{remark}
+So if a function is both $\alpha$-strongly convex and $\beta$-smooth then:
+\[
+  \alpha I \preceq \nabla^2 f(\vec{x}) \preceq \beta I
+\]
+\begin{theorem}
+  If $f$ is $\beta$-smooth, then:
+  \[
+    f(\vec{y}) \leq f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y} - \vec{x}) + \frac{\beta}{2}\norm{\vec{y} - \vec{x}}^2
+  \]
+  and if $f$ is $\alpha$-strongly convex, then:
+  \[
+    f(\vec{y}) \geq f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{\alpha}{2}\norm{\vec{y} - \vec{x}}^2
+  \]
+\end{theorem}
+\begin{remark}[Intuitition]
+  In 1D, this is saying that we can trap the function below and above by a quadratic function.
+\end{remark}
+\begin{proof}
+  Using the multivariate Taylor series:
+  \[
+    f(\vec{y}) = f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x})
+  \]
+  where $\vec{z}$ is some point on the line segment joining $\vec{x}$ and $\vec{y}$.
+
+  Now observe that:
+  \begin{align*}
+    \frac{1}{2}(\vec{y} - \vec{x})^{\trans} (\alpha I) (\vec{y} - \vec{x}) &\leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} (\beta I) (\vec{y} - \vec{x}) \\
+    \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2 &\leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2f(\vec{z})(\vec{y} - \vec{x}) \leq \frac{\beta}{2} \norm{\vec{y} - \vec{x}}^2
+  \end{align*}
+  and so substituting back into the taylor series yields the result.
+\end{proof}
+\begin{corollary}
+  For a $\beta$-smooth $f$ we have: \label{bSmoothCoro}
+  \[
+    f\left(\vec{x} - \frac{1}{\beta} \nabla f(\vec{x})\right) \leq f(\vec{x}) - \frac{1}{2\beta}\norm{\nabla f(\vec{x})}^2
+  \]
+\end{corollary}
+\begin{remark}[Intuition]
+  This gives us a step size to use for gradient descent as it guarantees that our step size does not ``overshoot''.
+\end{remark}
+\begin{proof}
+  Follows by substituting $\vec{y} = \vec{x} - \frac{1}{\beta}\nabla f(\vec{x})$.
+\end{proof}
+\begin{corollary}
+  For an $\alpha$-strongly convex function $f$, let $f(\vec{x}^{*})$ be the minimum of $f$.
+  Then for any $\vec{x}$, we have: \label{aStrongCoro}
+  \[
+    f(\vec{x}^{*}) \geq f(\vec{x}) - \frac{1}{2\alpha} \norm{\nabla f(\vec{x})}^2
+  \]
+  or equivalently:
+  \[
+    f(\vec{x}) - f(\vec{x}^{*}) \leq \frac{1}{2\alpha} \norm{\nabla f(\vec{x})}^2
+  \]
+\end{corollary}
+\begin{proof}
+  We have:
+  \[
+    f(\vec{y}) \geq f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2
+  \]
+  Taking minima of both sides:
+  \[
+    \min_{\vec{y} \in \R^{n}} f(\vec{y}) \geq \min_{\vec{y} \in \R^{n}} \left[f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2\right]
+  \]
+  The left hand side is just $\min_{\vec{y} \in \R^{n}} f(\vec{y}) = f(\vec{x}^{*})$.
+  For the right hand side:
+  \[
+    \nabla_{\vec{y}} (f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y} - \vec{x}) + \frac{\alpha}{2}\norm{\vec{y} - \vec{x}}^2) = \nabla f(\vec{x}) + \alpha(\vec{y} - \vec{x})
+  \]
+  To minimise, we set this to $\vec{0}$ to give:
+  \[
+    \vec{y}^{*} = \vec{x} - \frac{1}{\alpha} \nabla f(\vec{x})
+  \]
+  Substituting back in to find the value at the minimum:
+  \[
+    \min_{\vec{y} \in \R^{n}} \left[f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2\right] = f(\vec{x}) - \frac{1}{2\alpha}\norm{\nabla f(\vec{x})}^2
+  \]
+  and so:
+  \[
+    f(\vec{x}^{*}) \geq f(\vec{x}) - \frac{1}{2\alpha}\norm{\nabla f(\vec{x})}^2
+  \]
+\end{proof}
+\begin{remark}
+  So if $\norm{\nabla f(\vec{x})}^2 \leq 2\alpha \varepsilon$, then $\vec{x}^{*}$ is optimal up to an $\varepsilon$ error, i.e.
+  \[
+    f(\vec{x}) - f(\vec{x}^{*}) \leq \varepsilon
+  \]
+\end{remark}
+So we now know what step size we should take and what our stopping threshold should be.
+\subsection{Convergence of Gradient Descent}
+\begin{theorem}
+  Let $f$ be $\alpha$-strongly convex and $\beta$-smooth and suppose $f$ is minimised at $\vec{x}^{*}$.
+  Then gradient descent with $\eta_t = \frac{1}{\beta}$ satisfies:
+  \begin{align*}
+    f(\vec{x}_T) - f(\vec{x}^{*}) &\leq \left(1 - \frac{\alpha}{\beta}\right)^T (f(\vec{x}_0) - f(\vec{x}^{*})) \\
+                                  &\leq e^{-\frac{\alpha T}{\beta}} (f(\vec{x}_0) - f(\vec{x}^{*}))
+  \end{align*}
+\end{theorem}
+\begin{remark}
+  The second inequality follows from that $e^{-x} \geq 1- x$.
+
+  We like this inequality as we can then take logarithms to find $T$ that will give an $\varepsilon$-optimal point:
+  \[
+    T \geq \frac{\beta}{\alpha} \log \left(\frac{f(\vec{x}_0) - f(\vec{x}^{*})}{\varepsilon}\right)
+  \]
+\end{remark}
+\begin{proof}
+  \begin{align*}
+    f(\vec{x}_{t + 1}) - f(\vec{x}^{*}) &\leq f(\vec{x}_t) - f(\vec{x}^{*}) - \frac{1}{2\beta} \norm{\nabla f(\vec{x}_t)}^2 \text{ (by \cref{bSmoothCoro})}\\
+                                        &\leq f(\vec{x}_t) - f(\vec{x}^{*}) - \frac{\alpha}{\beta} (f(\vec{x}_t) - f(\vec{x}^{*})) \text{ (by \cref{aStrongCoro})}\\
+                                        &= \left(1 - \frac{\alpha}{\beta}\right) (f(\vec{x}_t) - f(\vec{x}^{*})) \\
+                                        &= \cdots \\
+                                        &= \left(1 - \frac{\alpha}{\beta}\right)^{T} (f(\vec{x}_0) - f(\vec{x}^{*}))
+  \end{align*}
+\end{proof}
+\begin{example}
+  Consider $f: \R^{2} \to \R$ given by:
+  \[
+    f(\vec{x}) = \frac{1}{2}(x^2_1 + 100x^2_2)
+  \]
+  We have:
+  \[
+    \nabla^2 f(\vec{x}) = \begin{pmatrix}
+    1 & 0 \\
+    0 & 100 \\
+    \end{pmatrix}\ \forall \vec{x} \in \R^2
+  \]
+  We see that:
+  \[
+    \begin{pmatrix}
+    1 & 0 \\
+    0 & 1 \\
+    \end{pmatrix} \preceq \begin{pmatrix}
+    1 & 0 \\
+    0 & 100 \\
+    \end{pmatrix} \preceq \begin{pmatrix}
+    100 & 0 \\
+    0 & 100 \\
+    \end{pmatrix}
+  \]
+  So we can take $\alpha = 1$ and $\beta = 100$ so:
+  \[
+    1 - \frac{\alpha}{\beta} = 1 - \frac{1}{100} = 0.99
+  \]
+  $\beta = 100$ is quite large so we might want to rescale our axes so that it is not biased towards some direction.
+\end{example}
+\section{Second Order Methods}
+To a second order approximation:
+\[
+  f(\vec{y}) \approx f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2} (\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{x}) (\vec{y} - \vec{x})
+\]
 \end{document}
