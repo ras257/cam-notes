@@ -3,15 +3,14 @@
 \chapter{Countability}
 \section{Countable Sets}
 \subsection{Introduction to Countability}
-We want to talk about the sizes of infinite sets, for example, $\N$ ``looks smaller'' than $\Z$ which seem ``a lot smaller'' than $\Q$, which seems ``even smaller than'' $\R$
-
+We want to talk about the sizes of infinite sets, for example, $\N$ ``looks smaller'' than $\Z$ which seems ``a lot smaller'' than $\Q$, which seems ``even smaller than'' $\R$.
 \begin{definition}[Countable Set]
-  \label{countableDef}
-  We say that a set $X$ is \textit{countable} if $X$ is finite or there is a bijection $X \to \N$.
+  We say that a set $X$ is \textit{countable} if $X$ is finite or there is a bijection $X \to \N$. \label{countableDef}
 
-  This second case is often referred to as \textit{countably infinite}.
+  Sets countable sets that are not finite are often referred to as \textit{countably infinite}.
 \end{definition}
-That is, $X$ is countable if and only if we can enumerate the elements of $X$ using $\N$, i.e:
+That is, $X$ is countable if and only if we can enumerate the elements of $X$ using $\N$.
+This means that we can list its elements as:
 \[
   x_1, x_2, x_3, \ldots
 \]
@@ -34,36 +33,33 @@ which terminates if $X$ is finite.
   \end{enumerate}
 \end{example}
 \begin{lemma}
-  \label{countableSubset}
-  Any subset of $\N$ is countable.
+  Any subset of $\N$ is countable. \label{countableSubset}
 \end{lemma}
 \begin{proof}
   If $S \subseteq \N$ is non empty, by the Well-Ordering Principle (\cref{WOP}), there is a least element $s_1 \in S$.
-
-  If $S \setminus \{s_1\} \neq \emptyset$, again, there is a least element $s_2 \in S \setminus \{s_1\}$.
-
-  If $S \setminus \{s_1, s_2\} \neq \emptyset$, ...
-
+  \begin{itemize}
+    \item If $S \setminus \{s_1\} \neq \emptyset$, again, there is a least element $s_2 \in S \setminus \{s_1\}$.
+    \item If $S \setminus \{s_1, s_2\} \neq \emptyset$, again, there is a least element $s_3 \in S \setminus \{s_1, s_2\}$.
+    \item and so on.
+  \end{itemize}
   If at some point this process terminates, then $S = \{s_1, s_2, \ldots, s_n\}$ is finite and therefore countable.
 
   Otherwise, if this process never terminates, then the map:
   \[
-    g: \N \to S, n \mapsto s_n
+    g: \N \to S,\ n \mapsto s_n
   \]
   is well-defined, as, for every $n$ there will be a unique minimal element $s_n$.
   This map will be injective as when a least element appears, it is removed from the set so the same least element cannot occur twice.
-
   It is also surjective because, if $k \in S$, then $k \in \N$ so there are less than $k$ elements of $S$ less than $k$, so $k = s_n$ for some $n \leq k$.
 
   So we have a bijection between $S$ and $\N$, thus $S$ is countably infinite.
 \end{proof}
 \begin{theorem}
-  \label{countabilityEquivalence}
-  The following statements are equivalent:
+  The following statements are equivalent: \label{countabilityEquivalence}
   \begin{enumerate}
     \item $X$ is a countable set.
     \item There exists an injection from $X \to \N$.
-    \item $X = \emptyset$ or there is a surjection $\N \to X$.
+    \item $X = \emptyset$ or there exists a surjection $\N \to X$.
   \end{enumerate}
 \end{theorem}
 \begin{proof}\par
@@ -74,22 +70,21 @@ which terminates if $X$ is finite.
   \end{indentenvironment}
   (\textbf{ii} $\implies$ \textbf{i})
   \begin{indentenvironment}
-    If there is an injection $f: X \to \N$, then $f$ is a bijection between $X$ and $S = f(X)$.
-    That is we can make $f$ a bijection by restricting the codomain to just the image of $X$.
+    If there is an injection $f: X \to \N$, then $f$ is a bijection between $X \to S = f(X)$.
+    That is, we can make $f$ a bijection by restricting the codomain to just the image of $X$.
 
-    If $S$ is finite, then so is $X$ so $X$ is countable.
-
+    If $S$ is finite, then so is $X$.
     Otherwise, if $S$ is infinite since $S \subseteq \N$ by \cref{countableSubset}, $S$ is countable.
-    Therefore there is a bijection from $g: S \to \N$ and so
+    Therefore there is a bijection from $g: S \to \N$ and so:
     \[
-      X \xrightarrow{f} S= f(X) \xrightarrow{g} \N
+      X \xrightarrow{f} f(X) = S \xrightarrow{g} \N
     \]
-    so $f \circ g$ is a bijection from $X \to \N$ and thus $X$ is countable.
+    is a bijection from $X \to \N$ and thus $X$ is countable.
   \end{indentenvironment}
   (\textbf{i} $\implies$ \textbf{iii})
   \begin{indentenvironment}
-    If $X$ is finite, then either $X = \emptyset$ or there is a surjection from $\N \to X$
-    (Note that we cannot have a surjection $\N \to \emptyset$ as each element of $\N$ must be mapped to something).
+    If $X$ is finite, then either $X = \emptyset$ or there is a bijection (and therefore a surjection) from $\N \to X$, by definition of the size of finite sets.
+    (Note that we need the case of $X = \emptyset$ as we cannot have a function $\N \to \emptyset$ as each element of $\N$ must be mapped to something).
 
     Otherwise, if $X$ is infinite, then, since $X$ is countable, there is a bijection $\N \to X$ which must also be a surjection.
   \end{indentenvironment}
@@ -107,17 +102,16 @@ which terminates if $X$ is finite.
   So we have: \textbf{ii} $\iff$ \textbf{i} $\implies$ \textbf{iii} $\implies$ \textbf{ii}, thus, all the statements are equivalent.
 \end{proof}
 \begin{corollary}
-  \label{subsetOfCountableSet}
-  Any subset of a countable set is countable.
+  Any subset of a countable set is countable. \label{subsetOfCountableSet}
 \end{corollary}
 \begin{proof}
-  If $Y \subseteq X$ and $X$ is countable, then there is therefore an injection $X \to \N$.
-  We can just restrict the domain to $Y \to \N$ which is still injective so $Y$ is countable.
+  Since $X$ is countable, by the above, there is an injection $X \to \N$.
+  If $Y \subseteq X$ and $X$, we can just restrict the domain to $Y$ without affecting injectivity and so $Y$ is countable.
 \end{proof}
 We may now view ``countable'' as saying that a set is ``at most as big as $\N$''.
 \subsection{Unions and Products of Countable Sets}
 \begin{theorem}
-$\N \times \N$ is countable
+  $\N \times \N$ is countable. \label{NxNCountable}
 \end{theorem}
 We will give two proofs of this.
 \begin{proof}[Diagonalisation]
@@ -153,10 +147,10 @@ We will give two proofs of this.
     (p + q, 1) & \text{ if } p = 1
     \end{cases}
   \]
-  We can show by induction that this list includes every point $(x, y) \in \N \times \N$
+  We can show by induction that this list includes every point $(x, y) \in \N \times \N$.
 \end{proof}
+\label{ftaInjectiveProof}
 \begin{proof}[Injection]
-  \label{ftaInjectiveProof}
   Define $f: \N \times \N \to \N$, $(x, y) \mapsto 2^{x}3^{y}$.
   Then $f$ is injective by the uniqueness of prime factorisations provided by the Fundamental Theorem of Arithmetic (\cref{uniquePrimeFactorisation}).
   So by \cref{countabilityEquivalence}, $\N \times \N$ is countable.
@@ -174,15 +168,14 @@ We will give two proofs of this.
   Thus $\Z \times \Z$ is countable by \cref{countabilityEquivalence}.
 \end{proof}
 \begin{remark}
-  We can iterate this by induction to show that:
+  We can iterate this using induction to show that the set:
   \[
     \Z^{k} = \underbrace{\Z \times \cdots \times \Z}_{k \text{ copies}}
   \]
   is countable for any $k \in \N$.
 \end{remark}
 \begin{theorem}
-  \label{countableUnion}
-  A countable union of countable sets is countable.
+  A countable union of countable sets is countable. \label{countableUnion}
 \end{theorem}
 \begin{proof}
   Since there is countably many of them, we may assume that our countable sets are indexed by $\N$.
@@ -190,12 +183,11 @@ We will give two proofs of this.
   \[
     \bigcup_{n \in \N} A_n \text{ is countable}
   \]
-  For each $i \in \N$, since $A_i$ is countable, we may enumerate its elements as $a^{(i)}_{1}, a^{(i)}_{2}, a^{(i)}_{3}, \ldots$ (which may terminate)
+  For each $i \in \N$, since $A_i$ is countable, we may enumerate its elements as $a^{(i)}_{1}, a^{(i)}_{2}, a^{(i)}_{3}, \ldots$ (which may terminate).
 
-  Define $f: \bigcup_{n \in \N} A_n \to \N$, $x \mapsto 2^{i}3^{j}$ where $x = a^{(i)}_{j}$ for the \textbf{least} $i$ such that $x \in A_i$ as $x$ could be in multiple sets, however by WOP, we can pick the least such $i$.
-  This is an injection by the same argument as in \cref{ftaInjectiveProof}.
-
-  Alternatively, the association of $x$ with a unique pair $(i, j)$ provides a injection $\bigcup A_n \to  \N \times \N$, which we know is countable.
+  Define $f: \bigcup_{n \in \N} A_n \to \N \times \N,\ x \mapsto (i, j)$ where $x = a^{(i)}_{j}$ for the \textbf{least} $i$ such that $x \in A_i$ as $x$ could be in multiple sets which we can pick by WOP.
+  This is well defined as we always pick the minimal $i$ and is injective as each $x$ is associated with a unique $(i, j)$.
+  We know from \cref{NxNCountable} that $\N \times \N$ is countable and so are done as we have injected into a countable set.
 \end{proof}
 \begin{example}[Countability of $\Q$]
   We can define $\Q$ as:
@@ -205,8 +197,7 @@ We will give two proofs of this.
   This is a countable union of countable sets so $\Q$ is countable.
 \end{example}
 \begin{theorem}
-  \label{ACountable}
-  The set $\mathbb{A}$ of algebraic numbers is countable.
+  The set $\mathbb{A}$ of algebraic numbers is countable. \label{ACountable}
 \end{theorem}
 \begin{proof}
   It suffices to show that the set of all polynomials with integer coefficients is countable, as each polynomial has a finite number of roots (by \cref{fact2}), so $\mathbb{A}$ is a countable union of countable sets and is therefore countable by \cref{countableUnion}.
@@ -247,12 +238,13 @@ We will give two proofs of this.
     2 & d_{n n} = 1
     \end{cases}
   \]
-  This $r$ has only one decimal expansion (as it does not terminate in all 0s or 9s) and is not in the enumerated list, as $\forall n \in \N$ $r \neq r_n$ as we have constructed it to disagree with $r_n$ on the $n$-th decimal digit.
+  This $r$ has only one decimal expansion (as it does not terminate in all 0s or 9s) and is not in the enumerated list, as $r \neq r_n\ \forall n \in \N$ as we have constructed it to disagree with $r_n$ on the $n$-th decimal digit.
   This contradicts the countability of $\R$.
 \end{proof}
 This proof strategy is known as a \textit{diagonal argument}.
 \begin{remark}
   This proof did not use the integer part of each $r_i$ so we can conclude that the interval $(0, 1)$ is uncountable.
+  We can also put $(0, 1)$ in bijection with any interval $(a, b)$ with $a < b$ to conclude that all such intervals are uncountable.
 \end{remark}
 \begin{corollary}
   There are uncountably many transcendental numbers.
@@ -269,12 +261,12 @@ We will provide 2 proofs:
 \begin{proof}[1 -- Diagonal Arugment]
   If $\powerset{\N}$ were countable, we would be able to enumerate its elements as $S_1, S_2, S_3, \ldots$
 
-  Similarly to in \cref{RUncountable}, we wish to construct a set that disagrees with each of our sets on one element.
+  Similarly to in \cref{RUncountable}, we wish to construct a set that disagrees with each of our sets on at least one element.
   If we define:
   \[
     S = \{n \in \N: n \notin S_n\}
   \]
-  then $S$ is not on our list since $\forall n \in \N$, $S \neq S_n$ as, by construction, they must disagree on the element $n$.
+  then $S$ is not on our list since $S \neq S_n\ \forall n \in \N$ as, by construction, they must disagree on the element $n$.
   This contradicts the countability of $\powerset{\N}$.
 \end{proof}
 \begin{proof}[2 -- Injection]
@@ -295,9 +287,9 @@ We will provide 2 proofs:
   This is a well-defined injection as each subset of $\N$ uniquely defines such a binary expansion.
 \end{proof}
 \begin{remark}
-  Note that we are not requiring $f$ to be surjective, as $\{n \in \N: n > 5\}$ cannot be the image of any $x$ as this it would need to end in an infinite string of $1$s.
+  Note that we are not requiring $f$ to be surjective, as the subset $\{n \in \N: n > 5\}$ cannot be the image of any $x$ it would need to end in an infinite string of $1$s.
 \end{remark}
-The first proof of this theorem can also be used to show the following:
+The strategy from the first proof of this theorem can also be used to show the following:
 \begin{theorem}
   For any set $X$, there does \textbf{not} exist a bijection between $X$ and $\powerset{X}$.
 \end{theorem}
@@ -336,7 +328,7 @@ We will provide 2 proofs:
 
   More generally, for each $n \in \N$, the set $S_n = \left\{i \in I : A_i \text{ has length} \geq \frac{1}{n}\right\}$ is countable as it injects into $\Z/n$.
 
-  By \cref{archimedesCorollary}, for any length $\ell_n \in \R$ of $A_n$, we can find some $n \in \N$ such that $\frac{1}{n} < \ell_n$.
+  By \cref{archimedesCorollary}, for any length $\ell_i \in \R$ of $A_i$, we can find some $n \in \N$ such that $\frac{1}{n} < \ell_i$.
   This means that if we continue this construction for all $n \in \N$, every element of $I$ will be in at least one of these sets.
   We can then express $I$ as:
   \[
@@ -350,7 +342,7 @@ To show that a set $X$ is \textbf{countable}, we can:
   \item List/enumerate its elements -- \cref{countableDef}
   \item Construct an injection into $\N$ or another countable set -- \cref{countabilityEquivalence}
   \item Show it is a countable union of countable sets -- \cref{countableUnion}
-  \item If the set is in or ``near'' $\R$, consider $\Q$ -- \cref{intervalsExample}
+  \item If the set is in or ``near'' $\R$, then it is useful to try injecting into $\Q$ instead of $\N$ -- \cref{intervalsExample}
 \end{enumerate}
 To show that a set $X$ is \textbf{uncountable}, we can:
 \begin{enumerate}
@@ -369,7 +361,7 @@ $A$ injects into $B$ & $A$ is at most as big as $B$ \\
 $A$ surjects onto $B$ & $A$ is at least as big as $B$
 \end{tabular}
 \end{center}
-For these interpretations to make sense, we need to check that ``$A$ is at most as big as $B$'' if and only if ``$B$ is at least as big as $A$'' so that our intuition about inequalities still holds even with sets.
+For these interpretations to make sense, we need to check that ``$A$ is at most as big as $B$'' if and only if ``$B$ is at least as big as $A$'' so that our intuition about inequalities for sizes of finite sets still holds even with this new institution for relations between sets.
 This is confirmed by the following lemma:
 \begin{lemma}
   Given non-empty sets $A$ and $B$, there exists an injection $f: A \to B$ if and only if there exists a surjection $g: B \to A$.
@@ -386,25 +378,24 @@ This is confirmed by the following lemma:
       a_0 & \text{ otherwise}
      \end{cases}
     \]
-    The first case of this map satisfies the criterion for surjectivity, however we need to send elements of $B$ that were not mapped to by $f$ from $A$ so that $g$ is a well-defined function.
+    The first case of this map satisfies the criterion for surjectivity, however we need the second case to send elements of $B$ that were not mapped to by $f$ from $A$ so that $g$ is a well-defined function.
   \end{proofdirection}
   \begin{proofdirection}{Suppose we have a surjection $g: B \to A$}
     Define $f: A \to B$ by:
     \[
       a \mapsto \text{some $b \in B$ s.t. $g(b) = a$}
     \]
-    Then $f$ is injective as $g$ is a well-defined map.
+    Such a $b \in B$ will always exist because of the surjectivity of $g$.
+    It follows that $f$ is injective as $g$ is a well-defined map so must send each $b \in B$ to \textbf{exactly one} $a \in A$.
   \end{proofdirection}
 \end{proof}
 Another intuition from inequalities we wan to confirm is that that, if ``$A$ is at most as big as $B$'' and ``$B$ is at most as big as $A$'', then
 ``$A$ and $B$ have the same size''.
 \begin{theorem}[Schr\"oder Bernstein Theorem]
-  \label{schroderBerstein}
-  If $f: A \to B$ and $g: B \to A$ are injections, then there exists a bijection $h: A \to B$.
+  If $f: A \to B$ and $g: B \to A$ are injections, then there exists a bijection $h: A \to B$. \label{schroderBerstein}
 \end{theorem}
 \begin{proof}
   For some point $a \in A$, write $g^{-1}(a)$ for the unique $b \in B$ (if it exists) such that $g(b) = a$.
-
   Similarly, for $b \in B$, write $f^{-1}(b)$ for the unique $a \in A$ (if it exists) such that $f(a) = b$.
 
   We call:
@@ -432,13 +423,13 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
 
   By symmetry, $g$ bijects $B_0$ with $A_1$.
 
-  Finally, by a similar argument, both $f$ and $g$ provide a bijection between $A_{\infty}$ and $B_{\infty}$ as these are the points whose ancestor sequence never terminates.
+  Finally, by a similar argument, both $f$ or $g$ provide a bijection between $A_{\infty}$ and $B_{\infty}$ as these are the points whose ancestor sequence never terminates.
 
   Then the function $h: A \to B$ defined by:
   \[
     a \mapsto \begin{cases}
-    f(a) & \text{ if }a \in A_0 \cup A_{\infty} \\
-    g^{-1}(a) & \text{ if }a \in A_1 \\
+    f(a) & \text{ if } a \in A_0 \cup A_{\infty} \\
+    g^{-1}(a) & \text{ if } a \in A_1 \\
     \end{cases}
   \]
   is a bijection by construction.
@@ -446,7 +437,7 @@ Another intuition from inequalities we wan to confirm is that that, if ``$A$ is 
 \begin{example}
   Is there a bijection from $[0, 1]$ to $[0, 1] \cup [2, 3]$?
 
-  Observe that we have an injection $f: [0, 1] \to [0, 1] \cup [2, 3]$, $x \mapsto x$ and an injection $g: [0, 1] \cup [2, 3] \to [0, 1]$, $x \mapsto x/3$.
+  Observe that we have an injection $f: [0, 1] \to [0, 1] \cup [2, 3],\ x \mapsto x$ and an injection $g: [0, 1] \cup [2, 3] \to [0, 1],\ x \mapsto x/3$.
   So by \cref{schroderBerstein}, there is a bijection between them.
 \end{example}
 \begin{remark}[Remarks]
