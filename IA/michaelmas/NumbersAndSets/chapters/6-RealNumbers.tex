@@ -44,15 +44,16 @@ We can also define an order on $\Q$, denoted $<$, which has the properties:
   \item \textbf{Transitivity -} If $a < b$ and $b < c$ then $a < c$.
 \end{enumerate}
 This ordering on $\Q$ has the useful property that between any 2 rational numbers, there is another rational number.
-That is, if $p, q \in \Q$ with $p < q$, then $p < \frac{p + q}{2} < q$.
+That is, if $p, q \in \Q$ with $p < q$, then $p < \frac{p + q}{2} < q$ with $\frac{p + q}{2} \in \Q$.
 \section{Gaps in the Rationals}
 \begin{proposition}
   There is no rational number $x$ with $x^2 = 2$.
 \end{proposition}
 \begin{proof}[1]
-  Suppose $x^2 = 2$.
-  Note we may assume that $x > 0$ since $(-x)^2 = x^2$.
-  If $x$ is rational, then $x = \frac{a}{b}$ for some $a, b \in \N$.
+  Suppose $x^2 = 2$ and $x \in \Q$.
+  We may assume that $x > 0$ since $(-x)^2 = x^2$.
+  We can therefore write $x = \frac{a}{b}$ for some $a, b \in \N$.
+
   Then:
   \[
     \frac{a^2}{b^2} = 2 \iff a^2 = 2b^2
@@ -76,7 +77,7 @@ That is, if $p, q \in \Q$ with $p < q$, then $p < \frac{p + q}{2} < q$.
     0 < (x - 1)^{n} < \frac{1}{b}
   \]
   We can then use the binomial theorem (\cref{binomialTheorem}) to expand $(x - 1)^{n}$.
-  After, we can then replace all factors of $x^2$ with 2 to write $(x - 1)^{n}$ in the form $cx + d$ for some $c, d \in \Z$.
+  After this, we can then replace all factors of $x^2$ with 2, allowing us to write $(x - 1)^{n}$ in the form $cx + d$ for some $c, d \in \Z$.
   So we then have:
   \[
     0 < cx + d < \frac{1}{b}
@@ -105,34 +106,32 @@ $\Q$ in fact fails another property which is key to constructing the reals.
             &= \frac{(p^2 - 2)(p^2 + 4p + 4 - 2p^2 - 4p + p^2 - 2)}{(p + 2)^2} \\
             &= \frac{2(p^2 - 2)}{(p + 2)^2} < 0
   \end{align*}
-  So $q^2 < 2$, thus $q \in A$.
-  This means for any $p \in A$, we can always construct some $q \in A$ such that $q > p$.
-  That is, $A$ has no largest element in $\Q$.
+  So $q^2 < 2$, i.e. $q \in A$.
+  This means for any $p \in A$, we can always construct some $q \in A$ such that $q > p$ and so $A$ has no largest element in $\Q$.
 
   Similarly the set $\{q \in \Q: q > 0,\ q^2 > 2\}$ contains no smallest element in $\Q$.
 \end{example}
-Crucially, in $\Q$, there is no \textit{least upper bound}.
+Crucially, not every set in $\Q$ has a \textit{least upper bound} \textbf{in} $\Q$.
 This is what we mean when we say $\Q$ has ``gaps''.
 \section{Defining Real Numbers}
 \begin{definition}[Bounded Above]
   We say that a set $S$ is \textit{bounded above}, if there exists some $x \in \R$ such that $x \geq y$ for all $y \in S$.
-
-  Such an $x$ is called an \textit{upper bound} for $S$.
+  We then call $x$ an \textit{upper bound} for $S$.
 \end{definition}
 \begin{definition}[Least Upper Bound]
   We say that $x$ is a \textit{least upper bound} for $S$ if $x$ is an upper bound for $S$ and every other upper bound $x'$ satisfies $x' \geq x$.
 \end{definition}
 \begin{remark}[Uniqueness]
-  Suppose both $a$ and $b$ are distinct least upper bounds for $S$.
+  Suppose both $a$ and $b$ are both upper bounds for $S$.
 
   Since $a$ is a least upper bound and $b$ is another upper bound, $b \geq a$.
   Similarly, $b$ is a least upper bound and $a$ is another upper bound, $a \geq b$.
-  But then we have $b \leq a$ and $a \leq b$ so $a = b$ which is a contradiction so the least upper bound is unique.
+  But then we have $b \leq a$ and $a \leq b$, i.e. $a = b$ so the least upper bound is unique.
 
   So we can say that $x$ is \textit{the} least upper bound.
 \end{remark}
 \begin{remark}[Notation]
-  When $x$ is the upper bound for $S$ we may write:
+  When $x$ is the least upper bound for $S$ we may write:
   \[
     x = \operatorname{supremum} S \text{ or } x = \sup S
   \]
@@ -145,17 +144,17 @@ This is what we mean when we say $\Q$ has ``gaps''.
     \item Multiplication is commutative and associative with identity 1, and every $x \neq 0$ has an inverse under multiplication.
     \item Multiplication is distributive over addition, that is:
       \[
-        \forall a, b, c \quad a \times (b + c) = a \times b + a \times c
+        a \times (b + c) = a \times b + a \times c\ \forall a, b, c \in \R
       \]
-    \item For all $a, b$, exactly one of:
+    \item For all $a, b \in \R$, exactly one of:
       \[
         a < b \quad a = b \quad b < a
       \]
-      holds, and for all $a, b, c$:
+      holds, and for all $a, b, c \in \R$:
       \[
         a < b \text{ and } b < c \implies a < c
       \]
-    \item For all $a, b, c$:
+    \item For all $a, b, c \in \R$:
       \[
         a < b \implies a + c < b + c
       \]
@@ -163,15 +162,15 @@ This is what we mean when we say $\Q$ has ``gaps''.
       \[
         a < b \implies ac < bc
       \]
-    \item Given any set $S$ of real numbers that is non-empty and bounded above, $S$ has a least upper bound.
+    \item Any subset $S \subseteq \R$ that is \textbf{non-empty and bounded above} has a least upper bound in $\R$.
   \end{enumerate}
 \end{definition}
-\begin{remark}[Note]
-  Axiom \textbf{vi} in the above definition is known as the \textit{least upper bound axiom}.
-\end{remark}
-\begin{remark}[Note]
-  This is the axiomatic definition of the real numbers.
-  However, there is also other ways to construct the reals that produces the same result.
+\begin{remark}[Notes]
+  \begin{itemize}
+    \item Axiom \textbf{vi} in the above definition is known as the \textit{least upper bound axiom}.
+    \item This is the axiomatic definition of the real numbers.
+      However, there is also other ways to construct the reals that produces the same result, for example using \textit{Dedekind cuts}.
+  \end{itemize}
 \end{remark}
 \begin{remark}[Remarks]
   \begin{itemize}
@@ -187,8 +186,8 @@ This is what we mean when we say $\Q$ has ``gaps''.
       \end{align*}
       which is a contradiction.
       Thus we must have $0 < 1$.
-    \item We may consider $\Q$ as contained in $\R$, $\Q \subset \R$, by identifying $\frac{a}{b} \in \Q$ with $a \times b^{-1} \in \R$ where $b^{-1}$ is the multiplicative inverse of $b$.
-    \item $\Q$ does not satisfy \textbf{vi} as the set $A$ of positive rationals $x$ such that $x^2 < 2$ does not have a supremum inside $\Q$. See \cref{rationalUpperBound}.
+    \item We may consider $\Q$ as contained in $\R$, i.e. $\Q \subset \R$, by identifying $\frac{a}{b} \in \Q$ with $a \times b^{-1} \in \R$ where $b^{-1}$ is the multiplicative inverse of $b$.
+    \item We saw in \cref{rationalUpperBound} that $\Q$ does not satisfy axiom \textbf{vi}.
     \item In axiom \textbf{vi}, the words ``non empty'' and ``bounded above'' are crucial.
       If $S$ is empty, then every $x \in \R$ is an upper bound for $S$, so there is no least upper bound.
       If $S$ is not bounded above, then it has no upper bounds so certainly has no least upper bound.
@@ -210,7 +209,7 @@ This is what we mean when we say $\Q$ has ``gaps''.
         \item 1 is an upper bound, as for any $x \in S$, $x \leq 1$.
         \item Suppose there is an upper bound $c$ such that $c < 1$.
           We have $0 < c < 1$ so $\frac{1}{2} < \frac{c + 1}{2} < 1$.
-          Thus $\frac{c + 1}{2} \in S$ but $\frac{c + 1}{2} > c$ so $c$ is not an upper bound.
+          Thus $\frac{c + 1}{2} \in S$ but $\frac{c + 1}{2} > c$ which contradicts that $c$ is an upper bound.
       \end{itemize}
   \end{enumerate}
 \end{example}
@@ -219,8 +218,7 @@ This is what we mean when we say $\Q$ has ``gaps''.
   But the supremum of a set can exist even when $\max S$ does not, in which case $\sup S \notin S$.
 \end{remark}
 \begin{proposition}[Axiom of Archimedes]
-  \label{axiomArchimedes}
-  $\N$ is not bounded above in $\R$.
+  $\N$ is not bounded above in $\R$. \label{axiomArchimedes}
 \end{proposition}
 \begin{proof}
   Suppose, on the contrary, that $\N$ is bounded above in $\R$.
@@ -230,17 +228,16 @@ This is what we mean when we say $\Q$ has ``gaps''.
   But then $n + 1 \in \N$ with $n + 1 > c$ which contradicts the fact that $c$ was an upper bound for $\N$.
 \end{proof}
 \begin{corollary}
-  \label{archimedesCorollary}
-  For any real number $t > 0$, there exits an $n \in \N$ such that $\frac{1}{n} < t$.
+  For any real number $t > 0$, there exits an $n \in \N$ such that $\frac{1}{n} < t$. \label{archimedesCorollary}
 \end{corollary}
 \begin{proof}
-  Given $t > 0$, by the axioms of Archimedes, there exits an $n \in \N$  such that $n > \frac{1}{t}$, hence $\frac{1}{n} < t$.
+  Given $t > 0$, by the axioms of Archimedes, there exits an $n \in \N$ such that $n > \frac{1}{t}$ and so $\frac{1}{n} < t$.
 \end{proof}
 \begin{definition}[Bounded Below]
   A set $S$ is said to be \textit{bounded below}, if there exist an $x \in \R$ such that $x \leq y$ for all $y \in S$.
   Such an $x$ is called a \textit{lower bound} for $S$.
 \end{definition}
-If $S$ is non-empty and bounded below, then
+If $S$ is non-empty and bounded below, then the set:
 \[
   -S = \{-y: y \in S\}
 \]
@@ -258,16 +255,13 @@ Hence $-c$ is a greatest lower bound for $S$.
   \inf\left(\left\{\frac{1}{n}: n \in \N\right\}\right) = 0
 \]
 Suppose we had an lower bound $t > 0$, then there exists an $n \in \N$ such that $\frac{1}{n} < t$ so $t$ is not a lower bound.
-So 0 is the infimum.
-
-The previous proposition and corollary show that there are no ``infinitely large'' or ``infinitely small'' numbers in $\R$.
-
+Thus 0 is the infimum.
 \begin{example}
-  Let $S=\{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots\} = \{1 - \frac{1}{n}: n \in \N\}$.
+  Let $S = \{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots\} = \{1 - \frac{1}{n}: n \in \N\}$.
   Clearly 1 is an upper bound for this set.
 
-  Suppose we have some $c < 1$ is an upper bound for $S$.
-  Then $1 - \frac{1}{n} \leq c\ \forall n \in \N$ so $0 < 1 - c \leq \frac{1}{n}\ \forall n \in n$ which contradicts \cref{archimedesCorollary}.
+  Suppose we have some $c < 1$ that is an upper bound for $S$.
+  We then observe that $1 - c > 0$ so by \cref{archimedesCorollary}, $\exists n \in \N$ such that $\frac{1}{n} < 1 - c \implies c < 1 - \frac{1}{n} \in S$, which contradicts the fact that $c$ was an upper bound.
   So $\sup S = 1$.
 \end{example}
 \begin{theorem}
@@ -275,8 +269,7 @@ The previous proposition and corollary show that there are no ``infinitely large
 \end{theorem}
 \begin{proof}
   Let $S = \{ x \in \R: x^2 <2\}$.
-  Note that $S$ is nonempty since $1 \in S$.
-  It is also bounded above, for example, by 2.
+  We first note that $S$ is nonempty since $1 \in S$ and is also bounded above by 2.
   Hence it has a supremum, $c = \sup S$.
   Observe that $1 < c < 2$.
   We claim that $c^2 = 2$.
@@ -303,10 +296,10 @@ The previous proposition and corollary show that there are no ``infinitely large
   Therefore, by trichotomy, $c^2 = 2$.
 \end{proof}
 \begin{remark}
-  The same proof shows that $\sqrt[n]{x} \in \R$ for all $n \in \N, x \in \R, x > 0$.
+  The same proof shows that $\sqrt[n]{x} \in \R$ for all $n \in \N,\ x \in \R,\ x > 0$.
   That is:
   \[
-    \forall n \in \N,\ \forall x \in \R, x > 0\ \exists y \in \R \text{ s.t. } y^n = x
+    \forall n \in \N,\ \forall x \in \R,\ x > 0\ \exists y \in \R \text{ s.t. } y^n = x
   \]
 \end{remark}
 \begin{definition}[Irrational]
@@ -317,10 +310,9 @@ The previous proposition and corollary show that there are no ``infinitely large
   $2 + 3\sqrt{5}$ is also irrational as suppose we had $2  + 3 \sqrt{5} = \frac{a}{b}$ with $a, b \in \N$, then $\sqrt{5} = \frac{a - 2b}{3b} \in \Q$ which is a contradiction.
 \end{example}
 \begin{proposition}
-  \label{rationalsDense}
-  The rationals are \textit{dense} in the reals.
+  The rationals are \textit{dense} in the reals. \label{rationalsDense}
 
-  This means that if we take any 2 real numbers $a < b \in \R$, there exists a $c \in \Q$ with $a < c < b$.
+  That is, if we take any 2 real numbers $a, b \in \R$ with $a < b$, there exists a $c \in \Q$ satisfying $a < c < b$.
 \end{proposition}
 \begin{proof}
   WLOG, assume $a \geq 0$.
@@ -348,24 +340,20 @@ The previous proposition and corollary show that there are no ``infinitely large
   By \cref{axiomArchimedes}, there exists some $N \in \N$ such that $N > b$.
   Since $N > b$, $Nn \in T$, so $T \neq \emptyset$.
   Therefore, by the Well-Ordering Principle (\cref{WOP}), $T$ has a least element $m$.
-  Set $c = \frac{m - 1}{n}$.
+
+  We now set $c = \frac{m - 1}{n} \in \Q$.
   $m$ is the least element of $T$ so $m - 1 \notin T$, that is, $\frac{m - 1}{n} < b$ so $c < b$.
-
-  Now suppose that $c \leq a$.
-  Then $\frac{m}{n} = c + \frac{1}{n} < a + (b - a) = b$, which contradicts the fact that $m$ is the least element of $T$.
-  Therefore $c > a$.
-
-  So we have constructed $c \in \Q$ such that $a < c < b$.
+  We also have $\frac{m - 1}{n} = \frac{m}{n} - \frac{1}{n} \geq b - \frac{1}{n} > b - (b - a) = a$ and so we have constructed $c \in \Q$ such that $a < c < b$.
 \end{proof}
 \begin{corollary}
   The irrationals are \textit{dense} in the reals.
 
-  That is, for all $a < b \in \R$, there exists a $c \in \R \setminus \Q$ with $a < c < b$.
+  That is, for all $a, b \in \R$ with $a < b$, there exists a $c \in \R \setminus \Q$ satisfying $a < c < b$.
 \end{corollary}
 \begin{proof}
   From the above, take a $c \in \Q$ such that $a\sqrt{2} < c < b\sqrt{2}$.
   We then have $a < \frac{c}{\sqrt{2}} < b$.
-  $\frac{c}{\sqrt{2}}$ is irrational so we are done.
+  $\frac{c}{\sqrt{2}} = c \frac{\sqrt{2}}{2}$ is irrational so we are done.
 \end{proof}
 \section{Sequences}
 \begin{definition}[Sequence]
@@ -380,21 +368,20 @@ For example, we would not want $0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \ldots
 
 It is also \textbf{not} enough just that the terms get ``arbitrarily'' close to $\ell$, in the sense that
 \[
-  \forall \varepsilon > 0, \exists n \in \N \text{ s.t. } \ell -\varepsilon < a_n < \ell + \varepsilon
+  \forall \varepsilon > 0,\ \exists n \in \N \text{ s.t. } \ell -\varepsilon < a_n < \ell + \varepsilon
 \]
 For example, $0, 10, \frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, 10, \frac{4}{5}, 10, \ldots$ satisfies the above but we would not want this to tend to 1.
 
 We want the sequence to both get \textbf{and} stay within $\varepsilon$ of $\ell$.
 \subsection{Convergence and Divergence}
 \begin{definition}[Convergence]
-  \label{convergenceDef}
-  We say that the sequence $a_1, a_2, \ldots$ \textit{tends} or \textit{converges} to the limit $\ell \in \R$ as $n$ tends to infinity if:
+  We say that the sequence $a_1, a_2, \ldots$ \textit{tends} or \textit{converges} to a limit $\ell \in \R$ as $n$ tends to infinity if: \label{convergenceDef}
   \[
-    \forall\varepsilon > 0, \exists N \in \N \text{ s.t. } \forall n \geq N, \ell - \varepsilon < a_n < \ell +\varepsilon
+    \forall\varepsilon > 0, \exists N \in \N \text{ s.t. } \ell - \varepsilon < a_n < \ell + \varepsilon\ \forall n \geq N
   \]
   or more compactly:
   \[
-    \forall \varepsilon > 0, \exists N \in \N \text{ s.t. } \forall n \geq N, |a_n - \ell| <\varepsilon
+    \forall \varepsilon > 0, \exists N \in \N \text{ s.t. } |a_n - \ell| < \varepsilon\ \forall n \geq N
   \]
 \end{definition}
 \begin{remark}[Notation]
@@ -409,25 +396,25 @@ We want the sequence to both get \textbf{and} stay within $\varepsilon$ of $\ell
 We think of $|a - b|$ as the ``distance'' between $a$ and $b$ on the real number line.
 The absolute value also satisfies the \textit{triangle inequality}:
 \[
-  \forall a, b, c \quad |a - c| \leq |a - b| + |b - c|
+  \quad |a - b| \leq |a| + |b|\ \forall a, b \in \R
 \]
 \begin{remark}
-  We will typically apply the triangle inequality when using the following trick:
+  We will quite often apply the triangle inequality along with the following trick:
   \[
     |a - c| = |a - b + b - c| \leq |a - b| + |b - c|
   \]
+  Geometrically, this is like saying the length of the direct path from $a$ to $c$ is less than or equal to the length of any other path via another point $b$ .
 \end{remark}
 \begin{remark}[Notation]
 When $(a_n)^{\infty}_{n = 1}$ tends to $\ell$ as $n$ tends to infinity, we write $a_n \to \ell$ as $n \to \infty$ or $\displaystyle\lim_{n \to \infty} a_n = \ell$.
 \end{remark}
-If there is a limit $\ell$ but it is not specified, then we simply say that the sequence \textit{converges}.
-If $(a_n)^{\infty}_{n = 1}$ does not converge, then we say it \textit{diverges}.
-Note that although this word suggests that the sequence shoots off to infinity if it diverges, that is not always the case.
-For example, a sequence diverges if it just oscillates between two values forever, see example \textbf{iv} below.
+If there is a limit $\ell$ but it is not specified, then we simply say that the sequence \textit{converges} and if $(a_n)^{\infty}_{n = 1}$ does not converge, then we say it \textit{diverges}.
+Note that although the word ``diverges'' may suggest that the sequence shoots off to infinity, however that is not always the case.
+For example, a sequence can also diverges if it just oscillates between two values forever, see example \textbf{iv} below.
 \begin{remark}
   For a sequence to not converge to $\ell$ the negation of \cref{convergenceDef} must be true:
   \[
-    \exists \varepsilon > 0 \text{ s.t. } \forall N \in \N, \exists n \geq N \text{ s.t. } |a_n - \ell| \geq \varepsilon
+    \exists \varepsilon > 0 \text{ s.t. } \forall N \in \N,\ \exists n \geq N \text{ s.t. } |a_n - \ell| \geq \varepsilon
   \]
   We then write $a_n \centernot \to \ell$
 \end{remark}
@@ -524,10 +511,10 @@ For example, a sequence diverges if it just oscillates between two values foreve
       To show that $a_n$ does not converge to any limit (i.e. it diverges), we argue by contradiction.
       Suppose $a_m \to \ell$ as $n \to \infty$ for some $\ell \in \R$.
       Let $\varepsilon = 1$, there must exist some $N \in \N$ such that for all $n \geq N$, $|a_n - \ell| < 1$.
-      In particular, $|1 - l| < 1$ and $|-1 - l| < 1$.
-      But then
+      In particular, $|1 - \ell| < 1$ and $|-1 - \ell| < 1$.
+      But then:
       \[
-        2 = |1 - (-1)| = |1 - l + l - (-1)| \leq |1 - l| + |-1 - l| < 2
+        2 = |1 - (-1)| = |1 - \ell + \ell - (-1)| \leq |1 - \ell| + |-1 - \ell| < 2
       \]
       which is a contradiction.
       Hence $((-1)^{n})^{\infty}_{n = 1}$ diverges.
@@ -535,7 +522,7 @@ For example, a sequence diverges if it just oscillates between two values foreve
 \end{example}
 \begin{remark}[Advice]
   It is difficult to just conjure up a bound on $N$ involving $\varepsilon$.
-  Instead, consider the distance between what you think is the limit and $a_n$ and use this to scope out a suitable bound.
+  Instead, consider the distance between what you think is the limit and the sequence terms $a_n$ and use this to scope out a suitable bound.
 \end{remark}
 We implicitly assumed that if a limit exists then it is unique, however, this can be proven to be true:
 \begin{proposition}
@@ -550,7 +537,7 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
   \[
     2\varepsilon = |\ell - k| = |\ell - a_n + a_n - k| \leq |\ell - a_n| + |a_n - k| < 2\varepsilon
   \]
-  which is a contradiction.
+  which is a contradiction since such an $n$ will always exist by \cref{axiomArchimedes}.
 \end{proof}
 \subsection{Boundedness}
 \begin{definition}[Bounded Sequence]
@@ -571,31 +558,29 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
 \begin{definition}[Monotonic]
   A sequence $(a_n)^{\infty}_{n = 1}$ is \textit{monotonic} if it is either increasing or decreasing.
 
-  It is \textit{increasing} if $a_{n + 1} \geq a_n\ \forall n \in \N$ and it is \textit{decreasing} if $a_{n + 1} \leq a_n\ \forall \in \N$.
+  It is \textit{increasing} if $a_{n + 1} \geq a_n\ \forall n \in \N$ and it is \textit{decreasing} if $a_{n + 1} \leq a_n\ \forall n \in \N$.
 \end{definition}
 \begin{theorem}[Monotone Convergence Theorem]
-  \label{MCT}
-  Every bounded monotonic sequence of real numbers converges.
+  Every bounded monotonic sequence of real numbers converges. \label{MCT}
 \end{theorem}
 \begin{proof}
-  Suppose $(a_n)$ is increasing.
-  Then the set $\{a_n: n \geq 1\}$ is a non-empty set which is bounded above as $(a_n)$ is bounded.
+  Suppose $(a_n)$ is increasing as if $(a_n)$ is decreasing we can apply the result to $(-a_n)$.
+  The set $\{a_n: n \geq 1\}$ is a non-empty set which is bounded above as $(a_n)$ is bounded.
   By the least upper bound axiom, it has a supremum, say $\ell$.
 
   Given $\varepsilon > 0$, $\ell - \varepsilon$ cannot be an upper bound for the set because $\ell$ is the least upper bound.
   Therefore $\exists N \in \N$ such that $a_N > \ell - \varepsilon$.
   Thus, since $(a_n)$ is monotonic $\ell - \varepsilon < a_n \leq \ell$ for $\forall n \geq N$.
   Hence $\forall n \geq N$, $|a_n -\ell| < \varepsilon$ so $a_n \to \ell$.
-
-  The decreasing case is the same but instead considering $(-a_n)$.
 \end{proof}
 \begin{remark}
   \begin{enumerate}
-    \item Note that for an increasing sequence to converge, we only required that it is \textit{bounded above} and similarly for decreasing sequences, we only required that it is \textit{bounded below}.
-    \item The bounded condition is important. For example, the sequence $(a_n)^{\infty}_{n=1}$ with $a_n = n$ is increasing but not bounded and certainly diverges.
+    \item To conclude that an increasing sequence to converges, we only required that it was \textit{bounded above} and similarly for decreasing sequences we only required that it was \textit{bounded below}.
+    \item The bounded condition is important. For example, the sequence $(a_n)^{\infty}_{n=1}$ with $a_n = n$ is increasing but not bounded above and certainly diverges.
     \item Increasing sequences converge if and only if they are bounded above.
     \item Monotone Convergence Theorem is in fact equivalent to the least upper bound axiom.
-    \item You can in fact show that every sequence has a monotonic subsequence, see Analysis 1.
+    \item You can in fact show that every sequence has a monotonic subsequence and so if it is also bounded, it must have a convergent subsequence.
+      See Analysis I Example Sheet 1 Q5.
     \item This does not work over the rational numbers.
       For example, consider the sequence:
       \[
@@ -611,22 +596,22 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
 \begin{proof}
   Suppose, for contradiction, that $c > d$.
   Let $\varepsilon = c - d > 0$.
-  Then $\exists N \in \N$ such that $\forall n \geq N$, $|a_n - c| < \varepsilon$.
-  So $|a_n - c| < c - d$.
-  Since $a_n \leq d < c$, we have $a_n < c$ so $|a_n - c| = c - a_n$.
-  But then we have $c - a_n < c - d \implies a_n > d$ which is a contradiction.
-  So we must have $c \leq d$.
+  We then have that $\exists N \in \N$ such that $\forall n \geq N$, $|a_n - c| < \varepsilon$, i.e.:
+  \[
+    |a_n - c| < c - d \iff d - c < a_n - c < c - d \implies a_n > d\ \forall n \geq N
+  \]
+  which is a contradiction and so we must have $c \leq d$.
 \end{proof}
 \begin{remark}[Warning]
-  If $a_n < d$ $\forall n \in \N$ and $a_n \to c$ as $n \to \infty$ then we need \textbf{not} have $c < d$.
+  If $a_n < d\ \forall n \in \N$ and $a_n \to c$ as $n \to \infty$ then we need \textbf{not} have $c < d$.
 
-  For example, $\frac{1}{2}, \frac{1}{2} + \frac{1}{4}, \frac{1}{2} + \frac{1}{4} + \frac{1}{8}, \ldots$, whilst each term is less than 1, $\lim_{n \to \infty} a_n = 1$.
+  For example, each term in the sequence $\frac{1}{2}, \frac{1}{2} + \frac{1}{4}, \frac{1}{2} + \frac{1}{4} + \frac{1}{8}, \ldots$ is strictly less than 1 but $\lim_{n \to \infty} a_n = 1 \centernot< 1$.
 \end{remark}
 \begin{proposition}
   If $a_n \to c$ as $n \to \infty$ and $b_n \to d$ as $n \to \infty$, then $a_n + b_n \to c + d$ as $n \to \infty$
 \end{proposition}
 \begin{proof}
-  Given $\varepsilon > 0$, $\exists N \in \N$ such that $\forall n \geq N, |a_n - c| < \frac{\varepsilon}{2}$, and $\exists M \in \N$ such that $\forall n \geq M, |b_n - d| < \frac{\varepsilon}{2}$.
+  Given $\varepsilon > 0$, $\exists N \in \N$ such that $|a_n - c| < \frac{\varepsilon}{2}\ \forall n \geq N$, and $\exists M \in \N$ such that $|b_n - d| < \frac{\varepsilon}{2}\ \forall n \geq M$.
 
   If we choose $N' = \max\{N, M\}$, then $\forall n \geq N'$:
   \[
@@ -636,7 +621,7 @@ We implicitly assumed that if a limit exists then it is unique, however, this ca
 \end{proof}
 \begin{remark}[Note]
   When doing a proof like this, it is \textbf{not} imperative that you end up with just $< \varepsilon$ at the end.
-  In the above proof it would be fine to have ended up with $2\varepsilon$ as we could just make the original $\varepsilon$ smaller.
+  In the above proof it would be fine to have ended up with $< 2\varepsilon$ as we could just make the original $\varepsilon$ smaller.
 \end{remark}
 \section{Series}
 In the reals, the sum of two numbers is defined, so by induction, all finite sums are defined.
@@ -647,14 +632,14 @@ Nevertheless, for example, we know that:
 \]
 \subsection{Partial Sums}
 \begin{definition}[Partial Sum]
-Let $(a_n)$ be a sequence, then for any finite $k$
+Let $(a_n)_{n = 1}^\infty$ be a sequence, then for any $k \in \N$ the finite sum:
 \[
   s_k = \sum_{n = 1}^{k} a_n
 \]
 is the \textit{$k$-th partial sum} of the \textit{series} whose $n$-th term is $a_n$.
 \end{definition}
 \begin{definition}[Series]
-A \textit{series} is an infinite sum of terms of a sequence. Its value can be thought of as the limit of the partial sum $s_k$ as $k \to \infty$.
+A \textit{series} is an infinite sum of terms of a sequence. Its value can be thought of as the limit of its partial sums $s_k$ as $k \to \infty$.
 
 We write:
 \[
@@ -687,7 +672,7 @@ if the limit exists.
       \[
         s_{2^{k}} \geq 1 + \frac{k}{2}
       \]
-      So the partial sums are increasing and unbounded, so $\sum_{n=1}^{\infty} \frac{1}{n}$ diverges.
+      So a subsequence of the partial sums are increasing and unbounded, and so $\sum_{n=1}^{\infty} \frac{1}{n}$ diverges.
     \item Consider the series whose $n$-th term is $a_n = \frac{1}{n^2}$.
       \[
         s_{(2^{k} - 1)} = 1 + \underbrace{\frac{1}{2^{2}} + \frac{1}{3^{2}}}_{\leq 2 \cdot \frac{1}{2^{2}}} + \underbrace{\frac{1}{4^{2}} + \frac{1}{5^{2}} + \frac{1}{6^{2}} + \frac{1}{7^{2}}}_{\leq 4\cdot \frac{1}{4^{2}}} + \cdots + \frac{1}{(2^{k} - 1)^2}
@@ -704,16 +689,16 @@ if the limit exists.
       \[
         \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots = \frac{1/2}{1 - 1/2} = 1
       \]
-      So $s_{(2^{k} - 1)} < 2$.
+      So $s_{(2^{k} - 1)} < 2\ \forall k \in \N$.
 
-      Since the partial sums are bounded above and increasing, by the Monotone Convergence Theorem (\cref{MCT}), they converge as $n \to \infty$.
-      Therefore, the series converges.
+      Since  $a_n > 0\ \forall n \in \N$, the partial sums are an increasing sequence and so we must have $s_k < 2\ \forall k \in \N$.
+      Thus the partial sums are bounded above and increasing so by the Monotone Convergence Theorem (\cref{MCT}), they converge as $n \to \infty$, i.e. the series converges.
       In fact, it can be shown that it converges to $\frac{\pi^2}{6}$.
   \end{enumerate}
 \end{example}
 \subsection{Decimal Expansions}
-Let $(d_n)$ be a sequence with $d_n \in \{0, 1, \ldots, 9\}$.
-Then $\sum_{n = 1}^{\infty} \frac{d_n}{10^{n}}$ converges to some limit $x$ where $0 \leq x \leq 1$, because the partial sums
+Let $(d_n)$ be a sequence with $d_n \in \{0, 1, \ldots, 9\}\ \forall n \in \N$.
+We can show that $\sum_{n = 1}^{\infty} \frac{d_n}{10^{n}}$ converges to some limit $x$ where $0 \leq x \leq 1$, because the partial sums
 \[
   s_m = \sum_{n=1}^{m} \frac{d_n}{10^{n}}
 \]
@@ -725,7 +710,7 @@ so converge.
 
 We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
 \begin{proposition}
-  Every $x \in \R$, $0 \leq x < 1$ has a decimal expansion
+  Every $x \in \R$ such that $0 \leq x < 1$ has a decimal expansion.
 \end{proposition}
 \begin{proof}
   Pick $d_1$ to be the maximal integer such that $\frac{d_1}{10} \leq x < 1$.
@@ -752,7 +737,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
   \[
     x = \sum_{j=1}^{\infty} \frac{d_j}{10^{j}}= 0.d_1d_2d_3\ldots
   \]
-  where $d_j \in \{0, 1, \ldots, 9\}$.
+  where $d_j \in \{0, 1, \ldots, 9\}\ \forall j \in \N$.
 \end{proof}
 \begin{proposition}
   Decimal expansions need not be unique.
@@ -816,7 +801,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
                    &= 147 \sum_{j = 1}^{\infty} \frac{1}{10^{3j}} \\
                    &= 147 \cdot \frac{1}{10^{3}} \cdot \frac{1}{1-1/10^{3}}
   \end{align*}
-  We can conclude from this that $x \in \Q$.
+  Thus, by rearranging for $x$, we can conclude that $x \in \Q$.
 \end{example}
 \begin{proposition}
   The decimal expansion of a number $x$ is periodic if and only if $x \in \Q$
@@ -862,8 +847,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
     \]
     For this to be periodic, we need to ensure that $kc$ has $\varphi(q)$ or less digits, that is $0 \leq kc < 10^{\varphi(q)}$.
     This is always satisfied since $0 \leq kc < kq < 10^{\varphi(q)}$.
-    Therefore we can write $kc$ as a $\varphi(q)$-digit number $d_1d_2\ldots d_{\varphi(q)}$.
-    Then:
+    Therefore we can write $kc$ as a $\varphi(q)$-digit number $d_1d_2\ldots d_{\varphi(q)}$ and so:
     \[
       \frac{c}{q} = 0.d_1d_2\ldots d_{\varphi(q)}d_1d_2\ldots d_{\varphi(q)}\ldots
     \]
@@ -871,7 +855,7 @@ We say that $0.d_1d_2d_3\ldots$ is the \textit{decimal expansion} of $x$.
     \[
       x = \frac{1}{10^{\max\{a, b\}}}\left(n + \frac{c}{q}\right)
     \]
-    where $N \in \Z$ and $\frac{c}{q}$ has a periodic decimal expansion.
+    where $n \in \Z$ and $\frac{c}{q}$ has a periodic decimal expansion.
     Thus, $x$ has a periodic decimal expansion.
   \end{proofdirection}
 \end{proof}
@@ -901,7 +885,7 @@ If we define $0! = 1$, then we can more compactly write:
 
   However:
   \begin{align*}
-    q!e &= \underbrace{q! + \frac{q!}{1!} + \frac{q!}{2!} + \frac{q!}{3!} + \cdots + \frac{q!}{q!}}_{N \in \N} + \underbrace{\frac{q!}{(q + 1)!} + \frac{q!}{(q+ 2)!} + \cdots }_{x}\\
+    q!e &= \underbrace{q! + \frac{q!}{1!} + \frac{q!}{2!} + \frac{q!}{3!} + \cdots + \frac{q!}{q!}}_{= N \in \N} + \underbrace{\frac{q!}{(q + 1)!} + \frac{q!}{(q+ 2)!} + \cdots }_{= x} \\
         &= N + x
   \end{align*}
   for some $N \in \N$ and $x \in \R$ where:
@@ -911,7 +895,7 @@ If we define $0! = 1$, then we can more compactly write:
       &\leq \frac{1}{q + 1} + \frac{1}{(q + 1)^2} + \frac{1}{(q + 1)^3} + \cdots \\
       &= \frac{1}{q} < 1 \text{ as $q > 1$}
   \end{align*}
-  Hence $0 < x < 1$, which contradicts the fact that $N + x = q!e \in \N$, so $e \notin \Q$.
+  Hence $0 < x < 1$, which contradicts the fact that $q!e = N + x \in \N$, so $e \notin \Q$.
 \end{proof}
 \section{Algebraic and Transcendental Numbers}
 We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but we will now cover them in further depth.
@@ -923,10 +907,11 @@ We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but 
 \end{remark}
 \begin{example}
   \begin{enumerate}
-    \item Every rational number is algebraic.
+    \item Every rational number is algebraic since:
       \[
         x = \frac{p}{q} \text{ is a root of }qx - p = 0
       \]
+      which is a non-zero polynomial as $q \neq 0$.
     \item $\sqrt{2}$ is algebraic as it satisfies $x^2 - 2= 0$.
   \end{enumerate}
 \end{example}
@@ -934,8 +919,7 @@ We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but 
   A real number is \textit{transcendental} if it is \textbf{not} algebraic.
 \end{definition}
 \begin{theorem}[Liouville -- 1844]
-  \label{LNumber}
-  The number, \textit{Liouville's Constant}, defined by:
+  The number, \textit{Liouville's Constant}, defined by: \label{LNumber}
   \[
     L = \sum_{n=1}^{\infty} \frac{1}{10^{n!}}
   \]
@@ -943,8 +927,7 @@ We saw algebraic and transcendental numbers briefly in \cref{numberSystems} but 
 \end{theorem}
 To prove this, we will first need two facts about polynomials.
 \begin{lemma}
-  \label{fact1}
-  For any polynomial $p(x)$, there exists a constant $K$ such that $|p(x) - p(y)| \leq K|x - y|$ for all $0 \leq x, y \leq 1$.
+  For any polynomial $p(x)$, there exists a constant $K$ such that $|p(x) - p(y)| \leq K|x - y|$ for all $0 \leq x, y \leq 1$. \label{fact1}
 \end{lemma}
 \begin{proof}
   Indeed, suppose:
@@ -969,17 +952,16 @@ To prove this, we will first need two facts about polynomials.
   \]
   Thus:
   \[
-    |p(x) - p(y)| \leq |x - y|\underbrace{[|a_d|\cdot d + |a_{d - 1}| \cdot d + \cdots |a_1| \cdot d]}_{K}
+    |p(x) - p(y)| \leq |x - y|\underbrace{[|a_d|\cdot d + |a_{d - 1}| \cdot d + \cdots |a_1| \cdot d]}_{= K}
   \]
 \end{proof}
 \begin{lemma}
-  \label{fact2}
-  A non-zero polynomial of degree $d$ has at most $d$ real roots.
+  A non-zero polynomial of degree $d \in \N$ has at most $d$ real roots. \label{fact2}
 \end{lemma}
 \begin{proof}
   \induction
   {$d = 1$}{
-    A first degree polynomial is of the form $ax + b = 0$, which has exactly one real root, namely, $x = -\frac{b}{a}$.
+    A first degree polynomial is of the form $ax + b = 0$ with $a \neq 0$, which has exactly one real root, namely, $x = -\frac{b}{a}$.
   }
   {$d = k - 1$}{}
   {$d = k$}{
@@ -997,7 +979,7 @@ To prove this, we will first need two facts about polynomials.
 \end{proof}
 We can now complete the proof of the transcendence of Liouville's constant:
 \begin{proof}[\cref{LNumber}]
-  Write the partial sums of $L$ as:
+  Denote the partial sums of $L$ as:
   \[
     L_n = \sum_{k = 1}^{n} \frac{1}{10^{k!}}
   \]
@@ -1020,16 +1002,16 @@ where the second inequality is due to the rapid decay of $\frac{1}{10^{k!}}$.
   \]
   with $a_i \in \Z$ and $a_d \neq 0$.
 
-  Notice that:
+  Notice that by bringing all of the fractions in the partial sum to a common denominator we can write:
   \[
     L_n = \frac{s}{10^{n!}}
   \]
-  for some $s \in \N$, by bringing all of the fractions in the partial sum to a common denominator.
-  So:
+  for some $s \in \N$.
+  Similarly, by bring all the terms in $p(L_n)$ to a common denominator we can write:
   \[
     p(L_n) = \frac{t}{10^{d \cdot n!}}
   \]
-  for some $t \in \Z$ by bring all the terms in $p(L_n)$ to a common denominator.
+  for some $t \in \Z$.
   By \cref{fact2}, for sufficiently large $n$, some $L_n$ must not be a root of $p$ so we have some $p(L_n) \neq 0$ and therefore $t\neq0$.
 
   Hence:
@@ -1071,7 +1053,8 @@ We will instead define an $x$ satisfying $x^2 + 1 = 0$ ``into existence''.
 We can view $\R$ as contained in $\C$ by identifying $a \in \R$ with $(a, 0) \in \C$.
 Note that $(a, 0) + (b, 0) = (a + b, 0)$ and similarly $(a, 0) \times (b, 0) = (ab, 0)$, so the usual definitions of arithmetic in $\R$ have been ``built in'' to this definition.
 
-Now let $i = (0, 1)$. Then $i^2 = (-1, 0)$, corresponding to $-1 \in \R$, so $i^2 + 1 = 0$ which is what we wanted to construct.
+Now let $i = (0, 1)$.
+We then have $i^2 = (-1, 0)$ which corresponds to $-1 \in \R$, so $i^2 + 1 = 0$ which is what we wanted to construct.
 
 Note that every $z \in \C$ is of the form $a + ib$ with $a, b \in \R$ by writing:
 \[
@@ -1082,13 +1065,13 @@ Note that every $z \in \C$ is of the form $a + ib$ with $a, b \in \R$ by writing
     \item $\C$ obeys all the usual rules of arithmetic, that is, it satisfies axioms \textbf{i}, \textbf{ii}, and \textbf{iii} in \cref{realDef}.
 
       However, multiplicative inverses are a little more tricky than in $\R$.
-      If $z \in \C$, $z \neq 0$, then there exists $w \in \C$ such that $zw = 1$.
+      If $z \in \C \setminus \{0\}$, then there exists $w \in \C$ such that $zw = 1$.
 
       Indeed, given $z = a + ib$, note that:
       \[
         (a + ib) \times (a - ib) = a^2 + b^2
       \]
-      so, since $z \neq 0$, $a^2 + b^2 \neq 0$, thus:
+      so, since $z \neq 0 \implies a^2 + b^2 \neq 0$, thus:
       \[
         (a + ib) \times \frac{a - ib}{a^2 + b^2} = 1
       \]
