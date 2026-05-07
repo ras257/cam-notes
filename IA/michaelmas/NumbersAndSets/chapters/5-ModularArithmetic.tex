@@ -190,8 +190,8 @@ The Chinese Remainder Theorem can help us solve simultaneous congruences.
 \begin{proof}
   \begin{itemize}
     \item \textbf{Existence}
-      Since $\hcf(m, n) = 1$, there exists $s, t \in \Z$ such that $sm + tn = 1$.
-      Now, notice that that $sm \equiv 1 \pmod{n}$ and $tn \equiv 1 \pmod{m}$.
+      Since $\hcf(m, n) = 1$, $m$ is a unit mod $n$ and $n$ is a unit mod $m$.
+      Thus there exists $s, t \in \Z$ such that $sm \equiv 1 \pmod{n}$ and $tn \equiv 1 \pmod{m}$.
       Trivially, we also have $sm \equiv 0 \pmod{m}$ and $tn \equiv 0 \pmod{n}$.
       Hence we can construct a solution $x$:
       \[
@@ -206,7 +206,7 @@ The Chinese Remainder Theorem can help us solve simultaneous congruences.
         &y \equiv a \pmod{m} \text{ and } y \equiv b \pmod{n} \\
         \iff& y \equiv x \pmod{m} \text{ and } y\equiv x \pmod{n} \\
         \iff& m \mid y - x \text{ and } n \mid y - x \\
-        \iff& mn \mid y - x \text{ as $\hcf(m, n) = 1$} \\
+        \iff& \lcm(m, n) = mn \mid y - x \text{ as $\hcf(m, n) = 1$} \\
         \iff& y \equiv x \pmod{mn}
       \end{align*}
   \end{itemize}
