@@ -48,4 +48,168 @@
     f^{*}(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
   \]
 \end{corollary}
+\begin{proof}
+  $f(\vec{x}) - \vec{p} \cdot \vec{x}$ is convex and so $\vec{p} \cdot \vec{x} - f(\vec{x})$ is concave so a stationary is a global maximum.
+  \[
+    \nabla(\vec{p}\cdot \vec{x} - f(\vec{x})) = \vec{p} - \nabla f(\vec{x}) = \vec{0} \iff \nabla f(\vec{x}) = \vec{p}
+  \]
+  Since this is a global maximum at the maximiser $\vec{x}(\vec{p})$:
+  \begin{align*}
+    f^{*}(\vec{p}) &= \sup_{\vec{x} \in D(f)} [\vec{p} \cdot \vec{x} - f(\vec{x})] \\
+                   &= \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
+  \end{align*}
+\end{proof}
+\begin{remark}
+  If $f$ is \textbf{strictly} convex then the solution to $\nabla f(\vec{x}) = \vec{p}$ is unique by considering the chord joining 2 maxima.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Consider $f(x) = \frac{1}{2}ax^2$.
+      For $a > 0$, this is strictly convex.
+      \[
+        \nabla f(x) = f'(x) = p \iff x = \frac{p}{a}
+      \]
+      So:
+      \[
+        f^{*}(p) = \frac{p^2}{a} - \frac{p^2}{2a} = \frac{p^2}{2a}
+      \]
+      with $D(f^{*}) = \R$.
+    \item Consider $f(v) = - \sqrt{1 - v^2}$ with $D(f) = (-1, 1)$ and $z = f(v)$.
+      \[
+        \nabla f(v) = f'(v) = \frac{v}{\sqrt{1 - v^2}} = p \iff v = \frac{p}{\sqrt{1 + p^2}}
+      \]
+      so:
+      \[
+        f^{*}(p) = \frac{p^2}{\sqrt{1 + p^2}} + \frac{1}{\sqrt{1 + p^2}} = \sqrt{1 + p^2}
+      \]
+      with $D(f^{*}) = \R$.
+      Note that $z = f^{*}(p)$ is a branch of a hyperbola.
+    \item Consider $f(x) = cx$ for $c > 0$ and $D(f) = \R$.
+      This is convex but \textbf{not} strictly convex.
+      \[
+        px - f(x) = (p - c)x
+      \]
+      The supremum of this only exists for $p = c$ and so $D(f^{*}) = \{c\}$ with $f^{*}(c) = 0$.
+  \end{enumerate}
+\end{example}
+\begin{theorem}
+  If $f$ is convex and twice continuously differentiable then $f^{**} = f$, i.e. the Legendre transform of the Legendre transform is just the function itself.
+\end{theorem}
+\begin{proof}
+  To determine $f^{**}$, we need to find $\vec{p}(\vec{x})$ obeying $\nabla f^{*}(\vec{p}(\vec{x})) = \vec{x}$.
+  \[
+    f^{*}(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
+  \]
+  To proceed, we want to be able to take grad of this.
+  Using the chain rule:
+  \begin{align*}
+    \pderiv{f^{*}}{p_i} &= x_i + p_j \pderiv{x_j}{p_i} - \at{\pderiv{f}{x_j}}{\vec{x} = \vec{x}(\vec{p})} \pderiv{x_j}{p_i} \\
+                        &= x_i + \pderiv{x_j}{p_i} \underbrace{\left(p_j - \at{\nabla_j f}{\vec{x} = \vec{x}(\vec{\vec{p}})}\right)}_{=0} \\
+                        &= x_i
+  \end{align*}
+  So $\nabla f^{*}(\vec{p}(\vec{x})) = \vec{x}(\vec{p})$, thus $\vec{x}(\vec{p}(\vec{x})) = \vec{x}$, i.e. $\vec{p}(\vec{x})$ is inverse of $\vec{x}(\vec{p})$.
+
+  Therefore we have:
+  \begin{align*}
+    f^{**}(\vec{x}) &= \vec{x} \cdot \vec{p}(\vec{x}) - f^{*}(\vec{p}(\vec{x})) \\
+                    &= \vec{x} \cdot \vec{p}(\vec{x}) - (\vec{p}(\vec{x}) \cdot \vec{x} - f(\vec{x}(\vec{p}(\vec{x})))) \\
+                    &= f(\vec{x})
+  \end{align*}
+\end{proof}
+\begin{remark}
+  Convexity of $f$ is necessary as $f^{**}$ is the Legendre transform of $f^{*}$ and therefore must be convex and so $f^{**} = f$ only makes sense if $f$ is convex.
+\end{remark}
+\begin{example}
+  Returning to $f(x) = cx$ for $c > 0$.
+  \[
+    f^{**}(x) = \sup_{p \in \{c\}} (xp - f^{*}(p)) = \sup_{p \in \{c\}} (xp) = cx = f(x)
+  \]
+  So we recover the original function.
+\end{example}
+\section{Application to Thermodynamics}
+Consider a physical system consisting of many molecules, for example, $\qty{e23}$ molecules.
+We also consider only \textit{macroscopic} dynamics, i.e. those which involve length scales much larger than the separation between the molecules.
+
+In \textit{thermal equilibrium}, macroscopic physics can be described by just a few quantities:
+\begin{itemize}
+  \item Total energy -- $E$
+  \item Volume -- $V$
+  \item Temperature -- $T$
+  \item Pressure -- $P$
+\end{itemize}
+We say a system is \textit{isolated} if it is not iterating with anything else, for example, a gas within a vacuum flask.
+In equilibrium, the macroscopic physics of such a system is fully specified by $E$ and $V$.
+This means that there must be an enormous number $\Omega(E, V)$ of \textit{microscopic} configurations that are identical from a macroscopic viewpoint. These numbers are often on the order of $\Omega \sim 10^{10^{23}}$.
+
+\begin{definition}
+  We define the \textit{entropy} as:
+  \[
+    S(E, V) = k_{B} \log \Omega(E, V)
+  \]
+  where $k_B \approx 1.38 \times 10^{-23}JK^{-1}$ is \textit{Boltzmann's constant}.
+\end{definition}
+If we increase $E$ at fixed $V$ then $S$ also increase as there are more ways to ``partition'' up the total energy between the molecules.
+Thus $S$ is strictly increasing with $E$ and so we can invert to find $E(S, V)$.
+\begin{definition}[Temperature and Pressure]
+  We define the \textit{temperature} as:
+  \[
+    T = \at{\pderiv{E}{S}}{V} > 0
+  \]
+  and \textit{pressure} as:
+  \[
+    P = -\at{\pderiv{E}{V}}{S}
+  \]
+\end{definition}
+\begin{remark}
+  We can equivalently rewrite this as:
+  \begin{equation}
+    \d{E} = T \d{S} - P \d{V} \label{thermoRelation}
+  \end{equation}
+  which is called the \textit{fundamental thermodynamic relation}.
+\end{remark}
+Suppose we forget about the definition of temperature.
+Consider the Legendre transform of $E(S, V)$ with respect to $S$ at some fixed $V$ with parameter $T$.
+Call this $-F$:
+\[
+  -F(T, V) = \sup_{S} [TS - E(S, V)]
+\]
+One can show that for a stable equilibrium, we can show that $E$ is a convex function with respect to $S$.
+This maximising this especially easy and the max is provided by $S(T, V)$ which satisfies $T = \at{\pderiv{E}{S}}{V}$ and:
+\[
+  F(T, V) = E - TS
+\]
+is called the \textit{Helmholtz free energy}.
+From \cref{thermoRelation}, we see that:
+\[
+  \d{F} = -S \d{T} - p \d{V} \implies S = - \at{\pderiv{F}{T}}{V} \text{ and } P = - \at{\pderiv{F}{V}}{T}
+\]
+The Helmholtz free energy is useful when considering a non-isolated system in equilibrium with an environment at a temperature $T$, for example a gas in an uninsulated box.
+
+We can instead take the Legendre transform of $E(S, V)$ with respect to $V$ keeping $S$ fixed with parameter $-P$.
+Call this $-H(S, P)$:
+\[
+  -H(S, P) = \sup_{V} [-PV - E(S, V)]
+\]
+Again, one can show that stability implies that $E$ must be convex with respect to $V$ and so we recover $P = - \at{\pderiv{E}{V}}{S}$ and:
+\[
+  H(S, P) = E + PV
+\]
+is called the \textit{enthalpy} of the system.
+From \cref{thermoRelation}, we then obtain:
+\[
+  \d{H} = T \d{S} + V \d{P} \implies T = \at{\pderiv{H}{S}}{P} \text{ and } V = \at{\pderiv{H}{P}}{S}
+\]
+
+Finally, we can take the Legendre transform of $E(S, V)$ with respect to both $S$ and $V$ with parameters $T, -P$, call this $-G(T, P)$.
+This is the same as doing the Legendre transform of $F$ with respect to $V$ or equivalently $H$ with respect to $S$.
+\[
+  -G(T, P) = \sup_{S, V} [TS - PV - E(S, V)]
+\]
+Once again, this is convex so the maximum so we can recover both the equation for temperature \textbf{and} pressure.
+$G(T, P)$ is called the \textit{Gibbs free energy}.
+Using \cref{thermoRelation} again:
+\[
+  \d{G} = - S \d{T} + V \d{P} \implies S = - \at{\pderiv{G}{T}}{P} \text{ and } V = \at{\pderiv{G}{P}}{T}
+\]
+The functions $E, F, G, H$ are known as \textit{thermodynamic potentials}.
 \end{document}

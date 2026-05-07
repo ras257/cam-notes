@@ -312,10 +312,108 @@ So we now know what step size we should take and what our stopping threshold sho
     1 - \frac{\alpha}{\beta} = 1 - \frac{1}{100} = 0.99
   \]
   $\beta = 100$ is quite large so we might want to rescale our axes so that it is not biased towards some direction.
+  That is, currently, the algorithm will take small steps in general so that it doesn't overshoot when moving in the $x_2$ direction, however this means that it is taking steps that are too small in the $x_1$ direction.
 \end{example}
 \section{Second Order Methods}
-To a second order approximation:
+Consider the second order Taylor approximation at $\vec{x}$:
 \[
-  f(\vec{y}) \approx f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2} (\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{x}) (\vec{y} - \vec{x})
+  f(\vec{y}) = f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2} (\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{x}) (\vec{y} - \vec{x})
 \]
+Suppose we change the update rule to the following:
+\[
+  \vec{x}_{t + 1} = \operatorname{argmin}_y [f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)]
+\]
+To find the argmin of this, since it is quadratic, we need only consider when grad with respect to $\vec{y}$ of the function is $\vec{0}$:
+\[
+  \nabla_{\vec{y}} (f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)) = \nabla f(\vec{x}_t) + \nabla^2f(\vec{x}_t) (\vec{y} - \vec{x}_t)
+\]
+Setting this to $\vec{0}$ gives:
+\[
+  \vec{y} = \vec{x}_t - (\nabla^2 f(\vec{x}_t))^{-1} \nabla f(\vec{x}_t)
+\]
+\subsection{Newton's Method}
+Newton's method uses the update rule from the above, that is:
+\[
+  \vec{x}_{t + 1} = \vec{x}_t - (\nabla^2 f(\vec{x}_t))^{-1} \nabla f(\vec{x}_t)
+\]
+In one-dimension, this is a root finding method for $f'(x)$.
+Suppose $f'(x) = g(x)$:
+\[
+  x_{t + 1} = x_t - \frac{g(x_t)}{g'(x_t)}
+\]
+Iterating this allows us to numerically find a root for $f'(x)$.
+\begin{definition}[Matrix Norm]
+  For $A \in \R^{n\times n}$, its \textit{norm} denoted $\norm{A}$ is the smallest $a > 0$ such that:
+  \[
+    \norm{A\vec{z}}_{2} \leq a \norm{\vec{z}}_{2}\ \forall \vec{z} \in \R^{n}
+  \]
+  where $\norm{\cdot}_2$ is the Euclidean norm.
+\end{definition}
+\begin{remark}
+  For positive semi-definite $A$, its norm is the largest eigenvalue.
+  Intuitively, the matrix norm upper bounds how much the matrix can ``stretch'' a vector in any direction.
+\end{remark}
+\begin{definition}[$\ell$-Lipschtiz Hessian]
+  The Hessian $\nabla^2 f(\vec{x})$ of a function $f(\vec{x})$ is \textit{$\ell$-Lipschitz} if:
+  \[
+    \norm{\nabla^2 f(\vec{x}) - \nabla^2 f(\vec{y})} \leq \ell \norm{\vec{x} - \vec{y}}_{2}
+  \]
+\end{definition}
+\begin{theorem}
+  if $f$ is a twice-differentiable $\alpha$-strongly convex function with $\ell$-Lipschitz Hessian, then Newton's method applied to $f$ satisfies:
+  \[
+    f(\vec{x}_k) - f(\vec{x}^{*}) \leq \frac{2\alpha^3}{\ell^2}\left(\frac{\ell}{2\alpha^2}\norm{\nabla f(\vec{x}_0)}_2\right)^{2^{k + 1}}
+  \]
+\end{theorem}
+\begin{proof}
+  Provided without proof.
+\end{proof}
+\begin{remark}
+  This only informs us about convergence if the bracketed term is less than 1, i.e. $\norm{\nabla f(\vec{x}_0)}_2 < \frac{2\alpha^2}{\ell}$.
+  That is, we need to start at a point $\vec{x}_0$ that is sufficiently good to guarantee convergence.
+  To achieve a sufficiently good starting point, we can sometimes use gradient descent and then switch to Newton's method.
+\end{remark}
+\subsection{Barrier Method}
+Suppose we want to solve:
+\begin{mini*}
+  {\vec{x} \in \R^{n}}{f(\vec{x})}{}{}
+  \addConstraint{\vec{a}_i^{\trans} \vec{x}}{\leq b_i \text{ for } i \in \{1, \ldots, m\}}
+\end{mini*}
+Here, instead of optimising on all of $\R^{n}$, these constraints bound us to a particular subset of $\R^{n}$.
+For example in $\R^2$, each of these constraints is a straight line.
+
+We can however modify the problem so that it we are in fact optimising over all $\R^{n}$:
+\begin{mini*}
+  {\vec{x} \in \R^{n}}{f(x) + \sum_{i = 1}^{m} \phi(\vec{a}_i^{\trans} \vec{x} - b_i)}{}{}
+\end{mini*}
+At first, we might try:
+\[
+  \phi(x) = \begin{cases}
+  x & \text{ if } x \leq 0 \\
+  + \infty & \text{ if } x > 0
+  \end{cases}
+\]
+but this would not stop Newton's method from potentially leaving the region.
+A common choice is instead the \textit{logarithmic barrier function} $\phi(x) = -\log(-x)$ as this shoots off to $\infty$ as $x \to 0^{-}$ but does so continuously and not as a jump.
+
+We also introduce a parameter $t > 0$ that allows us to shift the focus between our new problem, and the original problem of minimising $f(\vec{x})$, but now with the ``barrier'' around the feasible region:
+\begin{mini*}
+  {\vec{x} \in \R^{n}}{tf(\vec{x}) - \sum_{i = 1}^{m} \log(-(\vec{a}_i^{\trans} \vec{x} - b_i))}{}{}
+\end{mini*}
+As $t \to \infty$, the problem shifts back to minimising $f(\vec{x})$.
+This is the principle of the barrier method.
+\subsubsection{Steps for the Barrier Method}
+\begin{enumerate}
+  \item Find a strictly feasible $\vec{x}$ and set $t > 0$ and $\alpha > 1$.
+  \item Repeat the following:
+    \begin{enumerate}
+      \item Compute $\vec{x}^{*}(t)$ by minimising:
+        \[
+         tf(\vec{x}) - \sum_{i = 1}^{m} \log(-(\vec{a}_i^{\trans} \vec{x} - b_i))
+        \]
+        using Newton's method with $\vec{x}$ as the starting point.
+      \item Update $\vec{x} \mapsto \vec{x}^{*}(t)$ and $t \mapsto \alpha t$, i.e. take the new starting point to be the optimal solution for the current $t$ and then increase $t$ slightly.
+      \item Stop when $t$ is large enough.
+    \end{enumerate}
+\end{enumerate}
 \end{document}
