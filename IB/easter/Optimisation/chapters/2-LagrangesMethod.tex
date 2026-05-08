@@ -1,0 +1,157 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Lagrange's Method}
+\section{Setup}
+\begin{definition}[Lagrangian]
+  We define the \textit{Lagrangian} as:
+  \[
+    L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b})
+  \]
+  for some vector $\vec{\lambda} \in \R^{n}$
+\end{definition}
+Suppose that we start with the following problem for $f: \R^{n} \to \R^{n}$:
+\begin{mini*}
+  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+  \addConstraint{h(\vec{x})}{= \vec{b}}
+\end{mini*}
+where $\vec{\lambda}, \vec{b} \in \R^{m}$ and $h: \R^{n} \to \R^{m}$.
+We can instead try solving:
+\begin{mini*}
+  {\vec{x} \in \mathcal{X}}{L(\vec{x}, \vec{\lambda})}{}{}
+\end{mini*}
+\begin{theorem}[Lagrange Sufficiency Theorem]
+  Let $\vec{x}^{*} \in \mathcal{X}$ and $h(\vec{x}^{*}) = \vec{b}$.
+  If we can find $\vec{\lambda}^{*} \in \R^{m}$ such that:
+  \[
+    L(\vec{x}^{*}, \vec{\lambda}^{*}) = \min_{\vec{x} \in \mathcal{X}} L(\vec{x}, \vec{\lambda}^{*})
+  \]
+  Then $\vec{x}^{*}$ is an optimal solution of the original problem.
+\end{theorem}
+\begin{proof}
+  Suppose we are able to find $\vec{\lambda}^{*}$ as above.
+
+  Since $\vec{x}^{*} \in \mathcal{X}(\vec{b})$ we have that:
+  \[
+    \min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x}) \leq f(\vec{x}^{*})
+  \]
+
+  To prove the reverse inequality, since $h(\vec{x}) - \vec{b} = \vec{0}\ \forall \vec{x} \in \mathcal{X}(\vec{b})$, we can rewrite:
+  \begin{align*}
+    \min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x}) &= \min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x}) - \vec{\lambda}^{\trans} (h(\vec{x}) - \vec{b}) \\
+                                                       &\geq \min_{\vec{x} \in \mathcal{X}} \underbrace{f(\vec{x}) - {\vec{\lambda}^{*}}^{\trans} (h(\vec{x}) - \vec{b})}_{=L(\vec{x}, \vec{\lambda}^{*})} \\
+                                                       &= f(\vec{x}^{*}) - {\vec{\lambda}^{*}}^{\trans}(\underbrace{h(\vec{x}^{*}) - \vec{b}}_{= \vec{0}}) \\
+                                                       &= f(\vec{x}^{*})
+  \end{align*}
+\end{proof}
+\begin{example}
+  Consider the problem:
+  \begin{mini*}
+    {\vec{x}}{-x_1 - x_2 + x_3}{}{}
+    \addConstraint{x^2_1 + x^2_2}{= 4}
+    \addConstraint{x_1 + x_2 + x_3}{=1}
+  \end{mini*}
+  Construct the Lagrangian:
+  \begin{align*}
+    L(\vec{x}, \vec{\lambda}) &= L(x_1, x_2, x_3, \lambda_1, \lambda_2) \\
+                              &= - x_1 - x_2 + x_3 - \lambda_1 (x^2_1 + x^2_2 - 4) - \lambda_2 (x_1 + x_2 + x_3 - 1) \\
+                              &= [(-1-\lambda_2)x_1 -\lambda_1 x^2_1] + [(-1-\lambda_2)x_2 -\lambda_1 x^2_2] + [(1 - \lambda_2)x_3] + 4\lambda_1 + \lambda_2
+  \end{align*}
+  This is just a sum of quadratic and linear functions of $x_1, x_2, x_3$ and so is quite easy to minimise.
+  We try to solve:
+  \begin{mini*}
+    {\vec{x}}{L(\vec{x}, \vec{\lambda})}{}{}
+    \addConstraint{\text{No constraints}}{}
+  \end{mini*}
+  For this problem to make sense (i.e. to be able to find $\vec{x}$ which solve this), we must have $\lambda_2 = 1$ otherwise the function would be unbounded below as we take $x_3 \to -\infty$.
+  Then Lagrangian is then:
+  \[
+    L(\vec{x}, \vec{\lambda}) = (-2x_1 -\lambda_1 x^2_1) + (-2 x_2 - \lambda_1 x^2_2) + 4\lambda_1 + 1
+  \]
+  We also must have $\lambda_1 \leq 0$ otherwise again the function is unbounded below.
+  On minimising these quadratics, we obtain that:
+  \[
+    x_1 = - \frac{1}{\lambda_1} \text{ and } x_2 = - \frac{1}{\lambda_1}
+  \]
+  So we know that if we take:
+  \[
+    (\lambda_1, 1) \mapsto \left(-\frac{1}{\lambda_1}, - \frac{1}{\lambda_1}, x_3\right)
+  \]
+  for $\lambda_1 \leq 0$.
+  We now need to tweak $\lambda_1$ so that the point
+  \[
+    \left(-\frac{1}{\lambda_1}, - \frac{1}{\lambda_1}, x_3\right)
+  \]
+  becomes feasible.
+  That is, we need:
+  \[
+    \frac{1}{\lambda^2_1} + \frac{1}{\lambda^2_1} = 4 \text{ and } -\frac{1}{\lambda_1} - \frac{1}{\lambda_1} + x_3 = 1
+  \]
+  which is solved by $\lambda_1 = - \frac{1}{\sqrt{2}}$.
+  This gives:
+  \[
+    \vec{x}^{*} = (\sqrt{2}, \sqrt{2}, 1 - 2\sqrt{2}) \text{ and } \vec{\lambda}^{*} = \left(-\frac{1}{\sqrt{2}}, 1\right)
+  \]
+  So using Lagrange sufficiency we conclude that $\vec{x}^{*}$ solves the original problem.
+\end{example}
+\section{Algorithm For The Lagrange Method}
+Consider the problem:
+\begin{mini*}
+  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+  \addConstraint{h(\vec{x}) \leq \vec{b}}{}
+\end{mini*}
+\subsubsection{The Algorithm}
+\begin{enumerate}
+  \item Add slack variables to consider the new problem:
+    \begin{mini*}
+      {\vec{x} \in \mathcal{X},\ \vec{s} \geq \vec{0}}{f(\vec{x})}{}{}
+      \addConstraint{h(\vec{x}) + \vec{s} = \vec{b}}{}
+    \end{mini*}
+  \item Set up:
+    \[
+      L(\vec{x}, \vec{s}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) + \vec{s} - \vec{b})
+    \]
+  \item Then define the set $\Lambda$ as:
+    \[
+      \Lambda = \left\{\vec{\lambda} \in \R^{m}: \min_{\vec{x} \in \mathcal{X}(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda}) > -\infty\right\}
+    \]
+  \item Then for each $\vec{\lambda} \in \Lambda$ find $\vec{x}*(\vec{\lambda})$ and $s^{*}(\vec{\lambda})$ such that:
+    \[
+      L(\vec{x}^{*}(\vec{\lambda}),  \vec{s}^{*}(\vec{\lambda})) = \min_{\substack{\vec{x} \in \mathcal{X} \\ \vec{s} \geq 0}} L(\vec{x}, \vec{s}, \vec{\lambda})
+    \]
+  \item Find $\vec{\lambda}^{*}$ such that $(\vec{x}^{*}(\vec{\lambda}^{*}), \vec{s}^{*}(\vec{\lambda}^{*}))$ are feasible, that is $\vec{x}^{*}(\vec{\lambda}^{*}) \in \mathcal{X}$ satisfies $h(\vec{x}^{*}) + \vec{s}^{*} = \vec{b}$ and $\vec{s}^{*} \geq 0$.
+\end{enumerate}
+\subsubsection{Complimentary Slackness}
+Recall the Lagrangian from step \textbf{(ii)}:
+\[
+  L(\vec{x}, \vec{s}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b}) - \vec{\lambda}^{\trans} \vec{s}
+\]
+If a particular $\lambda_i < 0$, then we observe that the Lagrangian is minimised at $s_i = 0$.
+In effect, for each $i$, we must have $\lambda_i s_i = 0$ in the optimal solution.
+\begin{example}
+  Consider the problem:
+  \begin{mini*}
+    {\vec{x}}{x_1 - 3x_2}{}{}
+    \addConstraint{x^2_1 + x^2_2}{\leq 4}
+    \addConstraint{x_1 + x_2}{\leq 2}
+  \end{mini*}
+  We setup the Lagrangian as:
+  \begin{align*}
+    L(\vec{x}, \vec{s}, \vec{\lambda}) &= x_1 - 3x_2 - \lambda_1(x^2_1 + x^2_2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2) \\
+                                       &= [(1 - \lambda_2)x_1 - \lambda_1 x^2_1] + [(-3 - \lambda_2)x_2 - \lambda_1 x^2_2] - \lambda_1 s_1 - \lambda_2 s_2 + 4\lambda_1 + 2\lambda_2
+  \end{align*}
+  \begin{proofcases}
+    \begin{case}{$\lambda_1 < 0,\ \lambda_2 < 0$}
+      Complimentary slackness then tells us that $s_1 = s_2 = 0$ so after optimising using the derivative we obtain the system:
+      \begin{align*}
+        1 - 2\lambda_1 x_1 - \lambda_2 &= 0 \\
+        -3 -2 \lambda_1 x_2 - \lambda_2 &= 0 \\
+        x^2_1 + x^2_2 &= 4 \\
+        x_1 + x_2 &= 2 \\
+      \end{align*}
+    \end{case}
+    Firstly, from the last two equations we see that either $(x_1, x_2) = (0, 2)$ or $(x_1, x_2) = (2, 0)$.
+    In the case of $(x_1, x_2) = (0, 2)$, we must have $(\lambda_1, \lambda_2) = (1, -3)$ and in the case of $(x_1, x_2) = (2, 0)$, we must have $(\lambda_1, \lambda_2) = (-1, 1)$.
+    However this is inconsistent with $\lambda_1 < 0$ and $\lambda_2 < 0$ so this case cannot be consistent.
+  \end{proofcases}
+\end{example}
+\end{document}

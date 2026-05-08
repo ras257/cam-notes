@@ -212,4 +212,11 @@ Using \cref{thermoRelation} again:
   \d{G} = - S \d{T} + V \d{P} \implies S = - \at{\pderiv{G}{T}}{P} \text{ and } V = \at{\pderiv{G}{P}}{T}
 \]
 The functions $E, F, G, H$ are known as \textit{thermodynamic potentials}.
+
+Since partial derivatives commute, we know that:
+\[
+  \frac{\partial^2 E}{\partial S \partial V} = \frac{\partial^2 E}{\partial V \partial S} \implies -\at{\pderiv{P}{S}}{V} = \at{\pderiv{T}{V}}{S}
+\]
+We can also obtain similar relations by again considering the second derivatives of the other potentials.
+These are known together as \textit{Maxwell Relations}.
 \end{document}

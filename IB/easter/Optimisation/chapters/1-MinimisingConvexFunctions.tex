@@ -234,7 +234,7 @@ So if a function is both $\alpha$-strongly convex and $\beta$-smooth then:
   The left hand side is just $\min_{\vec{y} \in \R^{n}} f(\vec{y}) = f(\vec{x}^{*})$.
   For the right hand side:
   \[
-    \nabla_{\vec{y}} (f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y} - \vec{x}) + \frac{\alpha}{2}\norm{\vec{y} - \vec{x}}^2) = \nabla f(\vec{x}) + \alpha(\vec{y} - \vec{x})
+    \nabla_{\vec{y}} \left(f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y} - \vec{x}) + \frac{\alpha}{2}\norm{\vec{y} - \vec{x}}^2\right) = \nabla f(\vec{x}) + \alpha(\vec{y} - \vec{x})
   \]
   To minimise, we set this to $\vec{0}$ to give:
   \[
@@ -388,9 +388,9 @@ We can however modify the problem so that it we are in fact optimising over all 
 \end{mini*}
 At first, we might try:
 \[
-  \phi(x) = \begin{cases}
-  x & \text{ if } x \leq 0 \\
-  + \infty & \text{ if } x > 0
+  \phi(t) = \begin{cases}
+  t & \text{ if } t \leq 0 \\
+  + \infty & \text{ if } t > 0
   \end{cases}
 \]
 but this would not stop Newton's method from potentially leaving the region.
