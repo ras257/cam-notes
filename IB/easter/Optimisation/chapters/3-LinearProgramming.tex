@@ -1,0 +1,149 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Linear Programming}
+\section{Formulation}
+\begin{definition}[Linear Program]
+  A \textit{linear program} has general form:
+  \begin{mini*}
+    {\vec{x}}{\vec{c}^{\trans}\vec{x}}{}{\label{linearGeneral}}
+    \addConstraint{\vec{a}^{\trans}_i \vec{x}}{\geq b_i,\ i \in M_1}
+    \addConstraint{\vec{a}^{\trans}_i \vec{x}}{\leq b_i,\ i \in M_2}
+    \addConstraint{\vec{a}^{\trans}_i \vec{x}}{= b_i,\ i \in M_3}
+    \addConstraint{x_j}{\geq 0,\ j \in N_1}
+    \addConstraint{x_j}{\leq 0,\ j \in N_2}
+    \addConstraint{x_j}{\text{ free},\ j \in N_3}
+  \end{mini*}
+\end{definition}
+We can in fact write such constraints as a matrix: %TODO
+\[
+  A = \begin{pmatrix}
+  \leftarrow \vec{a}^{\trans}_1 \rightarrow \\
+  \leftarrow \vec{a}^{\trans}_2 \rightarrow \\
+  \cdots \\
+  \leftarrow \vec{a}^{\trans}_m \rightarrow
+  \end{pmatrix}
+\]
+\begin{theorem}
+  The dual of the problem \cref{linearGeneral} is given by:
+\end{theorem}
+\begin{proof}
+  Adding slack variables, we have:
+  \begin{align*}
+    L(\vec{x}, \vec{s}, \vec{\lambda}) &= \vec{c}^{\trans} \vec{x} - \sum_{i \in M_1} \lambda_i (\vec{a}^{\trans}_i \vec{x} - s_i - b_i) \\
+                     &+ \sum_{i \in M_2} \lambda_i(\vec{a}_i^{\trans} \vec{x} + s_i - b_i) - \sum_{i \in M_3} \lambda_i(\vec{a}^{\trans}_i \vec{x} - b_i) \\
+                     &= \sum_{j \in N_1} (c_j - \vec{\lambda}^{\trans} A_j)\vec{x}_j + \sum_{j \in N_2} (c_j - \vec{\lambda}^{\trans} A_j)\vec{x}_j + \sum_{j \in N_3} (c_j - \vec{\lambda}^{\trans} A_j)\vec{x}_j \\
+                     &+\sum_{i \in M_1} \lambda_i s_i - \sum_{i \in M_2} \lambda_i s_i + \sum_{i \in M_1 \cup M_2 \cup M_3} \lambda_i b_i
+  \end{align*}
+  where $A_i$ is the $i$-Th column of $A$.
+  Consider the set:
+  \[
+    \Lambda = \left\{\vec{\lambda}: \begin{cases}
+    \lambda_i \geq 0 & \text{ for } i \in M_1 \\
+    \lambda_i \leq 0 & \text{ for } i \in M_2 \\
+    \lambda_i \text{ free} & \text{ for } i \in M_3 \\
+    \vec{\lambda}^{\trans} A_j \leq c_j & \text{ for } j \in N_1 \\
+    \vec{\lambda}^{\trans} A_j \geq c_j & \text{ for } j \in N_2 \\
+    \vec{\lambda}^{\trans} A_j = c_j & \text{ for } j \in N_3
+    \end{cases}\right\}
+  \]
+  If $\vec{\lambda} \in \Lambda$, then:
+  \[
+    \min_{\vec{x}, \vec{s} \geq \vec{0}} L(\vec{x}, \vec{s}, \vec{\lambda}) = \vec{b}^{\trans} \vec{\lambda} = g(\vec{\lambda})
+  \]
+  So we see that the dual is also a linear program.
+\end{proof}
+\section{Optimality Conditions}
+\begin{theorem}
+  Let $\vec{x}$ and $\vec{\lambda}$ be feasible solutions to the primal program \cref{linearGeneral}  and its respective $\vec{\lambda}$.
+  We then have that these are optimal if and only if:
+  \[
+    \lambda_i (\vec{a}^{\trans}_i  \vec{x} - b_i) = 0\ \forall i \text{ and } (c_j - \vec{\lambda}^{\trans}A_j)x_j = 0\ \forall j
+  \]
+\end{theorem}
+\begin{proof}
+  Define $u_i = \lambda_i(\vec{a}^{\trans}_i \vec{x} - b_i)$ and $v_j = (c_j - \vec{\lambda}^{\trans} A_j)x_j$.
+  Since $\vec{x}$ and $\vec{\lambda}$ are primal and dual feasible respectively, we have that $u_i \geq 0\ \forall i$ and $v_j \geq 0\ \forall j$.
+
+  Taking the sum over all $i$ and $j$ respectively:
+  \begin{align*}
+    \sum_{i} u_i = \vec{\lambda}^{\trans} A \vec{x} - \vec{\lambda}^{\trans} \vec{b} \\
+    \sum_{i} v_i = \vec{c}^{\trans} \vec{x} - \vec{\lambda}^{\trans} A\vec{x}
+  \end{align*}
+  and so:
+  \[
+    \sum_{i} u_i + \sum_{j} v_j = \vec{c}^{\trans} \vec{x} - \vec{\lambda}^{\trans} \vec{b}
+  \]
+  By weak duality, we know that $\vec{c}^{\trans} \vec{x} \geq \vec{\lambda}^{\trans} \vec{b}$.
+  \begin{proofdirection}{Assume they are optimal}
+    So we then have that $\vec{c}^{\trans} \vec{x} = \vec{\lambda}^{\trans} \vec{b}$, we must then have $u_i = 0\ \forall i$ and $v_j = 0\ \forall j$ as this is a sum of non-negative numbers equal to $0$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the equality holds}
+    It then follows that $\vec{c}^{\trans} \vec{x} = \vec{\lambda}^{\trans} \vec{b}$ and so $\vec{x}$ and $\vec{\lambda}$ are optimal.
+  \end{proofdirection}
+\end{proof}
+\section{Standard Form for Linear Programs}
+Observe that we can always write any linear program as:
+\begin{mini*}
+  {\vec{x}}{\vec{c}T \vec{x}}{}{}
+  \addConstraint{A\vec{x}}{\leq \vec{b}}
+\end{mini*}
+This is the \textit{general form} for an LP.
+We say that an LP is in \textit{standard form} if it is in the form:
+\begin{mini*}
+  {\vec{x}}{\vec{c}^{\trans} \vec{x}}{}{}
+  \addConstraint{A\vec{x}}{= \vec{b}}
+  \addConstraint{\vec{x}}{\geq \vec{0}}
+\end{mini*}
+We then observe that any $x \in \R$ and be expressed as $x = x_{+} - x_{-}$ where $x_{+}, x_{-} \in \R^{+}$.
+This can be used to convert any general form problem to a standard form problem.
+
+Starting with:
+\begin{mini*}
+  {\vec{x}}{\vec{c}T \vec{x}}{}{}
+  \addConstraint{A\vec{x}}{\leq \vec{b}}
+\end{mini*}
+we first add slack variables:
+\begin{mini*}
+  {\vec{x}}{\vec{c}^{\trans} \vec{x}}{}{}
+  \addConstraint{A\vec{x} + \vec{s}}{= \vec{b}}
+  \addConstraint{\vec{s}}{\geq 0}
+\end{mini*}
+and can then use the trick:
+\begin{mini*}
+  {\vec{x}}{\vec{c}^{\trans}(\vec{x}_{+} - \vec{x}_{-})}{}{}
+  \addConstraint{A(\vec{x}_{+} - \vec{x}_{-}) + \vec{s}}{= \vec{b}}
+  \addConstraint{\vec{x}_{+}}{\geq 0}
+  \addConstraint{\vec{x}_{-}}{\geq 0}
+  \addConstraint{\vec{s}}{\geq 0}
+\end{mini*}
+which is now a standard form problem in $(\vec{x}_{+}, \vec{x}_{-}, \vec{s})$.
+\section{Solving Linear Programs}
+We first note that minimising $\vec{c}^{\trans} \vec{x}$ is equivalent to maximising $-\vec{c}^{\trans} \vec{x}$.
+But $-\vec{c}^{\trans} \vec{x}$ is a convex function, so we are essentially trying to maximise a convex function over some restricted region.
+\begin{definition}[Extreme Point]
+  Let $C \subseteq \R^{n}$ be a convex set.
+  A point $\vec{x} \in C$ is called an \textit{extreme point} if it cannot be written as a convex combination of two distinct points in $C$.
+
+  That is, for all $\vec{y}, \vec{z} \in \C$ and $\delta \in (0, 1)$:
+  \[
+    \vec{x} = \delta \vec{y} + (1 - \delta) \vec{z} \implies \vec{x} = \vec{y} = \vec{z}
+  \]
+\end{definition}
+\begin{remark}[Intuition]
+  A point is extreme if it does not lie on any line segment \textbf{contained within} $C$.
+
+  So if $C$ is a triangle, only its vertices are extreme points, and if $C$ is a circle, then only its boundary points are extreme points.
+\end{remark}
+\begin{lemma}
+  The max of a convex function $f$ on a convex set $C$ occurs at an extreme point of $C$.
+\end{lemma}
+\begin{proof}
+  Suppose $\vec{x}$ is not an extreme point.
+  Thus there is $\vec{y}, \vec{z} \in C$ and $\delta \in (0, 1)$ such that:
+  \[
+    f(\vec{x}) \leq \delta f(\vec{y}) + (1 - \delta)f(\vec{z}) \leq \max\{f(\vec{y}), f(\vec{z})\}
+  \]
+\end{proof}
+In a linear program, the constraint set is always a polytope.
+Such regions always have finitely many extreme points and so if we can find a list of these extreme points it becomes easier to maximise $-\vec{c}^{\trans} \vec{x}$.
+\end{document}

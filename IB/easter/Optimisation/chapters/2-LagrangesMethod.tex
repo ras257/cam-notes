@@ -5,8 +5,7 @@
 \begin{definition}[Lagrangian]
   We define the \textit{Lagrangian} as:
   \[
-    L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b})
-  \]
+    L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b}) \]
   for some vector $\vec{\lambda} \in \R^{n}$
 \end{definition}
 Suppose that we start with the following problem for $f: \R^{n} \to \R^{n}$:
@@ -110,15 +109,15 @@ Consider the problem:
     \[
       L(\vec{x}, \vec{s}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) + \vec{s} - \vec{b})
     \]
-  \item Then define the set $\Lambda$ as:
+  \item We also define the set $\Lambda$ as:
     \[
       \Lambda = \left\{\vec{\lambda} \in \R^{m}: \min_{\vec{x} \in \mathcal{X}(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda}) > -\infty\right\}
     \]
-  \item Then for each $\vec{\lambda} \in \Lambda$ find $\vec{x}*(\vec{\lambda})$ and $s^{*}(\vec{\lambda})$ such that:
+  \item For each $\vec{\lambda} \in \Lambda$, we can find $\vec{x}^{*}(\vec{\lambda})$ and $s^{*}(\vec{\lambda})$ such that:
     \[
       L(\vec{x}^{*}(\vec{\lambda}),  \vec{s}^{*}(\vec{\lambda})) = \min_{\substack{\vec{x} \in \mathcal{X} \\ \vec{s} \geq 0}} L(\vec{x}, \vec{s}, \vec{\lambda})
     \]
-  \item Find $\vec{\lambda}^{*}$ such that $(\vec{x}^{*}(\vec{\lambda}^{*}), \vec{s}^{*}(\vec{\lambda}^{*}))$ are feasible, that is $\vec{x}^{*}(\vec{\lambda}^{*}) \in \mathcal{X}$ satisfies $h(\vec{x}^{*}) + \vec{s}^{*} = \vec{b}$ and $\vec{s}^{*} \geq 0$.
+  \item If we can find $\vec{\lambda}^{*}$ such that $(\vec{x}^{*}(\vec{\lambda}^{*}), \vec{s}^{*}(\vec{\lambda}^{*}))$ is feasible, that is $\vec{x}^{*}(\vec{\lambda}^{*}) \in \mathcal{X}$ satisfies $h(\vec{x}^{*}) + \vec{s}^{*} = \vec{b}$ and $\vec{s}^{*} \geq 0$, then $\vec{x}^{*}(\vec{\lambda}^{*})$ is optimal.
 \end{enumerate}
 \subsubsection{Complimentary Slackness}
 Recall the Lagrangian from step \textbf{(ii)}:
@@ -148,10 +147,165 @@ In effect, for each $i$, we must have $\lambda_i s_i = 0$ in the optimal solutio
         x^2_1 + x^2_2 &= 4 \\
         x_1 + x_2 &= 2 \\
       \end{align*}
+      Firstly, from the last two equations we see that either $(x_1, x_2) = (0, 2)$ or $(x_1, x_2) = (2, 0)$.
+      In the case of $(x_1, x_2) = (0, 2)$, we must have $(\lambda_1, \lambda_2) = (1, -3)$ and in the case of $(x_1, x_2) = (2, 0)$, we must have $(\lambda_1, \lambda_2) = (-1, 1)$.
+      However this is inconsistent with $\lambda_1 < 0$ and $\lambda_2 < 0$ so this case cannot be consistent.
     \end{case}
-    Firstly, from the last two equations we see that either $(x_1, x_2) = (0, 2)$ or $(x_1, x_2) = (2, 0)$.
-    In the case of $(x_1, x_2) = (0, 2)$, we must have $(\lambda_1, \lambda_2) = (1, -3)$ and in the case of $(x_1, x_2) = (2, 0)$, we must have $(\lambda_1, \lambda_2) = (-1, 1)$.
-    However this is inconsistent with $\lambda_1 < 0$ and $\lambda_2 < 0$ so this case cannot be consistent.
   \end{proofcases}
+  We have $2^{2}$ cases we can check as for each of $\lambda_i$ we pick either $\lambda_i = 0$ or $\lambda_i > 0$.
+  As soon as we find a case which works, we can stop.
+  If you never find a case which works, then the Lagrange method simply does not work, even if the problem is well formed.
 \end{example}
+\section{Duality}
+Consider the \textit{primal} problem:
+\begin{mini*}
+  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+  \addConstraint{h(\vec{x})}{= \vec{b}}
+\end{mini*}
+We can construct a \textit{dual} problem from this.
+\begin{definition}[Dual Objective Function]
+  The \textit{dual objective function}, $g: \Lambda \to \R$ is defined as:
+  \[
+    g(\vec{\lambda}) = \min_{\vec{x} \in \mathcal{X}} L(\vec{x}, \vec{\lambda})
+  \]
+  for $\Lambda = \{\vec{\lambda}: \min_{\vec{x} \in \mathcal{X}} L(\vec{x}, \vec{\lambda}) > -\infty\}$.
+\end{definition}
+\begin{definition}[Dual Problem]
+  The \textit{dual problem} is:
+  \begin{maxi*}
+    {\vec{\lambda} \in \Lambda}{g(\vec{\lambda})}{}{}
+  \end{maxi*}
+\end{definition}
+For every fixed $\vec{x}$, the Lagrangian is linear in $\vec{\lambda}$:
+\[
+  L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b})
+\]
+We can show that the minimum of linear functions is concave and so $g(\vec{\lambda})$ is concave.
+Thus we can maximise $g(\vec{\lambda})$ using gradient descent, Newton's method, or any other method for maximising concave functions.
+\begin{theorem}[Weak Duality]
+  If $\vec{x} \in \mathcal{X}(\vec{b})$ and $\vec{\lambda} \in \Lambda$, then $f(\vec{x}) \geq g(\vec{\lambda})$ and so in particular:
+  \[
+    \min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x}) \geq \max_{\vec{\lambda} \in \Lambda} g(\vec{\lambda})
+  \]
+  Importantly, solving the dual problem gives us a \textbf{lower bound} for the minimum of $f(\vec{x})$.
+\end{theorem}
+\begin{proof}
+  For any $\vec{\lambda} \in \Lambda$ and $\vec{x} \in \mathcal{X}(\vec{b})$:
+  \begin{align*}
+    f(\vec{x}) &\geq \min_{\vec{x} \in \mathcal{X}(\vec{b})} (\vec{x}) \\
+               &= \min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b}) \\
+               &\geq \min_{\vec{x} \in \mathcal{X}} f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b}) \\
+               &= \min_{\vec{x} \in \mathcal{X}} L(\vec{x}, \vec{\lambda}) \\
+               &= g(\vec{\lambda})
+  \end{align*}
+\end{proof}
+\begin{definition}[Strong Duality]
+  The gap between $\min_{\vec{x} \in \mathcal{X}(\vec{b})} f(\vec{x})$ and $\max_{\vec{\lambda} \in \Lambda} g(\vec{\lambda})$ is called the \textit{duality gap}.
+  If the duality gap is 0, then we say that \textit{strong duality} holds.
+\end{definition}
+\begin{theorem}
+  The Lagrange method works if and only if strong duality holds.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Suppose the Lagrange method works}
+    This means that we have $(\vec{x}^{*}, \vec{\lambda}^{*})$ such that $\argmin_{\vec{\lambda}} (\vec{x}, \vec{\lambda}^{*}) = \vec{x}^{*}$ and $h(\vec{x}^{*}) = \vec{b}$.
+    \begin{align*}
+      g(\vec{\lambda}^{*}) &= \min_{\vec{x} \in \mathcal{X}}  f(\vec{x}) - {\vec{\lambda}^{*}}^{\trans} (h(\vec{x}) - \vec{b}) \\
+                           &= f(\vec{x}^{*}) - {\vec{\lambda}^{*}}^{\trans}(\underbrace{h(\vec{x}^{*}) - \vec{b}}_{\vec{0}}) \\
+                           &= f(\vec{x}^{*})
+    \end{align*}
+    and so strong duality holds.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose strong duality holds}
+    So $\exists \vec{x} \in \mathcal{X}(\vec{b})$, $\vec{\lambda} \in \Lambda$ such that $f(\vec{x}) = g(\vec{\lambda})$.
+    Then the Lagrange method works using this $\vec{\lambda}$.
+  \end{proofdirection}
+\end{proof}
+\begin{definition}[Supporting Hyperplane]
+  A function $\phi: \R^{m} \to \R$ is said to have a \textit{supporting hyperplane} at a point $\vec{b} \in \R^{m}$ if there exists $\vec{\lambda}$ such that for all $\vec{c} \in \R^{m}$:
+  \[
+    \phi(\vec{x}) \geq \phi(\vec{b}) + \vec{\lambda}^{\trans}(\vec{c} - \vec{b})
+  \]
+\end{definition}
+\begin{remark}
+  \begin{itemize}
+    \item Saying there is a supporting hyperplane is the same as saying that there exists a tangent at that point which lies below the curve.
+  \end{itemize}
+\end{remark}
+\begin{definition}[Value Function]
+  Define the \textit{value function} $\phi: \R^{m} \to \R$ as:
+  \[
+    \phi(\vec{c}) = \min_{\vec{x} \in \mathcal{X}(\vec{c})} f(\vec{x})
+  \]
+  where $\mathcal{X}(\vec{c}) = \{\vec{x} \in \mathcal{X}: h(\vec{x}) = \vec{c}\}$.
+\end{definition}
+\begin{remark}
+  This is a function which outputs the minimum of the problem:
+  \begin{mini}
+    {\vec{x} \in \mathcal{X}}{f(\vec{x})}{\label{hyperProb}}{}
+    \addConstraint{h(\vec{x})}{= \vec{c}}
+  \end{mini}
+  for a given $\vec{c} \in \R^{m}$ instead of just a fixed $\vec{b}$.
+\end{remark}
+\begin{theorem}
+  \Cref{hyperProb} satisfies strong duality if the value function $\phi$ has a supporting hyperplane at $\vec{b}$.
+
+  Conversely, if strong duality holds for a suitable $\vec{\lambda}$, i.e $g(\vec{\lambda}) = \phi(\vec{b})$, then $\vec{\lambda}$ is the normal for the supporting hyperplane to $\phi$ at $\vec{b}$.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Suppose $\phi$ has supporting hyperplane at $\vec{b}$}
+    Let the hyperplane have normal $\vec{\lambda}$ at $\vec{b}$.
+    This means that:
+    \[
+      \phi(\vec{x}) \geq \phi(\vec{b}) + \vec{\lambda}^{\trans}(\vec{c} - \vec{b})
+    \]
+    We then have:
+    \begin{align*}
+      g(\vec{\lambda}) &= \min_{\vec{x} \in \mathcal{X}} f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{b}) \\
+                       &= \min_{\vec{c}} \min_{\vec{x} \in \mathcal{X}(\vec{c})} f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{c}) - \vec{\lambda}^{\trans}(\vec{c} - \vec{b})
+    \end{align*}
+    since $\mathcal{X} = \bigcup_{\vec{c}} \mathcal{X}(\vec{c})$, i.e. we partition the minimum over $\mathcal{X}$ into sections $\mathcal{X}(\vec{c})$.
+
+    We then have:
+    \[
+      \min_{\vec{x} \in \mathcal{X}(\vec{c})} f(\vec{x}) = \phi(\vec{c})
+    \]
+    and $h(\vec{x}) - \vec{c} = \vec{0}$ for $\vec{x} \in \mathcal{X}(\vec{c})$ so:
+    \begin{align*}
+      g(\vec{\lambda}) &= \min_{\vec{c}} \phi(\vec{c}) - \vec{\lambda}^{\trans}(\vec{c} - \vec{b}) \\
+                       &\geq \phi(\vec{b})
+    \end{align*}
+    By weak duality $g(\vec{\lambda}) \leq \phi(\vec{b})$, thus $g(\vec{\lambda}) = \phi(\vec{b})$, so we have strong duality.
+  \end{proofdirection}
+  \begin{proofdirection}{Suppose strong duality holds}
+    So we have $g(\vec{\lambda}) = \phi(\vec{b})$ for some $\vec{\lambda}$.
+    Then:
+    \begin{align*}
+      \phi(\vec{b}) = g(\vec{\lambda}) &= \min_{\vec{x} \in \mathcal{X}}  f(\vec{x}) - \vec{\lambda}^{\trans} (h(\vec{x}) - \vec{b}) \\
+                                       &= \min_{\vec{x} \in \mathcal{X}}  f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{c}) - \vec{\lambda}^{\trans}(\vec{c} - \vec{b}) \\
+                                       &\leq \phi(\vec{c}) - \vec{\lambda}^{\trans}(\vec{c} - \vec{b})
+    \end{align*}
+    because:
+    \begin{align*}
+      \min_{\vec{x} \in \mathcal{X}} f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{c}) &\leq \min_{\vec{x} \in \mathcal{X}(\vec{c})}  f(\vec{x}) - \vec{\lambda}^{\trans}(h(\vec{x}) - \vec{c}) \\
+                                                                                               &= \phi(\vec{c})
+    \end{align*}
+  \end{proofdirection}
+\end{proof}
+So we have that:
+\[
+  \text{Lagrange works} \iff \text{Strong duality} \iff \phi \text{ has supporting hyperplane at $\vec{b}$}
+\]
+Thus if we can show that $\phi$ is convex, it will have a supporting hyperplane at any point, in particular at $\vec{b}$, and so the Lagrange method will work.
+\begin{theorem}
+  If $\mathcal{X}$ is a convex set, $f: \R^{n} \to \R$ is convex, and $h_j: \R^{n} \to \R$ are convex functions for $j \in \{1, \ldots, m\}$, then the problem:
+  \begin{mini*}
+    {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+    \addConstraint{h_j(\vec{x})}{\leq b_j,\ j \in \{1, \ldots, m\}}
+  \end{mini*}
+  has a convex value function $\phi$.
+\end{theorem}
+\begin{proof}
+  See Example Sheets.
+\end{proof}
 \end{document}

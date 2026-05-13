@@ -321,7 +321,7 @@ Consider the second order Taylor approximation at $\vec{x}$:
 \]
 Suppose we change the update rule to the following:
 \[
-  \vec{x}_{t + 1} = \operatorname{argmin}_y [f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)]
+  \vec{x}_{t + 1} = \argmin_y [f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)]
 \]
 To find the argmin of this, since it is quadratic, we need only consider when grad with respect to $\vec{y}$ of the function is $\vec{0}$:
 \[

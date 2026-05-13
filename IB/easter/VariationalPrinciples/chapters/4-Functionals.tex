@@ -1,0 +1,326 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Functionals}
+\section{Definitions}
+\begin{remark}[Classes of Functions]
+  For $\Omega \subset \R^{n}$ we define:
+  \begin{align*}
+    C^{k}(\Omega) &= \{y: \Omega \to \R: \text{$y$ is $k$ times continuously differentiable}\} \\
+    C^{\infty}(\Omega) &= \{y: \Omega \to \R: \text{$y$ is smooth}\}
+  \end{align*}
+\end{remark}
+\begin{definition}[Functional]
+  For some set of functions $\mathscr{C}$, a functional is a map $F: \mathscr{C} \to \R$, $y \mapsto F[y]$.
+  i.e. $F$ maps a function to a number.
+
+  More generally, a functional can map several functions to a number:
+  \[
+    (y_1, \ldots, y_n) \mapsto F[y_1, \ldots, y_m]
+  \]
+\end{definition}
+An important class of functions have $\Omega = [\alpha, \beta] \subset \R$, $\mathscr{C} = C^{\infty}(\Omega)$ and:
+\[
+  F[y] = \int_{\alpha}^{\beta} f(y(x), y'(x), x) \d{x}
+\]
+for some smooth function $f$.
+We could generalise this to depend on higher derivatives of $y$, but the first derivative is usually enough in most cases.
+\section{Variation}
+We want to find which $y \in \mathscr{C}$ extremises this functional.
+\subsection{Single Variable}
+Consider varying $y$ to $y + \delta y \in \mathscr{C}$.
+\begin{align*}
+  \delta F[y] &\equiv F[y + \delta y] - F[y] \\
+              &= \int_{\alpha}^{\beta} (f(y + \delta y, y' + \delta y', x) - f(y, y', x)) \d{x} \\
+              &= \int_{\alpha}^{\beta} \left(\delta y \pderiv{f}{y} + \delta y' \pderiv{f}{y'}\right) \d{x} + \cdots \\
+              &= \int_{\alpha}^{\beta} \delta y(x) \left(\pderiv{f}{y} - \deriv{}{x}\pderiv{f}{y'}\right) \d{x} + \eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} + \cdots
+\end{align*}
+It would be convenient if the boundary term was not there so we assume that the definition of $\mathscr{C}$ includes boundary conditions that ensure $\eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} = 0$.
+For example:
+\begin{itemize}
+  \item They all have specific values at the endpoints:
+    \[
+      y(\alpha) = a \text{ and } y(\beta) = b\ \forall y \in \mathscr{C} \implies \delta y(\alpha) = \delta y(\beta) = 0 \implies \eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} = 0
+    \]
+  \item They all have $\pderiv{f}{y'} = 0$ at $x = \alpha, \beta$.
+    For example:
+    \[
+      f(y') = \sqrt{1 + (y')^2} \text{ and } y'(\alpha) = y'(\beta) = 0\ \forall y \in \mathscr{C}
+    \]
+\end{itemize}
+So we can write:
+\[
+  \delta F[y] = \int_{\alpha}^{\beta} \delta y(x) \frac{\delta F[y]}{\delta y(x)} \d{x} + \cdots
+\]
+where we define the \textit{functional derivative} of $F[y]$ with respect to $y(x)$ as:
+\[
+  \frac{\delta F[y]}{\delta y(x)} \equiv \pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'}
+\]
+For a given $y$, this is just a function of $x$.
+
+Thus $\delta F[y]$ vanishes to 1st order for \textbf{arbitrary} $\delta y(x)$ if and only if $y(x)$ satisfies the \textit{Euler-Lagrange equation}:
+\[
+  \frac{\delta F[y]}{\delta y(x)} = \pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'} = 0
+\]
+This is a second order ODE in $y(x)$, solving this yields the extrema of the functional $F[y]$.
+\subsection{Multivariate}
+We can generalise this to higher dimensions, for example $\vec{y}(x) = (y_1(x), y_2(x), \ldots, y_n(x))$, $x \in [\alpha , \beta]$.
+\[
+  F[\vec{y}] = \int_{\alpha}^{\beta} f(\vec{y}, \vec{y}', x) \d{x}
+\]
+then:
+\[
+  \delta F[\vec{y}] = \int_{\alpha}^{\beta} \sum_{i = 1}^{n} \delta y_i(x) \left(\pderiv{f}{y_i} - \deriv{}{x} \pderiv{f}{y_i'}\right) \d{x} + \eval{\sum_{i = 1}^{n} \delta y_i \pderiv{f}{y_i}}{\alpha}{\beta}
+\]
+So if we have boundary conditions such that the boundary term at the end vanishes, $\vec{y}(x)$ extremises $F$ if and only if:
+\[
+  \pderiv{f}{y_i} - \deriv{}{x} \pderiv{f}{y_i'} = 0\ \forall i \in \{1, \ldots, n\}
+\]
+i.e. each of the $y_i$ must satisfy the Euler-Lagrange equation.
+This is $n$ second order ODEs for $y_1(x), \ldots, y_n(x)$.
+\section{Geodesics in the Euclidean Plane}
+What is the shortest curve between 2 points $A$ and $B$ in euclidean space?
+We define the length of a curve as the functional:
+\[
+  L[y] = \int_{C} \sqrt{\d{x}^2 + \d{y}^2} = \int_{C}  \d{\ell}
+\]
+We first need to decide how to parameterise this curve.
+\subsubsection{Parametrising with $x$}
+We can parameterise using $x$, i.e. $y = y(x)$ for $x_A \leq x \leq x_B$ with $y(x_A) = y_A$ and $y(x_B) = y_B$.
+In this case:
+\[
+  L[y] = \int_{x_A}^{x_B} \sqrt{1 + (y')^2} \d{x}
+\]
+So $f(y, y', x) = \sqrt{1 + {y'}^2}$ and so $\pderiv{f}{y} = 0$.
+Our boundary conditions are appropriate as we have fixed the value of $y$ at the endpoints of the curve.
+
+So to satisfy the Euler-Lagrange equations we must have:
+\[
+  \deriv{}{x} \pderiv{f}{y'} = 0 \implies \pderiv{f}{y'} = \frac{y'}{\sqrt{1 + (y')^2}} = k
+\]
+for some constant $k$.
+Thus after rearranging we obtain that $y' = c$ for some constant $c$ and so $y = mx + c$.
+We then fixed $(m , c)$ using the boundary conditions.
+
+But what if we use $x$ as a parameter, then we are excluding curves where $y$ \textbf{is not a function} of $x$.
+\subsubsection{Arbitrary Parameter}
+We can instead use an arbitrary parameter $t \in [0, 1]$ where $t = 0$ at $A$ and $t = 1$ at $B$.
+
+Writing this as a vector $\vec{x}(y) = (x(t), y(t))$ and so the functional becomes:
+\[
+  L[\vec{x}] = \int_{0}^{1} \sqrt{\dot{\vec{x}}(t)^2} \d{t}
+\]
+with boundary conditions $\vec{x}(0) = \vec{x}_A$ and $\vec{x}(1) = \vec{x}_B$.
+Using the Euler Lagrange equation for $x$:
+\[
+  \deriv{}{t} \pderiv{f}{\dot{x}} - \pderiv{f}{x} = \pderiv{f}{\dot{x}} = 0 \implies \pderiv{f}{\dot{x}} = \frac{\dot{x}}{\dot{x}^2 + \dot{y}^2}= c
+\]
+and similarly for $y$:
+\[
+  \pderiv{f}{\dot{y}} = \frac{\dot{y}}{\dot{x}^2 + \dot{y}^2} = s
+\]
+for constants $c$ and $s$.
+We now observe that $c^2 + s^2 = 1$ and so we can write $c = \cos \theta$ and $s = \sin \theta$ for some $\theta$.
+
+We now switch to using \textit{arc length} $\ell$ as our parameter.
+\[
+  \deriv{\ell}{t} = \sqrt{\left(\deriv{x}{t}\right)^2 + \left(\deriv{y}{t}\right)^2} = \sqrt{\dot{x}^2 + \dot{y}^2}
+\]
+Using the chain rule:
+\[
+  \deriv{x}{\ell} = \left(\deriv{x}{t} \middle/ \deriv{\ell}{t} \right) = \frac{\dot{x}}{\sqrt{\dot{x}^2 + \dot{y}^2}} = \cos \theta
+\]
+and similarly:
+\[
+  \deriv{y}{\ell} = \sin \theta
+\]
+Transforming the boundary conditions $x = x_A \to \ell \cos \theta$ and $y = y_A \to \ell \sin \theta$.
+And so we have a straight line.
+
+We could not have used $\ell$ initially because then the upper limit of integration would depend on $C$ but our derivation of the Euler-Lagrange equations assumed that we had fixed boundaries independent of $C$.
+\section{First Integrals and Fermat's Principle}
+\subsection{First Integrals}
+Consider the functional:
+\[
+  F[y] = \int_{\alpha}^{\beta} f(y, y', x) \d{x}
+\]
+When we had $\pderiv{f}{y} = 0$, we were able to integrate the Euler-Lagrange equations to give a \textit{first integral} $\pderiv{f}{y'} = \text{constant}$.
+This is much easier to solve than the second order Euler-Lagrange equation.
+\begin{proposition}
+  If $f$ has no explicit $x$-dependence, that is $\pderiv{f}{x} = 0$, then: \label{noXDep}
+  \[
+    f - y' \pderiv{f}{y'} = \text{constant}
+  \]
+  for any solution of the Euler-Lagrange equation.
+\end{proposition}
+\begin{remark}[Note]
+  $f$ depends \textit{implicitly} on $x$ via $y(x)$.
+\end{remark}
+\begin{proof}
+  \begin{align*}
+    \deriv{f}{x} &= \deriv{}{x}(f(y(x), y'(x), x)) \\
+                 &= \pderiv{f}{x} + \pderiv{f}{y}y' + \pderiv{f}{y'} y'' \\
+                 &= \pderiv{f}{x} + y'\left[\pderiv{f}{y} - \deriv{}{x}\pderiv{f}{y'}\right] + \deriv{}{x}\left(y' \pderiv{f}{y'}\right)
+  \end{align*}
+  If the Euler-Lagrange equations hold then $\pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'} = 0$ and so:
+  \[
+    \deriv{}{x}(f - y' \pderiv{f}{y'}) = \pderiv{f}{x}
+  \]
+  Thus if $\pderiv{f}{x} = 0$, then $f - y' \deriv{f}{y'} = \text{constant}$, as required.
+\end{proof}
+\subsection{Fermat's Principle}
+Consider light propagating in a medium, for example in a glass box.
+Let $c(\vec{x})$ be the speed of light in the medium and $c$ be the speed of light in the vacuum.
+\begin{definition}[Refractive Index]
+  We define the \textit{refractive index} as:
+  \[
+    n(\vec{x}) = \frac{c(\vec{x})}{c}
+  \]
+\end{definition}
+The time taken for the light to travel from $A$ to $B$ along some path $C$ is then:
+\[
+  T[C] = \int_{C} \frac{1}{c(\vec{x})} \d{\ell} = \frac{1}{c} P[C]
+\]
+where $P[C]$ is the \textit{optical path length}:
+\[
+  P[C] = \int_{C} n(\vec{x}) \d{\ell}
+\]
+\begin{law}[Fermat's Principle]
+  Light takes the path from $A$ to $B$ along a path that \textbf{locally minimises} $T$, or equivalently $P$.
+\end{law}
+\begin{example}[Light Rays]
+  Find the path of a light ray in the $(x, z)$-plane in a medium with:
+  \[
+    n(z) = \sqrt{a - bz} \text{ where } a, b > 0
+  \]
+  For simplicity, we assume that this path can be parameterised by $x \in [\alpha, \beta]$ where $x$ is at $A$ at $\alpha$ and $B$ at $\beta$.
+  Thus we can write $z = z(x)$.
+  The functional $P$ then is:
+  \[
+    P[z] = \int_{\alpha}^{\beta} n(z) \underbrace{\sqrt{1 + {z'}^2} \d{x}}_{\d{\ell}} = \int_{\alpha}^{\beta} f(z, z') \d{x}
+  \]
+  We see that $\pderiv{f}{x} = 0$ and so by \cref{noXDep}, we have that:
+  \[
+  k = f - z' \pderiv{f}{z'} = \frac{n(z)}{\sqrt{1 + {z'}^2}} = \sqrt{\frac{a - bz}{1 + {z'}^2}}
+  \]
+  for some constant $k$.
+  Rearranging:
+  \[
+    {z'}^2 = \frac{b}{k^2}(z_0 - z) \text{ where } z_0 = \frac{a - k^2}{b}
+  \]
+  and so:
+  \[
+    z' = \pm \sqrt{\frac{b}{k^2}(z_0 - z)} \implies \frac{z'}{\sqrt{z_0 - z}} = \pm \sqrt{\frac{b}{k^2}}
+  \]
+  So with the first integral:
+  \[
+    \deriv{}{x}(- 2 \sqrt{z_0 - z}) = \pm\sqrt{\frac{b}{k^2}} \implies z = z_0 - \frac{b}{4k^2}(x - x_0)^2
+  \]
+  which is a parabola.
+\end{example}
+\begin{example}[Brachistochrone Curve]
+  Suppose we have a bead sliding on a frictionless wire on a vertical plane.
+  What shape of wire minimises the time for the bead to fall from rest at $A$ to a lower point $B$ that is horizontally displaced?
+
+  We choose our axes so that $A$ is at the origin:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (0, 0) node[left] {$A$} -- (5, 0) node[right] {$x$};
+    \draw[->] (0, -3) -- (0, 1) node[above] {$y$};
+    \draw[very thick, rotate=180, domain=-2.6:0, smooth, variable=\t] plot ({1 * (\t - sin(\t r))},{1*(1 - cos(\t r))});
+  \end{tikzpicture}
+  \end{center}
+  We appeal to energy conservation:
+  \[
+    \frac{1}{2} mv^2 + mgy = 0 \implies v = \sqrt{-2gy}
+  \]
+  We assume that $x$ is a suitable parameter of the curve (i.e. it does not double back on itself)  and so:
+  \[
+    T = \int_{A}^{B} \frac{\d{\ell}}{v} = \frac{1}{\sqrt{2g}} \int_{A}^{B} \frac{\sqrt{\d{x}^2 + \d{y}^2}}{\sqrt{-y}} \implies T \propto \int_{0}^{x_B} \frac{\sqrt{1 + {y'}^2}}{\sqrt{-y}} \d{x}
+  \]
+  Since there is no explicit $x$ dependence, we have a first integral by \cref{noXDep} with:
+  \[
+    c = f - y' \pderiv{f}{y'} = \frac{1}{\sqrt{(-y)(1 + {y'}^2)}} \implies (-y)(1 + {y'}^2) = 2c \geq0
+  \]
+  If we substitute $y = -c(1 - \cos \theta)$ for $\theta \geq 0$ and regard $x$ as a function of $\theta$, i.e. $x(\theta)$ then we obtain:
+  \[
+    \deriv{x}{\theta} = \pm c (1 - \cos \theta)
+  \]
+  Choosing the $+$ so that $x > 0$, we obtain:
+  \[
+    x = c(\theta - \sin \theta)
+  \]
+  after applying $x = 0$ at $y = 0$ and $x = 0$ at $\theta = 0$.
+  This a parametric description of an \textit{inverted cycloid}.
+  $A$ corresponds to $\theta = 0$ so requiring the curve to pass through $(x_{\theta}, y_{\theta})$ fixes $c$ and the value of $\theta$ at $B$.
+
+  A cycloid is the path traced out by a fixed point on the rim of a disc that rolls along a straight line.
+\end{example}
+\section{Constraints}
+Suppose that we wish to extremise some functional $F[y]$ but now subject to a functional constraint $P[y] = c$.
+We can define a Lagrange multiplier:
+\[
+  \Phi_{\lambda} [y] = F[y] - \lambda(P[y] - c)
+\]
+If we extremise with respect to $y$, then we obtain:
+\[
+  \frac{\delta F}{\delta y(x)} - \lambda \frac{\delta P}{\delta y(x)} = 0
+\]
+which is the Euler-Lagrange equation for this problem.
+If we extremise with respect to $\lambda$, then we obtain the constraint $P[y] = c$.
+\subsection{Examples}
+\begin{example}
+Determine $y(x)$ that minimise:
+  \[
+    \int_{0}^{1} \frac{1}{2} {y'}^2 \d{x}
+  \]
+  subject to the constraint:
+  \[
+    \int_{0}^{1} y(x) \d{x} = 1
+  \]
+  in the class of smooth functions on $[0, 1]$ with boundary values $y(0) = y(1) = 0$.
+
+  The Lagrange multiplier for this is:
+  \begin{align*}
+    \Phi_{\lambda}[y] &= \int_{0}^{1} \frac{1}{2} {y'}^2 \d{x} - \lambda \left(\int_{0}^{1} y \d{x} - 1\right) \\
+                      &= \int_{0}^{1} \left(\frac{1}{2} {y'}^2 - \lambda y\right) \d{x} + \lambda \\
+                      &= \int_{0}^{1} f \d{x} + \lambda \text{ where } f(y, y', x) = \frac{1}{2} {y'}^2 - \lambda y
+  \end{align*}
+  Sine $\pderiv{f}{x} = 0$, the Euler-Lagrange equations tell us that:
+  \[
+    0 = \pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'} = - \lambda - y'' \implies y'' = - \lambda
+  \]
+  and so solving we obtain:
+  \[
+    y(x) = - \frac{1}{2} \lambda x^2 + Ax + B
+  \]
+  Applying the boundary conditions we obtain $B = 0$ and $A = \frac{\lambda}{2}$.
+
+  To find $\lambda$, we use the constraint:
+  \[
+    1 = \int_{0}^{1} y \d{x} = \eval{-\frac{1}{6} \lambda x^3 + \frac{1}{2}\left(\frac{1}{2}\lambda\right)x^2}{0}{1} = \frac{\lambda}{12} \implies \lambda = 12
+  \]
+  and so the solution is $y = 6x(1 - x)$.
+\end{example}
+\begin{example}[Further Examples]
+  \begin{itemize}
+    \item \textbf{Dido's Problem --} Suppose that we have a fence of length $L$ and a wall.
+      What is the optimal shape for the fence such that the area enclosed by the wall and the fence is maximised.
+      See Example Sheet 1
+    \item \textbf{Isoperimetric Problem --} A simple closed curve has length $L$.
+      What shape should it be to maximise the area that it encloses.
+      See Example Sheet 2.
+  \end{itemize}
+\end{example}
+\subsection{Sturm-Liouville Problem}
+Consider the class of functions:
+\[
+  \mathscr{C} = \{y: [\alpha , \beta] \to \R: y \text{ is twice continuously differentiable and } y(\alpha) = y(\beta) = 0\}
+\]
+Define the functionals:
+\begin{align*}
+  F[y] &= \int_{\alpha}^{\beta} [\rho(x) y'(x)^2 + \sigma(x) y(x)^2] \d{x} \\
+  G[y] &= \int_{\alpha}^{\beta} w(x) y(x)^2 \d{x}
+\end{align*}
+where $\rho, w > 0$ on $(\alpha, \beta)$.
+The problem is then to minimise $F[y]$ in $\mathscr{C}$ subject to the constraint $G[y] = 1$.
+\end{document}

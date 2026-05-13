@@ -147,4 +147,9 @@ The Lagrange multiplier method is actually often faster, even when the constrain
   This tells us that all $p_i$ must be equal and so $p_i = \frac{1}{n}\ \forall i \in \{1, \ldots, n\}$.
   So the discrete uniform distribution minimises the information entropy.
 \end{example}
+If we have multiple constraints and want to find the stationary points of $f: \R^{n} \to \R$ subject to $m < n$ constraints $g_k(\vec{x}) = 0$ for $k \in \{1, \ldots, m\}$, then we can introduce multiple Lagrange multipliers $\lambda_1, \ldots, \lambda_m$ and extremise:
+\[
+  \phi(x_1, \ldots, x_n, \lambda_1, \ldots, \lambda_m) = f(\vec{x}) - \sum_{k = 1}^{m} \lambda_k g_k(\vec{x})
+\]
+with respect to $\vec{x}$ and $\lambda_1, \ldots, \lambda_m$.
 \end{document}
