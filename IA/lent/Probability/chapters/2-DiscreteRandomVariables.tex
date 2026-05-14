@@ -1467,8 +1467,8 @@ We can then use this to define the expectation of one discrete random variable g
   For example, for \textbf{vii}, let $t(y) = \E[h(Y) \cdot X \vert Y = y]$ and $g(y) = \E[X \vert Y = y]$
   \begin{align*}
     t(y) &= \E[h(y) \cdot X \vert Y = y] \\
-         &= h(y)g(y) \implies \E[h(Y) \cdot X \vert Y] \\
-         &= t(Y) = h(Y)g(Y) = h(Y)\E[X \vert Y]
+         &= h(y)g(y) \\
+    \implies \E[h(Y) \cdot X \vert Y] &= t(Y) = h(Y)g(Y) = h(Y)\E[X \vert Y]
   \end{align*}
 \end{remark}
 \begin{example}[\Cref{coinExpectationEx} revisited]
