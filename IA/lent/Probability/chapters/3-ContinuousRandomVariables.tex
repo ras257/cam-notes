@@ -252,7 +252,7 @@ Therefore:
                                       &= \frac{e^{-\lambda(s + t)}}{e^{-\lambda s}} \\
                                       &= e^{-\lambda t} = \P(T \geq t)
     \end{align*}
-    So $\P(T \geq s + t \vert T \geq s) = \P(T \geq t)$ and so $T$ is memoryless.
+    So $\P(T \geq s + t \vert T \geq s) = \P(T \geq t)$, thus $T$ is memoryless.
   \end{proofdirection}
   \begin{proofdirection}{Assume $T$ has the memoryless property}
     We need to show that $\P(T \geq t) = e^{-\lambda t}$ for some $\lambda > 0$.
@@ -467,7 +467,7 @@ and if both are infinite, then $\E[X]$ is undefined.
   \begin{align*}
     \Var(X) &= \E[(X - \mu)^2] \\
             &= \int_{-\infty}^{\infty} (x - \mu)^2 \cdot \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\d{x} \\
-            &= \sigma^2 \int_{-\infty}^{\infty} \frac{u^2}{\sqrt{2\pi}}\cdot \exp\left(-\frac{u^2}{2}\right) \d{x} \text{ using $u = x - \mu$}\\
+            &= \sigma^2 \int_{-\infty}^{\infty} \frac{u^2}{\sqrt{2\pi}}\cdot \exp\left(-\frac{u^2}{2}\right) \d{x} \text{ using $u = \frac{x - \mu}{\sigma}$} \\
             &= \sigma^2 \text{ after integrating by parts}
   \end{align*}
 \end{proof}
