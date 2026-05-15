@@ -14,7 +14,7 @@
     \addConstraint{x_j}{\text{ free},\ j \in N_3}
   \end{mini*}
 \end{definition}
-We can in fact write such constraints as a matrix: %TODO
+We can in fact write such constraints as a matrix:
 \[
   A = \begin{pmatrix}
   \leftarrow \vec{a}^{\trans}_1 \rightarrow \\
@@ -146,4 +146,153 @@ But $-\vec{c}^{\trans} \vec{x}$ is a convex function, so we are essentially tryi
 \end{proof}
 In a linear program, the constraint set is always a polytope.
 Such regions always have finitely many extreme points and so if we can find a list of these extreme points it becomes easier to maximise $-\vec{c}^{\trans} \vec{x}$.
+\subsection{Basic Solutions and Basic Feasible Solutions}
+Recall that we wish to solve:
+\begin{mini*}
+  {\vec{x}}{\vec{c}^{\trans} \vec{x}}{}{}
+  \addConstraint{A\vec{x}}{= \vec{b}}
+  \addConstraint{\vec{x}}{\geq \vec{0}}
+\end{mini*}
+where:
+\[
+  A = \begin{pmatrix}
+  \leftarrow \vec{a}^{\trans}_1 \rightarrow \\
+  \leftarrow \vec{a}^{\trans}_2 \rightarrow \\
+  \cdots \\
+  \leftarrow \vec{a}^{\trans}_m \rightarrow
+  \end{pmatrix}
+\]
+We will make three assumptions:
+\begin{enumerate}
+  \item The rows of $A$ are linearly independent.
+    This can in fact be made without loss in generality as if two rows are not linearly independent then we have a redundant constraint so we can simply remove one of the rows.
+  \item Every set of $m$ columns of $A$ is linearly independent.
+    This cannot be made without loss in generality, but for most applications, it will typically hold.
+\end{enumerate}
+For our final assumption, we will need some additional definitions.
+\begin{definition}[Basic Solution]
+  We call a point $\vec{x}$ that satisfies $A\vec{x} = \vec{b}$ and has at most $m$ non-zero entries a \textit{basic solution}.
+\end{definition}
+\begin{definition}[Basic Feasible Solution]
+  We call a basic solution $\vec{x}$ that satisfies $\vec{x} \geq \vec{0}$ a \textit{basic feasible solution}.
+\end{definition}
+Suppose we choose indices $\{B(1), \ldots, B(m)\}$ such that $x_i = 0$ for all $i \notin \{B(1), \ldots, B(m)\}$, i.e. we have a set of indices we know have $x_i = 0$ and a set of indices we know have $x_i \neq 0$:
+\[
+  A \vec{x} = \sum_{i = 1}^{n} \vec{A}_i x_i = \sum_{i = 1}^{m} \vec{A}_{B(i)}\vec{x}_{B(i)} = B \vec{x}_{B}
+\]
+where $\vec{A}_i$ is the $i$-th column of $A$ and:
+\[
+  B = \begin{pmatrix}
+  \uparrow & & \uparrow  \\
+  \vec{A}_{B(1)} & \cdots & \vec{A}_{B(m)}  \\
+  \downarrow &  & \downarrow \\
+  \end{pmatrix}
+ \text{ and } \vec{x}_{B} = \begin{pmatrix}
+  x_{B(1)} \\
+  \vdots \\
+  x_{B(m)} \\
+  \end{pmatrix}
+\]
+Ideally for this problem, we want $A\vec{x} = \vec{b} \iff B\vec{x}_{B} = \vec{b} \iff \vec{x}_{B} = B^{-1} \vec{b}$.
+\begin{definition}[Basic Variables, Matrix, and Columns]
+  We call:
+  \begin{itemize}
+    \item $\vec{x}_{B(1)}, \ldots, \vec{x}_{B(m)}$ the \textit{basic variables},
+    \item $B$ the \textit{basis matrix},
+    \item $\vec{A}_{B(1)}, \ldots, \vec{A}_{B(m)}$ the \textit{basic columns}.
+  \end{itemize}
+\end{definition}
+For every choice of $B$ (of which there are $\binom{n}{m}$ such choices for the columns), we obtain a basic solution.
+So if $B^{-1}\vec{b} \geq 0$, then that the basis matrix $B$ leads to a basic feasible solution.
+
+We can now define our third assumption:
+\begin{enumerate}
+  \setcounter{enumi}{2}
+  \item Every basic feasible solutions is \textit{non-degenerate}.
+    That is, it has \textbf{exactly} $m$ non-zero entries:
+    \[
+      B^{-1} \vec{b} \geq 0 \implies B^{-1} \vec{b} > 0
+    \]
+    This also cannot be made without loss in generality but is required to ensure that algorithms later in this chapter do not get stuck.
+\end{enumerate}
+\begin{theorem}
+  A vector $\vec{x}$ is a basic feasible solution if and only if it is an extreme point of the set:
+  \[
+    \mathcal{X}(\vec{b}) = \{\vec{x}: A \vec{x} = \vec{b}, \vec{x} \geq 0\}
+  \]
+\end{theorem}
+\begin{remark}[Rudimentary Algorithm for Solving a L.P.]
+  This theorem means that we can solve an L.P. by just checking each of the basic feasible solutions, that is:
+  \begin{itemize}
+    \item List all $\binom{n}{m}$ basic solutions.
+    \item Filter these basic solutions to just the basic feasible solutions.
+    \item Evaluate $\vec{c}^{\trans} \vec{x}$ for each of these basic feasible solutions and choose the best one.
+  \end{itemize}
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Assume $\vec{x}$ is a basic feasible solution}
+    Suppose that $\vec{x}$ can be written as:
+    \[
+      \vec{x} = (1 - \delta)\vec{y} + \delta \vec{z}
+    \]
+    for some $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and $\delta \in (0, 1)$.
+
+    If $x_i = 0$, then:
+    \[
+      x_i = 0 = (1 - \delta)y_i + \delta z_i
+    \]
+    but we also have that $y_i, z_i \geq 0$ as $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and so $y_i = z_i = 0$.
+    Since $\vec{x}$ is a basic feasible solution, $\vec{y}$ and $\vec{z}$ must be basic solutions corresponding to the same basis as $\vec{x}$.
+    Thus $\vec{x} = \vec{y} = \vec{z} = B^{-1} \vec{b}$ and so $\vec{x}$ is an extreme point of $\mathcal{X}(\vec{b})$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\vec{x}$ is not a basic feasible solution}
+    We wish to show that $\vec{x}$ is not an extreme point of $\mathcal{X}(\vec{b})$.
+    If $\vec{x} \notin \mathcal{X}(\vec{b})$, then obviously it is not an extreme point  of $\mathcal{X}(\vec{b})$ and so we assume that $\vec{x} \in \mathcal{X}(\vec{b})$.
+
+    Since $\vec{x}$ is not a basic feasible solution, it must have $r > m$ positive entries.
+    Suppose that $x_{i_1} > 0, x_{i_2} > 0, \ldots, x_{i_r} > 0$.
+    Because we have chosen more columns than the rank $m$, the set of columns $\{\vec{A}_{i_1}, \ldots, \vec{A}_{i_r}\}$ must be linearly dependent.
+    By definition this means that $\exists w_{i_1}, \ldots, w_{i_r}$ not all 0 such that:
+    \[
+      w_{i_1} \vec{A}_{i_1} + \cdots + w_{i_r} \vec{A}_{i_r} = \vec{0}
+    \]
+    Construct a vector $\vec{w}$ such that $\vec{w}$ is $0$ everywhere except that $i_1, \ldots, i_r$ where $w(i_1) = w_{i_1}, \ldots, w(i_r) = w_{i_r}$.
+
+    Now observe that $A\vec{w} = \vec{0}$ because:
+    \[
+      A \vec{w} = \vec{A}_{i_1} w_{i_1} + \cdots + \vec{A}_{i_r} w_{i_r}
+    \]
+    Now consider two new points:
+    \begin{align*}
+      \vec{y} = \vec{x} + \varepsilon \vec{w} \\
+      \vec{z} = \vec{x} - \varepsilon \vec{w}
+    \end{align*}
+    for some small $\varepsilon > 0$.
+
+    For small enough $\varepsilon$, $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$.
+    Thus we can write $\vec{x}$ as:
+    \[
+      \vec{x} = \frac{1}{2}\vec{y} + \frac{1}{2}\vec{z}
+    \]
+    for $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and so $\vec{x}$ cannot be an extreme point of $\mathcal{X}(\vec{b})$.
+  \end{proofdirection}
+\end{proof}
+\subsection{Towards the Simplex Method}
+When the L.P. is in standard form, the optimality conditions are:
+\begin{enumerate}
+  \item \textbf{Primal feasibility --} $A\vec{x} = \vec{b}$, $\vec{x} \geq 0$.
+  \item \textbf{Dual feasibility --} $A^{\trans} \vec{\lambda} \leq \vec{c}$
+  \item \textbf{Complementary Slackness --} $\vec{x}^{\trans}(\vec{c} - A^{\trans} \vec{\lambda}) = 0$
+\end{enumerate}
+For any basic feasible solution, the complementary slackness equation reduces to:
+\[
+  \vec{x}_{B}^{\trans}(\vec{c}_{B} - B^{\trans} \vec{\lambda}) = 0
+\]
+Since $\vec{x}_{B} > \vec{0}$ by the non-degeneracy assumption, we must have:
+\[
+  \vec{c}_{B} = B^{T} \vec{\lambda} \implies \vec{\lambda} = (B^{\trans})^{-1} C_{B}
+\]
+If $A^{\trans}(B^{\trans})^{-1}\vec{c}_{B} \leq \vec{c}$, then $\vec{\lambda}$ is dual feasible and so $\vec{x}$ is optimal.
+
+So if we check $A^{\trans}(B^{\trans})^{-1}\vec{c}_{B} \leq \vec{c}$ at every basic feasible solution, any solution satisfying this must be optimal.
 \end{document}

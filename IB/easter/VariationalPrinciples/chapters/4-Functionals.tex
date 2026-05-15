@@ -316,11 +316,130 @@ Consider the class of functions:
 \[
   \mathscr{C} = \{y: [\alpha , \beta] \to \R: y \text{ is twice continuously differentiable and } y(\alpha) = y(\beta) = 0\}
 \]
-Define the functionals:
+and define the functionals:
 \begin{align*}
   F[y] &= \int_{\alpha}^{\beta} [\rho(x) y'(x)^2 + \sigma(x) y(x)^2] \d{x} \\
   G[y] &= \int_{\alpha}^{\beta} w(x) y(x)^2 \d{x}
 \end{align*}
-where $\rho, w > 0$ on $(\alpha, \beta)$.
+where $\rho(x), w(x) > 0$ for $x \in (\alpha, \beta)$.
 The problem is then to minimise $F[y]$ in $\mathscr{C}$ subject to the constraint $G[y] = 1$.
+
+We consider:
+\[
+  \Phi_{\lambda}[y] = F[y] - \lambda(G[y] - 1)
+\]
+To use the Euler-Lagrange equations we need to check that we have appropriate boundary conditions, since the endpoints are fixed, this holds.
+From the Euler-Lagrange equations we obtain:
+\begin{equation}
+  \frac{\delta F[y]}{\delta y(x)} - \lambda \frac{\delta G[y]}{\delta y(x)} = 0 \tag{$\star$} \label{LGSL}
+\end{equation}
+We see:
+\[
+  \frac{\delta F[y]}{\delta y(x)} = 2\sigma y - \deriv{}{x}(2 \rho y') \equiv 2 \mathcal{L} y
+\]
+where we define the differential operator:
+\[
+  \mathcal{L} \equiv -\deriv{}{x}\left(\rho \deriv{}{x}\right) + \sigma
+\]
+We also see that:
+\[
+  \frac{\delta G[y]}{\delta y(x)} = 2wy
+\]
+and so \cref{LGSL} becomes:
+\[
+  \mathcal{L} y = \lambda w y
+\]
+With boundary conditions $y(\alpha) = y(\beta) = 0$, this is an \textit{eigenvalue problem}.
+Only for discrete $\lambda$ does there exist a non-trivial solution (an \textit{eigenfunction}) $y(x)$.
+This is known as a \textit{Sturm-Liouville} problem, we will study this class of problems further in IB Methods.
+We call $w(x)$ a \textit{weight function}.
+
+If $y(x)$ solves then so does $Cy(x)$ for any constant $C$.
+The constraint $G[y] = 1$ is like an analogue to the restriction that we want unit eigenvectors of a matrix.
+
+Integrating by parts:
+\begin{align*}
+  F[y] &= \int_{\alpha}^{\beta} y \mathcal{L} y \d{x} - \cancelto{0}{\eval{\rho y y'}{\alpha}{\beta}} \\
+       &= \lambda \int_{\alpha}^{\beta} w y^2 \d{x} \\
+       &= \lambda G[y] = \lambda
+\end{align*}
+Thus the solution to our problem is the \textbf{lowest} eigenvalue $\lambda$.
+\begin{remark}[Exercise]
+  This strategy also works with the alternative boundary conditions:
+  \begin{itemize}
+    \item $y'(\alpha) = y'(\beta) = 0$ or
+    \item $y(\alpha) = y'(\beta) = 0$ or
+    \item $y'(\alpha) = y(\beta) = 0$.
+  \end{itemize}
+\end{remark}
+Similarly to what we did in \cref{alternativeApproach}, we could also extremise
+\[
+  \Lambda[y] \equiv \frac{F[y]}{G[y]}
+\]
+\[
+  0 = \frac{\delta \Lambda}{\delta y(x)} = \frac{1}{G}\left(\frac{\delta F[y]}{\delta y(x)} - \frac{F}{G} \frac{\delta G[y]}{\delta y(x)}\right) = \frac{2}{G}(\mathcal{L}y - \Lambda w y)
+\]
+and so the minimal value of $\Lambda$ is the lowest eigenvalue of the Sturm Liouville problem.
+\subsection{Geodesics and Function  Constraints}
+Consider a surface $S$ in Euclidean space with equation $g(\vec{x}) = 0$.
+If we are given $A, B \in S$, how do we find the shortest curve \textbf{on $S$} that connects $A$ and $B$.
+
+Let $\vec{x}(t)$ for $t \in [0, 1]$ be a curve on $S$ with $\vec{x}(0) = \vec{x}_A$ and $\vec{x}(1) = \vec{x}_B$.
+We want to extremis the \textbf{functional}:
+\[
+  L[\vec{x}] = \int_{0}^{1} \sqrt{\dot{\vec{x}} \cdot \dot{ \vec{x}}} \d{t}
+\]
+but instead subject to a constraint given by a \textbf{function} $g(\vec{x}(t)) = 0$.
+
+To do this we introduce a \textit{Lagrange Multiplier Function} $\lambda(t)$.
+Let:
+\[
+  \Phi[\vec{x}, \lambda] = L[\vec{x}] - \int_{0}^{1} \lambda(t) g(\vec{x}(t)) \d{t}
+\]
+If we extremise with respect to $\lambda$ then:
+\begin{equation}
+  0 = \frac{\delta \Phi}{\delta \lambda(t)} = -g(\vec{x}(t)) \implies g(\vec{x}(t)) = 0 \tag{$\ast$} \label{lExtremeGeo}
+\end{equation}
+so we recover the constraint.
+If we extremise with respect to $x_i(t)$:
+\begin{equation}
+  0 = \frac{\delta \Phi}{\delta x_i(t)} = -\lambda \nabla_i g(\vec{x}(t)) - \deriv{}{t}\left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right) \tag{$\dag$} \label{xExtremeGeo}
+\end{equation}
+We can now eliminate $\lambda$.
+First we differentiate \cref{lExtremeGeo} with respect to $t$ we obtain:
+\[
+  0 = \dot{x}_i \pderiv{g}{x_i} \implies \frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv{g}{x_i} = 0
+\]
+and upon differentiating with respect to $t$ again:
+\begin{align*}
+  \deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) \pderiv{g}{x_i} + \frac{\dot{x}_i \dot{x}_j}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv[2]{g}{x_i} = 0 \\
+\end{align*}
+By \cref{xExtremeGeo}, we have that:
+\[
+  \deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) \pderiv{g}{x_i} = -\lambda (\nabla g)^2
+\]
+and so:
+\[
+  \lambda(t) = \frac{\dot{x}_i \dot{x}_j}{(\nabla g)^2 \sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv[2]{g}{x_i}
+\]
+Finally, dividing \cref{lExtremeGeo} by $\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}$ we have:
+\[
+  \frac{1}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) + \frac{\dot{x}_j \dot{x}_k}{(\nabla g)^2 \dot{\vec{x}} \cdot \dot{\vec{x}}} \frac{\partial^2 g}{\partial x_j \partial x_i} \nabla_i g = 0
+\]
+This is the equation for geodesics on a surface.
+This is solved along with \cref{lExtremeGeo}.
+
+We can clean this up by converting to arc length as a parameter:
+\[
+  \deriv{}{\ell} = \frac{1}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \deriv{}{t}
+\]
+and so it becomes:
+\[
+  \deriv[2]{x_i}{\ell} + \frac{1}{(\nabla g)^2} \deriv{x_i}{\ell} \pderiv{x_k}{\ell} \frac{\partial^2 g}{\partial x_j \partial x_k} g \nabla_i g = 0
+\]
+If we set $g = z$ then $S$ is the plane $z = 0$, we then obtain:
+\[
+  \frac{\partial^2 g}{\partial x_j \partial x_k} = 0 \implies \deriv[2]{x_i}{\ell} = 0
+\]
+which gives a straight line as expected.
 \end{document}
