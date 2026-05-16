@@ -664,7 +664,7 @@ Furthermore, to find the probability $X$ is in a set $B \subseteq \R^{n}$:
     \]
     So we can divide our expression for $\P(X_1 \leq x_1, \ldots, X_n \leq x_n)$ by this to yield:
     \begin{align*}
-      \P(X_n \leq x_1, \cdots, X_n \leq x_n) &= \frac{\int_{-\infty}^{x_1} f_1(y_1) \d{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \d{y_n}}{\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f_1(y_1) \cdots f_n(y_n) \d{y_1} \cdots\d{y_n}} \\
+      \P(X_n \leq x_1, \ldots, X_n \leq x_n) &= \frac{\int_{-\infty}^{x_1} f_1(y_1) \d{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \d{y_n}}{\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f_1(y_1) \cdots f_n(y_n) \d{y_1} \cdots\d{y_n}} \\
                                              &= \frac{\int_{-\infty}^{x_1} f_1(y_1) \d{y_1}}{\int_{-\infty}^{\infty} f_1(y_1) \d{y_1}} \cdots \frac{\int_{-\infty}^{x_n} f_n(y_n) \d{y_n}}{\int_{-\infty}^{\infty} f_n(y_n) \d{y_n}}
     \end{align*}
     Since this is true $\forall x_1, \ldots, x_n$, we see that $X_1, \ldots, X_n$ are independent and have densities:
@@ -738,13 +738,13 @@ Like in the discrete case, we would like to be able to find the distribution of 
 \begin{proposition}[Law of total probability for densities]
   If $X$ and $Y$ are continuous random random variables with joint density $f_{X, Y}$ and marginal densities $f_{X}$ and $f_{Y}$ respectively, then:
   \[
-    f_{X}(x) = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{x}
+    f_{X}(x) = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{y}
   \]
 \end{proposition}
 \begin{proof}
   We can recover the marginal density of $X$ from the joint density using \cref{marginalContinuous}:
   \[
-    f_X(x) = \int_{-\infty}^{\infty} f_{X, Y}(x, y) \d{y} = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{x}
+    f_X(x) = \int_{-\infty}^{\infty} f_{X, Y}(x, y) \d{y} = \int_{-\infty}^{\infty} f_{X \vert Y}(x \vert y)f_Y(y) \d{y}
   \]
 \end{proof}
 \begin{definition}[Conditional expectation for 2 continuous r.v.s]
@@ -835,7 +835,7 @@ We also want to find the joint density of $(Y_1, \ldots, Y_n)$, that is $f_{(Y_1
 \end{remark}
 
 We first find the joint distribution function.
-There are $n!$ total ways for the $X_i$'s to be ordered and since the $X_i$ are i.i.d., the probability of each ordering satisfying $Y_1 \leq x_1, \ldots, Y_n = x_n$ is the same, therefore:
+There are $n!$ total ways for the $X_i$'s to be ordered and since the $X_i$ are i.i.d., the probability of each ordering satisfying $Y_1 \leq x_1, \ldots, Y_n \leq x_n$ is the same, therefore:
 \begin{align*}
   &\P(Y_1 \leq x_1, \ldots, Y_n \leq x_n) = n! \cdot \P(X_1 \leq x_1, \ldots, X_n \leq x_n, X_1 \leq X_2 \leq \cdots \leq X_n) =\\
   &n! \cdot \int_{-\infty}^{\infty}  \cdots \int_{-\infty}^{\infty} f_{(X_1, \ldots, X_n)}(u_1, \ldots, u_n) \cdot 1(u_1 \leq x_1, \ldots, u_n \leq x_n, u_1 \leq \cdots \leq u_n) \d{u_1} \cdots \d{u_n} \\
@@ -1031,6 +1031,7 @@ Similarly to how the probability generating function of a sum of independent dis
   So $\Gamma(n, \lambda)$ can be thought of a sum of $n$ independent $\Exponential(\lambda)$ r.v.s.
 \end{example}
 \begin{remark}
+  \nonexaminable
   We can also define $\Gamma(\alpha,\lambda)$ with $\alpha, \lambda > 0$, (i.e. $\alpha \in \R^{+}$ instead of $n \in \N$) by replacing $(n - 1)!$ in the density with the \textit{gamma function}:
   \[
     \Gamma(\alpha) = \int_{0}^{\infty} e^{-x} \cdot x^{\alpha - 1} \d{x}
@@ -1102,7 +1103,7 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
   So by uniqueness of mgfs, $X + Y \sim \normal(\mu + \nu, \sigma^2 + \tau^2)$.
 \end{example}
 \subsection{Multivariate Moment Generating Functions}
-\begin{definition}
+\begin{definition}[Multivariate Moment Generating Function]
   Let $X = (X_1, \ldots, X_n)^{\trans}$ be random vector in $\R^{n}$.
   The moment generating function of $X$ is defined to be:
   \[
@@ -1135,6 +1136,9 @@ So in \cref{mgfUnique}, the assumption that the moment generating function must 
     If $X_1, \ldots, X_n$ are independent, then $m(\theta)$ factorises by \cref{mgfProduct}.
   \end{proofdirection}
 \end{proof}
+\begin{remark}
+  To recover the moment generating functions for each component, for example $\E[e^{\theta_1 X_1}]$, from a moment generating function factorisation, we can set $\theta_2 = \cdots = \theta_n = 0$.
+\end{remark}
 \subsection{Multidimensional Gaussian Random Variables}
 \begin{definition}[Gaussian in $\R$]
 A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit{normal} in $\R$ if it can be written as:
@@ -1147,8 +1151,8 @@ A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit
   From \cref{normalTransform}, if $\sigma > 0$, then $X \sim \normal(\mu, \sigma^2)$.
 \end{remark}
 \begin{definition}[Gaussian in $\R^n$]
-  Let $X = (X_1, \ldots, X_n)^{\trans} \in \R^{n}$ be a random variable.
-  We say that $X$ is a \textit{Gaussian vector} in $\R^{n}$ if: $\forall u = (u_1, \ldots, u_n)^{\trans} \in \R^{n}$:
+  Let $X = (X_1, \ldots, X_n)^{\trans} \in \R^{n}$ be a random vector.
+  We say that $X$ is a \textit{Gaussian vector} in $\R^{n}$ if $\forall u = (u_1, \ldots, u_n)^{\trans} \in \R^{n}$:
   \[
     u^{\trans} X = \sum_{i = 1}^{n} u_i X_i
   \]
@@ -1188,7 +1192,7 @@ A random variable $X$ with values in $\R$ is called \textit{Gaussian} or \textit
   \]
 \end{definition}
 \begin{remark}
-  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times m$ matrix of which we take expectations entry-wise.
+  $(X - \mu) \cdot (X - \mu)^{\trans}$ is an $n \times n$ matrix of which we take expectations entry-wise.
 \end{remark}
 We can find the entires of this matrix by taking expectations of:
 \begin{align*}
@@ -1199,7 +1203,7 @@ for $i, j \in \{1, \ldots, n\}$.
 From \cref{covarianceProperties}, we know that $\Cov(X_i, X_j) = \Cov(X_j, X_i)$ so $\Var(X)$ is a symmetric matrix.
 We also know that $\Var(X)_{i i} = \Cov(X_i, X_i) = \Var(X_i)$ so the main diagonal of $\Var(X)$ consists the variances of each component of $X$.
 
-By definition, if $X$ is Gaussian in $\R^{n}$, then $u^{\trans} X$ is Gaussian in $\R\ \forall u \in \R^3$.
+By definition, if $X$ is Gaussian in $\R^{n}$, then $u^{\trans} X$ is Gaussian in $\R\ \forall u \in \R^{n}$.
 It is then useful to determine the expectation and variance of this Gaussian distribution:
 \begin{align}
   \E[u^{\trans} X] &= \E\left[\sum_{i = 1}^{n} u_i X_i\right] \nonumber \\
@@ -1215,7 +1219,7 @@ and similarly for the variance:
 \begin{proposition}
   $V = \Var(X)$ is a \textit{non-negative definite matrix}, that is:
   \[
-    \forall u \in \R^{n},\ u^{\trans} V u \geq 0
+    u^{\trans} V u \geq 0\ \forall u \in \R^{n}
   \]
 \end{proposition}
 \begin{remark}
@@ -1225,7 +1229,7 @@ and similarly for the variance:
  From \cref{varUTX}, we have that $\Var(u^{\trans} X) = u^{\trans} V u$ and we also know that variance of a 1D random variable is always non-negative, so we are done.
 \end{proof}
 \begin{proposition}
-  The moment generating function of the gaussian random vector $X = (x_1, \ldots, x_n)$ is:
+  The moment generating function of the gaussian random vector $X = (x_1, \ldots, x_n)$ with $\E[X] = \mu$ and $\Var(X) = V$ is:
   \[
     m(\lambda) = \exp\left(\lambda^{\trans}\mu + \frac{\lambda^{\trans} V \lambda}{2}\right) \text{ for $\lambda \in \R^{n}$}
   \]
@@ -1282,7 +1286,7 @@ Let $\mu \in \R^{n}$ and let $V$ be a non-negative definite matrix, we want to b
 In the case of $n = 1$, we saw in \cref{normalTransform}, that we can construct $X \sim \normal(\mu, \sigma^2)$, as $X = \mu + \sigma Z$.
 But how can we take the ``square root'' of $V$?
 \begin{definition}
-  Let $V$ be a non-negative symmetric matrix.
+  Let $V$ be a non-negative definite symmetric matrix.
   Since $V$ is symmetric, it can be orthogonally diagonalised as:
   \[
     V = U^{\trans} D U
@@ -1438,7 +1442,7 @@ We would also like to be able to find the density of a Gaussian vector.
 \end{proof}
 \begin{proposition}
   Let $X = (X_1, \ldots, X_n)$ be a Gaussian vector with $V = \Var(X)$.
-  If $V$ is diagonal and positive definite then the $X_i$ are independent.
+  If $V$ is diagonal and positive definite then the $X_i$ are independent. \label{gaussianCov0}
 \end{proposition}
 \begin{remark}[Warning]
   This is not true for any random vector as we saw a counterexample for the one-dimensional case in \cref{covarianceCounterExample}.
@@ -1480,7 +1484,7 @@ We would also like to be able to find the density of a Gaussian vector.
 \begin{remark}
   So if $X = (X_1, \ldots, X_n)$ is a Gaussian vector, then $X_1, \ldots, X_n$ are independent if and only if $V = \Var(X)$ is diagonal.
 \end{remark}
-\subsubsection{Bivariate Gaussians}
+\subsubsection{Bivariate Gaussian}
 \begin{definition}[Correlation]
   The correlation $\rho$ of two random variables $X_1$ and $X_2$ is defined as:
   \[
@@ -1568,7 +1572,7 @@ We can also check that any matrix in this form is a valid variance matrix for a 
     \end{pmatrix}
   \]
   So by \cref{gaussianLinearTransform}, $(X_1, Y)^{\trans}$ is Gaussian in $\R^2$.
-  Now to show $Y$ and $X_1$ are independent, we just need to show that their covariance is 0.
+  From \cref{gaussianCov0} it suffices to show that $\Cov(Y, X_1) = 0$ to conclude that $Y$ and $X_1$ are independent.
   Using \cref{covarianceProperties} \textbf{(vi)}, we have:
   \begin{align*}
     \Cov(X_1, Y) &= \Cov(X_1, X_2 - aX_1) \\
@@ -1612,9 +1616,9 @@ This means that when sections of $F$ are strictly increasing, $G$ is just the in
     Since $G(u)$ is the infimum, there exists a sequence $(x_n)$ on $\{x \in \R: u \leq F(x)\}$ such that $x_n$ decreases to $G(u)$ and $u \leq F(x_n)\ \forall n$.
     By right continuity of $F$, we get that:
     \[
-      u \leq \lim_{n \to \infty} F(x_n) = F(\lim_{n \to \infty} x_n) = F(g(u))
+      u \leq \lim_{n \to \infty} F(x_n) = F\left(\lim_{n \to \infty} x_n\right) = F(g(u))
     \]
-    Finally, since $F$ is increasing and $G(u) \geq x$, $u \leq F(G(u)) \leq F(x)$, as required.
+    Finally, since $F$ is increasing and $G(u) \leq x$, $u \leq F(G(u)) \leq F(x)$, as required.
   \end{proofdirection}
   \begin{proofdirection}{Assume $u \leq F(x)$}
     Since $x \in \{x \in \R : u \leq F(x)\}$, by definition of infimum:
@@ -1663,9 +1667,9 @@ To check that it has the correct density:
 \begin{align*}
   \P(R \geq r) &= \P(\sqrt{-2\log V} \geq r) \\
                &= \P(V \leq e^{-\frac{r^2}{2}}) \\
-               &= e^{-r^2/2}
+               &= e^{-r^2/2} \implies f(r) = re^{-r^2/2}
 \end{align*}
-Which is the correct probability distribution function for $R$.
+which is the correct density function for $R$.
 
 Now we know how to generate $R$ and $\Theta$ from $U, V \sim \uniform[0, 1]$, we can substitute these generated values back into $X = R\cos \Theta$, $Y = R\sin \Theta$ to generate independent $\normal(0, 1)$ random variables.
 \subsection{Rejection Sampling}

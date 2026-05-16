@@ -3,7 +3,7 @@
 \chapter{Convergence of Random Variables}
 \section{Convergence in Probability}
 \begin{definition}[Convergence in Probability]
-  A sequence of random variables $(X_n: n \in \N)$ \textit{converges to a random variable $X$ in probability} if:
+  A sequence of random variables $(X_n)_{n \in \N}$ \textit{converges to a random variable $X$ in probability} if:
   \[
     \forall \varepsilon > 0,\ \P(|X_n - X| > \varepsilon) \to 0 \text{ as } n \to \infty
   \]
@@ -13,7 +13,7 @@
   \]
 \end{definition}
 \begin{theorem}[Weak Law of Large Numbers]
-  Let $(X_n)$ be independent and identically distributed random variables with finite $\mu = \E[X_1]$.
+  Let $(X_n)_{n \in \N}$ be independent and identically distributed random variables with finite $\mu = \E[X_1]$.
 
   If we set $S_n = X_1 + \cdots + X_n$ for $n \in \N$, then:
   \[
@@ -41,30 +41,31 @@
   as required.
 \end{proof}
 \section{Convergence Almost Surely}
-\begin{definition}
+\begin{definition}[Convergence Almost Surely]
   Let $(X_n)_{n \in \N}$ be a sequence of random variables at let $X$ be another random variable.
   We say that \textit{$X_n$ converges to $X$ almost surely} or \textit{with probability 1} if:
   \[
-    \P\left(\lim_{n \to 0} X_n = X\right) = 1
+    \P\left(\lim_{n \to \infty} X_n = X\right) = 1
   \]
-  We then write $X_n \to X$ as $n \to \infty$ \textit{almost surely}.
+  We then write $X_n \to X$ as $n \to \infty$ almost surely, often abbreviated as a.s.
 \end{definition}
 \begin{remark}
   When we say:
   \[
     \P\left(\lim_{n \to \infty} X_n = X\right) = 1
   \]
-  We mean that:
+  we mean that:
   \[
-    \exists A \in \salg \text{ s.t. } \P(A) = 1 \text{ and } \forall \omega \in A\ \forall \varepsilon > 0 \ \exists n_0(\varepsilon, \omega) \text{ s.t. } \forall n\geq n_0\ |X_n(\omega) - X(\omega)| \leq \varepsilon
+    \exists A \in \salg \text{ with } \P(A) = 1 \text{ s.t. } \forall \omega \in A\ \forall \varepsilon > 0 \ \exists n_0(\varepsilon, \omega) \text{ s.t. } |X_n(\omega) - X(\omega)| \leq \varepsilon\ \forall n\geq n_0
   \]
-  So there is a set $A$ with probability one where the numerical sequence $(X_n(\omega))_n$ converges to $X(\omega)$ for all $\omega \in A$.
+  So there is a set $A$ with probability one where the numerical sequence $(X_n(\omega))_{n \in \N}$ converges to $X(\omega)$ for all $\omega \in A$.
 \end{remark}
 \begin{proposition}[Convergence almost surely $\implies$ Convergence in probability]
-  If $X_n \to 0$ as $n \to \infty$ almost surely, then $X_n \xrightarrow{P} 0$ as $n \to \infty$.
+  If $X_n \to X$ as $n \to \infty$ almost surely, then $X_n \xrightarrow{P} X$ as $n \to \infty$.
 \end{proposition}
 \begin{proof}
-  We need to show that $\forall \varepsilon > 0\ \P(|X_n| > \varepsilon) \to 0$ as $n \to \infty$, or equivalently, $\forall \varepsilon > 0\ \P(|X_n| \leq \varepsilon) \to 1$ as $n \to \infty$.
+  Since we can just consider $X_n - X$, it suffices to show that if $X_n \to 0$ as $n \to \infty$ almost surely, then $X_n \xrightarrow{P} 0$ as $n \to \infty$.
+  Thus we need to show that $\forall \varepsilon > 0\ \P(|X_n| > \varepsilon) \to 0$ as $n \to \infty$, or equivalently, $\forall \varepsilon > 0\ \P(|X_n| \leq \varepsilon) \to 1$ as $n \to \infty$.
 
   To show that $\P(|X_n| \leq \varepsilon) \to 1$, we want to bound this below by something that increases to 1 in the limit.
   We can start by bounding it as:
@@ -72,8 +73,7 @@
     \P(|X_n| \leq \varepsilon) \geq \P\left(\bigcap_{m = n}^{\infty} \{|X_m| \leq \varepsilon\}\right)
   \]
   since $\bigcap_{m = n}^{\infty} \{|X_m| \leq \varepsilon \} \subseteq \{|X_n| \leq \varepsilon \}$.
-  Then let $A_n = \bigcap_{m = n}^{\infty} A_n$.
-  This is an increasing sequence of events as $A_{n} \subseteq A_{n + 1}\ \forall n$ so by continuity of probability measures (\cref{continuityProbMeasures}):
+  Observe that if we let $A_n = \bigcap_{m = n}^{\infty} \{|X_m| \geq \varepsilon\}$, then this is an increasing sequence of events as $A_{n} \subseteq A_{n + 1}\ \forall n$ so by continuity of probability measures (\cref{continuityProbMeasures}):
   \begin{align*}
     \P(A_n) \to \P\left(\bigcup_{n = 0}^{\infty} A_n\right) &= \P\left(\bigcup_{n = 0}^{\infty} \bigcap_{m = n}^{\infty} \{|X_n| \leq \varepsilon\}\right) \\
                                                             &= \P(|X_m| \leq \varepsilon \text{ for all $m$ sufficiently large}) \\
@@ -89,6 +89,9 @@
     \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely}
   \]
 \end{theorem}
+\begin{remark}
+  Because convergence almost surely implies convergence in probability, the strong law of large numbers implies the weak law of large numbers.
+\end{remark}
 \begin{proof}
   \nonexaminable
   For ease, in this proof, we will assume that $\E[X^4_1] < \infty$.
@@ -157,11 +160,11 @@ Since the sum of Gaussians is also a Gaussian (see \cref{sumOfNormals}), we have
 So in this case, it follows a standard normal.
 Although we do not yet know what the distribution of this is when working with a general distribution for $X_i$, this has the same expectation and variance as when we were just using any distribution for the $X_i$.
 
-As we will see, the normal distribution is \textit{universal} as it appears as the limit of the distribution $\frac{S_n - n\mu}{\sigma \sqrt{n}}$, regardless of the distribution of $X_i$.
-This is concept of the \textit{central limit theorem}.
+As we will see, the normal distribution is \textit{universal} as it appears as the limit of the distribution $\frac{S_n - n\mu}{\sigma \sqrt{n}}$, \textbf{regardless of the distribution} of $X_i$.
+This is concept underpinning the \textit{central limit theorem}.
 \subsection{Convergence in Distribution}
 \begin{definition}[Convergence in Distribution]
-  A sequence of random variables $(X_n)_{n \in N}$ \textit{converges to a random variable $X$ in distribution} as $n \to \infty$ if:
+  A sequence of random variables $(X_n)_{n \in \N}$ \textit{converges to a random variable $X$ in distribution} as $n \to \infty$ if:
   \[
     F_{X_n}(x) \to F_X(x) \text{ as $n \to \infty$}\ \forall x \in \R \text{ that are continuity points of $F_X$}
   \]
@@ -175,10 +178,10 @@ This is concept of the \textit{central limit theorem}.
 \begin{remark}[Limit Inferior and Limit Superior]
   For following proof, it is useful to introduce the following definitions for a sequence $(x_n)$ on $\R$:
   \begin{align*}
-    \liminf_{n \to \infty} x_n := \lim_{n \to \infty} \left(\inf_{m \geq n} x_m\right) \\
-    \limsup_{n \to \infty} x_n := \lim_{n \to \infty} \left(\sup_{m \geq n} x_m\right)
+    \liminf_{n \to \infty} x_n \coloneqq \lim_{n \to \infty} \left(\inf_{m \geq n} x_m\right) \\
+    \limsup_{n \to \infty} x_n \coloneqq \lim_{n \to \infty} \left(\sup_{m \geq n} x_m\right)
   \end{align*}
-  These are useful as they always exist for a sequence on $\R$.
+  These are useful as, unlike the limits themselves, they always exist for a sequence on $\R$.
 
   Notably, a sequence $(X_n)$ in $[-\infty, \infty]$ converges if and only if its limit superior and limit inferior are equal.
 \end{remark}
@@ -200,7 +203,7 @@ This is concept of the \textit{central limit theorem}.
   \[
     \{X_n \leq x\} \subseteq \{X \leq x + \varepsilon\} \cup \{|X_n - X| > \varepsilon\}
   \]
-  Therefore by probability of
+  We can then find the probability of $\{X \leq x - \varepsilon\}$:
   \begin{align*}
     \P(X \leq x - \varepsilon) &\leq \P(\{X_n \leq x\} \cup \{|X_n - x| > \varepsilon\}) \text{ by \cref{propertiesOfProbMeasure}} \\
                                &\leq \P(X_n \leq x) + \P(|X_n - x| > \varepsilon) \text{ by \cref{countableSub}} \\
@@ -221,7 +224,7 @@ This is concept of the \textit{central limit theorem}.
   \]
   Finally, taking $\varepsilon \to 0$, since $x$ is a continuity point of $F_{X}$, we have:
   \[
-    F_{X}(x) \leq \liminf_{n \to \infty} F_{X_n}(x) \leq \limsup_{n \to \infty} F_{X_n}(x) \leq = F_{X}(x)
+    F_{X}(x) \leq \liminf_{n \to \infty} F_{X_n}(x) \leq \limsup_{n \to \infty} F_{X_n}(x) \leq F_{X}(x)
   \]
   Therefore:
   \[
@@ -229,6 +232,13 @@ This is concept of the \textit{central limit theorem}.
   \]
   as required.
 \end{proof}
+\begin{remark}
+  We have shown that:
+  \begin{align*}
+    X_n \to X \text{ a.s.} \implies X_n \xrightarrow{P} X \implies X_n \xrightarrow{(d)} X
+  \end{align*}
+  so convergence almost surely is the strongest notion of the three.
+\end{remark}
 \begin{theorem}[Continuity Property of mgfs]
   Let $(X_n)$ be random variables with moment generating functions $m_n(\theta) = \E[e^{\theta X_n}]$ for $\theta \in \R$ and let $X$ be a random variable with mgf $m(\theta) = \E[e^{\theta X}]$.
   Further, assume that that $m(\theta) < \infty$ for some $\theta \neq 0$. \label{mgfCty}
@@ -254,7 +264,7 @@ This is concept of the \textit{central limit theorem}.
 \begin{proof}\par
   \textbf{Shifting the Random Variables}\par
   To make the proof easier, we define $Y_i = \frac{X_i - \mu}{\sigma}$ so that $\E[Y_i] = 0$ and $\Var(Y_i) = 1$.
-  Therefore, it is enough to prove that the theorem holds for a sequence of i.i.d random variables $(X_i)_{n \in \N}$ with mean 0 and variance 1.
+  Therefore, it is enough to prove that the theorem holds for a sequence of i.i.d. random variables $(X_i)_{n \in \N}$ with mean 0 and variance 1.
   Thus, we need to show that $\frac{S_n}{\sqrt{n}} \xrightarrow{(d)} \normal(0, 1)$ as $n \to \infty$.
 
   \textbf{Using the mgf}\par
