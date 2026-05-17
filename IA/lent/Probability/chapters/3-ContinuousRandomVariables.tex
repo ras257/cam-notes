@@ -1616,7 +1616,7 @@ This means that when sections of $F$ are strictly increasing, $G$ is just the in
     Since $G(u)$ is the infimum, there exists a sequence $(x_n)$ on $\{x \in \R: u \leq F(x)\}$ such that $x_n$ decreases to $G(u)$ and $u \leq F(x_n)\ \forall n$.
     By right continuity of $F$, we get that:
     \[
-      u \leq \lim_{n \to \infty} F(x_n) = F\left(\lim_{n \to \infty} x_n\right) = F(g(u))
+      u \leq \lim_{n \to \infty} F(x_n) = F\left(\lim_{n \to \infty} x_n\right) = F(G(u))
     \]
     Finally, since $F$ is increasing and $G(u) \leq x$, $u \leq F(G(u)) \leq F(x)$, as required.
   \end{proofdirection}
@@ -1699,7 +1699,7 @@ The solution is surprisingly simple, if we repeatedly take samples $U_i$ from $\
 \begin{proof}
   We need to show that for any $B \subseteq A \subseteq [0, 1]^{d}$:
   \[
-    \P(X \in B) = \int_{B} f(x) \d{x} = \frac{|B \cap A|}{|A|}
+    \P(X \in B) = \int_{B} f(x) \d{x} = \frac{|B \cap A|}{|A|} = \frac{|B|}{|A|}
   \]
   We can show this by summing over all the possible values that $N$ can take and utilising that $N$ is index of the \textbf{first sample} to be in $A$:
   \begin{align*}
@@ -1709,7 +1709,7 @@ The solution is surprisingly simple, if we repeatedly take samples $U_i$ from $\
                 &= \sum_{n = 1}^{\infty} \P(U_{n} \in B \cap A)\P(U_{1} \notin A)^{n - 1} \text{ as the $U_i$ are i.i.d} \\
                 &= \sum_{n = 1}^{\infty} |B \cap A| (1 - |A|)^{n - 1} \text{ as $U_{n} \sim \uniform([0, 1]^{d})$} \\
                 &= |B \cap A| \sum_{n = 0}^{\infty} (1 - |A|)^{n} \\
-                &= \frac{|B \cap A|}{|A|}
+                &= \frac{|B|}{|A|}
   \end{align*}
 \end{proof}
 \end{document}
