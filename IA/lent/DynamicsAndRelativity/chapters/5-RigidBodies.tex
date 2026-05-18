@@ -63,7 +63,7 @@ A particle rotating with angular velocity $\vec{\omega}$ has kinetic energy:
     &= \frac{1}{2} m \omega^2 (\uvec{n} \times \vec{x}) \cdot (\uvec{n} \times \vec{x}) \\
     &= \frac{1}{2} m \omega^2 d^2
 \end{align*}
-where $d = |\uvec{n} \times \vec{x}|$ the perpendicular distance of $\vec{x}$ to the axis of rotation.
+where $d = |\uvec{n} \times \vec{x}|$ is the perpendicular distance of $\vec{x}$ to the axis of rotation.
 
 In a rigid body, all particles rotate with the same angular velocity $\vec{\omega}$, i.e.:
 \[
@@ -111,14 +111,14 @@ In this course, we will only consider the component of $\vec{L}$ along the axis 
 \end{remark}
 Recall from \cref{totalAngularMomentum}, that external the \textit{torque} $\vec{G}$ changes angular momentum, that is, $\dot{\vec{L}} = \vec{G}$.
 If the torque is about the axis of rotation, then $\vec{G} = G\uvec{n}$ for some scalar $G$.
-If we dot both sides of $\dot{\vec{L}} = \vec{G}$  to compare components along the axis, we have:
+If we dot both sides of $\dot{\vec{L}} = \vec{G}$  to compare components along the axis, then we obtain:
 \begin{equation}
   \dot{\vec{L}} \cdot \uvec{n} = \vec{G} \cdot \uvec{n} \implies \dot{L} = G \implies \dot{\omega}I = \ddot{\theta}I = G \label{torqueMomentOfInertia}
 \end{equation}
 \begin{remark}[Note]
   So far, all of this depends on the axis of rotation that we choose and is not an intrinsic property of the body.
 
-  In Part II, we will define a more invariant \textit{inertia tensor} that packages up all the information needed to find the moment of inertia of a rigid body about \textbf{any axis}.
+  In IA Vector Calculus, we will define a more invariant \textit{inertia tensor} that packages up all the information needed to find the moment of inertia of a rigid body about \textbf{any axis}.
 \end{remark}
 \subsection{Computing Moment of Inertia}
 \subsubsection{Approximating Sums with Integrals}
@@ -128,7 +128,7 @@ For any function $f(\vec{x})$:
 \[
   \sum_{i = 1}^{N} m_i f(\vec{x}_i) \approx \int \rho(\vec{x}) f(\vec{x}) \d^3{\vec{x}}
 \]
-where $\rho$ is the \textit{density} of the rigid body at $\vec{x}$, although we typically consider situations with uniform density, i.e. $\rho(\vec{x}) = \rho_0\ \forall x \in \R^3$.
+where $\rho$ is the \textit{density} of the rigid body at $\vec{x}$, although we typically consider situations with uniform density, i.e. $\rho(\vec{x}) = \rho_0\ \forall \vec{x} \in \R^3$.
 
 If we want the mass of the body $M$, we set $f(\vec{x}) = 1$ and so:
 \[
@@ -157,9 +157,12 @@ Similarly, for the moment of inertia, we set $f(\vec{x}) = x^2_{\perp}$ where $x
       \]
       and if it is rotating through its centre the moment of inertia is:
       \[
-        I = \int_{R} \rho a^2 \d{\vec{x}} = 2\pi \rho a^3
+        I = \int_{R} \rho a^2 \d{s}
       \]
-      as the length of $R$ is $2 \pi a$.
+      Parametrising $R$ as $\vec{x}(\theta) = (a \cos \theta, a \sin \theta)$ for $\theta \in [0, 2\pi)$ we have:
+      \[
+        I = \int_{0}^{2\pi} \rho a^2 \abs{\deriv{\vec{x}}{\theta}} \d{\theta} = \int_{0}^{2\pi} \rho a^2 \cdot a \d{\theta} = 2\pi \rho a^3
+      \]
       We can then relate the two by $I = Ma^2$.
     \item Consider a 1D rod of length $\ell$:
       \begin{center}
@@ -324,7 +327,7 @@ One nice case is constant gravitational field, $V_i(\vec{x}_i) = m_i gz_i$ and s
 where $R_z(t)$ is the $z$-component of the CoM.
 This means that the rigid body acts just like a point particle with mass $M$ at the CoM.
 \begin{remark}[Note]
-  Here we used an axes that passes through the CoM, however, in some cases it may be easiest to consider an axis that does not pass through the CoM.
+  Here we used an axis passing through the CoM, however, in some cases it may be easiest to consider an axis that does not pass through the CoM.
 \end{remark}
 \subsection{Motion of a Pendulum}
 Consider a uniform rigid rod pendulum of mass $M$ and length $L$:
@@ -464,8 +467,13 @@ This is when there is rotational motion with the additional requirement that $v 
 \end{center}
 If we consider the point point of contact $P$, it has velocity $v$ to the right from the translational motion of the rigid body (it is being pulled along since distances between particles must remain constant), but also has velocity $a \dot{\theta}$ to the left from the rotational motion of the rigid body.
 Since we have imposed the restriction that $v = a \dot{\theta}$, $P$ has no velocity relative to the ground at the instant it contacts the ground.
+\begin{remark}[Intuition]
+  The point of contact having 0 velocity the instant it contacts the ground can be hard to imagine.
+  Instead, consider how an object like a spiky star would roll along the ground, when each vertex of the star is touching the ground it remains stationary.
+  As we increase the number of vertices, this polygon becomes increasingly circular and so we can carry our intuition over to no-slip rolling.
+\end{remark}
 
-In the case of non-slip rolling, The kinetic energy is:
+In the case of non-slip rolling, the kinetic energy is:
 \begin{align*}
   T &= \frac{1}{2} M v^2 + \frac{1}{2}I\omega^2 \\
     &= \frac{1}{2} \left(M + \frac{I}{a^2}\right)v^2 \text{ as $\omega = \dot{\theta} = \frac{v}{a}$}
@@ -475,16 +483,16 @@ We can interpret this as rolling increasing the ``effective mass'' of the ball.
 Friction is needed for this kind of motion to happen, however, because there is no relative velocity between the point of contact and the ground, no work is done by the friction force and thus energy is conserved when a body is no-slip rolling.
 The only role of friction here is to impose the no-slip condition.
 
-To check that energy is conserved when rolling when a frictional force $f$ acts at the contact point, we can differentiate the kinetic energy:
+To check that energy is conserved when rolling when a frictional force $F_f$ acts at the contact point, we can differentiate the kinetic energy:
 \[
-  E = \frac{1}{2}M \dot{x}^2 + \frac{1}{2} I \dot{\theta}^2 \implies \deriv{E}{T} = M \dot{x}\ddot{x} + I \dot{\theta}\ddot{\theta}
+  E = \frac{1}{2}M \dot{x}^2 + \frac{1}{2} I \dot{\theta}^2 \implies \deriv{E}{t} = M \dot{x}\ddot{x} + I \dot{\theta}\ddot{\theta}
 \]
 Recall from \cref{torqueMomentOfInertia} that the torque is $G = I \dot{\omega} = I \ddot{\theta}$.
-Since the frictional force $f$ is acting at a perpendicular distance $a$, the torque $G = af$ and so $I \ddot{\theta} = af$.
-Furthermore, using Newton's equation $M\ddot{x}$ is the force $f$ acting on the ball and so:
+Since the frictional force $F_{f}$ is acting at a perpendicular distance $a$, the torque $G = aF_{f}$ and so $I \ddot{\theta} = aF_{f}$.
+Furthermore, using Newton's equation $M\ddot{x}$ is the force $F_{f}$ acting on the ball and so:
 \begin{align*}
-  \deriv{E}{t} &= \dot{x}(-f) + \dot{\theta}af \\
-               &= f(-\dot{x} + a \dot{\theta}) \text{ as rolling: $\dot{x} = v = a \dot{\theta}$} \\
+  \deriv{E}{t} &= \dot{x}(-F_{f}) + \dot{\theta}aF_{f} \\
+               &= F_{f}(-\dot{x} + a \dot{\theta}) \text{ as rolling: $\dot{x} = v = a \dot{\theta}$} \\
                &= 0
 \end{align*}
 So the energy is conserved, despite the presence of a frictional force.
