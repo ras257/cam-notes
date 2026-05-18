@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Principle of Least Action}
+\section{Configuration Space}
 Consider a system of $N$ particles in 3D with positions $\vec{x}_1, \ldots, \vec{x}_n$.
 We can consider the positions of the particles at a single point as a $3N$ dimensional point in \textit{configuration space}:
 \[
@@ -10,6 +11,7 @@ It is sometimes also useful to use non-Cartesian coordinates of the space:
 \[
   \vec{q} = (\vec{q}_1, \ldots, \vec{q}_n)
 \]
+\section{The Lagrangian}
 There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of $\vec{q}(t)$ and $\dot{\vec{q}}(t)$.
 \begin{definition}[Lagrangian]
   We define the \textit{Lagrangian} as:
@@ -70,5 +72,172 @@ Since $\vec{q}$ has $3N$ components, we will obtain $3N$ Euler-Lagrange equation
        &= - (T + V)
   \end{align*}
   So $E = T + V$ is the total energy.
+\end{example}
+\begin{example}[Polar Coordinates]
+  Consider a particle in 2D dimensions with position $\vec{q} = (r, \theta)$ in plane polar coordinates.
+  \[
+    T = \frac{1}{2}m(\dot{r}^2 + r^2 \dot{\theta}^2)
+  \]
+  If we assume that the force is radial, i.e. $V = V(r)$, then:
+  \[
+    L = \frac{1}{2}m(\dot{r}^2 + r^2 \dot{\theta}^2) - V(r)
+  \]
+  Using the Euler Lagrange equation for $\theta(t)$:
+  \[
+    \pderiv{L}{\theta} - \deriv{}{t} \pderiv{L}{\dot{\theta}} = 0
+  \]
+  We see that $\pderiv{L}{\theta} = 0$ so we have a first integral $\pderiv{L}{\dot{\theta}} = \text{constant}$.
+  Thus the quantities $m r^2 \dot{\theta}$ and $r^2 \dot{\theta}$ are constant.
+
+  Since $\pderiv{L}{t} = 0$, we know that there is a conserved energy:
+  \[
+    E = \dot{r} \pderiv{L}{\dot{r}} + \dot{\theta} \pderiv{L}{\dot{\theta}} - L = \frac{1}{2}m (\dot{r}^2 + r^2 \dot{\theta}^2) + V
+  \]
+  We can solve to eliminate $\dot{\theta}$ to obtain:
+  \[
+    \frac{1}{2} m\dot{r}^2 + V_{\text{eff}}(r) = E
+  \]
+  where:
+  \[
+    V_{\text{eff}}(r) = \frac{mL^2}{2r^2} + V(r)
+  \]
+\end{example}
+\section{The Hamiltonian}
+\subsection{Definition}
+\begin{definition}
+  We assume that the Lagrangian $L(\vec{q}, \dot{\vec{q}}, t)$ is a convex function of $\dot{\vec{q}}$.
+  We then define the \textit{Hamiltonian} as the Legendre transform of $L$ with respect to $\dot{\vec{q}}$:
+  \begin{align*}
+    H(\vec{q}, \vec{p}, t) &= \sup_{\dot{\vec{q}}} [\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)] \\
+                           &= \at{[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)]}{\dot{\vec{q}} = \dot{\vec{q}}(\vec{q}, \vec{p}, t)}
+  \end{align*}
+  where $\dot{\vec{q}}(\vec{q}, \vec{p}, t)$ is defined to be the local extremum, which by convexity must exist and also be the global extremum.
+  We also determine $\vec{p}$ from:
+  \[
+    p_i = \pderiv{L}{\dot{q}_i}
+  \]
+\end{definition}
+\subsection{Examples}
+\begin{example}
+  Consider a single particle (i.e. $N = 1$) with $\vec{q} = \vec{x}$.
+  \[
+    L = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} - V(\vec{x}, t)
+  \]
+  We then have:
+  \[
+    p_i = \pderiv{L}{\dot{x}_i} = m \dot{x}_i \implies \vec{p} = m \dot{\vec{x}}
+  \]
+  which is the momentum, and:
+  \[
+    H = \vec{p} \cdot \frac{\vec{p}}{m} - \left(\frac{\vec{p} \cdot \vec{p}}{2m} - V\right) = \frac{\vec{p} \cdot \vec{p}}{2m} + V
+  \]
+  which is the total energy.
+\end{example}
+\begin{example}
+  Consider a single particle with a central force where $\vec{q} = (r, \theta)$, we know that:
+  \[
+    L = \frac{1}{2} (\dot{r}^2 + r^2 \dot{\theta}^2) - V(r)
+  \]
+  so:
+  \[
+    p_r = \pderiv{L}{\dot{r}} = m\dot{r} \text{ and } p_{\theta} = \pderiv{L}{\dot{\theta}} = mr^2 \dot{\theta}
+  \]
+  and:
+  \[
+    H = p_r \dot{r} + p_{\theta} \dot{\theta} - L = \frac{p^2_r}{2m} + \frac{p^{2}_{\theta}}{2m} + V(r)
+  \]
+\end{example}
+In general, we call $p_i$ the \textit{conjugate momentum} to $q_i$.
+
+After we have eliminated $\dot{\vec{q}}$ in favor of $\vec{q}, \vec{p}, t$ by using $p_i = \pderiv{L}{\dot{q}_i}$, we have:
+\[
+  H = \sum_{i} \dot{q}_i \pderiv{L}{\dot{q}_i} - L
+\]
+so $H$ is the total energy and so will be conserved if $\pderiv{L}{t} = 0$.
+\subsection{Hamiltonian Equations of Motion}
+We can writ the equations of motion in terms of $H$:
+\[
+  \at{\pderiv{H}{p_i}}{\vec{q}} = \dot{q}_i + \sum_{j} p_j \pderiv{\dot{q}_j}{p_i} - \sum_{j} \pderiv{L}{\dot{q}_j} \pderiv{\dot{q}_j}{p_i} = \dot{q}_i
+\]
+and:
+\begin{align*}
+  \at{\pderiv{H}{q_i}}{\vec{p}} &= \sum_{j} p_j \pderiv{\dot{q}_j}{q_i} - \pderiv{L}{q_i} - \pderiv{L}{q_i} - \sum_{j} \pderiv{L}{\dot{q}_j} \pderiv{\dot{q}_j}{q_i} \\
+                                &= - \pderiv{L}{q_i} \\
+                                &= - \deriv{}{t} \pderiv{L}{\dot{q}_i} \text{ using the Euler-Lagrange equations} \\
+                                &= - \dot{p}_i
+\end{align*}
+Thus the Euler Lagrange equations imply \textit{Hamilton's Equations} :
+\[
+  \dot{q}_i = \pderiv{H}{p_i} \text{ and } \dot{p}_i = - \pderiv{H}{q_i}
+\]
+The Euler-Lagrange equations are second order ODEs in a $3N$ dimensional \textit{configuration space} $\vec{q}$, whereas Hamilton's equations are first order ODEs in a $6N$ dimensional \textit{phase space} with coordinates $(\vec{q}, \vec{p})$.
+
+We can in fact also obtain these equations as the Euler-Lagrange equations for the functional:
+\[
+  I[\vec{q}, \vec{p}] = \int_{t_A}^{t_B} (\dot{\vec{q}} \cdot \vec{p} - H(\vec{q}, \vec{p}, t)) \d{t}
+\]
+for fixed $\vec{q}(t_A)$ and $\vec{q}(t_B)$ so that $\delta \vec{q}(t_A) = \delta \vec{q}(t_B) = 0$.
+
+The time derivative of the Hamiltonian is:
+\begin{align*}
+  \deriv{H}{T} &= \deriv{}{t}H(\vec{q}(t), \vec{p}(t), t) \\
+               &= \sum_{i} \left(\pderiv{H}{q_i}\dot{q}_i + \pderiv{H}{p_i}\dot{p}_i\right) + \pderiv{H}{t} \\
+               &= \sum_{i} (-\dot{p}_i \dot{q}_i + \dot{q}_i \dot{p}_i) + \pderiv{H}{t} \\
+               &= \pderiv{H}{t}
+\end{align*}
+Thus if $H$ has \textbf{no explicit time dependence}, then the Hamiltonian is conserved.
+\section{Symmetry and Noether's Theorem}
+We want to explore the idea that continuous symmetries of the action are in correspondence the 1st integrals of the Euler-Lagrange equations.
+\subsection{Symmetries of the Action}
+Consider a smooth map $\vec{Q}: \R^{6N + 1} \to \R^{3N}$.
+Given a curve $\vec{q}(t)$, we can define the curve $\vec{q}^{*}$:
+\[
+  \vec{q}^{*}(t) = \vec{Q}(\vec{q}(t), \dot{\vec{q}}(t), t)
+\]
+\begin{definition}[Symmetry of the Action]
+  We say that $\vec{Q}$  is a \textit{symmetry of the action} if for all curves $\vec{q}(t)$ and all $t_A, t_B$ we have:
+  \[
+    \int_{t_A}^{t_B} L(\vec{q}^{*}(t), \dot{\vec{q}}^{*}(t), t) \d{t} = \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t}
+  \]
+\end{definition}
+Now consider a \textit{1-parameter family} of such maps, that is we have a collection of curves characterised by the parameter $s$:
+\[
+  \vec{Q}(\vec{q}, \dot{\vec{q}}, t, s)
+\]
+with $\vec{Q}(\vec{q}, \dot{\vec{q}}, t, 0) = \vec{q}$.
+For small $s$:
+\[
+  \vec{q}^{*} = \vec{q} + s \at{\pderiv{\vec{Q}}{s}}{s =0} + O(s^2)
+\]
+\begin{theorem}[Noether's Theorem -- V1]
+  If there exists a 1-parameter family of symmetries of the action then any solution of the Euler-Lagrange equations has a conserved quantity (i.e. a first integral):
+  \[
+    \sum_{i = 1}^{3N} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} = \text{constant}
+  \]
+\end{theorem}
+\begin{proof}
+  For small $s$, we obtain:
+  \begin{align*}
+    &\int_{t_a}^{t_B} \left[L\left(\vec{q}(t) + s \at{\pderiv{\vec{Q}}{s}}{s = 0} + \cdots,  \dot{\vec{q}}(t) + s \deriv{}{t}\left(\at{\pderiv{\vec{Q}}{s}}{s = 0}\right) + \cdots\right) -L(\vec{q}(t), \dot{\vec{q}}(t), t)\right] \d{t} \\
+    &= \int_{t_A}^{t_B} \left[s \at{\pderiv{Q_i}{s}}{s=0} \pderiv{L}{q_i} + s \deriv{}{t}\left(\at{\pderiv{Q_i}{s}}{s = 0}\right) \pderiv{L}{\dot{q}_i} + \cdots\right] \d{t} \\
+    &=\int_{t_A}^{t_B} \left[s \at{\pderiv{Q_i}{s}}{s = 0} \underbrace{\left(\pderiv{L}{q_i} - \deriv{}{t}\pderiv{L}{\dot{q}_i}\right)}_{=0} + s \deriv{}{t}\left(\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}\right) + \cdots\right] \d{t} \\
+    &= \eval{s \pderiv{L}{q_i} \at{\pderiv{Q_i}{s}}{s = 0}}{t_A}{t_B} + O(s^2)
+  \end{align*}
+  But this whole integral is equal to 0 and so $\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}$ takes some value at $t_A, t_B$, but $t_A$ and $t_B$ were arbitrary and so we are done.
+\end{proof}
+\begin{example}
+  If $L$ does not depend on, for example $q_1$, then consider:
+  \[
+    \vec{Q} = (q_1 + s, q_2, q_3, \ldots, q_{3N})
+  \]
+  Thus:
+  \begin{align*}
+    q^{*}_1 &= q_1 + s \text{ and } q^{*}_i = q_i\ \forall i \in {2, \ldots, 3N} \\
+    \dot{q}^{*}_i &= q_i\ \forall i \in {1, 2, \ldots, 3N}
+  \end{align*}
+  This is a symmetry of the action since $L$ is independent of $q_1$, thus we have a conserved quantity:
+  \[
+    \at{\pderiv{Q_i}{s}}{s = 0} \pderiv{L}{\dot{q}_i} = \pderiv{L}{\dot{q_i}} = p_i
+  \]
 \end{example}
 \end{document}

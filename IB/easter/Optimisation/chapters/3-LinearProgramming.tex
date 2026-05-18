@@ -290,9 +290,91 @@ For any basic feasible solution, the complementary slackness equation reduces to
 \]
 Since $\vec{x}_{B} > \vec{0}$ by the non-degeneracy assumption, we must have:
 \[
-  \vec{c}_{B} = B^{T} \vec{\lambda} \implies \vec{\lambda} = (B^{\trans})^{-1} C_{B}
+  \vec{c}_{B} = B^{T} \vec{\lambda} \implies \vec{\lambda} = (B^{\trans})^{-1} \vec{c}_{B}
 \]
 If $A^{\trans}(B^{\trans})^{-1}\vec{c}_{B} \leq \vec{c}$, then $\vec{\lambda}$ is dual feasible and so $\vec{x}$ is optimal.
 
 So if we check $A^{\trans}(B^{\trans})^{-1}\vec{c}_{B} \leq \vec{c}$ at every basic feasible solution, any solution satisfying this must be optimal.
+
+\begin{definition}[Vector of reduced costs]
+  We define the \textit{vector of reduced costs} $\overline{\vec{c}}$ as:
+  \[
+    \overline{\vec{c}}^{\trans} = \vec{c}^{\trans} - \vec{c}^{\trans}_{B} B^{-1} A
+  \]
+\end{definition}
+So for a BFS $\vec{x}$, if $\overline{\vec{c}} \geq \vec{0}$, then $\vec{x}$ must be optimal.
+\section{Simplex Algorithm}
+\subsection{Theory}
+Suppose we are at the point:
+\[
+  \vec{x} = (x_{B(1)}, \ldots, x_{B(m)}, 0, \ldots, 0)^{\trans}
+\]
+Suppose for some $j^{*}$, $\overline{c}_{j^{*}} < 0$, i.e., $\vec{x}$ is not optimal.
+Suppose now that we choose some $j \notin \{B(1), \ldots, B(m)\}$ and we decide to make $x_j > 0$ whilst keeping all non basic $x_i = 0$:
+\[
+  \vec{x}' = (x_{B(1)}, \ldots, x_{B(m)}, 0, \ldots, 0)^{\trans} + t (d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans}
+\]
+where the $1$ is in the $j^{*}$-th position.
+
+We need $A\vec{x}' = \vec{b}$ and so:
+\begin{align*}
+  A(\vec{x} + t(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans}) &= \vec{b} \\
+  \implies \cancel{\vec{b}} + tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \cancel{\vec{b}} \\
+  \implies tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \vec{0}
+\end{align*}
+If this $\vec{x}'$ is still feasible then:
+\begin{align*}
+  A(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} = \vec{0} &\iff B \vec{d}_{B} + \vec{A}_j = 0\ \forall j \\
+                                                                            &\implies \vec{d}_B = - B^{-1} \vec{A}_j\ \forall j
+\end{align*}
+We now check the cost at $\vec{x}'$:
+\begin{align*}
+  \vec{c}^{\trans} \vec{x}' &= \vec{c}^{\trans}(\vec{x} + t(\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans}) \\
+                            &= \vec{c}^{\trans} \vec{x} + t(\vec{c}^{\trans}_{B} \vec{d}_B + c_j) \\
+                            &= \vec{c}^{\trans} \vec{x} + t(c_j - \vec{c}^{\trans}_{B} B^{-1}\vec{A}_j) \\
+                            &= \vec{c}^{\trans} \vec{x} + tc_j
+\end{align*}
+We then calculate:
+\[
+  - \frac{x_{B(1)}}{d_{B(1)}}, \ldots, - \frac{x_{B(m)}}{d_{B(m)}}
+\]
+and find the smallest positive one.
+
+Let us consider how is $x_{B(1)}$ changes with $t$:
+\begin{align*}
+  x_{B(1)} + t d_{B(1)} \geq 0 \iff x_{B(1)} \geq - t d_{B(1)}
+\end{align*}
+But if $d_{B(1)} < 0$, then the $x_{B(1)}$ could become negative and so we would need to ensure that $t \leq -\frac{x_{B(1)}}{d_{B(1)}}$.
+
+If $d_{B(i)} \geq 0$, then we do not need to worry about leaving the constrained set in this direction, only those $B(i)$ with $d_{B(i)} < 0$ can cause constraints issues, hence why we take:
+\[
+  t^{*} = \min\left\{- \frac{x_{B(1)}}{d_{B(1)}}, \ldots, - \frac{x_{B(m)}}{d_{B(m)}}\right\}
+\]
+What can we say about $\vec{x}'$ when we take $t = t^{*}$?
+\[
+  \vec{x}' = \vec{x} + t^{*} \vec{d} \text{ where } \vec{d} = (\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans}
+\]
+\begin{proposition}
+  $\vec{x}' = \vec{x} + t^{*} \vec{d}$ as defined above is a basic feasible solution.
+\end{proposition}
+\begin{proof}
+  We already have that $A \vec{y} = \vec{0}$ and $\vec{y} \geq \vec{0}$ as our choice of $t^{*}$ ensures that $\vec{y}$ is feasible.
+
+  Because of our choice of $t^{*}$, \textbf{exactly 1} amongst $x_{B(1)}', \ldots, x_{B(m)}'$ has become 0 and $x_{j^{*}}' > 0$.
+  We know that there is exactly 1 which is $0$ because of our assumption that all of our basic feasible solutions are non-degenerate.
+
+  Thus $y$ has exactly $m$ non-zero entries and so is a basic feasible solution.
+\end{proof}
+So we have figured out a method for starting at a basic feasible solution to find a new basic feasible solution where the reduced cost is strictly less than our original reduced cost.
+\subsection{Algorithm}
+We start at a BFS $\vec{x}$ and construct a \textit{simplex tableau}:
+\begin{center}
+\begin{tabular}{c|c|c|c|c}
+$\vec{c}^{\trans}_{B} \vec{x}_{B}$ & $\overline{c}_1$ & $\overline{c}_2$ & $\cdots$ & $\overline{c}_n$ \\
+\hline
+$x_{B(1)}$ & \uparrow & \uparrow &  & \uparrow \\
+$\vdots$ & $B^{-1}\vec{A}_1$ & $B^{-1} \vec{A}_2$ & $\cdots$ & $B^{-1} \vec{A}_n$ \\
+$x_{B(m)}$ & \downarrow & \downarrow &  & \downarrow
+\end{tabular}
+\end{center}
 \end{document}
