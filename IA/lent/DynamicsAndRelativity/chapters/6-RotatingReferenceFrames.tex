@@ -82,21 +82,21 @@ The centrifugal force is:
 \[
   \vec{F}_{\text{cent}} = -m \vec{\omega} \times (\vec{\omega} \times \vec{x})
 \]
-Using the right hand rule twice, we see that $\vec{F}_{\text{cent}}$ points away from the axis of rotation:
+Using the right hand rule twice, we see that $\vec{\omega} \times \vec{x}$ points into the plane of the page and so $\vec{F}_{\text{cent}}$ points away from the axis of rotation:
 \begin{center}
 \begin{tikzpicture}[>=stealth]
   \draw[->] (0, 0)  -- (0, 3) node[right] {$\vec{\omega}$};
-  \draw[->] (0, 0) -- (2, 2) node[below right] {$\vec{x}$} node[midway, below right] {$|\vec{x}|$};
+  \draw[->] (0, 0) -- (2, 2) node[left] {$\vec{x}$} node[midway, below right] {$|\vec{x}|$};
   \fill (2, 2) circle (1.5pt) node[above right] {$\vec{\omega} \times \vec{x}$};
   \node[text width=2cm, align=center, scale=0.5] at (3.6, 2.2) {Into plane of page};
   \draw[->, yscale=0.6] (-0.3,2.5) arc [start angle=-200,end angle=60,radius=0.3];
-  \draw (0.5,0) arc [start angle=0,end angle=45,radius=0.5] node[right] {$\theta$};
+  \draw (0, 0) ++ (0:0.5) arc (0:45:0.5) node[pos=0.8, right] {$\theta$};
   \draw[dashed] (0, 0) -- (2, 0) node[midway, below] {$d$} -- (2, 2);
 
   \draw[->] (2, 2) -- (3, 2) node[below, scale=0.7] {$\vec{F}_{\text{cent}}$};
 \end{tikzpicture}
 \end{center}
-The modulus of the centripetal force is:
+The magnitude of the centripetal force is:
 \[
   |\vec{F}_{\text{cent}}| = m|\vec{\omega}||\vec{\omega} \times \vec{x}| = m\omega^2 r \sin\left(\frac{\pi}{2} - \theta\right) = m \omega^2 r \cos \theta
 \]
@@ -108,13 +108,13 @@ where:
 \[
   V_{\text{cent}} = - \frac{m}{2} |\vec{\omega} \times \vec{x}|^2 = - \frac{m}{2}\omega^2 r^2 \cos^2 \theta
 \]
-We can check this using suffix notation:
+From IA Vector Calculus, we know that $\nabla |\vec{x}|^2 = 2 \vec{x}$ and $\nabla \vec{\omega} \cdot \vec{x} = \vec{\omega}$ and so:
 \begin{align*}
-  [\nabla V_{\text{cent}}]_j &= -\frac{m}{2}\pderiv{}{x_j}([\vec{\omega} \times \vec{x}]_i[\vec{\omega} \times \vec{x}]_i) \\
-                             &= -m [\vec{\omega} \times \vec{x}]_i \pderiv{}{x_j}(\levi_{i p q} \omega_p x_q) \\
-                             &= -m [\vec{\omega} \times \vec{x}]_i \levi_{i p q} \omega_p \delta_{j q} \\
-                             &= -m \levi_{i p j} [\vec{\omega} \times \vec{x}]_i \omega_p \\
-                             &= -m [(\vec{\omega} \times \vec{x}) \times \vec{\omega}]_j
+  \nabla V_{\text{cent}} &= -\frac{m}{2} \nabla (|\vec{\omega}|^2 |\vec{x}|^2 - (\vec{\omega} \cdot \vec{x})^2) \\
+                         &= -m [\vec{x}|\vec{\omega}^2| - (\vec{\omega} \cdot \vec{x}) \vec{\omega}] \\
+                         &= -m[(\vec{\omega} \cdot \vec{\omega}) \vec{x} - (\vec{\omega} \cdot \vec{x}) \vec{\omega}] \\
+                         &= -m\vec{\omega} \times (\vec{x} \times \vec{\omega}) \\
+                         &= -m (\vec{\omega} \times \vec{x}) \times \vec{\omega}
 \end{align*}
 Thus $\nabla V_{\text{cent}} = m \vec{\omega} \times (\vec{\omega} \times \vec{x})$ and so $\vec{F}_{\text{cent}} = -\nabla V_{\text{cent}}$.
 
@@ -170,7 +170,7 @@ As we move away from the axis of rotation, $r$ increases so the potential decrea
   \end{center}
   So:
   \begin{align*}
-    \vec{F}_{\text{cent}} &= -m \vec{\omega} \times (\vec{\omega} \times \vec{x}) \\
+    \vec{F}_{\text{cent}} &= |\vec{F}_{\text{cent}}| (\cos \theta \uvec{r} - \sin \theta \uvec{\theta}) \\
                           &= m \omega^2 r \cos \theta (\cos \theta \uvec{r} - \sin \theta \uvec{\theta})
   \end{align*}
   To hold the string together, there must be a force exerted by the molecules in the string that balances the other forces, this is called the \textit{tension} $\vec{T}$.
@@ -236,10 +236,11 @@ This makes sense as if a particle is not moving in an inertial frame, then it sh
     \node[below right] {$-\vec{\omega}$};
   \end{tikzpicture}
   \end{center}
-  The trajectory of each air molecule is bent clockwise (use right hand rule with $-\vec{\omega}$ going into the plane) and as we can see this leads to an anti-clockwise swirling motion.
+  The trajectory of each air molecule is bent clockwise (by using the right hand rule with $-\vec{\omega}$ going into the plane) which leads to an anti-clockwise swirling motion.
   This means that hurricanes rotate anti-clockwise in the northern hemisphere and clockwise in the southern hemisphere.
 
-  Near the equator $\vec{\omega} \times \vec{v}$, if motion is not equatorial, it is not perpendicular to $\vec{\omega}$ and so is negligible, instead, if motion is along on the equator $\vec{\omega} \times \vec{v}$ can be substantive, however, we see that it pushes particles vertically and is negligible compared to gravity so can still usually be ignored.
+  Near the equator if motion is not equatorial, then $\vec{v}$ is not perpendicular to $\vec{\omega}$ and so $\vec{\omega} \times \vec{v}$ is negligible.
+  If instead motion is along on the equator, then $\vec{\omega} \times \vec{v}$ can be substantive, however, we see that it pushes particles vertically and is negligible compared to gravity so can still usually be ignored.
   This is why we do not see hurricanes near the equator.
 \end{example}
 \begin{example}
@@ -261,10 +262,10 @@ This makes sense as if a particle is not moving in an inertial frame, then it sh
   In the inertial frame, the only force is gravity, which is a central force so angular momentum of the ball $\ell$ is conserved.
 
   Initially $\ell = \omega(R + h)^2$, where $\omega$ is the angular speed of the Earth.
-  At the floor of the tower $\ell = \omega'R^2$ where $\omega'$ is the angular speed of the ball around the Earth right before it hits the ground.
-  Since angular momentum is conserve red $\omega(R + h)^2 = \omega'R^2$ and so $\omega' > \omega$.
+  At the floor of the tower $\ell = \omega'R^2$ where $\omega'$ is the angular speed of the ball around the axis right before it hits the ground.
+  Since angular momentum is conserved $\omega(R + h)^2 = \omega'R^2$ and so $\omega' > \omega$.
   This means that the angular speed of the ball must increase as it falls in order to conserve $\ell$.
-  So the ball must rotate faster than the tower and so will fall in front of the tower.
+  Thus the ball rotates around the Earth faster than the tower and so will fall in front of the tower.
 
   \textbf{Using the Coriolis Force in Rotating Frame}\par
   In the rotating frame, we can neglect the centrifugal force because it is negligible near the equator.
@@ -348,7 +349,7 @@ In this basis, we can represent $\vec{x}$ and $\vec{g}$ as just:
   \vec{x} &= (x, y, z) \\
   \vec{g} &= (0, 0, -g)
 \end{align*}
-For $\vec{\omega}$, we need to split it into two components:
+For $\vec{\omega}$, we need to resolve it into two components:
 \begin{center}
 \begin{tikzpicture}[>=stealth]
   \draw[->] (0, 0)  -- (1, 1) node[right] {$\vec{e}_3$};
