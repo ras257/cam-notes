@@ -353,7 +353,7 @@ We can use the inverse Lorentz transformation:
 \]
 Since $x' = 0$ for all ticks in $S'$, the ticks occur at $t = 0,\ \gamma T',\ 2\gamma T'$ and so on, that is, at intervals $T = \gamma T'$.
 So if $S'$ is moving at $v \neq 0$ in $S$, then $\gamma > 1$ and so $T > T'$.
-That is, for an observer in $S$, there is a longer interval between the ticks of the clock.
+That is, for an observer at the origin in $S$, there is a longer interval between the ticks of the clock than for an observer at the origin in $S'$.
 \begin{example}[Twin Paradox]
   Suppose we have two identical twins $A$ and $B$.
   Twin $A$ stays on Earth and twin $B$ travels to Neptune and back at almost light speed.
@@ -442,7 +442,7 @@ Now consider a frame $S$ in which the frame $S'$ is moving with velocity $v$:
   \fill (1, 0) circle (1.5pt) node[below] {$P_3$};
   \draw[|<->|] (0, 0.1) -- (1, 0.1) node[midway, above] {$L$};
   \draw (1, 0) -- (3, 3);
-  \draw (0, 0) -- (2, 3);
+  \draw[dashed, ->] (0, 0) -- (2, 3) node[above right] {$ct'$};
   \draw[dashed, ->] (0, 0) -- (3, 2) node[above right] {$x'$};
   \fill (1.8, 1.2) circle (1.5pt) node[below right] {$P_2$};
 
@@ -465,7 +465,7 @@ In $S$, the front of the rod at $P_2$ moved with a speed $v$ for a time $t$, so 
 \]
 Since $P_1$ and $P_3$ are simultaneous in $S$, the length of the rod $L$ in $S$ is $L = \at{x}{P_3} = \frac{L'}{\gamma}$.
 
-We know that $\gamma > 1$, thus a rod moving with $S'$ appears shorter in $S$ than it does in $S'$.
+We know that $\gamma > 1$, thus a rod moving with $S'$ appears shorter to an observer at the origin $S$ than it does to an observer at the origin in $S'$.
 \begin{example}[Ladder and Barn]
   Suppose we have a ladder with length $2L$ and barn of length $L$ open at both ends.
   Person $A$ is holding a ladder and is moving towards the front of the barn and person $B$ is watching from outside the barn.
@@ -632,12 +632,17 @@ Similarly to how the euclidean metric measures distances in space only, the Mink
   \begin{definition}[Rapidity]
     For a Lorentz transformation with factor $\gamma$, the \textit{rapidity} $\varphi$ is defined to be:
     \[
-      \gamma \equiv \cosh \varphi
+      \varphi = \artanh \left(\frac{v}{c}\right)
     \]
+    which is well defined as $|v| < c$.
   \end{definition}
-  We can then show that:
+  We then have that:
   \[
-    \sinh \varphi = \sqrt{\cosh^2 \varphi - 1} = \sqrt{\gamma^2 -1 } = \frac{v \gamma}{c}
+    \gamma = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} = \frac{1}{\sqrt{1 - \tanh^2 \varphi}} = \cosh \varphi
+  \]
+  and also:
+  \[
+    \frac{\gamma v}{c} = \tanh \varphi \cosh \varphi = \sinh \varphi
   \]
   So the Lorentz transformation matrix becomes:
   \[
@@ -844,6 +849,29 @@ Note that $\gamma$ does not have to be constant as $\vec{u}$ can be changing alo
 
 We also conclude that a clock following the worldline has $\d{\vec{x}'} = 0 \implies \d{\tau} = \d{t'}$.
 This means that the proper time is the time measured by an observer (not necessarily inertial) travelling along the world line.
+
+We can also use this proper time parameterisation to derive the relativistic velocity addition formula from \cref{additionOfVelocities}, but now for observers moving with non-constant velocity.
+We can parameterise the world-line as:
+\begin{align*}
+  \text{In S: }& x = x(\tau) \text{ and } t = t(\tau) \\
+  \text{In $S'$: }& x' = x'(\tau) \text{ and } t' = t'(\tau)
+\end{align*}
+Using the chain rule and 1D Lorentz transformations from \cref{lorentzTransforms} we have:
+\begin{align*}
+  \deriv{x'}{\tau} &= \gamma \deriv{}{\tau}(x - vt) \\
+                   &= \gamma^2 \left(\deriv{x}{t} - v \deriv{t}{t}\right) \\
+                   &= \gamma^2 (u - v)
+\end{align*}
+and similarly:
+\begin{align*}
+  \deriv{t'}{\tau} &= \gamma^2 \left(\deriv{t}{t} - \frac{v}{c^2} \deriv{x}{t}\right) \\
+                   &= \gamma^2 \left(1 - \frac{uv}{c^2}\right)
+\end{align*}
+Thus we obtain:
+\[
+  u' = \left. \deriv{x'}{\tau} \middle/ \deriv{t'}{\tau} \right. = \frac{u - v}{1 - \frac{uv}{c^2}}
+\]
+which is the addition formula for relativistic velocities (Note that we have $-v$ instead of $v$ because we have found $u'$ instead of $u$ as we did in \cref{additionOfVelocities}).
 \subsection{4-Velocity}
 We now know that $\tau$ is invariant and we can parameterise a trajectory along a worldline as the 4-vector:
 \[

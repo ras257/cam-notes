@@ -94,8 +94,11 @@ Near the surface of the Earth, take $\vec{x}_0 = \vec{0}$ to be the centre of th
 \end{align*}
 We define $g = \frac{GM}{R^2} \approx \qty{9.81}{\metre\second^{-2}}$ on Earth.
 So $\Phi(R + z) \approx \text{constant} + gz$ near the earth.
-Using this approximation, when we take the gradient, the constant drops out and so $\nabla \Phi = g\uvec{z}$.
-So near the surface of the Earth, $\vec{F} = -m\nabla \Phi = -mg\uvec{z}$, which is a constant downwards force.
+Using this approximation, when we take the gradient, the constant drops out:
+\begin{equation}
+  \nabla \Phi = g\uvec{z} \implies \nabla V = mg\uvec{z} \label{uniformGravitationalPot}
+\end{equation}
+So near the surface of the Earth, $\vec{F} = -\nabla V = -mg\uvec{z}$, which is a constant downwards force.
 
 This force leads to the simplest nontrivial example of motion due to a force.
 Applying Newton's 2nd Law (\cref{newton2}) we have that:
