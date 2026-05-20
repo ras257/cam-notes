@@ -367,14 +367,42 @@ What can we say about $\vec{x}'$ when we take $t = t^{*}$?
 \end{proof}
 So we have figured out a method for starting at a basic feasible solution to find a new basic feasible solution where the reduced cost is strictly less than our original reduced cost.
 \subsection{Algorithm}
-We start at a BFS $\vec{x}$ and construct a \textit{simplex tableau}:
+We start at a basic feasible solution $\vec{x}$ and construct a \textit{simplex tableau}:
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
 $\vec{c}^{\trans}_{B} \vec{x}_{B}$ & $\overline{c}_1$ & $\overline{c}_2$ & $\cdots$ & $\overline{c}_n$ \\
 \hline
-$x_{B(1)}$ & \uparrow & \uparrow &  & \uparrow \\
+$x_{B(1)}$ & $\uparrow$ & $\uparrow$ &  & $\uparrow$ \\
 $\vdots$ & $B^{-1}\vec{A}_1$ & $B^{-1} \vec{A}_2$ & $\cdots$ & $B^{-1} \vec{A}_n$ \\
-$x_{B(m)}$ & \downarrow & \downarrow &  & \downarrow
+$x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$
 \end{tabular}
 \end{center}
+%TODO Review
+\begin{enumerate}
+  \item Convert the general form problem into a standard form problem by introducing slack variables:
+    \begin{enumerate}
+      \item Add a positive slack variable for $\leq$ and add it as a component of $\vec{x}$.
+      \item Add a negative slack variable for $\geq$ and add it as a component of $\vec{x}$.
+    \end{enumerate}
+  \item Convert the problem into the vectors $\vec{b}$, $\vec{c}$ and matrices $A$, $B$:
+    \begin{enumerate}
+      \item $A$ is the matrix of coefficients of the variables in the constraints.
+      \item $\vec{b}$ is the vector in the constraint $A\vec{x} = \vec{b}$.
+      \item $\vec{c}$ is the vector of coefficients of the variables in the objective function.
+      \item
+    \end{enumerate}
+  \item Start the simplex method with a basic feasible solution by setting all initial variables to 0 and all slack variables equal to the $b_i$ in the corresponding constraint.
+    This step only works for $\vec{b} \geq \vec{0}$, we can in fact deal with the case where we do not have $\vec{b} \geq 0$ but we will not cover this in this course.
+    The matrix $B$ is then the matrix from the last columns corresponding to only the slack variables, in the first step, this will always be an identity matrix.
+  \item Fill in the simplex tableau.
+  \item Identify the direction to move in:
+    \begin{enumerate}
+      \item If all entries in the top row are non-negative, i.e. $\overline{\vec{c}} \geq \vec{0}$, then we are done.
+      \item If not, pick the column corresponding to a negative entry in the top row, if there is more than one, pick any of them, call this column $j$.
+      \item For each value in the $j$-th column, divide the element in the first column and same row.
+        Pick the row corresponding to the minimal ratio, call this row $i$.
+    \end{enumerate}
+  \item Perform row operations so that the $j$-th column has 1 in the $i$-th row and 0 in all others.
+  \item Return to step \textbf{(iv)} with a new simplex tableau until the algorithm terminates.
+\end{enumerate}
 \end{document}

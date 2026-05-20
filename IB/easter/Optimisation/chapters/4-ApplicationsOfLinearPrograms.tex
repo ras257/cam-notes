@@ -1,0 +1,126 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Applications of Linear Programs}
+\section{Game Theory}
+\subsection{Two Person Games}
+Consider a game with two players where $P_1$ can pick from any of $\{1, \ldots, m\}$ actions and $P_2$ can pick from any of $\{1, \ldots, n\}$ actions.
+\begin{definition}[Payoff Matrix]
+  The \textit{payoff matrix} $A$ for $P_1$ is an $m \times n$ matrix with entries $A_{i j}$, where $A_{i j}$ is the score attained by $P_1$ if $P_1$ plays action $i$ and $P_2$ plays action $j$.
+\end{definition}
+\begin{example}
+  For a game of rock paper scissors, each player can pick either rock (call this 1), paper (call this 2), or scissors (call this 3).
+  The payoff matrix for $P_1$ is:
+  \[
+    A = \begin{pmatrix}
+    0 & -1 & 1 \\
+    1 & 0 & -1 \\
+    -1 & 1 & 0 \\
+    \end{pmatrix}
+  \]
+\end{example}
+If $P_1$ plays $i$ then $P_1$ can expect to have payoff:
+\[
+  i \mapsto \min_{j \in \{1, \ldots, n\}} A_{i j}
+\]
+$P_1$ now tries to solve:
+\[
+  \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j}
+\]
+and $P_2$ will try to solve:
+\[
+  \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j}
+\]
+\begin{example}
+  Consider the payoff matrix:
+  \[
+    A = \begin{pmatrix}
+    1 & 2 \\
+    3 & 4 \\
+    \end{pmatrix}
+  \]
+  For this payoff matrix, $P_1$ decides they should play $i = 2$ and $P_2$ decides they should play $j = 1$ and so both their decisions coincide on the cell $A_{2 1} = 3$.
+
+  Now consider the payoff matrix:
+  \[
+    A' = \begin{pmatrix}
+    4 & 2 \\
+    1 & 3 \\
+    \end{pmatrix}
+  \]
+  In this case $P_1$ will play $i = 2$ and then will expect $P_2$ to choose row $j = 1$.
+  However $P_2$ will chose $j = 2$ and expect $P_1$ to choose $i = 2$.
+  Unlike with $A$, the choice of the two players does not coincide.
+  In games where players alternate turns, this is ok, however in games where both players play simultaneously, the players end up stuck in a loop.
+\end{example}
+\begin{definition}[Strategy]
+  A \textit{strategy} is a probability distribution for the actions that a player picks.
+\end{definition}
+\begin{definition}[Pure and Mixed Strategies]
+  A \textit{pure strategy} is a strategy where one single action has probability 1, i.e. the player will always pick a particular action.
+  If a strategy is not pure, then we call it a \textit{mixed strategy}.
+\end{definition}
+Let the strategy for $P_1$ be $i$ with probability $p_i$ and let the strategy for $P_2$ be $j$ with probability $q_i$.
+
+$P_1$'s expected score is this then:
+\[
+  \sum_{i = 1}^{m} p_i A_{i j}
+\]
+So for optimal play, $P_1$ wants to adopt the strategy $\vec{p} = (p_1, \ldots, p_m)^{\trans}$ that maximises:
+\[
+  \max_{\vec{p} \in P_m} \left(\min_{j \in \{1, \ldots, n\}} \sum_{i = 1}^{m} p_i A_{i j}\right)
+\]
+where $P_m$ is the set of discrete probability distributions for $\{1, \ldots, m\}$.
+\subsection{Linear Programming for Strategies}
+We can express $P_1$'s optimisation problem as:
+\begin{maxi}
+  {\R}{v}{}{}
+  \addConstraint{A^{\trans} \vec{p}}{\geq v e}
+  \addConstraint{\vec{e}^{\trans} \vec{p}}{= 1}
+  \addConstraint{\vec{p}}{\geq \vec{0}}
+\end{maxi}
+where $v$ will be the maximal score for $P_1$ and $\vec{e} = (1, \ldots, 1)^{\trans} \in \R^{m}$.
+
+Similarly for $P_2$, we can express their optimisation problem as:
+\begin{mini*}
+  {\R}{w}{}{}
+  \addConstraint{A\vec{q}}{\leq w \vec{e}'}
+  \addConstraint{\vec{e}'^{\trans} \vec{p}}{= 1}
+  \addConstraint{\vec{q}}{\geq \vec{0}}
+\end{mini*}
+where $w$ will be the maximal score for $P_2$ and $\vec{e}' = (1, \ldots, 1)^{\trans} \in \R^{n}$
+
+These two problems actually turn out to be dual to one another.
+To find the dual of $P_2$'s problem, we find the Lagrangian:
+\[
+  L(w, \vec{q}, \vec{s}, \vec{\lambda}_1, \lambda_2) = w + \vec{\lambda}^{\trans}_1(A\vec{q} + \vec{s} - w \vec{e}) - \lambda_2(\vec{e}^{\trans} \vec{q} - 1)
+\]
+The set $\Lambda$ is then:
+\[
+  \Lambda = \{\vec{\lambda}_1: \vec{\lambda}^{\trans}_1 \vec{e} = 1,\ \vec{\lambda}^{\trans}_1 A \geq \lambda_2\vec{e}^{\trans}, \vec{\lambda_1} \geq \vec{0}\}
+\]
+and then when $\vec{\lambda} \in \Lambda$, $\min L = \lambda_2$.
+Thus the dual of the problem is:
+\begin{maxi*}
+  {\R}{\lambda_2}{}{}
+  \addConstraint{\vec{\lambda}^{\trans}_1 \vec{e}}{= 1}
+  \addConstraint{\vec{\lambda}_1}{\geq \vec{0}}
+  \addConstraint{A^{\trans} \vec{\lambda_1}}{\geq \lambda_2 \vec{e}'}
+\end{maxi*}
+Upon relabelling $\lambda_2$ by $v$ and $\vec{\lambda}_1$ by $\vec{p}$ we obtain $P_1$'s optimisation problem.
+\begin{theorem}[Optimal Strategies]
+  A strategy $\vec{p}$ is optimal for $P_1$ if and only if there exists $\vec{q}$ and $v$ such that:
+  \begin{enumerate}
+    \item $A^{\trans} \vec{p} \geq v \vec{e}$, $\vec{e}^{\trans} p = 1$, $\vec{p} \geq \vec{0}$ (Primal feasibility)
+    \item $A\vec{q} \leq v \vec{e}$, $\vec{e}^{\trans} \vec{q} = 1$, $\vec{q} \geq \vec{0}$ (Dual feasibility)
+    \item $v = \vec{p}^{\trans} A \vec{q}$ (Complimentary slackness)
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  We need only check the complimentary slackness equations.
+  $(\vec{p}, v)$ and $(\vec{q}, w)$ are primal/dual optimal if and only if both:
+  \[
+    (A \vec{q} - w \vec{e})^{\trans} \vec{p} = 0 \text{ and } \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{e}) = 0
+  \]
+  which is equivalent to $v = w = \vec{p}^{\trans} A \vec{q}$.
+\end{proof}
+\end{document}

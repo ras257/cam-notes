@@ -225,7 +225,7 @@ For small $s$:
   \end{align*}
   But this whole integral is equal to 0 and so $\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}$ takes some value at $t_A, t_B$, but $t_A$ and $t_B$ were arbitrary and so we are done.
 \end{proof}
-\begin{example}
+\begin{example}[Space Translational Symmetry in One Coordinate]
   If $L$ does not depend on, for example $q_1$, then consider:
   \[
     \vec{Q} = (q_1 + s, q_2, q_3, \ldots, q_{3N})
@@ -237,7 +237,151 @@ For small $s$:
   \end{align*}
   This is a symmetry of the action since $L$ is independent of $q_1$, thus we have a conserved quantity:
   \[
-    \at{\pderiv{Q_i}{s}}{s = 0} \pderiv{L}{\dot{q}_i} = \pderiv{L}{\dot{q_i}} = p_i
+    \at{\pderiv{Q_1}{s}}{s = 0} \pderiv{L}{\dot{q}_1} = \pderiv{L}{\dot{q_1}} = p_1
   \]
+\end{example}
+\begin{example}[Translational Symmetry in Euclian Space]
+  Consider Cartesian Coordinates  $\vec{q} = (\vec{x}_1, \ldots, \vec{x}_N)$ and assume $L$ depends on $\vec{x}_i$ only by $\vec{x}_i - \vec{x}_j$.
+  Let $\vec{Q} = (\vec{x}_1 + s\vec{a}, \vec{x}_2 + s\vec{a}, \ldots, \vec{x}_N + s\vec{a})$.
+  We see that $\dot{\vec{x}}_i - \dot{\vec{x}}_j = \vec{x}_i - \vec{x}_j$ and so $L(\vec{q}^{*}, \dot{\vec{q}}^{*}, t) = L(\vec{q}, \dot{\vec{q}}, t)$ and so we can apply Noether's theorem to conclude that the quantity:
+  \[
+    \sum_{i} \pderiv{L}{\dot{q_i}} \at{\pderiv{Q_i}{s}}{s = 0} = \vec{a} \cdot \sum_{i} \pderiv{L}{\dot{\vec{x}}_i} = \vec{a} \cdot \sum_{i} \vec{p}_i = \vec{a} \cdot \vec{P}
+  \]
+  is conserved where $\vec{P}$ is the total momentum of the system.
+  Since $\vec{a}$ was arbitrary, we conclude that $\vec{P}$ is conserved.
+  Thus the invariance of physical laws under spatial transformations implies the conservation of momentum.
+\end{example}
+\begin{example}[Rotational Symmetries of Cartesian Coordinates]
+  Consider $\vec{q} = (\vec{x}_1, \ldots, \vec{x}_N)$.
+  A rotation $R$ maps:
+  \[
+    \vec{q} \mapsto \vec{q}_{R} = (R\vec{x}_1, \ldots, R\vec{x}_N)
+  \]
+  If we assume that $L$ is invariant under notations then:
+  \[
+    L(\vec{q}_R, \dot{\vec{q}}_R, t) = L(\vec{q}, \dot{\vec{q}}, t) \text{ for all rotations $R$}
+  \]
+  Taking $Q = \vec{q}_{R(s)}$ where $R(s)$ is a rotation through angle $s$ about some axis $\uvec{n}$.
+  For infinitesimal $s$:
+  \[
+    R(s)\vec{x} = \vec{x} + s \vec{n} \times \vec{x}
+  \]
+  and so:
+  \[
+    \at{\pderiv{Q}{s}}{s = 0} = (\uvec{n} \times \vec{x}_1, \ldots, \uvec{n} \times \vec{x}_N)
+  \]
+  So we have a conserved quantity:
+  \begin{align*}
+    \sum_{i, a} \pderiv{L}{(\dot{\vec{x}}_i)_a} (\uvec{n} \times \vec{x}_i)_{a} &= \sum_{i} \vec{p}_i \cdot (\uvec{n} \times \vec{x}_i) \text{ where $a \in \{1, 2, 3\}$} \\
+                                                                                &= \vec{n} \cdot \sum_{i} \vec{x}_i \times \vec{p}_i \\
+                                                                                &= \uvec{n} \cdot \vec{L}
+  \end{align*}
+  where $\vec{L}$ is the total angular momentum of the system.
+  Since the axis $\uvec{n}$ was arbitrary, we conclude that $\vec{L}$ is conserved.
+  Thus the invariance of physical laws under rotation implies the conservation of angular momentum.
+\end{example}
+We can generalise the definition of a 1-parameter family of symmetries to allow a boundary term:
+\[
+  \int_{t_A}^{t_B} L(\vec{q}^{*}, \dot{\vec{q}}^{*}, t) \d{t} = \int_{t_A}^{t_B} L(\vec{q}, \dot{\vec{q}}, t) \d{t} + \eval{sK(\vec{q}, \dot{\vec{q}}, t)}{t_A}{t_B}
+\]
+for small $s$ and some $K$.
+It can be checked that even with this generalised definition, Noether's theorem still works, but the conserved quantity is now:
+\[
+  \sum_{i} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K
+\]
+\begin{example}
+  \[
+    L = \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i - V(\vec{x}_1, \ldots, \vec{x}_N)
+  \]
+  where $V$ depends only on the separations $\vec{x}_ - \vec{x}_j$.
+  From IA Dynamics and Relativity, we know a Galilean Boost is of the form $\vec{x}^{*} = \vec{x} - \vec{v}t$, we define:
+  \[
+    Q = (\vec{x} - \uvec{n} st, \vec{x}_2 - \uvec{n} st, \ldots)
+  \]
+  for $\vec{v} = \uvec{n} s$ and $\vec{x}^{*}_i = \vec{x}_i - \uvec{n}st$, $\dot{\vec{x}}^{*}_i = \dot{\vec{x}}_i - \uvec{n} s$.
+  We then have:
+  \begin{align*}
+    L(\vec{x}^{*}, \dot{\vec{x}}^{*}, t) &= \sum_{i = 1}^{N} \frac{1}{2} m_i (\dot{\vec{x}}_i - \uvec{n} s) \cdot (\dot{\vec{x}}_i - \uvec{n} s)  - V(\vec{x}^{*}_1, \ldots, \vec{x}^{*}_N) \\
+                                         &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i - V(\vec{x}_1, \ldots, \vec{x}_N) - s \uvec{n} \sum_{i} m_i \dot{\vec{x}}_i + O(s^2) \\
+                                         &= L(\vec{x}, \dot{\vec{x}}, t) - \deriv{}{t}(s \uvec{n} \cdot \sum_{i} m_i \vec{x}_i)
+  \end{align*}
+  since $\vec{x}^{*}_i - \vec{x}^{*}_j = \vec{x}_i - \vec{x}_j$.
+
+  This is a 1-parameter symmetry but with boundary term:
+  \[
+    K = - \vec{n} \cdot \sum_{i} m_i \vec{x}_i = - \vec{n} \cdot (M \vec{R})
+  \]
+  where $M$ is the total mass and $\vec{R}$ is the centre of mass.
+  Thus we have a conserved quantity:
+  \begin{align*}
+    \sum_{i} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K &= \sum_{i} \vec{p}_i \cdot (- \uvec{n} t) + M \uvec{n} \cdot \vec{R} \\
+                                                                   &= \uvec{n} \cdot (M\vec{R} - \vec{P} t)
+  \end{align*}
+  Since $\uvec{n}$ was arbitrary, the quantity $M\vec{R} - \vec{P}t $ is conserved.
+\end{example}
+A different type of symmetry of the action involves transforming the time coordinate $t^{*} = T(t)$ for an invertible function $T$ and set $q^{*}(t^{*}) = \vec{q}(t) = \vec{q}(T^{-1}(t^{*}))$.
+This is a symmetry of the action if:
+\begin{equation}
+  \int_{t^{*}_A}^{t^{*}_B} L(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*}), t^{*}) \d{t^{*}} = \int_{t_{A}}^{t_{B}} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t} \label{timeSym}
+\end{equation}
+for all $\vec{q}(t)$ and $t_A, t_B$.
+
+Consider a 1-parameter family $T(t, s)$ where $T(t, 0) = t$:
+\[
+  t^{*} = t + s \at{\pderiv{T}{s}}{s = 0} + O(s^2)
+\]
+\begin{theorem}[Noether's Theorem V2]
+  If there exists a 1-parameter family of symmetries of the action of the type defined about then any solution of the Euler-Lagrange equation has a conserved quantity:
+  \[
+    (L - \sum_{i} \dot{q}_i \pderiv{L}{\dot{q_i}})\at{\pderiv{T}{s}}{s = 0} = \text{constant}
+  \]
+\end{theorem}
+\begin{proof}
+  First note that:
+  \[
+    \deriv{{t^{*}}}{t} = 1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2)
+  \]
+  Let $I^{*}$ and $I$ be the left hand sides and right hand sides of \cref{timeSym}.
+  We change variables in $I^{*}$ from $t^{*}$ to $t$:
+  \[
+    I^{*} = \int_{t_A}^{t_B} L\left(\vec{q}(t), \deriv{t}{{t^{*}}} \deriv{}{t}\vec{q}(t), T(t)\right) \deriv{t^{*}}{t} \d{t}
+  \]
+  We can find:
+  \[
+    \deriv{t}{{t^{*}}} = \left(\deriv{t^{*}}{t}\right)^{-1} = 1 - s \deriv{}{t} \at{\pderiv{T}{s}}{s = 0} + O(s^2)
+  \]
+  and so:
+  \begin{align*}
+    I^{*} &= \int_{t_A}^{t_B} L\left(\vec{q}(t), \dot{\vec{q}}(t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{\vec{q}}(t) + \cdots, t + s \at{\pderiv{T}{s}}{s = 0} + \cdots\right) \\
+    &\quad\left(1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + \cdots\right) \d{t} \\
+    &= \int_{t_A}^{t_B} \left[L(\vec{q}(t), \dot{\vec{q}}(t), t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{q}_i \pderiv{L}{q_i} + s \at{\pderiv{T}{s}}{s=0} \pderiv{L}{t} \right. \\
+      &\left.+ sL \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2)\right] \d{t}
+  \end{align*}
+  (\textbf{TODO}: Finish)\par
+  So $I^{*} = I$ thus $[\cdots] = 0\ \forall t_A, t_B$ and so:
+  \[
+    \at{\pderiv{T}{S}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)
+  \]
+  is independent of $t$ and so we are done.
+\end{proof}
+\begin{example}
+  Assume that $L$ has no explicit $t$ dependence, i.e $L(\vec{q}, \dot{\vec{q}})$.
+  We set $T(t, s) = t + s$ and so $t^{*} = t + s$, note that this satisfies $T(t, 0) = t$.
+  So then $\vec{q}^{*}(t^{*}) = \vec{q}(t) = \vec{q}(t^{*} - s)$ and thus:
+  \[
+    \deriv{\vec{q}^{*}}{{t^{*}}} = \dot{\vec{q}}(t^{*} - s)
+  \]
+  We then calculate:
+  \begin{align*}
+    \int_{t^{*}_A}^{t^{*}_B} L(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*})) \d{t^{*}} &= \int_{t_A + s}^{t_B + s} L(\vec{q}(t^{*} - s), \dot{\vec{q}}(t^{*} - s)) \d{t^{*}} \\
+                                                                                                  &= \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t)) \d{x}
+  \end{align*}
+  by symmetry of the action.
+
+  This has a conserved quantity:
+  \[
+    \underbrace{\at{\pderiv{T}{s}}{s = 0}}_{= 1}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = - E
+  \]
+  Thus the invariance of the laws of physics under time transformations implies the conservation of energy.
 \end{example}
 \end{document}
