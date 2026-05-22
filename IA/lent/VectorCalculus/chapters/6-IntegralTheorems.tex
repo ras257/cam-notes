@@ -676,12 +676,12 @@ as expected.
 
   For $m, n \in \N_0$, we have:
   \begin{align*}
-    \int_{0}^{2\pi} \sin^{2m + 1} \cos^n \phi \d{\phi} = \int_{0}^{2\pi} \sin^{m} \phi \cos^{2n + 1} \phi \d{\phi} &= 0 \\
-    \int_{0}^{\pi} \sin^{m} \theta \cos^{2n + 1}\theta \d{\theta} &= 0
+    \int_{0}^{2\pi} \sin^{2m + 1} \phi \cos^n \phi \d{\phi} = \int_{0}^{2\pi} \sin^{m} \phi \cos^{2n + 1} \phi \d{\phi} &= 0 \\
+    \text{ and } \int_{0}^{\pi} \sin^{m} \theta \cos^{2n + 1}\theta \d{\theta} &= 0
   \end{align*}
   For example, if presented with:
   \[
-    \int_{\theta = 0}^{\pi} \int_{0}^{1} \rho^3(1 - \rho^2)^3 e^{-\rho} \sin^2 \theta \cos \theta \d{\rho} \d{\theta}
+    \int_{\theta = 0}^{\pi} \int_{\rho = 0}^{1} \rho^3(1 - \rho^2)^3 e^{-\rho} \sin^2 \theta \cos \theta \d{\rho} \d{\theta}
   \]
   you might be tempted to separate and start integrating over $\rho$ without considering that the $\theta$ integral is just $0$.
 \end{remark}

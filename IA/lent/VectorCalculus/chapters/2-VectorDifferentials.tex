@@ -528,14 +528,14 @@ We are also able to differentiate the modulus of a vector field:
 \[
   \pderiv{}{x_i}|\vec{F}| = \pderiv{}{x_i}\sqrt{F_jF_j} = \frac{1}{2\sqrt{F_j F_j}} \pderiv{}{x_i}(F_jF_j) = \frac{1}{2|\vec{F}|} \pderiv{}{x_i}(F_jF_j) = \frac{1}{|\vec{F}|} F_j \pderiv{F_j}{x_i}
 \]
-Instead of using the above, the easiest way to find $\nabla |\vec{F}|$ is to let $g(\vec{x}) = |\vec{F}|^2 = \vec{F} \cdot \vec{F}$ and $f(x) = \sqrt{x} \implies f'(x) = \frac{1}{2\sqrt{x}}$.
-We can then apply the identity in \cref{gradChain} to yield:
+We can also derive a result without indies by using the vector differential identities introduced earlier.
+We let $g(\vec{x}) = |\vec{F}|^2 = \vec{F} \cdot \vec{F}$ and $f(x) = \sqrt{x} \implies f'(x) = \frac{1}{2\sqrt{x}}$, applying the identity in \cref{gradChain} to yield:
 \[
   \nabla |\vec{F}| = \nabla [f(g(\vec{x}))] = f'(g(\vec{x})) \nabla g = \frac{1}{2|\vec{F}|} \nabla (\vec{F} \cdot \vec{F})
 \]
 Then, to find $\nabla(\vec{F} \cdot \vec{F})$ we apply the identity in \cref{gradFG} with $\vec{G} = \vec{F}$ yielding:
 \[
-  \nabla |\vec{F}| = \frac{(\vec{F} \cdot \nabla) \vec{F} + \vec{F} \cdot (\nabla \times \vec{F})}{|\vec{F}|}
+  \nabla |\vec{F}| = \frac{(\vec{F} \cdot \nabla) \vec{F} + \vec{F} \times (\nabla \times \vec{F})}{|\vec{F}|}
 \]
 \section{Laplacian}
 \label{secLaplacian}

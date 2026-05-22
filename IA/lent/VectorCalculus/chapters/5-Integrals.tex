@@ -939,7 +939,7 @@ Using these results, we can reduce a surface integral to an area integral in the
   \begin{align*}
     \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x^2 + y^2)e^{-(x^2 + y^2)} \d{x} \d{y} &= \int_{0}^{\infty} \int_{0}^{2\pi} r^2 e^{-r^2} \cdot r \d{\theta} \d{r} \\
                                                                                             &= 2\pi \int_{0}^{\infty} r^3 e^{-r^2}\d{r} \\
-                                                                                            &= 2\pi \left[\cancelto{0}{\eval{-\frac{1}{2}r^2e^{-r^2}}{0}{\infty}} + \int_{0}^{\infty} re^{-r^2} \d{r}\right] \\
+                                                                                            &= 2\pi \left(\cancelto{0}{\eval{-\frac{1}{2}r^2e^{-r^2}}{0}{\infty}} + \int_{0}^{\infty} re^{-r^2} \d{r}\right) \\
                                                                                             &= 2\pi \eval{-\frac{1}{2}e^{-r^2}}{0}{\infty} \\
                                                                                             &= 2\pi \cdot \frac{1}{2} = \pi
   \end{align*}

@@ -448,14 +448,14 @@ Substituting into \cref{pointSourceField}, we obtain the scalar potential:
   \phi = \frac{Q}{4\pi \varepsilon_0 r}
 \]
 which is \textit{Coulombs Law}.
-The force per unit charge $\vec{E} = -\nabla \phi$ so:
+Since $\vec{F} = q\vec{E}$, the force per unit charge is $\vec{E} = -\nabla \phi$ so:
 \[
   \vec{E} = -\nabla \phi = \frac{Q}{4\pi\varepsilon_0 r^2}\vec{e}_r
 \]
 Since $\vec{E}$ is a force per unit charge, the force on a \textit{test charge} $q$ placed in this field is $q\vec{E}$.
 Since we can go both ways between Coulombs law and the Poisson equation formulation of electrostatics, they are equivalent.
 \subsection{Line Sources}
-Consider Poisson's equation $\nabla^2 \phi = f$ in $\R^3$ with a cylindrically symmetric source term that is non-zero only in the cylindrical region $\mathscr{C}_\varepsilon$ with total source strength $F = \int_{\mathscr{C}_\varepsilon} f \d{V}$, where $\mathscr{C}_R$ is a cylinder of radius $R$ and height 1.
+Consider Poisson's equation $\nabla^2 \phi = f$ in $\R^3$ with a cylindrically symmetric source term that is non-zero only in the cylindrical region $\mathscr{C}_\varepsilon$ with total source strength $F = \int_{\mathscr{C}_\varepsilon} f \d{V}$, where $\mathscr{C}_R$ is a cylinder of radius $R$ and height 1 with its axis aligned along the $z$ axis.
 
 For $R \geq \varepsilon$, $F_R = F$ so applying Gauss's flux method for cylindrical symmetries from \cref{gaussFluxCylindrical}, we have
 \[
