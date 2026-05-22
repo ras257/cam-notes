@@ -1,0 +1,137 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Variational PDEs}
+\section{Multivariate Functionals}
+Consider functions of functions $\vec{y}: \R^{m} \to \R^{n}$ for $m > 1$ of the form:
+\[
+  F[\vec{y}] = \int_{V} f(\vec{y}, \nabla \vec{y}, x_1, \ldots, x_m) \d{x_1} \cdots \d{x_m}
+\]
+where $V \subseteq \R^{m}$, possibly $V = \R^{m}$ and:
+\[
+  \nabla \vec{y} = (\pderiv{\vec{y}}{x_1}, \pderiv{\vec{y}}{x_2}, \ldots, \pderiv{\vec{y}}{x_m})
+\]
+which is an $m \times n$ matrix.
+By varying $\vec{y}$, we consider:
+\[
+  \delta F = F[\vec{y} + \delta \vec{y}] - F(\vec{y})
+\]
+We can then use the Divergence theorem as a multivariate analogue to integrating by parts and obtain a generalisation to the Euler-Lagrange equation to PDEs, given appropriate boundary conditions.
+\section{Minimal Surfaces}
+For a closed curve $C \in \R^{3}$, consider all of the surfaces $S$ that span it, which of these surfaces has minimal area?
+
+For ease, we will restrict to surfaces that are graphs of functions $h: D \subset \R^{2} \to \R$, i.e. $z = h(x, y)$.
+Because $D$ must span $C$, we must also be able to parameterise $C$ as $z = h(x, y)$ for $(x, y) \in \partial D$, this fixes $h$ on $\partial D$ and is analogous to fixing the endpoints of the curve in the case of Euclidean geodesics.
+
+We now parameterise the surface using $(x, y)$ so that $\vec{x}(x, y) = (x, y, h(x, y))^{\trans}$.
+To work out the area element, recall from IA Vector Calculus that we need to find:
+\begin{align*}
+  \pderiv{\vec{x}}{x} &= \left(1, 0, \pderiv{h}{x}\right)^{\trans} \\
+  \pderiv{\vec{x}}{y} &= \left(0, 1, \pderiv{h}{y}\right)^{\trans}
+\end{align*}
+and so the vector surface element is:
+\[
+  \d{\vec{S}} = \pderiv{\vec{x}}{x} \times \pderiv{\vec{x}}{y} \d{x}\d{y} = \left(-\pderiv{h}{x}, -\pderiv{h}{y}, 1\right) \d{x}\d{y}
+\]
+so the area element $\d{A} = |\d{\vec{S}}|$ is:
+\[
+  \d{A} = \sqrt{1 + \left(\pderiv{h}{x}\right)^2 + \left(\pderiv{h}{y}\right)^2} \d{x}\d{y}
+\]
+Thus the functional for the surface area becomes:
+\[
+  A[h] = \sqrt{1 + \left(\pderiv{h}{x}\right)^2 + \left(\pderiv{h}{y}\right)^2} \d{x}\d{y}
+\]
+Now consider $h + \delta h$:
+\begin{align*}
+  \delta h &= \int_{D} \frac{h_x (\delta h)_x + h_y (\delta h)_y}{\sqrt{1 + h^2_x + h^2_y}} \d{x} \d{y} \\
+           &= \int_{D} \left\{\pderiv{}{x}\left(\frac{h_x \delta h}{\sqrt{1 + h^2_x + h^2_t}}\right) + \pderiv{}{y}\left(\frac{h_y \delta h}{\sqrt{1 + h^2_x + h^2_t}}\right)\right. \\
+           &\quad \left.- \left[\pderiv{}{x}\left(\frac{h_x}{\sqrt{1 + h^2_x + h^2_t}}\right) + \pderiv{}{y}\left(\frac{h_y}{\sqrt{1 + h^2_x + h^2_t}}\right)\right]\delta h\right\} \d{x} \d{y} \\
+           &= \int_{\partial D} \left(\pderiv{}{x}\left(\frac{h_x \delta h}{\sqrt{1 + h^2_x + h^2_t}}\right), \pderiv{}{y}\left(\frac{h_y \delta h}{\sqrt{1 + h^2_x + h^2_t}}\right)\right)^{\trans} \cdot \d{\vec{\ell}} \\
+           &\quad - \int_{D} \left[\pderiv{}{x}\left(\frac{h_x}{\sqrt{1 + h^2_x + h^2_t}}\right) + \pderiv{}{y}\left(\frac{h_y}{\sqrt{1 + h^2_x + h^2_t}}\right)\right]\delta h \d{x} \d{y}
+\end{align*}
+The variational derivative is:
+\[
+  \frac{\delta A[h]}{\delta h(x, y)} = - \pderiv{}{x}\left(\frac{h_x}{\sqrt{1 + h^2_x + h^2_y}}\right) - \pderiv{}{y}\left(\frac{h_y}{\sqrt{1 + h^2_x + h^2_y}}\right) = 0
+\]
+This is an analogue of the Euler-Lagrange equations and it can be shown to simplify to:
+\[
+  (1 + h^2_y)h_{x x} + (1 + h^2_x)h_{y y} - 2h_xh_yh_{x y} = 0
+\]
+This the \textit{minimal surface equation} and is a second order PDE for $h(x, y)$.
+
+One solution to this is $h = Ax + By + C$, i.e. a plane, however this only satisfies the boundary conditions if the curve $C$ is planar.
+
+We can also look  for solutions which have some kind of symmetry, for example, surfaces of revolution about the $z$-axis.
+In this case, we can write $h(x, y) = z(r)$ where $r = \sqrt{x^2 + y^2}$.
+Substituting this into the minimal surface equation, we obtain:
+\[
+  rz'' + z' + (z')^3 = 0
+\]
+which is a second order nonlinear ODE in $z$, this is still not easy to solve so we return to the original functional and instead use cylindrical polars wth $h = h(r)$ to obtain:
+\[
+  A[z] = 2\pi \int_{0}^{R} r \sqrt{1 + (z')^2} \d{r}
+\]
+The function $r\sqrt{1 + (z')^2}$ has no explicit $z$ dependence and so there is a first integral.
+This problem is discussed on Example Sheet 1, the solution is:
+\[
+  r = r_0 \cosh \frac{z - z_0}{r_0}
+\]
+This is called a \textit{catenoid}, the surface of revolution of a catenary.
+\section{Vibrating Strings}
+A string with tensions $T$ and mass per nit length $\rho$, it has energies:
+\[
+   \text{KE} = \frac{1}{2} \rho \int_{0}^{a} \dot{y}(t, x) \d{x} \text{ and } \text{PE} = \frac{1}{2} \int_{0}^{a} [y'(t, x)]^2 \d{x}
+\]
+where $\dot{y}$ denotes the partial derivative of $y$ with respect to $t$ and $y'$ denotes the partial derivative of $y$ with respect to $x$.
+
+The action is:
+\[
+  I[y] = \frac{1}{2} \int_{t_0}^{t_1} \int_{0}^{a} (\rho \dot{y}^2  - T{y'}^2) \d{x} \d{t}
+\]
+Varying $y \mapsto y + \delta y$, we obtain:
+\begin{align*}
+  \delta I &= \int_{t_0}^{t_1} \int_{0}^{a} (\rho \dot{y} \cdot \delta \dot{y} - T y' \cdot \delta y') \d{x} \d{t} \\
+           &= \int_{t_0}^{t_1} \{\rho_z (\rho \dot{y} \delta y) - \delta_x(Ty'\delta y) + (-\rho \ddot{y} + Ty'')\delta y\} \d{x} \d{t}
+\end{align*}
+We note that $\rho_z (\rho \dot{y} \delta y) - \delta_x(Ty'\delta y)$ disappears if $\delta y$ is on the boundary.
+Thus $\delta I = 0$ for arbitrary $\delta y(y, x)$ if and only if:
+\[
+  \ddot{y} - v^2 y'' = 0
+\]
+where $v = \sqrt{T/\rho}$.
+This is the \textit{wave equation} in 1D.
+In IA Differential equations, we saw this has general solution:
+\[
+  y(t, x) = f(x - vt) + g(x + vt)
+\]
+where $f(x - vt)$ is a rightwards moving wave and $g(x + vt)$ is a leftwards moving wave.
+\section{Actions for Maxwell's Equations}
+Consider an electric field $\vec{E}(t, \vec{x})$ and magnetic field $\vec{B}(t, \vec{x})$ that satisfy.
+From IA Vector Calculus, we saw that two of \textit{Maxwell's Equations} are:
+\begin{align*}
+  \nabla \cdot \vec{B} &= 0 \\
+  \nabla \times \vec{E} &= - \pderiv{\vec{B}}{t}
+\end{align*}
+The first of these tells us that $\vec{B}$ can be written as $\vec{B} = \nabla \times \vec{A}$ for some vector potential $\vec{A}(t, \vec{x})$ in a simply connected domain.
+We can then use the second equation to conclude that:
+\[
+  \nabla \times \left(\vec{E} + \pderiv{\vec{A}}{t}\right) = 0 \implies \vec{E} = - \nabla \varphi - \pderiv{\vec{A}}{x}
+\]
+for some $\varphi(t, \vec{x})$.
+The action is a function of $\vec{A}$ and $\varphi$.
+\[
+  I[\vec{A}, \varphi] = \int_{0}^{T} \int_{D} \left(\frac{\varepsilon_0}{2} |\vec{E}|^2 - \frac{1}{2\mu_0}|\vec{B}|^2 + \vec{A} \cdot \vec{J} - \rho \varphi\right) \d{V} \d{t}
+\]
+where $\varepsilon_0, \mu_0$ are constants, $\vec{J}(t, \vec{x})$ is the \textit{current density}, and $\rho(t, \vec{x})$ is the \textit{charge density}.
+
+Varying with respect to $\vec{A}$ and $\varphi$ then we obtain:
+\begin{align*}
+  \delta I &= \int_{0}^{T} \int_{D} \left[\varepsilon_0 \vec{E} \cdot \left(-\nabla(\delta \varphi) - \pderiv{}{t}(\delta \vec{A})\right) - \frac{1}{\mu_0} \vec{B} \cdot (\nabla \times \delta \vec{A}) + \delta \vec{A} \cdot \vec{J} - \delta \varphi \rho\right] \d{V} \d{t} \\
+           &= \int_{0}^{T} \int_{D} \left\{\varepsilon_0 \left[ - \nabla \cdot (\vec{E} \delta \varphi) + \nabla \cdot \vec{E} \delta \varphi - \pderiv{}{t}(\vec{E} \cdot \delta \vec{A}) + \pderiv{\vec{E}}{t} \cdot \delta \vec{A}\right]\right. \\
+           &\quad+ \left. -\frac{1}{\mu_0}\left[\pderiv{}{x_j} (\levi_{i j k}B_i \delta A_k) - \left(\levi_{i j k} \pderiv{B_i}{x_j}\right)\delta A_k\right]\right\}\d{V} \d{t}
+\end{align*}
+Both coefficients of $\delta \varphi$ and $\delta \vec{A}$ must be zero and so:
+\[
+  \nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0} \text{ and } \nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0 \varepsilon_0 \pderiv{\vec{E}}{t}
+\]
+which are the other two of Maxwell's equations.
+\end{document}

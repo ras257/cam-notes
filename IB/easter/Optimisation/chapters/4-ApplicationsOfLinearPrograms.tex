@@ -79,6 +79,7 @@ We can express $P_1$'s optimisation problem as:
   \addConstraint{\vec{p}}{\geq \vec{0}}
 \end{maxi}
 where $v$ will be the maximal score for $P_1$ and $\vec{e} = (1, \ldots, 1)^{\trans} \in \R^{m}$.
+The $\vec{e}^{\trans} \vec{p} = 1$ constraint ensures that $\sum_{i} p_i = 1$ and the $\vec{p} \geq 0$ constraint ensures that $p_i \geq 0\ \forall i$ so that the $p_i$ are a valid probability distribution.
 
 Similarly for $P_2$, we can express their optimisation problem as:
 \begin{mini*}
@@ -122,5 +123,144 @@ Upon relabelling $\lambda_2$ by $v$ and $\vec{\lambda}_1$ by $\vec{p}$ we obtain
     (A \vec{q} - w \vec{e})^{\trans} \vec{p} = 0 \text{ and } \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{e}) = 0
   \]
   which is equivalent to $v = w = \vec{p}^{\trans} A \vec{q}$.
+\end{proof}
+\subsection{Finding Optimal Strategies}
+\begin{enumerate}
+  \item Look for a ``saddle point'', if such a point exists then a pure strategy is optimal.
+  \item Look for ``dominating actions''.
+    These are actions which a player would obviously not play.
+    For example, suppose for $P_1$ $\exists i_1, i_2$ such that $A_{i_1 j} \geq A_{i_2 j}$ for all $j$.
+    In this case, we can simply drop row $i_2$.
+  \item Formula and solve the linear program, either graphically or by using the simplex method.
+\end{enumerate}
+\begin{example}
+  Consider the payoff matrix for $P_1$:
+  \[
+    A = \begin{pmatrix}
+    2 & 3 & 4 \\
+    3 & 1 & 1/2 \\
+    1 & 3 & 2 \\
+    \end{pmatrix}
+  \]
+  We first notice that every entry in the third row is less than or equal to the first row and so we can drop the third row:
+  \[
+    A = \begin{pmatrix}
+    2 & 3 & 4 \\
+    3 & 1 & 1/2 \\
+    \end{pmatrix}
+  \]
+  There is no saddle so $P_1$ adopts a mixed strategy $(p, 1 - p, 0)$ and thus the linear program is:
+  \begin{maxi*}
+    {\R}{v}{}{}
+    \addConstraint{2p + 3(1 - p)}{\geq v}
+    \addConstraint{3p + (1 - p)}{\geq v}
+    \addConstraint{4p - \frac{1 - p}{2}}{\geq v}
+    \addConstraint{0 \leq p}{\leq 1}
+  \end{maxi*}
+  We can solve this graphically by plotting these straight lines in the $(p, v)$-plane and finding the maximal point $v$ in the region bounded by the lines.
+  After solving, we see that $p = 2/3$ and so $P_1$ adopts the mixed strategy $(2/3, 1/3, 0)$.
+\end{example}
+\section{Network Flows}
+\subsection{Graphs}
+Network flow problems are defined on \textit{graphs}.
+\begin{definition}[Directed Graph]
+  A \textit{directed graph} $G = (V, E)$ where $V$ is a set of \textit{vertices} and $E \subseteq V \times V$ is a set of ordered pairs of vertices called \textit{edges}, for example $(v_1, v_2)$ represents a directed edge from $v_1 \to v_2$ for $v_1, v_2 \in V$.
+\end{definition}
+Consider a graph $G = (V, E)$ with $n$ edges, i.e. $V = \{v_1, \ldots, v_n\}$.
+\begin{definition}[Flow Vector]
+  We define the flow vector $\vec{b} \in \R^{n}$ to be such that $b_i$ is the flow \textit{entering} vertex $v_i$.
+\end{definition}
+We also assume that the total quantity flow within the network is 0, that is:
+\[
+  \sum_{i = 1}^{n} b_i = 0
+\]
+\begin{definition}[Cost Matrix]
+  The cost matrix $C$ is an $n \times n$ matrix where $C_{i j}$ is the cost per unit flow along the edge $v_i \to v_j$.
+\end{definition}
+\begin{definition}[Capacity Constraints]
+  The $n \times n$ matrices $\overline{M}$ and $\underline{M}$ restrict the capacity through each edge, i.e. the flow along the edge $v_i \to v_j$, called $x_{i j}$ must satisfy $x_{i j} \in [\underline{M}_{i j}, \overline{M}_{i j}]$.
+\end{definition}
+\begin{definition}[Network Flow Problem]
+  Let $G = (V, E)$  with $|V| = n$.
+  The minimum cost flow is a linear program given by:
+  \begin{mini*}
+    {x_{i j}}{\sum_{(i, j) \in E} C_{i j}x_{i j}}{}{}
+    \addConstraint{b_i + \sum_{(j, i) \in E} x_{j i}}{= \sum_{(i, j) \in E} x_{i j}}
+    \addConstraint{\underline{M}_{i j} \leq x_{i j}}{\leq \overline{M}_{i j}}
+  \end{mini*}
+\end{definition}
+\subsection{Transport Problem}
+A transport problem is a special case of network flow problems where there are \textbf{no intermediate vertices}.
+Suppose that we have $n$ suppliers $i \in \{1, \ldots, n\}$ and $m$ consumers $j \in \{1, \ldots, m\}$.
+Supplier $i$ produces a quantity $s_i$ and consumer $j$ demands a quantity $d_j$.
+\begin{definition}[Transport Problem]
+  The \textit{transport problem is:}
+  \begin{mini*}
+    {x_{i j}}{\sum_{\substack{1 \leq i \leqn \\ 1 \leq j \leq m}} C_{i j}x_{i j}}{}{}
+    \addConstraint{\sum_{j = 1}^{m} x_{i j}}{= S_i\ \forall i \in \{1, \ldots, n\}}
+    \addConstraint{\sum_{i = 1}^{n} x_{i j}}{= d_j\ \forall j \in \{1, \ldots, m\}}
+    \addConstraint{x_{i j}}{\geq 0\ \forall i \in {1, \ldots, n} \text{ and } j \in \{1, \ldots, m\}}
+  \end{mini*}
+\end{definition}
+\begin{theorem}
+  Every minimum cost network flow problem (i.e. $\overline{M}_{i j} < \infty\ \forall i, j$) can be recast as an equivalent transport problem.
+\end{theorem}
+\begin{remark}
+  If $C_{i j} \geq 0\ \forall i, j$, then without loss of generality then we can assume $\overline{M}_{i j} < \infty$.
+  In fact, we could set:
+  \[
+    \overline{M}_{i j} = \sum_{i \in V} |b_i|
+  \]
+  for those $(i, j)$ where $\overline{M}_{i j} = \infty$.
+\end{remark}
+\begin{proof}
+  We first observe that we can set $\underline{M}$ to $O$ by defining $\widetilde{x}_{i j} = x_{i j} - \underline{M}_{i j}$.
+  This transforms the conditions to:
+  \begin{align*}
+    0 \leq \widetilde{x}_{i j} &\leq \overline{M}_{i j} - \underline{M}_{i j} \\
+    \sum_{i, j} C_{i j}x_{i j} &= \sum_{i, j} C_{i j} \widetilde{x}_{i j} + \sum_{i, j} \underline{M}_{i j} C_{i j}
+  \end{align*}
+  The last term of this is just some constant and so we can reformulate the flow condition by replacing $b_i$ by:
+  \[
+    \widetilde{b}_i = b_i + \sum_{(j, i) \in E} \underline{M}_{j i} - \sum_{(i, j) \in E} \underline{M}_{i j}
+  \]
+  and so WLOG we can assume $\underline{M} = O$.
+
+  For every vertex $i$, construct a consumer, so we construct $|V|$ consumers.
+  For every edge $(i, j)$, construct a supplier, so we construct $|E|$ suppliers.
+
+  Now let the supply from supplier $(i, j)$ be $\overline{M}_{i j}$ and let the cost of transport from this supplier to consumer $i$ be 0, and the cost to $j$ be $C_{i j}$.
+  These are the only edges we add to the graph.
+
+  We let the amount of goods for consumer $i$ be:
+  \[
+    \sum_{k: (i, k) \in E} \overline{M}_{i k} - b_i
+  \]
+  and of consumer $j$:
+  \[
+    \sum_{k: (j, k) \in E} \overline{M}_{j k} - b_j
+  \]
+
+  Now suppose that we send a flow $x_{i j}$ from supplier $(i, j)$ to consumer $j$, because of the above, the flow to $j$ is then the remaining $\overline{M}_{i j} - x_{i j}$, because we made the cost to consume $i$ be 0, the overall cost is:
+  \[
+    \sum_{(i, j) \in E} C_{i j} x_{i j}
+  \]
+  Thus, the cost function in both problems is the same.
+
+  Consumer $i$ has inward flow:
+  \[
+    \sum_{k: (i, k) \in E} (\overline{M}_{i k} - x_{i k}) + \sum_{k: (k, i) \in E} x_{k i}
+  \]
+  which must be equal to the demand, and so:
+  \[
+    \sum_{k: (i, k) \in E} \overline{M}_{i k} - b_i = \sum_{k: (i, k) \in E} (\overline{M}_{i k} - x_{i k}) + \sum_{k: (k, i) \in E} x_{k i}
+  \]
+  Upon simplifying, we obtain:
+  \[
+    b_i + \sum_{k: (k, i) \in E} x_{k i} = \sum_{k: (i, k) \in E} x_{i k}
+  \]
+  which is the same as in the original flow problem.
+
+  So both problems have the same feasible set and cost functions, and so are equivalent.
 \end{proof}
 \end{document}
