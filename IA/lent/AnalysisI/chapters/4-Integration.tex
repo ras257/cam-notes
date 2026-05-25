@@ -806,7 +806,11 @@ To prove some basic properties of integrals, we first need to prove some propert
 \begin{proof}
   \begin{enumerate}
     \item From \cref{upperLowerProperties} \textbf{(i)} above, we have $L(f, \mathcal{P}) \leq L(g, \mathcal{P})$ for any partition $\mathcal{P}$ of $[a, b]$.
-      Taking supremum of both sides over all $\mathcal{P}$, we have $I_{*}(f) \leq I_{*}(g)$.
+      We then have:
+      \[
+        L(f, \mathcal{P}) \leq L(g, \mathcal{P}) \leq \sup_{\mathcal{P}} L(g, \mathcal{P}) = I^{*}(g) \implies L(f, \mathcal{P}) \leq I^{*}(g)\ \forall \mathcal{P}
+      \]
+      and so taking the supremum over $\mathcal{P}$ yields $I^{*}(f) \leq I^{*}(g)$.
       Since both are integrable $\int_{a}^{b} f(x) \d{x} = I_{*}(f) \leq I_{*}(g) = \int_{a}^{b} g(x) \d{x}$.
     \item If $\lambda = 0$ then the result follows trivially so assume $\lambda \neq 0$.
       For any $\varepsilon > 0$ since $f$ is integrable, $\exists \mathcal{P}$ such that $U(f, \mathcal{P}) - L(f, \mathcal{P}) < \varepsilon$.
