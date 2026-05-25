@@ -196,7 +196,7 @@ Supplier $i$ produces a quantity $s_i$ and consumer $j$ demands a quantity $d_j$
 \begin{definition}[Transport Problem]
   The \textit{transport problem is:}
   \begin{mini*}
-    {x_{i j}}{\sum_{\substack{1 \leq i \leqn \\ 1 \leq j \leq m}} C_{i j}x_{i j}}{}{}
+    {x_{i j}}{\sum_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}} C_{i j}x_{i j}}{}{}
     \addConstraint{\sum_{j = 1}^{m} x_{i j}}{= S_i\ \forall i \in \{1, \ldots, n\}}
     \addConstraint{\sum_{i = 1}^{n} x_{i j}}{= d_j\ \forall j \in \{1, \ldots, m\}}
     \addConstraint{x_{i j}}{\geq 0\ \forall i \in {1, \ldots, n} \text{ and } j \in \{1, \ldots, m\}}
