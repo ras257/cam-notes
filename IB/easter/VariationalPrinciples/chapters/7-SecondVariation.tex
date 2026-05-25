@@ -1,0 +1,180 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{The Second Variation}
+\section{Defining the Second Variation}
+The \textit{second variation} of a functional is analogous to the second derivative of a function.
+\begin{remark}[Recap]
+  Recall that for a function $f$:
+  \[
+    f(\vec{x} + \varepsilon \vec{\xi}) - f(\vec{x}) = \varepsilon \vec{\xi} \cdot \nabla f(\vec{x}) + \frac{1}{2} \varepsilon^2 \xi_i \xi_j H_{i j}(\vec{x}) + O(\varepsilon^3)
+  \]
+  It follows that the point $\vec{x} = \vec{a}$ is a local minimum if $H_{i j}(\vec{a})$ is \textit{positive definite}, i.e. $\xi_i\xi_j H_{i j}(\vec{a}) > 0\ \forall \vec{\xi} \neq \vec{0}$, or equivalently, all eigenvalues of $H_{i j}(\vec{a})$ are positive.
+\end{remark}
+Consider the general functional:
+\[
+  F[y] = \int_{\alpha}^{\beta} f(y, y', x) \d{x}
+\]
+where $y \in \mathscr{C}$ and:
+\[
+  \mathscr{C} = \{(y: [\alpha, \beta] \to \R) : y(\alpha) = a, y(\beta) = b, \text{$y$ is twice continuously differentiable}\}
+\]
+Consider a perturbation $y + \varepsilon \xi \in \mathscr{C}$ with $\xi(\alpha) = \xi(\beta) = 0$ so that the boundary conditions still hold.
+Expanding to second order:
+\begin{align*}
+  f(y + \varepsilon \xi, y' + \varepsilon \xi', x) &= f(y, y', x) + \varepsilon \xi\left[\pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'}\right] + \varepsilon \deriv{}{x}\left(\xi \pderiv{f}{y'}\right) \\
+                                                   &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\varepsilon'}^2 \pderiv[2]{f}{{\xi'}}\right]
+\end{align*}
+The first two terms follow from how we derived the Euler-Lagrange equation, just not inside of an integral this time.
+Upon substituting this back in:
+\begin{align*}
+  F[y + \varepsilon \xi] - F[y] &= \varepsilon \int_{\alpha}^{\beta} \xi(x) \frac{\delta F[y]}{y(x)} \d{x} + \varepsilon^2 \delta^2 F[y, \xi] + O(\varepsilon^3)
+\end{align*}
+where the boundary terms vanish because $\xi(\alpha) = \xi(\beta) = 0$.
+We define:
+\[
+  \delta^2 F[y, \xi] \equiv \frac{1}{2} \int_{\alpha}^{\beta} \left[\xi^2 \pderiv[2]{f}{y} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv{f}{{\xi'}}\right] \d{x}
+\]
+Now,  utilising that $2\xi \xi' = \deriv{}{x}(\xi^2)$, we can integrate by parts:
+\[
+  \delta^2 F[y, \xi] = \int_{\alpha}^{\beta} \left[\xi^2 \left(\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right) + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x}
+\]
+again utilising the boundary conditions.
+\begin{remark}[Recap]
+  Recall that if $H(\vec{x})$ is positive definite for all $\vec{x}$, then $f(\vec{x})$ is convex and so any stationary point must be a global minimum.
+\end{remark}
+We can formulate an analogous statement to the above but instead for functionals.
+\begin{theorem}
+  If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \mathscr{C}$ and allowable $\xi(x)$, then $y = y_0$ is a global minimum of $F$ within $\mathscr{C}$ if $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation.
+\end{theorem}
+\begin{remark}[Note]
+  \begin{itemize}
+    \item When we refer to ``allowed'' $\xi(x)$, we mean that it obeys the boundary conditions set up previously.
+    \item For a function to be convex, we require that its domain is also convex.
+      This is true for $\mathscr{C}$ as if $y_1, y_2 \in \mathscr{C}$ then so is $ty_1 + (1 - t)y_2$ for all $t \in [0, 1]$.
+  \end{itemize}
+\end{remark}
+\begin{example}[Geodesics Revisted]
+  Recall that we used the functional $L[y]$ for the length of the curve:
+  \[
+    L[y] = \int_{\alpha}^{\beta} \sqrt{1 + (y')^2} \d{x}
+  \]
+  There is no explicit $y$ dependence within the integrand $f(y, y', x) = \sqrt{1 + (y')^2}$ and so:
+  \[
+    \pderiv[2]{f}{y} = \frac{\partial^2 f}{\partial y \partial y'} = 0
+  \]
+  and we can find:
+  \[
+    \pderiv[2]{f}{{y'}} = (1 + (y')^2)^{-\frac{3}{2}}
+  \]
+  Therefore the second variation is given by:
+  \[
+    \delta^2 F[y, \xi]a = \frac{1}{2} \int_{\alpha}^{\beta} {\xi'}^2 (1 + (y')^2)^{-\frac{3}{2}} \d{x} \geq 0\ \forall y, \xi
+  \]
+  Thus any solution of the Euler-Lagrange equation (which we saw was a straight line) is a global minimum of the distance between two points.
+\end{example}
+\section{Classifying Optimal Solutions}
+If $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation then:
+\begin{itemize}
+  \item If $\delta^2 F[y_0, \xi] > 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local minimum.
+    Conversely, we can conclude that $y_0$ is not a local minimum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] < 0$.
+  \item If $\delta^2 F[y_0, \xi] < 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local maximum.
+    Conversely, we can conclude that $y_0$ is not a local maximum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] > 0$.
+\end{itemize}
+\begin{example}[Geodesics on a Circle]
+  On Example Sheet 2, you will show that a geodesic between two points $A, B$ on a circle is a segment of the unique great circle that passes through $A, B$.
+
+  For this unique great circle, there is two segments we could choose, and so we calculate the second variation to find that the shorter one has $\delta^2 F > 0\ \forall \xi \neq 0$ and so it must be a local minimum, and in turn is a global minimum.
+
+  The longer of the two paths can be shown to be non-minimal as we can find $\xi$ such that $\delta^2 F < 0$.
+
+  In the case where $A$ and $B$ are antipodal points, then $\delta^2 F \geq 0\ \forall \xi$ which is not covered by our criteria.
+\end{example}
+\begin{proposition}[Lengendre Condition]
+  Given any $y_0 \in \mathscr{C}$ satisfying the Euler-Lagrange equations, a necessary condition for $y_0$ to be a local minimum is:
+  \[
+    \at{\pderiv[2]{f}{{y'}}}{y = y_0} \geq 0\ \forall x \in [\alpha, \beta]
+  \]
+\end{proposition}
+\begin{proof}
+  Suppose that $\at{\pderiv[2]{f}{{y'}}}{y = y_0} < 0$ at some $x_0 \in [a, b]$, then we can choose $\xi$ such that $\xi$ is non-zero only near $x_0$ and $\xi'$ is large with $\xi$ small to make $\delta^2 F[y_0, \xi] < 0$ and so $y_0$ cannot be a local minimum.
+
+  Thus taking the contrapositive of the above, we obtain the result.
+\end{proof}
+\begin{example}
+  Consider the functional:
+  \[
+    F[y] = \int_{-1}^{1} x\sqrt{1 + (y')^2} \d{x}
+  \]
+  We then have:
+  \[
+    \pderiv[2]{f}{{y'}} = x(1 + (y')^2)^{-\frac{3}{2}}
+  \]
+  which violates the Legendre condition for $x < 0$.
+  Thus any solution of the Euler-Lagrange equations is \textbf{not} a local minimum.
+\end{example}
+Let $y_0 \in \mathscr{C}$ satisfy the Euler-Lagrange equation and write:
+\begin{equation}
+  \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} [\rho(x) {\xi'}^2 + \sigma(x)\xi^2] \d{x} \label{2ndVar}
+\end{equation}
+where we define:
+\[
+  \rho = \pderiv[2]{f}{{y'}} \text{ and } \sigma = \left[\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right]
+\]
+We can then reformulate the Legendre condition as $\rho \geq 0$.
+
+\begin{proposition}
+  A sufficient conditions that $y_0$, a solution of the Euler-Lagrange equation, to be minimum is $\rho > 0$ and $\sigma \geq 0$.
+\end{proposition}
+\begin{proof}
+  Clearly $\delta^2 F \geq 0\ \forall \xi$.
+  Now suppose that $\delta^2 F = 0$ for some $\xi$.
+  We then must have $\xi' = 0$ on $[\alpha , \beta]$, and thus $\xi$ is constant on $\alpha, \beta$.
+  Since $\xi \in \mathscr{C}$, $\xi(\alpha) = \xi(\beta) = 0$ and so $\xi$ is identically 0 which is a contradiction and so $\delta^2 F > 0\ \forall \xi$.
+\end{proof}
+\begin{example}[Brachistochrone Revisited]
+  Recall that we were aiming to minimise the functional:
+  \[
+    T[y] = \int_{0}^{x_B} f \d{x} \text{ where } f= \sqrt{\frac{1 + {y'}^2}{- y}}
+  \]
+  We need $y$ to be negative and so we impose this additional restriction on $\mathscr{C}$.
+
+  Now assume that $y$ satisfies the Euler-Lagrange equations (which we saw is a cycloid).
+  We see that:
+  \[
+    \pderiv{f}{{y'}} = \frac{y'}{\sqrt{-y(1 + {y'}^2)}},\ \pderiv{f}{y} = - \frac{f}{2y}
+  \]
+  and:
+  \[
+    \rho = \pderiv[2]{f}{{y'}} = \frac{1}{\sqrt{(-y)(1 + {y'}^2)^3}} > 0
+  \]
+  so the first condition is satisfied.
+
+  To find $\sigma$ we need to calculate:
+  \[
+    \frac{\partial^2 f}{\partial y \partial y'} = - \frac{1}{y} \pderiv{f}{y'} \text{ and } \pderiv[2]{f}{y} = \frac{3f}{4y^2}
+  \]
+  and so $\sigma$ is:
+  \begin{align*}
+    \sigma &= \pderiv[2]{f}{y} - \deriv{}{x}\left(-\frac{1}{2y} \pderiv{f}{{y'}}\right) \\
+           &= \pderiv[2]{f}{y} - \frac{y'}{2y^2} \pderiv{f}{{y'}} + \frac{1}{2y} \pderiv{f}{y} \text{ by using the EL equations} \\
+           &= \frac{3f}{4y^2} - \frac{{y'}^2}{2y^2\sqrt{(-y)(1 + {y'}^2)}} - \frac{f}{4y^2} \\
+           &= \frac{1}{2\sqrt{(-y)(1 + {y'}^2)}} > 0
+  \end{align*}
+  Thus $\rho > 0$ and $\sigma > 0$ so $y$ (a cycloid) is a local minimum of $T$.
+\end{example}
+We can also integrate \cref{2ndVar} by parts to yield:
+\begin{align*}
+  \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_{\alpha}^{\beta} \xi(x) \mathcal{L}\xi(x) + \frac{1}{2}\underbrace{\eval{\rho \xi \xi'}{\alpha}{\beta}}_{= 0 } \d{x} \\
+                       &= \frac{1}{2}\int_{\alpha}^{\beta} \xi \mathcal{L}\xi(x) \d{x}
+\end{align*}
+where $\mathcal{L}$ is the differential operator defined as:
+\[
+  \mathcal{L}\xi \equiv -\deriv{}{x}\left(\rho \deriv{\xi}{x}\right) + \rho \xi
+\]
+Consider the Sturm Louisville problem:
+\[
+  \mathcal{L} \eta = \lambda w(x) \eta \text{ and } \eta(\alpha) = \eta(\beta) = 0
+\]
+where $w(x) > 0$ on $(\alpha, \beta)$.
+If the problem admits a negative eigenvalue $\lambda$ then $y_0$ \textbf{is not} a local minimum of $F$.
+\end{document}

@@ -202,6 +202,10 @@ Supplier $i$ produces a quantity $s_i$ and consumer $j$ demands a quantity $d_j$
     \addConstraint{x_{i j}}{\geq 0\ \forall i \in {1, \ldots, n} \text{ and } j \in \{1, \ldots, m\}}
   \end{mini*}
 \end{definition}
+\begin{remark}
+  Since $\sum_{i = 1}^{n} S_i = \sum_{i = 1}^{n} d_j$, we have some redundant constraints and  so cannot directly apply the simplex algorithm.
+  We could remove the redundant constraints, however we can instead use the \textit{Transport Algorithm}, which we will introduce later.
+\end{remark}
 \begin{theorem}
   Every minimum cost network flow problem (i.e. $\overline{M}_{i j} < \infty\ \forall i, j$) can be recast as an equivalent transport problem.
 \end{theorem}
@@ -263,4 +267,114 @@ Supplier $i$ produces a quantity $s_i$ and consumer $j$ demands a quantity $d_j$
 
   So both problems have the same feasible set and cost functions, and so are equivalent.
 \end{proof}
+\subsection{Transport Algorithm}
+\begin{theorem}[Optimality Conditions]
+  If for some feasible $x$, we have dual variables $\vec{\lambda} \in \R^{n}$ and $\vec{\mu} \in \R^{m}$  such that for all $i \in \{1, \ldots, n\}$ and  $j \in \{1, \ldots, m\}$ we have:
+  \begin{align*}
+    C_{i j} \geq \lambda_i + \mu_j \\
+    (C_{i j} - (\lambda_i + \mu_j)) x_{i j} = 0
+  \end{align*}
+  then $x$ is optimal.
+\end{theorem}
+\begin{remark}
+  The components $\lambda_i$, correspond to supplier $i$ and the components $\mu_j$ correspond to consumer $j$.
+\end{remark}
+\begin{proof}
+  The Lagrangian is given by:
+  \begin{align*}
+    L(x, \vec{\lambda}, \vec{\mu}) &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} C_{i j}x_{i j} - \sum_{i = 1}^{n} \lambda_i \left(\sum_{j = 1}^{m} x_{i j} - S_i\right) - \sum_{j  =1}^{m} \mu_j \left(\sum_{i = 1}^{n} x_{ij} - d_j\right) \\
+                                   &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} (C_{i j} - \lambda_i - \mu_j)x_{i j} + \sum_{i = 1}^{n} \lambda_i S_i + \sum_{j = 1}^{m} \mu_j d_j
+  \end{align*}
+  The conditions in the theorem  mean that the given $(\vec{\lambda}, \vec{\mu})$ are dual feasible and complementary slackness holds.
+  Thus using optimality conditions for Linear Programs, we conclude that $x$ is optimal. %TODO
+\end{proof}
+\begin{remark}
+  For a given basic feasible solution $x$, when we solve for $(\vec{\lambda}, \vec{\mu})$ using complementary slackness, we can assume that $\lambda_1 = 0$ without loss of generality as we can just shift the other components around.
+\end{remark}
+\subsubsection{Transport Algorithm}
+We first draw the \textit{Transport Tableau}:
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c}
+ & $\mu_1$ & $\mu_2$ & $\cdots$ & $\mu_m$ &  \\
+ \hline
+$\lambda_1$ & $\substack{\lambda_1 + \mu_1 \\ x_{1 1} \vert C_{1 1}}$ & $\substack{\lambda_1 + \mu_2 \\ x_{1 2} \vert C_{1 2}}$ & $\cdots$ & $\substack{\lambda_1 + \mu_m \\ x_{1 m} \vert C_{1 m}}$ & $s_1$ \\
+\hline
+$\lambda_1$ & $\substack{\lambda_2 + \mu_1 \\ x_{2 1} \vert C_{2 1}}$ & $\substack{\lambda_2 + \mu_2 \\ x_{2 2} \vert C_{2 2}}$ & $\cdots$ & $\substack{\lambda_2 + \mu_m \\ x_{2 m} \vert C_{2 m}}$ & $s_2$ \\
+\hline
+$\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ & $\vdots$ \\
+\hline
+$\lambda_1$ & $\substack{\lambda_n + \mu_1 \\ x_{1 1} \vert C_{n 1}}$ & $\substack{\lambda_n + \mu_2 \\ x_{n 2} \vert C_{n 2}}$ & $\cdots$ & $\substack{\lambda_n + \mu_m \\ x_{n m} \vert C_{n m}}$ & $s_n$ \\
+\hline
+ & $d_1$ & $d_2$ & $\cdots$ & $d_m$ &
+\end{tabular}
+\end{center}
+where numbers $d_1, \ldots, d_n$ and $s_1, \ldots, s_n$ follow directly from the problem and are not updated during the algorithm.
+\begin{example}
+  Consider the following transport problem:
+  \begin{align*}
+    S_1 &= 14,\ S_2 = 10,\ S_3 = 9 \\
+    d_1 &= 12,\ d_2 = 5,\ d_3 = 8,\ d_4 = 8
+  \end{align*}
+  with cost matrix:
+  \[
+    C = \begin{pmatrix}
+    5 & 3 & 4 & 6 \\
+    2 & 7 & 4 & 1 \\
+    5 & 6 & 2 & 4 \\
+    \end{pmatrix}
+  \]
+  We need to find any basic feasible solution to start the algorithm.
+
+  To find this basic feasible solution, we use the \textit{north-west corner rule}, this gives as much supply as possible to the first consumer starting with the first producer, and then as much as possible to the second, starting with the first producer and so on.
+  Considering the values of $\vec{\lambda}$ and $\vec{\mu}$, we have 6 complementary slackness equations from $(C_{i j} - (\lambda_i + \mu_j))x_{i j} = 0$, corresponding to each of the non-zero $x_{i j}$.
+  Recalling that we can set $\lambda_1 = 0$ without loss of generality, this along the other constraints gives:
+  \[
+    \vec{\lambda} = \begin{pmatrix}
+    0 \\
+    4 \\
+    2 \\
+    \end{pmatrix} \text{ and } \vec{\mu} = \begin{pmatrix}
+    5 \\
+    3 \\
+    0 \\
+    2 \\
+    \end{pmatrix}
+  \]
+  So the intial tableau is:
+  \begin{center}
+  \begin{tabular}{c|c|c|c|c|c}
+   & 5 & 3 & 0 & 2 &  \\
+   \hline
+  0 & $\substack{5 \\ 12 \vert 5}$ & $\substack{3 \\ 2 \vert 3}$ & $\substack{0 \\ 0 \vert 4}$ & $\substack{2 \\ 0 \vert 6}$ & 14 \\
+  \hline
+  4 & $\substack{9 \\ 0 \vert 2}$ & $\substack{7 \\ 3 \vert 7}$ & $\substack{4 \\ 7 \vert 4}$ & $\substack{6 \\ 0 \vert 1}$ & 10 \\
+  \hline
+  2 & $\substack{7 \\ 0 \vert 5}$ & $\substack{5 \\ 0 \vert 6}$ & $\substack{2 \\ 1 \vert 2}$ & $\substack{4 \\ 8 \vert 4}$ & 9 \\
+  \hline
+   & 12 & 5 & 8 & 8 & \\
+  \end{tabular}
+  \end{center}
+  Now we are at a basic feasible solution we can start the main body of the algorithm.
+
+  We then chose a cell with $C_{i j} < \lambda_i + \mu_j$, for example $i = 2$ and $j = 1$.
+  Suppose that we sent a quantity $\theta$ along the edge between supplier $i$ and consumer $j$.
+  Upon consulting the graph to find the new quantities along other edges, the smallest new quantity is $3 - \theta$.
+  Sine we want to send as much down this edge as possible without violating the constraints, we pick $\theta = 3$.
+  The tableaux is then updated accordingly:
+  \begin{center}
+  \begin{tabular}{c|c|c|c|c|c}
+   & 5 & 3 & 0 & 2 &  \\
+   \hline
+  0 & $\substack{5 \\ 9 \vert 5}$ & $\substack{3 \\ 5 \vert 3}$ & $\substack{0 \\ 0 \vert 4}$ & $\substack{2 \\ 0 \vert 6}$ & 14 \\
+  \hline
+  -3 & $\substack{2 \\ 3 \vert 2}$ & $\substack{0 \\ 0 \vert 7}$ & $\substack{4 \\ 7 \vert 4}$ & $\substack{6 \\ 0 \vert 1}$ & 10 \\
+  \hline
+  -5 & $\substack{0 \\ 0 \vert 5}$ & $\substack{-2 \\ 0 \vert 6}$ & $\substack{2 \\ 1 \vert 2}$ & $\substack{4 \\ 8 \vert 4}$ & 9 \\
+  \hline
+   & 12 & 5 & 8 & 8 & \\
+  \end{tabular}
+  \end{center}
+  We then choose another cell with $\lambda_i + \mu_j > C_{i j}$, and repeat as before.
+  If there is no such cell left, the optimality conditions are satisfied and so we are done.
+\end{example}
 \end{document}
