@@ -645,7 +645,7 @@ Again, similarly to area integrals, we can do the integrals in a different order
   Similarly to the proof of \cref{areaCoV}, but instead in 3D, we divide $V$ into small regions between surfaces of constant $u$, constant $v$, and constant $w$.
   In \cref{volumeElements}, we saw that the volume of each volume element is:
   \[
-    \d{V} = \abs{\pderiv{\vec{x}}{u} \cdot \left(\pderiv{\vec{x}}{v} \times \pderiv{\vec{x}}{w}\right)}\d{u}\d{v}\d{w} = \abs{\det\left( \pderiv{\vec{x}}{u} \middle\vert \pderiv{\vec{x}}{v} \middle\vert \pderiv{\vec{x}}{w} \right) \d{u}\d{v}\d{w}} = |J| \d{u}\d{v}\d{w}
+    \d{V} = \abs{\pderiv{\vec{x}}{u} \cdot \left(\pderiv{\vec{x}}{v} \times \pderiv{\vec{x}}{w}\right)}\d{u}\d{v}\d{w} = \abs{\det\left(\pderiv{\vec{x}}{u} \middle\vert \pderiv{\vec{x}}{v} \middle\vert \pderiv{\vec{x}}{w}\right)}\d{u}\d{v}\d{w} = |J| \d{u}\d{v}\d{w}
   \]
   Where $\det(\vec{u}_1 | \vec{u}_2 | \vec{u}_3)$ is the determinant of the matrix with columns $\vec{u}_1$, $\vec{u}_2$, and $\vec{u}_3$.
 
