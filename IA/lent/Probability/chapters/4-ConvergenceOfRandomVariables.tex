@@ -215,7 +215,7 @@ This is concept underpinning the \textit{central limit theorem}.
   By a similar chain of inequalities:
   \begin{align*}
     F_{X_n}(x) &= \P(X_n \leq x) \leq \P(X \leq x + \varepsilon) + \P(|X_n - X| > \varepsilon) \\
-    \implies \limsup_{n \to \infty} F_{X_n(x)} &\leq \limsup_{n \to \infty} [(F_X(x + \varepsilon)) + \P(|X_n - X| > \varepsilon) \\
+    \implies \limsup_{n \to \infty} F_{X_n(x)} &\leq \limsup_{n \to \infty} [(F_X(x + \varepsilon)) + \P(|X_n - X| > \varepsilon)] \\
                                                &= F_X(X + \varepsilon) \text{ since $X_n \xrightarrow{P} X$} \\
   \end{align*}
   Combining the two inequalities, we then have:
