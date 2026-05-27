@@ -1603,7 +1603,7 @@ We then set $X = F^{-1}(U)$ and can check that this indeed gives the correct dis
 \subsubsection{If $F$ is not bijective}
 If $F$ is not bijective, then we instead use its \textit{generalised inverse}, defined as:
 \[
-  G: [0, 1] \to \R,\ u \mapsto \inf \{x \in \R: u \leq F(x)\}
+  G: [0, 1] \to \R,\ u \mapsto \inf \{t \in \R: u \leq F(t)\}
 \]
 We know from \cref{pdfProperties} that $F$ is increasing and $F$ is right continuous.
 This means that when sections of $F$ are strictly increasing, $G$ is just the inverse of $F$, and on ``flat'' parts of $F$, $G$ takes the first input for which that constant value is attained.
@@ -1613,7 +1613,7 @@ This means that when sections of $F$ are strictly increasing, $G$ is just the in
 \end{lemma}
 \begin{proof}
   \begin{proofdirection}{Assume $G(u) \leq x$}
-    Since $G(u)$ is the infimum, there exists a sequence $(x_n)$ on $\{x \in \R: u \leq F(x)\}$ such that $x_n$ decreases to $G(u)$ and $u \leq F(x_n)\ \forall n$.
+    Since $G(u)$ is the infimum, there exists a sequence $(x_n)$ on $\{t \in \R: u \leq F(t)\}$ such that $x_n$ decreases to $G(u)$ and $u \leq F(x_n)\ \forall n$.
     By right continuity of $F$, we get that:
     \[
       u \leq \lim_{n \to \infty} F(x_n) = F\left(\lim_{n \to \infty} x_n\right) = F(G(u))
@@ -1621,9 +1621,9 @@ This means that when sections of $F$ are strictly increasing, $G$ is just the in
     Finally, since $F$ is increasing and $G(u) \leq x$, $u \leq F(G(u)) \leq F(x)$, as required.
   \end{proofdirection}
   \begin{proofdirection}{Assume $u \leq F(x)$}
-    Since $x \in \{x \in \R : u \leq F(x)\}$, by definition of infimum:
+    Since $x \in \{t \in \R : u \leq F(t)\}$, by definition of infimum:
     \[
-      G(u) = \inf \{x \in \R: u \leq F(x)\} \leq x
+      G(u) = \inf \{t \in \R: u \leq F(t)\} \leq x
     \]
     as required.
   \end{proofdirection}
