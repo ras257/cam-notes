@@ -377,4 +377,118 @@ where numbers $d_1, \ldots, d_n$ and $s_1, \ldots, s_n$ follow directly from the
   We then choose another cell with $\lambda_i + \mu_j > C_{i j}$, and repeat as before.
   If there is no such cell left, the optimality conditions are satisfied and so we are done.
 \end{example}
+\section{Max-Flow Min-Cut}
+\subsection{Problem Statement}
+For a graph $G = (V, E)$ with $V = \{v_1, \ldots, v_n\}$, consider a transport problem where there is a single source vertex, $v_1$, and a single sink vertex $v_n$.
+\begin{definition}[Max Flow Problem]
+  The \textit{max-flow} problem is the following:
+  \begin{maxi*}
+    {x, \delta}{\delta}{}{}
+    \addConstraint{\sum_{j: (1, j) \in E} x_{1 j}}{= \delta}
+    \addConstraint{\sum_{i: (i, n) \in E} x_{i n}}{= \delta}
+    \addConstraint{\sum_{j: (i, j) \in E} x_{i j}}{= \sum_{i: (i, j) \in E} x_{j i}\ \forall i \notin \{1, n\}}
+    \addConstraint{0 \leq x_{i j}}{\leq C_{i j}}\ \forall (i, j) \in E
+  \end{maxi*}
+\end{definition}
+If we define:
+\[
+  \phi_i(x) = \sum_{j: (i, j) \in E} x_{i j} - \sum_{j: (j, i) \in E} x_{j i}
+\]
+then the problem can be equivalently reformulated as:
+\begin{maxi*}
+  {x, \delta}{\delta}{}{}
+  \addConstraint{\phi_1(x)}{= \delta}
+  \addConstraint{\phi_n(x)}{= \delta}
+  \addConstraint{\phi_i(x)}{= 0}\ \forall i \notin \{1, n\}
+  \addConstraint{0 \leq x_{i j}}{\leq C_{i j}}\ \forall (i, j) \in E
+\end{maxi*}
+and further if we define:
+\[
+  b_i = \begin{cases}
+  +1 & \text{ if } i = 1 \\
+  -1 & \text{ if } i = n \\
+  0 & \text{ otherwise }
+  \end{cases}
+\]
+then the problem becomes:
+\begin{maxi*}
+  {x , \delta}{\delta}{}{}
+  \addConstraint{\phi_i(x) - b_i \delta}{= 0\ \forall i \in \{1, \ldots, n\}}
+  \addConstraint{0 \leq x_{i j}}{\leq C_{i j}\ \forall (i, j) \in E}
+\end{maxi*}
+\subsection{Cuts}
+\begin{definition}[Cut]
+  A \textit{cut} of a graph $G$ is a partition of $V$ into $S$ and $V \setminus S$.
+\end{definition}
+\begin{definition}[Cut Capacity]
+  The \textit{capacity} of a cut is defined as:
+  \[
+    C(S) = \sum_{(i, j) \in E, i \in S, j \notin S} C_{i j}
+  \]
+\end{definition}
+\begin{theorem}
+  If $x$ be a feasible flow with value $\delta$, then for any cut $(S, V \setminus S)$ such that $v_1 \in S$ and $v_n \in V \setminus S$, we have: \label{cutIneq}
+  \[
+    \delta \leq C(S)
+  \]
+\end{theorem}
+\begin{remark}
+  From this we can conclude that the max flow is less than or equal to the min cut:
+  \[
+    \max_{x} \delta \leq \min_{\delta} C(S)
+  \]
+\end{remark}
+\begin{proof}
+  For any sets $A, B \subseteq V$ let:
+  \[
+    f_x(A, B) = \sum_{(i, j) \in E, i \in A, j \in B} x_{i j}
+  \]
+  Note that $A$ and $B$ need not be disjoint.
+  We then sum up the flow constraints over all vertices in $S$:
+  \begin{align*}
+    \delta &= \sum_{i \in S} \left[\sum_{j: (i, j) \in E} x_{i j} - \sum_{j: (j, i) \in E} x_{i j}\right] \\
+           &= f_x(S, V) - f_x(V, S) \\
+           &= (f_x(S, S) + f_x(S, V \setminus S)) - (f_x(S, S) + f_x(V\setminus S, S)) \\
+           &= f_x(S, V \setminus S) - f_x(V \setminus S, S) \\
+           &\leq f_x(S, V \setminus S) \text{ as $f_x(V\setminus S, S) \geq 0$}\\
+           &\leq C(S) \text{ as $x_{i j} \leq C_{i j}$}
+  \end{align*}
+\end{proof}
+\begin{theorem}[Max Flow Min-Cut Theorem]
+  Let $\delta^{*}$ be the optimal value of the flow from the source to the sink.
+  We then have:
+  \[
+    \delta^{*} = \min\{C(S): C \subseteq V, v_1 \in S, v_n \in V \setminus S\}
+  \]
+  i.e. there exists a cut such that the capacity of the cut is the maximal flow.
+\end{theorem}
+\begin{proof}
+  From \cref{cutIneq}, we know that $\delta \leq C(S)$ and so it suffices to find a set $S$ such that $C(S) = \delta^{*}$.
+
+  An \textit{augmenting path}, is a path between two vertices in the undirected graph such that every \textit{forward edge} $(i, j)$ satisfies $x_{i j} < C_{i j}$ (i.e. the flow is not full), and every \textit{reverse edge} $(i, j)$ satisfies $x_{i j} > 0$.
+  If $x$ is optimal, then $x$ cannot have any augmenting paths from 1 to $n$ as if an augmenting path exists, we can increase the flow along that path.
+
+  Set:
+  \[
+    S = \{1\} \cup \{i: \text{there is an augmenting path from 1 to $i$}\}
+  \]
+  For the set $S$, sum up the flow constraints of $S$, from the proof of \cref{cutIneq}, we have:
+  \[
+    \delta^{*} = f_x(S, V \setminus S) - f_x(V \setminus S, S)
+  \]
+  We must have $f_x(S, V \setminus S) = C(S)$ and $f_x(V \setminus S, S) = 0$ and so $\delta^{*} = C(S)$.
+  This is because any edge from $S$ to $V \setminus S$ must saturated as this cannot be an augmenting path, and any reverse edges must be empty.
+\end{proof}
+\subsection{Ford-Fulkerson Algorithm}
+We can use the \textit{ford-fulkerson algorithm} to solve the max-flow min-cut problem.
+\subsubsection{Algorithm}
+\begin{enumerate}
+  \item Start with any feasible flow $x$, for example, we can alway pick $x_{i j} = 0$.
+  \item Search for an augmenting path and then direct as much flow as possible along that path.
+  \item Repeat step \textbf{(ii)} until no more augmenting paths exist.
+\end{enumerate}
+We can then employ \cref{cutIneq} to find an optimal cut by selecting the verties with augmenting paths from $1$.
+\begin{remark}
+  For graphs with integer capacities, the Ford-Fulkerson algorithm will always converge in finite time.
+\end{remark}
 \end{document}

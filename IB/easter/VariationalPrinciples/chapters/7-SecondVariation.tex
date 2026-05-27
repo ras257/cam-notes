@@ -89,9 +89,10 @@ If $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation then:
 
   In the case where $A$ and $B$ are antipodal points, then $\delta^2 F \geq 0\ \forall \xi$ which is not covered by our criteria.
 \end{example}
+\subsection{Legendre Condition}
 \begin{proposition}[Lengendre Condition]
   Given any $y_0 \in \mathscr{C}$ satisfying the Euler-Lagrange equations, a necessary condition for $y_0$ to be a local minimum is:
-  \[
+\[
     \at{\pderiv[2]{f}{{y'}}}{y = y_0} \geq 0\ \forall x \in [\alpha, \beta]
   \]
 \end{proposition}
@@ -171,10 +172,135 @@ where $\mathcal{L}$ is the differential operator defined as:
 \[
   \mathcal{L}\xi \equiv -\deriv{}{x}\left(\rho \deriv{\xi}{x}\right) + \rho \xi
 \]
-Consider the Sturm Louisville problem:
+\begin{proposition}
+  Consider the Sturm Louisville problem:
+  \[
+    \mathcal{L} \eta = \lambda w(x) \eta \text{ and } \eta(\alpha) = \eta(\beta) = 0
+  \]
+  where $w(x) > 0$ on $(\alpha, \beta)$.
+  Then $y_0$ is a local minimum if and only if all eigenvalues are positive.
+  s roblem admits a negative eigenvalue $\lambda$ then $y_0$ \textbf{is not} a local minimum of $F$.
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $y_0$ is a local minimum}
+    Suppose for contradiction that there is an eigenfunction $\eta$ of $\mathcal{L}$ with negative eigenvalue $\lambda$.
+    We then have:
+    \begin{align*}
+      \delta^2 F[y_0, \eta] &= \frac{1}{2} \int_{\alpha}^{\beta} \eta \mathcal{L} \eta \d{x} \\ \
+                            &= \frac{\lambda}{2} \int_{\alpha}^{\beta} w \eta^2 \d{x} < 0
+    \end{align*}
+    and so $y_0$ cannot be a local minimum.
+    Thus all eigenvalues must be positive.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume all eigenvalues are positive}
+    \nonexaminable
+    Let $\lambda_n$ be the $n$-th eigenvalue of $\mathcal{L}$ and $y_n$ the $n$-th eigenfunction of $\mathcal{L}$.
+    From IB Methods, the eigenfunctions $\{y_n\}$ form a complete space for the set of allowed $\eta$, i.e. we can write:
+    \[
+      \eta(x) = \sum_{n} a_n y_n(x)
+    \]
+    for some coefficients $\{a_n\}$.
+    We can also choose $\{y_n\}$ to be orthogonal, i.e.:
+    \[
+      \int_{\alpha}^{\beta} w y_m y_n \d{x} = 0 \text{ for } m \neq n
+    \]
+    and so:
+    \begin{align*}
+      \delta^2 F[y_0, \eta] &= \frac{1}{2} \sum_{m, n} a_m a_n \lambda_n \int_{\alpha}^{\beta} w y_m y_n \d{x} \\
+                            &= \frac{1}{2} \sum_{m} \lambda_m a^2_m \int_{\alpha}^{\beta} w y^2_m \d{x} \geq 0
+    \end{align*}
+    which vanishes if and only if $a_m = 0\ \forall m$.
+    Thus $\delta^2 F > 0$ for $\eta \centernot\equiv 0$.
+  \end{proofdirection}
+\end{proof}
+\begin{example}
+  Consider the functional: \label{2ndVarExample}
+  \[
+    F[y] = \frac{1}{2} \int_{0}^{a} ({y'}^2 - y^2) \d{x}
+  \]
+  The Euler-Lagrange equations tell us:
+  \[
+    - y - \deriv{}{x} y' = 0 \iff y'' + y = 0
+  \]
+  which we can easily solve to yield a solution $y_0$.
+
+  Expanding around this solution $y_0$ we have:
+  \[
+    \delta^2 F = \frac{1}{2} \int_{0}^{a} ({\xi'}^2 - \xi^2) \d{x}
+  \]
+  which tells us that $\rho = 1$ and $\sigma = -1$.
+  Thus the associated Sturm Louisville problem is:
+  \[
+    -\deriv[2]{\eta}{x} - \eta = \lambda w \eta \text{ and } \eta(0) = \eta(a) = 0
+  \]
+  If we choose $w(x) \equiv 1$ then:
+  \[
+    \eta'' + (\lambda + 1)\eta = 0 \implies \eta = A \sin(x\sqrt{\lambda + 1}) + B \cos(x\sqrt{\lambda + 1})
+  \]
+  For a non-trivial $\eta(x)$, we need $\sqrt{\lambda + 1} a = n\pi$ for some $n \in \Z$ and so we must have:
+  \[
+    \eta(x) = A \sin \left(\frac{n \pi x}{a}\right)
+  \]
+  for $n \in \N$ as $n = 0$ is trivial and $n < 0$ can be absorbed by changing the sign of $A$.
+
+  The eigenvalues are:
+  \[
+    \lambda_n = \frac{n^2 \pi^2}{a} - 1
+  \]
+  We then see that:
+  \begin{align*}
+    \text{local min} \iff \lambda_n > 0\ \forall n \iff a < \pi \\
+    \text{not a local min} \text{ if } \exists n \text{ s.t. } \lambda_n < 0 \text{ if } a > \pi
+  \end{align*}
+\end{example}
+\subsection{Jacobi Condition}
+\nonexaminable
+Ley $y_0 \in \mathscr{C}$ satisfy the Euler Lagrange equation.
+Since $\xi(\alpha) = \xi(\beta) = 0$ we have:
 \[
-  \mathcal{L} \eta = \lambda w(x) \eta \text{ and } \eta(\alpha) = \eta(\beta) = 0
+  0 = \int_{\alpha}^{\beta} (\varphi \xi^2)' \d{x} = \int_{\alpha}^{\beta} (2 \varphi \xi \xi' + \varphi' \xi^2) \d{x}
 \]
-where $w(x) > 0$ on $(\alpha, \beta)$.
-If the problem admits a negative eigenvalue $\lambda$ then $y_0$ \textbf{is not} a local minimum of $F$.
+for any differentiable $\varphi$.
+Adding this to $\delta^2 F[y_0, \xi]$ we have:
+\[
+  \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} (\rho {\xi'}^2 + 2 \varphi \xi \xi' + (\sigma + \varphi')\xi^2) \d{x}
+\]
+Assuming that $\rho > 0$ for $\alpha \leq x \leq \beta$, we can complete the square inside the integral as:
+\[
+  \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} \rho\left(\xi' + \frac{\varphi}{\rho}\xi\right)^2 + \left(\sigma + \varphi' - \frac{\varphi^2}{\rho}\right)\xi^2 \d{x}
+\]
+We want to choose a $\varphi$ to satisfy the \textit{Ricatti equation}:
+\begin{equation}
+  \varphi' + \sigma = \frac{\varphi^2}{\rho} \label{ricatti}
+\end{equation}
+then $\delta^2 F[y_0, \xi] \geq 0$ and vanishes if and only if $\xi' + \frac{\varphi}{\rho}\xi = 0$ i.e. if and only if $\xi$ is of the form:
+\[
+  \xi(x) = C \exp\left[-\int_{\alpha}^{x} \frac{\varphi(s)}{\rho(s)} \d{s}\right]
+\]
+but $\xi(\alpha) = 0 \implies C = 0$ and so $\xi(x) \equiv 0$.
+Thus $\delta^2 F[y_0, \xi] > 0$ for all non-trivial allowed $\xi$, and so $y_0$ is a local minimum.
+So in summary, $y_0$ is a local minimum if there exists a solution to \cref{ricatti} on $[\alpha, \beta]$.
+
+We see that \cref{ricatti} is a nonlinear ODE, however we can convert to a linear second order ODE by performing the substitution $\phi = - \rho \frac{u'}{u}$ for $u \neq 0$.
+This transforms \cref{ricatti} into:
+\begin{align*}
+  -\left(\rho \frac{u'}{u}\right)' + \sigma &= \rho \left(\frac{u'}{u}\right)^2 \\
+   \iff - \frac{(\rho u')'}{u} + \cancel{\rho \frac{{u'}^2}{u^2}} + \sigma &= \cancel{\rho \frac{{u'}^2}{u^2}} \\
+   \iff -(\rho u')' + \sigma u &= 0
+\end{align*}
+which is the \textit{Jacobi accessory equation}.
+If there exists a solution to this with $u \neq 0$ on $[\alpha, \beta]$ then we obtain a solution $\varphi$ of \cref{ricatti} and so $y_0$ is a local minimum.
+\begin{remark}
+  Since the Jacobi accessory equation is a linear ODE, it always has a solution but not necessarily one with $u \neq 0$.
+\end{remark}
+\begin{example}
+  Consider again the functional from \cref{2ndVarExample}.
+  Recall that we had $\rho = 1$ and $\sigma = -1$, thus the Jacobi accessory equation is:
+  \[
+    -u'' - u = 0 \implies u = A \sin (x - x_0)
+  \]
+  Thus the solutions oscillate with period $2\pi$  and so we can find a solution with $u = 0$ on $[0, a]$.
+  Therefore the solution of the Euler-Lagrange equation is a local minimum if $a < \pi$ as we found with the Sturm-Louisville approach in \cref{2ndVarExample}.
+  Unlike the Sturm-Louisville approach, this method does not let us prove that the solution is not a local minimum for $a > \pi$.
+\end{example}
 \end{document}
