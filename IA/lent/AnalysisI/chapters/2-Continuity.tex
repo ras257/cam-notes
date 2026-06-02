@@ -253,7 +253,7 @@ To make sense of ``$f(z) \to y$ as $z \to a$'' for $f: X \subseteq \C \to \C$, w
         \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |g(z) - x| < \abs{\frac{x}{2}} \implies |g(z)| > \abs{\frac{x}{2}} > 0
       \]
       Since $g$ is non-zero in some region around $a$, $\exists \delta_4 > 0 \text{ s.t. } 0 < |z - a| < \delta_4 \implies g(z) \neq 0$.
-      Then $\forall z \text{ s.t. } 0 < |z - a| < \min\{\delta_1, \delta_2, \delta_3, \delta_4\}$:
+      Then $\forall z \text{ s.t. } 0 < |z - a| < \min\{\delta_2, \delta_3, \delta_4\}$:
       \begin{align*}
         \abs{\frac{1}{g(z)} - \frac{1}{x}} &= \frac{1}{|x||g(z)|}|g(z) - x| \\
                                        &< \frac{\varepsilon}{|x||\frac{x}{2}|}
@@ -418,7 +418,7 @@ There is also another notion of continuity using sequences.
   Since $f$ and $g$ are continuous at $a$, $\forall \varepsilon > 0$:
   \begin{align*}
     \exists \delta_1 = \delta_1(\varepsilon) \text{ s.t. } |z - a| < \delta_1 \implies |f(z) - f(a)| < \varepsilon \\
-    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - f(a)| < \varepsilon
+    \exists \delta_2 = \delta_2(\varepsilon) \text{ s.t. } |z - a| < \delta_2 \implies |g(z) - g(a)| < \varepsilon
   \end{align*}
   \begin{enumerate}
     \item $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2\}$, we have:
@@ -443,7 +443,7 @@ There is also another notion of continuity using sequences.
       \[
         \exists \delta_3 \text{ s.t. } |z - a| < \delta_3 \implies |f(z) - f(a)| < \abs{\frac{f(a)}{2}} \implies |f(z)| > \abs{\frac{f(a)}{2}} > 0
       \]
-      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_2, \delta_3\}$:
+      Then $\forall z \text{ s.t. } |z - a| < \min\{\delta_1, \delta_3\}$:
       \begin{align*}
         \abs{\frac{1}{f(z)} - \frac{1}{f(a)}} &= \frac{1}{|f(a)||f(z)|}|f(z) - f(a)| \\
                                        &< \frac{\varepsilon}{|f(a)|\abs{\frac{f(a)}{2}}}
