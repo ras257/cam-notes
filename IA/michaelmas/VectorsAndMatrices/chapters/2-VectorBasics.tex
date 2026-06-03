@@ -304,7 +304,7 @@ Each \textit{component} of $\vec{a}$ under this basis is uniquely determined by 
   The components of $\vec{a}$ depend on which choice of basis we use.
 \end{remark}
 
-We will denote $\vec{a}$ using its components in this basis as ether 3-component row vector or column vector:
+We will denote $\vec{a}$ using its components in this basis as either a 3-component row vector or column vector:
 \[
   \vec{a} = (a_1, a_2, a_3) \text{ or } \vec{a} =
   \begin{pmatrix}
@@ -439,9 +439,9 @@ Since $(\vec{a}, \vec{x}, \vec{a} \times \vec{x})$ has to be an orthogonal right
 If the vector $\vec{x}$ is not originally on the plane, taking $\vec{a} \times \vec{x}$ first projects $\vec{x}$ onto the plane (due to the $\sin \theta$ in the expression for $\vec{a} \times \vec{x}$) and then carries out the same operation as above.
 So, overall, we can think of $\vec{a} \times \vec{x}$ as the projection of $\vec{x}$ onto the plane orthogonal to $\vec{a}$ which is then rotated by $\pi/2$ anticlockwise.
 \subsection{Component Expressions} \label{vectorProdComponents}
-\begin{definition}[Right-Handed Orthonormal Basis] \label{rightHandedOrtho}
+\begin{definition}[Right-Handed Orthonormal Basis]
   Consider an orthonormal basis $\vec{e}_1, \vec{e}_2, \vec{e}_3$ from \cref{orthonormalBasis}.
-  If we further have that:
+  If we further have that: \label{rightHandedOrtho}
   \begin{align*}
     \vec{e}_1 \times \vec{e}_2 &= \vec{e}_3 = -\vec{e}_2 \times \vec{e}_1 \\
     \vec{e}_2 \times \vec{e}_3 &= \vec{e}_1 = -\vec{e}_3 \times \vec{e}_2 \\
@@ -1072,7 +1072,7 @@ This means that exchanging the two inputs takes the complex conjugate.
         (\vec{z}, \vec{z}) = \overline{(\vec{z}, \vec{z})} \implies (\vec{z}, \vec{z}) \in \R
       \]
     \item Since $\R \subset \C$, our definition for a real inner product (\cref{innerProductDef}) is a special case of the above since when $(\vec{z}, \vec{w}) \in \R$, $(\vec{z}, \vec{w}) = \overline{(\vec{z}, \vec{w})} = (\vec{w}, \vec{z})$ and so the hermitian property reduces to symmetry.
-    \item Unlike for the real inner product, we do not get linearity in the second argument, instead from the hermitian property, we get \textit{anti-linearity} (or \textit{conjugate-linearity}):
+    \item Unlike for the real inner product, we do not get linearity in the first argument, instead from the hermitian property, we get \textit{anti-linearity} (or \textit{conjugate-linearity}):
       \[
         (\mu \vec{z} + \mu' \vec{z}', \vec{w}) = \overline{\mu}(\vec{z}, \vec{w}) + \overline{\mu'}(\vec{z}', \vec{w})
       \]
