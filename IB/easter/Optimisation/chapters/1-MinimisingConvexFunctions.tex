@@ -2,96 +2,109 @@
 \begin{document}
 \chapter{Minimising Convex Functions}
 \section{Introduction to Minimisation}
-In this course we will study problems of the form:
-\begin{mini*}
-  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{}{}
+In this course we will study \textit{optimisation} problems of the general form:
+\begin{mini}
+  {\vec{x} \in \mathcal{X}}{f(\vec{x})}{\label{generalProblem}}{}
   \addConstraint{h(\vec{x})}{= \vec{b}}
-\end{mini*}
-Without loss in generality, we can also assume that we are minimising functions as maximising $f(\vec{x})$ is equivalent to minimising $-f(\vec{x})$.
+\end{mini}
+That is, we will study problems where we wish to minimise a function \textit{subject to certain constraints}.
+This also covers when we wish to maximise a function as maximising $f(\vec{x})$ is equivalent to minimising $-f(\vec{x})$.
+We call the function $f: \R^{n} \to \R$ the \textit{objective function}, $h(\vec{x}) = \vec{b}$ a \textit{functional constraint}, and $x \in \mathcal{X}$ a \textit{regional constraint} for some set $\mathcal{X}$.
+\begin{definition}[Optimal Solution and Value]
+  If $\vec{x}^{*}$ solves the problem, then we call it the \textit{optimal solution}, and for this value $f(\vec{x}^{*})$ is known as the \textit{optimal value} or \textit{cost}.
+\end{definition}
+\begin{definition}[Feasible Set]
+  For a given constraint value $\vec{b}$, we define the \textit{feasible set} as:
+  \[
+    \mathcal{X}(\vec{b}) = \{\vec{x} \in \R^{n}: h(\vec{x}) = \vec{b},\ \vec{x} \in \mathcal{X}\}
+  \]
+  That is, the set of all values in $\mathcal{X}$ that satisfy that constraint.
+\end{definition}
+We may also have a \textit{inequality constraint}, such as $h(\vec{x}) \leq \vec{b}$.
+Setting $\vec{y} = h(\vec{x})$, we interpret such constraints component-wise, that is, as $y_i \leq b_i$ for each of the components.
 
-We may also have a \textit{inequality constraint}, such as $h(\vec{x}) \leq \vec{b}$ where we interpret this as $y_i \leq b_i$ for each of the components of $h(\vec{x}) = \vec{y}$ and $\vec{b}$.
-
-The function $f: \R^{n} \to \R$ is known as the \textit{objective function}, $h(\vec{x}) = \vec{b}$ is known as a \textit{functional constraint}, and $x \in \mathcal{X}$ is known as a \textit{regional constraint}.
-
-If $\vec{x}^{*}$ solves the problem, then we call it the \textit{optimal solution}, and for this value $f(\vec{x}^{*})$ is known as the \textit{optimal value/cost}.
-
-The set:
-\[
-  \mathcal{X}(\vec{b}) = \{\vec{x} \in \R^{n}: h(\vec{x}) = \vec{b},\ \vec{x} \in \mathcal{X}\}
-\]
-is called the \textit{feasible set}.
-
-We can in fact assume that we always have an equality constraint as $h(\vec{x}) \leq \vec{b}$ is the same as the constraint $h(\vec{x}) + \vec{s} = \vec{b},\ \vec{s} \geq 0$.
-These additional variables $\vec{s}$ are called \textit{slack variables}.
+Despite this, the general problem in \Cref{generalProblem} still covers this since we can assume that we always have an equality constraint by introducing an additional \textit{slack variable} $\vec{s}$. We then minimise over all $\vec{x} \in \mathcal{X}$ as before but now also over all $\vec{s} \geq \vec{0}$ and instead with the constraint $h(\vec{x}) + \vec{s} = \vec{b}$.
+If we then bundle $\vec{x}$ and $\vec{s}$ into a higher dimensional vector, then the problem is now in the form of \cref{generalProblem}.
 \section{Convexity}
 \subsection{Defining Convexity}
 \begin{definition}[Convex Set]
   A set $S \subseteq \R^{n}$ is called \textit{convex} if for all $\vec{x}, \vec{y} \in S$ and for every $\lambda \in [0, 1]$, the point $\lambda \vec{x} + (1 - \lambda)\vec{y}$ is also in $S$.
 \end{definition}
 \begin{remark}[Intuition]
-  A set is convex if for any two points, every point on the line segment joining these to points is contained within the set.
+  A set is convex if for any two points in the set, every point on the line segment joining these two points is contained within the set.
 \end{remark}
 \begin{definition}[Convex Function]
-  A function $f: S \to \R$  is called a \textit{convex function} if $S$ is convex and for every $\vec{x}, \vec{y} \in S$ and $\lambda \in [0, 1]$ we have:
+  A function $f: S \to \R$  is called a \textit{convex function} if $S$ is convex \textbf{and} for every $\vec{x}, \vec{y} \in S$ and $\lambda \in [0, 1]$ we have:
   \[
     f(\lambda \vec{x} + (1 - \lambda)\vec{y}) \leq \lambda f(\vec{x}) + (1 - \lambda) f(\vec{y})
   \]
 \end{definition}
 \begin{remark}[Intuition]
-  A function is convex if the function value evaluated at a point on the line segment between any two points is less than the chord between those two points on the curve.
+  A function is convex if the function value evaluated at any point on the line segment between any two points is less than the chord between those two points on the curve.
 \end{remark}
-\begin{remark}
+\begin{remark}[Remarks]
   \begin{itemize}
+    \item We require $S$ to be a convex set else the function would not be defined at $\lambda \vec{x} + (1 - \lambda)\vec{y}$ for some $\lambda$.
     \item If $-f$ is convex, then we call $f$ \textit{concave}.
-    \item If $f$ is linear, then this inequality always holds and so linear functions are always both convex and concave.
+    \item If $f$ is linear, then this inequality always holds and so linear functions defined on a convex domain are always both convex and concave.
   \end{itemize}
 \end{remark}
 \subsection{Conditions for Convexity}
 \begin{theorem}[First-order Condition for Convexity]
-  A differentiable function $f: \R^{n} \to \R$ is convex if and only if for all $\vec{x}, \vec{y} \in \R^{n}$ we have: \label{firstOrderCond}
+  A \textbf{differentiable} function $f: \R^{n} \to \R$ is convex if and only if for all $\vec{x}, \vec{y} \in \R^{n}$ we have: \label{firstOrderCond}
   \[
     f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x})^{\trans} \nabla f(\vec{x})
   \]
 \end{theorem}
 \begin{remark}
-  This tells us that if $f$ is convex and we have a point $\vec{x}$ with $\nabla f(\vec{x}) = \vec{0}$, then $\vec{x}$ is the minimiser of $f$ as then $f(\vec{y}) \geq f(\vec{x})\ \forall \vec{y} \in \R^{n}$.
+  This tells us that if $f$ is differentiable and convex with a point $\vec{x}$ satisfying $\nabla f(\vec{x}) = \vec{0}$, then $\vec{x}$ is the minimiser of $f$ as we have $f(\vec{y}) \geq f(\vec{x})\ \forall \vec{y} \in \R^{n}$.
 \end{remark}
 \begin{proof}
   \begin{proofdirection}{Assume $f$ is convex}
-    When $n = 1$, we have:
+    When $n = 1$, by definition, we have:
     \[
       f(x + t(y - x)) \leq (1 - t)f(x) + tf(y)\ \forall t \in [0, 1]
     \]
-    This means that
-    \[
-      f(y) \geq f(x) + \frac{f(x + t(y - x)) - f(x)}{t}
-    \]
-    Taking $t \to 0$, since $f$ is differentiable:
+    This means that:
+    \begin{align*}
+      f(y) &\geq f(x) + \frac{f(x + t(y - x)) - f(x)}{t}\ \forall t \in (0, 1] \\
+           &= f(x) + (y - x) \cdot \frac{f(x + t(y - x)) - f(x)}{t(y - x)}\ \forall t \in (0, 1]
+    \end{align*}
+    As we take $t \to 0$, since $f$ is differentiable, we obtain the result for $n = 1$:
     \[
       f(y) \geq f(x) + (y - x)f'(x)
     \]
-    For the general case, we define:
-    \[
-      g: [0, 1] \to \R,\ t \mapsto f((1 - t)\vec{x} + t\vec{y})
-    \]
-    $g$ is convex because $f$ is a convex function so using the 1D result:
+    For the general case, given any $\vec{x}$ and $\vec{y}$, we define the function $g$:
+    \begin{equation}
+      g: [0, 1] \to \R,\ t \mapsto f((1 - t)\vec{x} + t\vec{y}) \label{fOnLine}
+    \end{equation}
+    Since $g$ is just $f$ evaluated on the line segment joining $\vec{x}$ and $\vec{y}$, it must also be convex and so we can apply the result for $n = 1$ using $t = 1$ and $t = 0$:
     \begin{align*}
       g(1) &\geq g(0) + (1 - 0)g'(0) \\
-      \implies f(\vec{y}) &= f(\vec{x}) + 1 \cdot \at{\deriv{}{t}[(1 - t)\vec{x} + t\vec{y}]}{t = 0} [\nabla f((1 - 0)\vec{x} + 0 \cdot \vec{y})]^{\trans} \\
-                          &= f(\vec{x}) + (\vec{y} - \vec{x}) [\nabla f(\vec{x})]^{\trans}
+           &= f(\vec{x}) + g'(0)
     \end{align*}
+    From Vector Calculus we know that:
+    \begin{align*}
+      g'(t) &= \left[\deriv{}{t}((1 - t)\vec{x} + t\vec{y})\right]^{\trans} \nabla f((1 - t)\vec{x} + t \vec{y}) \\
+            &= (\vec{y} - \vec{x})^{\trans} \nabla f((1 - t)\vec{x} + t \vec{y}) \\
+      \implies g'(0) &= (\vec{y} - \vec{x})^{\trans} \nabla f(\vec{x})
+    \end{align*}
+    from which the desired inequality follows.
   \end{proofdirection}
   \begin{proofdirection}{Assume the inequality holds}
-    Let $\vec{x}_t = (1 - t)\vec{x} + t\vec{y}$, the first order conditions tells us that:
+    For any $\vec{x}$ and $\vec{y}$ let $\vec{u}_t = (1 - t)\vec{x} + t\vec{y}$ for $t \in [0, 1]$.
+    The inequality tells us that:
     \begin{align*}
-      f(\vec{x}) \geq f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{x} - \vec{x}_t) \\
-      f(\vec{y}) \geq f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t)
+      f(\vec{x}) \geq f(\vec{u}_t) + (\vec{x} - \vec{u}_t)^{\trans} \nabla f(\vec{u}_t) \\
+      \text{ and } f(\vec{y}) \geq f(\vec{u}_t) + (\vec{y} - \vec{u}_t)^{\trans} \nabla f(\vec{u}_t)
     \end{align*}
     Multiplying the first inequality by $(1 - t)$ and the second by $t$ and summing, we have that:
     \begin{align*}
-      (1 - t)f(\vec{x}) + tf(\vec{y}) &\geq f(\vec{x}_t) \\
+      (1 - t)f(\vec{x}) + tf(\vec{y}) &\geq f(\vec{u}_t) + [(1 - t)(\vec{x} - \vec{u}_t) + t(\vec{y} - \vec{u}_t)]^{\trans} \nabla f(\vec{u}_t) \\
+                                      &\geq f(\vec{u}_t) + [(1 - t)\vec{x} + t\vec{y} - \vec{u}_t]^{\trans} \nabla f(\vec{u}_t) \\
                                       &= f((1 - t)\vec{x} + t\vec{y})
     \end{align*}
+    and so the function is convex.
   \end{proofdirection}
 \end{proof}
 \begin{definition}[Hessian]
@@ -100,6 +113,9 @@ These additional variables $\vec{s}$ are called \textit{slack variables}.
     [\nabla^2 f(\vec{x})]_{i j} = \frac{\partial^2 f(\vec{x})}{\partial x_i \partial x_j}
   \]
 \end{definition}
+\begin{remark}[Notation]
+  In this course, we will denote the Hessian matrix using $\nabla^2 f$, this is not to be confused with the Laplacian from IA Vector Calculus.
+\end{remark}
 \begin{remark}[Recap]
   Recall from IA Differential Equations that:
   \[
@@ -112,51 +128,57 @@ These additional variables $\vec{s}$ are called \textit{slack variables}.
   \[
     \vec{x}^{\trans} A \vec{x} \geq 0
   \]
-  We then write $A \succeq 0$.
-  Equivalently, all of the eigenvalues of $A$ are non-negative.
+  This is then denoted as $A \succeq 0$.
 \end{definition}
+\begin{remark}
+  We know from IA Vectors and Matrices that this is equivalent to all of the eigenvalues of a symmetric matrix $A$ being non-negative.
+\end{remark}
 \begin{theorem}[Second-order Condition for Convexity]
-  A twice differentiable function $f: \R^{n} \to \R$ is \textit{convex} if and only if its hessian $\nabla^2 f(\vec{x}) \succeq 0$.
+  A \textbf{twice differentiable} function $f: \R^{n} \to \R$ is \textit{convex} if and only if its hessian $\nabla^2 f(\vec{x}) \succeq 0$.
 \end{theorem}
 \begin{proof}
-  Here will only prove one direction however the converse also holds.
-\begin{proofdirection}{Assume $f$ is convex}
-    For any $\vec{x}, \vec{y} \in \R^{n}$, by applying the Lagrange remainder to $g(t)$ as defined above, there exists $\vec{z} \in \R^{n}$ on the line joining $\vec{x}$ and $\vec{y}$ such that:
-    \begin{align*}
-      f(\vec{y}) &= f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \\
-                 &\geq f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x})
-    \end{align*}
+  For ease we will only prove one direction.
+  \begin{proofdirection}{Assume $f$ is convex}
+    Not proven in this course
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\nabla^2 f(\vec{x}) \succeq 0$}
+    For any $\vec{x}, \vec{y} \in \R^{n}$, by applying the Lagrange remainder to $g(t)$ as defined \cref{fOnLine}, there exists $\vec{z} \in \R^{n}$ on the line joining $\vec{x}$ and $\vec{y}$ such that:
+    \begin{align}
+      f(\vec{y}) &= f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \label{lgMulti} \\
+                 &\geq f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) \text{ since $\nabla^2 f(\vec{z}) \succeq 0$} \nonumber
+    \end{align}
     So by \cref{firstOrderCond}, $f$ is convex.
   \end{proofdirection}
 \end{proof}
 \section{Gradient Descent}
 \subsection{Algorithm}
-Observe that:
+We start by observing that for $\vec{y}$ and $\vec{x}$ such that $\norm{\vec{y} - \vec{x}}$ is sufficiently small we have that:
 \[
-  f(\vec{y}) \approx f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x})
+  f(\vec{y}) \approx f(\vec{x}) + (\vec{y} - \vec{x})^{\trans}\nabla f(\vec{x})
 \]
-If $\vec{y} - \vec{x} = -\varepsilon\nabla f(\vec{x})$ then:
+Suppose now that $\vec{y} - \vec{x} = -\varepsilon\nabla f(\vec{x})$ for some sufficiently small $\varepsilon$ so that:
 \begin{align*}
-  f(\vec{y}) &\approx f(\vec{x}) + \nabla f(\vec{x})^{\trans}(-\varepsilon \nabla f(\vec{x})) \\
-             &= f(\vec{x}) - \varepsilon \norm{\nabla f(\vec{x})}^2
+  f(\vec{x} - \varepsilon \nabla f(\vec{x})) &\approx f(\vec{x}) + (-\varepsilon \nabla f(\vec{x}))^{\trans} \nabla f(\vec{x}) \\
+                                             &= f(\vec{x}) - \varepsilon \norm{\nabla f(\vec{x})}^2 \\
+                                             &\leq f(\vec{x})
 \end{align*}
-\subsubsection{Steps for Gradient Descent}
+That is, if we start at some point $\vec{x}$ and take a sufficiently small step in the opposite direction to $\nabla f(\vec{x})$ the value of the function at the new point will be less than $f(\vec{x})$.
+This gives us a crude way to decrease the value of a function and is the basis of the \textit{gradient descent} algorithm.
+\subsubsection{Steps for Gradient Descent} \label{gradientAlgorithm}
 \begin{enumerate}
-  \item Start from some $\vec{x}_0$ with $t = 0$.
-  \item Repeat:
+  \item Start from some point $\vec{x}_0$ and let $t = 0$.
+  \item Repeat the following:
     \begin{enumerate}
-      \item Find a descent direction $\vec{\nu}_t$ such as $-\nabla f(\vec{x}_t)$.
-      \item Choose a step size $\eta_t$
+      \item Find a descent direction $\vec{\nu}_t$, for example $-\nabla f(\vec{x}_t)$ as described above.
+      \item Choose a suitable step size $\eta_t$ depending on $t$.
       \item Update $\vec{x}_{t + 1} = \vec{x}_t + \eta_t \vec{\nu}_t$
+      \item Increase $t$ by 1 as we have taken a step of the algorithm.
     \end{enumerate}
   \item Stop when some stopping criteria are satisfied.
-    For example $\nabla f(\vec{x}_t)$ is sufficiently close to $0$.
+    For example, when $\nabla f(\vec{x}_t)$ is ``sufficiently close'' to $0$.
 \end{enumerate}
-There are however some potential issues with gradient descent:
-\begin{itemize}
-  \item The step size may need to be modified.
-    For very curved functions, a large step size may just oscillate around the minimizer and for very flat functions, a small step size is quite inefficient.
-\end{itemize}
+We need to be cautious when picking a step size for gradient descent.
+For very curved functions, a large step size may just oscillate around the minimizer and for very flat functions, a small step size is quite inefficient.
 \subsection{Smoothness and Strong Convexity}
 \begin{definition}[$\beta$-smooth]
   A twice-differentiable function $f: \R^{n} \to \R$ is \textit{$\beta$-smooth} for $\beta > 0$ if $\nabla^2 f(\vec{x}) \preceq \beta I$ for all $\vec{x} \in \R^{n}$.
@@ -164,14 +186,20 @@ There are however some potential issues with gradient descent:
 \begin{definition}[$\alpha$-strong convexity]
   A twice-differentiable function $f: \R^{n} \to \R$ is \textit{$\alpha$-strongly convex} for $\alpha > 0$ if $\nabla^2 f(\vec{x}) \succeq \alpha I$ for all $\vec{x} \in \R^{n}$.
 \end{definition}
-\begin{remark}
-  We say that $A \preceq B$ if $B - A \succeq 0$, i.e. $B - A$ is a positive semi-definite matrix.
-  Equivalently, $\nabla^2 f(\vec{x}) \preceq \beta I$ means that all of the eigenvalues of $\nabla^2 f(\vec{x})$ are $\leq \beta$.
+\begin{remark}[Notation]
+  For symmetric matrices $A$ and $B$ we write $A \preceq B$ to mean $B - A \succeq 0$, i.e. $B - A$ is a positive semi-definite matrix.
 \end{remark}
-So if a function is both $\alpha$-strongly convex and $\beta$-smooth then:
+\begin{remark}
+  Notice that $A \preceq \beta I$ if and only if all the eigenvalues $\lambda$ of $A$ satisfy $\lambda \leq \beta$.
+  This is because $\det(A - \lambda I) = \det (A - \beta I - (\lambda - \beta)I)$ so $\lambda$ is an eigenvalue of $A$ if and only if $\lambda - \beta$ is an eigenvalue of $A - \beta I$. Thus all eigenvalues of $A$ are $\leq \beta$ if and only if all the eigenvalues of $A - \beta I$ are $\leq 0$.
+
+  Similarly, $A \succeq \alpha I$ if and only if all the eigenvalues of $A$ are $\geq \alpha$.
+\end{remark}
+If a function is both $\alpha$-strongly convex and $\beta$-smooth we write:
 \[
   \alpha I \preceq \nabla^2 f(\vec{x}) \preceq \beta I
 \]
+In this case, all the eigenvalues of $A$ satisfy $\alpha \leq \lambda \leq \beta$.
 \begin{theorem}
   If $f$ is $\beta$-smooth, then:
   \[
@@ -183,43 +211,43 @@ So if a function is both $\alpha$-strongly convex and $\beta$-smooth then:
   \]
 \end{theorem}
 \begin{remark}[Intuitition]
-  In 1D, this is saying that we can trap the function below and above by a quadratic function.
+  In 1D, this is saying that for any point $x$ we can bound the entire function above (for $\beta$-smooth) or below (for $\alpha$-strongly convex) by a quadratic passing through the point $(x, f(x))$.
 \end{remark}
 \begin{proof}
-  Using the multivariate Taylor series:
-  \[
-    f(\vec{y}) = f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x})
-  \]
-  where $\vec{z}$ is some point on the line segment joining $\vec{x}$ and $\vec{y}$.
+  For any $\vec{x}$ and $\vec{y}$, using Lagrange's Theorem as in \cref{lgMulti}, we have:
+  \begin{align}
+    f(\vec{y}) = f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \label{expansionSub}
+  \end{align}
+  for some point $\vec{z}$ on the line segment joining $\vec{x}$ and $\vec{y}$.
 
-  Now observe that:
+  Now observe that if $f$ is $\beta$-smooth then $\nabla^2 f(\vec{z}) - \beta I \preceq 0$, and so:
   \begin{align*}
-    \frac{1}{2}(\vec{y} - \vec{x})^{\trans} (\alpha I) (\vec{y} - \vec{x}) &\leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) \leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} (\beta I) (\vec{y} - \vec{x}) \\
-    \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2 &\leq \frac{1}{2}(\vec{y} - \vec{x})^{\trans} \nabla^2f(\vec{z})(\vec{y} - \vec{x}) \leq \frac{\beta}{2} \norm{\vec{y} - \vec{x}}^2
+    (\vec{y} - \vec{x})^{\trans} (\nabla^2 f(\vec{z}) - \beta I) (\vec{y} - \vec{x}) &\leq 0 \\
+    \implies \frac{1}{2} (\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{z}) (\vec{y} - \vec{x}) &\leq \frac{\beta}{2} \norm{\vec{y} - \vec{x}}^2
   \end{align*}
-  and so substituting back into the taylor series yields the result.
+  and so substituting back into \cref{expansionSub} yields the result.
+
+  For $\alpha$-strongly convex $f$, we carry out a similar process but replacing $\geq$ with $\leq$ throughout.
 \end{proof}
 \begin{corollary}
-  For a $\beta$-smooth $f$ we have: \label{bSmoothCoro}
+  For a $\beta$-smooth function $f$ we have: \label{bSmoothCoro}
   \[
     f\left(\vec{x} - \frac{1}{\beta} \nabla f(\vec{x})\right) \leq f(\vec{x}) - \frac{1}{2\beta}\norm{\nabla f(\vec{x})}^2
   \]
 \end{corollary}
-\begin{remark}[Intuition]
-  This gives us a step size to use for gradient descent as it guarantees that our step size does not ``overshoot''.
-\end{remark}
 \begin{proof}
-  Follows by substituting $\vec{y} = \vec{x} - \frac{1}{\beta}\nabla f(\vec{x})$.
+  If we substitute $\vec{y} = \vec{x} - \frac{1}{\beta}\nabla f(\vec{x})$ then:
+  \begin{align*}
+    f\left(\vec{x} - \frac{1}{\beta} \nabla f(\vec{x})\right) &\leq f(\vec{x}) + \nabla f(\vec{x})^{\trans} \left(- \frac{1}{\beta} \nabla f(\vec{x})\right) + \frac{\beta}{2} \norm{-\frac{1}{\beta} \nabla f(\vec{x})}^2 \\
+                                                              &= f(\vec{x}) - \frac{1}{2\beta} \norm{\nabla f(\vec{x})}^2 \text{ since $\beta > 0$}
+  \end{align*}
 \end{proof}
+This gives us a step size to use for gradient descent as it guarantees that for a $\beta$-smooth function, taking a step $-\frac{1}{\beta}\nabla f(\vec{x})$ always decreases the value of the function and will never ``overshoot'' the minimum.
 \begin{corollary}
   For an $\alpha$-strongly convex function $f$, let $f(\vec{x}^{*})$ be the minimum of $f$.
-  Then for any $\vec{x}$, we have: \label{aStrongCoro}
+  For any $\vec{x}$, we then have: \label{aStrongCoro}
   \[
     f(\vec{x}^{*}) \geq f(\vec{x}) - \frac{1}{2\alpha} \norm{\nabla f(\vec{x})}^2
-  \]
-  or equivalently:
-  \[
-    f(\vec{x}) - f(\vec{x}^{*}) \leq \frac{1}{2\alpha} \norm{\nabla f(\vec{x})}^2
   \]
 \end{corollary}
 \begin{proof}
@@ -227,76 +255,79 @@ So if a function is both $\alpha$-strongly convex and $\beta$-smooth then:
   \[
     f(\vec{y}) \geq f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2
   \]
-  Taking minima of both sides:
+  Since this is true for all $\vec{y}, \vec{x}$ and we stipulated that the function has a minimum, we can take minima over $\vec{y}$ of both sides:
   \[
     \min_{\vec{y} \in \R^{n}} f(\vec{y}) \geq \min_{\vec{y} \in \R^{n}} \left[f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2\right]
   \]
   The left hand side is just $\min_{\vec{y} \in \R^{n}} f(\vec{y}) = f(\vec{x}^{*})$.
-  For the right hand side:
+  To minimise the right hand side, since $\alpha > 0$, it is a convex quadratic function and so we can just minimise by finding where the gradient with respect to $\vec{y}$ is $\vec{0}$.
+  Noting that $\nabla_\vec{y} \vec{a}^{\trans} (\vec{y} - \vec{x}) = \vec{a}$ and $\nabla_{\vec{y}} \norm{\vec{y} - \vec{x}}^2 = 2 (\vec{y} - \vec{x})$ we have:
   \[
     \nabla_{\vec{y}} \left(f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y} - \vec{x}) + \frac{\alpha}{2}\norm{\vec{y} - \vec{x}}^2\right) = \nabla f(\vec{x}) + \alpha(\vec{y} - \vec{x})
   \]
-  To minimise, we set this to $\vec{0}$ to give:
+  Setting this equal to $\vec{0}$, we see that it is minimised at:
   \[
     \vec{y}^{*} = \vec{x} - \frac{1}{\alpha} \nabla f(\vec{x})
   \]
-  Substituting back in to find the value at the minimum:
-  \[
+  Thus substituting back in we see that the minimum value is:
+  \begin{align*}
     \min_{\vec{y} \in \R^{n}} \left[f(\vec{x}) + \nabla f(\vec{x})^{\trans}(\vec{y}  - \vec{x}) + \frac{\alpha}{2} \norm{\vec{y} - \vec{x}}^2\right] = f(\vec{x}) - \frac{1}{2\alpha}\norm{\nabla f(\vec{x})}^2
-  \]
+  \end{align*}
   and so:
   \[
     f(\vec{x}^{*}) \geq f(\vec{x}) - \frac{1}{2\alpha}\norm{\nabla f(\vec{x})}^2
   \]
 \end{proof}
-\begin{remark}
-  So if $\norm{\nabla f(\vec{x})}^2 \leq 2\alpha \varepsilon$, then $\vec{x}^{*}$ is optimal up to an $\varepsilon$ error, i.e.
-  \[
-    f(\vec{x}) - f(\vec{x}^{*}) \leq \varepsilon
-  \]
-\end{remark}
-So we now know what step size we should take and what our stopping threshold should be.
+Thus if we want $\vec{x}$ to be optimal up to an $\varepsilon$ error, i.e. $f(\vec{x}) - f(\vec{x}^{*}) \leq \varepsilon$, then we know for an $\alpha$-strongly convex function we can choose our stopping criteria to be when $\norm{\nabla f(\vec{x})}^2 \leq 2\alpha \varepsilon$ as this implies $f(\vec{x}) - f(\vec{x}^{*}) \leq \varepsilon$.
 \subsection{Convergence of Gradient Descent}
 \begin{theorem}
   Let $f$ be $\alpha$-strongly convex and $\beta$-smooth and suppose $f$ is minimised at $\vec{x}^{*}$.
-  Then gradient descent with $\eta_t = \frac{1}{\beta}$ satisfies:
+  Then gradient descent as described in \cref{gradientAlgorithm} with $\eta_t = \frac{1}{\beta}$ and $\nu_t = - \nabla f(\vec{x}_t)$ satisfies:
   \begin{align*}
     f(\vec{x}_T) - f(\vec{x}^{*}) &\leq \left(1 - \frac{\alpha}{\beta}\right)^T (f(\vec{x}_0) - f(\vec{x}^{*})) \\
                                   &\leq e^{-\frac{\alpha T}{\beta}} (f(\vec{x}_0) - f(\vec{x}^{*}))
   \end{align*}
+  after $t = T$ steps.
 \end{theorem}
 \begin{remark}
   The second inequality follows from that $e^{-x} \geq 1- x$.
 
-  We like this inequality as we can then take logarithms to find $T$ that will give an $\varepsilon$-optimal point:
+  We tend to prefer this inequality as we can then take logarithms to find a step count $T$ that will give an $\varepsilon$-optimal point:
   \[
     T \geq \frac{\beta}{\alpha} \log \left(\frac{f(\vec{x}_0) - f(\vec{x}^{*})}{\varepsilon}\right)
   \]
 \end{remark}
 \begin{proof}
+  By \cref{bSmoothCoro} we have that:
+  \[
+    f(\vec{x}_{t + 1}) = f\left(\vec{x}_{t} - \frac{1}{\beta} \nabla f(\vec{x}_t)\right) \leq f(\vec{x}_t) - \frac{1}{2\beta}\norm{\nabla f(\vec{x}_t)}^2
+  \]
+  By \cref{aStrongCoro} we also have:
+  \[
+    - \norm{\nabla f(\vec{x}_t)}^2 \leq -\frac{\alpha}{2} (f(\vec{x}_t) - f(\vec{x}^{*}))
+  \]
+  Thus we can combine the above to yield:
   \begin{align*}
-    f(\vec{x}_{t + 1}) - f(\vec{x}^{*}) &\leq f(\vec{x}_t) - f(\vec{x}^{*}) - \frac{1}{2\beta} \norm{\nabla f(\vec{x}_t)}^2 \text{ (by \cref{bSmoothCoro})}\\
-                                        &\leq f(\vec{x}_t) - f(\vec{x}^{*}) - \frac{\alpha}{\beta} (f(\vec{x}_t) - f(\vec{x}^{*})) \text{ (by \cref{aStrongCoro})}\\
-                                        &= \left(1 - \frac{\alpha}{\beta}\right) (f(\vec{x}_t) - f(\vec{x}^{*})) \\
-                                        &= \cdots \\
-                                        &= \left(1 - \frac{\alpha}{\beta}\right)^{T} (f(\vec{x}_0) - f(\vec{x}^{*}))
+    f(\vec{x}_{t + 1}) - f(\vec{x}^{*}) &\leq f(\vec{x}_t) - f(\vec{x}^{*}) - \frac{\alpha}{\beta} (f(\vec{x}_t) - f(\vec{x}^{*}))  \\
+                                        &= \left(1 - \frac{\alpha}{\beta}\right) (f(\vec{x}_t) - f(\vec{x}^{*}))
   \end{align*}
+  We can then iterate this inequality $T$ times to yield the result.
 \end{proof}
 \begin{example}
   Consider $f: \R^{2} \to \R$ given by:
   \[
     f(\vec{x}) = \frac{1}{2}(x^2_1 + 100x^2_2)
   \]
-  We have:
+  The hessian of $f$ is given by:
   \[
     \nabla^2 f(\vec{x}) = \begin{pmatrix}
     1 & 0 \\
     0 & 100 \\
     \end{pmatrix}\ \forall \vec{x} \in \R^2
   \]
-  We see that:
+  Since the eigenvalues of a diagonal matrix are just its entries, we see that:
   \[
-    \begin{pmatrix}
+    I = \begin{pmatrix}
     1 & 0 \\
     0 & 1 \\
     \end{pmatrix} \preceq \begin{pmatrix}
@@ -305,39 +336,43 @@ So we now know what step size we should take and what our stopping threshold sho
     \end{pmatrix} \preceq \begin{pmatrix}
     100 & 0 \\
     0 & 100 \\
-    \end{pmatrix}
+    \end{pmatrix} = 100I
   \]
-  So we can take $\alpha = 1$ and $\beta = 100$ so:
+  To use the above result we take $\alpha = 1$ and $\beta = 100$ so:
   \[
-    1 - \frac{\alpha}{\beta} = 1 - \frac{1}{100} = 0.99
+    \eta_t = 1 - \frac{\alpha}{\beta} = 1 - \frac{1}{100} = 0.99
   \]
   $\beta = 100$ is quite large so we might want to rescale our axes so that it is not biased towards some direction.
   That is, currently, the algorithm will take small steps in general so that it doesn't overshoot when moving in the $x_2$ direction, however this means that it is taking steps that are too small in the $x_1$ direction.
 \end{example}
 \section{Second Order Methods}
-Consider the second order Taylor approximation at $\vec{x}$:
+Consider the second order Taylor approximation at $\vec{x}$, this provides the best second order approximation to a function at a point $\vec{x}$:
 \[
   f(\vec{y}) = f(\vec{x}) + \nabla f(\vec{x})^{\trans} (\vec{y} - \vec{x}) + \frac{1}{2} (\vec{y} - \vec{x})^{\trans} \nabla^2 f(\vec{x}) (\vec{y} - \vec{x})
 \]
-Suppose we change the update rule to the following:
+Suppose we change the update rule in step \textbf{(ii)} of the gradient descent algorithm in \cref{gradientAlgorithm} to the following:
 \[
-  \vec{x}_{t + 1} = \argmin_y [f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)]
+  \vec{x}_{t + 1} = \argmin_{\vec{y}} \left[f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)\right]
 \]
-To find the argmin of this, since it is quadratic, we need only consider when grad with respect to $\vec{y}$ of the function is $\vec{0}$:
+\begin{remark}[Notation]
+  The \textit{argmin} of a function returns the optimal solution, i.e. the value at which the function attains its minimum instead of the minimum value of the function.
+\end{remark}
+To find the argmin of this, since it is quadratic, we need only consider when grad with respect to $\vec{y}$ of the function is $\vec{0}$.
+Using summation notation we find that $\nabla_\vec{y} (\vec{y}^{\trans} A \vec{y}) = (A + A^{\trans}) \vec{y}$ and so since $\nabla^2 f$ is symmetric we have that:
 \[
   \nabla_{\vec{y}} (f(\vec{x}_t) + \nabla f(\vec{x}_t)^{\trans} (\vec{y} - \vec{x}_t) + \frac{1}{2} (\vec{y} - \vec{x}_t)^{\trans} \nabla^2 f(\vec{x}_t) (\vec{y} - \vec{x}_t)) = \nabla f(\vec{x}_t) + \nabla^2f(\vec{x}_t) (\vec{y} - \vec{x}_t)
 \]
-Setting this to $\vec{0}$ gives:
+Setting this to $\vec{0}$ and solving gives the optimal solution:
 \[
-  \vec{y} = \vec{x}_t - (\nabla^2 f(\vec{x}_t))^{-1} \nabla f(\vec{x}_t)
+  \vec{y}^{*} = \vec{x}_t - (\nabla^2 f(\vec{x}_t))^{-1} \nabla f(\vec{x}_t)
 \]
 \subsection{Newton's Method}
-Newton's method uses the update rule from the above, that is:
+Newton's method uses the above as its update rule, that is:
 \[
   \vec{x}_{t + 1} = \vec{x}_t - (\nabla^2 f(\vec{x}_t))^{-1} \nabla f(\vec{x}_t)
 \]
-In one-dimension, this is a root finding method for $f'(x)$.
-Suppose $f'(x) = g(x)$:
+In one-dimension, this is just a root finding method for $f'(x)$.
+In this case $\nabla f = f'$ and $\nabla^2 f = f''$ so:
 \[
   x_{t + 1} = x_t - \frac{g(x_t)}{g'(x_t)}
 \]
@@ -347,20 +382,20 @@ Iterating this allows us to numerically find a root for $f'(x)$.
   \[
     \norm{A\vec{z}}_{2} \leq a \norm{\vec{z}}_{2}\ \forall \vec{z} \in \R^{n}
   \]
-  where $\norm{\cdot}_2$ is the Euclidean norm.
+  where $\norm{\cdot}_2$ is the usual Euclidean norm.
 \end{definition}
 \begin{remark}
-  For positive semi-definite $A$, its norm is the largest eigenvalue.
+  For positive semi-definite $A$, its norm is just the largest eigenvalue.
   Intuitively, the matrix norm upper bounds how much the matrix can ``stretch'' a vector in any direction.
 \end{remark}
 \begin{definition}[$\ell$-Lipschtiz Hessian]
   The Hessian $\nabla^2 f(\vec{x})$ of a function $f(\vec{x})$ is \textit{$\ell$-Lipschitz} if:
   \[
-    \norm{\nabla^2 f(\vec{x}) - \nabla^2 f(\vec{y})} \leq \ell \norm{\vec{x} - \vec{y}}_{2}
+    \norm{\nabla^2 f(\vec{x}) - \nabla^2 f(\vec{y})} \leq \ell \norm{\vec{x} - \vec{y}}_{2}\ \forall \vec{x}, \vec{y} \in \R^{n}
   \]
 \end{definition}
 \begin{theorem}
-  if $f$ is a twice-differentiable $\alpha$-strongly convex function with $\ell$-Lipschitz Hessian, then Newton's method applied to $f$ satisfies:
+  If $f$ is a twice-differentiable $\alpha$-strongly convex function with $\ell$-Lipschitz Hessian, then Newton's method applied to $f$ satisfies:
   \[
     f(\vec{x}_k) - f(\vec{x}^{*}) \leq \frac{2\alpha^3}{\ell^2}\left(\frac{\ell}{2\alpha^2}\norm{\nabla f(\vec{x}_0)}_2\right)^{2^{k + 1}}
   \]
@@ -370,41 +405,44 @@ Iterating this allows us to numerically find a root for $f'(x)$.
 \end{proof}
 \begin{remark}
   This only informs us about convergence if the bracketed term is less than 1, i.e. $\norm{\nabla f(\vec{x}_0)}_2 < \frac{2\alpha^2}{\ell}$.
-  That is, we need to start at a point $\vec{x}_0$ that is sufficiently good to guarantee convergence.
-  To achieve a sufficiently good starting point, we can sometimes use gradient descent and then switch to Newton's method.
+  That is, we need to start at a point $\vec{x}_0$ that is sufficiently ``good'' to guarantee convergence.
+  To achieve such a starting point, we can sometimes use gradient descent and then switch to the faster Newton's method.
 \end{remark}
 \subsection{Barrier Method}
-Suppose we want to solve:
+Suppose we now want to solve the constrained problem:
 \begin{mini*}
   {\vec{x} \in \R^{n}}{f(\vec{x})}{}{}
   \addConstraint{\vec{a}_i^{\trans} \vec{x}}{\leq b_i \text{ for } i \in \{1, \ldots, m\}}
 \end{mini*}
 Here, instead of optimising on all of $\R^{n}$, these constraints bound us to a particular subset of $\R^{n}$.
-For example in $\R^2$, each of these constraints is a straight line.
+For example, in $\R^2$ each of these constraints is just a straight line, and in $R^3$ each of these constraints is just a plane.
+Newton's method and gradient descent may fail on such a problem if the global minimum lies outside of the constraints as the algorithm will try to guide the steps outside the constrained set.
 
-We can however modify the problem so that it we are in fact optimising over all $\R^{n}$:
+We can however modify the problem using a barrier function $\phi(d)$ so that it we are in fact optimising over all $\R^{n}$:
 \begin{mini*}
   {\vec{x} \in \R^{n}}{f(\vec{x}) + \sum_{i = 1}^{m} \phi(\vec{a}_i^{\trans} \vec{x} - b_i)}{}{}
 \end{mini*}
+We want to pick $\phi$ so that if we apply Newton's method or gradient descent to this it is deterred from leaving the constraints.
 At first, we might try:
 \[
-  \phi(t) = \begin{cases}
-  t & \text{ if } t \leq 0 \\
-  + \infty & \text{ if } t > 0
+  \phi(d) = \begin{cases}
+  d & \text{ if } d \leq 0 \\
+  + \infty & \text{ if } d > 0
   \end{cases}
 \]
-but this would not stop Newton's method from potentially leaving the region.
-A common choice is instead the \textit{logarithmic barrier function} $\phi(x) = -\log(-x)$ as this shoots off to $\infty$ as $x \to 0^{-}$ but does so continuously and not as a jump.
+as then the value of the function shoots off to $+\infty$ outside the constraints.
+However this is not differentiable so we cannot apply neither gradient descent nor Newton's method.
+A common choice is instead the \textit{logarithmic barrier function} $\phi(d) = -\log(-d)$ as this shoots off to $\infty$ as $d \to 0^{-}$ but does so continuously and not as a jump.
 
-We also introduce a parameter $t > 0$ that allows us to shift the focus between our new problem, and the original problem of minimising $f(\vec{x})$, but now with the ``barrier'' around the feasible region:
+We also introduce a parameter $t > 0$ that allows us to shift the focus between $f(\vec{x})$ and the ``barrier'' around the feasible region introduced by the logarithm:
 \begin{mini*}
   {\vec{x} \in \R^{n}}{tf(\vec{x}) - \sum_{i = 1}^{m} \log(-(\vec{a}_i^{\trans} \vec{x} - b_i))}{}{}
 \end{mini*}
-As $t \to \infty$, the problem shifts back to minimising $f(\vec{x})$.
-This is the principle of the barrier method.
+As $t \to \infty$, the problem shifts back to minimising $f(\vec{x})$ but still maintains the barrier behaviour introduced by the logarithm.
+This is the guiding principle behind the barrier method.
 \subsubsection{Steps for the Barrier Method}
 \begin{enumerate}
-  \item Find a strictly feasible $\vec{x}$ and set $t > 0$ and $\alpha > 1$.
+  \item Find a strictly feasible $\vec{x}$ (i.e. some $\vec{x}$ satisfying the boundary conditions) and set $t > 0$ and $\alpha > 1$.
   \item Repeat the following:
     \begin{enumerate}
       \item Compute $\vec{x}^{*}(t)$ by minimising:
@@ -412,8 +450,11 @@ This is the principle of the barrier method.
          tf(\vec{x}) - \sum_{i = 1}^{m} \log(-(\vec{a}_i^{\trans} \vec{x} - b_i))
         \]
         using Newton's method with $\vec{x}$ as the starting point.
-      \item Update $\vec{x} \mapsto \vec{x}^{*}(t)$ and $t \mapsto \alpha t$, i.e. take the new starting point to be the optimal solution for the current $t$ and then increase $t$ slightly.
-      \item Stop when $t$ is large enough.
+      \item Update $\vec{x} \mapsto \vec{x}^{*}(t)$ and $t \mapsto \alpha t$, i.e. take the new starting point to be the optimal solution for the current $t$ and then increase $t$ slightly, shifting the focus back towards the original problem as described above.
     \end{enumerate}
+    \item Stop when $t$ reaches a chosen threshold (i.e. it is sufficiently large).
 \end{enumerate}
+\begin{remark}[Intuition]
+  This method works particularly well using Newton's method for each optimisation step as the optimal solution for the next step of the problem will be quite close to the starting point (the optimal solution of the previous step) since we only increase $t$ slightly.
+\end{remark}
 \end{document}
