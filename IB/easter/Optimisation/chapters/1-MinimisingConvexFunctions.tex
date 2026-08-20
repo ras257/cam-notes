@@ -98,7 +98,7 @@ If we then bundle $\vec{x}$ and $\vec{s}$ into a higher dimensional vector, then
       f(\vec{x}) \geq f(\vec{u}_t) + (\vec{x} - \vec{u}_t)^{\trans} \nabla f(\vec{u}_t) \\
       \text{ and } f(\vec{y}) \geq f(\vec{u}_t) + (\vec{y} - \vec{u}_t)^{\trans} \nabla f(\vec{u}_t)
     \end{align*}
-    Multiplying the first inequality by $(1 - t)$ and the second by $t$ and summing, we have that:
+    For $t \in [0, 1]$, multiplying the first inequality by $(1 - t)$ and the second by $t$ and summing, we have that:
     \begin{align*}
       (1 - t)f(\vec{x}) + tf(\vec{y}) &\geq f(\vec{u}_t) + [(1 - t)(\vec{x} - \vec{u}_t) + t(\vec{y} - \vec{u}_t)]^{\trans} \nabla f(\vec{u}_t) \\
                                       &\geq f(\vec{u}_t) + [(1 - t)\vec{x} + t\vec{y} - \vec{u}_t]^{\trans} \nabla f(\vec{u}_t) \\
