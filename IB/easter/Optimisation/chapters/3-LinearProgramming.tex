@@ -3,7 +3,7 @@
 \chapter{Linear Programming}
 \section{Formulation}
 \begin{definition}[Linear Program]
-  A \textit{linear program} has general form:
+  A \textit{linear program} or \textit{LP} has general form:
   \begin{mini}
     {\vec{x} \in \R^{n}}{\vec{c}^{\trans}\vec{x}}{}{\label{linearGeneral}}
     \addConstraint{\vec{a}^{\trans}_i \vec{x}}{\geq b_i,\ i \in M_1}
@@ -137,7 +137,7 @@ It is convenient if we package up the first three types of constraints into a si
   \end{proofdirection}
 \end{proof}
 \section{Standard Form for Linear Programs}
-\subsection{Equivalent forms of Linear Programs}
+\subsection{Equivalent forms of Linear Programs} \label{LPEquivForms}
 The general form of linear programs given in \cref{linearGeneral} is quite cumbersome to work with so we would like to \textit{reduce it to an equivalent form}:
 \begin{enumerate}
   \item First, observe that we can write the sign constraints on the components of $\vec{x}$ in the form of the first two constraints by using $\vec{a}_i$ with a single non-zero component.
@@ -336,7 +336,7 @@ For our final assumption, we will need some additional definitions.
   We call a point $\vec{x}$ that satisfies $A\vec{x} = \vec{b}$ and has at most $m$ non-zero entries a \textit{basic solution}.
 \end{definition}
 \begin{definition}[Basic Feasible Solution]
-  We call a basic solution $\vec{x}$ that satisfies $\vec{x} \geq \vec{0}$ a \textit{basic feasible solution}.
+  We call a basic solution $\vec{x}$ that satisfies $\vec{x} \geq \vec{0}$ a \textit{basic feasible solution} or \textit{BFS}.
 \end{definition}
 Suppose we choose indices $\{B(1), \ldots, B(m)\} \subseteq \{1, \ldots, n\}$ to be the components of $\vec{x}$ that we allow to be non-zero, i.e. $x_i = 0$ for all $i \notin \{B(1), \ldots, B(m)\}$.
 \[
@@ -361,9 +361,10 @@ Thus:
   A\vec{x} = \vec{b} \iff B\vec{x}_B = \vec{b} \iff \vec{x}_{B} = B^{-1} \vec{b}
 \]
 so by constructing an $\vec{x}$ from $\vec{x}_B$ above by adding zero entries for $i \notin \{B(1), \ldots, B(m)\}$, we obtain a basic solution.
-\begin{definition}[Basic Variables, Matrix, and Columns]
+\begin{definition}[Variable Names]
   We call:
   \begin{enumerate}
+    \item $\{B(1), \ldots, B(m)\}$ the \textit{basic indices},
     \item $x_{B(1), \ldots, x_{B(m)}}$ the \textit{basic variables},
     \item $B$ the \textit{basis matrix},
     \item $\vec{A}_{B(1)}, \ldots, \vec{A}_{B(m)}$ the \textit{basic columns}.
@@ -390,14 +391,14 @@ We can now state our third assumption:
     \mathcal{X}(\vec{b}) = \{\vec{x} \in \R^{n}: A \vec{x} = \vec{b},\ \vec{x} \geq 0\}
   \]
 \end{theorem}
-\begin{remark}[Rudimentary Algorithm for Solving a L.P.]
-  This theorem means that we can solve an L.P. by just checking each of the basic feasible solutions, that is:
+\begin{remark}[Rudimentary Algorithm for Solving a LP]
+  This theorem means that we can solve an LP by just checking each of the basic feasible solutions, that is: \label{rudimentaryAlgorithm}
   \begin{itemize}
     \item List all $\binom{n}{m}$ basic solutions by generating all possible basis matrices and finding their corresponding feasible solutions $B^{-1}\vec{b}$.
     \item Filter these basic solutions to just the basic feasible solutions (i.e. checking if it is non-negative)
     \item Evaluate $\vec{c}^{\trans} \vec{x}$ for each of these basic feasible solutions and choose the best one.
   \end{itemize}
-  This algorithm works, however it becomes slow for problems in high dimensions due to the rapid growth of $\binom{n}{m}$.
+  This algorithm works, however it becomes slow for problems in high dimensions due to the rapid growth of $\binom{n}{m}$ since we need to check the value of $\vec{c}^{\trans} \vec{x}$ at \textbf{every basic feasible solution} before we can determine the optimal value.
 \end{remark}
 \begin{proof}
   \begin{proofdirection}{Assume $\vec{x}$ is a basic feasible solution}
@@ -407,11 +408,7 @@ We can now state our third assumption:
     \]
     for some $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and $\delta \in (0, 1)$.
 
-    If $x_i = 0$, then:
-    \[
-      x_i = 0 = (1 - \delta)y_i + \delta z_i
-    \]
-    but we also have that $y_i, z_i \geq 0$ as $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and so $y_i = z_i = 0$.
+    If $x_i = 0$, then $x_i = 0 = (1 - \delta)y_i + \delta z_i$ but we also have that $y_i, z_i \geq 0$ as $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$ and so $y_i = z_i = 0$.
     Thus:
     \[
       i \notin \{B(1), \ldots, B(m)\} \implies x_i = 0 \implies y_i = z_i = 0
@@ -440,19 +437,17 @@ We can now state our third assumption:
                 &= \vec{A}_{i_1} w_{i_1} + \cdots + \vec{A}_{i_r} w_{i_r} \text{ as the other entries of $\vec{w}$ are zero} \\
                 &= \vec{0} \text{ by construction}
     \end{align*}
-    Now consider two new points:
-    \begin{align*}
-      \vec{y} = \vec{x} + \varepsilon \vec{w} \\
-      \vec{z} = \vec{x} - \varepsilon \vec{w}
-    \end{align*}
-    for some $\varepsilon > 0$.
+    Now consider two new points $\vec{y} = \vec{x} + \varepsilon \vec{w}$ and $\vec{z} = \vec{x} - \varepsilon \vec{w}$ for some $\varepsilon > 0$.
     Since $\vec{x} \in \mathcal{X}(\vec{b})$ and $A \vec{w} = \vec{0}$, we have $A\vec{y} = A\vec{z} = \vec{b}$.
     We also have that $\vec{x} \geq 0$ and note that because $\vec{w}$ has a zero component in every zero component of $\vec{x}$, adding $\varepsilon \vec{w}$ only affects the positive entries of $\vec{x}$.
     Thus we can pick $\varepsilon$ to be sufficiently small so that $\vec{y}, \vec{z} \geq \vec{0}$ and thus $\vec{y}, \vec{z} \in \mathcal{X}(\vec{b})$.
     But we can write $\vec{x} = \frac{1}{2}\vec{y} + \frac{1}{2}\vec{z}$ and so $\vec{x}$ is not an extreme point of $\mathcal{X}(\vec{b})$ as desired.
   \end{proofdirection}
 \end{proof}
-\subsection{Towards the Simplex Method}
+\subsection{Towards the Simplex Algorithm}
+In our current rudimentary algorithm from \cref{rudimentaryAlgorithm}, we need to check the value of $\vec{c}^{\trans} \vec{x}$ at \textbf{every} basic feasible solution before we can determine which one is the minimum.
+However, for the \textit{simplex algorithm}, we would like a simple way to check if a basic feasible solution is optimal so that we can just test basic feasible solutions \textbf{until} we find one which is optimal instead of testing all of them.
+
 Recall from \cref{stdDual} that, if the primal problem is a standard LP:
 \begin{mini*}
   {\vec{x} \in \R^{n}}{\vec{c}^{\trans} \vec{x}}{}{}
@@ -498,7 +493,7 @@ We can now state the optimality conditions for an LP in standard form.
     Thus by \cref{optimalityConds}, the solution is optimal.
   \end{proofdirection}
 \end{proof}
-For any basic feasible solution with basis matrix $B$, the complementary slackness condition is equivalent to:
+We first note that for any basic feasible solution with basis matrix $B$, the complementary slackness condition is equivalent to:
 \[
   \vec{x}_{B}^{\trans}(\vec{c}_{B} - B^{\trans} \vec{\lambda}) = 0
 \]
@@ -507,7 +502,7 @@ Since $\vec{x}_{B} > \vec{0}$ by the non-degeneracy assumption we have:
   \vec{x}_{B}^{\trans}(\vec{c}_{B} - B^{\trans} \vec{\lambda}) = 0 \iff \vec{c}_B = B^{\trans} \vec{\lambda} \iff \vec{\lambda} = (B^{\trans})^{-1} \vec{c}_B \label{slacknessEquiv}
 \end{equation}
 \begin{corollary}
-  A basic feasible solution is optimal if and only if $A^{\trans} (B^{\trans})^{-1} \vec{c}_B \leq \vec{c}$.
+  A basic feasible solution is optimal if and only if $A^{\trans} (B^{\trans})^{-1} \vec{c}_B \leq \vec{c}$. \label{BFSCond}
 \end{corollary}
 \begin{proof}
   Since it is a basic feasible solution, \textbf{(i)} is always satisfied.
@@ -525,107 +520,164 @@ This means that we can just check $A^{\trans}(B^{\trans})^{-1}\vec{c}_{B} \leq \
     \overline{\vec{c}} = \vec{c} - A^{\trans} (B^{\trans})^{-1} \vec{c}_B
   \]
 \end{definition}
-So a basic feasible solution is optimal if and only if the vector of reduced costs satisfies $\overline{\vec{c}} \geq \vec{0}$.
-\section{Simplex Algorithm}
-\subsection{Theory}
-Suppose we are at the point:
+So a basic feasible solution is optimal if and only if its vector of reduced costs satisfies $\overline{\vec{c}} \geq \vec{0}$.
+
+To find simple expressions for its components we rewrite:
 \[
-  \vec{x} = (x_{B(1)}, \ldots, x_{B(m)}, 0, \ldots, 0)^{\trans}
+  \overline{\vec{c}}^{\trans} = \vec{c}^{\trans} - \vec{c}^{\trans}_B B^{-1} A
 \]
-Suppose for some $j^{*}$, $\overline{c}_{j^{*}} < 0$, i.e., $\vec{x}$ is not optimal.
-Suppose now that we choose some $j \notin \{B(1), \ldots, B(m)\}$ and we decide to make $x_j > 0$ whilst keeping all non basic $x_i = 0$:
+and so its components are given by:
+\begin{equation}
+  \overline{c}_j = c_j - \vec{c}^{\trans}_{B} B^{-1} \vec{A}_j \label{reducedCostComponents}
+\end{equation}
+\section{Simplex Algorithm}
+\subsection{Algorithm}
+Consider a linear program in standard form:
+\begin{mini*}
+  {\vec{x} \in \R^{n}}{\vec{c}^{\trans} \vec{x}}{}{}
+  \addConstraint{A \vec{x}}{= \vec{b}}
+  \addConstraint{\vec{x}}{\geq \vec{0}}
+\end{mini*}
+We will start at a non-degenerate basic feasible solution $\vec{x}$ with vector of reduced costs $\overline{\vec{c}}$.
+\begin{remark}[Notation]
+  For notational simplicity, when we are writing out vectors in components form, we assume that the basic indices are given by $B(i) = i$, i.e. we can write $\vec{x}$ as:
+  \[
+    \vec{x} = (x_{B(1)}, \ldots, x_{B(m)}, 0, \ldots, 0)^{\trans}
+  \]
+\end{remark}
+If $\overline{\vec{c}} \geq \vec{0}$, then $\vec{x}$ is optimal by \cref{BFSCond} and so we stop.
+Otherwise, $\vec{x}$ is not optimal and there exists some index $j^{*}$ such that $\overline{c}_{j^{*}} < 0$.
+Since we want to keep testing basic feasible solutions, we would like a way to move from this non-optimal basic feasible solution to some other basic feasible solution.
+
+\subsubsection{Choosing a direction}
+We start by choosing some index $j \notin \{B(1), \ldots, B(m)\}$ (i.e. $x_j = 0$) to make strictly positive and then perturb on this index to a new position $\vec{x}'$:
 \[
   \vec{x}' = (x_{B(1)}, \ldots, x_{B(m)}, 0, \ldots, 0)^{\trans} + t (d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans}
 \]
-where the $1$ is in the $j^{*}$-th position.
+where the $1$ is in the $j$-th position, $t > 0$, and $\vec{d}_{B} \in \R^{m}$ to be chosen later.
+For this new point to be feasible we need $A\vec{x}' = \vec{b}$:
+\begin{align*}
+  A\vec{x}' &= \vec{b} \\
+  \iff A(\vec{x} + t(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans}) &= \vec{b} \\
+  \iff \vec{b} + tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \vec{b} \text{ since $\vec{x}$ is a BFS}\\
+  \iff tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \vec{0} \\
+  \iff A(\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans} &= \vec{0} \text{ since $t > 0$} \\
+  \iff B \vec{d}_{B} + \vec{A}_j &= \vec{0} \\
+  \iff \vec{d}_B &= -B^{-1} \vec{A}_j
+\end{align*}
+Thus we have $A\vec{x}' = \vec{b}$ for this unique choice of $\vec{d}_B$.
 
-We need $A\vec{x}' = \vec{b}$ and so:
-\begin{align*}
-  A(\vec{x} + t(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans}) &= \vec{b} \\
-  \implies \cancel{\vec{b}} + tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \cancel{\vec{b}} \\
-  \implies tA(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} &= \vec{0}
-\end{align*}
-If this $\vec{x}'$ is still feasible then:
-\begin{align*}
-  A(d_{B(1)}, \ldots, d_{B(m)}, 0, \ldots, 1, \ldots, 0)^{\trans} = \vec{0} &\iff B \vec{d}_{B} + \vec{A}_j = 0\ \forall j \\
-                                                                            &\implies \vec{d}_B = - B^{-1} \vec{A}_j\ \forall j
-\end{align*}
-We now check the cost at $\vec{x}'$:
+\subsubsection{Calculating new cost}
+We now consider the cost at $\vec{x}'$:
 \begin{align*}
   \vec{c}^{\trans} \vec{x}' &= \vec{c}^{\trans}(\vec{x} + t(\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans}) \\
                             &= \vec{c}^{\trans} \vec{x} + t(\vec{c}^{\trans}_{B} \vec{d}_B + c_j) \\
                             &= \vec{c}^{\trans} \vec{x} + t(c_j - \vec{c}^{\trans}_{B} B^{-1}\vec{A}_j) \\
-                            &= \vec{c}^{\trans} \vec{x} + tc_j
+                            &= \vec{c}^{\trans} \vec{x} + t\overline{c}_j \text{ using \cref{reducedCostComponents}}
 \end{align*}
-We then calculate:
+Since we are trying to minimise this and $t > 0$, we want to pick $j$ such that $\overline{c}_j < 0$.
+Recall that $j^{*}$ provides such an index and so we take $j = j^{*}$.
+This uniquely gives us a direction to move in and tells us by how much we reduce the cost for a given $t$.
+
+\subsubsection{Ensuring basic feasibility}
+We now need to pick how big $t$ is.
+From the above we want to make $t$ as large as possible in order to reduce the new cost as much as possible.
+From how we chose $\vec{d}_B$, we know that regardless of $t$ we will always have $A\vec{x}' = \vec{b}$.
+However, for $\vec{x}'$ to be feasible, we also require $\vec{x}' \geq \vec{0}$ and so we want to pick the largest $t$ such that $\vec{x}' \geq \vec{0}$.
+
+By construction, $x'_{j^{*}} > 0$ and $x'_i = 0$ for $j \notin \{B(1), \ldots, B(m), j^{*}\}$.
+This means that we need only check how $t$ affects the basic indices:
 \[
-  - \frac{x_{B(1)}}{d_{B(1)}}, \ldots, - \frac{x_{B(m)}}{d_{B(m)}}
+  x'_{B(i)} = x_{B(i)} + t d_{B(i)}
 \]
-and find the smallest positive one.
+If $d_{B(i)} \geq 0$, then we do not need to worry about leaving the constrained set in this direction.
+But if $d_{B(i)} < 0$, then the $x'_{B(i)}$ could become negative and so we would need to ensure that $t \leq -\frac{x_{B(i)}}{d_{B(i)}}$.
 
-Let us consider how is $x_{B(1)}$ changes with $t$:
-\begin{align*}
-  x_{B(1)} + t d_{B(1)} \geq 0 \iff x_{B(1)} \geq - t d_{B(1)}
-\end{align*}
-But if $d_{B(1)} < 0$, then the $x_{B(1)}$ could become negative and so we would need to ensure that $t \leq -\frac{x_{B(1)}}{d_{B(1)}}$.
+In the case of $\vec{d}_{B} \geq \vec{0}$, then $\vec{x}' \geq 0$ for all $t > 0$ and so the optimal cost is just $-\infty$ by taking $t \to \infty$.
 
-If $d_{B(i)} \geq 0$, then we do not need to worry about leaving the constrained set in this direction, only those $B(i)$ with $d_{B(i)} < 0$ can cause constraints issues, hence why we take:
+Otherwise, there must be at least one basic index such that $d_{B(i)} < 0$ and so we need to ensure that $t \leq - \frac{x_{B(i)}}{d_{B(i)}}$ for all such basic indices.
+We still wish to move as much as possible despite this and so we take:
 \[
-  t^{*} = \min\left\{- \frac{x_{B(1)}}{d_{B(1)}}, \ldots, - \frac{x_{B(m)}}{d_{B(m)}}\right\}
+  t^{*} = \min_{\{i \in \{1, \ldots, m\}: d_{B(i)} < 0\}} -\frac{x_{B(i)}}{d_{B(i)}}
 \]
-What can we say about $\vec{x}'$ when we take $t = t^{*}$?
-\[
-  \vec{x}' = \vec{x} + t^{*} \vec{d} \text{ where } \vec{d} = (\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans}
-\]
-\begin{proposition}
-  $\vec{x}' = \vec{x} + t^{*} \vec{d}$ as defined above is a basic feasible solution.
-\end{proposition}
-\begin{proof}
-  We already have that $A \vec{y} = \vec{0}$ and $\vec{y} \geq \vec{0}$ as our choice of $t^{*}$ ensures that $\vec{y}$ is feasible.
+Thus if we define $\vec{d} = (\vec{d}_B, 0, \ldots, 1, \ldots, 0)^{\trans}$ with 1 in the  $j^{*}$ position then $\vec{x}' = \vec{x} + t^{*} \vec{d}$ satisfies $A\vec{x}' = \vec{b}$ and $\vec{x}' \geq \vec{0}$.
 
-  Because of our choice of $t^{*}$, \textbf{exactly 1} amongst $x_{B(1)}', \ldots, x_{B(m)}'$ has become 0 and $x_{j^{*}}' > 0$.
-  We know that there is exactly 1 which is $0$ because of our assumption that all of our basic feasible solutions are non-degenerate.
+We started with $\vec{x}$ having exactly $m$ non-zero entries, we then made the entry $x'_{j^{*}}$ non-zero but then our choice of $t^{*}$ ensures that exactly one of $x'_{B(1)}, \ldots, x'_{B(m)}$ is now zero.
+Thus $\vec{x}'$ also has at most $m$ non-zero entries and so is also a non-degenerate basic feasible solution.
 
-  Thus $y$ has exactly $m$ non-zero entries and so is a basic feasible solution.
-\end{proof}
-So we have figured out a method for starting at a basic feasible solution to find a new basic feasible solution where the reduced cost is strictly less than our original reduced cost.
-\subsection{Algorithm}
-We start at a basic feasible solution $\vec{x}$ and construct a \textit{simplex tableau}:
+\subsubsection{Summary}
+So we have devised a method to move from a basic feasible solution to a new basic feasible solution where the reduced cost is strictly less than our original reduced cost.
+We simply repeat this until we find a basic feasible solution that has a non-negative reduced costs vector.
+
+\subsection{Using a Tableau}
+We can use a tableau to conveniently carry out the simplex algorithm manually.
+A \textit{simplex tableau} has four regions, each containing data about the current state of the algorithm:
 \begin{center}
-\begin{tabular}{c|c|c|c|c}
-$\vec{c}^{\trans}_{B} \vec{x}_{B}$ & $\overline{c}_1$ & $\overline{c}_2$ & $\cdots$ & $\overline{c}_n$ \\
+\begin{tabular}{|c|c|}
+\hline
+$-\text{cost}$ & reduced cost vector \\
+\hline
+current BFS & matrix for directions \\
+\hline
+\end{tabular}
+$\longleftrightarrow$
+\begin{tabular}{|c|c|}
+\hline
+$- \vec{c}^{\trans}_{B} \vec{x}_{B}$ & $\overline{\vec{c}}^{\trans}$ \\
+\hline
+$\vec{x}_{B}$ & $B^{-1} A$ \\
+\hline
+\end{tabular}
+\end{center}
+\begin{remark}[Warning]
+  Do not forget to negate the cost otherwise the algorithm will not work!
+\end{remark}
+On the page, we write the tableau as:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$-\vec{c}^{\trans}_{B} \vec{x}_{B}$ & $\overline{c}_1$ & $\overline{c}_2$ & $\cdots$ & $\overline{c}_n$ \\
 \hline
 $x_{B(1)}$ & $\uparrow$ & $\uparrow$ &  & $\uparrow$ \\
 $\vdots$ & $B^{-1}\vec{A}_1$ & $B^{-1} \vec{A}_2$ & $\cdots$ & $B^{-1} \vec{A}_n$ \\
-$x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$
+$x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$ \\
+\hline
 \end{tabular}
 \end{center}
-%TODO Review
+\begin{remark}[Note]
+  It is important to note that a new tableau is created after each BFS checked by the algorithm so it may be useful to use pre-printed tables.
+\end{remark}
+\subsubsection{Running the algorithm using a tableau}
 \begin{enumerate}
-  \item Convert the general form problem into a standard form problem by introducing slack variables:
+  \item If the problem is not already in the standard form, convert it into the standard form as described in \cref{LPEquivForms}.
+  \item Find a basic feasible solution to start from.
+
+    It is useful to note that if we have just added slack variables in step \textbf{(i)} and $\vec{b} \geq 0$, we can easily find a basic feasible solution by setting all the slack components to match $\vec{b}$ and all the $\vec{x}$ components to be $0$.
+  \item Fill in the initial tableau by calculating and \textbf{negating} the starting cost, computing $B^{-1}A$, and then computing the reduced costs vector with $\overline{c}_j = c_j - \vec{c}^{\trans}_B B^{-1} \vec{A}_j$.
+
+    It is also useful to note down the corresponding basic indices to the left of each row so that the final solution can be recovered.
+  \item Repeat the following until $\overline{\vec{c}} \geq \vec{0}$:
     \begin{enumerate}
-      \item Add a positive slack variable for $\leq$ and add it as a component of $\vec{x}$.
-      \item Add a negative slack variable for $\geq$ and add it as a component of $\vec{x}$.
+      \item Pick some pivot column $j$ such that $\overline{c}_j < 0$.
+        If there are multiple such columns, pick any of them.
+
+        {\color{gray}(This picks which entry to make non-zero and then $\vec{d}_{B} = B^{-1} \vec{A}_j$), i.e. the matrix part of the $j$-th column}
+      \item Calculate $\frac{x_{B(i)}}{[B^{-1} \vec{A}_j]_i}$ for each row $i$ in column $j$ of the matrix section, the minimum of these tells us the pivot row $i$.
+        If there are multiple such rows, pick any of them.
+        We then call the entry $[B^{-1} A]_{i j}$ the pivot cell.
+
+        {\color{gray}(This finds which $i$ corresponds to $t^{*}$)}
+      \item Create a fresh tableau and copy over the noted basic indices but replacing that of the $i$-th row of the matrix with $j$.
+
+        {\color{gray}(This is because after moving to our new point, this basic entry will be 0 and $j$ will replace it as a new basic index)}
+      \item Find and perform row operations (scaling rows and adding one row to another) \textbf{on the entire current table} so that the pivot entry is 1 and all other entries in the $j$-th column (including $\overline{c}_j$) are 0.
+        We do this by first scaling the pivot row so that the pivot cell is 1 and then adding multiples of the pivot row to the other rows so that their $j$-th column entries are 0.
+
+        Instead of updating the values in the current table, instead write the new entries into the fresh tableau.
+
+        {\color{gray}(This is equivalent to updating all the data in the \textbf{entire} table to be correct for the new BFS found by the algorithm -- the equivalence of this step is not proved within this course)}
     \end{enumerate}
-  \item Convert the problem into the vectors $\vec{b}$, $\vec{c}$ and matrices $A$, $B$:
-    \begin{enumerate}
-      \item $A$ is the matrix of coefficients of the variables in the constraints.
-      \item $\vec{b}$ is the vector in the constraint $A\vec{x} = \vec{b}$.
-      \item $\vec{c}$ is the vector of coefficients of the variables in the objective function.
-      \item
-    \end{enumerate}
-  \item Start the simplex method with a basic feasible solution by setting all initial variables to 0 and all slack variables equal to the $b_i$ in the corresponding constraint.
-    This step only works for $\vec{b} \geq \vec{0}$, we can in fact deal with the case where we do not have $\vec{b} \geq 0$ but we will not cover this in this course.
-    The matrix $B$ is then the matrix from the last columns corresponding to only the slack variables, in the first step, this will always be an identity matrix.
-  \item Fill in the simplex tableau.
-  \item Identify the direction to move in:
-    \begin{enumerate}
-      \item If all entries in the top row are non-negative, i.e. $\overline{\vec{c}} \geq \vec{0}$, then we are done.
-      \item If not, pick the column corresponding to a negative entry in the top row, if there is more than one, pick any of them, call this column $j$.
-      \item For each value in the $j$-th column, divide the element in the first column and same row.
-        Pick the row corresponding to the minimal ratio, call this row $i$.
-    \end{enumerate}
-  \item Perform row operations so that the $j$-th column has 1 in the $i$-th row and 0 in all others.
-  \item Return to step \textbf{(iv)} with a new simplex tableau until the algorithm terminates.
+  \item We have now arrived at an optimal BFS.
+    Thus, the top left entry of the table is the negation of the optimal cost and the full optimal solution $\vec{x}$ can be recovered using the leftmost column of the table and the noted basic indices by setting all non-basic indices to 0.
 \end{enumerate}
 \end{document}
