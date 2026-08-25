@@ -143,7 +143,7 @@ Consider the problem:
     If we can do this, then $\vec{x}^{*}(\vec{\lambda}^{*})$ is an optimal solution to the original problem by \cref{lgSufficiency}.
 \end{enumerate}
 If the method cannot continue at any point, then it is not necessarily the case that the problem is unsolvable, just that the Lagrange method simply does not work on the problem.
-\subsubsection{Complimentary Slackness}
+\subsubsection{Complimentary Slackness} \label{complementarySlackness}
 Consider again the Lagrangian from step \textbf{(ii)} above:
 \[
   L(\vec{x}, \vec{s}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^{\trans}(\vec{h}(\vec{x}) - \vec{b}) - \vec{\lambda}^{\trans} \vec{s}
@@ -214,7 +214,7 @@ This is known as \textit{complementary slackness}.
     \end{case}
   \end{proofcases}
 \end{example}
-\section{Duality}
+\section{Duality} \label{dualitySec}
 \subsection{Weak Duality}
 Suppose we wish to solve a problem using the Lagrange method.
 From here on, we will refer to the original problem as the \textit{primal} problem:
@@ -246,7 +246,7 @@ On Example Sheet 1 Q3, we show that the minimum of concave functions is concave.
 Since linear functions are concave, the function $g(\vec{\lambda})$ must also be concave.
 Thus we can maximise $g(\vec{\lambda})$ using gradient descent, Newton's method, or any other method for maximising concave functions.
 \begin{theorem}[Weak Duality]
-  For any $\vec{x} \in \mathcal{X}(\vec{b})$ and $\vec{\lambda} \in \Lambda$ we have $f(\vec{x}) \geq g(\vec{\lambda})$
+  For any $\vec{x} \in \mathcal{X}(\vec{b})$ and $\vec{\lambda} \in \Lambda$ we have $f(\vec{x}) \geq g(\vec{\lambda})$. \label{weakDuality}
 \end{theorem}
 \begin{proof}
   For any $\vec{\lambda} \in \Lambda$ and $\vec{x} \in \mathcal{X}(\vec{b})$:
@@ -271,7 +271,7 @@ Since this is true for any pair of $\vec{x} \in \mathcal{X}(\vec{b})$ and $\vec{
   If the duality gap is 0, then we say that \textit{strong duality} holds.
 \end{definition}
 \begin{theorem}
-  The Lagrange method works if and only if strong duality holds.
+  The Lagrange method works if and only if strong duality holds. \label{strongDualityThm}
 \end{theorem}
 \begin{proof}
   \begin{proofdirection}{Suppose the Lagrange method works}
