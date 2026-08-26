@@ -2,13 +2,26 @@
 \begin{document}
 \chapter{Applications of Linear Programs}
 \section{Game Theory}
-\subsection{Two Person Games}
-Consider a game with two players where $P_1$ can pick from any of $\{1, \ldots, m\}$ actions and $P_2$ can pick from any of $\{1, \ldots, n\}$ actions.
+\subsection{Two Person Zero-Sum Games}
+\begin{definition}[Two Person Zero-Sum Game]
+  A \textit{two person zero-sum} game is an abstract game with two players in which $P_1$ can pick from any of $\{1, \ldots, m\}$ actions and $P_2$ can pick from any of $\{1, \ldots, n\}$ actions.
+  We say the game is \textit{zero-sum} because when \textbf{$P_1$ attains score, $P_2$ loses an equal amount of score} and vice versa.
+\end{definition}
+\begin{remark}[Note]
+  In some games players will play simultaneously and in others players will alternate turns.
+\end{remark}
 \begin{definition}[Payoff Matrix]
   The \textit{payoff matrix} $A$ for $P_1$ is an $m \times n$ matrix with entries $A_{i j}$, where $A_{i j}$ is the score attained by $P_1$ if $P_1$ plays action $i$ and $P_2$ plays action $j$.
 \end{definition}
-\begin{example}
-  For a game of rock paper scissors, each player can pick either rock (call this 1), paper (call this 2), or scissors (call this 3).
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Note that the payoff matrix $B$ for $P_2$ is also an $m \times n$ matrix however $B_{i j}$ now represents the score attained by $P_2$  if $P_1$ plays $i$ and $P_2$ plays $j$ (i.e. we only change who is getting the score and not which cell it is in).
+    \item In a zero sum game, $B = -A$.
+  \end{itemize}
+\end{remark}
+\begin{example} \label{RPSExample}
+  Rock, paper, scissors in an example of a zero-sum game.
+  Each player can pick either rock (call this 1), paper (call this 2), or scissors (call this 3).
   The payoff matrix for $P_1$ is:
   \[
     A = \begin{pmatrix}
@@ -17,19 +30,105 @@ Consider a game with two players where $P_1$ can pick from any of $\{1, \ldots, 
     -1 & 1 & 0 \\
     \end{pmatrix}
   \]
+  We will consider two versions of the game:
+  \begin{itemize}
+    \item Consider first a strange version of rock, paper, scissors where one player plays before the other.
+
+      If $P_1$ starts and picks $i$, then $P_1$ knows $P_2$ will try and minimise $P_1$'s gain (or equivalently $P_2$'s loss) and so will choose $j$ to minimise $A_{i j}$.
+      Thus if $P_1$ plays $i$, they expect to have a payoff of:
+      \[
+        \min_{j \in \{1, \ldots, n\}} A_{i j}
+      \]
+      Thus since $P_1$ wants to maximise their payoff over their possible choices, $P_1$ now tries to solve:
+      \[
+        \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} = -1
+      \]
+      so $P_2$ wins, which makes sense as if you show your move first in rock, paper, scissors you will always lose if the other player is playing rationally.
+
+      Similarly, if $P_2$ starts, they will try to solve:
+      \[
+        \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j} = 1
+      \]
+      so $P_1$ wins.
+    \item Now consider the standard version of the game where both players pick simultaneously.
+      In this case, the two players will get stuck in a loop indefinitely both trying to play perfectly whilst knowing the other player is also doing the same.
+  \end{itemize}
 \end{example}
-If $P_1$ plays $i$ then $P_1$ can expect to have payoff:
-\[
-  i \mapsto \min_{j \in \{1, \ldots, n\}} A_{i j}
-\]
-$P_1$ now tries to solve:
-\[
-  \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j}
-\]
-and $P_2$ will try to solve:
-\[
-  \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j}
-\]
+We can formalise the idea of whether the players will get stuck in a loop using \textit{saddle points}.
+\begin{lemma}
+  In any payoff matrix: \label{payoffEquality}
+  \[
+    \alpha = \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} \leq \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j} = \beta
+  \]
+\end{lemma}
+\begin{proof}
+  \nonexaminable
+  For any $i, j$  we have:
+  \[
+    \min_{j \in \{1, \ldots, n\}} A_{i j} \leq A_{i j} \leq \max_{i \in \{1, \ldots, m\}} A_{i j} \implies \min_{j \in \{1, \ldots, n\}} A_{i j} \leq \max_{i \in \{1, \ldots, m\}} A_{i j}\ \forall i, j
+  \]
+  Since this is true for all $i$ we can take a maximum of the left hand side over $i$ whilst preserving the inequality:
+  \[
+    \alpha = \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} \leq \max_{i \in \{1, \ldots, m\}} A_{i j}\ \forall j
+  \]
+  and since this is true for all $j$ we can take a minimum of the right hand side over $j$ whilst preserving the inequality:
+  \[
+    \alpha = \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} \leq \min_{j \in \{1, \ldots, n\}}  \max_{i \in \{1, \ldots, m\}} A_{i j} = \beta
+  \]
+  as required.
+\end{proof}
+\subsection{Saddle Points}
+\begin{definition}[Saddle Point]
+  For a payoff matrix $A$, we say that $(k, l)$ is a \textit{saddle point} if in the payoff matrix $A_{k l}$ is \textbf{an entry that is both the minimum of its row and the maximum of its column}:
+  \[
+    A_{k l} = \min_{j \in \{1, \ldots, n\}} A_{k j} = \max_{i \in \{1, \ldots, m\}} A_{i l}
+  \]
+  That is, $k$ is the best response for $P_1$ if $P_2$ picks $l$ \textbf{and} $l$ is the best response for $P_2$ if $P_1$ picks $k$.
+
+  We then call the value $A_{k l}$ the \textit{value} of the game.
+\end{definition}
+\begin{proposition}
+  A pay off matrix $A$ has a saddle point if and only if:
+  \[
+    \alpha = \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} = \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j} = \beta
+  \]
+  This shared value is also the value of the game.
+\end{proposition}
+\begin{proof}
+  \nonexaminable
+  \begin{proofdirection}{Assume $A$ has a saddle point}
+    We have have:
+    \[
+      \alpha \geq \min_{j \in \{1, \ldots, n\}} A_{k j} = A_{k l} = \max_{i \in \{1, \ldots, m\}} A_{i l} \geq \beta \implies \alpha \geq \beta
+    \]
+    But from \cref{payoffEquality} we also have $\alpha \leq \beta$ and so $\alpha = \beta = A_{k l}$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\alpha = \beta$}
+    By definition of $\alpha$, there exists $k \in \{1, \ldots, m\}$ such that:
+    \[
+      \alpha = \min_{j \in \{1, \ldots, n\}} A_{k j} \leq A_{k j}\ \forall j
+    \]
+    Similarly, by definition of $\beta$, there exists $l \in \{1, \ldots, n\}$ such that:
+    \[
+      \beta = \max_{i \in \{1, \ldots, m\}} A_{i l} \geq A_{i l}\ \forall i
+    \]
+    Combining, there exists $k, l$ such that:
+    \[
+      A_{i l} \leq \alpha = \beta \leq A_{k j}\ \forall i, j
+    \]
+    Taking $i = k$ and $j = l$ we get $A_{k l} = \alpha = \beta$ and so:
+    \[
+      A_{k l} = \min_{j \in \{1, \ldots, n\}} A_{k j} = \max_{i \in \{1, \ldots, m\}} A_{i l}
+    \]
+    i.e. $(k, l)$ is a saddle point.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item In the reverse direction above there could be multiple choices for the saddle point and so a game can have multiple saddle points, however they must all have the same value.
+    \item There can be entries of the payoff matrix which have the value of the game but are not saddle points.
+  \end{itemize}
+\end{remark}
 \begin{example}
   Consider the payoff matrix:
   \[
@@ -38,20 +137,50 @@ and $P_2$ will try to solve:
     3 & 4 \\
     \end{pmatrix}
   \]
-  For this payoff matrix, $P_1$ decides they should play $i = 2$ and $P_2$ decides they should play $j = 1$ and so both their decisions coincide on the cell $A_{2 1} = 3$.
+  For this payoff matrix:
+  \begin{itemize}
+    \item $P_1$ decides they should play $i = 2$ and expects $P_2$ to play $j = 1$.
+    \item $P_2$ decides they should play $j = 1$ and expects $P_1$ to play $i = 2$.
+  \end{itemize}
+  Thus $(2, 1)$ is a saddle point of $A$ and the value of the game is $A_{2 1} = 3$.
 
-  Now consider the payoff matrix:
+  Since there is a saddle point, with these player strategies:
+  \begin{itemize}
+    \item If the game is played with alternating turns, it \textbf{does not} matter who starts.
+    \item The game can be played simultaneously without the players getting stuck in a loop trying to find the optimal strategy.
+  \end{itemize}
+\end{example}
+\begin{example}
+  Consider the payoff matrix:
   \[
     A' = \begin{pmatrix}
     4 & 2 \\
     1 & 3 \\
     \end{pmatrix}
   \]
-  In this case $P_1$ will play $i = 2$ and then will expect $P_2$ to choose row $j = 1$.
-  However $P_2$ will chose $j = 2$ and expect $P_1$ to choose $i = 2$.
-  Unlike with $A$, the choice of the two players does not coincide.
-  In games where players alternate turns, this is ok, however in games where both players play simultaneously, the players end up stuck in a loop.
+  For this payoff matrix:
+  \begin{itemize}
+    \item $P_1$ decides they should play $i = 1$ and expects $P_2$ to play $j = 2$.
+    \item $P_2$ decides they should play $j = 2$ and expects $P_1$ to play $i = 2$.
+  \end{itemize}
+  So $A'$ does not have a saddle point, this means that with these strategies:
+  \begin{itemize}
+    \item If the game is played with alternating turns, it \textbf{does matter} who starts.
+    \item The game \textbf{cannot} be played simultaneously without the players getting stuck in a loop trying to find the optimal strategy.
+
+      For example, from $P_1$'s perspective, they might decide from the above that they should play $i = 1$, but then will realise that $P_2$ would pick $j = 2$.
+      But now given that $P_2$ will play $j = 2$, it would now be better for $P_1$ to choose $i = 2$.
+      However, $P_2$ would also realise this and so would pick $j = 1$, \textit{and so on...}
+  \end{itemize}
 \end{example}
+\begin{remark}
+  The payoff matrix for the rock, paper, scissors game in \cref{RPSExample} does not have a saddle point since:
+  \[
+    \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} \neq \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j}
+  \]
+  which is why the players get stuck when trying to play simultaneously.
+\end{remark}
+\subsection{Strategies}
 \begin{definition}[Strategy]
   A \textit{strategy} is a probability distribution for the actions that a player picks.
 \end{definition}
@@ -59,79 +188,141 @@ and $P_2$ will try to solve:
   A \textit{pure strategy} is a strategy where one single action has probability 1, i.e. the player will always pick a particular action.
   If a strategy is not pure, then we call it a \textit{mixed strategy}.
 \end{definition}
-Let the strategy for $P_1$ be $i$ with probability $p_i$ and let the strategy for $P_2$ be $j$ with probability $q_i$.
+\begin{remark}
+  In the previous section, the players were using a pure strategy.
+  With mixed strategy, the players actions have probabilities and so games with a saddle point can played simultaneously whilst still allowing for optimal play.
+\end{remark}
+We represent the mixed strategy for $P_1$ as a vector $\vec{p} \in \R^{m}$ where $p_i \in [0, 1]$ is the discrete probability distribution that $P_1$ picks action $i$ and similarly represent the mixed strategy for $P_2$ with the vector $\vec{q} \in \R^{n}$.
 
-$P_1$'s expected score is this then:
+Given that $P_2$ picks $j$, $P_1$'s expected score is:
 \[
   \sum_{i = 1}^{m} p_i A_{i j}
 \]
-So for optimal play, $P_1$ wants to adopt the strategy $\vec{p} = (p_1, \ldots, p_m)^{\trans}$ that maximises:
+From $P_1$'s perspective, they expect $P_2$ to pick to minimise this expected score over $j$ and so for optimal play, $P_1$ wants to adopt the mixed strategy $\vec{p}$ that solves:
+\begin{equation}
+  \max_{\vec{p} \in P_m} \left(\min_{j \in \{1, \ldots, n\}} \sum_{i = 1}^{m} p_i A_{i j}\right) \label{p1prob}
+\end{equation}
+where $P_m$ is the set of all discrete probability distributions on $\{1, \ldots, m\}$.
+
+Similarly, from $P_2$'s perspective, they want to adopt the mixed strategy $\vec{q}$ that solves:
 \[
-  \max_{\vec{p} \in P_m} \left(\min_{j \in \{1, \ldots, n\}} \sum_{i = 1}^{m} p_i A_{i j}\right)
+  \min_{\vec{q} \in P_n} \left(\max_{i \in \{1, \ldots, m\}} \sum_{j = 1}^{n} q_j A_{i j}\right)
 \]
-where $P_m$ is the set of discrete probability distributions for $\{1, \ldots, m\}$.
+Note that min and max are swapped because $A_{i j}$ is the gain for $P_1$ and loss for $P_2$.
 \subsection{Linear Programming for Strategies}
-We can express $P_1$'s optimisation problem as:
+We can express the optimisation problems for each player as linear programs.
+
+Considering $P_1$'s problem from \cref{p1Prob}, we first note that we can express the expectation as:
+\[
+  \sum_{i = 1}^{m} p_i A_{i j} = [A^{\trans} \vec{p}]_j
+\]
+We want to maximise over $\vec{p}$ the minimum over $j$ of this.
+The minimum over $j$ of this will be the smallest component of $A^{\trans} \vec{p} \in \R^{n}$.
+The solution is therefore the largest $v \in \R$ over all $\vec{p} \in \R^{m}$ such that \textbf{every component} of $A^{\trans} \vec{p}$ is bigger than $v$.
+This means that the limiting component is the smallest component of $A^{\trans} \vec{p}$, i.e. the inner minimum.
+Therefore $P_1$'s problem is equivalent to the linear program:
 \begin{maxi}
-  {\R}{v}{}{}
-  \addConstraint{A^{\trans} \vec{p}}{\geq v e}
-  \addConstraint{\vec{e}^{\trans} \vec{p}}{= 1}
+  {v \in \R, \vec{p} \in \R^{m}}{v}{}{\label{p1Lin}}
+  \addConstraint{A^{\trans} \vec{p}}{\geq v \vec{1}_n}
+  \addConstraint{\vec{1}^{\trans}_m \vec{p}}{= 1}
   \addConstraint{\vec{p}}{\geq \vec{0}}
 \end{maxi}
-where $v$ will be the maximal score for $P_1$ and $\vec{e} = (1, \ldots, 1)^{\trans} \in \R^{m}$.
-The $\vec{e}^{\trans} \vec{p} = 1$ constraint ensures that $\sum_{i} p_i = 1$ and the $\vec{p} \geq 0$ constraint ensures that $p_i \geq 0\ \forall i$ so that the $p_i$ are a valid probability distribution.
+where $\vec{1}_k = (1, \ldots, 1)^{\trans} \in \R^{k}$.
+The optimal solution $\vec{p}^{*}$ is the best mixed strategy for $P_1$ and the optimal value is its expected score.
+The other two constraints ensure that $p_i$ is a valid probability distribution since $\vec{p}$ is a valid probability distribution if and only if $\vec{1}^{\trans}_m \vec{p} = 1$ and $\vec{p} \geq 0$.
 
-Similarly for $P_2$, we can express their optimisation problem as:
-\begin{mini*}
-  {\R}{w}{}{}
-  \addConstraint{A\vec{q}}{\leq w \vec{e}'}
-  \addConstraint{\vec{e}'^{\trans} \vec{p}}{= 1}
+Similarly for $P_2$, we can express their problem as:
+\begin{mini}
+  {w \in \R, \vec{q} \in \R^{n}}{w}{}{\label{p2Lin}}
+  \addConstraint{A\vec{q}}{\leq w \vec{1}_m}
+  \addConstraint{\vec{1}^{\trans}_n \vec{q}}{= 1}
   \addConstraint{\vec{q}}{\geq \vec{0}}
-\end{mini*}
-where $w$ will be the maximal score for $P_2$ and $\vec{e}' = (1, \ldots, 1)^{\trans} \in \R^{n}$
-
-These two problems actually turn out to be dual to one another.
-To find the dual of $P_2$'s problem, we find the Lagrangian:
-\[
-  L(w, \vec{q}, \vec{s}, \vec{\lambda}_1, \lambda_2) = w + \vec{\lambda}^{\trans}_1(A\vec{q} + \vec{s} - w \vec{e}) - \lambda_2(\vec{e}^{\trans} \vec{q} - 1)
-\]
-The set $\Lambda$ is then:
-\[
-  \Lambda = \{\vec{\lambda}_1: \vec{\lambda}^{\trans}_1 \vec{e} = 1,\ \vec{\lambda}^{\trans}_1 A \geq \lambda_2\vec{e}^{\trans}, \vec{\lambda_1} \geq \vec{0}\}
-\]
-and then when $\vec{\lambda} \in \Lambda$, $\min L = \lambda_2$.
-Thus the dual of the problem is:
-\begin{maxi*}
-  {\R}{\lambda_2}{}{}
-  \addConstraint{\vec{\lambda}^{\trans}_1 \vec{e}}{= 1}
-  \addConstraint{\vec{\lambda}_1}{\geq \vec{0}}
-  \addConstraint{A^{\trans} \vec{\lambda_1}}{\geq \lambda_2 \vec{e}'}
-\end{maxi*}
-Upon relabelling $\lambda_2$ by $v$ and $\vec{\lambda}_1$ by $\vec{p}$ we obtain $P_1$'s optimisation problem.
-\begin{theorem}[Optimal Strategies]
-  A strategy $\vec{p}$ is optimal for $P_1$ if and only if there exists $\vec{q}$ and $v$ such that:
-  \begin{enumerate}
-    \item $A^{\trans} \vec{p} \geq v \vec{e}$, $\vec{e}^{\trans} p = 1$, $\vec{p} \geq \vec{0}$ (Primal feasibility)
-    \item $A\vec{q} \leq v \vec{e}$, $\vec{e}^{\trans} \vec{q} = 1$, $\vec{q} \geq \vec{0}$ (Dual feasibility)
-    \item $v = \vec{p}^{\trans} A \vec{q}$ (Complimentary slackness)
-  \end{enumerate}
+\end{mini}
+\begin{theorem}
+  The optimisation problems for $P_1$, in \cref{p1Lin}, and $P_2$, in \cref{p2Lin}, are dual. \label{gameDual}
 \end{theorem}
 \begin{proof}
-  We need only check the complimentary slackness equations.
-  $(\vec{p}, v)$ and $(\vec{q}, w)$ are primal/dual optimal if and only if both:
+  To find the dual of $P_2$'s problem, we first add slack variables:
+  \begin{mini*}
+    {w \in \R, \vec{q} \in \R^{n}, \vec{s} \in \R^{m}}{w}{}{}
+    \addConstraint{A\vec{q} + \vec{s}}{= w \vec{1}_m}
+    \addConstraint{\vec{1}^{\trans}_n \vec{q}}{= 1}
+    \addConstraint{\vec{q}}{\geq \vec{0}}
+    \addConstraint{\vec{s}}{\geq \vec{0}}
+  \end{mini*}
+  We then package all of our variables up into $(w, \vec{q}, \vec{s})$ and introduce parameters $\vec{\lambda}_1 \in \R^{m}$ and $\lambda_2 \in \R$ to construct the Lagrangian:
+  \begin{align*}
+    L(w, \vec{q}, \vec{s}, \vec{\lambda}_1, \lambda_2) &= w - \vec{\lambda}^{\trans}_1(A\vec{q} + \vec{s} - w \vec{1}_m) - \lambda_2(\vec{1}^{\trans}_n \vec{q} - 1) \\
+                                                       &= (1 + \vec{\lambda}^{\trans}_1 \vec{1}_m) w - (\vec{\lambda}^{\trans}_1 A + \lambda_2 \vec{1}^{\trans}_n) \vec{q} - \vec{\lambda}^{\trans}_1 \vec{s} + \lambda_2
+  \end{align*}
+  So the dual objective function is:
   \[
-    (A \vec{q} - w \vec{e})^{\trans} \vec{p} = 0 \text{ and } \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{e}) = 0
+    g(\vec{\lambda}_1, \lambda_2) = \min_{w \in \R, \vec{q} \geq \vec{0}, \vec{s} \geq \vec{0}} [(1 + \vec{\lambda}^{\trans}_1 \vec{1}_m) w - (\vec{\lambda}^{\trans}_1 A + \lambda_2 \vec{1}^{\trans}_n) \vec{q} - \vec{\lambda}^{\trans}_1 \vec{s} + \lambda_2]
   \]
-  which is equivalent to $v = w = \vec{p}^{\trans} A \vec{q}$.
+  The set $\Lambda$ for which the dual objective function is then:
+  \[
+    \Lambda = \{(\vec{\lambda}_1, \lambda_2): -\vec{\lambda}^{\trans}_1 \vec{1}_m = 1,\ -\vec{\lambda}^{\trans}_1 A \geq \lambda_2\vec{1}^{\trans}_n, -\vec{\lambda_1} \geq \vec{0}\}
+  \]
+  and then when $\vec{\lambda} \in \Lambda$, $g(\vec{\lambda}_1, \lambda_2) = \lambda_2$.
+
+  Therefore, the dual of the problem is:
+  \begin{maxi*}
+    {\lambda_2 \in \R, \vec{\lambda}_1 \in \R^{m}}{\lambda_2}{}{}
+    \addConstraint{- \vec{\lambda}^{\trans}_1 A}{\geq \lambda_2 \vec{1}^{\trans}_n}
+    \addConstraint{-\vec{\lambda}^{\trans}_1 \vec{1}_m}{= 1}
+    \addConstraint{-\vec{\lambda}_1}{\geq \vec{0}}
+  \end{maxi*}
+  We then relabel $\lambda_2 \to v$, and let $\vec{p} = -\vec{\lambda}_1$.
+  Finally, we take transposes of the first two constraints to arrive at:
+  \begin{maxi*}
+    {v \in \R, \vec{p} \in \R^{m}}{v}{}{}
+    \addConstraint{A^{\trans} \vec{p}}{\geq v \vec{1}_n}
+    \addConstraint{\vec{1}^{\trans}_m \vec{p}}{= 1}
+    \addConstraint{\vec{p}}{\geq \vec{0}}
+  \end{maxi*}
+  which is as in \cref{p1Lin}.
 \end{proof}
+\begin{corollary}[Optimal Strategies]
+  A strategy $\vec{p}$ is optimal for $P_1$ if and only if there exists $\vec{q}$ and $v$ such that: \label{optimalStrategies}
+  \begin{enumerate}
+    \item $A^{\trans} \vec{p} \geq v \vec{1}_n$, $\vec{1}^{\trans}_m \vec{p} = 1$, $\vec{p} \geq \vec{0}$ (Primal feasibility)
+    \item $A\vec{q} \leq v \vec{1}_m$, $\vec{1}^{\trans}_n \vec{q} = 1$, $\vec{q} \geq \vec{0}$ (Dual feasibility) -- Note that $v$ is repeated here.
+    \item $v = \vec{p}^{\trans} A \vec{q}$ (Complementary slackness)
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  Using \cref{optimalityConds}, we need only check the complementary slackness equations.
+  We know from \cref{optimalityConds} that $(\vec{p}, v)$ and $(\vec{q}, w)$ are primal/dual optimal if and only if both:
+  \[
+    (A \vec{q} - w \vec{1}_m)^{\trans} \vec{p} = 0 \text{ and } \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{1}_n) = 0
+  \]
+  We see that since $\vec{1}^{\trans}_m \vec{p} = 1$:
+  \[
+    (A \vec{q} - w \vec{1}_m)^{\trans} \vec{p} = 0 \iff \vec{q}^{\trans} A^{\trans} \vec{p} = w \vec{1}^{\trans}_m \vec{p} = w
+  \]
+  and since $\vec{q}^{\trans} \vec{1}_n = 1$:
+  \[
+    \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{1}_n) = 0 \iff \vec{q}^{\trans} A^{\trans} \vec{p} = v \vec{q}^{\trans} \vec{1}_n = v
+  \]
+  Thus since $\vec{q}^{\trans} A^{\trans} \vec{p} = \vec{p}^{\trans} A \vec{q}$:
+  \[
+    (A \vec{q} - w \vec{1}_m)^{\trans} \vec{p} = 0 \text{ and } \vec{q}^{\trans}(A^{\trans} \vec{p} - v\vec{1}_n) = 0 \iff v = w = \vec{p}^{\trans} A \vec{q}
+  \]
+\end{proof}
+\begin{remark}
+  Since $v = w$, the expected payoff for both players is always the same.
+\end{remark}
 \subsection{Finding Optimal Strategies}
+We can use the following steps to find optimal strategies for each player.
 \begin{enumerate}
-  \item Look for a ``saddle point'', if such a point exists then a pure strategy is optimal.
-  \item Look for ``dominating actions''.
-    These are actions which a player would obviously not play.
-    For example, suppose for $P_1$ $\exists i_1, i_2$ such that $A_{i_1 j} \geq A_{i_2 j}$ for all $j$.
-    In this case, we can simply drop row $i_2$.
-  \item Formula and solve the linear program, either graphically or by using the simplex method.
+  \item Look for a saddle point of the payoff matrix, if such a point exists then a pure strategy where both players always pick this point is optimal.
+  \item Simplify the payoff matrix by looking for actions which a player would obviously not play and so we can remove their corresponding rows/columns.
+
+    For example, suppose for $P_1$ that $\exists i_1, i_2$ such that $A_{i_1 j} \geq A_{i_2 j}$ for all $j$.
+    There would never be a reason for $P_1$ to pick $i_2$ as its payoff is worse regardless of $P_2$'s choice and so we can simply drop row $i_2$.
+  \item Formulate and solve the linear program for $P_1$, either graphically or by using the simplex method.
+    This yields $P_1$'s strategy and the expected payoff for both players.
+  \item Use complementary slackness and \cref{optimalStrategies} to determine $P_2$'s strategy.
 \end{enumerate}
 \begin{example}
   Consider the payoff matrix for $P_1$:
@@ -149,16 +340,27 @@ Upon relabelling $\lambda_2$ by $v$ and $\vec{\lambda}_1$ by $\vec{p}$ we obtain
     3 & 1 & 1/2 \\
     \end{pmatrix}
   \]
-  There is no saddle so $P_1$ adopts a mixed strategy $(p, 1 - p, 0)$ and thus the linear program is:
+  There is no saddle point since:
+  \[
+    \max_{i \in \{1, \ldots, m\}} \min_{j \in \{1, \ldots, n\}} A_{i j} = 2 \neq 3 = \min_{j \in \{1, \ldots, n\}} \max_{i \in \{1, \ldots, m\}} A_{i j}
+  \]
+  A mixed strategy is therefore optimal and so $P_1$ adopts the mixed strategy $(p, 1 - p, 0)$ and thus the linear program is:
   \begin{maxi*}
-    {\R}{v}{}{}
+    {p \in \R, v \in \R}{v}{}{}
     \addConstraint{2p + 3(1 - p)}{\geq v}
     \addConstraint{3p + (1 - p)}{\geq v}
-    \addConstraint{4p - \frac{1 - p}{2}}{\geq v}
+    \addConstraint{4p + \frac{1}{2}(1 - p)}{\geq v}
     \addConstraint{0 \leq p}{\leq 1}
   \end{maxi*}
-  We can solve this graphically by plotting these straight lines in the $(p, v)$-plane and finding the maximal point $v$ in the region bounded by the lines.
-  After solving, we see that $p = 2/3$ and so $P_1$ adopts the mixed strategy $(2/3, 1/3, 0)$.
+  In this case we do not need to use the simplex method and we can just solve this graphically in $\R^2$.
+  To do this we plot the feasible set in the $(p, v)$-plane and find the maximal point $v$ within this region.
+
+  After solving, we see that $p = \frac{2}{3}$ and so $P_1$ adopts the mixed strategy $\left(\frac{2}{3}, \frac{1}{3}, 0\right)$ with expected payoff $v = \frac{7}{3}$.
+  From \cref{gameDual}, we know that the problem for $P_2$'s strategy is dual to this and so we can use complementary slackness to find their strategy.
+
+  We first note that $2p + 3(1 - p) = \frac{7}{3}$ and $3p + (1 - p) = \frac{7}{3}$ but $4p + \frac{1}{2}(1 - p) \geq \frac{7}{3}$, thus the first two constraints are tight but there is still slack in the third constraint.
+  Thus we must have $q_3 = 0$ in the dual and so we can write $P_2$'s mixed strategy as $(q, 1 - q, 0)$ and use $\vec{p}^{\trans} A \vec{q} = \frac{7}{3}$ to find $q$, yielding $q = \frac{2}{3}$.
+  So $P_2$ adopts the same mixed strategy as $P_1$.
 \end{example}
 \section{Network Flows}
 \subsection{Graphs}

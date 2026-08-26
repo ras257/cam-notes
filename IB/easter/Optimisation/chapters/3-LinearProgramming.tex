@@ -670,7 +670,7 @@ $x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$ \\
       \item Create a fresh tableau and copy over the noted basic indices but replacing that of the $i$-th row of the matrix with $j$.
 
         {\color{gray}(This is because after moving to our new point, this basic entry will be 0 and $j$ will replace it as a new basic index)}
-      \item Find and perform row operations (scaling rows and adding one row to another) \textbf{on the entire current table} so that the pivot entry is 1 and all other entries in the $j$-th column (including $\overline{c}_j$) are 0.
+      \item Find and perform row operations (scaling rows and adding one row to another) \textbf{on the entire current tableau} so that the pivot entry is 1 and all other entries in the $j$-th column (including $\overline{c}_j$) are 0.
         We do this by first scaling the pivot row so that the pivot cell is 1 and then adding multiples of the pivot row to the other rows so that their $j$-th column entries are 0.
 
         Instead of updating the values in the current table, instead write the new entries into the fresh tableau.
