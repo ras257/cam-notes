@@ -364,247 +364,522 @@ We can use the following steps to find optimal strategies for each player.
 \end{example}
 \section{Network Flows}
 \subsection{Graphs}
-Network flow problems are defined on \textit{graphs}.
+Network flow problems are optimisation problems defined on \textit{graphs}.
 \begin{definition}[Directed Graph]
-  A \textit{directed graph} $G = (V, E)$ where $V$ is a set of \textit{vertices} and $E \subseteq V \times V$ is a set of ordered pairs of vertices called \textit{edges}, for example $(v_1, v_2)$ represents a directed edge from $v_1 \to v_2$ for $v_1, v_2 \in V$.
+  A \textit{directed graph} $G = (V, E)$ consists of a set $V$ of \textit{vertices} and a set $E \subseteq V \times V$ of ordered pairs of vertices called \textit{edges}, for example $(v_1, v_2)$ represents a directed edge from $v_1 \to v_2$ for $v_1, v_2 \in V$.
 \end{definition}
-Consider a graph $G = (V, E)$ with $n$ edges, i.e. $V = \{v_1, \ldots, v_n\}$.
-\begin{definition}[Flow Vector]
-  We define the flow vector $\vec{b} \in \R^{n}$ to be such that $b_i$ is the flow \textit{entering} vertex $v_i$.
+From now on, assume we are working with a graph $G = (V, E)$ with $n$ vertices, i.e. $V = \{v_1, \ldots, v_n\}$.
+\textit{Network flow} problems involve a quantity or resource that is able to move between vertices along edges:
+\begin{definition}[Flow]
+  If there is an edge $(i, j) \in E$, then \textit{flow} of some quantity along this edge from $v_i \to v_j$ is represented by $x_{i j}$.
 \end{definition}
-We also assume that the total quantity flow within the network is 0, that is:
-\[
-  \sum_{i = 1}^{n} b_i = 0
-\]
+Quantity can also flow into and out of the graph:
+\begin{definition}[Flow Vector, Source \& Sink Vertices]
+  The flow into a vertex $v_i$ from outside the graph is given by $b_i$ and we define $\vec{b} \in \R^{n}$ with these components to be the \textit{flow vector}.
+
+  If $b_i > 0$, then we call $v_i$ called a \textit{source} and if $b_i < 0$, then we call $v_i$ a \textit{sink}.
+\end{definition}
+We also associate a cost with moving a quantity between two vertices:
 \begin{definition}[Cost Matrix]
-  The cost matrix $C$ is an $n \times n$ matrix where $C_{i j}$ is the cost per unit flow along the edge $v_i \to v_j$.
+  The \textit{cost matrix} $C$ is an $n \times n$ matrix where $C_{i j}$ is the cost per unit flow along the edge $v_i \to v_j$.
+  That is, the cost for the flow along the edge $v_i \to v_j$ is given by $C_{i j} x_{i j}$.
 \end{definition}
+We can also restrict the minimum and maximum flow between two vertices:
 \begin{definition}[Capacity Constraints]
-  The $n \times n$ matrices $\overline{M}$ and $\underline{M}$ restrict the capacity through each edge, i.e. the flow along the edge $v_i \to v_j$, called $x_{i j}$ must satisfy $x_{i j} \in [\underline{M}_{i j}, \overline{M}_{i j}]$.
+  The $n \times n$ matrices $\overline{M}$ and $\underline{M}$ restrict the \textit{capacity} through each edge, i.e. the flow along the edge $v_i \to v_j$ must satisfy $\underline{M}_{i j} \leq x_{i j} \leq \overline{M}_{i j}$.
 \end{definition}
-\begin{definition}[Network Flow Problem]
-  Let $G = (V, E)$  with $|V| = n$.
-  The minimum cost flow is a linear program given by:
-  \begin{mini*}
-    {x_{i j}}{\sum_{(i, j) \in E} C_{i j}x_{i j}}{}{}
-    \addConstraint{b_i + \sum_{(j, i) \in E} x_{j i}}{= \sum_{(i, j) \in E} x_{i j}}
-    \addConstraint{\underline{M}_{i j} \leq x_{i j}}{\leq \overline{M}_{i j}}
-  \end{mini*}
+\subsection{Minimum Cost Flow}
+\begin{definition}[Minimum Cost Flow]
+  The \textit{minimum cost flow} problem is a linear program given by:
+  \begin{mini}
+    {x_{i j} \in \R\ \forall i, j}{\sum_{(i, j) \in E} C_{i j}x_{i j}}{}{\label{minCost}}
+    \addConstraint{b_i + \sum_{j: (j, i) \in E} x_{j i}}{= \sum_{j: (i, j) \in E} x_{i j}}\ \forall i \in \{1, \ldots, n\}
+    \addConstraint{\underline{M}_{i j} \leq x_{i j}}{\leq \overline{M}_{i j}\ \forall (i, j) \in E}
+  \end{mini}
+  The quantity we are trying to minimise is the total cost over the whole graph, the first constraint ensures that the total flow into a vertex is equal to the total flow out (i.e. flow is conserved, a quantity cannot just sit at a vertex), and the second represents the capacity constraints.
 \end{definition}
+If a graph is feasible for the above problem, then using flow conservation:
+\begin{align*}
+  \sum_{i = 1}^{n} \left[b_i + \sum_{j: (j, i) \in E} x_{j i}\right] &= \sum_{i = 1}^{n} \sum_{j: (i, j) \in E} x_{i j} \\
+  \implies \sum_{i = 1}^{n} b_i + \sum_{(i, j) \in E} x_{i j} &= \sum_{(i, j) \in E} x_{i j} \\
+  \implies \sum_{i = 1}^{n} b_i &= 0
+\end{align*}
+This means that the net flow of quantity into and out of the graph as a whole is 0.
+We usually assume that this holds otherwise the graph cannot be feasible for the problem.
 \subsection{Transport Problem}
-A transport problem is a special case of network flow problems where there are \textbf{no intermediate vertices}.
+The transport problem is a special case of the minimum cost flow problem.
+
 Suppose that we have $n$ suppliers $i \in \{1, \ldots, n\}$ and $m$ consumers $j \in \{1, \ldots, m\}$.
-Supplier $i$ produces a quantity $s_i$ and consumer $j$ demands a quantity $d_j$.
+Each supplier $i$ produces a quantity $s_i$ and each consumer $j$ demands a quantity $d_j$.
+We assume that the total supply perfectly matches the total demand, that is:
+\[
+  \sum_{i = 1}^{n} s_i = \sum_{j = 1}^{m} d_j
+\]
+The flow from supplier $i$ to consumer $j$ is denoted $x_{i j}$ and its associated cost per unit flow is $C_{i j}$.
+We also insist that $x_{i j} \geq 0$ to ensure that quantity can only flow from suppliers to consumers.
+
+In this problem $G$ is a \textit{bipartite graph} where every supplier is connected by a directed edge to every consumer for a total of $n + m$ vertices and $nm$ directed edges:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node[shape=circle, draw=black] (S1) at (0, 0) {1};
+  \node[shape=circle, draw=black] (S2) at (0, -1) {2};
+  \node at (0, -1.9) {$\vdots$};
+  \node[shape=circle,draw=black] (SN) at (0, -3) {n};
+  \path[dashed,->] (-2, 0) edge node[above] {$s_1$} (S1);
+  \path[dashed,->] (-2, -1) edge node[above] {$s_2$} (S2);
+  \path[dashed,->] (-2, -3) edge node[above] {$s_n$} (SN);
+  \node[yshift=20] at (S1) {Suppliers};
+
+  \node[shape=circle,draw=black] (D1) at (3, 0) {1};
+  \node[shape=circle,draw=black] (D2) at (3, -1) {2};
+  \node at (3, -1.9) {$\vdots$};
+  \node[shape=circle,draw=black] (DM) at (3, -3) {m};
+  \path[dashed, <-] (5, 0) edge node[above] {$d_1$} (D1);
+  \path[dashed, <-] (5,-1) edge node[above] {$d_2$} (D2);
+  \path[dashed, <-] (5,-3) edge node[above] {$d_m$} (DM);
+  \node[yshift=20] at (D1) {Consumers};
+
+  \path[->] (S1) edge (D1);
+  \path[->] (S1) edge (D2);
+  \path[->] (S1) edge (DM);
+
+  \path[->] (S2) edge (D1);
+  \path[->] (S2) edge (D2);
+  \path[->] (S2) edge (DM);
+
+  \path[->] (SN) edge (D1);
+  \path[->] (SN) edge (D2);
+  \path[->] (SN) edge (DM);
+\end{tikzpicture}
+\end{center}
+We can now formulate the optimisation problem:
 \begin{definition}[Transport Problem]
-  The \textit{transport problem is:}
+  The \textit{transport problem} is a linear program given by:
   \begin{mini*}
-    {x_{i j}}{\sum_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}} C_{i j}x_{i j}}{}{}
-    \addConstraint{\sum_{j = 1}^{m} x_{i j}}{= S_i\ \forall i \in \{1, \ldots, n\}}
+    {x_{i j} \in \R\ \forall i, j}{\sum_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}} C_{i j}x_{i j}}{}{}
+    \addConstraint{\sum_{j = 1}^{m} x_{i j}}{= s_i\ \forall i \in \{1, \ldots, n\}}
     \addConstraint{\sum_{i = 1}^{n} x_{i j}}{= d_j\ \forall j \in \{1, \ldots, m\}}
-    \addConstraint{x_{i j}}{\geq 0\ \forall i \in {1, \ldots, n} \text{ and } j \in \{1, \ldots, m\}}
+    \addConstraint{x_{i j}}{\geq 0\ \forall i \in \{1, \ldots, n\} \text{ and } j \in \{1, \ldots, m\}}
   \end{mini*}
+  Again, we are trying to minimise the total cost over the whole graph, the first set of constraints ensures that all of the supply produced by each supplier is used, and the second set of constraints ensures that the demand of every supplier is exactly satisfied.
 \end{definition}
-\begin{remark}
-  Since $\sum_{i = 1}^{n} S_i = \sum_{i = 1}^{n} d_j$, we have some redundant constraints and  so cannot directly apply the simplex algorithm.
-  We could remove the redundant constraints, however we can instead use the \textit{Transport Algorithm}, which we will introduce later.
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item We can reformulate the first two sets of constraints using matrix multiplication and the objective function as a dot product and so this problem is already in the standard form for linear programs from \cref{LPStandard}.
+    \item Since we assume that $\sum_{i = 1}^{n} s_i = \sum_{i = 1}^{n} d_j$, we have some redundant constraints within the first two sets of constraints and so cannot directly apply the simplex algorithm.
+      We could remove the redundant constraints, however we can instead use the \textit{Transport Algorithm}, which we will introduce later.
+    \item Here we use a formulation where every supplier is connected to every consumer, however we can equally have a transport problem where some of these routes are prohibited by introducing an edge set.
+  \end{itemize}
 \end{remark}
+We can clearly recast any transport problem as a minimum cost flow problem as this is just a special type of graph with a minimum flow of 0 on each vertex.
+Interestingly, it turns out that we can recast any minimum cost flow problem \textbf{with finite capacities} as a transport problem.
+This means that we need only study the transport problem in order to solve any more general minimum cost flow problem.
 \begin{theorem}
-  Every minimum cost network flow problem (i.e. $\overline{M}_{i j} < \infty\ \forall i, j$) can be recast as an equivalent transport problem.
+  Every minimum cost flow problem \textbf{with finite capacities} (i.e. $\overline{M}_{i j} < \infty\ \forall i, j$) can be recast as an equivalent transport problem.
 \end{theorem}
 \begin{remark}
-  If $C_{i j} \geq 0\ \forall i, j$, then without loss of generality then we can assume $\overline{M}_{i j} < \infty$.
-  In fact, we could set:
+  If $C_{i j} \geq 0\ \forall i, j$ (i.e. all costs are non-negative), then can equivalently reformulate the problem with $\overline{M}_{i j} < \infty$ by setting:
   \[
-    \overline{M}_{i j} = \sum_{i \in V} |b_i|
+    \overline{M}_{i j} = \sum_{i \in \{1, \ldots, n\}} |b_i| < \infty
   \]
-  for those $(i, j)$ where $\overline{M}_{i j} = \infty$.
+  for those $(i, j)$ where $\overline{M}_{i j} = \infty$ as the flow on an edge clearly cannot be greater than this.
+
+  Note that this may not work if we have any negative costs since there could be a loop of edges with negative cost, in which case we would want to send an infinite quantity around these edges to send the objective function to $-\infty$.
 \end{remark}
-\begin{proof}
-  We first observe that we can set $\underline{M}$ to $O$ by defining $\widetilde{x}_{i j} = x_{i j} - \underline{M}_{i j}$.
-  This transforms the conditions to:
-  \begin{align*}
-    0 \leq \widetilde{x}_{i j} &\leq \overline{M}_{i j} - \underline{M}_{i j} \\
-    \sum_{i, j} C_{i j}x_{i j} &= \sum_{i, j} C_{i j} \widetilde{x}_{i j} + \sum_{i, j} \underline{M}_{i j} C_{i j}
-  \end{align*}
-  The last term of this is just some constant and so we can reformulate the flow condition by replacing $b_i$ by:
+\begin{proof}\par
+  \textbf{Assuming that $\underline{M} = O$}\par
+  Starting from the problem in \cref{minCost}, we first observe that we can assume that $\underline{M} = O$ (the $n \times n$ zero-matrix).
+  This is because if we define $\widetilde{x}_{i j} = x_{i j} - \underline{M}_{i j}$, the regional constraints become:
   \[
-    \widetilde{b}_i = b_i + \sum_{(j, i) \in E} \underline{M}_{j i} - \sum_{(i, j) \in E} \underline{M}_{i j}
+    0 \leq \widetilde{x}_{i j} \leq \overline{M}_{i j} - \underline{M}_{i j}
   \]
-  and so WLOG we can assume $\underline{M} = O$.
+  The objective function becomes:
+  \[
+    \sum_{(i, j) \in E} C_{i j}x_{i j} = \sum_{(i, j) \in E} C_{i j} \widetilde{x}_{i j} + \sum_{(i, j) \in E} C_{i j} \underline{M}_{i j}
+  \]
+  The second term on the right hand side is just a constant of the problem and so minimising $\sum C_{i j} x_{i j}$ is equivalent to minimising $\sum C_{i j} \widetilde{x}_{i j}$.
+  The flow constraint becomes:
+  \[
+    b_i + \sum_{j: (j, i) \in E} \widetilde{x}_{j i} + \sum_{j: (j, i) \in E} \underline{M}_{i j} = \sum_{j: (i, j) \in E} \widetilde{x}_{i j} + \sum_{j: (i, j) \in E} \underline{M}_{i j}
+  \]
+  We then define:
+  \[
+    \widetilde{b}_i = b_i + \sum_{j: (j, i) \in E} \underline{M}_{j i} - \sum_{j: (i, j) \in E} \underline{M}_{i j}
+  \]
+  Thus the problem can be equivalently reformulated up to a constant difference in the optimal value and so assume $\underline{M} = O$.
 
-  For every vertex $i$, construct a consumer, so we construct $|V|$ consumers.
-  For every edge $(i, j)$, construct a supplier, so we construct $|E|$ suppliers.
-
-  Now let the supply from supplier $(i, j)$ be $\overline{M}_{i j}$ and let the cost of transport from this supplier to consumer $i$ be 0, and the cost to $j$ be $C_{i j}$.
-  These are the only edges we add to the graph.
-
-  We let the amount of goods for consumer $i$ be:
+  \textbf{Suppliers and Consumers}\par
+  For every vertex $v_i \in V$, construct a consumer $i$ with demand:
   \[
     \sum_{k: (i, k) \in E} \overline{M}_{i k} - b_i
   \]
-  and of consumer $j$:
-  \[
-    \sum_{k: (j, k) \in E} \overline{M}_{j k} - b_j
-  \]
+  and for every edge $(i, j) \in E$, construct a supplier $ij$ with supply $\overline{M}_{i j} < \infty$.
+  Finally, let the cost of transport from supplier $ij$ to consumer $i$ be 0 and the cost from $ij$ to consumer $j$ be $C_{i j}$.
+  Pictorially, this is:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \node[shape=circle, draw=black] (S1) at (0, -1) {$ij$};
+    \path[dashed,->] (-2, -1) edge node[above] {$\overline{M}_{i j}$} (S1);
+    \node[yshift=18] at (0, 0) {Suppliers};
 
-  Now suppose that we send a flow $x_{i j}$ from supplier $(i, j)$ to consumer $j$, because of the above, the flow to $j$ is then the remaining $\overline{M}_{i j} - x_{i j}$, because we made the cost to consume $i$ be 0, the overall cost is:
-  \[
-    \sum_{(i, j) \in E} C_{i j} x_{i j}
-  \]
-  Thus, the cost function in both problems is the same.
+    \node[shape=circle,draw=black] (D1) at (3, 0) {$i$};
+    \node[shape=circle,draw=black] (D2) at (3, -2) {$j$};
+    \path[dashed, <-] (5, 0) edge (D1) node[right] {$\sum\limits_{k: (i, k) \in E} \overline{M}_{i k} - b_i$};
+    \path[dashed, <-] (5, -2) edge (D2) node[right] {$\sum\limits_{k: (j, k) \in E} \overline{M}_{j k} - b_j$};
+    \node[yshift=20] at (D1) {Consumers};
 
-  Consumer $i$ has inward flow:
+    \path[->] (S1) edge node[above left] {$0$} (D1);
+    \path[->] (S1) edge node[below left] {$C_{i j}$} (D2);
+    \path[->, gray!70] (1.5, 0.75) edge node[below, yshift=5] {$\vdots$} (D1);
+    \path[->, gray!70] (1.5, -2.75) edge node[above] {$\vdots$} (D2);
+  \end{tikzpicture}
+  \end{center}
+
+  \textbf{Equivalence of Feasibility}\par
+  Now suppose that we have a feasible flow for the new transport problem.
+  Each supplier $ij$ only sends to consumers $i$ and $j$ with total supply $\overline{M}_{i j}$, and so we must a flow $x_{i j}$ to consumer $j$ and the remaining $\overline{M}_{i j} - x_{i j}$ to consumer $i$.
+  The total flow coming into consumer $i$ is then:
   \[
     \sum_{k: (i, k) \in E} (\overline{M}_{i k} - x_{i k}) + \sum_{k: (k, i) \in E} x_{k i}
   \]
-  which must be equal to the demand, and so:
-  \[
-    \sum_{k: (i, k) \in E} \overline{M}_{i k} - b_i = \sum_{k: (i, k) \in E} (\overline{M}_{i k} - x_{i k}) + \sum_{k: (k, i) \in E} x_{k i}
-  \]
-  Upon simplifying, we obtain:
-  \[
-    b_i + \sum_{k: (k, i) \in E} x_{k i} = \sum_{k: (i, k) \in E} x_{i k}
-  \]
-  which is the same as in the original flow problem.
+  Since the flow is feasible for the new problem, this must be equal to the demand, and so:
+  \begin{align*}
+    \sum_{k: (i, k) \in E} \overline{M}_{i k} - b_i &= \sum_{k: (i, k) \in E} (\overline{M}_{i k} - x_{i k}) + \sum_{k: (k, i) \in E} x_{k i} \\
+    \iff b_i + \sum_{k: (k, i) \in E} x_{k i} &= \sum_{k: (i, k) \in E} x_{i k}
+  \end{align*}
+  which is precisely feasibility for original minimum flow problem along with the fact that transport flows are non-negative.
 
-  So both problems have the same feasible set and cost functions, and so are equivalent.
+  \textbf{Equivalence of Cost Function}\par
+  The cost function for our new transport problem is:
+  \[
+    \sum_{(i, j) \in E} \left[0 \cdot (\overline{M}_{i j} - x_{i j}) + C_{i j} \cdot x_{i j}\right] = \sum_{(i, j) \in E} C_{i j} x_{i j}
+  \]
+  which is identical to that of the minimum cost flow problem.
+  Thus both problems have the same feasibility conditions and cost functions, and so are equivalent.
 \end{proof}
 \subsection{Transport Algorithm}
 \begin{theorem}[Optimality Conditions]
-  If for some feasible $x$, we have dual variables $\vec{\lambda} \in \R^{n}$ and $\vec{\mu} \in \R^{m}$  such that for all $i \in \{1, \ldots, n\}$ and  $j \in \{1, \ldots, m\}$ we have:
+  If for some feasible flow $(x_{i j})$ we have dual variables $\vec{\lambda} \in \R^{n}$ and $\vec{\mu} \in \R^{m}$  such that for all $i \in \{1, \ldots, n\}$ and $j \in \{1, \ldots, m\}$ we have: \label{transportOpti}
   \begin{align*}
-    C_{i j} \geq \lambda_i + \mu_j \\
-    (C_{i j} - (\lambda_i + \mu_j)) x_{i j} = 0
+    C_{i j} &\geq \lambda_i + \mu_j \\
+    (C_{i j} - (\lambda_i + \mu_j)) x_{i j} &= 0
   \end{align*}
-  then $x$ is optimal.
+  then this flow is optimal.
 \end{theorem}
 \begin{remark}
-  The components $\lambda_i$, correspond to supplier $i$ and the components $\mu_j$ correspond to consumer $j$.
+  The components $\lambda_i$ correspond to supplier $i$ and the components $\mu_j$ correspond to consumer $j$.
 \end{remark}
 \begin{proof}
   The Lagrangian is given by:
   \begin{align*}
-    L(x, \vec{\lambda}, \vec{\mu}) &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} C_{i j}x_{i j} - \sum_{i = 1}^{n} \lambda_i \left(\sum_{j = 1}^{m} x_{i j} - S_i\right) - \sum_{j  =1}^{m} \mu_j \left(\sum_{i = 1}^{n} x_{ij} - d_j\right) \\
-                                   &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} (C_{i j} - \lambda_i - \mu_j)x_{i j} + \sum_{i = 1}^{n} \lambda_i S_i + \sum_{j = 1}^{m} \mu_j d_j
+    L(x, \vec{\lambda}, \vec{\mu}) &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} C_{i j}x_{i j} - \sum_{i = 1}^{n} \lambda_i \left(\sum_{j = 1}^{m} x_{i j} - s_i\right) - \sum_{j  =1}^{m} \mu_j \left(\sum_{i = 1}^{n} x_{ij} - d_j\right) \\
+                                   &= \sum_{i = 1}^{n} \sum_{j = 1}^{m} (C_{i j} - \lambda_i - \mu_j)x_{i j} + \sum_{i = 1}^{n} \lambda_i s_i + \sum_{j = 1}^{m} \mu_j d_j
   \end{align*}
-  The conditions in the theorem  mean that the given $(\vec{\lambda}, \vec{\mu})$ are dual feasible and complementary slackness holds.
-  Thus using optimality conditions for Linear Programs, we conclude that $x$ is optimal. %TODO
+  Since $x_{i j} \geq 0$, the feasibility set for the dual is:
+  \[
+    \Lambda = \{\vec{\lambda} \in \R^{n},\ \vec{\mu} \in \R^{m}: C_{i j} \geq \lambda_i + \mu_j \}
+  \]
+  Therefore, the first assumption of the theorem implies that the given $(\vec{\lambda}, \vec{\mu})$ is dual feasible and the second theorem assumption tells us that complementary slackness holds.
+  Thus using \cref{optimalityConds}, we conclude that the flow $x$ is optimal.
 \end{proof}
-\begin{remark}
-  For a given basic feasible solution $x$, when we solve for $(\vec{\lambda}, \vec{\mu})$ using complementary slackness, we can assume that $\lambda_1 = 0$ without loss of generality as we can just shift the other components around.
+\begin{remark} \label{wlogRemark}
+  If we are given a basic feasible solution flow $x$, then we can use the above to try and solve for $(\vec{\lambda}, \vec{\mu})$ using complimentary slackness.
+  If we are able to find such a $(\vec{\lambda}, \vec{\mu})$ then we know immediately that $x$ is optimal.
+
+  We can make this easier to solve by noting that if we increase all of the $\lambda_i$ by a constant $k$ and decrease all of the $\mu_j$ by $k$ then $\lambda_i + \mu_j$ remains unchanged.
+  Thus by taking $k = -\lambda_1$ we can without loss of generality assume that $\lambda_1 = 0$ when solving.
 \end{remark}
-\subsubsection{Transport Algorithm}
-We first draw the \textit{Transport Tableau}:
+\subsection{Transport Algorithm}
+Instead of using the simplex algorithm to solve transportation problems, we can instead use the \textit{transport algorithm}.
+Similarly to using the simplex algorithm with a tableau, we employ a \textit{transport tableau}, which contains all the data for the problem and algorithm state whilst allowing us to solve the problem.
+
+Here is the structure of the transport tableau:
 \begin{center}
+  \newcommand{\transportcell}[2]{$\begin{array}{c|c} \multicolumn{2}{c}{\lambda_{#1} + \mu_{#2}} \\ \cline{2-2} x_{{#1} {#2}} & C_{{#1} {#2}} \end{array}$}
 \begin{tabular}{c|c|c|c|c|c}
- & $\mu_1$ & $\mu_2$ & $\cdots$ & $\mu_m$ &  \\
- \hline
-$\lambda_1$ & $\substack{\lambda_1 + \mu_1 \\ x_{1 1} \vert C_{1 1}}$ & $\substack{\lambda_1 + \mu_2 \\ x_{1 2} \vert C_{1 2}}$ & $\cdots$ & $\substack{\lambda_1 + \mu_m \\ x_{1 m} \vert C_{1 m}}$ & $s_1$ \\
-\hline
-$\lambda_1$ & $\substack{\lambda_2 + \mu_1 \\ x_{2 1} \vert C_{2 1}}$ & $\substack{\lambda_2 + \mu_2 \\ x_{2 2} \vert C_{2 2}}$ & $\cdots$ & $\substack{\lambda_2 + \mu_m \\ x_{2 m} \vert C_{2 m}}$ & $s_2$ \\
-\hline
-$\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ & $\vdots$ \\
-\hline
-$\lambda_1$ & $\substack{\lambda_n + \mu_1 \\ x_{1 1} \vert C_{n 1}}$ & $\substack{\lambda_n + \mu_2 \\ x_{n 2} \vert C_{n 2}}$ & $\cdots$ & $\substack{\lambda_n + \mu_m \\ x_{n m} \vert C_{n m}}$ & $s_n$ \\
-\hline
- & $d_1$ & $d_2$ & $\cdots$ & $d_m$ &
+  & $\mu_1$ & $\mu_2$ & $\cdots$ & $\mu_m$ &  \\
+  \hline
+  $\lambda_1$ & \transportcell{1}{1} & \transportcell{1}{2} & $\cdots$ & \transportcell{1}{m} & $s_1$ \\
+  \hline
+  $\lambda_2$ & \transportcell{2}{1} & \transportcell{2}{2} & $\cdots$ & \transportcell{2}{m} & $s_2$ \\
+  \hline
+  $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ & $\vdots$ \\
+  \hline
+  $\lambda_n$ & \transportcell{n}{1} & \transportcell{n}{2} & $\cdots$ & \transportcell{n}{m} & $s_n$ \\
+  \hline
+  & $d_1$ & $d_2$ & $\cdots$ & $d_m$ &
 \end{tabular}
 \end{center}
-where numbers $d_1, \ldots, d_n$ and $s_1, \ldots, s_n$ follow directly from the problem and are not updated during the algorithm.
-\begin{example}
-  Consider the following transport problem:
-  \begin{align*}
-    S_1 &= 14,\ S_2 = 10,\ S_3 = 9 \\
-    d_1 &= 12,\ d_2 = 5,\ d_3 = 8,\ d_4 = 8
-  \end{align*}
-  with cost matrix:
-  \[
-    C = \begin{pmatrix}
-    5 & 3 & 4 & 6 \\
-    2 & 7 & 4 & 1 \\
-    5 & 6 & 2 & 4 \\
-    \end{pmatrix}
-  \]
-  We need to find any basic feasible solution to start the algorithm.
+Note that because the values $d_i$, $s_i$, and $C_{i j}$ are constants of the problem, they are \textbf{not updated} during the algorithm.
 
-  To find this basic feasible solution, we use the \textit{north-west corner rule}, this gives as much supply as possible to the first consumer starting with the first producer, and then as much as possible to the second, starting with the first producer and so on.
-  Considering the values of $\vec{\lambda}$ and $\vec{\mu}$, we have 6 complementary slackness equations from $(C_{i j} - (\lambda_i + \mu_j))x_{i j} = 0$, corresponding to each of the non-zero $x_{i j}$.
-  Recalling that we can set $\lambda_1 = 0$ without loss of generality, this along the other constraints gives:
-  \[
-    \vec{\lambda} = \begin{pmatrix}
-    0 \\
-    4 \\
-    2 \\
-    \end{pmatrix} \text{ and } \vec{\mu} = \begin{pmatrix}
-    5 \\
-    3 \\
-    0 \\
-    2 \\
-    \end{pmatrix}
-  \]
-  So the intial tableau is:
-  \begin{center}
-  \begin{tabular}{c|c|c|c|c|c}
-   & 5 & 3 & 0 & 2 &  \\
-   \hline
-  0 & $\substack{5 \\ 12 \vert 5}$ & $\substack{3 \\ 2 \vert 3}$ & $\substack{0 \\ 0 \vert 4}$ & $\substack{2 \\ 0 \vert 6}$ & 14 \\
-  \hline
-  4 & $\substack{9 \\ 0 \vert 2}$ & $\substack{7 \\ 3 \vert 7}$ & $\substack{4 \\ 7 \vert 4}$ & $\substack{6 \\ 0 \vert 1}$ & 10 \\
-  \hline
-  2 & $\substack{7 \\ 0 \vert 5}$ & $\substack{5 \\ 0 \vert 6}$ & $\substack{2 \\ 1 \vert 2}$ & $\substack{4 \\ 8 \vert 4}$ & 9 \\
-  \hline
-   & 12 & 5 & 8 & 8 & \\
-  \end{tabular}
-  \end{center}
-  Now we are at a basic feasible solution we can start the main body of the algorithm.
+\subsubsection{North-West Corner Rule}
+As with the simplex method, we need to start with a basic feasible solution of flows.
+We can find such an $x$ using the \textit{north-west corner rule}.
+\begin{enumerate}
+  \item Start with some flow $x_{i j}$ and increase it until either the supply $s_i$ is used or demand $d_j$ is met.
+    Typically, we start with $x_{1 1}$.
+  \item If the supply is used, move to the next supplier (i.e. $x_{(i + 1) j}$) and repeat \textbf{(i)}
+  \item If the demand is met, move to the next consumer (i.e. $x_{i (j + 1)}$) and repeat \textbf{(i)}
+\end{enumerate}
+If supply and demand are met simultaneously then the north-west corner method has succeeded and the problem is non-degenerate.
 
-  We then chose a cell with $C_{i j} < \lambda_i + \mu_j$, for example $i = 2$ and $j = 1$.
-  Suppose that we sent a quantity $\theta$ along the edge between supplier $i$ and consumer $j$.
-  Upon consulting the graph to find the new quantities along other edges, the smallest new quantity is $3 - \theta$.
-  Sine we want to send as much down this edge as possible without violating the constraints, we pick $\theta = 3$.
-  The tableaux is then updated accordingly:
-  \begin{center}
-  \begin{tabular}{c|c|c|c|c|c}
-   & 5 & 3 & 0 & 2 &  \\
-   \hline
-  0 & $\substack{5 \\ 9 \vert 5}$ & $\substack{3 \\ 5 \vert 3}$ & $\substack{0 \\ 0 \vert 4}$ & $\substack{2 \\ 0 \vert 6}$ & 14 \\
-  \hline
-  -3 & $\substack{2 \\ 3 \vert 2}$ & $\substack{0 \\ 0 \vert 7}$ & $\substack{4 \\ 7 \vert 4}$ & $\substack{6 \\ 0 \vert 1}$ & 10 \\
-  \hline
-  -5 & $\substack{0 \\ 0 \vert 5}$ & $\substack{-2 \\ 0 \vert 6}$ & $\substack{2 \\ 1 \vert 2}$ & $\substack{4 \\ 8 \vert 4}$ & 9 \\
-  \hline
-   & 12 & 5 & 8 & 8 & \\
-  \end{tabular}
-  \end{center}
-  We then choose another cell with $\lambda_i + \mu_j > C_{i j}$, and repeat as before.
-  If there is no such cell left, the optimality conditions are satisfied and so we are done.
-\end{example}
+We will now illustrate how to perform the transport algorithm with an example:
+\subsubsection{Transport Algorithm Example}
+Consider a transport problem with three suppliers and four consumers with supplies and demands:
+\begin{align*}
+  s_1 &= 14,\ s_2 = 10,\ s_3 = 9 \\
+  d_1 &= 12,\ d_2 = 5,\ d_3 = 8,\ d_4 = 8
+\end{align*}
+and cost matrix:
+\[
+  C = \begin{pmatrix}
+  5 & 3 & 4 & 6 \\
+  2 & 7 & 4 & 1 \\
+  5 & 6 & 2 & 4 \\
+  \end{pmatrix}
+\]
+We now use the north-west corner rule to find a basic feasible solution.
+\begin{enumerate}
+  \item Starting with $x_{1 1}$, we set $x_{1 1} = 12$ so that $d_1$ is satisfied and then move on to $x_{1 2}$ which we set $x_{1 2} = 2$ so that $s_1$.
+    Since supplier 1 is used, we move onto supplier 2.
+  \item We first set $x_{2 2} = 3$ so that $d_2$ is satisfied and then set $x_{2 3} = 7$ so that $s_2$ is used.
+    Since supplier 2 is used, we move onto supplier 3.
+  \item We first set $x_{3 3} = 1$ so that $d_3$ is satisfied and then set $x_{3 4} = 8$ so that $s_3$ is used and $d_4$ is simultaneously satisfied.
+\end{enumerate}
+Since the supply and demand were satisfied simultaneously, the north-west corner rule has successfully found a basic feasible solution:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node[shape=circle, draw=black] (S1) at (0, -0.5) {1};
+  \node[shape=circle, draw=black] (S2) at (0, -1.5) {2};
+  \node[shape=circle, draw=black] (S3) at (0, -2.5) {3};
+  \path[dashed,->] (-2, -0.5) edge node[above] {$14$} (S1);
+  \path[dashed,->] (-2, -1.5) edge node[above] {$10$} (S2);
+  \path[dashed,->] (-2, -2.5) edge node[above] {$9$} (S3);
+  \node[yshift=30] at (S1) {Suppliers};
+
+  \node[shape=circle,draw=black] (D1) at (3, 0) {1};
+  \node[shape=circle,draw=black] (D2) at (3, -1) {2};
+  \node[shape=circle,draw=black] (D3) at (3, -2) {3};
+  \node[shape=circle,draw=black] (D4) at (3, -3) {4};
+  \path[dashed, <-] (5, 0) edge node[above] {$12$} (D1);
+  \path[dashed, <-] (5, -1) edge node[above] {$5$} (D2);
+  \path[dashed, <-] (5, -2) edge node[above] {$8$} (D3);
+  \path[dashed, <-] (5, -3) edge node[above] {$8$} (D4);
+  \node[yshift=20] at (D1) {Consumers};
+
+  \path[->] (S1) edge node[above] {$12$} (D1);
+  \path[->] (S1) edge node[above] {$2$}(D2);
+
+  \path[->] (S2) edge node[above] {$3$} (D2);
+  \path[->] (S2) edge node[above] {$7$} (D3);
+
+  \path[->] (S3) edge node[above] {$1$} (D3);
+  \path[->] (S3) edge node[above] {$8$} (D4);
+\end{tikzpicture}
+\end{center}
+Note that there is edges from each supplier to every consumer, they just have zero flow in our starting basic feasible solution.
+
+We now want to use complementary slackness to calculate the dual variables for this basic feasible solution.
+The complementary slackness equations tell us that we want $(C_{i j} - (\lambda_i + \mu_j))x_{i j} = 0$ and so if $x_{i j} > 0$, we must have $\lambda_i + \mu_j = C_{i j}$.
+There are six edges with $x_{i j} > 0$ and so we obtain six equations:
+\begin{align*}
+  \lambda_1 + \mu_1 = 5 \qquad \lambda_2 + \mu_2 = 7 \qquad \lambda_3 + \mu_3 = 2 \\
+  \lambda_1 + \mu_2 = 3 \qquad \lambda_2 + \mu_3 = 4 \qquad \lambda_3 + \mu_4 = 4
+\end{align*}
+This seems underspecified as we have seven unknowns and six equations, however, as discussed in \cref{wlogRemark}, we can take $\lambda_1 = 0$ without loss of generality.
+We can then solve to yield:
+\[
+  \vec{\lambda} = \begin{pmatrix}
+  0 \\
+  4 \\
+  2 \\
+  \end{pmatrix} \text{ and } \vec{\mu} = \begin{pmatrix}
+  5 \\
+  3 \\
+  0 \\
+  2 \\
+  \end{pmatrix}
+\]
+So our initial tableau is:
+\begin{center}
+\newcommand{\transportcell}[3]{$\begin{array}{c|c} \multicolumn{2}{c}{#1} \\ \cline{2-2} #2 & #3 \end{array}$}
+\begin{tabular}{c|c|c|c|c|c}
+ & 5 & 3 & 0 & 2 &  \\
+\hline
+0 & \transportcell{5}{12}{5} & \transportcell{3}{2}{3} & \transportcell{0}{0}{4} & \transportcell{2}{0}{6} & 14 \\
+\hline
+4 & \transportcell{9}{0}{2} & \transportcell{7}{3}{7} & \transportcell{4}{7}{4} & \transportcell{6}{0}{1} & 10 \\
+\hline
+2 & \transportcell{7}{0}{5} & \transportcell{5}{0}{6} & \transportcell{2}{1}{2} & \transportcell{4}{8}{4} & 9 \\
+\hline
+ & 12 & 5 & 8 & 8 & \\
+\end{tabular}
+\end{center}
+It turns out that we are always able to construct and solve such a system of equations given a basic feasible solution generated by the north-west corner method.
+\begin{definition}[Spanning Tree]
+  A \textit{spanning tree} of an \textbf{undirected graph} is a subset of $G$ without any cycles such that every vertex can be reached from every other vertex.
+\end{definition}
+\begin{theorem}
+  When constructing a basic feasible flow using the north-west corner rule, if we construct a \textbf{undirected graph} using the set of edges with positive flow, then we obtain a \textit{spanning tree} $T$ with exactly $m + n - 1$ edges.
+\end{theorem}
+\begin{proof}
+  Not lectured.
+\end{proof}
+This means that our system of equations will always have $m + n - 1$ unknowns (as $\vec{\lambda} \in \R^{n}, \vec{\mu} \in \R^{m}$ and we assume $\lambda_1 = 0$) and $m + n - 1$ equations from the positive edges and so will always have a unique solution.
+
+We now repeat the following until $C_{i j} \geq \lambda_i + \mu_j\ \forall (i, j)$:
+\begin{enumerate}
+  \item Pick some $(i, j)$ such that $C_{i j} < \lambda_i + \mu_j$.
+  \item Introduce an edge from supplier $i$ to supplier $j$.
+    Since the positive edges form a spanning tree, doing this will always introduce a cycle.
+  \item Send some flow $x_{i j} = \theta$ from $i$ to $j$.
+    This will exceed the demand of consumer $j$ and so we decrease the supply along the other edge into consumer $j$ by $\theta$.
+    This in turn will mean the supply of another supplier is not being used up and so we increase the supply along the corresponding edge by $\theta$ \textit{and so on...}
+
+    We repeat this, alternating the sign of $\theta$, until we have gone round the cycle and are back at supplier $i$.
+  \item We now increase $\theta$ until $x_{i^{*} j^{*}} = 0$ for some edge in the cycle.
+  \item Create a fresh transport tableau and fill in the new flows.
+  \item We now notice that $x_{i j} = \theta > 0$ and $x_{i^{*} j^{*}} = 0$ and so the positive edges still form a spanning tree with $m + n - 1$ edges.
+    We can therefore find a new dual $\vec{\lambda}$ and $\vec{\mu}$ for this BFS using complimentary slackness as we did for the starting BFS.
+    Copy these new dual solutions into the tableau.
+\end{enumerate}
+Carrying this out in our ongoing example, we notice that $2 = C_{2 1} < \mu_2 + \lambda_1 = 9$.
+We introduce $x_{2 1} = \theta$ and then, noting that the spanning tree is undirected, we go round the cycle alternating the sign of $\theta$:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node[shape=circle, draw=black] (S1) at (0, -0.5) {1};
+  \node[shape=circle, draw=black] (S2) at (0, -1.5) {2};
+  \path[dashed,->] (-2, -0.5) edge node[above] {$14$} (S1);
+  \path[dashed,->] (-2, -1.5) edge node[above] {$10$} (S2);
+  \node[yshift=30] at (S1) {Suppliers};
+
+  \node[shape=circle,draw=black] (D1) at (3, 0) {1};
+  \node[shape=circle,draw=black] (D2) at (3, -1) {2};
+  \path[dashed, <-] (5, 0) edge node[above] {$12$} (D1);
+  \path[dashed, <-] (5, -1) edge node[above] {$5$} (D2);
+  \node[yshift=20] at (D1) {Consumers};
+
+  \path[->] (S1) edge node[above] {$\scriptstyle 12 - \theta$} (D1);
+  \path[->] (S1) edge node[above left] {$\scriptstyle 2 + \theta$}(D2);
+
+  \path[->] (S2) edge node[above, yshift=-3] {$\scriptstyle 3 - \theta$} (D2);
+  \path[->] (S2) edge node[near end, right, yshift=-3] {$\scriptstyle \theta$} (D1);
+  \begin{scope}[gray!30]
+    \node[shape=circle, draw=gray!30] (S3) at (0, -2.5) {3};
+    \node[shape=circle,draw=gray!30] (D3) at (3, -2) {3};
+    \node[shape=circle,draw=gray!30] (D4) at (3, -3) {4};
+    \path[dashed,->] (-2, -2.5) edge node[above] {$9$} (S3);
+    \path[dashed, <-] (5, -2) edge node[above] {$8$} (D3);
+    \path[dashed, <-] (5, -3) edge node[above] {$8$} (D4);
+    \path[->] (S2) edge node[above] {$7$} (D3);
+    \path[->] (S3) edge node[above] {$1$} (D3);
+    \path[->] (S3) edge node[above] {$8$} (D4);
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+We then increase $\theta$ until one of the flows becomes 0, in this case we end up with $\theta = 3$ as $x_{2 2}$ becomes 0 first:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node[shape=circle, draw=black] (S1) at (0, -0.5) {1};
+  \node[shape=circle, draw=black] (S2) at (0, -1.5) {2};
+  \node[shape=circle, draw=black] (S3) at (0, -2.5) {3};
+  \path[dashed,->] (-2, -0.5) edge node[above] {$14$} (S1);
+  \path[dashed,->] (-2, -1.5) edge node[above] {$10$} (S2);
+  \path[dashed,->] (-2, -2.5) edge node[above] {$9$} (S3);
+  \node[yshift=30] at (S1) {Suppliers};
+
+  \node[shape=circle,draw=black] (D1) at (3, 0) {1};
+  \node[shape=circle,draw=black] (D2) at (3, -1) {2};
+  \node[shape=circle,draw=black] (D3) at (3, -2) {3};
+  \node[shape=circle,draw=black] (D4) at (3, -3) {4};
+  \path[dashed, <-] (5, 0) edge node[above] {$12$} (D1);
+  \path[dashed, <-] (5, -1) edge node[above] {$5$} (D2);
+  \path[dashed, <-] (5, -2) edge node[above] {$8$} (D3);
+  \path[dashed, <-] (5, -3) edge node[above] {$8$} (D4);
+  \node[yshift=20] at (D1) {Consumers};
+
+  \path[->] (S1) edge node[above] {$9$} (D1);
+  \path[->] (S1) edge node[near start, above right, yshift=-3] {$5$}(D2);
+
+  \path[->] (S2) edge node[near start, below] {$3$} (D1);
+  \path[->] (S2) edge node[above] {$7$} (D3);
+
+  \path[->] (S3) edge node[above] {$1$} (D3);
+  \path[->] (S3) edge node[above] {$8$} (D4);
+\end{tikzpicture}
+\end{center}
+The six complimentary slackness equations are:
+\begin{align*}
+  \lambda_1 + \mu_1 = 5 \qquad \lambda_2 + \mu_1 = 2 \qquad \lambda_3 + \mu_3 = 2 \\
+  \lambda_1 + \mu_2 = 3 \qquad \lambda_2 + \mu_3 = 4 \qquad \lambda_3 + \mu_4 = 4
+\end{align*}
+Upon solving we obtain the tableau:
+\begin{center}
+\newcommand{\transportcell}[3]{$\begin{array}{c|c} \multicolumn{2}{c}{#1} \\ \cline{2-2} #2 & #3 \end{array}$}
+\begin{tabular}{c|c|c|c|c|c}
+ & 5 & 3 & 7 & 9 &  \\
+\hline
+0 & \transportcell{5}{9}{5} & \transportcell{3}{5}{3} & \transportcell{7}{0}{4} & \transportcell{9}{0}{6} & 14 \\
+\hline
+$-3$ & \transportcell{2}{3}{2} & \transportcell{0}{0}{7} & \transportcell{4}{7}{4} & \transportcell{6}{0}{1} & 10 \\
+\hline
+$-5$ & \transportcell{0}{0}{5} & \transportcell{-2}{0}{6} & \transportcell{2}{1}{2} & \transportcell{4}{8}{4} & 9 \\
+\hline
+ & 12 & 5 & 8 & 8 & \\
+\end{tabular}
+\end{center}
+We now notice that $2 = C_{2 1} < \mu_2 + \lambda_1 = 9$ and so we pick this edge to work on and repeat as before.
+After this cycle, the tableau becomes:
+\begin{center}
+\newcommand{\transportcell}[3]{$\begin{array}{c|c} \multicolumn{2}{c}{#1} \\ \cline{2-2} #2 & #3 \end{array}$}
+\begin{tabular}{c|c|c|c|c|c}
+ & 5 & 3 & 2 & 4 &  \\
+\hline
+0 & \transportcell{5}{9}{5} & \transportcell{3}{5}{3} & \transportcell{2}{0}{4} & \transportcell{4}{0}{6} & 14 \\
+\hline
+$-3$ & \transportcell{2}{3}{2} & \transportcell{0}{0}{7} & \transportcell{-1}{0}{4} & \transportcell{1}{7}{1} & 10 \\
+\hline
+0 & \transportcell{5}{0}{5} & \transportcell{3}{0}{6} & \transportcell{2}{8}{2} & \transportcell{4}{1}{4} & 9 \\
+\hline
+ & 12 & 5 & 8 & 8 & \\
+\end{tabular}
+\end{center}
+Since $C_{i j} \geq \lambda_i + \mu_j\ \forall (i, j)$ we can stop as our solution is optimal by \cref{transportOpti}.
 \section{Max-Flow Min-Cut}
 \subsection{Problem Statement}
-For a graph $G = (V, E)$ with $V = \{v_1, \ldots, v_n\}$, consider a transport problem where there is a single source vertex, $v_1$, and a single sink vertex $v_n$.
-\begin{definition}[Max Flow Problem]
-  The \textit{max-flow} problem is the following:
+Let $G = (V, E)$ be a directed graph with $V = \{v_1, \ldots, v_n\}$ where there is a single source vertex $v_1$ and a single sink vertex $v_n$.
+Suppose also that each edge $(i, j) \in E$ has maximum capacity $C_{i j}$.
+\begin{definition}[Max-Flow Problem]
+  The \textit{max-flow problem} finds the maximum possible flow $\delta$ through the graph between the source and sink vertex.
+  It can be stated as:
   \begin{maxi*}
-    {x, \delta}{\delta}{}{}
-    \addConstraint{\sum_{j: (1, j) \in E} x_{1 j}}{= \delta}
-    \addConstraint{\sum_{i: (i, n) \in E} x_{i n}}{= \delta}
-    \addConstraint{\sum_{j: (i, j) \in E} x_{i j}}{= \sum_{i: (i, j) \in E} x_{j i}\ \forall i \notin \{1, n\}}
+    {\delta \in \R, x_{i j} \in \R\ \forall (i, j) \in E}{\delta}{}{}
+    \addConstraint{\sum_{j: (1, j) \in E} x_{1 j} - \sum_{i: (i, 1) \in E} x_{i 1}}{= \delta}
+    \addConstraint{\sum_{j: (n, j) \in E} x_{n j} - \sum_{i: (i, 1) \in E} x_{i n}}{= -\delta}
+    \addConstraint{\sum_{k: (i, k) \in E} x_{i k} - \sum_{k: (k, i) \in E} x_{k i}}{= 0\ \forall i \notin \{1, n\}}
     \addConstraint{0 \leq x_{i j}}{\leq C_{i j}}\ \forall (i, j) \in E
   \end{maxi*}
+  The quantities in the above can be explained as follows:
+  \begin{itemize}
+    \item $\delta$ is the flow into the source vertex and also the flow out of the sink vertex.
+    \item The first constraint ensures that the total flow entering the graph at the source vertex $v_1$ is $\delta$ and the second constraint ensures that the total flow exiting the graph at the sink vertex $v_n$ is also $\delta$.
+    \item The third constraint ensures that the flow is conserved at all intermediate vertices (i.e. total flow exiting the graph at all other vertices is 0).
+    \item Finally, the last constraint enforces the maximum edge capacities.
+  \end{itemize}
 \end{definition}
-If we define:
+It is convenient to define $\phi_i(x)$ to be the flow entering the graph at vertex $i$, i.e. the difference between the total exiting $v_i$ from edges and the total entering $v_i$ from edges:
 \[
   \phi_i(x) = \sum_{j: (i, j) \in E} x_{i j} - \sum_{j: (j, i) \in E} x_{j i}
 \]
 then the problem can be equivalently reformulated as:
 \begin{maxi*}
-  {x, \delta}{\delta}{}{}
+  {\delta \in \R, x_{i j} \in \R\ \forall (i, j) \in E}{\delta}{}{}
   \addConstraint{\phi_1(x)}{= \delta}
-  \addConstraint{\phi_n(x)}{= \delta}
+  \addConstraint{\phi_n(x)}{= -\delta}
   \addConstraint{\phi_i(x)}{= 0}\ \forall i \notin \{1, n\}
   \addConstraint{0 \leq x_{i j}}{\leq C_{i j}}\ \forall (i, j) \in E
 \end{maxi*}
-and further if we define:
+Further, if we define:
 \[
   b_i = \begin{cases}
   +1 & \text{ if } i = 1 \\
@@ -614,83 +889,208 @@ and further if we define:
 \]
 then the problem becomes:
 \begin{maxi*}
-  {x , \delta}{\delta}{}{}
+  {\delta \in \R, x_{i j} \in \R\ \forall (i, j) \in E}{\delta}{}{}
   \addConstraint{\phi_i(x) - b_i \delta}{= 0\ \forall i \in \{1, \ldots, n\}}
   \addConstraint{0 \leq x_{i j}}{\leq C_{i j}\ \forall (i, j) \in E}
 \end{maxi*}
 \subsection{Cuts}
+Since the max flow problem is just a linear program, we could solve it using techniques such as the simplex algorithm.
+However, for this problem, we can utilise an entirely different method with \textit{cuts}.
 \begin{definition}[Cut]
-  A \textit{cut} of a graph $G$ is a partition of $V$ into $S$ and $V \setminus S$.
+  A \textit{cut} of a graph $G$ is a partition of the vertex set $V$ into $S$ and $V \setminus S$.
 \end{definition}
 \begin{definition}[Cut Capacity]
   The \textit{capacity} of a cut is defined as:
   \[
-    C(S) = \sum_{(i, j) \in E, i \in S, j \notin S} C_{i j}
+    C(S) = \sum_{\{(i, j) \in E: i \in S, j \notin S\}} C_{i j}
   \]
+  That is, the total capacity of the edges which go from partition $S$ to partition $V \setminus S$.
 \end{definition}
 \begin{theorem}
-  If $x$ be a feasible flow with value $\delta$, then for any cut $(S, V \setminus S)$ such that $v_1 \in S$ and $v_n \in V \setminus S$, we have: \label{cutIneq}
+  Let $(x_{i j})$ be a feasible flow for the max-flow problem with value $\delta$.
+  For any cut $(S, V \setminus S)$ such that $v_1 \in S$ and $v_n \in V \setminus S$ (i.e. $v_1$ and $v_n$ are separated by the cut), we have: \label{cutIneq}
   \[
     \delta \leq C(S)
   \]
 \end{theorem}
 \begin{remark}
-  From this we can conclude that the max flow is less than or equal to the min cut:
+  Since this is true for all feasible flows and for all cuts that separate the source and the sink vertex, it follows that:
   \[
-    \max_{x} \delta \leq \min_{\delta} C(S)
+    \max_{x_{i j}} \delta \leq \min_{S} C(S)
   \]
+  That is, $\text{maximum flow} \leq \text{minimum cut}$
 \end{remark}
 \begin{proof}
-  For any sets $A, B \subseteq V$ let:
+  For any sets $A, B \subseteq V$ we define:
   \[
-    f_x(A, B) = \sum_{(i, j) \in E, i \in A, j \in B} x_{i j}
+    f_x(A, B) = \sum_{\{(i, j) \in E: i \in A, j \in B\}} x_{i j}
   \]
+  which is the total flow from vertices in $A$ into vertices in $B$.
   Note that $A$ and $B$ need not be disjoint.
+
   We then sum up the flow constraints over all vertices in $S$:
+  \[
+    \sum_{i \in S} \left[\sum_{j: (i, j) \in E} x_{i j} - \sum_{j: (j, i) \in E} x_{i j}\right] = \delta
+  \]
+  This is just $\delta$ since the summand is 0 for $i \neq 1$ (as $n \notin S$ by assumption) and $\delta$ for $i = 1$.
+
+  We can also rewrite and bound this sum using $f_x$:
   \begin{align*}
     \delta &= \sum_{i \in S} \left[\sum_{j: (i, j) \in E} x_{i j} - \sum_{j: (j, i) \in E} x_{i j}\right] \\
+           &= \sum_{i \in S} \left[\sum_{j: (i, j) \in E} x_{i j}\right] - \sum_{i \in S} \left[\sum_{j: (j, i) \in E} x_{i j}\right] \\
            &= f_x(S, V) - f_x(V, S) \\
-           &= (f_x(S, S) + f_x(S, V \setminus S)) - (f_x(S, S) + f_x(V\setminus S, S)) \\
+           &= [f_x(S, S) + f_x(S, V \setminus S)] - [f_x(S, S) + f_x(V\setminus S, S)] \text{ as $V = S \cup (V \setminus S)$} \\
            &= f_x(S, V \setminus S) - f_x(V \setminus S, S) \\
-           &\leq f_x(S, V \setminus S) \text{ as $f_x(V\setminus S, S) \geq 0$}\\
+           &\leq f_x(S, V \setminus S) \text{ as $f_x(V\setminus S, S) \geq 0$ since $x_{i j} \geq 0$}\\
            &\leq C(S) \text{ as $x_{i j} \leq C_{i j}$}
   \end{align*}
+  as required.
 \end{proof}
-\begin{theorem}[Max Flow Min-Cut Theorem]
-  Let $\delta^{*}$ be the optimal value of the flow from the source to the sink.
-  We then have:
+\begin{theorem}[Max-Flow Min-Cut Theorem]
+  Let $\delta^{*}$ be the optimal value of a max-flow problem with optimal flow $x$.
+  We then have: \label{maxmin}
   \[
-    \delta^{*} = \min\{C(S): C \subseteq V, v_1 \in S, v_n \in V \setminus S\}
+    \delta^{*} = \min\{C(S): S \subseteq V, v_1 \in S, v_n \in V \setminus S\}
   \]
-  i.e. there exists a cut such that the capacity of the cut is the maximal flow.
+  That is, the maximal flow is equal to the minimal cut capacity of the graph.
 \end{theorem}
 \begin{proof}
-  From \cref{cutIneq}, we know that $\delta \leq C(S)$ and so it suffices to find a set $S$ such that $C(S) = \delta^{*}$.
+  From \cref{cutIneq}, we know that $\delta^{*} \leq \min_{S} C(S)$.
+  Thus it is sufficient to find a cut $S$ such that $C(S) = \delta^{*}$ as then we have $\delta^{*} \leq \min_{S} C(S) \leq C(S) = \delta^{*}$.
 
-  An \textit{augmenting path}, is a path between two vertices in the undirected graph such that every \textit{forward edge} $(i, j)$ satisfies $x_{i j} < C_{i j}$ (i.e. the flow is not full), and every \textit{reverse edge} $(i, j)$ satisfies $x_{i j} > 0$.
-  If $x$ is optimal, then $x$ cannot have any augmenting paths from 1 to $n$ as if an augmenting path exists, we can increase the flow along that path.
+  We first need to introduce a few definitions:
+  \begin{itemize}
+    \item We define a \textit{path} to be a sequence of vertices such that every pair of adjacent vertices in the sequence is connected by an edge, irrespective of its direction.
+    \item We call an edge connecting adjacent vertices in a path a \textit{forward edge} if is directed forwards in the sequence of vertices and call it a \textit{reverse edge} otherwise.
+    \item Finally, we define an \textit{augmenting path} to be a path such that every \textit{forward edge} satisfies $x_{i j} < C_{i j}$ (i.e. the flow is not full), and every \textit{reverse edge} satisfies $x_{i j} > 0$ (i.e. the flow is non-zero).
+  \end{itemize}
+  We now note that if $x$ is optimal solution, then $x$ \textbf{cannot} have any augmenting paths from 1 to $n$ as if an augmenting path were to exist, we can would be able to increase the flow along that path without violating constraints (thus increasing $\delta$) and so $x$ would not be optimal.
 
-  Set:
+  Define the cut $S$ as follows:
   \[
-    S = \{1\} \cup \{i: \text{there is an augmenting path from 1 to $i$}\}
+    S = \{1\} \cup \{i \in V: \text{there is an augmenting path from 1 to $i$}\}
   \]
-  For the set $S$, sum up the flow constraints of $S$, from the proof of \cref{cutIneq}, we have:
+  Observe that this is a valid cut for the theorem as $1 \in S$ but $n \notin S$ since $x$ is optimal.
+
+  For the set $S$, we now sum up the flow constraints of $S$ as in the proof of \cref{cutIneq}, we have:
   \[
     \delta^{*} = f_x(S, V \setminus S) - f_x(V \setminus S, S)
   \]
-  We must have $f_x(S, V \setminus S) = C(S)$ and $f_x(V \setminus S, S) = 0$ and so $\delta^{*} = C(S)$.
-  This is because any edge from $S$ to $V \setminus S$ must saturated as this cannot be an augmenting path, and any reverse edges must be empty.
+  We must have $f_x(S, V \setminus S) = C(S)$ since every edge from $S$ into $V \setminus S$ must be saturated.
+  This is because if we had an edge $(i, j)$ with $i \in S$ and $j \in V \setminus S$, since we already know there is an augmenting path from $1 \to i$, if $x_{i j} < C_{i j}$, then we would be able to extend this into an augmenting path from $1 \to j$, violating the definition of $S$.
+  For a similar reason, we must also have $f_x(V \setminus S, S) = 0$ since every edge from $V \setminus S$ into $S$ must have zero flow.
+
+  Thus $\delta^{*} = C(S)$ as required.
 \end{proof}
-\subsection{Ford-Fulkerson Algorithm}
-We can use the \textit{ford-fulkerson algorithm} to solve the max-flow min-cut problem.
-\subsubsection{Algorithm}
-\begin{enumerate}
-  \item Start with any feasible flow $x$, for example, we can alway pick $x_{i j} = 0$.
-  \item Search for an augmenting path and then direct as much flow as possible along that path.
-  \item Repeat step \textbf{(ii)} until no more augmenting paths exist.
-\end{enumerate}
-We can then employ \cref{cutIneq} to find an optimal cut by selecting the verties with augmenting paths from $1$.
 \begin{remark}
-  For graphs with integer capacities, the Ford-Fulkerson algorithm will always converge in finite time.
+  We can also prove the above using by showing that the dual of the max-flow problem is equivalent to minimising the cut.
+  This is somewhat fiddly as the initial formulation of the dual does not look like a cut problem.
 \end{remark}
+\subsection{Ford-Fulkerson Algorithm}
+We can utilise what we just found out about augmenting paths within the \textit{Ford-Fulkerson algorithm} to solve the max-flow min-cut problem.
+\subsubsection{Algorithm Steps}
+\begin{enumerate}
+  \item Start with any feasible flow $(x_{i j})$, for example, by picking $x_{i j} = 0$ for all $(i, j) \in E$.
+  \item Search for an augmenting path from 1 to n.
+    If there is no such augmenting path, the flow is optimal by \cref{maxmin} and so we stop.
+    Otherwise, since there is such an augmenting path, we increase the flow along this path as much as possible.
+  \item Repeat step \textbf{(ii)}.
+\end{enumerate}
+If we believe that there are no more augmenting paths from 1 to $n$ and our solution has flow $\delta$, we can prove this is optimal by finding a cut $S$ with capacity $\delta$ and appealing to \cref{maxmin} as then:
+\[
+  \delta \leq \delta^{*} = \min_{S} C(S) \leq C(S) = \delta \implies \delta^{*} = \delta
+\]
+\begin{remark}
+  For graphs with integer capacities, the Ford-Fulkerson algorithm will always terminate after a finite number of iterations.
+
+  This is because if we start with integral $x_{i j}$, then the algorithm maintains this throughout whilst also increasing the flow from 1 to $n$ by an integral amount with each iteration.
+\end{remark}
+\begin{example}
+  Consider the following graph where the edge capacities are denoted in grey and current flow values are denoted in black:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \begin{scope}[minimum size=0.8cm]
+      \node[shape=circle, draw=black] (S1) at (0, 0) {1};
+      \node[shape=circle, draw=black] (SA) at (2, 1) {a};
+      \node[shape=circle, draw=black] (SB) at (4, 1) {b};
+      \node[shape=circle, draw=black] (SC) at (2, -1) {c};
+      \node[shape=circle, draw=black] (SD) at (4, -1) {d};
+      \node[shape=circle, draw=black] (SN) at (6, 0) {n};
+    \end{scope}
+    \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$0$} (SA);
+    \path[->] (SA) edge node[gray!70, above] {$1$} node[below] {$0$} (SB);
+    \path[->] (SB) edge node[gray!70, above] {$5$} node[below] {$0$} (SN);
+    \path[->] (SA) edge node[gray!70, above] {$4$} node[below] {$0$} (SD);
+    \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$0$} (SC);
+    \path[->] (SC) edge node[gray!70, above] {$2$} node[below] {$0$} (SD);
+    \path[->] (SD) edge node[gray!70, above] {$5$} node[below] {$0$} (SN);
+  \end{tikzpicture}
+  \end{center}
+  where we chose to start with the feasible flow $x_{i j} = 0$ along all edges.
+  \begin{itemize}
+    \item We first spot the augmenting path $1, a, b, n$ and increase flow along this path as much as possible so it is no longer augmenting:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \begin{scope}[minimum size=0.8cm]
+          \node[shape=circle, draw=black] (S1) at (0, 0) {1};
+          \node[shape=circle, draw=black] (SA) at (2, 1) {a};
+          \node[shape=circle, draw=black] (SB) at (4, 1) {b};
+          \node[shape=circle, draw=black] (SC) at (2, -1) {c};
+          \node[shape=circle, draw=black] (SD) at (4, -1) {d};
+          \node[shape=circle, draw=black] (SN) at (6, 0) {n};
+        \end{scope}
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$\underline{1}$} (SA);
+        \path[->] (SA) edge node[gray!70, above] {$1$} node[below] {$\underline{1}$} (SB);
+        \path[->] (SB) edge node[gray!70, above] {$5$} node[below] {$\underline{1}$} (SN);
+        \path[->] (SA) edge node[gray!70, above] {$4$} node[below] {$0$} (SD);
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$0$} (SC);
+        \path[->] (SC) edge node[gray!70, above] {$2$} node[below] {$0$} (SD);
+        \path[->] (SD) edge node[gray!70, above] {$5$} node[below] {$0$} (SN);
+      \end{tikzpicture}
+      \end{center}
+    \item Considering the augmenting path $1, a, d, n$ we increase the flow as follows:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \begin{scope}[minimum size=0.8cm]
+          \node[shape=circle, draw=black] (S1) at (0, 0) {1};
+          \node[shape=circle, draw=black] (SA) at (2, 1) {a};
+          \node[shape=circle, draw=black] (SB) at (4, 1) {b};
+          \node[shape=circle, draw=black] (SC) at (2, -1) {c};
+          \node[shape=circle, draw=black] (SD) at (4, -1) {d};
+          \node[shape=circle, draw=black] (SN) at (6, 0) {n};
+        \end{scope}
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$\underline{5}$} (SA);
+        \path[->] (SA) edge node[gray!70, above] {$1$} node[below] {$1$} (SB);
+        \path[->] (SB) edge node[gray!70, above] {$5$} node[below] {$1$} (SN);
+        \path[->] (SA) edge node[gray!70, above] {$4$} node[below] {$\underline{4}$} (SD);
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$0$} (SC);
+        \path[->] (SC) edge node[gray!70, above] {$2$} node[below] {$0$} (SD);
+        \path[->] (SD) edge node[gray!70, above] {$5$} node[below] {$\underline{4}$} (SN);
+      \end{tikzpicture}
+      \end{center}
+    \item Considering the augmenting path $1, c, d, n$ we increase the flow as follows:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \begin{scope}[minimum size=0.8cm]
+          \node[shape=circle, draw=black] (S1) at (0, 0) {1};
+          \node[shape=circle, draw=black] (SA) at (2, 1) {a};
+          \node[shape=circle, draw=black] (SB) at (4, 1) {b};
+          \node[shape=circle, draw=black] (SC) at (2, -1) {c};
+          \node[shape=circle, draw=black] (SD) at (4, -1) {d};
+          \node[shape=circle, draw=black] (SN) at (6, 0) {n};
+        \end{scope}
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$5$} (SA);
+        \path[->] (SA) edge node[gray!70, above] {$1$} node[below] {$1$} (SB);
+        \path[->] (SB) edge node[gray!70, above] {$5$} node[below] {$1$} (SN);
+        \path[->] (SA) edge node[gray!70, above] {$4$} node[below] {$4$} (SD);
+        \path[->] (S1) edge node[gray!70, above] {$5$} node[below] {$\underline{1}$} (SC);
+        \path[->] (SC) edge node[gray!70, above] {$2$} node[below] {$\underline{1}$} (SD);
+        \path[->] (SD) edge node[gray!70, above] {$5$} node[below] {$\underline{5}$} (SN);
+      \end{tikzpicture}
+      \end{center}
+  \end{itemize}
+  There is no longer any augmenting paths from $1$ to $n$ as both $a \to b$ and $d \to n$ are saturated.
+  The value of this solution is $\delta = 5 + 1 = 6$ and we notice that there is a cut $S = \{1, a, c, d\}$, $V \setminus S = \{b, n\}$ with $C(S) = 6$.
+  Thus by our earlier discussion, our solution is optimal.
+\end{example}
 \end{document}
