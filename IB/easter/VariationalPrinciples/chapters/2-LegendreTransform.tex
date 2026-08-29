@@ -3,16 +3,17 @@
 \chapter{Legendre Transform}
 \section{Definition and Properties}
 \begin{definition}
-  The \textit{Legendre transform} of $f: D(f) \to \R$ is defined as:
+  The \textit{Legendre transform} of a function $f: D(f) \to \R$ is defined as:
   \[
     f^{*}(\vec{p}) = \sup_{\vec{x} \in D(f)}  [\vec{p} \cdot \vec{x} - f(\vec{x})]
   \]
   with $D(f^{*}) = \{\vec{p} \in \R^{n}: \text{the supremum on the right hand side is finite}\}$.
 \end{definition}
 \begin{lemma}
-  The Legendre transform $f^{*}$ as defined above is convex.
+  The Legendre transform $f^{*}$ as defined above is convex. \label{legendreConvex}
 \end{lemma}
 \begin{proof}
+  We first need to show that $D(f^{*})$ is a convex set.
   Let $\vec{p}, \vec{q} \in D(f^{*})$ and $t \in (0, 1)$ be arbitrary.
   We want to show that the following is finite:
   \begin{align*}
@@ -20,7 +21,7 @@
     &= \sup_{\vec{x} \in D(f)} [(1 - t)(\vec{p}\cdot \vec{x} - f(\vec{x})) + t(\vec{q} \cdot \vec{x} - f(\vec{x}))] \\
     &\leq (1 - t) \sup_{\vec{x} \in D(f)} (\vec{p} \cdot \vec{x} - f(\vec{x})) + t \sup_{\vec{x} \in D(f)} (\vec{q} \cdot \vec{x} - f(\vec{x}))
   \end{align*}
-  The right hand side of this is finite as $\vec{p}, \vec{q} \in D(f^{*})$ and so $(1 - t)\vec{p} + t\vec{q} \in D(f^{*})\ \forall t \in (0, 1)$, i.e. $D(f^{*})$ is a convex set.
+  The right hand side of this is finite as $\vec{p}, \vec{q} \in D(f^{*})$ and so $(1 - t)\vec{p} + t\vec{q} \in D(f^{*})\ \forall t \in (0, 1)$ and so $D(f^{*})$ is a convex set.
 
   The above inequality also tells us that:
   \[
@@ -32,7 +33,7 @@
   If $f$ is convex, then so is $F_{\vec{p}}(\vec{x}) = f(\vec{x}) - \vec{p} \cdot \vec{x}$.
 \end{proposition}
 \begin{proof}
-  For arbitrary $\vec{x}, \vec{y} \in D(f)$ and $t \in (0, 1)$:
+  For arbitrary $\vec{x}, \vec{y} \in D(f)$ and $t \in (0, 1)$ we have:
   \begin{align*}
     F_\vec{p}((1 - t)\vec{x} + t\vec{y}) &= f((1 - t)\vec{x} + t\vec{y}) - \vec{p} \cdot ((1 - t)\vec{x} + t\vec{y}) \\
                                          &\leq (1 - t)f(\vec{x}) + t f(\vec{y}) - \vec{p} \cdot ((1 - t)\vec{x} + t\vec{y}) \\
@@ -40,41 +41,57 @@
   \end{align*}
   So $F_{\vec{p}}$ is convex.
 \end{proof}
+\begin{remark}
+  Note that if $f$ is \textbf{strictly} convex, then we can replace $\leq \to <$ and so can conclude that $F_{\vec{p}}$ is strictly convex
+\end{remark}
 \begin{corollary}
-  If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$  is a \textbf{global maximum} occurring at the point $\vec{x}(\vec{p})$ which is given by finding $\vec{x}$ such that $\nabla f(\vec{x}) = \vec{p}$.
+  If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$  is a \textbf{global maximum} occurring at the point $\vec{x}(\vec{p})$ which is given by finding $\vec{x}$ such that $\nabla f(\vec{x}) = \vec{p}$. \label{legDiff}
 
   The Legendre transform of $f$ is then:
   \[
     f^{*}(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
   \]
+  with the domain $D(f^{*}) = \{\vec{p} \in \R^{n}: \exists \vec{x} \in \R^{n} \text{ such that } \nabla f(\vec{x}) = \vec{p}\}$.
 \end{corollary}
 \begin{proof}
-  $f(\vec{x}) - \vec{p} \cdot \vec{x}$ is convex and so $\vec{p} \cdot \vec{x} - f(\vec{x})$ is concave so a stationary is a global maximum.
+  Since $f$ is convex, $f(\vec{x}) - \vec{p} \cdot \vec{x}$ is convex and so $\vec{p} \cdot \vec{x} - f(\vec{x})$ is concave.
+  Thus any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$ is a global maximum by \cref{globalMin}.
+
+  To find stationary points of $\vec{p} \cdot \vec{x} - f(\vec{x})$:
   \[
     \nabla(\vec{p}\cdot \vec{x} - f(\vec{x})) = \vec{p} - \nabla f(\vec{x}) = \vec{0} \iff \nabla f(\vec{x}) = \vec{p}
   \]
-  Since this is a global maximum at the maximiser $\vec{x}(\vec{p})$:
+  so the global maximum occurs at any $\vec{x}(\vec{p})$ with $\nabla f(\vec{x}) = \vec{p}$.
+
+  Since $\vec{x}(\vec{p})$ is a global maximiser of $\vec{p} \cdot \vec{x} - f(\vec{x})$, the Legendre transform of $f$ is:
   \begin{align*}
     f^{*}(\vec{p}) &= \sup_{\vec{x} \in D(f)} [\vec{p} \cdot \vec{x} - f(\vec{x})] \\
                    &= \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
   \end{align*}
+  The domain of this is as claimed since there is no global maximum if we do not have a point with $\nabla f(\vec{x}) = \vec{p}$.
 \end{proof}
 \begin{remark}
-  If $f$ is \textbf{strictly} convex then the solution to $\nabla f(\vec{x}) = \vec{p}$ is unique by considering the chord joining 2 maxima.
+  If $f$ is \textbf{strictly} convex, then the solution to $\nabla f(\vec{x}) = \vec{p}$ is unique.
+
+  This is because $\vec{p} \cdot \vec{x} - f(\vec{x})$ would be strictly concave and so the existence of two distinct $\vec{x}(\vec{p})$ that maximise this would imply the existence of a point on the chord joining them which has a strictly greater value, which is a contradiction.
 \end{remark}
 \begin{example}
   \begin{enumerate}
     \item Consider $f(x) = \frac{1}{2}ax^2$.
       For $a > 0$, this is strictly convex.
+      To find $x(p)$, consider:
       \[
         \nabla f(x) = f'(x) = p \iff x = \frac{p}{a}
       \]
       So:
-      \[
-        f^{*}(p) = \frac{p^2}{a} - \frac{p^2}{2a} = \frac{p^2}{2a}
-      \]
-      with $D(f^{*}) = \R$.
-    \item Consider $f(v) = - \sqrt{1 - v^2}$ with $D(f) = (-1, 1)$ and $z = f(v)$.
+      \begin{align*}
+        f^{*}(p) &= p \cdot \frac{p}{a} - \frac{1}{2} a \left(\frac{p}{a}\right)^2 \\
+                 &= \frac{p^2}{a} - \frac{p^2}{2a} \\
+                 &= \frac{p^2}{2a}
+      \end{align*}
+      with $D(f^{*}) = \R$
+    \item Consider $f(v) = - \sqrt{1 - v^2}$ with $D(f) = (-1, 1)$.
+      This is a convex function so we try to find $v(p)$:
       \[
         \nabla f(v) = f'(v) = \frac{v}{\sqrt{1 - v^2}} = p \iff v = \frac{p}{\sqrt{1 + p^2}}
       \]
@@ -86,30 +103,36 @@
       Note that $z = f^{*}(p)$ is a branch of a hyperbola.
     \item Consider $f(x) = cx$ for $c > 0$ and $D(f) = \R$.
       This is convex but \textbf{not} strictly convex.
+
+      The term inside the supremum of the Legendre transform is:
       \[
         px - f(x) = (p - c)x
       \]
       The supremum of this only exists for $p = c$ and so $D(f^{*}) = \{c\}$ with $f^{*}(c) = 0$.
+
+      We could have also seen this by considering $\nabla f(x) = p \iff p = c$.
   \end{enumerate}
 \end{example}
 \begin{theorem}
-  If $f$ is convex and twice continuously differentiable then $f^{**} = f$, i.e. the Legendre transform of the Legendre transform is just the function itself.
+  If $f$ is convex and twice continuously differentiable then $f^{**} = f$, i.e. the Legendre transform of the Legendre transform of a convex function is just the function itself.
 \end{theorem}
 \begin{proof}
-  To determine $f^{**}$, we need to find $\vec{p}(\vec{x})$ obeying $\nabla f^{*}(\vec{p}(\vec{x})) = \vec{x}$.
+  From \cref{legendreConvex}, we know that $f^{*}(\vec{p})$ is convex and so we can appeal to \cref{legDiff} to find $f^{**}$.
+  Noting that $f^{*}$ is a function of $\vec{p}$, we wish to find $\vec{p}(\vec{x})$ obeying $\nabla_{\vec{p}} f^{*}(\vec{p}(\vec{x})) = \vec{x}$.
+
+  We first need to find $\nabla_{\vec{p}}$ of $f^{*}$ in the form:
   \[
     f^{*}(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))
   \]
-  To proceed, we want to be able to take grad of this.
-  Using the chain rule:
+  Using the multivariate chain rule, we have:
   \begin{align*}
-    \pderiv{f^{*}}{p_i} &= x_i + p_j \pderiv{x_j}{p_i} - \at{\pderiv{f}{x_j}}{\vec{x} = \vec{x}(\vec{p})} \pderiv{x_j}{p_i} \\
-                        &= x_i + \pderiv{x_j}{p_i} \underbrace{\left(p_j - \at{\nabla_j f}{\vec{x} = \vec{x}(\vec{\vec{p}})}\right)}_{=0} \\
-                        &= x_i
+    \pderiv{}{p_i}(f^{*}(\vec{p})) &= x_i + p_j \pderiv{x_j}{p_i} - \at{\pderiv{f}{x_j}}{\vec{x} = \vec{x}(\vec{p})} \pderiv{x_j}{p_i} \\
+                                   &= x_i + \pderiv{x_j}{p_i} \underbrace{\left(p_j - [\nabla f(\vec{x}(\vec{p}))]_j\right)}_{=0} \text{ as $\nabla f(\vec{x}(\vec{p})) = \vec{p}$} \\
+                                   &= x_i
   \end{align*}
-  So $\nabla f^{*}(\vec{p}(\vec{x})) = \vec{x}(\vec{p})$, thus $\vec{x}(\vec{p}(\vec{x})) = \vec{x}$, i.e. $\vec{p}(\vec{x})$ is inverse of $\vec{x}(\vec{p})$.
+  Note that $\pderiv{x_j}{p_i}$ exists as $f$ is twice differentiable.
 
-  Therefore we have:
+  So $\nabla_{\vec{p}} f^{*}(\vec{p}(\vec{x})) = \vec{x}$, thus $\vec{p}(\vec{x}(\vec{p})) = \vec{p}$ so $\vec{p}(\vec{x})$ is indeed the inverse of $\vec{x}(\vec{p})$ and so we have:
   \begin{align*}
     f^{**}(\vec{x}) &= \vec{x} \cdot \vec{p}(\vec{x}) - f^{*}(\vec{p}(\vec{x})) \\
                     &= \vec{x} \cdot \vec{p}(\vec{x}) - (\vec{p}(\vec{x}) \cdot \vec{x} - f(\vec{x}(\vec{p}(\vec{x})))) \\
@@ -117,41 +140,41 @@
   \end{align*}
 \end{proof}
 \begin{remark}
-  Convexity of $f$ is necessary as $f^{**}$ is the Legendre transform of $f^{*}$ and therefore must be convex and so $f^{**} = f$ only makes sense if $f$ is convex.
-\end{remark}
-\begin{example}
-  Returning to $f(x) = cx$ for $c > 0$.
+  Since $f^{**} = f$ is a Legendre transform of the convex function $f^{*}$, the condition that $f$ is convex is necessary.
+
+  However, strict convexity is not needed, for example, returning to $f(x) = cx$ for $c > 0$:
   \[
     f^{**}(x) = \sup_{p \in \{c\}} (xp - f^{*}(p)) = \sup_{p \in \{c\}} (xp) = cx = f(x)
   \]
-  So we recover the original function.
-\end{example}
+\end{remark}
 \section{Application to Thermodynamics}
-Consider a physical system consisting of many molecules, for example, $\qty{e23}{}$ molecules.
+Consider a physical system consisting of many molecules, say, $\qty{e23}{}$ molecules.
 We also consider only \textit{macroscopic} dynamics, i.e. those which involve length scales much larger than the separation between the molecules.
 
 In \textit{thermal equilibrium}, macroscopic physics can be described by just a few quantities:
 \begin{itemize}
-  \item Total energy -- $E$
-  \item Volume -- $V$
-  \item Temperature -- $T$
-  \item Pressure -- $P$
+  \item Total energy, denoted $E$
+  \item Volume, denoted $V$
+  \item Temperature, denoted $T$
+  \item Pressure, denoted $P$
 \end{itemize}
-We say a system is \textit{isolated} if it is not iterating with anything else, for example, a gas within a vacuum flask.
-In equilibrium, the macroscopic physics of such a system is fully specified by $E$ and $V$.
-This means that there must be an enormous number $\Omega(E, V)$ of \textit{microscopic} configurations that are identical from a macroscopic viewpoint. These numbers are often on the order of $\Omega \sim 10^{10^{23}}$.
 
-\begin{definition}
+We say a system is \textit{isolated} if it is not iterating with anything else, for example, a gas within a vacuum flask.
+In equilibrium, the macroscopic physics of an isolated system is fully specified by $E$ and $V$.
+This means that there must be an enormous number $\Omega(E, V)$ of \textit{microscopic} configurations that are identical when viewed from a macroscopic viewpoint.
+These numbers are often on the order of $\Omega \sim 10^{10^{23}}$.
+
+\begin{definition}[Entropy]
   We define the \textit{entropy} as:
   \[
     S(E, V) = k_{B} \log \Omega(E, V)
   \]
   where $k_B \approx \qty{1.38e-23}{\joule\kelvin^{-1}}$ is \textit{Boltzmann's constant}.
 \end{definition}
-If we increase $E$ at fixed $V$ then $S$ also increase as there are more ways to ``partition'' up the total energy between the molecules.
+If we increase $E$ at fixed $V$, then $S$ also increases as there are more ways to ``partition'' up the total energy between the molecules.
 Thus $S$ is strictly increasing with $E$ and so we can invert to find $E(S, V)$.
 \begin{definition}[Temperature and Pressure]
-  We define the \textit{temperature} as:
+  We define the \textit{temperature} as: \label{tempPressure}
   \[
     T = \at{\pderiv{E}{S}}{V} > 0
   \]
@@ -167,56 +190,110 @@ Thus $S$ is strictly increasing with $E$ and so we can invert to find $E(S, V)$.
   \end{equation}
   which is called the \textit{fundamental thermodynamic relation}.
 \end{remark}
-Suppose we forget about the definition of temperature.
-Consider the Legendre transform of $E(S, V)$ with respect to $S$ at some fixed $V$ with parameter $T$.
+\subsubsection{Helmholtz Free Energy}
+Suppose we forget about the definition of temperature and consider the Legendre transform with a parameter named $T$ of $E(S, V)$ with respect to $S$ at some fixed $V$.
 Call this $-F$:
 \[
   -F(T, V) = \sup_{S} [TS - E(S, V)]
 \]
-One can show that for a stable equilibrium, we can show that $E$ is a convex function with respect to $S$.
-This maximising this especially easy and the max is provided by $S(T, V)$ which satisfies $T = \at{\pderiv{E}{S}}{V}$ and:
-\[
-  F(T, V) = E - TS
-\]
-is called the \textit{Helmholtz free energy}.
-From \cref{thermoRelation}, we see that:
-\[
-  \d{F} = -S \d{T} - p \d{V} \implies S = - \at{\pderiv{F}{T}}{V} \text{ and } P = - \at{\pderiv{F}{V}}{T}
-\]
-The Helmholtz free energy is useful when considering a non-isolated system in equilibrium with an environment at a temperature $T$, for example a gas in an uninsulated box.
+In Example Sheet 1 Q4, we will show that in a stable equilibrium, $E$ is a convex function with respect to $S$.
+Thus we can appeal to \cref{legDiff} and so this supremum is attained at some $S(T, V)$ which satisfies $\at{\pderiv{E}{S}}{V} = T$ with the Legendre transform given by $T \cdot S(T, V) - E(S(T, V), V)$.
 
-We can instead take the Legendre transform of $E(S, V)$ with respect to $V$ keeping $S$ fixed with parameter $-P$.
+We call:
+\[
+  F(T, V) = E(S(T, V), V) - T \cdot S(T, V)
+\]
+the \textit{Helmholtz free energy}.
+From \cref{thermoRelation} and the product rule for differentials, we see that:
+\[
+  \d{F} = \d{E} - (T \d{S} + S \d{T}) = -S \d{T} - P \d{V}
+\]
+and so:
+\[
+  S = - \at{\pderiv{F}{T}}{V} \text{ and } P = - \at{\pderiv{F}{V}}{T}
+\]
+So if we know the Helmholtz free energy as a function of temperature and volume, we can use this to determine the entropy and pressure as functions of temperature and pressure.
+
+\begin{remark}[Use]
+  \nonexaminable
+  The Helmholtz free energy is useful when considering a \textbf{non-isolated} system in equilibrium with an environment at a temperature $T$, for example a gas in an uninsulated box.
+\end{remark}
+
+\subsubsection{Enthalpy}
+Suppose now that we instead forget the definition of pressure and take the Legendre transform with a parameter $-P$ of $E(S, V)$ with respect to $V$ keeping $S$ fixed.
 Call this $-H(S, P)$:
 \[
   -H(S, P) = \sup_{V} [-PV - E(S, V)]
 \]
-Again, one can show that stability implies that $E$ must be convex with respect to $V$ and so we recover $P = - \at{\pderiv{E}{V}}{S}$ and:
+Again, one can show that stability implies that $E$ must be convex with respect to $V$.
+Thus, recalling that our parameter was $-P$ and not just $P$, this supremum is attained at some $V(S, P)$ which satisfies $P = - \at{\pderiv{E}{V}}{S}$ with the Legendre transform given by:
 \[
-  H(S, P) = E + PV
+  H(S, P) = E(S, V(S, P)) + P \cdot V(S, P)
 \]
-is called the \textit{enthalpy} of the system.
+We call $H$ the \textit{enthalpy} of the system.
 From \cref{thermoRelation}, we then obtain:
 \[
-  \d{H} = T \d{S} + V \d{P} \implies T = \at{\pderiv{H}{S}}{P} \text{ and } V = \at{\pderiv{H}{P}}{S}
+  \d{H} = \d{E} + P \d{V} + V \d{P} = T \d{S} + S \d{P}
 \]
-
-Finally, we can take the Legendre transform of $E(S, V)$ with respect to both $S$ and $V$ with parameters $T, -P$, call this $-G(T, P)$.
-This is the same as doing the Legendre transform of $F$ with respect to $V$ or equivalently $H$ with respect to $S$.
+and so:
 \[
-  -G(T, P) = \sup_{S, V} [TS - PV - E(S, V)]
+  T = \at{\pderiv{H}{S}}{P} \text{ and } V = \at{\pderiv{H}{P}}{S}
 \]
-Once again, this is convex so the maximum so we can recover both the equation for temperature \textbf{and} pressure.
-$G(T, P)$ is called the \textit{Gibbs free energy}.
+So if we know the enthalpy as a function of the entropy and pressure, we can use this to determine the temperature and volume as functions of entropy and pressure.
+\begin{remark}[Use]
+  Enthalpy is a quantity which is often useful in chemistry.
+\end{remark}
+
+\subsubsection{Gibbs Free Energy}
+Finally, we can take the Legendre transform of $E(S, V)$ with respect to both $S$ and $V$ (i.e. with respect to the input vector $(S, V)$) with parameters $T, -P$, call this $-G(T, P)$.
+\begin{remark}
+  This is the same as doing the Legendre transform of $F$ with respect to $V$ or equivalently $H$ with respect to $S$.
+\end{remark}
+Using the definition of the Legendre transform:
+\[
+  -G(T, P) = \sup_{S, V} \left[\begin{pmatrix}
+  S \\
+  V \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+  T \\
+  -P \\
+  \end{pmatrix} - E(S, V)\right] = \sup_{S, V} [TS - PV - E(S, V)]
+\]
+Again, by stability $E(S, V)$ is a convex function from $\R^2 \to \R$.
+Appealing to \cref{legDiff}, this supremum is attained at some $S(T, P)$ and $V(T, P)$ satisfying:
+\[
+  \nabla_{(S, V)} E = \begin{pmatrix}
+  \at{\pderiv{E}{S}}{V} \\
+  \at{\pderiv{E}{V}}{S} \\
+  \end{pmatrix} = \begin{pmatrix}
+  T \\
+  -P \\
+  \end{pmatrix} \iff
+  T = \at{\pderiv{E}{S}}{V} \text{ and } P = - \at{\pderiv{E}{V}}{S}
+\]
+with Legendre transform given by:
+\[
+  G(T, P) = E(S(T, P), V(T, P)) - T \cdot S(T, P) + P \cdot V(T, P)
+\]
+We call $G$ the \textit{Gibbs free energy}.
 Using \cref{thermoRelation} again:
 \[
-  \d{G} = - S \d{T} + V \d{P} \implies S = - \at{\pderiv{G}{T}}{P} \text{ and } V = \at{\pderiv{G}{P}}{T}
+  \d{G} = \d{E} - T \d{S} - S \d{T} + P \d{V} + V \d{P} = - S \d{T} + V \d{P}
 \]
-The functions $E, F, G, H$ are known as \textit{thermodynamic potentials}.
-
-Since partial derivatives commute, we know that:
+and so:
 \[
-  \frac{\partial^2 E}{\partial S \partial V} = \frac{\partial^2 E}{\partial V \partial S} \implies -\at{\pderiv{P}{S}}{V} = \at{\pderiv{T}{V}}{S}
+  S = - \at{\pderiv{G}{T}}{P} \text{ and } V = \at{\pderiv{G}{P}}{T}
 \]
-We can also obtain similar relations by again considering the second derivatives of the other potentials.
+\begin{remark}
+  The functions $E, F, G, H$ are known collectively as \textit{thermodynamic potentials}.
+\end{remark}
+\subsubsection{Maxwell Relations}
+Since partial derivatives commute, we see that:
+\begin{align*}
+  \frac{\partial^2 E}{\partial S \partial V} &= \frac{\partial^2 E}{\partial V \partial S} \\
+  \iff \at{\pderiv{}{S}\left[\at{\pderiv{E}{V}}{S}\right]}{V} &= \at{\pderiv{}{V}\left[\at{\pderiv{E}{S}}{V}\right]}{S} \\
+  \iff -\at{\pderiv{P}{S}}{V} &= \at{\pderiv{T}{V}}{S} \text{from \cref{tempPressure}}
+\end{align*}
+We can also obtain similar relations by again considering the mixed second derivatives of the other potentials $F, G, H$.
 These are known together as \textit{Maxwell Relations}.
 \end{document}
