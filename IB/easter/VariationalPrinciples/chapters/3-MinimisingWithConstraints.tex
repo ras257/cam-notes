@@ -5,151 +5,169 @@
 Suppose we have a surface $S \subseteq \R^3$ and a function $f: \R^3 \to \R$.
 How do we determine the minimum and maximum value of $f$ \textbf{on $S$ specifically}, not just over all of $\R^{3}$.
 
-For example, $S$ might represent a hill in 3D space and $f$ the temperature at that point, then we want to find the hottest and coldest points on the hill.
-\section{Setup}
-Let $(u, v)$ be a parameterisation of $S$, i.e. $\vec{x} = \vec{x}(u, v)$ on $S$.
-We then need to extremise $f(\vec{x}(u, v))$.
+For example, if $S$ represents the surface of a hill in 3D space and $f$ the temperature at a given point, then we might want to find the hottest and coldest points that lie on the hill and not just across the entire domain of $f$.
 
-At a stationary point $\nabla f = (\pderiv{f}{u}, \pderiv{f}{v}) = \vec{0}$ and so we need to solve:
+In this case, we cannot just solve $\nabla f = \vec{0}$ as the extrema could be on the boundary of $S$ and so would not have $\nabla f = \vec{0}$.
+\section{Lagrange Multipliers}
+Let $(u, v)$ be a parameterisation of $S$, i.e. $\vec{x} = \vec{x}(u, v)$ on $S$.
+We then wish to extremise $f(\vec{x}(u, v))$.
+Since this can now be thought of a function of $(u, v)$, to find the stationary points we just equate both partial derivatives with 0:
 \begin{align*}
   0 &= \pderiv{}{u}f(\vec{x}(u, v)) = (\nabla f) \cdot \pderiv{\vec{x}}{u} \\
   0 &= \pderiv{}{v}f(\vec{x}(u, v)) = (\nabla f) \cdot \pderiv{\vec{x}}{v}
 \end{align*}
-But the vectors $\pderiv{\vec{x}}{u}$ and $\pderiv{\vec{x}}{v}$ are linearly independent vectors tangent to $S$ and so since $\nabla f$ is orthogonal to both of them, $\nabla f$ is normal to $S$.
+where the second equalities follow from the multivariate chain rule.
 
+We know from IA Vector Calculus that $\pderiv{\vec{x}}{u}$ and $\pderiv{\vec{x}}{v}$ are linearly independent vectors tangent to $S$ and so since $\nabla f$ is orthogonal to both of them, $\nabla f$ is normal to $S$ at stationary points.
 Therefore we have that $\vec{x}_0 \in S$ is a stationary point of $f$ \textbf{on $S$} if and only if $\nabla f(\vec{x}_0)$ is normal to the surface.
 
 However, we often do not have an \textit{explicit} parameterisation of the surface and instead have a surface defined implicitly, for example $g(\vec{x}) = 0$ for some $g: \R^3 \to \R$.
-So the problem becomes:
-\begin{mini*}
-  {\vec{x} \in \R^3}{f(\vec{x})}{}{}
-  \addConstraint{g(\vec{x})}{= 0}
-\end{mini*}
+Thus we are trying to extremise $f$ but now \textit{subject to the constraint} $g(\vec{x}) = 0$.
 \begin{remark}[Recap]
-  Recall from IA Vector Calculus that $\nabla g$ is normal to the surface $S$.
-  This is because if we introduce a parameterisation $h(\vec{x}(u, v)) = 0$ then by taking the partial derivatives with respect to $u$ and $v$ we obtain:
+  Recall from IA Vector Calculus that $\nabla g$ is normal to the surface $S$ at every point on the surface.
+  This is because if we introduce a parameterisation $\vec{x}(u, v)$ which need not be specified, then by taking the partial derivatives of $g(\vec{x}(u, v)) = 0$ with respect to $u$ and $v$ we obtain:
   \[
     (\nabla g) \cdot \pderiv{\vec{x}}{u} = 0 \text{ and } (\nabla g) \cdot \pderiv{\vec{x}}{v} = 0
   \]
+  at all points on the surface.
 \end{remark}
-So both $\nabla f$ and $\nabla g$ are normal to $S$ and so a point $\vec{x}_0$ is a stationary point of $f$ if and only if $\nabla f(\vec{x}_0) = \lambda \nabla g(\vec{x}_0)$ for some $\lambda \in \R$.
-We can then solve this along with $g(\vec{x}_0) = 0$ to find $\vec{x}_0$.
+Thus $\nabla f(\vec{x}_0)$ is normal to $S$ at $x_0$ if and only if it is parallel to $\nabla g(\vec{x}_0)$ and so $\vec{x}_0$ is a stationary point if and only if $\nabla f(\vec{x}_0) = \lambda \nabla g(\vec{x}_0)$ for some $\lambda \in \R$.
+This means that extremising $f$ over $S$ amounts to solving this along with $g(\vec{x}_0) = 0$ to find $\vec{x}_0$ and $\lambda$.
 
-Both equations are obtained by finding \textit{unconstrained} stationary points $\varphi: \R^4 \to \R$ where:
+Conveniently, we can obtain both of these equations by finding \textit{unconstrained} stationary points of $\varphi: \R^4 \to \R$ defined as:
 \[
   \varphi(\vec{x}, \lambda) = f(\vec{x}) - \lambda g(\vec{x})
 \]
-This is because if we extremis with respect to $\lambda$:
+This is because if we extremise with respect to $\lambda$:
 \[
   \pderiv{\varphi}{\lambda} = 0 \iff g = 0
 \]
-and similarly if we extremis with respect to $\vec{x}$:
+and similarly if we extremise with respect to $\vec{x}$:
 \[
   \nabla_{\vec{x}} \varphi = \vec{0} \iff \nabla_{\vec{x}} f - \lambda \nabla_{\vec{x}} g
 \]
-So minimising $\varphi$ over $\R^4$ is equivalent to finding a stationary point of $f$ in $S$.
-We call $\lambda$ a \textit{Lagrange multiplier}, this method can be generalised to $\R^{n}$ in a similar fashion.
-\begin{example}
-  Consider a box with no lid with side lengths $x, y, z$.
-  We want to determine $(x, y, z)$ that minimises the surface area $A$ with  fixed volume $V = L^3/2$.
-  Mathematically:
-  \begin{mini*}
-    {x, y, z}{A(\vec{x}) = 2z(x + y) + xy}{}{}
-    \addConstraint{xyz}{= L^3/2}
-  \end{mini*}
-  \textbf{Direct Method}\par
-  We can solve the constraint direction to obtain that $z = \frac{L^3}{xyz} \implies A = \frac{L^3}{x} + \frac{L^3}{y} + xy$.
-  We then obtain that a point is stationary if and only if:
-  \begin{align*}
-    0 &= \pderiv{A}{x} = - \frac{L^3}{x^2} + y \implies x^2 y = L^3 \\
-    0 &= \pderiv{A}{y} = - \frac{L^3}{y^2} + x \implies y^2 x = L^3
-  \end{align*}
-  which has solution $x = y = L$ and $z = L / 2$.
-  To check this is minimal we can compute the hessian of $A(x, y)$ and we see that is has positive eigenvalues and so it must be a minimum.
+So finding stationary points of $\varphi$ over $\R^4$ is equivalent to extremising $f$ over the surface $S$.
 
-  \textbf{Lagrange Multiplier Method}\par
-  Let:
-  \[
-    \varphi(x, y, z, \lambda) = A(x, y, z) - \lambda\left(xyz - \frac{L^3}{2}\right)
-  \]
-  To extremise $\varphi$ :
-  \begin{align*}
-    0 &= \pderiv{\varphi}{z} = 2(x + y) - \lambda xy \implies \lambda = \frac{2(x + y)}{xy} \\
-    0 &= \pderiv{\varphi}{x} = 2x + y - \lambda yz \\
-      &= 2z + y - \frac{2(x + y)z}{x} \\
-      &= \frac{y}{x}(x - 2z) \implies x = 2z
-  \end{align*}
-  where we can discard the solution with $y = 0$ as this cannot satisfy the constraint.
-  \begin{align*}
-    0 &= \pderiv{\varphi}{y} = 2z + x - \lambda xz = \frac{x}{y}(y - 2z) \implies y = 2z \\
-    0 &= \pderiv{\varphi}{\lambda} = xyz - \frac{L^3}{2}
-  \end{align*}
-  Upon solving, we therefore obtain $z = L/2, x = y = L$, which is as before.
-
-  This disadvantage of this method is that there is no simple method for checking the nature of the stationary point.
-  The Hessian of $\phi$ is always a saddle point because $\pderiv[2]{\varphi}{\lambda}$ and so the Hessian is indefinite.
-
-  \textbf{Conclusion}\par
-  Although in this case it was easy to solve the constraint, this is often not the case and so the Lagrange multiplier method is usually preferable.
-\end{example}
-The Lagrange multiplier method is actually often faster, even when the constraint can be solved.
-\begin{example}
-  Find the minimum of the quadratic form $f(\vec{x}) = \vec{x}^{\trans} A \vec{x} = x_i A_{i j} x_j$ on $\R^{n}$ on the surface $|\vec{x}|^2 = 1$.
-  We define:
-  \[
-    \varphi(\vec{x}, \lambda) = x_i A_{i j} x_j - \lambda (|\vec{x}|^2 - 1)
-  \]
-  We see that:
-  \begin{align*}
-    \pderiv{\varphi}{x_i} &= 0 \iff A_{i j} - \lambda x_i \\
-    \pderiv{\varphi}{\lambda} &= 0 \iff |\vec{x}|^2 = 1 \\
-  \end{align*}
-  This means that the stationary points are the normalised eigenvectors of $A$.
-  At a stationary point:
-  \[
-    f(\vec{x}_0) = x_i A_{i j} x_j = \lambda x_i x_i = \lambda
-  \]
-  so the eigenvalues of $A$ are the values of $f$ at stationary points and thus the minimum of $f$ is the lowest eigenvalue of $A$.
-
-  \textbf{Alternative Approaches}
-  \begin{itemize}
-    \item Use a rotation to diagonalise $A$.
-    \item Consider: \label{alternativeApproach}
-      \[
-        \Lambda(\vec{x}) = \frac{f(\vec{x})}{g(\vec{x})}
-      \]
-      from the constraint we see that $g(\vec{x}) = |\vec{x}|^2$ so:
-      \[
-        \Lambda(\vec{x}) = \hat{x}_i A_{i j} \hat{x}_j = f(\uvec{x})
-      \]
-      So the minimum of $f$ with respect to $\uvec{x}$ is equivalent to minimising $\Lambda(\vec{x})$ with respect to $\vec{x} \in \R^n$ (i.e. unconstrained).
-      To find the extrema of $\Lambda$:
-      \[
-        \vec{0} = \nabla \Lambda = \frac{1}{g}\left(\nabla f - \frac{f}{g} \nabla g\right) \iff 0 = \frac{2}{g}\left(A_{i j}x_j - \frac{1}{g}x_i\right) \iff A_{i j}x_j = \Lambda x_i
-      \]
-      Thus the extrema of $\Lambda$ are the eigenvalues of $A$ with the minimum at the least eigenvalue as before.
-  \end{itemize}
-\end{example}
-\begin{example}
-  What probability distribution $\{p_1, \ldots, p_n\}$ satisfying $\sum_{i = 1}^{n} p_i = 1$ maximises the \textit{information entropy} defined as:
-  \[
-    S = - \sum_{i = 1}^{n} p_i \log_{2}(p_i)
-  \]
-  We define the function:
-  \[
-    \varphi(p_1, \ldots, p_n, \lambda)= - \sum_{i = 1}^{n} p_i \log_{2}(p_i) - \lambda \left(\sum_{i = 1}^{n} p_i - 1\right)
-  \]
-  Recalling that $\log_{2}(p_i) = \frac{\log p_i}{\log 2}$, upon differentiating, we obtain:
-  \begin{align*}
-    0 &= \pderiv{\varphi}{p_i} = - \log_{2}(p_i) - \frac{1}{\log(2)} - \lambda \\
-    0 &= \pderiv{\varphi}{\lambda} = \sum_{i = 1}^{n} p_i - 1
-  \end{align*}
-  This tells us that all $p_i$ must be equal and so $p_i = \frac{1}{n}\ \forall i \in \{1, \ldots, n\}$.
-  So the discrete uniform distribution minimises the information entropy.
-\end{example}
-If we have multiple constraints and want to find the stationary points of $f: \R^{n} \to \R$ subject to $m < n$ constraints $g_k(\vec{x}) = 0$ for $k \in \{1, \ldots, m\}$, then we can introduce multiple Lagrange multipliers $\lambda_1, \ldots, \lambda_m$ and extremise:
+We call $\lambda$ a \textit{Lagrange multiplier}.
+This method can be generalised to $\R^{n}$ in a similar fashion.
+We can also deal with multiple constraints by introducing more Lagrange multipliers.
+For $m < n$ constraints $g_k(\vec{x}) = 0$ for $k \in \{1, \ldots, m\}$, we introduce $\vec{\lambda} = (\lambda_1, \ldots, \lambda_m) \in \R^{m}$ and then extremise:
 \[
-  \phi(x_1, \ldots, x_n, \lambda_1, \ldots, \lambda_m) = f(\vec{x}) - \sum_{k = 1}^{m} \lambda_k g_k(\vec{x})
+  \phi(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda} \cdot \vec{g}(\vec{x})
 \]
-with respect to $\vec{x}$ and $\lambda_1, \ldots, \lambda_m$.
+with respect to $\vec{x}$ and $\vec{\lambda}$.
+\section{Examples}
+\subsection{Minimising Cuboid Surface Areas}
+Consider a box with no lid with side lengths $x, y, z$.
+We want to determine $(x, y, z)$ that minimises the surface area $A$ with fixed volume $V = L^3/2$.
+Mathematically:
+\begin{mini*}
+  {\vec{x} \in \R^3}{A(\vec{x}) = 2z(x + y) + xy}{}{}
+  \addConstraint{xyz}{= L^3/2}
+\end{mini*}
+\subsubsection{Using the Hessian}
+We can solve the constraint directly to obtain that if $z = \frac{L^3}{2yz} \implies A(x, y) = \frac{L^3}{x} + \frac{L^3}{y} + xy$.
+Stationary points of $A(x, y)$ are exactly those satisfying:
+\begin{align*}
+  0 &= \pderiv{A}{x} = - \frac{L^3}{x^2} + y \implies x^2 y = L^3 \\
+  0 &= \pderiv{A}{y} = - \frac{L^3}{y^2} + x \implies y^2 x = L^3
+\end{align*}
+which has solution $x = y = L$.
+Thus $z = L / 2$ and $A = 3L^2$.
+To check this is a minimum point, by computing the hessian of $A(x, y)$, we see that is has positive eigenvalues and so it must be a minimum.
+\subsubsection{Lagrange Multiplier Method}
+Let:
+\[
+  \varphi(x, y, z, \lambda) = A(x, y, z) - \lambda\left(xyz - \frac{L^3}{2}\right)
+\]
+To extremise $\varphi$ :
+\begin{align*}
+  0 &= \pderiv{\varphi}{z} = 2(x + y) - \lambda xy \implies \lambda = \frac{2(x + y)}{xy} \\
+  0 &= \pderiv{\varphi}{x} = 2x + y - \lambda yz \\
+    &= 2z + y - \frac{2(x + y)z}{x} \\
+    &= \frac{y}{x}(x - 2z) \implies x = 2z \text{ as $y = 0$ violates constraint} \\
+  0 &= \pderiv{\varphi}{y} = 2z + x - \lambda xz \\
+    &= \frac{x}{y}(y - 2z) \implies y = 2z \text{ as $x = 0$ violates constraint} \\
+  0 &= \pderiv{\varphi}{\lambda} = xyz - \frac{L^3}{2} \implies L^3 = 2xyz
+\end{align*}
+Upon solving, we obtain $z = L/2$, $x = y = L$ and $\lambda = 4/L$, which is as before.
+
+This disadvantage of this method is that there is no simple method for checking the nature of the stationary point.
+In the above example, Hessian of $\phi$ is always a saddle point since $\pderiv[2]{\varphi}{\lambda} = 0$.
+\subsubsection{Conclusion}
+Although in this case it was easy to solve the constraint, this is often not the case and so the Lagrange multiplier method is usually preferable.
+The Lagrange multiplier method is also often faster, even when the constraint can be solved.
+\subsection{Minimising Quadratic Forms}
+Suppose that we wish to find the minimum of the quadratic form $f(\vec{x}) = \vec{x}^{\trans} A \vec{x} = x_i A_{i j} x_j$ (noting the summation convention) on the surface $|\vec{x}|^2 = 1$ in $\R^{n}$.
+Note that we can assume $A$ is symmetric here as any anti-symmetric component would not affect $f$.
+
+We define:
+\[
+  \varphi(\vec{x}, \lambda) = x_i A_{i j} x_j - \lambda (|\vec{x}|^2 - 1)
+\]
+To find $\nabla_{\vec{x}} \varphi$, we compute its components:
+\begin{align*}
+  \pderiv{\varphi}{x_i} &= \pderiv{}{x_i}(x_k A_{k j} x_j - \lambda (x_j x_j - 1)) \\
+                        &= A_{i j} x_j + A_{k i} x_k - 2\lambda x_i \\
+                        &= 2(A_{i j} x_j - \lambda x_i) \\
+                        &= 2[A \vec{x} - \lambda \vec{x}]_i \\
+  \implies \nabla_{\vec{x}} \varphi &= 2(A\vec{x} - \lambda \vec{x})
+\end{align*}
+Finding the stationary points of $\varphi$, we require:
+\begin{align*}
+  \nabla_{\vec{x}} \varphi &= \vec{0} \iff A\vec{x} = \lambda \vec{x} \\
+  \text{ and } \pderiv{\varphi}{\lambda} &= 0 \iff |\vec{x}|^2 = 1
+\end{align*}
+This means that the stationary points of $\varphi$ are exactly all the pairs $(\vec{x}, \lambda)$ of normalised eigenvectors and eigenvalues of $A$.
+
+Evaluating $f$ at a stationary point $\vec{x}_0$ which is an eigenvector with eigenvalue $\lambda$, we see that:
+\[
+  f(\vec{x}_0) = x_i A_{i j} x_j = \lambda x_i x_i = \lambda
+\]
+Thus the eigenvalues of $A$ are the values of $f$ at stationary points and so the minimum of $f$ is the smallest eigenvalue of $A$.
+\subsubsection{Alternative Approaches}
+\begin{itemize}
+  \item Use a rotation to diagonalise $A$ and allow us to rewrite $f$ as:
+    \[
+      f(\vec{x}) = \lambda_1 (x_1')^2 + \cdots + \lambda_n (x_n')^2
+    \]
+    noting that $|\vec{x}'| = |\vec{x}| = 1$.
+    It is now easy to see that to minimise $f$, we want to direct all of $\vec{x}'$ along the direction of the smallest eigenvector, say $\lambda_k$.
+    That is, we take $x'_i = 0$ for $i \neq k$ and $x'_k = 1$.
+    We then find that the minimum of $f$ is $\lambda_k$ and can undo this rotation to recover the optimal $\vec{x}$.
+  \item We can also consider the following ratio: \label{alternativeApproach}
+    \[
+      \Lambda(\vec{x}) = \frac{f(\vec{x})}{g(\vec{x})}
+    \]
+    where $g(\vec{x}) = |\vec{x}|^2$.
+    We can rewrite this as:
+    \[
+      \Lambda(\vec{x}) = \hat{x}_i A_{i j} \hat{x}_j = f(\uvec{x}) \text{ where $\uvec{x} = \frac{\vec{x}}{|\vec{x}|}$}
+    \]
+    Therefore, the minimum of $f$ with respect to $\uvec{x}$ (i.e. constrained to the unit sphere) is equivalent to minimising $\Lambda(\vec{x})$ with respect to $\vec{x} \in \R^n$ (i.e. unconstrained).
+
+    To find the extrema of $\Lambda$, since $\vec{x}$ is unconstrained here, we can just set $\nabla \Lambda = \vec{0}$:
+    \[
+      \vec{0} = \nabla \Lambda = \frac{1}{g}\left(\nabla f - \frac{f}{g} \nabla g\right) \iff 0 = \frac{2}{g}\left(A_{i j}x_j - \frac{f}{g}x_i\right)\ \forall i \iff A \vec{x} = \Lambda \vec{x}
+    \]
+    Thus the values of the extrema of $\Lambda$ are exactly the eigenvalues of $A$.
+    Therefore by the above discussion, the extrema of $f$ over the unit sphere are also these eigenvalues.
+\end{itemize}
+\subsection{Probability Distributions}
+What probability distribution $\{p_1, \ldots, p_n\}$ satisfying $\sum_{i = 1}^{n} p_i = 1$ and $p_i \geq 0\ \forall i$ maximises the \textit{information entropy} defined as:
+\[
+  S = - \sum_{i = 1}^{n} p_i \log_{2} p_i
+\]
+We define:
+\[
+  \varphi(p_1, \ldots, p_n, \lambda)= - \sum_{i = 1}^{n} p_i \log_{2} p_i - \lambda \left(\sum_{i = 1}^{n} p_i - 1\right)
+\]
+Recalling that $\log_{2}(p_i) = \frac{\log p_i}{\log 2}$, upon differentiating, we obtain:
+\begin{align*}
+  0 &= \pderiv{\varphi}{p_i} = - \log_{2}(p_i) - p_i \cdot \frac{1}{p_i \log(2)} - \lambda \iff p_i = 2^{(\frac{1}{\log 2} + \lambda)} \\
+  0 &= \pderiv{\varphi}{\lambda} = \sum_{i = 1}^{n} p_i - 1 \iff \sum_{i = 1}^{n} p_i = 1
+\end{align*}
+This tells us that all $p_i$ must be equal and so $p_i = \frac{1}{n}\ \forall i \in \{1, \ldots, n\}$.
+Thus the discrete uniform distribution maximises the information entropy.
+Finally, substituting back in, we obtain that $S_{\text{max}} = \log_{2} n$.
 \end{document}
