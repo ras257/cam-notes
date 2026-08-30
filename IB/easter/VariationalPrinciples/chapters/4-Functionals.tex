@@ -86,7 +86,7 @@ So if we have boundary conditions such that the boundary term at the end vanishe
   \pderiv{f}{y_i} - \deriv{}{x} \pderiv{f}{y_i'} = 0\ \forall i \in \{1, \ldots, n\}
 \]
 That is, each of the $y_i$ must satisfy the Euler-Lagrange equation and so obtain $n$ second order ODEs for $y_1(x), \ldots, y_n(x)$.
-\section{Geodesics in the Euclidean Plane}
+\section{Geodesics in the Euclidean Plane} \label{geodesicSec}
 What is the shortest curve between 2 points $A$ and $B$ in euclidean space?
 We can define the length of a curve $y$ in euclidean space as the functional:
 \[
@@ -459,61 +459,73 @@ Consider a surface $S$ in Euclidean space with equation $g(\vec{x}) = 0$.
 If we are given $A, B \in S$, how do we find the shortest curve \textbf{on $S$} that connects $A$ and $B$.
 
 Let $\vec{x}(t)$ for $t \in [0, 1]$ be a curve on $S$ with $\vec{x}(0) = \vec{x}_A$ and $\vec{x}(1) = \vec{x}_B$.
-We want to extremis the \textbf{functional}:
+We want to extremise the \textbf{functional}:
 \[
   L[\vec{x}] = \int_{0}^{1} \sqrt{\dot{\vec{x}} \cdot \dot{ \vec{x}}} \d{t}
 \]
-but instead subject to a constraint given by a \textbf{function} $g(\vec{x}(t)) = 0$.
+now also subject to a constraint given by a \textbf{function} $g(\vec{x}(t)) = 0$.
 
-To do this we introduce a \textit{Lagrange Multiplier Function} $\lambda(t)$.
-Let:
+To do this we introduce a \textit{Lagrange Multiplier Function} $\lambda(t)$:
 \[
   \Phi[\vec{x}, \lambda] = L[\vec{x}] - \int_{0}^{1} \lambda(t) g(\vec{x}(t)) \d{t}
 \]
-If we extremise with respect to $\lambda$ then:
+If we extremise $\Phi$ with respect to $\lambda$, then the EL equations tell us:
 \begin{equation}
-  0 = \frac{\delta \Phi}{\delta \lambda(t)} = -g(\vec{x}(t)) \implies g(\vec{x}(t)) = 0 \tag{$\ast$} \label{lExtremeGeo}
+  0 = \frac{\delta \Phi}{\delta \lambda(t)} = - \pderiv{}{\lambda}(\lambda g) + \cancelto{0}{\deriv{}{t}\left[\pderiv{}{\lambda'}(\lambda g)\right]} = - g(\vec{x}(t)) \iff g(\vec{x}(t)) = 0 \tag{$\dag$} \label{lExtremeGeo}
 \end{equation}
-so we recover the constraint.
-If we extremise with respect to $x_i(t)$:
-\begin{equation}
-  0 = \frac{\delta \Phi}{\delta x_i(t)} = -\lambda \nabla_i g(\vec{x}(t)) - \deriv{}{t}\left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right) \tag{$\dag$} \label{xExtremeGeo}
-\end{equation}
+which is the constraint.
+
+If we extremise with respect to $x_i(t)$, then the EL equations tell us:
+\begin{align}
+  0 &= \frac{\delta \Phi}{\delta x_i(t)} \nonumber \\
+    &= \cancelto{0}{\pderiv{}{x_i}(\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}})} - \deriv{}{t}\left[\pderiv{}{\dot{x}_i}(\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}})\right] - \pderiv{}{x_i} (\lambda g) + \cancelto{0}{\pderiv{}{\dot{x}_i} (\lambda g)} \nonumber \\
+    &= - \lambda \nabla_{i}g(\vec{x}(t)) - \deriv{}{t}\left[\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right] \tag{$\ast$} \label{xExtremeGeo}
+\end{align}
 We can now eliminate $\lambda$.
-First we differentiate \cref{lExtremeGeo} with respect to $t$ we obtain:
+First we differentiate \cref{lExtremeGeo} with respect to $t$:
 \[
-  0 = \dot{x}_i \pderiv{g}{x_i} \implies \frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv{g}{x_i} = 0
+  0 = \deriv{}{t}(g(\vec{x}(t))) = \dot{x}_i \pderiv{g}{x_i} \implies \frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv{g}{x_i} = 0
 \]
 and upon differentiating with respect to $t$ again:
 \begin{align*}
-  \deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) \pderiv{g}{x_i} + \frac{\dot{x}_i \dot{x}_j}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv[2]{g}{x_i} = 0 \\
+  \deriv{}{t} \left[\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right] \pderiv{g}{x_i} + \frac{\dot{x}_i \dot{x}_j}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \frac{\partial^2 g}{\partial x_j \partial x_i} = 0 \\
 \end{align*}
 By \cref{xExtremeGeo}, we have that:
 \[
-  \deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) \pderiv{g}{x_i} = -\lambda (\nabla g)^2
+  \deriv{}{t} \left[\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right] \pderiv{g}{x_i} = - \lambda \nabla_i g \nabla_i g = -\lambda |\nabla g|^2
 \]
-and so:
+and so we can solve for $\lambda(t)$:
 \[
-  \lambda(t) = \frac{\dot{x}_i \dot{x}_j}{(\nabla g)^2 \sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \pderiv[2]{g}{x_i}
+  \lambda(t) = \frac{\dot{x}_i \dot{x}_j}{|\nabla g|^2 \sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \frac{\partial^2 g}{\partial x_j \partial x_i}
 \]
-Finally, dividing \cref{lExtremeGeo} by $\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}$ we have:
+Finally, dividing \cref{xExtremeGeo} by $\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}$ and substituting $\lambda(t)$ we have:
 \[
-  \frac{1}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\deriv{}{t} \left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}}}\right) + \frac{\dot{x}_j \dot{x}_k}{(\nabla g)^2 \dot{\vec{x}} \cdot \dot{\vec{x}}} \frac{\partial^2 g}{\partial x_j \partial x_i} \nabla_i g = 0
+  \frac{1}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\deriv{}{t} \left[\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}}\right] + \frac{\dot{x}_j \dot{x}_k}{|\nabla g|^2 \dot{\vec{x}} \cdot \dot{\vec{x}}} \frac{\partial^2 g}{\partial x_j \partial x_k} \nabla_i g = 0\ \forall i
 \]
-This is the equation for geodesics on a surface.
-This is solved along with \cref{lExtremeGeo}.
+or equivalently:
+\begin{equation}
+  \frac{1}{|\dot{\vec{x}}|} \deriv{}{t}\left[\frac{\dot{\vec{x}}}{|\dot{\vec{x}}|}\right] + \frac{\dot{\vec{x}}^{\trans} H_g \dot{\vec{x}}}{|\nabla g|^2 |\dot{\vec{x}}|^2}  \nabla g = \vec{0} \label{geodesicEqn}
+\end{equation}
+where $H_g$ is the Hessian of $g(\vec{x})$.
+This is the equation for geodesics on a surface which is solved along with the constraint in \cref{lExtremeGeo}.
 
 We can clean this up by converting to arc length as a parameter:
 \[
-  \deriv{}{\ell} = \frac{1}{\sqrt{\dot{\vec{x}} \cdot \dot{\vec{x}}}} \deriv{}{t}
+  \deriv{}{\ell} = \frac{1}{|\dot{\vec{x}}|} \deriv{}{t} \implies \vec{x}' = \frac{\dot{\vec{x}}}{|\dot{\vec{x}}|}
 \]
-and so it becomes:
+where we use $\vec{x}'$ to denote differentiation with respect to $\ell$.
+Thus \cref{geodesicEqn} becomes:
 \[
-  \deriv[2]{x_i}{\ell} + \frac{1}{(\nabla g)^2} \deriv{x_i}{\ell} \pderiv{x_k}{\ell} \frac{\partial^2 g}{\partial x_j \partial x_k} g \nabla_i g = 0
+  \vec{x}'' + \frac{{\vec{x}'}^{\trans} H_g \vec{x}'}{|\nabla g|^2} \nabla g = \vec{0}
 \]
-If we set $g = z$ then $S$ is the plane $z = 0$, we then obtain:
-\[
-  \frac{\partial^2 g}{\partial x_j \partial x_k} = 0 \implies \deriv[2]{x_i}{\ell} = 0
-\]
-which gives a straight line as expected.
+\begin{example}
+  If we set $g = z$, then $S$ is the plane $z = 0$ and so from \cref{geodesicSec}, we expect the result to be a straight line.
+
+  We see that:
+  \[
+    [H_g]_{i j} = \frac{\partial^2 g}{\partial x_i \partial x_j} = 0 \implies \vec{x}'' = \vec{0}  \implies \vec{x} = \vec{c} + \ell \vec{d}
+  \]
+  which is a straight line.
+  We can then use the boundary conditions to determine $\vec{c}$, $\vec{d}$ and the range for $\ell$.
+\end{example}
 \end{document}
