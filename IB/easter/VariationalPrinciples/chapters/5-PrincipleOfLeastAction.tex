@@ -7,12 +7,12 @@ We can consider the positions of the particles at a single point as a $3N$ dimen
 \[
   (\vec{x}_1, \ldots, \vec{x}_N)
 \]
-It is sometimes also useful to use non-Cartesian coordinates of the space:
+It is sometimes also useful to use non-Cartesian coordinates for the configuration space:
 \[
   \vec{q} = (\vec{q}_1, \ldots, \vec{q}_n)
 \]
 \section{The Lagrangian}
-There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of $\vec{q}(t)$ and $\dot{\vec{q}}(t)$.
+The \textit{principle of least action} gives us a simple way to determine the equations of motion from the kinetic energy $T$ and potential energy $V$ in terms of $\vec{q}(t)$ and $\dot{\vec{q}}(t)$.
 \begin{definition}[Lagrangian]
   We define the \textit{Lagrangian} as:
   \[
@@ -20,87 +20,100 @@ There is a simple way to determine the equations of motion if we know the kineti
   \]
 \end{definition}
 \begin{definition}[Action]
-  The \textit{action} of a path $\vec{q}(t)$ in configuration space between $\vec{q}_A$ and time $t_A$, and $\vec{q}_B$ at time $t_B$ is:
+  The \textit{action} of a path $\vec{q}(t)$ in configuration space between $\vec{q}_A$ and time $t_A$, and $\vec{q}_B$ at time $t_B$ is given by the functional:
   \[
     I[\vec{q}] = \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t}
   \]
 \end{definition}
-\begin{law}
-  The principle of least action tells us that the actual path from $\vec{q}_A$ to $\vec{q}_B$ of the system extremities the action.
+\begin{law}[Principle of Least Action]
+  The \textit{principle of least action} tells us that the actual path from $\vec{q}_A$ to $\vec{q}_B$ of the system extremises the action.
 \end{law}
-Since $\vec{q}_A$ and $\vec{q}_B$ are fixed, the boundary term in $\delta I$ vanishes and so we just recover the Euler-Lagrange equations.
-Since $\vec{q}$ has $3N$ components, we will obtain $3N$ Euler-Lagrange equations:
+Since $\vec{q}_A$ and $\vec{q}_B$ are fixed, the boundary term in $\delta I$ vanishes and so we can utilise the Euler-Lagrange equations.
+As $\vec{q}$ has $3N$ components, we will obtain $3N$ Euler-Lagrange equations:
 \[
   \pderiv{L}{q_i} - \deriv{}{t} \pderiv{L}{\dot{q}_i} = 0 \text{ for } i \in \{1, \ldots, 3N\}
 \]
 \begin{example}
-  If we take $N = 1$ and $\vec{q} = \vec{x}$ (i.e. we work in Cartesian coordinates), we know that $T = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}}$ for fixed $m$ and we assume that we can write $V = V(\vec{x}, t)$. \label{n1LG}
+  If we take $N = 1$ and $\vec{q} = \vec{x}$ (i.e. we work in Cartesian coordinates), we know that $T = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}}$ for fixed $m$ and assume that we can write $V = V(\vec{x}, t)$. \label{n1LG}
   The Lagrangian is then:
   \[
     L = \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} - V(\vec{x}, t)
   \]
   and so the Euler-Lagrange equations tells us that:
   \[
-    \pderiv{V}{x_i} - \deriv{}{t}(m \dot{x}_i) = 0 \iff m \ddot{\vec{x}} = -\nabla V
+    -\pderiv{V}{x_i} - \deriv{}{t}(m \dot{x}_i) = 0 \ \forall i \in \{1, 2, 3\} \iff m \ddot{\vec{x}} = -\nabla V
   \]
   This is Newton's 2nd Law for a conservative force $\vec{F} = - \nabla V$.
 \end{example}
 \begin{proposition}
-  If $L$ has no explicit $t$ dependence, then there exists a first integral:
+  If $L$ has no explicit $t$ dependence, then for any solution of the Euler-Lagrange equations there exists a first integral: \label{LnoT}
   \[
     L - \sum_{i = 1}^{3N}  \dot{q}_i \pderiv{L}{\dot{q}_i} = - E
   \]
-  for some constant $E$ for any solution of the Euler-Lagrange equations.
+  for some constant $E$.
 \end{proposition}
 \begin{proof}
+  We first consider the full derivative $\deriv{L}{t}$ which is not necessarily 0 because of the implicit $t$ dependence:
   \begin{align*}
     \deriv{L}{t} &= \deriv{}{t} L(\vec{q}(t), \dot{\vec{q}}(t), t) \\
-                 &= \pderiv{L}{t} + \sum_{i = 1}^{3N} \left(\pderiv{L}{q_i} \dot{q}_i + \deriv{L}{\dot{q_i}} \ddot{q}_i\right) \\
-                 &= \pderiv{L}{t} + \underbrace{\sum_{i = 1}^{3N} \left(\pderiv{L}{q_i} - \deriv{}{t} \pderiv{L}{\dot{q_i}}\right)}_{= 0} + \deriv{}{t}\left(\sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right) \\
+                 &= \cancelto{0}{\pderiv{L}{t}} + \sum_{i = 1}^{3N} \left(\pderiv{L}{q_i} \dot{q}_i + \pderiv{L}{\dot{q_i}} \ddot{q}_i\right) \text{ by multivariate chain rule}\\
+                 &= \sum_{i = 1}^{3N} \dot{q}_i \cancelto{0}{\left(\pderiv{L}{q_i} - \deriv{}{t} \pderiv{L}{\dot{q_i}}\right)} + \sum_{i = 1}^{3N} \left(\ddot{q}_i \pderiv{L}{\dot{q_i}} + \dot{q}_i \deriv{}{t} \pderiv{L}{\dot{q_i}}\right) \\
+                 &= \deriv{}{t}\left(\sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)
   \end{align*}
   Rearranging we have:
   \[
-    \deriv{}{t}\left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = \pderiv{L}{t} = 0
+    \deriv{}{t}\left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = 0 \implies L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i} = -E
   \]
-  provided there is no explicit $t$ dependence.
+  for some constant $E$.
 \end{proof}
 \begin{example}
-  Continuing from \cref{n1LG}, we see that $V = V(x)$ and so we can find $E$ as:
+  Continuing from \cref{n1LG}, if we further assume that $V$ has no $t$ dependence, i.e. $V = V(\vec{x})$, then the constant $E$ is:
   \begin{align*}
     -E &= \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} - V - \sum_{i = 1}^{3} \dot{x}_i m \dot{x}_i \\
-       &= \frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} - V(\vec{x}) \\
+       &= -\frac{1}{2} m \dot{\vec{x}} \cdot \dot{\vec{x}} - V(\vec{x}) \\
        &= - (T + V)
   \end{align*}
-  So $E = T + V$ is the total energy.
+  So $E = T + V$ is the \textbf{conserved} total energy.
 \end{example}
+\begin{remark}
+  Because we can recover the equations of motion from the Lagrangian, we think of it as \textit{encoding} the laws of physics.
+  So we can think of $L$ having no $t$ dependence as being the same as the statement that the laws of physics are time translation invariant.
+\end{remark}
 \begin{example}[Polar Coordinates]
   Consider a particle in 2D dimensions with position $\vec{q} = (r, \theta)$ in plane polar coordinates.
+  In polar coordinates, the kinetic energy $T$ is given by:
   \[
     T = \frac{1}{2}m(\dot{r}^2 + r^2 \dot{\theta}^2)
   \]
-  If we assume that the force is radial, i.e. $V = V(r)$, then:
+  If we assume that the force is radial, i.e. $V = V(r)$, then the Lagrangian is:
   \[
     L = \frac{1}{2}m(\dot{r}^2 + r^2 \dot{\theta}^2) - V(r)
   \]
-  Using the Euler Lagrange equation for $\theta(t)$:
+  Using the Euler-Lagrange equation for $\theta(t)$:
   \[
     \pderiv{L}{\theta} - \deriv{}{t} \pderiv{L}{\dot{\theta}} = 0
   \]
-  We see that $\pderiv{L}{\theta} = 0$ so we have a first integral $\pderiv{L}{\dot{\theta}} = \text{constant}$.
-  Thus the quantities $m r^2 \dot{\theta}$ and $r^2 \dot{\theta}$ are constant.
-
-  Since $\pderiv{L}{t} = 0$, we know that there is a conserved energy:
+  We see that $\pderiv{L}{\theta} = 0$ so we have a first integral:
   \[
-    E = \dot{r} \pderiv{L}{\dot{r}} + \dot{\theta} \pderiv{L}{\dot{\theta}} - L = \frac{1}{2}m (\dot{r}^2 + r^2 \dot{\theta}^2) + V
+    \pderiv{L}{\dot{\theta}} = mr^2 \dot{\theta} = \text{constant}
   \]
-  We can solve to eliminate $\dot{\theta}$ to obtain:
+  which is the conservation of angular momentum.
+  Since $m$ is constant, we call the conserved angular momentum per unit mass $h = r^2 \dot{\theta}$.
+
+  We could try and use the Euler-Lagrange equation for $r(t)$, however there is explicit $r$ dependence and so we would end up with a second order ODE.
+  However, since $\pderiv{L}{t} = 0$, we know from \cref{LnoT} that there is a conserved energy:
+  \[
+    E = \dot{r} \pderiv{L}{\dot{r}} + \dot{\theta} \pderiv{L}{\dot{\theta}} - L = \frac{1}{2}m (\dot{r}^2 + r^2 \dot{\theta}^2) + V = T + V
+  \]
+  Solving to eliminate $\dot{\theta}$, we obtain:
   \[
     \frac{1}{2} m\dot{r}^2 + V_{\text{eff}}(r) = E
   \]
   where:
   \[
-    V_{\text{eff}}(r) = \frac{mL^2}{2r^2} + V(r)
+    V_{\text{eff}}(r) = \frac{mh^2}{2r^2} + V(r)
   \]
+  We can then go on to analyse this using methods as discussed in IA Dynamics \& Relativity.
 \end{example}
 \section{The Hamiltonian}
 \subsection{Definition}
