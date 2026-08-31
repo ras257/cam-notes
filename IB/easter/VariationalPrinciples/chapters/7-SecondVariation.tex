@@ -4,73 +4,91 @@
 \section{Defining the Second Variation}
 The \textit{second variation} of a functional is analogous to the second derivative of a function.
 \begin{remark}[Recap]
-  Recall that for a function $f$:
+  Recall from \cref{classifyingStatPts} that for a function $f$:
   \[
     f(\vec{x} + \varepsilon \vec{\xi}) - f(\vec{x}) = \varepsilon \vec{\xi} \cdot \nabla f(\vec{x}) + \frac{1}{2} \varepsilon^2 \xi_i \xi_j H_{i j}(\vec{x}) + O(\varepsilon^3)
   \]
   It follows that the point $\vec{x} = \vec{a}$ is a local minimum if $H_{i j}(\vec{a})$ is \textit{positive definite}, i.e. $\xi_i\xi_j H_{i j}(\vec{a}) > 0\ \forall \vec{\xi} \neq \vec{0}$, or equivalently, all eigenvalues of $H_{i j}(\vec{a})$ are positive.
 \end{remark}
+We want to find something analogous to the above but instead for functionals.
 Consider the general functional:
 \[
   F[y] = \int_{\alpha}^{\beta} f(y, y', x) \d{x}
 \]
-where $y \in \mathscr{C}$ and:
+where $y \in \mathscr{C}$ defined by:
 \[
   \mathscr{C} = \{(y: [\alpha, \beta] \to \R) : y(\alpha) = a, y(\beta) = b, \text{$y$ is twice continuously differentiable}\}
 \]
-Consider a perturbation $y + \varepsilon \xi \in \mathscr{C}$ with $\xi(\alpha) = \xi(\beta) = 0$ so that the boundary conditions still hold.
-Expanding to second order:
+Consider a variation $y + \varepsilon \xi \in \mathscr{C}$.
+Since $y + \varepsilon x \in \mathscr{C}$, we must have
+\begin{equation}
+  y(\alpha) + \xi(\alpha) = y(\beta) + \xi(\beta) = 0 \implies \xi(\alpha) = \xi(\beta) = 0 \label{xiBdd}
+\end{equation}
+
+To calculate the variation $\delta F$, we first Taylor expand $f$ for small $\varepsilon$ to second order:
 \begin{align*}
-  f(y + \varepsilon \xi, y' + \varepsilon \xi', x) &= f(y, y', x) + \varepsilon \xi\left[\pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'}\right] + \varepsilon \deriv{}{x}\left(\xi \pderiv{f}{y'}\right) \\
-                                                   &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\varepsilon'}^2 \pderiv[2]{f}{{\xi'}}\right]
+  f(y + \varepsilon \xi, y' + \varepsilon \xi', x) &= f(y, y', x) + \varepsilon \xi \pderiv{f}{y} + \varepsilon \xi' \pderiv{f}{y'} \\
+                                                   &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] + O(\varepsilon^3) \\
+                                                   &= f(y, y', x) + \varepsilon \xi\left[\pderiv{f}{y} - \deriv{}{x} \pderiv{f}{y'}\right] + \varepsilon \left[\xi' \pderiv{f}{y'} + \xi \deriv{}{x}\pderiv{f}{y'}\right] \\
+                                                   &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] + O(\varepsilon^3) \\
+                                                   &= f(y, y', x) + \varepsilon \xi \frac{\delta F[y]}{\delta y(x)} + \varepsilon \deriv{}{x}\left[\xi \pderiv{f}{y'}\right] \\
+                                                   &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] + O(\varepsilon^3)
 \end{align*}
-The first two terms follow from how we derived the Euler-Lagrange equation, just not inside of an integral this time.
-Upon substituting this back in:
+Upon substituting this back in to the functional, we obtain:
 \begin{align*}
-  F[y + \varepsilon \xi] - F[y] &= \varepsilon \int_{\alpha}^{\beta} \xi(x) \frac{\delta F[y]}{y(x)} \d{x} + \varepsilon^2 \delta^2 F[y, \xi] + O(\varepsilon^3)
+  F[y + \varepsilon \xi] - F[y] &= \varepsilon \int_{\alpha}^{\beta} \xi(x) \frac{\delta F[y]}{\delta y(x)} \d{x} + \varepsilon \cancelto{0}{\eval{\xi \pderiv{f}{y'}}{\alpha}{\beta}} + \varepsilon^2 \delta^2 F[y, \xi] + O(\varepsilon^3)
 \end{align*}
-where the boundary terms vanish because $\xi(\alpha) = \xi(\beta) = 0$.
-We define:
+where we define $\delta^2 F[y, \xi]$ as:
 \[
-  \delta^2 F[y, \xi] \equiv \frac{1}{2} \int_{\alpha}^{\beta} \left[\xi^2 \pderiv[2]{f}{y} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv{f}{{\xi'}}\right] \d{x}
+  \delta^2 F[y, \xi] \equiv \frac{1}{2} \int_{\alpha}^{\beta} \left[\xi^2 \pderiv[2]{f}{y} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x}
 \]
-Now,  utilising that $2\xi \xi' = \deriv{}{x}(\xi^2)$, we can integrate by parts:
-\[
-  \delta^2 F[y, \xi] = \int_{\alpha}^{\beta} \left[\xi^2 \left(\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right) + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x}
-\]
-again utilising the boundary conditions.
+We can integrate the middle term of this by parts:
+\begin{align*}
+  \int_{\alpha}^{\beta} 2\xi\xi' \frac{\partial^2 f}{\partial y \partial y'} \d{x} &= \int_{\alpha}^{\beta} \deriv{}{x}(\xi^2) \frac{\partial^2 f}{\partial y \partial y'} \d{x} \\
+                                                                                   &= \cancelto{0}{\eval{\xi^2 \frac{\partial^2 f}{\partial y \partial y'}}{\alpha}{\beta}} - \int_{\alpha}^{\beta} \xi^2 \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'} \d{x}
+\end{align*}
+where the boundary term again disappears by \cref{xiBdd}.
+Thus we can write the second variation as:
+\begin{equation}
+  \delta^2 F[y, \xi] = \frac{1}{2}\int_{\alpha}^{\beta} \left[\xi^2 \left(\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right) + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x} \label{2ndVariation}
+\end{equation}
+\subsection{Global Minima of Functionals}
 \begin{remark}[Recap]
-  Recall that if $H(\vec{x})$ is positive definite for all $\vec{x}$, then $f(\vec{x})$ is convex and so any stationary point must be a global minimum.
+  Recall from \cref{2ndOrderConvexity} that if $H(\vec{x})$ is positive definite for all $\vec{x}$, then $f(\vec{x})$ is convex and so any stationary point must be a global minimum by \cref{globalMin}.
 \end{remark}
-We can formulate an analogous statement to the above but instead for functionals.
+We can formulate an analogous statement to the above for functionals:
 \begin{theorem}
   If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \mathscr{C}$ and allowable $\xi(x)$, then $y = y_0$ is a global minimum of $F$ within $\mathscr{C}$ if $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation.
 \end{theorem}
-\begin{remark}[Note]
+\begin{remark}[Notes]
   \begin{itemize}
-    \item When we refer to ``allowed'' $\xi(x)$, we mean that it obeys the boundary conditions set up previously.
+    \item When we refer to ``allowable'' $\xi(x)$, we mean that it is twice continuously differentiable and obeys the boundary conditions in \cref{xiBdd}.
     \item For a function to be convex, we require that its domain is also convex.
-      This is true for $\mathscr{C}$ as if $y_1, y_2 \in \mathscr{C}$ then so is $ty_1 + (1 - t)y_2$ for all $t \in [0, 1]$.
+      Notice that the class of functions $\mathscr{C}$ is indeed convex as if $y_1, y_2 \in \mathscr{C}$ then so is $ty_1 + (1 - t)y_2 \in \mathscr{C}$ for all $t \in [0, 1]$ as it is clearly twice continuously differentiable and satisfies the boundary conditions for $\mathscr{C}$.
   \end{itemize}
 \end{remark}
+\begin{proof}
+  Provided without proof.
+\end{proof}
 \begin{example}[Geodesics Revisted]
-  Recall that we used the functional $L[y]$ for the length of the curve:
+  Recall from \cref{geodesicSec} that we used the functional $L[y]$ for the length of the curve:
   \[
-    L[y] = \int_{\alpha}^{\beta} \sqrt{1 + (y')^2} \d{x}
+    L[y] = \int_{\alpha}^{\beta} \sqrt{1 + {y'}^2} \d{x}
   \]
-  There is no explicit $y$ dependence within the integrand $f(y, y', x) = \sqrt{1 + (y')^2}$ and so:
+  To find the second variation of this we need to calculate a few derivatives of the integrand $f(y, y', x) = \sqrt{1 + (y')^2}$.
+  We first notice that $f$ has no explicit $y$ dependence and so:
   \[
-    \pderiv[2]{f}{y} = \frac{\partial^2 f}{\partial y \partial y'} = 0
+    \pderiv[2]{f}{y} = 0 \text{ and }  \frac{\partial^2 f}{\partial y \partial y'} = \frac{\partial^2 f}{\partial y' \partial y} = 0
   \]
-  and we can find:
+  We can also find:
   \[
-    \pderiv[2]{f}{{y'}} = (1 + (y')^2)^{-\frac{3}{2}}
+    \pderiv[2]{f}{{y'}} = \left(1 + {y'}^2\right)^{-\frac{3}{2}}
   \]
   Therefore the second variation is given by:
   \[
-    \delta^2 F[y, \xi]a = \frac{1}{2} \int_{\alpha}^{\beta} {\xi'}^2 (1 + (y')^2)^{-\frac{3}{2}} \d{x} \geq 0\ \forall y, \xi
+    \delta^2 F[y, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} {\xi'}^2 (1 + (y')^2)^{-\frac{3}{2}} \d{x} \geq 0\ \forall y, \xi
   \]
-  Thus any solution of the Euler-Lagrange equation (which we saw was a straight line) is a global minimum of the distance between two points.
+  Thus any solution of the Euler-Lagrange equation for this function (which we saw was a straight line) is indeed a \textbf{global minimum} of the distance between two points.
 \end{example}
 \section{Classifying Optimal Solutions}
 If $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation then:

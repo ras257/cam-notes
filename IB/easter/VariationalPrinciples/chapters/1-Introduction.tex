@@ -17,7 +17,7 @@ A \textit{functional} is a map which takes a function $y(x)$ to a real number.
 Since the above function computes the length of the curve $y(x)$, our original problem reduces to wanting know which function $y(x)$ minimises this functional.
 
 In this course, we will develop tools to allow us to determine these minima and maxima of functionals.
-\section{\texorpdfstring{Classifying Stationary Points in $\R^{n}$}{Classifying Stationary Points in n-dimensions}}
+\section{\texorpdfstring{Classifying Stationary Points in $\R^{n}$}{Classifying Stationary Points in n-dimensions}} \label{classifyingStatPts}
 Consider a twice continuously function $f: \R^{n} \to \R$ and general point as $\vec{x} = (x_1, \ldots, x_n) \in \R^{n}$.
 Assuming that $f$ is at least twice continuously differentiable, we say that $\vec{a} \in \R^{n}$ is a \textit{stationary point} of $f$ if $\nabla f(\vec{a}) = \vec{0}$.
 
@@ -221,10 +221,10 @@ This allows us to use the eigenvalues to determine the nature of the stationary 
   \end{proofdirection}
 \end{proof}
 \begin{corollary}
-  If $f$ is convex and differentiable, then any stationary point is a global minimum.
+  If $f$ is convex and differentiable, then any stationary point is a global minimum. \label{globalMin}
 \end{corollary}
 \begin{proof}
-  If $\vec{a}$ is a stationary point, then $\nabla f(\vec{\vec{a}}) = \vec{0}$ so: \label{globalMin}
+  If $\vec{a}$ is a stationary point, then $\nabla f(\vec{\vec{a}}) = \vec{0}$ so:
   \[
     f(\vec{y}) \geq f(\vec{\vec{a}})\ \forall \vec{y} \in D(f)
   \]
@@ -270,7 +270,7 @@ This allows us to use the eigenvalues to determine the nature of the stationary 
 \end{proof}
 \section{Second Order Conditions}
 \begin{theorem}[Second Order Condition for Convexity]
-  If $f$ has a continuous second derivative then convexity is equivalent to all eigenvalues of the Hessian $H(\vec{x})$ being non-negative for all $\vec{x} \in D(f)$, i.e. $H(\vec{x})$ is positive semi-definite for all $\vec{x} \in D(f)$.
+  If $f$ has a continuous second derivative then convexity is equivalent to all eigenvalues of the Hessian $H(\vec{x})$ being non-negative for all $\vec{x} \in D(f)$, i.e. $H(\vec{x})$ is positive semi-definite for all $\vec{x} \in D(f)$. \label{2ndOrderConvexity}
 \end{theorem}
 \begin{remark}[Recap]
   Recall that a symmetric matrix $A$ is positive semi-definite if $\vec{x}^{\trans} A \vec{x} \geq 0\ \forall \vec{x} \in \R^{n}$. This is also equivalent to all of its eigenvalues being non-negative.
