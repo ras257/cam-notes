@@ -18,6 +18,7 @@ The \textit{principle of least action} gives us a simple way to determine the eq
   \[
     L(\vec{q}, \dot{\vec{q}}, t) = T - V
   \]
+  for kinetic energy $T$ and potential energy $V$.
 \end{definition}
 \begin{definition}[Action]
   The \textit{action} of a path $\vec{q}(t)$ in configuration space between $\vec{q}_A$ and time $t_A$, and $\vec{q}_B$ at time $t_B$ is given by the functional:
@@ -57,13 +58,17 @@ If $L$ has no explicit $t$ dependence, then for any solution of the Euler-Lagran
   We first consider the full derivative $\deriv{L}{t}$ which is not necessarily 0 because of the implicit $t$ dependence:
   \begin{align*}
     \deriv{L}{t} &= \deriv{}{t} L(\vec{q}(t), \dot{\vec{q}}(t), t) \\
-                 &= \cancelto{0}{\pderiv{L}{t}} + \sum_{i = 1}^{3N} \left(\pderiv{L}{q_i} \dot{q}_i + \pderiv{L}{\dot{q_i}} \ddot{q}_i\right) \text{ by multivariate chain rule}\\
-                 &= \sum_{i = 1}^{3N} \dot{q}_i \cancelto{0}{\left(\pderiv{L}{q_i} - \deriv{}{t} \pderiv{L}{\dot{q_i}}\right)} + \sum_{i = 1}^{3N} \left(\ddot{q}_i \pderiv{L}{\dot{q_i}} + \dot{q}_i \deriv{}{t} \pderiv{L}{\dot{q_i}}\right) \\
-                 &= \deriv{}{t}\left(\sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)
+                 &= \pderiv{L}{t} + \sum_{i = 1}^{3N} \left(\pderiv{L}{q_i} \dot{q}_i + \pderiv{L}{\dot{q_i}} \ddot{q}_i\right) \text{ by multivariate chain rule}\\
+                 &= \pderiv{L}{t} + \sum_{i = 1}^{3N} \dot{q}_i \cancelto{0}{\left(\pderiv{L}{q_i} - \deriv{}{t} \pderiv{L}{\dot{q_i}}\right)} + \sum_{i = 1}^{3N} \left(\ddot{q}_i \pderiv{L}{\dot{q_i}} + \dot{q}_i \deriv{}{t} \pderiv{L}{\dot{q_i}}\right) \\
+                 &= \pderiv{L}{t} + \deriv{}{t}\left(\sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)
   \end{align*}
   Rearranging we have:
+  \begin{equation}
+    \deriv{}{t}\left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = \pderiv{L}{t} \label{derivPderiv}
+  \end{equation}
+  So if $L$ has no explicit $t$ dependence, then $\pderiv{L}{t} = 0$ and so:
   \[
-    \deriv{}{t}\left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = 0 \implies L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i} = -E
+     L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q}_i} = -E
   \]
   for some constant $E$.
 \end{proof}
@@ -266,7 +271,7 @@ Considering the behaviour of this for small $s$, using a Taylor expansion:
     &=\int_{t_A}^{t_B} \left[s \deriv{}{t}\left[\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}\right] + \cdots\right] \d{t} \\
     &= \eval{s \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}}{t_A}{t_B} + O(s^2)
   \end{align*}
-  We know this whole integral vanishes for all $s$, so if we fix some $s$, then $\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}$ is the same at both $t_A$ and $t_{B}$.
+  We know this whole integral vanishes for all $s$, so if we fix some sufficiently small $s$, then $\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}$ is the same at both $t_A$ and $t_{B}$.
   But in our definition of a symmetry of the action (\cref{symAct}), this has to hold for arbitrary $t_A$ and $t_B$ and so $\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}$ takes the same value at any time, i.e. it is conserved.
 \end{proof}
 \begin{example}[Space Translational Symmetry in One Coordinate]
@@ -280,6 +285,8 @@ Considering the behaviour of this for small $s$, using a Taylor expansion:
     q^{*}_1 &= q_1 + s \text{ and } q^{*}_i = q_i\ \forall i \in \{2, \ldots, 3N\} \\
     \dot{q}^{*}_i &= \dot{q}_i\ \forall i \in \{1, 2, \ldots, 3N\}
   \end{align*}
+  Note that this satisfies $\vec{Q}(\vec{q}, 0) = \vec{q}$ as required for \cref{noetherV1}.
+
   This must be a symmetry of the action since we assumed that $L$ is independent of $q_1$ and so the action must be conserved.
   Thus by \cref{noetherV1}, we have a conserved quantity:
   \[
@@ -296,9 +303,10 @@ Considering the behaviour of this for small $s$, using a Taylor expansion:
 
   Consider the 1-parameter family of maps defined by:
   \[
-    \vec{Q}(\vec{x}, s) = (\vec{x}_1 + s\vec{a}, \vec{x}_2 + s\vec{a}, \ldots, \vec{x}_N + s\vec{a})
+    \vec{Q}(\vec{q}, s) = (\vec{x}_1 + s\vec{a}, \vec{x}_2 + s\vec{a}, \ldots, \vec{x}_N + s\vec{a})
   \]
   for some constant $\vec{a} \in \R^3$.
+  Note that this satisfies $\vec{Q}(\vec{q}, 0) = \vec{q}$ as required for \cref{noetherV1}.
 
   We see that $\vec{x}^{*}_i - \vec{x}^{*}_j = \vec{x}_i - \vec{x}_j$ and so $L(\vec{q}^{*}, \dot{\vec{q}}^{*}, t) = L(\vec{q}, \dot{\vec{q}}, t)$ since $L$ only depends on the differences which are preserved under $\vec{Q}$.
   Thus $\vec{Q}$ is a symmetry of the action and so by \cref{noetherV1}, we have a conserved quantity:
@@ -328,6 +336,7 @@ Considering the behaviour of this for small $s$, using a Taylor expansion:
     \vec{Q}(\vec{q}, s) = \vec{q}_{R(s)} \tag{$\dag$} \label{eqnQRot}
   \end{equation}
   where $R(s)$ is a rotation through angle $s$ about some axis $\uvec{n}$.
+  Note that this satisfies $\vec{Q}(\vec{q}, 0) = \vec{q}$ as required for \cref{noetherV1}.
 
   When applying \cref{noetherV1}, we only care about the behaviour $\vec{Q}$ for infinitesimal $s$.
   Recall from IA Vectors and Matrices that:
@@ -360,104 +369,176 @@ We can generalise the definition of a 1-parameter family of symmetries of the ac
 \]
 for small $s$ and some function $K(\vec{q}, \dot{\vec{q}}, t)$.
 
-It can be checked that even with this generalised definition that \cref{noetherV1} still works, but the conserved quantity is now:
+In our proof for \cref{noetherV1}, we showed that:
 \[
-  \sum_{i = 1}^{3N} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K(\vec{q}, \dot{\vec{q}}, t)
+  \eval{s \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0}}{t_A}{t_B} = \int_{t_A}^{t_B} [L(\vec{q}^{*}, \dot{\vec{q}}^{*}, t) - L(\vec{q}, \dot{\vec{q}}, t)] \d{x}
 \]
-\begin{example}
+Now, instead of being zero, this is now our new boundary term and so:
+\[
+  \eval{s\left(\pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K(\vec{q}, \dot{\vec{q}}, t)\right)}{t_A}{t_B} = 0
+\]
+Thus by the same argument as before we conclude that we have a different conserved quantity:
+\begin{equation}
+  \sum_{i = 1}^{3N} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K(\vec{q}, \dot{\vec{q}}, t) \label{boundConserved}
+\end{equation}
+where we have now explicitly written out the sum instead of using summation convention.
+\begin{example}[Galilean Boosts]
+  Consider again a system of $N$ particles in 3D Cartesian space, i.e. $\vec{q} = (\vec{x}_1, \ldots, \vec{x}_N)$.
+  Suppose that they are interacting through some potential $V$ and so the Lagrangian is given by:
   \[
     L = \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i - V(\vec{x}_1, \ldots, \vec{x}_N)
   \]
-  where $V$ depends only on the separations $\vec{x}_ - \vec{x}_j$.
-  From IA Dynamics and Relativity, we know a Galilean Boost is of the form $\vec{x}^{*} = \vec{x} - \vec{v}t$, we define:
+  where we specify that \textbf{the potential} $V$ depends only on the separations $\vec{x}_i - \vec{x}_j$ of the particles.
+
+  From IA Dynamics and Relativity, we know a Galilean boost is of the form $\vec{x}^{*} = \vec{x} - \vec{v}t$.
+  Define the 1-parameter family of Galilean boosts with $\vec{v} = \uvec{n} s$ as:
   \[
-    Q = (\vec{x} - \uvec{n} st, \vec{x}_2 - \uvec{n} st, \ldots)
+    Q(\vec{q}, s) = (\vec{x} - \uvec{n} st, \vec{x}_2 - \uvec{n} st, \ldots, \vec{x}_{N} - \uvec{n} st)
   \]
-  for $\vec{v} = \uvec{n} s$ and $\vec{x}^{*}_i = \vec{x}_i - \uvec{n}st$, $\dot{\vec{x}}^{*}_i = \dot{\vec{x}}_i - \uvec{n} s$.
-  We then have:
+  Note that this satisfies $\vec{Q}(\vec{q}, 0) = \vec{q}$ as required for \cref{noetherV1}.
+  The components of $\vec{x}^{*}$ and $\dot{\vec{x}}^{*}$ are:
+  \[
+    \vec{x}^{*}_i = \vec{x}_i - \uvec{n}st \text{ and } \dot{\vec{x}}^{*}_i = \dot{\vec{x}}_i - \uvec{n} s
+  \]
+  Since $\vec{x}^{*}_i - \vec{x}^{*}_j = \vec{x}_i - \vec{x}_j$, the potential is unchanged under such boosts, that is:
+  \[
+    V(\vec{x}_1, \ldots, \vec{x}_N) = V(\vec{x}^{*}_{1}, \ldots, \vec{x}^{*}_{N})
+  \]
+  To check if this is a symmetry of the action we need to find the transformed Lagrangian:
   \begin{align*}
     L(\vec{x}^{*}, \dot{\vec{x}}^{*}, t) &= \sum_{i = 1}^{N} \frac{1}{2} m_i (\dot{\vec{x}}_i - \uvec{n} s) \cdot (\dot{\vec{x}}_i - \uvec{n} s)  - V(\vec{x}^{*}_1, \ldots, \vec{x}^{*}_N) \\
-                                         &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i - V(\vec{x}_1, \ldots, \vec{x}_N) - s \uvec{n} \sum_{i} m_i \dot{\vec{x}}_i + O(s^2) \\
-                                         &= L(\vec{x}, \dot{\vec{x}}, t) - \deriv{}{t}(s \uvec{n} \cdot \sum_{i} m_i \vec{x}_i)
+                                         &= \sum_{i = 1}^{N} \frac{1}{2} m_i \dot{\vec{x}}_i \cdot \dot{\vec{x}}_i - V(\vec{x}_1, \ldots, \vec{x}_N) - s \uvec{n} \cdot \sum_{i = 1}^{N} m_i \dot{\vec{x}}_i + O(s^2) \\
+                                         &= L(\vec{x}, \dot{\vec{x}}, t) - \deriv{}{t}\left(s \uvec{n} \cdot \sum_{i = 1}^{N} m_i \vec{x}_i\right)
   \end{align*}
-  since $\vec{x}^{*}_i - \vec{x}^{*}_j = \vec{x}_i - \vec{x}_j$.
-
-  This is a 1-parameter symmetry but with boundary term:
+  Integrating both sides from $t_{A}$ to $t_{B}$ we have:
   \[
-    K = - \vec{n} \cdot \sum_{i} m_i \vec{x}_i = - \vec{n} \cdot (M \vec{R})
+    \int_{t_A}^{t_B} L(\vec{q}^{*}, \dot{\vec{q}}^{*}, t) \d{t} = \int_{t_A}^{t_B} L(\vec{q}, \dot{\vec{q}}, t) \d{t} + \eval{s \uvec{n} \cdot \sum_{i = 1}^{N} m_i \vec{x}_i}{t_A}{t_B}
+  \]
+  So $\vec{Q}$ is a 1-parameter symmetry of the action but with boundary term:
+  \[
+    K = - \uvec{n} \cdot \sum_{i = 1}^{N} m_i \vec{x}_i = - \uvec{n} \cdot (M \vec{R})
   \]
   where $M$ is the total mass and $\vec{R}$ is the centre of mass.
-  Thus we have a conserved quantity:
+  Thus by \cref{boundConserved}, we have a conserved quantity:
   \begin{align*}
-    \sum_{i} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K &= \sum_{i} \vec{p}_i \cdot (- \uvec{n} t) + M \uvec{n} \cdot \vec{R} \\
-                                                                   &= \uvec{n} \cdot (M\vec{R} - \vec{P} t)
+    \sum_{i = 1}^{3N} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} - K &= \sum_{i = 1}^{N} \vec{p}_i \cdot (- \uvec{n} t) +  \uvec{n} \cdot (M\vec{R}) \\
+                                                                            &= \uvec{n} \cdot (M\vec{R} - \vec{P} t)
   \end{align*}
-  Since $\uvec{n}$ was arbitrary, the quantity $M\vec{R} - \vec{P}t $ is conserved.
-\end{example}
-\subsection{Symmetries with Time Transformation}
-A different type of symmetry of the action involves transforming the time coordinate $t^{*} = T(t)$ for an invertible function $T$ and set $q^{*}(t^{*}) = \vec{q}(t) = \vec{q}(T^{-1}(t^{*}))$.
-This is a symmetry of the action if:
-\begin{equation}
-  \int_{t^{*}_A}^{t^{*}_B} L(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*}), t^{*}) \d{t^{*}} = \int_{t_{A}}^{t_{B}} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t} \label{timeSym}
-\end{equation}
-for all $\vec{q}(t)$ and $t_A, t_B$.
-
-Consider a 1-parameter family $T(t, s)$ where $T(t, 0) = t$:
-\[
-  t^{*} = t + s \at{\pderiv{T}{s}}{s = 0} + O(s^2)
-\]
-\begin{theorem}[Noether's Theorem -- Version 2]
-  If there exists a 1-parameter family of symmetries of the action of the type defined about then any solution of the Euler-Lagrange equation has a conserved quantity:
+  Since $\uvec{n}$ was arbitrary, the quantity $M\vec{R} - \vec{P}t$ is conserved which is equivalent to:
   \[
-    \left(L - \sum_{i} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)\at{\pderiv{T}{s}}{s = 0} = \text{constant}
+    \vec{0} = \deriv{}{t}(M\vec{R} - \vec{P} t) = M \dot{\vec{R}} - \vec{P} \iff \vec{P} = M \dot{\vec{R}}
+  \]
+  which is what we saw for systems of particles in IA Dynamics and Relativity.
+\end{example}
+\subsection{Symmetries of Time Transformations}
+A different type of symmetry of the action involves transforming only the time coordinate.
+The transformed time is given by $t^{*} = T(t)$ for an invertible function $T$.
+The transformed path $\vec{q}^{*}$ is therefore parameterised by $t^{*}$ and so:
+\[
+  \vec{q}^{*}(t^{*}) = \vec{q}(t) = \vec{q}(T^{-1}(t^{*}))
+\]
+\begin{definition}[Time Transformation Symmetries of the Action]
+  We say that the time transformation $t^{*} = T(t)$ is a \textit{symmetry of the action} if for all curves $\vec{q}(t)$ and all $t_A, t_B$ we have: \label{timeSym}
+  \begin{equation}
+    \int_{t^{*}_A}^{t^{*}_B} L\left(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*}), t^{*}\right) \d{t^{*}} = \int_{t_{A}}^{t_{B}} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t} \label{timeSymEqn}
+  \end{equation}
+\end{definition}
+Similarly to before, we want to consider a 1-parameter family $T(t, s)$ of time transformation symmetries of the action parameterised by $s$.
+Again, we insist that $T(t, 0) = t$.
+We can also Taylor expand for small $s$ as we did before:
+\begin{align}
+  t^{*} &= T(t, s) \nonumber \\
+        &= T(t, 0) + s \at{\pderiv{T}{s}}{s = 0} + O(s^2) \nonumber \\
+        &= t + s \at{\pderiv{T}{s}}{s = 0} + O(s^2) \label{tStar}
+\end{align}
+\begin{theorem}[Noether's Theorem -- Version 2]
+  If there exists a 1-parameter family of time transformation symmetries of the action as defined in \cref{timeSym}, then any solution of the Euler-Lagrange equation has a conserved quantity: \label{noetherV2}
+  \[
+    \left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)\at{\pderiv{T}{s}}{s = 0} = \text{constant}
   \]
 \end{theorem}
 \begin{proof}
-  First note that:
+  To change variables from $t^{*}$ to $t$ in the action functional, we need $\deriv{t^{*}}{t}$.
+  Using \cref{tStar}, we have:
+  \begin{equation}
+    \deriv{{t^{*}}}{t} = 1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2) \tag{$\ast$} \label{tStarDeriv}
+  \end{equation}
+  Let $I^{*}$ and $I$ be the left hand sides and right hand sides of \cref{timeSymEqn} respectively, that is:
   \[
-    \deriv{{t^{*}}}{t} = 1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2)
+    I^{*} = \int_{t^{*}_A}^{t^{*}_B} L\left(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*}), t^{*}\right) \d{t^{*}} \text{ and } I = \int_{t_{A}}^{t_{B}} L(\vec{q}(t), \dot{\vec{q}}(t), t) \d{t}
   \]
-  Let $I^{*}$ and $I$ be the left hand sides and right hand sides of \cref{timeSym}.
   We change variables in $I^{*}$ from $t^{*}$ to $t$:
   \[
-    I^{*} = \int_{t_A}^{t_B} L\left(\vec{q}(t), \deriv{t}{{t^{*}}} \deriv{}{t}\vec{q}(t), T(t)\right) \deriv{t^{*}}{t} \d{t}
+    I^{*} = \int_{t_A}^{t_B} L\left(\vec{q}(t), \deriv{t}{{t^{*}}} \deriv{}{t}\vec{q}(t), T(t, s)\right) \deriv{t^{*}}{t} \d{t}
   \]
-  We can find:
+  We can find $\deriv{t}{{t^{*}}}$ by expanding the reciprocal of \cref{tStarDeriv}:
   \[
     \deriv{t}{{t^{*}}} = \left(\deriv{t^{*}}{t}\right)^{-1} = 1 - s \deriv{}{t} \at{\pderiv{T}{s}}{s = 0} + O(s^2)
   \]
-  and so:
+  Using this and the expansion for $t^{*} = T(t, s)$ in \cref{tStar}, we have:
   \begin{align*}
     I^{*} &= \int_{t_A}^{t_B} L\left(\vec{q}(t), \dot{\vec{q}}(t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{\vec{q}}(t) + \cdots, t + s \at{\pderiv{T}{s}}{s = 0} + \cdots\right) \\
-    &\quad\left(1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + \cdots\right) \d{t} \\
-    &= \int_{t_A}^{t_B} \left[L(\vec{q}(t), \dot{\vec{q}}(t), t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{q}_i \pderiv{L}{q_i} + s \at{\pderiv{T}{s}}{s=0} \pderiv{L}{t} \right. \\
-      &\left.+ sL \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2)\right] \d{t}
+          &\quad\qquad\left[1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + \cdots\right] \d{t} \\
   \end{align*}
-  (\textbf{TODO}: Finish)\par
-  So $I^{*} = I$ thus $[\cdots] = 0\ \forall t_A, t_B$ and so:
+  We then Taylor expand $L$ in its second and third arguments keeping only terms up to first order in $s$:
+  \begin{align*}
+   I^{*} &= \int_{t_A}^{t_B} \left[L(\vec{q}(t), \dot{\vec{q}}(t), t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{q}_i \pderiv{L}{\dot{q}_i} + s \at{\pderiv{T}{s}}{s=0} \pderiv{L}{t} + O(s^2) \right] \\
+         &\hspace{1.15cm}\left[1 + s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + \cdots\right] \d{t} \\
+         &= \int_{t_A}^{t_B} \left[L(\vec{q}(t), \dot{\vec{q}}(t), t) - s \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} \dot{q}_i \pderiv{L}{\dot{q}_i} + s \at{\pderiv{T}{s}}{s=0} \pderiv{L}{t} \right. \\
+         &\left.\hspace{1.15cm}+ sL \deriv{}{t}\at{\pderiv{T}{s}}{s = 0} + O(s^2)\right] \d{t} \\
+         &= I + \int_{t_{A}}^{t_{B}} \left[s \deriv{}{t} \at{\pderiv{T}{s}}{s = 0}\left(L -\dot{q}_i \pderiv{L}{\dot{q}_i}\right) + s \at{\pderiv{T}{s}}{s = 0}\pderiv{L}{t} + O(s^2)\right] \d{t}
+  \end{align*}
+  The time derivative acting on $\at{\pderiv{T}{s}}{s = 0}$ here is quite awkward so we integrate the first term of this integral by parts to move it over:
+  \begin{align*}
+    &\int_{t_{A}}^{t_{B}} \left[s \deriv{}{t} \at{\pderiv{T}{s}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)\right] \d{t} \\
+    &= \eval{s \at{\pderiv{T}{s}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)}{t_A}{t_B} - \int_{t_A}^{t_B} s \at{\pderiv{T}{s}}{s = 0}\deriv{}{t}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right) \d{t}
+  \end{align*}
+  Regrouping terms we have:
   \[
-    \at{\pderiv{T}{S}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)
+    I^{*} = I + \eval{s \at{\pderiv{T}{s}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)}{t_A}{t_B} + \int_{t_A}^{t_B} s \at{\pderiv{T}{s}}{s = 0}\left[\pderiv{L}{t} - \deriv{}{t}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)\right] \d{t}
+  \]
+  Recalling the proof for \cref{LnoT}, we arrived at \cref{derivPderiv} tells us that the term in square brackets in the above integral vanishes and so:
+  \[
+    I^{*} - I = \eval{s \at{\pderiv{T}{s}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)}{t_A}{t_B}
+  \]
+  Since $t^{*} = T(t)$ is a symmetry of the action, $I^{*} - I = 0\ \forall t_A, t_B$ so by the same argument as at the end of the proof for \cref{noetherV1}, the quantity:
+  \[
+    \at{\pderiv{T}{s}}{s = 0}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right)
   \]
   is independent of $t$ and so we are done.
 \end{proof}
-\begin{example}
-  Assume that $L$ has no explicit $t$ dependence, i.e $L(\vec{q}, \dot{\vec{q}})$.
-  We set $T(t, s) = t + s$ and so $t^{*} = t + s$, note that this satisfies $T(t, 0) = t$.
-  So then $\vec{q}^{*}(t^{*}) = \vec{q}(t) = \vec{q}(t^{*} - s)$ and thus:
+\begin{remark}
+  We can also carry a spatial (as in \cref{noetherV1}) symmetry and a time symmetry (as above) simultaneously, yielding the conserved quantity:
   \[
-    \deriv{\vec{q}^{*}}{{t^{*}}} = \dot{\vec{q}}(t^{*} - s)
+    \sum_{i = 1}^{3N} \pderiv{L}{\dot{q}_i} \at{\pderiv{Q_i}{s}}{s = 0} + \left(L - \sum_{i = 1}^{3N} \dot{q}_i \pderiv{L}{\dot{q_i}}\right)\at{\pderiv{T}{s}}{s = 0} = \text{constant}
+  \]
+  for any solution of the Euler-Lagrange equations.
+\end{remark}
+\begin{example}
+  Suppose that $L$ has no explicit $t$ dependence, i.e $L(\vec{q}, \dot{\vec{q}})$.
+  Physically, this encodes the idea that the laws of physics are invariant under time translations.
+
+  Consider the family of time translations defined by:
+  \[
+    T(t, s) = t + s \implies t^{*} = t + s
+  \]
+  Note that this satisfies $T(t, 0) = t$ as required for \cref{noetherV2}.
+  So then:
+  \[
+    \vec{q}^{*}(t^{*}) = \vec{q}(t) = \vec{q}(t^{*} - s) \implies \deriv{q^{*}}{{t^{*}}} = \dot{\vec{q}}(t^{*} - s)
   \]
   We then calculate:
   \begin{align*}
-    \int_{t^{*}_A}^{t^{*}_B} L(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*})) \d{t^{*}} &= \int_{t_A + s}^{t_B + s} L(\vec{q}(t^{*} - s), \dot{\vec{q}}(t^{*} - s)) \d{t^{*}} \\
-                                                                                                  &= \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t)) \d{x}
+    \int_{t^{*}_A}^{t^{*}_B} L\left(\vec{q}^{*}(t^{*}), \deriv{\vec{q}^{*}}{{t^{*}}}(t^{*})\right) \d{t^{*}} &= \int_{t_A + s}^{t_B + s} L(\vec{q}(t^{*} - s), \dot{\vec{q}}(t^{*} - s)) \d{t^{*}} \\
+                                                                                                  &= \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t)) \d{t}
   \end{align*}
-  by symmetry of the action.
+  and so $t^{*} = T(t, s)$ is a symmetry of the action.
 
-  This has a conserved quantity:
+  Thus by \cref{noetherV2}, we have a conserved quantity:
   \[
-    \underbrace{\at{\pderiv{T}{s}}{s = 0}}_{= 1}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = - E
+    \underbrace{\at{\pderiv{T}{s}}{s = 0}}_{= 1}\left(L - \dot{q}_i \pderiv{L}{\dot{q}_i}\right) = L - \dot{q}_i \pderiv{L}{\dot{q}_i}
   \]
-  Thus the invariance of the laws of physics under time transformations implies the conservation of energy.
+  Since $L$ has no explicit $t$ dependence, by \cref{LnoT}, the above is just the negation of the conserved energy.
+  This means that invariance of the laws of physics under time translations implies the conservation of energy.
 \end{example}
 \end{document}
