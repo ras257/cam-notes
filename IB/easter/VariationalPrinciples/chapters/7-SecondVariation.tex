@@ -35,9 +35,9 @@ To calculate the variation $\delta F$, we first Taylor expand $f$ for small $\va
                                                    &\quad + \frac{1}{2} \varepsilon^2 \left[\xi^2 \pderiv[2]{f}{y} + 2 \xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] + O(\varepsilon^3)
 \end{align*}
 Upon substituting this back in to the functional, we obtain:
-\begin{align*}
-  F[y + \varepsilon \xi] - F[y] &= \varepsilon \int_{\alpha}^{\beta} \xi(x) \frac{\delta F[y]}{\delta y(x)} \d{x} + \varepsilon \cancelto{0}{\eval{\xi \pderiv{f}{y'}}{\alpha}{\beta}} + \varepsilon^2 \delta^2 F[y, \xi] + O(\varepsilon^3)
-\end{align*}
+\begin{equation}
+  F[y + \varepsilon \xi] - F[y] = \varepsilon \int_{\alpha}^{\beta} \xi(x) \frac{\delta F[y]}{\delta y(x)} \d{x} + \varepsilon \cancelto{0}{\eval{\xi \pderiv{f}{y'}}{\alpha}{\beta}} + \varepsilon^2 \delta^2 F[y, \xi] + O(\varepsilon^3) \label{2ndVariationDiff}
+\end{equation}
 where we define $\delta^2 F[y, \xi]$ as:
 \[
   \delta^2 F[y, \xi] \equiv \frac{1}{2} \int_{\alpha}^{\beta} \left[\xi^2 \pderiv[2]{f}{y} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x}
@@ -58,7 +58,7 @@ Thus we can write the second variation as:
 \end{remark}
 We can formulate an analogous statement to the above for functionals:
 \begin{theorem}
-  If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \mathscr{C}$ and allowable $\xi(x)$, then $y = y_0$ is a global minimum of $F$ within $\mathscr{C}$ if $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation.
+  If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \mathscr{C}$ and allowable $\xi(x)$, then $y = y_0$ is a global minimum of $F$ within $\mathscr{C}$ if $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation. \label{globalMinFunct}
 \end{theorem}
 \begin{remark}[Notes]
   \begin{itemize}
@@ -91,44 +91,61 @@ We can formulate an analogous statement to the above for functionals:
   Thus any solution of the Euler-Lagrange equation for this function (which we saw was a straight line) is indeed a \textbf{global minimum} of the distance between two points.
 \end{example}
 \section{Classifying Optimal Solutions}
-If $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation then:
-\begin{itemize}
-  \item If $\delta^2 F[y_0, \xi] > 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local minimum.
-    Conversely, we can conclude that $y_0$ is not a local minimum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] < 0$.
-  \item If $\delta^2 F[y_0, \xi] < 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local maximum.
-    Conversely, we can conclude that $y_0$ is not a local maximum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] > 0$.
+\subsection{Using the Second Variation}
+The requirement $\delta^2 F[y, \xi] \geq 0$ for all $y \in \mathscr{C}$ is quite a strict requirement.
+However we can use the second variation to figure out if a function $y_0$ that extremises $F$ (i.e. satisfies its Euler-Lagrange equation) is a local minimum or a local maximum.
+\begin{proposition}
+  If $y_0 \in \mathscr{C}$ satisfies the Euler-Lagrange equation for $F$, then: \label{classifyingFunct}
+  \begin{itemize}
+    \item If $\delta^2 F[y_0, \xi] > 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local minimum.
+    \item Conversely, we can conclude that $y_0$ is not a local minimum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] < 0$.
+    \item If $\delta^2 F[y_0, \xi] < 0$ for all allowed $\xi(x)$ that are not identically 0, then $y_0$ is a local maximum.
+    \item Conversely, we can conclude that $y_0$ is not a local maximum if we can find any $\xi(x)$ such that $\delta^2 F[y_0, \xi] > 0$.
 \end{itemize}
+\end{proposition}
+\begin{remark}
+  This is an analogue of using the definiteness/eigenvalues of the Hessian to determine the nature of stationary points for functions.
+\end{remark}
+\begin{proof}
+  Using the expression in \cref{2ndVariationDiff}.
+\end{proof}
 \begin{example}[Geodesics on a Circle]
-  On Example Sheet 2, you will show that a geodesic between two points $A, B$ on a circle is a segment of the unique great circle that passes through $A, B$.
+  In Example Sheet 2 Q5, you will show that a geodesic between two points $A, B$ on a circle is a segment of the unique great circle that passes through $A, B$.
 
-  For this unique great circle, there is two segments we could choose, and so we calculate the second variation to find that the shorter one has $\delta^2 F > 0\ \forall \xi \neq 0$ and so it must be a local minimum, and in turn is a global minimum.
+  For this unique great circle, there is two segments we could choose.
+  Upon calculating the second second variation at the shorter of the two paths, we see that it has $\delta^2 F > 0\ \forall \xi \centernot\equiv 0$ and so it must be a local minimum.
 
   The longer of the two paths can be shown to be non-minimal as we can find $\xi$ such that $\delta^2 F < 0$.
 
-  In the case where $A$ and $B$ are antipodal points, then $\delta^2 F \geq 0\ \forall \xi$ which is not covered by our criteria.
+  In the case where $A$ and $B$ are antipodal points, then $\delta^2 F \geq 0\ \forall \xi$ which is not covered by our criteria, despite still being a local minimum.
 \end{example}
 \subsection{Legendre Condition}
 \begin{proposition}[Lengendre Condition]
-  Given any $y_0 \in \mathscr{C}$ satisfying the Euler-Lagrange equations, a necessary condition for $y_0$ to be a local minimum is:
+  Given any $y_0 \in \mathscr{C}$ satisfying the Euler-Lagrange equations, a \textbf{necessary condition} for $y_0$ to be a local minimum is: \label{legendreCond}
 \[
     \at{\pderiv[2]{f}{{y'}}}{y = y_0} \geq 0\ \forall x \in [\alpha, \beta]
   \]
 \end{proposition}
 \begin{proof}
-  Suppose that $\at{\pderiv[2]{f}{{y'}}}{y = y_0} < 0$ at some $x_0 \in [a, b]$, then we can choose $\xi$ such that $\xi$ is non-zero only near $x_0$ and $\xi'$ is large with $\xi$ small to make $\delta^2 F[y_0, \xi] < 0$ and so $y_0$ cannot be a local minimum.
-
-  Thus taking the contrapositive of the above, we obtain the result.
+  Suppose, for contradiction, that $\at{\pderiv[2]{f}{{y'}}}{y = y_0} < 0$ at some $x_0 \in [\alpha, \beta]$.
+  Recall the expression for $\delta^2 F$ from \cref{2ndVariation}:
+  \[
+    \delta^2 F[y, \xi] = \frac{1}{2}\int_{\alpha}^{\beta} \left[\xi^2 \left(\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right) + {\xi'}^2 \pderiv[2]{f}{{y'}}\right] \d{x}
+  \]
+  Since we want to make this negative for some $\xi$, we can then construct a function $\xi(x)$ such that $\xi$ is non-zero only near $x_0$ with with large $\xi'$ but small $\xi$ value so that the integrand is negative near $x_0$.
+  Since $\xi$ is zero otherwise, $\delta^2 F[y_0, \xi] < 0$ and so by \cref{classifyingFunct} $y_0$ cannot be a local minimum.
+  This is a contradiction and so the result follows.
 \end{proof}
 \begin{example}
   Consider the functional:
   \[
-    F[y] = \int_{-1}^{1} x\sqrt{1 + (y')^2} \d{x}
+    F[y] = \int_{-1}^{1} x\sqrt{1 + {y'}^2} \d{x}
   \]
-  We then have:
+  Since $f(y, y', x) = x \sqrt{1 + {y'}^2}$, have:
   \[
-    \pderiv[2]{f}{{y'}} = x(1 + (y')^2)^{-\frac{3}{2}}
+    \pderiv[2]{f}{{y'}} = x(1 + {y'}^2)^{-\frac{3}{2}}
   \]
-  which violates the Legendre condition for $x < 0$.
+  which violates the Legendre condition any choice of $x \in [-1, 0)$.
   Thus any solution of the Euler-Lagrange equations is \textbf{not} a local minimum.
 \end{example}
 Let $y_0 \in \mathscr{C}$ satisfy the Euler-Lagrange equation and write:
@@ -137,32 +154,46 @@ Let $y_0 \in \mathscr{C}$ satisfy the Euler-Lagrange equation and write:
 \end{equation}
 where we define:
 \[
-  \rho = \pderiv[2]{f}{{y'}} \text{ and } \sigma = \left[\pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}\right]
+  \rho = \pderiv[2]{f}{{y'}} \text{ and } \sigma = \pderiv[2]{f}{y} - \deriv{}{x} \frac{\partial^2 f}{\partial y \partial y'}
 \]
-We can then reformulate the Legendre condition as $\rho \geq 0$.
+With these variables, the Legendre condition (\cref{legendreCond}) can be rewritten as:
+\[
+  \rho \geq 0\ \forall x \in [\alpha, \beta] \text{ is a \textbf{necessary condition} for $y_0$ to be a local minimum.}
+\]
+for $y_0 \in \mathscr{C}$ satisfying the Euler-Lagrange equations.
 
+The converse of this does not hold but we can still formulate a sufficient condition.
 \begin{proposition}
-  A sufficient conditions that $y_0$, a solution of the Euler-Lagrange equation, to be minimum is $\rho > 0$ and $\sigma \geq 0$.
+  A \textbf{sufficient condition} for a solution of the Euler-Lagrange equation $y_0$ to be local minimum is: \label{minSuff}
+  \[
+    \rho > 0 \text{ and } \sigma \geq 0\ \forall x \in (\alpha, \beta)
+  \]
 \end{proposition}
 \begin{proof}
-  Clearly $\delta^2 F \geq 0\ \forall \xi$.
-  Now suppose that $\delta^2 F = 0$ for some $\xi$.
-  We then must have $\xi' = 0$ on $[\alpha , \beta]$, and thus $\xi$ is constant on $\alpha, \beta$.
-  Since $\xi \in \mathscr{C}$, $\xi(\alpha) = \xi(\beta) = 0$ and so $\xi$ is identically 0 which is a contradiction and so $\delta^2 F > 0\ \forall \xi$.
+  From \cref{2ndVar} we see that these inequality clearly tell us that $\delta^2 F \geq 0\ \forall \xi$.
+  To apply \cref{classifyingFunct}, we need that $\delta^2 F \geq 0\ \forall \xi \centernot\equiv 0$.
+
+  Suppose that we have $\delta^2 F = 0$ for some $\xi$.
+  Since $\rho > 0$, we must then have $\xi' = 0$ on $[\alpha , \beta]$, and thus $\xi$ is constant on $\alpha, \beta$.
+  But $\xi \in \mathscr{C}$, which means that $\xi(\alpha) = \xi(\beta) = 0$ and so $\xi$ is identically 0.
+
+  Thus $\xi \centernot\equiv 0 \implies \delta^2 F[y_0, \xi] > 0$ and so we can use \cref{classifyingFunct} to conclude.
 \end{proof}
 \begin{example}[Brachistochrone Revisited]
-  Recall that we were aiming to minimise the functional:
+  Revisiting \cref{exBrachistochrone}, recall that we were aiming to minimise the functional:
   \[
     T[y] = \int_{0}^{x_B} f \d{x} \text{ where } f= \sqrt{\frac{1 + {y'}^2}{- y}}
   \]
-  We need $y$ to be negative and so we impose this additional restriction on $\mathscr{C}$.
+  For this functional to make sense, we need $y$ to be negative and so we impose this additional restriction on $\mathscr{C}$.
 
-  Now assume that $y$ satisfies the Euler-Lagrange equations (which we saw is a cycloid).
-  We see that:
+  Now assume that $y$ satisfies the Euler-Lagrange equations (which we saw means it is a cycloid).
+  So that we can use this fact, it is beneficial to try and write $\rho$ and $\sigma$ in terms of $\pderiv{f}{y}$ and $\deriv{}{x}\pderiv{f}{y'}$ as these appear in the Euler-Lagrange equations.
+
+  Calculating derivatives of $f$ we have:
   \[
-    \pderiv{f}{{y'}} = \frac{y'}{\sqrt{-y(1 + {y'}^2)}},\ \pderiv{f}{y} = - \frac{f}{2y}
+    \pderiv{f}{{y'}} = \frac{y'}{\sqrt{-y(1 + {y'}^2)}} \text{ and } \pderiv{f}{y} = - \frac{f}{2y}
   \]
-  and:
+  and so:
   \[
     \rho = \pderiv[2]{f}{{y'}} = \frac{1}{\sqrt{(-y)(1 + {y'}^2)^3}} > 0
   \]
@@ -170,65 +201,92 @@ We can then reformulate the Legendre condition as $\rho \geq 0$.
 
   To find $\sigma$ we need to calculate:
   \[
-    \frac{\partial^2 f}{\partial y \partial y'} = - \frac{1}{y} \pderiv{f}{y'} \text{ and } \pderiv[2]{f}{y} = \frac{3f}{4y^2}
+    \frac{\partial^2 f}{\partial y \partial y'} = - \frac{1}{2y} \pderiv{f}{y'} \text{ and } \pderiv[2]{f}{y} = \frac{3f}{4y^2}
   \]
-  and so $\sigma$ is:
+  and so:
   \begin{align*}
     \sigma &= \pderiv[2]{f}{y} - \deriv{}{x}\left(-\frac{1}{2y} \pderiv{f}{{y'}}\right) \\
-           &= \pderiv[2]{f}{y} - \frac{y'}{2y^2} \pderiv{f}{{y'}} + \frac{1}{2y} \pderiv{f}{y} \text{ by using the EL equations} \\
-           &= \frac{3f}{4y^2} - \frac{{y'}^2}{2y^2\sqrt{(-y)(1 + {y'}^2)}} - \frac{f}{4y^2} \\
+           &= \pderiv[2]{f}{y} - \frac{y'}{2y^2} \pderiv{f}{{y'}} + \frac{1}{2y} \deriv{}{x} \pderiv{f}{y'} \\
+           &= \pderiv[2]{f}{y} - \frac{y'}{2y^2} \pderiv{f}{{y'}} + \frac{1}{2y} \pderiv{f}{y} \text{ using the Euler-Lagrange equation} \\
+           &= \frac{3f}{4y^2} - \frac{{y'}^2}{2y^2\sqrt{(-y)(1 + {y'}^2)}} - \frac{f}{4y^2} \text{ by substituting in} \\
            &= \frac{1}{2\sqrt{(-y)(1 + {y'}^2)}} > 0
   \end{align*}
-  Thus $\rho > 0$ and $\sigma > 0$ so $y$ (a cycloid) is a local minimum of $T$.
+  Thus $\rho > 0$ and $\sigma > 0$ so by \cref{minSuff}, $y$ (a cycloid) is a local minimum of $T$.
 \end{example}
+\subsection{Using a Sturm-Liouville Problem}
 We can also integrate \cref{2ndVar} by parts to yield:
-\begin{align*}
-  \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_{\alpha}^{\beta} \xi(x) \mathcal{L}\xi(x) + \frac{1}{2}\underbrace{\eval{\rho \xi \xi'}{\alpha}{\beta}}_{= 0 } \d{x} \\
-                       &= \frac{1}{2}\int_{\alpha}^{\beta} \xi \mathcal{L}\xi(x) \d{x}
-\end{align*}
+\begin{align}
+  \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_{\alpha}^{\beta} [\rho \xi' \cdot \xi' + \sigma \xi^2] \d{x} \nonumber \\
+                       &= \frac{1}{2} \cancelto{0}{\eval{\rho \xi \xi'}{\alpha}{\beta}}  + \frac{1}{2} \int_{\alpha}^{\beta} \left[-\xi\deriv{}{x}(\rho \xi') + \sigma \xi^2\right] \d{x} \text{ as $\xi(\alpha) = \xi(\beta) = 0$} \nonumber \\
+                       &= \frac{1}{2}\int_{\alpha}^{\beta} \xi \mathcal{L}\xi(x) \d{x} \label{2ndVarSLP}
+\end{align}
 where $\mathcal{L}$ is the differential operator defined as:
-\[
-  \mathcal{L}\xi \equiv -\deriv{}{x}\left(\rho \deriv{\xi}{x}\right) + \rho \xi
-\]
+\begin{equation}
+  \mathcal{L}\xi \equiv -\deriv{}{x}\left(\rho \deriv{\xi}{x}\right) + \sigma \xi \label{LDef}
+\end{equation}
+We can use this form of $\delta^2 F[y_0, \xi]$ to formulate alternative conditions for $y_0$ to be a local minimum.
 \begin{proposition}
-  Consider the Sturm Louisville problem:
+  Consider the Sturm-Liouville problem: \label{SLPClassification}
   \[
     \mathcal{L} \eta = \lambda w(x) \eta \text{ and } \eta(\alpha) = \eta(\beta) = 0
   \]
-  where $w(x) > 0$ on $(\alpha, \beta)$.
-  Then $y_0$ is a local minimum if and only if all eigenvalues are positive.
-  s roblem admits a negative eigenvalue $\lambda$ then $y_0$ \textbf{is not} a local minimum of $F$.
+  for some \textit{weight function} where $w(x) > 0$ on $(\alpha, \beta)$.
+
+  We then have that:
+  \begin{itemize}
+    \item If $y_0$ is a local minimum, then all of the eigenvalues of the above are non-negative.
+    \item If all of the eigenvalues of the above are positive, then $y_0$ is a local minimum
+  \end{itemize}
 \end{proposition}
+\begin{remark}[Notes]
+  \begin{enumerate}
+    \item We saw another example of a Sturm-Liouville problem in \cref{SLPSec}.
+    \item The weight function $w$ is not fixed and so we can pick a convenient one provided that is is non-negative.
+    \item Knowing that all of the eigenvalues are \textbf{non-negative} does not help us as the above does not tell us anything about the nature of $y_0$.
+  \end{enumerate}
+\end{remark}
 \begin{proof}
   \begin{proofdirection}{Assume $y_0$ is a local minimum}
-    Suppose for contradiction that there is an eigenfunction $\eta$ of $\mathcal{L}$ with negative eigenvalue $\lambda$.
-    We then have:
+    Suppose, for contradiction, that there is an eigenfunction $\eta$ of the above Sturm-Liouville problem with negative eigenvalue $\lambda$.
+    Using \cref{2ndVarSLP}, we have:
     \begin{align*}
       \delta^2 F[y_0, \eta] &= \frac{1}{2} \int_{\alpha}^{\beta} \eta \mathcal{L} \eta \d{x} \\ \
                             &= \frac{\lambda}{2} \int_{\alpha}^{\beta} w \eta^2 \d{x} < 0
     \end{align*}
-    and so $y_0$ cannot be a local minimum.
-    Thus all eigenvalues must be positive.
+    and so $y_0$ cannot be a local minimum by \cref{classifyingFunct}, which is a contradiction.
+    Thus all eigenvalues must be non-negative.
   \end{proofdirection}
-  \nonexaminable
   \begin{proofdirection}{Assume all eigenvalues are positive}
-    Let $\lambda_n$ be the $n$-th eigenvalue of $\mathcal{L}$ and $y_n$ the $n$-th eigenfunction of $\mathcal{L}$.
-    From IB Methods, the eigenfunctions $\{y_n\}$ form a complete space for the set of allowed $\eta$, i.e. we can write:
+    Let $\lambda_n$ be the $n$-th eigenvalue and $y_n$ the $n$-th eigenfunction of the above Sturm-Liouville problem.
+    From IB Methods, we know that the eigenfunctions $\{y_n\}$ form a complete space for the set of allowed $\eta$.
+    That is, we can write:
     \[
       \eta(x) = \sum_{n} a_n y_n(x)
     \]
     for some coefficients $\{a_n\}$.
-    We can also choose $\{y_n\}$ to be orthogonal, i.e.:
+    Furthermore, we can choose $\{y_n\}$ to be orthogonal, that is:
     \[
       \int_{\alpha}^{\beta} w y_m y_n \d{x} = 0 \text{ for } m \neq n
     \]
-    and so:
+
+    Subsisting our new expression for $\eta$ into \cref{2ndVarSLP}, we obtain:
     \begin{align*}
-      \delta^2 F[y_0, \eta] &= \frac{1}{2} \sum_{m, n} a_m a_n \lambda_n \int_{\alpha}^{\beta} w y_m y_n \d{x} \\
-                            &= \frac{1}{2} \sum_{m} \lambda_m a^2_m \int_{\alpha}^{\beta} w y^2_m \d{x} \geq 0
+      \delta^2 F[y_0, \eta] &= \frac{1}{2} \int_{\alpha}^{\beta} \left[\sum_{m} a_m y_m\right] \mathcal{L} \left[\sum_{n} a_n y_n\right] \d{x} \\
+                            &= \frac{1}{2} \int_{\alpha}^{\beta} \left[\sum_{m} a_m y_m\right] \left[\sum_{n} \lambda_n w y_n\right] \d{x} \\
+                            &= \frac{1}{2} \sum_{m, n} \left[a_m a_n \lambda_n \int_{\alpha}^{\beta} w y_m y_n \d{x}\right]
     \end{align*}
-    which vanishes if and only if $a_m = 0\ \forall m$.
-    Thus $\delta^2 F > 0$ for $\eta \centernot\equiv 0$.
+    Using orthogonality, the terms of this are non-zero if and only if $m = n$ and so:
+    \[
+      \delta^2 F[y_0, \eta] = \frac{1}{2} \sum_{m} \left[\lambda_m a^2_m \int_{\alpha}^{\beta} w y^2_m \d{x}\right]
+    \]
+    Considering the summand here:
+    \[
+      \underbrace{\lambda_m}_{> 0} \underbrace{a^2_m}_{\geq 0} \underbrace{\int_{\alpha}^{\beta} w y^2_m \d{x}}_{> 0} \geq 0
+    \]
+    We know that $\int_{\alpha}^{\beta} w y^2_m \d{x} > 0$ as $w > 0$ and $y_m$ is not identically zero as it is an eigenfunction.
+
+    Thus $\delta^2 F[y_0, \eta] \geq 0$ with equality if and only if $a_m = 0\ \forall m$ and so $\delta^2 F > 0$ for $\eta \centernot\equiv 0$.
+    So $y_0$ is a local minimum by \cref{classifyingFunct}.
   \end{proofdirection}
 \end{proof}
 \begin{example}
@@ -236,89 +294,127 @@ where $\mathcal{L}$ is the differential operator defined as:
   \[
     F[y] = \frac{1}{2} \int_{0}^{a} ({y'}^2 - y^2) \d{x}
   \]
-  The Euler-Lagrange equations tell us:
+  where we restrict $y$ to have the fixed endpoints $y(0) = y_0$ and $y(a) = y_1$ for $a \neq 0$.
+
+  The Euler-Lagrange equation for this functional is:
   \[
     - y - \deriv{}{x} y' = 0 \iff y'' + y = 0
   \]
   which we can easily solve to yield a solution $y_0$.
 
-  Expanding around this solution $y_0$ we have:
+  To find the second variation we can calculate:
+  \begin{align*}
+    \rho &= \frac{1}{2}\pderiv[2]{}{{y'}} ({y'}^2 - y^2) = 1 \\
+    \text{ and } \sigma &= \frac{1}{2}\pderiv[2]{}{y}({y'}^2 - y^2) - \frac{1}{2}\deriv{}{x}\frac{\partial^2}{\partial y \partial y'}({y'}^2 - y^2) = -1
+  \end{align*}
+  and so using \cref{2ndVar} we have:
   \[
-    \delta^2 F = \frac{1}{2} \int_{0}^{a} ({\xi'}^2 - \xi^2) \d{x}
+    \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{0}^{a} ({\xi'}^2 - \xi^2) \d{x}
   \]
-  which tells us that $\rho = 1$ and $\sigma = -1$.
-  Thus the associated Sturm Louisville problem is:
+  Using \cref{LDef}, $\mathcal{L} \eta$ is given by:
+  \[
+    \mathcal{L} \eta = -\deriv{}{x}\left(1 \cdot \deriv{\eta}{x}\right) + (-1) \eta = -\deriv[2]{\eta}{x} - \eta
+  \]
+  Thus the associated Sturm-Liouville problem is:
   \[
     -\deriv[2]{\eta}{x} - \eta = \lambda w \eta \text{ and } \eta(0) = \eta(a) = 0
   \]
-  If we choose $w(x) \equiv 1$ then:
+  If we choose $w(x) \equiv 1$, then:
   \[
     \eta'' + (\lambda + 1)\eta = 0 \implies \eta = A \sin(x\sqrt{\lambda + 1}) + B \cos(x\sqrt{\lambda + 1})
   \]
-  For a non-trivial $\eta(x)$, we need $\sqrt{\lambda + 1} a = n\pi$ for some $n \in \Z$ and so we must have:
+  Applying the boundary conditions, $\eta(0) = 0 \implies B = 0$ and:
   \[
-    \eta(x) = A \sin \left(\frac{n \pi x}{a}\right)
+    \eta(a) = 0 \implies A \sin(a \sqrt{\lambda + 1}) = 0
   \]
-  for $n \in \N$ as $n = 0$ is trivial and $n < 0$ can be absorbed by changing the sign of $A$.
+  If $A = 0$, then $\eta \equiv 0$ and so it cannot be an eigenfunction.
+  Otherwise, $\sin(a \sqrt{\lambda + 1}) = 0 \iff a \sqrt{\lambda + 1} = n\pi$ for some $n \in \Z$.
+  We discard $n = 0$ as this again leads to $\eta \equiv 0$.
 
-  The eigenvalues are:
+  Thus the eigenfunctions are exactly:
   \[
-    \lambda_n = \frac{n^2 \pi^2}{a} - 1
+    \eta_{n}(x) = A \sin \left(\frac{n \pi x}{a}\right)
   \]
-  We then see that:
-  \begin{align*}
-    \text{local min} \iff \lambda_n > 0\ \forall n \iff a < \pi \\
-    \text{not a local min} \text{ if } \exists n \text{ s.t. } \lambda_n < 0 \text{ if } a > \pi
-  \end{align*}
+  for $A \in \R$ and $n \in \N$ (as $n < 0$ can be absorbed by changing the sign of $A$)
+
+  To find the eigenvalues:
+  \[
+    a \sqrt{\lambda_n + 1} = n \pi \iff \lambda_n = \frac{n^2 \pi^2}{a^2} - 1
+  \]
+  for $n \in \N$.
+  We can then check when all of the eigenvalues are positive:
+  \[
+    \lambda_n > 0\ \forall n \in \N \iff a < \pi
+  \]
+  So by \cref{SLPClassification}, if $a < \pi$, then $y_0$ is a local minimum of $F$.
+
+  To use the other direction of \cref{SLPClassification}, we can check when there is a negative eigenvalue:
+  \[
+    \exists n \in \N \text{ s.t. } \lambda_n < 0 \iff a > \pi
+  \]
+  So if $a > \pi$, then $y_0$ is not a local minimum of $F$.
+
+  In the case of $a = \pi$, we cannot use \cref{SLPClassification} to determine the nature of $y_0$ as we only have $\lambda_n \geq 0\ \forall n \in \N$.
 \end{example}
 \subsection{Jacobi Condition}
-\nonexaminable
-Ley $y_0 \in \mathscr{C}$ satisfy the Euler Lagrange equation.
-Since $\xi(\alpha) = \xi(\beta) = 0$ we have:
-\[
-  0 = \int_{\alpha}^{\beta} (\varphi \xi^2)' \d{x} = \int_{\alpha}^{\beta} (2 \varphi \xi \xi' + \varphi' \xi^2) \d{x}
-\]
-for any differentiable $\varphi$.
-Adding this to $\delta^2 F[y_0, \xi]$ we have:
+Let $y_0 \in \mathscr{C}$ satisfy the Euler-Lagrange equation.
+As in \cref{xiBdd}, for a variation $y \to y + \xi$, we must have $\xi(\alpha) = \xi(\beta) = 0$.
+Consider the following integral for any differentiable function $\varphi$:
+\begin{align*}
+  \int_{\alpha }^{\beta} \deriv{}{x}(\varphi \xi^2) \d{x} &= \eval{\varphi \xi^2}{\alpha}{\beta} = 0 \\
+                                                &= \int_{\alpha}^{\beta} (2 \varphi \xi \xi' + \varphi' \xi^2) \d{x}
+\end{align*}
+Since this is zero, we can freely add it to the expression for $\delta^2 F[y_0, \xi]$ from \cref{2ndVar}:
 \[
   \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} (\rho {\xi'}^2 + 2 \varphi \xi \xi' + (\sigma + \varphi')\xi^2) \d{x}
 \]
 Assuming that $\rho > 0$ for $\alpha \leq x \leq \beta$, we can complete the square inside the integral as:
 \[
-  \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} \rho\left(\xi' + \frac{\varphi}{\rho}\xi\right)^2 + \left(\sigma + \varphi' - \frac{\varphi^2}{\rho}\right)\xi^2 \d{x}
+  \delta^2 F[y_0, \xi] = \frac{1}{2} \int_{\alpha}^{\beta} \left[\rho\left(\xi' + \frac{\varphi}{\rho}\xi\right)^2 + \left(\sigma + \varphi' - \frac{\varphi^2}{\rho}\right)\xi^2\right] \d{x}
 \]
-We want to choose a $\varphi$ to satisfy the \textit{Ricatti equation}:
+The second term in this integrand looks quite complicated and the first term is clearly non-negative and it would be convenient for us to choose a $\varphi$ which satisfies the \textit{Ricatti equation}:
 \begin{equation}
   \varphi' + \sigma = \frac{\varphi^2}{\rho} \label{ricatti}
 \end{equation}
-then $\delta^2 F[y_0, \xi] \geq 0$ and vanishes if and only if $\xi' + \frac{\varphi}{\rho}\xi = 0$ i.e. if and only if $\xi$ is of the form:
+If we choose such a $\varphi$, then $\delta^2 F[y_0, \xi] \geq 0$ with equality if and only if $\xi' + \frac{\varphi}{\rho}\xi = 0\ \forall x \in [\alpha, \beta]$ i.e. if and only if $\xi$ is of the form:
 \[
   \xi(x) = C \exp\left[-\int_{\alpha}^{x} \frac{\varphi(s)}{\rho(s)} \d{s}\right]
 \]
-but $\xi(\alpha) = 0 \implies C = 0$ and so $\xi(x) \equiv 0$.
-Thus $\delta^2 F[y_0, \xi] > 0$ for all non-trivial allowed $\xi$, and so $y_0$ is a local minimum.
-So in summary, $y_0$ is a local minimum if there exists a solution to \cref{ricatti} on $[\alpha, \beta]$.
+However, $\xi(\alpha) = 0 \implies C = 0$ and so $\delta^2 F[y_0, \xi] = 0 \iff \xi(x) \equiv 0$.
+Thus $\delta^2 F[y_0, \xi] > 0$ for all non-trivial allowed $\xi$, and so $y_0$ is a local minimum by \cref{classifyingFunct}.
 
-We see that \cref{ricatti} is a nonlinear ODE, however we can convert to a linear second order ODE by performing the substitution $\phi = - \rho \frac{u'}{u}$ for $u \neq 0$.
+\begin{theorem}[Jacobi Condition]
+  If there exists a solution to \cref{ricatti} on $[\alpha, \beta]$, then $y_0$ is a local minimum.
+\end{theorem}
+\begin{proof}
+  See above.
+\end{proof}
+We see that \cref{ricatti} is a first order nonlinear ODE, however we can convert to a linear second order ODE by performing the substitution $\varphi = - \rho \frac{u'}{u}$ for $u \neq 0$.
 This transforms \cref{ricatti} into:
 \begin{align*}
   -\left(\rho \frac{u'}{u}\right)' + \sigma &= \rho \left(\frac{u'}{u}\right)^2 \\
    \iff - \frac{(\rho u')'}{u} + \cancel{\rho \frac{{u'}^2}{u^2}} + \sigma &= \cancel{\rho \frac{{u'}^2}{u^2}} \\
    \iff -(\rho u')' + \sigma u &= 0
 \end{align*}
-which is the \textit{Jacobi accessory equation}.
-If there exists a solution to this with $u \neq 0$ on $[\alpha, \beta]$ then we obtain a solution $\varphi$ of \cref{ricatti} and so $y_0$ is a local minimum.
+This is called the \textit{Jacobi accessory equation}.
+Thus if there exists a solution to this with $u \neq 0$ on $[\alpha, \beta]$, then we obtain a solution $\varphi$ of \cref{ricatti} and so $y_0$ is a local minimum.
 \begin{remark}
-  Since the Jacobi accessory equation is a linear ODE, it always has a solution but not necessarily one with $u \neq 0$.
+  Since the Jacobi accessory equation is a linear ODE, it always has a solution but not necessarily one with $u \neq 0$ on $[\alpha, \beta]$.
 \end{remark}
 \begin{example}
   Consider again the functional from \cref{2ndVarExample}.
-  Recall that we had $\rho = 1$ and $\sigma = -1$, thus the Jacobi accessory equation is:
+  Recall that we had $\rho = 1$ and $\sigma = -1$ and so the Jacobi accessory equation is:
   \[
     -u'' - u = 0 \implies u = A \sin (x - x_0)
   \]
-  Thus the solutions oscillate with period $2\pi$  and so we can find a solution with $u = 0$ on $[0, a]$.
-  Therefore the solution of the Euler-Lagrange equation is a local minimum if $a < \pi$ as we found with the Sturm-Louisville approach in \cref{2ndVarExample}.
-  Unlike the Sturm-Louisville approach, this method does not let us prove that the solution is not a local minimum for $a > \pi$.
+  There is a solution to this that is non-zero on $[0, a]$ if and only if $a < \pi$.
+
+  So if $a < \pi$, then a solution of the Euler-Lagrange equation is a local minimum.
+  This is as we found with the Sturm-Liouville approach.
+  However, unlike the Sturm-Liouville approach, this method does not let us prove that the solution is not a local minimum for $a > \pi$.
 \end{example}
+\begin{remark}[Advice]
+  The Sturm-Liouville approach is usually the best choice as it stronger and uses machinery discussed in IB Methods.
+  However, it is good to be aware of this alternative approach using the Jacobi condition.
+\end{remark}
 \end{document}
