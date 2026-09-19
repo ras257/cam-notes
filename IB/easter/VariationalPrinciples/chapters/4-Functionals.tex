@@ -37,7 +37,7 @@ Note that in the above, $\delta y'$ is just the derivative of $\delta y$ with re
 
 Integrating the second term by parts yields:
 \[
-  \int_{\alpha}^{\beta} \delta y' \pderiv{f}{y'} \d{x} = \eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} - \int_{\alpha}^{\beta} \deriv{}{x} \pderiv{f}{y'} \d{x}
+  \int_{\alpha}^{\beta} \delta y' \pderiv{f}{y'} \d{x} = \eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} - \int_{\alpha}^{\beta} \delta y \deriv{}{x} \pderiv{f}{y'} \d{x}
 \]
 It would be convenient if the boundary term was not there so we assume that the definition of $\mathscr{C}$ includes boundary conditions that ensure $\eval{\delta y \pderiv{f}{y'}}{\alpha}{\beta} = 0$.
 
