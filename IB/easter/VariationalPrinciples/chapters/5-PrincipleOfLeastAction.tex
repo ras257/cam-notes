@@ -186,7 +186,9 @@ We can also write the equations of motion in terms of $H$.
 We first consider the derivative with respect to the components of $\vec{p}$, using the multivariate chain rule:
 \begin{align*}
   \at{\pderiv{H}{p_i}}{\vec{q}} &= \at{\pderiv{}{p_i}\left[\sum_{j = 1}^{3N} p_j \dot{q}_j - L(\vec{q}, \dot{\vec{q}}(\vec{q}, \vec{p}, t), t)\right]}{\vec{q}, t} \\
-                                &= \dot{q}_i + \sum_{j = 1}^{3N}  p_j \pderiv{\dot{q}_j}{p_i} - \sum_{j = 1}^{3N} \pderiv{L}{\dot{q}_j} \pderiv{\dot{q}_j}{p_i} \text{ as $\dot{\vec{q}}$ is a function of $\vec{p}$}
+                                &= \dot{q}_i + \sum_{j = 1}^{3N}  p_j \pderiv{\dot{q}_j}{p_i} - \sum_{j = 1}^{3N} \pderiv{L}{\dot{q}_j} \pderiv{\dot{q}_j}{p_i} \text{ as $\dot{\vec{q}}$ is a function of $\vec{p}$} \\
+                                &= \dot{q}_i + \sum_{j = 1}^{3N} \pderiv{\dot{q}_j}{p_i}\cancelto{0}{\left[p_j - \pderiv{L}{\dot{q}_j}\right]} \text{ using \cref{pComp}} \\
+                                &= \dot{q}_i
 \end{align*}
 Similarly for the derivative with respect to the components of $\vec{q}$:
 \begin{align*}
