@@ -124,9 +124,9 @@ Consider the problem:
     \]
   \item We define the set $\Lambda$ as:
     \[
-      \Lambda = \left\{\vec{\lambda} \in \R^{m}: \min_{\vec{x} \in \mathcal{X}(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda}) > -\infty\right\}
+      \Lambda = \left\{\vec{\lambda} \in \R^{m}: \min_{\vec{x} \in \mathcal{X}, \vec{s} \geq \vec{0}} L(\vec{x}, \vec{s}, \vec{\lambda}) > -\infty\right\}
     \]
-    This is the set of all $\vec{\lambda}$ where the problem $\min_{\vec{x} \in \mathcal{X}(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda})$ is well-posed.
+    This is the set of all $\vec{\lambda}$ where the problem $\min_{\vec{x} \in \mathcal{X}, \vec{s} \geq \vec{0}} L(\vec{x}, \vec{s}, \vec{\lambda})$ is well-posed.
     Note that because of the term $-\vec{\lambda}^{\trans} \vec{s}$ and constraint $\vec{s} \geq 0$, the set $\Lambda$ must only contain $\vec{\lambda}$ where all components are non-positive else we could just take one of the slack variables off to infinity.
 
     In \cref{basicLGEx}, this was $\Lambda = \{\vec{\lambda} \in \R^2: \lambda_1 < 0,\ \lambda_2 = 0\}$.

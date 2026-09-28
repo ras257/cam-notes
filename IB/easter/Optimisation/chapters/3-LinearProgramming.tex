@@ -53,8 +53,7 @@ It is convenient if we package up the first three types of constraints into a si
   \end{mini*}
   we construct the Lagrangian as:
   \begin{align*}
-    L(\vec{x}, \vec{s}, \vec{\lambda}) &= \vec{c}^{\trans} \vec{x} - \vec{\lambda}^{\trans} \\
-                                       &= \vec{c}^{\trans} \vec{x} - \sum_{i \in M_1} \lambda_i (\vec{a}^{\trans}_i \vec{x} - s_i - b_i) \\
+    L(\vec{x}, \vec{s}, \vec{\lambda}) &= \vec{c}^{\trans} \vec{x} - \sum_{i \in M_1} \lambda_i (\vec{a}^{\trans}_i \vec{x} - s_i - b_i) \\
                                        &- \sum_{i \in M_2} \lambda_i(\vec{a}_i^{\trans} \vec{x} + s_i - b_i) - \sum_{i \in M_3} \lambda_i(\vec{a}^{\trans}_i \vec{x} - b_i) \\
                                        &= \sum_{j \in N_1} (c_j - \vec{\lambda}^{\trans} \vec{A}_j)x_j + \sum_{j \in N_2} (c_j - \vec{\lambda}^{\trans} \vec{A}_j)x_j + \sum_{j \in N_3} (c_j - \vec{\lambda}^{\trans} \vec{A}_j)x_j \\
                                        &+\sum_{i \in M_1} \lambda_i s_i - \sum_{i \in M_2} \lambda_i s_i + \sum_{i \in M_1 \cup M_2 \cup M_3} \lambda_i b_i
@@ -94,8 +93,8 @@ It is convenient if we package up the first three types of constraints into a si
   which is also a linear program.
 \end{proof}
 \begin{remark}
-  It is useful to notice how the inequality constraints on $\vec{a}^{\trans}_i \vec{x}$ turn into inequality constraints on $\lambda_i$ with flipped sign and equality turns into $\lambda_i$ free.
-  Further, sign constraints on $x_i$ turn into inequality constraints on $\vec{\lambda}^{\trans} \vec{A}_j$ (the columns of $A$ instead of the rows) with flipped signs and free $x_i$ turn into equality constraints.
+  It is useful to notice how the inequality constraints on $\vec{a}^{\trans}_i \vec{x}$ turn into inequality constraints on $\lambda_i$ with the same inequality direction and equality turns into $\lambda_i$ free.
+  Further, sign constraints on $x_i$ turn into inequality constraints on $\vec{\lambda}^{\trans} \vec{A}_j$ (the columns of $A$ instead of the rows) with reversed inequalities and free $x_i$ turn into equality constraints on $\vec{\lambda}^{\trans} \vec{A}_j$.
 \end{remark}
 \section{Optimality Conditions}
 \begin{theorem}
@@ -365,7 +364,7 @@ so by constructing an $\vec{x}$ from $\vec{x}_B$ above by adding zero entries fo
   We call:
   \begin{enumerate}
     \item $\{B(1), \ldots, B(m)\}$ the \textit{basic indices},
-    \item $x_{B(1), \ldots, x_{B(m)}}$ the \textit{basic variables},
+    \item $x_{B(1)}, \ldots, x_{B(m)}$ the \textit{basic variables},
     \item $B$ the \textit{basis matrix},
     \item $\vec{A}_{B(1)}, \ldots, \vec{A}_{B(m)}$ the \textit{basic columns}.
   \end{enumerate}
@@ -394,7 +393,7 @@ We can now state our third assumption:
 \begin{remark}[Rudimentary Algorithm for Solving a LP]
   This theorem means that we can solve an LP by just checking each of the basic feasible solutions, that is: \label{rudimentaryAlgorithm}
   \begin{itemize}
-    \item List all $\binom{n}{m}$ basic solutions by generating all possible basis matrices and finding their corresponding feasible solutions $B^{-1}\vec{b}$.
+    \item List all $\binom{n}{m}$ basic solutions by generating all possible basis matrices $B$ and finding their corresponding basic solutions given by $B^{-1}\vec{b}$.
     \item Filter these basic solutions to just the basic feasible solutions (i.e. checking if it is non-negative)
     \item Evaluate $\vec{c}^{\trans} \vec{x}$ for each of these basic feasible solutions and choose the best one.
   \end{itemize}
@@ -661,12 +660,17 @@ $x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$ \\
       \item Pick some pivot column $j$ such that $\overline{c}_j < 0$.
         If there are multiple such columns, pick any of them.
 
-        {\color{gray}(This picks which entry to make non-zero and then $\vec{d}_{B} = B^{-1} \vec{A}_j$), i.e. the matrix part of the $j$-th column}
-      \item Calculate $\frac{x_{B(i)}}{[B^{-1} \vec{A}_j]_i}$ for each row $i$ in column $j$ of the matrix section, the minimum of these tells us the pivot row $i$.
+        {\color{gray}(This picks which entry to make non-zero and then $\vec{d}_{B} = - B^{-1} \vec{A}_j$, i.e. the negated matrix part of the $j$-th column)}
+      \item For each row $i$ in column $j$ of the matrix section with $[B^{-1} \vec{A}_j]_i > 0$, calculate the ratio $\frac{x_{B(i)}}{[B^{-1} \vec{A}_j]_i}$.
+        Whichever of these is the smallest corresponds to the pivot row $i$.
         If there are multiple such rows, pick any of them.
         We then call the entry $[B^{-1} A]_{i j}$ the pivot cell.
 
-        {\color{gray}(This finds which $i$ corresponds to $t^{*}$)}
+        If there are no positive entries in the $j$-th column then the algorithm terminates as the optimal cost is $-\infty$.
+
+        {\color{gray}(This finds which $i$ corresponds to $t^{*}$.
+        Note that we are only checking those with $[B^{-1} \vec{A}_j]_i > 0$ and these correspond to those with $\vec{d}_{B(i)} < 0$ since $B^{-1} \vec{A}_j = - \vec{d}_B$.
+        We need only check such ratios as these are the only indices which could leave the basis)}
       \item Create a fresh tableau and copy over the noted basic indices but replacing that of the $i$-th row of the matrix with $j$.
 
         {\color{gray}(This is because after moving to our new point, this basic entry will be 0 and $j$ will replace it as a new basic index)}
@@ -680,4 +684,11 @@ $x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$ \\
   \item We have now arrived at an optimal BFS.
     Thus, the top left entry of the table is the negation of the optimal cost and the full optimal solution $\vec{x}$ can be recovered using the leftmost column of the table and the noted basic indices by setting all non-basic indices to 0.
 \end{enumerate}
+\begin{remark}[Bland's Rule]
+  Bland's rule tells us how to resolve cases where multiple colums/rows could be selected in such a way to guarantee that the algorithm never gets stuck in a cycle, even in degenerate cases:
+  \begin{itemize}
+    \item If there are multiple choices for the pivot column, pick whichever is the leftmost.
+    \item If there are multiple rows with the same ratio, pick the row with the lowest associated basic index.
+  \end{itemize}
+\end{remark}
 \end{document}

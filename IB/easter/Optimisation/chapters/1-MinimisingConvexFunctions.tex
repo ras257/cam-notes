@@ -398,7 +398,7 @@ Iterating this allows us to numerically find a root for $f'(x)$.
 \begin{theorem}
   If $f$ is a twice-differentiable $\alpha$-strongly convex function with $\ell$-Lipschitz Hessian, then Newton's method applied to $f$ satisfies:
   \[
-    f(\vec{x}_k) - f(\vec{x}^{*}) \leq \frac{2\alpha^3}{\ell^2}\left(\frac{\ell}{2\alpha^2}\norm{\nabla f(\vec{x}_0)}_2\right)^{2^{k + 1}}
+    \norm{f(\vec{x}_k) - f(\vec{x}^{*})}_2 \leq \frac{2\alpha^3}{\ell^2}\left(\frac{\ell}{2\alpha^2}\norm{\nabla f(\vec{x}_0)}_2\right)^{2^{k + 1}}
   \]
 \end{theorem}
 \begin{proof}
