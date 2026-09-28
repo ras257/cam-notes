@@ -669,7 +669,7 @@ $x_{B(m)}$ & $\downarrow$ & $\downarrow$ &  & $\downarrow$ \\
         If there are no positive entries in the $j$-th column then the algorithm terminates as the optimal cost is $-\infty$.
 
         {\color{gray}(This finds which $i$ corresponds to $t^{*}$.
-        Note that we are only checking those with $[B^{-1} \vec{A}_j]_i > 0$ and these correspond to those with $\vec{d}_{B(i)} < 0$ since $B^{-1} \vec{A}_j = - \vec{d}_B$.
+        Note that we are only checking those with $[B^{-1} \vec{A}_j]_i > 0$ as these correspond to those with $\vec{d}_{B(i)} < 0$ since $B^{-1} \vec{A}_j = - \vec{d}_B$.
         We need only check such ratios as these are the only indices which could leave the basis)}
       \item Create a fresh tableau and copy over the noted basic indices but replacing that of the $i$-th row of the matrix with $j$.
 
