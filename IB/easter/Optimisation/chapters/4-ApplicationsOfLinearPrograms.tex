@@ -311,6 +311,8 @@ Similarly for $P_2$, we can express their problem as:
 \end{proof}
 \begin{remark}
   Since $v = w$, the expected payoff for both players is always the same.
+
+  As we did for a pure strategy, we call this $v$ the \textit{value} of the game.
 \end{remark}
 \subsection{Finding Optimal Strategies}
 We can use the following steps to find optimal strategies for each player.
@@ -557,7 +559,7 @@ This means that we need only study the transport problem in order to solve any m
   which is identical to that of the minimum cost flow problem.
   Thus both problems have the same feasibility conditions and cost functions, and so are equivalent.
 \end{proof}
-\subsection{Transport Algorithm}
+\subsection{Optimality Conditions}
 \begin{theorem}[Optimality Conditions]
   If for some feasible flow $(x_{i j})$ we have dual variables $\vec{\lambda} \in \R^{n}$ and $\vec{\mu} \in \R^{m}$  such that for all $i \in \{1, \ldots, n\}$ and $j \in \{1, \ldots, m\}$ we have: \label{transportOpti}
   \begin{align*}
