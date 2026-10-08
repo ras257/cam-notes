@@ -1,0 +1,111 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Introduction}
+\begin{remark}[Note]
+  Throughout this course, we shall assume that all of our random variables and random processes are defined on an appropriate underlying probability space $(\Omega, \mathcal{F}, \P)$.
+\end{remark}
+\section{Definitions}
+Loosely speaking, a \textit{Markov Chain} is a sequence of random variables where each random variable depends only on the previous random variable in the sequence.
+\begin{definition}[Markov Chain]
+  A \textit{Markov Chain} is a sequence $\mchain{X} = (X_n)_{n \geq 0}$ of random variables which all take values in the same discrete, countably infinite \textit{state space} $I$ such that:
+  \[
+    \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n, \ldots, X_0 = x_0) = \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n)
+  \]
+  for all $n \in \N$ and $x_1, \ldots, x_n \in I$.
+\end{definition}
+\begin{remark}[Note]
+  This does \textbf{not} mean that $X_{n + 1}$ is independent of $X_1, \ldots, X_{n - 1}$ however it \textbf{does} mean that $X_{n + 1}$ is \textit{conditionally independent} from $X_1, \ldots, X_{n - 1}$ \textit{given} that $X_n = x_n$.
+  Intuitively, given we know $X_n = x_n$, the values of $X_1, \ldots, X_{n - 1}$ do not contribute to the probabilities for $X_{n + 1}$.
+\end{remark}
+\begin{definition}[Time-Homogenous Markov Chain]
+  We say that a Markov chain is \textit{time-homogeneous} if $\P(X_{n + 1} = y \vert X_n = x)$ is always independent of $n$.
+\end{definition}
+Intuitively, a Markov chain is time-homogeneous if the probabilities do not depend on what time $n$ we reach a particular state.
+
+In this course, we shall assume that all Markov chains considered are time-homogeneous.
+\begin{definition}[Transition Matrix]
+  For time-homogeneous Markov chains, we define the transition matrix $P$ as:
+  \[
+    P_{x y} = P(x, y) = \P(X_{n + 1} = y \vert X_n = x)
+  \]
+  for all $x, y \in I$.
+\end{definition}
+\begin{remark}
+  We can choose any $n$ for the transition matrix since the Markov chain is time-homogeneous.
+\end{remark}
+\begin{definition}[Stochastic Matrix]
+We call a matrix $P$ \textit{stochastic} if each of its rows are probability distributions on $I$.
+That is, $P_{x y} \geq 0\ \forall x, y$ and $\sum_{y \in I} P_{x y} = 1$ for all rows $x \in I$.
+\end{definition}
+We see that all transition matrices are stochastic because their rows are defined to be conditional distributions given $X_n = x$.
+\begin{example}[Binary Markov Chain]
+  A simple \textit{binary} Markov Chain has two states $I = \{1, 2\}$ with a probability $\alpha$ to transfer from $1 \to 2$ and probability $\beta$ to go back from $2 \to 1$.
+
+  This has the transition matrix:
+  \[
+    P = \begin{pmatrix}
+    1 - \alpha & \alpha \\
+    \beta & 1 - \beta \\
+    \end{pmatrix}
+  \]
+  We can also represent this Markov chain as a diagram:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$2$};
+
+    \path[->] (q_0) edge [loop above] node {$1 - \alpha$} ()
+                    edge [bend left] node {$\alpha$} (q_1);
+    \path[->] (q_1) edge [loop above] node {$1 - \beta$} ()
+                    edge [bend left] node {$\beta$} (q_0);
+  \end{tikzpicture}
+  \end{center}
+  The nodes represent the states $I$ of the Markov chain, and the arrows are annotated with the probability of the chain transitioning from the state at the start of the arrow to the state at the end.
+\end{example}
+\begin{example}
+  Consider now a Markov chain with three states $I = \{1, 2, 3\}$ and transition matrix:
+  \[
+    P = \begin{pmatrix}
+    1/3 & 1/3 & 1/3 \\
+    1/2 & 0 & 1/2 \\
+    0 & 0 & 1 \\
+    \end{pmatrix}
+  \]
+  or in a diagram:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$2$};
+    \node[state] (q_2) [below=of q_0]{$3$};
+
+    \path[->] (q_0) edge [loop above] node {$\frac{1}{3}$} ()
+                    edge [bend left] node {$\frac{1}{3}$} (q_1)
+                    edge node {$\frac{1}{3}$} (q_2);
+    \path[->] (q_1) edge [bend left] node {$\frac{1}{2}$} (q_0)
+                    edge node {$\frac{1}{2}$} (q_2);
+    \path[->] (q_2) edge [loop below] node {$1$} ();
+  \end{tikzpicture}
+  \end{center}
+  We see that if we reach state 3, then we get stuck there indefinitely.
+\end{example}
+\begin{definition}[Initial Distribution]
+  We call the vector $\vec{\lambda}$ with components $\lambda_i \in [0, 1]$ for $i \in I$ an \textit{initial distribution} for a Markov Chain $\mchain{X}$ if:
+  \[
+    \P(X_0 = x) = \lambda_x\ \forall x \in I
+  \]
+  That is, $\vec{\lambda}$ specifies the probabilities of the Markov chain starting at any of the states $x \in I$.
+\end{definition}
+\begin{remark}[Notation]
+  Due to time-homogeneity, a Markov chain is uniquely specified by a transition matrix $P$ and initial distribution $\vec{\lambda}$ and so we can write $\mchain{X} \sim \markov(\vec{\lambda}, P)$.
+\end{remark}
+\begin{theorem}
+  A sequence of random variables $\mchain{X} = (X_n)_{n \in \N}$ has $\mchain{X} \sim \markov(\vec{\lambda}, P)$ if and only if:
+  \[
+    \P(X_0 = i_0, X_1 = i_1, \ldots, X_n = i_n) = \lambda_{i_0} P(i_0, i_1) \cdots P(i_{n - 1}, i_{n})
+  \]
+  for all $n \geq 1$ and paths $i_0, \ldots, i_n \in I$.
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\end{document}

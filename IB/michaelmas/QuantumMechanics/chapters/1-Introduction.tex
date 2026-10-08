@@ -1,0 +1,147 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Introduction}
+\section{Classical Mechanics}
+\textit{Classical Mechanics} is based on two distinct concepts:
+\begin{enumerate}
+  \item \textbf{Particles} are ``point like'' objects with position given by $\vec{x}(t)$ and velocity $\dot{\vec{x}}(t)$.
+  If we have an initial stating position and velocity $\vec{x}(t)$ and $\dot{\vec{x}}(t)$, then their motions are fully determined by Newton's Second Law:
+  \[
+    m \ddot{\vec{x}}(t) = F(\vec{x}(t), \dot{\vec{x}}(t))
+  \]
+  \item \textbf{Waves} are ``spread out'' objects described by $f(x, t)$ which is periodic in both $x$ and $t$.
+  Their propagation is governed by the PDE:
+  \[
+    \pderiv[2]{f}{t} - c^2 \pderiv[2]{f}{x} = 0
+  \]
+  which, as we saw in IA Differential Equations, has solutions of the form:
+  \[
+    f_{\pm}(x, t) = A_{\pm}\exp[i(kx - \omega t)]
+  \]
+  for $A_{\pm} \in C$ and $k, \omega \in \R$.
+  Such solutions obey the \textit{dispersion relation}:
+  \[
+    \omega = ck
+  \]
+  We call $\omega$ the \textit{angular frequency}.
+  This is related to the \textit{wavelength} $\lambda$ and \textit{frequency} $\nu$ by:
+  \[
+    \nu = \frac{\omega}{2\pi} \text{ and } \lambda = \frac{2\pi c}{\omega} = \frac{c}{\nu}
+  \]
+  Waves can also \textit{interfere} with each other.
+  If we have two waves with amplitudes $f_1$ and $f_2$, then $f_1 + f_2$ is a \textit{superposition} of the two waves.
+  This interference can be \textit{constructive} (where the resulting wave is of larger amplitude), or \textit{destructive} (where the resulting wave is of a smaller amplitude).
+\end{enumerate}
+\section{Photoelectric Effect}
+Suppose we have some monochromatic light (i.e. light of only one frequency) of frequency $\lambda$ incident on a metal plate.
+When the photons interact with the electrons in the metal, they transfer energy to them, allowing them to escape from their atoms and be emitted from the plate.
+
+We want to consider what happens as we increase the intensity $I = |A|^2$ (where $A$ is the \textit{amplitude}) of the light.
+
+\subsection{Classical Expectation}
+From a classical perspective, since incident light has $E \propto I$, we might expect to have to increase $I$ until there is enough energy to free the electrons from the metal.
+We also expect the rate of emission of the electrons to be constant, even as we increase the intensity past the emission threshold.
+Finally, we expect the velocity of emitted electrons to increase as $I$ (and therefore $E$) increases.
+\subsection{Reality}
+However, when we carry out this experiment we obtain the following three results:
+\begin{enumerate}
+  \item Below a certain frequency $\omega$, no electrons were emitted
+  \item The velocity (and therefore the kinetic energy) of the electrons did not change with the intensity
+  \item The emission rate increased with energy.
+\end{enumerate}
+In 1905, Einstein theorised an explanation.
+He theorised that light comes in small \textit{quanta} called \textit{photons}, each carrying a small amount of energy:
+\[
+  E = \hbar \omega = \frac{h \omega}{2\pi}
+\]
+and momentum:
+\[
+  p = \hbar k
+\]
+where $\hbar = \qty{6.67e-34}{\joule\second}$ is the \textit{Planck constant}.
+
+Electron emission is then explained by a single photon interacting with a single electron.
+The kinetic energy of the emitted electron is then the difference between the binding energy $\phi$ of the electron and the energy of the incident photon:
+\[
+  E = \hbar \omega - \phi
+\]
+Thus, since $E \geq 0$, the minimum energy for an incident photon to cause an emission is $E_{\text{min}} = \phi$, or equivalently, $\omega_{\text{min}} = \phi / \hbar$.
+This explains \textbf{(i)}, as we have to exceed the threshold frequency for emission, and also \textbf{(ii)}, as we see the energy of emitted electrons does not depend on the intensity.
+
+Light quanta also explains explains \textbf{(iii)}.
+Increasing intensity (or equivalently energy), leads to more incident light quanta per unit time (since they are monochromatic they all have the same energy), and therefore a greater emission rate of electrons provided $\omega \geq \omega_{\text{min}}$.
+\section{Atomic Spectra}
+In 1908, Rutherford supposed that the atom contained a small nucleus where the mass and positive charge of the atom was concentrated with electrons orbiting around it in a continuous cloud.
+However this model was flawed as electrons moving in a circular orbit would radiate energy, but nothing was preventing them from collapsing in towards the nucleus.
+Furthermore, when we irradiated an atom was light, it gained energy and then re-emitted light as it lost energy.
+However the wavelength of this re-emitted light was only ever at set of discrete frequencies given by:
+\[
+  \omega_{mn} = 2\pi R_0 \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
+\]
+where $n, m \in \N$ and $R_0$ is the \textit{Rydberg constant}.
+This suggests that the electrons instead orbit at set energy levels.
+
+In 1913, Bhor proposed that the orbits around the nucleus are quantised (i.e. electrons orbit at discrete levels) and that their angular momentum around the nucleus is given by:
+\begin{equation}
+  L_{n} = n \hbar \label{quantL}
+\end{equation}
+for each $n \in \N^{+}$.
+\begin{proposition}
+  If the angular momentum $L$ is quantised, then so are the radius $r$, velocity $v$, and energy $E$.
+\end{proposition}
+\begin{proof}
+  The angular momentum of an electron at position $\vec{r}$ is given by:
+  \[
+    \vec{L} = m_e \vec{v} \times \vec{r}
+  \]
+  We assume that the orbit is circular with radius $r$ and so:
+  \[
+    L = |\vec{L}| = m_e vr \implies v = \frac{L}{m_e r}
+  \]
+  So if we have an electron in the $n$-th energy level, using \cref{quantL}, its velocity is:
+  \[
+    v_{n} = \frac{n \hbar}{m_e r}
+  \]
+  Thus the velocity is also quantised.
+
+  We now want to use Newton's Second Law.
+  The electron moves in a circular orbit under the Coulomb force for charge $q = e$, with centripetal acceleration $a = v^2 / r$ (see IA Dynamics and Relativity).
+  Thus we have:
+  \[
+    F = - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r^2} = m_e \frac{v^2}{r}
+  \]
+  Using our expression for $v_n$, we have:
+  \[
+    r_n = \frac{4\pi \varepsilon_0}{m_e e^2} {\hbar}^2 n^2
+  \]
+  and so the radius is quantised.
+  Since $r_n$ increases with $n$, this gives us a minimum radius of:
+  \[
+    r_1 = \frac{4\pi \varepsilon_0}{m_e e^2} {\hbar}^2
+  \]
+  This is called the \textit{Bohr radius}.
+  We can then write $r_n = r_1 n^2$.
+
+  For the energy, we use the potential for the Columb force:
+  \begin{align*}
+    E &= \frac{1}{2} m_e v^2 - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} \\
+    \implies E_n &= -\frac{e^2}{8 \pi \varepsilon_0 r_1} \frac{1}{n^2}
+  \end{align*}
+  and so energy is also quantised.
+\end{proof}
+So electrons exist at discrete \textit{energy levels} $E_n$.
+They can interact with photons to gain energy, causing them to jump to a higher energy level, and then over time, decay back to a lower energy level, emitting a photon with energy equal to the difference between the energy levels.
+We call the lowest energy level $E_1$, the \textit{ground state}.
+\begin{remark}
+  We can use the above to predict the Rydberg constant.
+  We defined $\omega_{m n}$ as the energy of light emitted by photons as they go from energy level $m$ to $n$, thus using the above we have:
+  \begin{align*}
+    \omega_{mn} &= \frac{1}{\hbar}(E_m - E_n) \\
+                &= 2\pi c \left(\frac{e^2}{4\pi \varepsilon_0 \hbar c}\right)^2 \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
+  \end{align*}
+  and so:
+  \[
+    R_0 = \left(\frac{e^2}{4\pi \varepsilon_0 \hbar c}\right)^2
+  \]
+\end{remark}
+\end{document}
