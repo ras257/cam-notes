@@ -1,0 +1,279 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Vector Spaces}
+\section{Definitions}
+\begin{remark}[Notation]
+  Throughout this course, we will use $\F$ to denote a \textit{field}.
+\end{remark}
+\begin{definition}[Vector Space]
+  An \textit{$\F$-vector space} is an abelian group $(V, +, \vec{0})$ equipped with an additional operation called \textit{scalar multiplication}: \label{vecSpaceDef}
+  \[
+    \F \times V \to V,\ (v, \lambda) \mapsto \lambda v
+  \]
+  such that the following axioms are satisfied $\forall \lambda, \mu \in \F$ and $\forall v, w \in V$:
+  \begin{enumerate}
+    \item $\lambda(v + w) = \lambda v + \lambda w$
+    \item $(\lambda + \mu) v = \lambda v + \mu v$
+    \item $\lambda(\mu v) = (\lambda \mu) v$
+    \item $1\cdot v = v$
+  \end{enumerate}
+  where $1$ is the multiplicative identity of $\F$.
+\end{definition}
+\begin{remark}[Notation]
+  \begin{itemize}
+    \item Throughout, we will label $\F$-vector spaces using the letters $V, W$ and $U$.
+    \item We will also distinguish vectors and scalars using their labels instead of with a bold typeface.
+    In practice, $v, w, u, \ldots$ will all refer to vectors and $\lambda, \mu, \gamma, \ldots$ will all refer to scalars.
+    Exceptionally, we will denote the additive identity in $V$ as $\vec{0}$ to differentiate it from $0$, the additive identity of $\F$.
+  \end{itemize}
+\end{remark}
+\begin{example}[Examples of Vector Spaces] \label{VSExamples}
+  \begin{enumerate}
+    \item The set $\F^{n}$ of column vectors of length $n$ with entries in $\F$ forms a vector space under the usual component-wise addition and scalar multiplication.
+    \item $M_{m \times n}(\F)$ is the vector space of matrices with entries in $\F$ under the usual matrix addition.
+    \item $\C^{n}$ is a $\C$-vector space if we take $\F = \C$ but can also be an $\R$-vector space if we take $\F = \R$.
+    \item For any set $X$, we can define the set:
+      \[
+        \F^{X} = \{\text{functions $f$ s.t. $f: X \to \F$}\}
+      \]
+      We can then define an addition operation for $f, g \in \F^{X}$ and $\lambda \in \F$ as:
+      \[
+        (f + g)(x) = f(x) + g(x)
+      \]
+      and a scalar multiplication operation as:
+      \[
+        (\lambda f)(x) = \lambda \cdot f(x)
+      \]
+      which satisfies the required axioms in \cref{vecSpaceDef}.
+  \end{enumerate}
+\end{example}
+We can deduce some basic properties from the axioms of a vector space.
+\begin{proposition}
+  For any $v \in V$ we have:
+  \begin{enumerate}
+    \item $0 \cdot v = \vec{0}$, i.e. scaling $v$ by the additive identity of $\F$ results in the identity of $V$.
+    \item $(-1) \cdot v = -v$, i.e. scaling $v$ by the additive inverse of the multiplicative identity of $\F$ results in the inverse of $v$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  We can write:
+  \begin{align*}
+    \vec{0} &= v - v \text{ since $v$ must have an inverse in the group}\\
+            &= 1 \cdot v - v \text{ using axiom \textbf{(iv)}}\\
+            &= (1 + 0) \cdot v - v \text{ since $0$ is additive identity in $\F$} \\
+            &= 1 \cdot v + 0 \cdot v - v \text{ using axiom \textbf{(ii)}}\\
+            &= v + 0 \cdot v - v \text{ using axiom \textbf{(iv)}}\\
+            &= 0 \cdot v \text{ as the group $V$ is abelian}
+  \end{align*}
+  Thus $\vec{0} = 0 \cdot v$, as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Starting from the result in $(i)$, we have:
+  \begin{align*}
+    \vec{0} &= 0 \cdot v \\
+            &= (1 - 1) \cdot v \text{ using additive inverses in $\F$}\\
+            &= 1 \cdot v + (-1) \cdot v \text{ using axiom \textbf{(ii)}}\\
+            &= v + (-1) \cdot v \text{ using axiom \textbf{(iv)}}
+  \end{align*}
+  Thus by uniqueness of inverses in groups, $-v = (-1) \cdot v$, as required.
+\end{proof}
+\section{Subspaces}
+\begin{definition}[Subspace]
+  For a subset $U \subseteq V$, we say that $U$ is a \textit{subspace} of $V$ if $U$ is an $\F$-vector space under the same operation as $V$.
+  We then write $U \leq V$.
+\end{definition}
+Equivalently, $U \leq V$ if and only if $(U, +, \vec{0})$ is a subgroup under $+$ of $(V, +, \vec{0})$ and for all $\lambda \in \F$ and $u \in U$, we have $\lambda u \in U$.
+This is because the properties of the vector space carry over but we have to ensure that the subgroup is closed under scalar multiplication so that we can restrict the scalar multiplication operation to $\F \times U \to U$.
+\begin{remark}[Subgroup Test]
+  For a group $G$ and a non-empty $H \subseteq G$, we have that $H \leq G$ if and only if:
+  \[
+    a, b \in H \implies ab^{-1} \in H\ \forall a, b \in H
+  \]
+  The forward direction is trivial by closure of subgroups.
+  The converse also follows easily:
+  \begin{enumerate}
+    \item Since $H \neq \emptyset$, can take some $x \in H$ and so $e = x \cdot x^{-1} \in H$.
+    \item For any $x, y \in H$, $y^{-1} \in H$ and so $x \cdot y \in H$.
+  \end{enumerate}
+  So $H \leq G$.
+\end{remark}
+\begin{proposition}[Subspace Test]
+  For $U \subseteq V$, we have that $U \leq V$ if and only if the following conditions hold: \label{subspaceTest}
+  \begin{enumerate}
+    \item $U$ is non-empty
+    \item For all $u, w \in U$ and $\lambda \in \F$ we have $u + \lambda w \in U$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $U \leq V$}
+    $U$ is a group and so $U \neq \emptyset$ since $\vec{0} \in U$, which is \textbf{(i)}.
+
+    Scalar multiplication is defined from $\F \times U \to U$ so $\lambda w \in U$.
+    So by group closure, $u + \lambda w \in U$, which is \textbf{(ii)}.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume \textbf{(i)} and \textbf{(ii)}}
+    Setting $\lambda = -1$ in \textbf{(ii)}, we obtain that $u - w \in U\ \forall u, w \in U$.
+    Thus, since $U \neq \emptyset$, by the subgroup test, $(U, +, \vec{0})$ is a subgroup of $(V, +, \vec{0})$.
+
+    We then set $u = \vec{0}$ in \textbf{(ii)} to conclude that $\lambda w \in U\ \forall w \in U, \lambda \in \F$, and so $U \leq V$.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}
+  It is useful to note that if $U, W \leq V$ and $U \subseteq W$, then we have $U \leq W$ by definition of a subspace.
+\end{remark}
+\begin{remark}[Warning]
+  It is easy to forget to check the condition $U \neq \emptyset$ when appealing to the subspace test.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item For $t \in \R$, consider the vector space:
+    \[
+      V = \left\{(x, y, z)^{\trans} \in \R^3: x + y + z = t\right\}
+    \]
+    If $t = 0$, then $\vec{0} \in V$ and $u + \lambda w \in U$ for any $u, w \in U$ and $\lambda \in \R$, so $V \leq \R^3$
+    Conversely, if $V \leq \R^3$, then we must have $\vec{0} \in V$ and so $t = 0$.
+    \item Define the following vector spaces:
+    \begin{align*}
+      \R^{\R} &\to \text{functions from $\R$ to $\R$} \\
+      C(\R) &\to \text{continuous functions from $\R$ to $\R$} \\
+      C^{\infty}(\R) &\to \text{smooth functions from $\R$ to $\R$} \\
+      P(\R) &\to \text{polynomial functions from $\R$ to $\R$}
+    \end{align*}
+    It is easily checked that $P(\R) \leq C^{\infty}(\R) \leq C(\R) \leq \R^{\R}$ using facts about differentiability from IA Analysis I.
+  \end{enumerate}
+\end{example}
+\begin{proposition}
+  For any $U, W \leq V$, we have $U \cap W \leq V$.
+\end{proposition}
+\begin{proof}
+  We appeal to the subspace test:
+  \begin{enumerate}
+    \item $U \leq V \implies \vec{0} \in U$ and similarly $W \leq V \implies \vec{0} \in W$.
+      Thus $\vec{0} \in U \cap W$ so $U \cap W \neq \emptyset$.
+    \item Let $x, y \in U \cap W$ and $\lambda \in \F$.
+      Since $U \leq V$ and $x, y \in U$, we have $x + \lambda y \in U$.
+      Similarly $x + \lambda y \in W$.
+      Thus $x + \lambda y \in U \cap W$.
+  \end{enumerate}
+  So by \cref{subspaceTest}, $U \cap W \leq V$.
+\end{proof}
+\begin{remark}[Warning]
+  It is important to note that for $U, W \leq V$, the set $U \cup W$ is \textbf{almost never} a subspace of $V$.
+  See Example Sheet 1 Q2.
+\end{remark}
+For subspaces $U, W \leq V$, we might wish to find the smallest subspace containing both $U$ and $W$.
+As discussed, their union is rarely a subspace, however we can instead take the \textit{subspace sum}:
+\begin{definition}[Subspace Sum]
+  For $U, W \leq V$ the \textit{subspace sum} of $U, W$ is defined as:
+  \[
+    U + W = \{u + w: u \in U, w \in W\}
+  \]
+\end{definition}
+\begin{lemma}
+  For all $U, W \leq V$, we have $U + W \leq V$.
+\end{lemma}
+\begin{proof}
+  We again appeal to the subspace test:
+  \begin{enumerate}
+    \item $\vec{0} \in U, W$ so $\vec{0} + \vec{0} = \vec{0} \in U + W$.
+    \item For $u \in U$, $w \in W$ and $\lambda \in \F$, $\lambda w \in W$ so $u + \lambda w \in U + W$.
+  \end{enumerate}
+  So by \cref{subspaceTest}, $U + W \leq V$.
+\end{proof}
+\begin{remark}[Remarks]
+  The subspace sum $U + W$ is the \textit{smallest} subspace of $V$ containing both $U$ and $W$.
+  That is, every subspace containing $U$ and $W$ must also contains $U + W$.
+
+  Suppose we have some other subspace $Q \leq V$ such that $U \cup W \subseteq Q$.
+  Since $Q$ is a subspace, taking $\lambda = 1$ gives us that $u + w \in Q$ for all $u, w \in Q$.
+  But $U \cup W \subseteq Q$ and so $U + W \subseteq Q$.
+\end{remark}
+\section{Linear Maps}
+\subsection{Definition}
+\begin{definition}[Linear Map]
+  For $\F$-vector spaces $V, W$, we call a function $\alpha: V \to W$ a \textit{linear map} if for all $u, w \in V$ and $\lambda \in \F$ we have the following:
+  \begin{enumerate}
+    \item  $\alpha(u + w) = \alpha(u) + \alpha(w)$
+    \item $\alpha(\lambda u) = \lambda \alpha(u)$
+  \end{enumerate}
+  or equivalently $\alpha(u + \lambda w) = \alpha(u) + \lambda \alpha(v)\ \forall u, w \in V$ and $\lambda \in \F$.
+\end{definition}
+\begin{remark}[Note]
+  If $V = W$, then a linear map $\alpha: V \to V$ is called an \textit{endomorphism} of $V$.
+\end{remark}
+\begin{example}[Examples of linear maps]
+  \begin{enumerate}
+    \item For $V = \F^{n}$, $W = \F^{m}$ and $A \in M_{n \times m}(\F)$, the map:
+      \[
+        \alpha: V \to W,\ v \mapsto Av
+      \]
+      where $Av$ is standard matrix multiplication, is a linear map.
+    \item The function:
+      \[
+        \alpha: C^{\infty}(\R) \to C^{\infty}(\R),\ f \mapsto f'
+      \]
+      is a linear map as differentiation respects addition and scalar multiplication.
+    \item The function:
+      \[
+        \alpha: C(\R) \to \R,\ f \to \int_{0}^{1} f \d{x}
+      \]
+      is a linear map as integration also respects addition and scalar multiplication.
+    \item Let $X$ be some non-empty set and take some $x_0 \in X$.
+      The function:
+      \[
+        e_{x_0}: \F^{X} \to \F,\ f \mapsto f(x_0)
+      \]
+      is called the \textit{evaluation map at $x_0$}.
+      This is always linear because of how we defined the operations on $\F^{X}$ in \cref{VSExamples} \textbf{(iv)}.
+    \item For any $\F$-vector space $V$, the \textit{identity map}:
+      \[
+        \id_V: V \to V,\ v \mapsto v
+      \]
+      is linear.
+    \item For any $\F$-vector space $V$, the \textit{zero map}:
+      \[
+        \alpha: V \to W,\ v \mapsto \vec{0}_{W}
+      \]
+      is linear.
+    \item For linear maps $\alpha: U \to V$ and $\beta: V \to W$ the composition $(\beta \circ \alpha): U \to W$ is also linear.
+  \end{enumerate}
+\end{example}
+\begin{remark}[Notation]
+  We will use the notation $\vec{0}_V$ to mean the identity of the vector space $V$ if it could be ambiguous about which vector space $\vec{0}$ belongs to.
+\end{remark}
+\begin{example}[Non-examples of linear maps]
+  \begin{enumerate}
+    \item The maps $\alpha, \beta: \R \to \R$ defined by $\alpha(x) = x^2$ and $\beta(x) = x + 1$ are \textbf{not linear}.
+    \item Consider the function $\alpha: \C \to \C, z \mapsto \overline{z}$.
+      If the field on which we define the vector space $\C$ is $\R$, then $\alpha$ is linear as for all $z, w \in C$ and $\lambda \in \R$:
+      \[
+        \alpha(z + \lambda w) = \overline{z} + \overline{\lambda} \overline{w} = \alpha(z) + \lambda \alpha(w)
+      \]
+      However if the field on which we define the vector space $\C$ is $\C$, then $\alpha$ is not linear as taking $z = 0, w = i$ and $\lambda = i$ yields:
+      \[
+        \alpha(i \cdot i) = \alpha(-1) = -1 \neq -i = i \cdot \alpha(i)
+      \]
+  \end{enumerate}
+\end{example}
+\subsection{Isomorphisms}
+\begin{definition}[Isomorphism of Vector Spaces]
+  For $\F$-vector spaces $V$ and $W$, we say that the map $\alpha: V \to W$ is an \textit{isomorphism} if it is a bijective linear map.
+
+  If there exists such a map, then we write $V \cong W$ and say that $V$ and $W$ are \textit{isomorphic}.
+\end{definition}
+\begin{example}
+  The vector spaces $\F^{4}$ and $M_{2 \times  2}(\F)$ are isomorphic as the map:
+  \[
+    \alpha: \F^{4} \to M_{2 \times 2}(\F),\ \begin{pmatrix}
+    a \\
+    b \\
+    c \\
+    d \\
+    \end{pmatrix} \mapsto \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix}
+  \]
+  is both linear and bijective, so is an isomorphism.
+\end{example}
+\end{document}

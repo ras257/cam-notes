@@ -1,0 +1,190 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Fourier Series}
+\section{Motivation}
+In 1807, J. Fourier was studying heat conduction along a metal rod.
+This lead him to investigate $2\pi$ periodic functions, i.e. functions for which $f(\theta + 2\pi) = f(\theta)\ \forall \theta$.
+
+Fourier boldly claimed that such functions could be written in the following form:
+\[
+  f(\theta) = \sum_{n \in \Z} \hat{f}_n e^{i n \theta}
+\]
+where the coefficients $\hat{f}_{n}$ can be obtained from $f$ using:
+\[
+  \hat{f}_{n} = \frac{1}{2\pi} \int_{0}^{2\pi} f(\theta) e^{-in \theta} \d{\theta}
+\]
+He thought that every $2\pi$ periodic function could be expressed in this way, which is in fact false, and we will discuss this later.
+\section{Modern Approach}
+Consider a vector space:
+\[
+  V = \{\text{``nice'' functions $f: \R \to \C$ such that} f(\theta + L) = f(\theta)\ \forall \theta\}
+\]
+It can be easily check that the vector space axioms hold provided that the sum of two ``nice'' functions is also ``nice'', and scalar multiples of ``nice'' functions are also ``nice''.
+\begin{remark}[Remarks]
+  \begin{itemize}
+   \item We will discuss later what we mean by ``nice'' functions.
+   \item If $f \in V$, then we need only specify the values of $f$ on some interval of length $L$, for example, $[0, L)$ or $[-L/2, L/2)$.
+  \end{itemize}
+\end{remark}
+We equip $V$ with the following inner product:
+\[
+  \langle f, g \rangle = \int_{0}^{L} f(\theta)\overline{g(\theta)} \d{\theta}
+\]
+where $\overline{g}$ is the complex conjugate of $g$.
+Since $f$ and $g$ are $L$-periodic, we can take the integral bounds to be any interval of length $L$.
+We can now define the norm in $V$ the standard way:
+\[
+  \norm{f} = \sqrt{\langle f, f \rangle} = \sqrt{\int_{0}^{L} |f|^2 \d{\theta}}
+\]
+
+Consider the following family of functions:
+\[
+  e_{n}(\theta) = e^{2 \pi i n \theta/ L}
+\]
+for $n \in \Z$.
+Certainly $e_n \in V$ for each $n$ and:
+\[
+  \langle e_n, e_m \rangle = \int_{0}^{L} e^{2\pi i (n - m) \theta/L} \d{\theta} = L \delta_{n m}
+\]
+Thus the functions $\{e_n\}_{n \in \Z}$ are orthogonal in $V$ and all have $\norm{e_n}^2 = L$.
+\begin{remark}[Othogonal Basis]
+  Recall from IA Vectors and Matrices, that if $V_N$ is an $N$ dimensional vector space and $\{\vec{e}_n\}^{N}_{n = 1}$ are orthogonal with $\norm{\vec{e}_n}^2 = L$, then we can use these vectors as a basis.
+  That is, for any $\vec{x} \in V_N$ we can write:
+  \[
+    \vec{x} = \sum_{n = 1}^{N} \hat{x}_n \vec{e}_n
+  \]
+  where, since $\vec{e}_n \cdot \vec{e}_m = \delta_{n m}$, we can extract the coefficients using:
+  \[
+    \vec{x} \cdot \vec{e}_m = \sum_{n = 1}^{N} \hat{x}_n \vec{e}_n \cdot \vec{e}_m = L\hat{x}_{m}
+  \]
+  So for every $\vec{x} \in V_N$ we have:
+  \[
+    \vec{x} = \sum_{n = 1}^{N} \hat{x}_n \vec{e}_n \text{ where } \hat{x}_n = \frac{1}{L} \vec{x} \cdot \vec{e}_n
+  \]
+\end{remark}
+We now note that $V$ is an infinite vector space as no finite subset of $\{e_n\}_{n \in \Z}$ is linearly dependent.
+Can we express $f \in V$ as an infinite sum of scaled elements of the basis?
+For now, we look past this and try anyways.
+
+Suppose that $f \in V$ can be written in the form:
+\[
+  f(\theta) = \sum_{n \in \Z} \hat{f}_n e_n(\theta) \equiv \sum_{n \in \Z} \hat{f}_{n} e^{2\pi i n \theta/L}
+\]
+We can use the same ideas to extract the coefficients as we did for the finite vector space.
+\begin{align}
+  \langle f, \vec{e}_m \rangle &= \sum_{n \in \Z} \hat{f}_n \langle \vec{e}_n, \vec{e}_m \rangle \\
+                               &= \sum_{n \in Z} \hat{f}_n L \delta_{n m} \\
+                               &= L \hat{f}_{m}
+\end{align}
+where we assume that the infinite sum and integral can be swapped.
+Thus the coefficients $\{\hat{f}_n\}$ are given by:
+\[
+  \hat{f}_n = \frac{1}{L} \langle f, \vec{e}_n \rangle = \frac{1}{L} \int_{0}^{L} f(\theta) e^{-2\pi i n \theta / L} \d{\theta}
+\]
+If we set $L = 2\pi$, then we have recovered Fourier's claim.
+\begin{definition}[Complex Fourier Series]
+  For an $L$-periodic function $f: \R \to \C$, we define its \textit{complex Fourier series} as:
+  \[
+    \sum_{n \in \Z} \hat{f}_n e^{2\pi i n \theta / L}
+  \]
+  where:
+  \[
+    \hat{f}_n = \frac{1}{L} \int_{0}^{L} f(\theta) e^{-2\pi i n \theta / L} \d{\theta}
+  \]
+  are called the \textit{complex Fourier coefficients}.
+\end{definition}
+\begin{remark}[Notation]
+  For an $L$-periodic $f$ we write:
+  \[
+    f(\theta) \sim \sum_{n \in \Z} \hat{f}_n e^{2\pi i n \theta / L}
+  \]
+  to mean that the series on the right hand side is the Fourier series of the function $f$ on the left hand side.
+
+  We would like to replace $\sim$ with $=$ but \textbf{cannot} always do this.
+\end{remark}
+We can also write the Fourier series as sums of sines and cosines.
+We split the sum into three sets of indices $\Z = \{n = 0\} \cup \{n > 0\} \cup \{n < 0\}$:
+\begin{align*}
+  \sum_{n \in \Z} \hat{f}_{n} e^{2\pi i n \theta / L} &= \hat{f}_0 + \sum_{n = 1}^{\infty} \hat{f}_{n} e^{2\pi i n \theta/L} + \sum_{n = 1}^{\infty} \hat{f}_{-n} e^{-2 \pi i n \theta/L} \\
+                                                      &= \hat{f}_{0} + \sum_{n = 1}^{\infty} \hat{f}_{n} \left[\cos\left(\frac{2 \pi n \theta}{L}\right) + i \sin\left(\frac{2 \pi n \theta}{L}\right)\right] \\
+                                                      &\quad+ \sum_{n = 1}^{\infty} \hat{f}_{-n} \left[\cos\left(\frac{2 \pi n \theta}{L}\right) - i \sin\left(\frac{2 \pi n \theta}{L}\right)\right] \\
+                                                      &= \hat{f}_{0} + \sum_{n = 1}^{\infty} \left[(\hat{f}_{n} + \hat{f}_{-n}) \cos\left(\frac{2 \pi n \theta}{L}\right) + i(\hat{f}_{n} - \hat{f}_{-n}) \sin \left(\frac{2 \pi n \theta}{L}\right)\right]
+\end{align*}
+We can then then define $a_{n} = \hat{f}_{n} + \hat{f}_{-n} \text{ and } b_n = i(\hat{f}_{n} - \hat{f}_{-n})$
+\begin{definition}[Fourier Series]
+  For an $L$-periodic function $f: \R \to \C$, we define its Fourier series as:
+  \[
+    \frac{1}{2} a_0 + \sum_{n = 1}^{\infty} \left[a_n \cos\left(\frac{2\pi n \theta}{L}\right) + b_n \sin \left(\frac{2 \pi n \theta}{L}\right)\right]
+  \]
+  where:
+\[
+    a_n = \frac{2}{L} \int_{0}^{L} f(\theta) \cos\left(\frac{2 \pi n \theta}{L}\right) \d{\theta} \text{ and }
+    b_n = \frac{2}{L} \int_{0}^{L} f(\theta) \sin\left(\frac{2 \pi n \theta}{L}\right) \d{\theta}
+\]
+are called the \textit{Fourier coefficients} of $f$.
+\end{definition}
+\begin{remark}
+  If $f(\theta)$ is an odd function, then:
+  \begin{align*}
+    a_n &= \frac{2}{L} \int_{0}^{L} f(\theta) \cos\left(\frac{2 \pi n \theta}{L}\right) \d{\theta} \\
+        &= \frac{2}{L} \int_{-L/2}^{L/2} f(\theta) \cos\left(\frac{2 \pi n \theta}{L}\right) \d{\theta} \\
+        &=0
+  \end{align*}
+  as the integrand is a product of an odd and an even function and the bounds are symmetric.
+
+  Similarly, if $f(\theta)$ is an even function, then $b_n = 0$.
+\end{remark}
+\begin{remark}[Advice]
+  When asked to construct a Fourier series, it is often advisable to start by sketching the function to establish if it is even or odd \textbf{before} starting to manually compute the Fourier coefficients.
+\end{remark}
+\begin{example}
+  Define the 1-periodic function $f: \R \to \R$ such that $f(\theta) = \theta(1 - \theta)$ on $[0, 1)$.
+  The graph of $f$ looks like:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (-6,0) -- (6,0) node[right] {$\theta$};
+    \draw[->] (0,0) -- (0,3) node[below right] {$f(\theta)$};
+
+    \clip (-6, 0) rectangle (6, 3);
+    \begin{scope}[scale=3]
+      \foreach \s in {-2, -1, 0, 1, 2} {
+        \draw[thick, domain=0:1, smooth, variable=\x, xshift=\s cm] plot ({\x}, {\x * (1 - \x)});
+      }
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+  We have:
+  \[
+    \hat{f}_0 = \int_{0}^{1} \theta(1 - \theta) \d{\theta} = \frac{1}{6}
+  \]
+  For $n \neq 0$, we integrate by parts:
+  \begin{align*}
+    \hat{f}_n &= \int_{0}^{1} \theta(1 - \theta)e^{-2 \pi i n \theta} \d{\theta} \\
+              &= \cancelto{0}{\eval{-\frac{1}{2 \pi i n} \theta(1 - \theta) e^{-2 \pi i n \theta}}{\theta = 0}{1}} + \frac{1}{2 \pi i n} \int_{0}^{1} (1 - 2 \theta) e^{-2 \pi i n} \d{\theta} \\
+              &= \eval{- \frac{1}{(2 \pi i n)^2}(1 - 2 \theta) e^{-2 \pi n \theta}}{\theta = 0}{1} \\
+              &= - \frac{1}{2(\pi n)^2}
+  \end{align*}
+  The complex Fourier series for $f$ is then:
+  \[
+    f(\theta) \sim \frac{1}{6} - \sum_{n \neq 0} \frac{1}{2 (n \pi)^2} e^{2 \pi i n \theta}
+  \]
+  We can use these coefficients to quickly find the non-complex Fourier series for $f$.
+  Since $f(\theta)$ is even, we know that $b_n = 0\ \forall n$.
+  To find $a_n$:
+  \[
+    a_n = \hat{f}_{n} + \hat{f}_{-n} = - \frac{1}{(n \pi)^2}
+  \]
+  or equivalently the Fourier series for $f$ is then:
+  \[
+    f(\theta) \sim \frac{1}{6} - \sum_{n = 1}^{\infty} \frac{1}{(n \pi)^2} \cos(2 \pi n \theta)
+  \]
+  We in fact have equality here, however we need some more theory to be able to show this.
+\end{example}
+\begin{remark}
+  We will cover this in detail later, however ``nicer'' functions have Fourier coefficients which decay quickly.
+  For example, the Fourier coefficients of a smooth function will decay faster than those of a discontinuous function.
+
+  To suggest why this is the case, notice how in the above example, each time we integrate by parts, we bring down a factor of $1/n$ which would cause the coefficient will decay faster, however we also introduce a boundary term which slows down decay, unless it vanishes.
+  Here, we see that the first boundary term disappears because $f$ is continuous at the boundaries, but the second one does not since $f'$ is not continuous at the boundaries.
+\end{remark}
+\end{document}
