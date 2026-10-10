@@ -55,7 +55,7 @@ However the notion of pointwise convergence is not strong enough to make such co
   Clearly $f_n \to 1_\Q$ pointwise on $[0, 1]$, but $1_\Q$ \textbf{not} integrable and so integrability is not preserved under pointwise convergence.
 \end{example}
 If we have a sequence of functions $f_n$ which are all integrable and we assume that they indeed convergence pointwise to an integrable function $f$, does it follow that values of the integrals of $f_n$ converges to the value of the integral of $f$.
-\begin{example}[Values of integrals are not preserved]
+\begin{example}[Values of integrals are not preserved] \label{triangleExample}
    Define the sequence of functions:
   \[
     f_n: [0, 2] \to \R,\ x \mapsto \begin{cases}
@@ -85,6 +85,7 @@ If we have a sequence of functions $f_n$ which are all integrable and we assume 
 \end{example}
 We can also show that differentiability is not preserved, however, we will return to this later.
 \section{Introducing Uniform Convergence}
+\subsection{Definition}
 We want to come up with a different notion of convergence for sequences of functions which preserves the properties of the functions in the limit but also do not want it to be \textit{too} restrictive.
 \begin{definition}[Uniform Convergence]
   Let $f_n$ be a series of functions on $E$ and let $f: E \to \R$.
@@ -92,7 +93,7 @@ We want to come up with a different notion of convergence for sequences of funct
 
   Symbolically, this is:
   \[
-    \forall \varepsilon > 0\ \exists N(\varepsilon) \in \N \text{ s.t. } |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N,\ x \in E
+    \forall \varepsilon > 0\ \exists N = N(\varepsilon) \in \N \text{ s.t. } |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N,\ x \in E
   \]
 \end{definition}
 \begin{remark}[Remarks]
@@ -100,13 +101,175 @@ We want to come up with a different notion of convergence for sequences of funct
     \item Note that $N$ may depend on $\varepsilon$ but does not need to.
     \item We can equivalently restate the above as:
       \[
-        \forall \varepsilon > 0\ \exists N(\varepsilon) \in \N \text{ s.t. } \sup_{x \in E} |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N
+        \forall \varepsilon > 0\ \exists N = N(\varepsilon) \in \N \text{ s.t. } \sup_{x \in E} |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N
       \]
+      This is often the most convenient form to use as it has less quantifiers to keep track of.
   \end{itemize}
 \end{remark}
-To see how this differs to pointwise convergence, we unpack the pointwise convergence definition in :
+To see how this differs to pointwise convergence, we unpack the pointwise convergence definition in \cref{pointwiseDef}:
 \[
   \forall \varepsilon > 0 \text{ and } x \in E,\ \exists N(\varepsilon, x) \in \N \text{ s.t. } |f_n(x) - f(x)| < \varepsilon \ \forall n \geq N
 \]
 So for some fixed $\varepsilon$, the key difference is that for uniform convergence our choice of $N(\varepsilon)$ has to work for all choices of $x \in E$ whereas for pointwise convergence, we pick $N(\varepsilon, x)$ after also fixing some $x \in E$.
+\begin{proposition}
+  Let $f_n, f: E \to \R$.
+  If $f_n \to f$ uniformly on $E$, then $f_n \to f$ pointwise on $E$.
+\end{proposition}
+\begin{proof}
+  For any fixed $\varepsilon > 0$, since $f_n \to f$ uniformly, there exists $N(\varepsilon) \in N$ such that $\sup_{x \in E} |f_n(x) - f(x)| < \varepsilon$ for $n \geq N$.
+  Now given any $x \in E$:
+  \[
+    |f_n(x) - f(x)| \leq \sup_{x \in E} |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N
+  \]
+  and so $f_n \to f$ pointwise on $E$.
+\end{proof}
+\begin{remark}
+  This tells us the following:
+  \begin{itemize}
+    \item If $f$ does not converge pointwise on $E$, then it cannot converge uniformly on $E$ either.
+    \item If $f_n \to f$ pointwise on $E$, then if it converges uniformly on $E$, by uniqueness of limits, it must converge to the same function $f$.
+  \end{itemize}
+  It is therefore a good idea to try and find the pointwise limit first as this can either rule out the possibility of uniform convergence, or provide a limit function to test uniform convergence against.
+\end{remark}
+\begin{example}
+  Returning to \cref{triangleExample}, we saw that $f_n \to 0$ pointwise on $[0, 1]$.
+  If it converges uniformly then it must also converge to $0$ so we check the following:
+  \[
+    \sup_{x \in [0, 1]} |f_n(x) - 0| = n \to \infty \text{ as $n \to \infty$}
+  \]
+  Thus $f_n$ cannot converge uniformly on $[0, 1]$.
+\end{example}
+\begin{example}
+  Define the sequence of functions:
+  \[
+    f_n: \R \to \R,\ x \mapsto \frac{x}{n}
+  \]
+  We see that $f_n \to 0$ pointwise on $\R$.
+  However:
+  \[
+    \sup_{x \in \R} |f_n(x) - 0| = \infty
+  \]
+  so $f_n \centernot\to 0$ uniformly on $\R$.
+
+  If we instead let $a \in (0, \infty)$ and consider restricting the domain of $f_n$ to:
+  \[
+    f_n: [-a, a] \to \R,\ x \mapsto \frac{x}{n}
+  \]
+  We then have:
+  \[
+    \sup_{x \in [-a, a]} |f_n(x) - 0| = \sup_{x \in [-a, a]} \frac{|x|}{n} = \frac{a}{n} \to 0 \text{ as $n \to \infty$}
+  \]
+  Thus, using the definition of a limit, we have that $f_n \to 0$ uniformly on $[-a, a]$.
+\end{example}
+\subsection{Cauchy Criterion}
+\begin{remark}[Recap]
+  Recall from IA Analysis I, that a sequence $(a_n)$ on $\R$ is \textit{Cauchy} if:
+  \[
+    \forall \varepsilon > 0\ \exists N(\varepsilon) \in \N \text{ s.t. } |a_n - a_m| < \varepsilon\ \forall n, m \geq N
+  \]
+  We saw that $\R$ is \textit{complete} and so every Cauchy sequence on $\R$ converges to a limit also in $\R$.
+\end{remark}
+We would like to extend this idea of a Cauchy sequence to sequences of functions.
+\begin{definition}[Uniformly Cauchy]
+  We say a sequence of functions $f_n: E \to \R$ is \textit{uniformly Cauchy} if:
+  \[
+    \forall \varepsilon > 0,\ \exists N = N(\varepsilon) \in \N \text{ s.t. } \sup_{x \in E} |f_n(x) - f_m(x)| < \varepsilon\ \forall n, m \geq N
+  \]
+\end{definition}
+\begin{remark}
+  This is very similar to the definition of a Cauchy sequence on $\R$, however our notion of ``distance'' is now replaced with $\sup_{x \in E} |f_n(x) - f_m(x)|$ as the elements of the sequence are real functions instead of real numbers.
+\end{remark}
+\begin{theorem}[Cauchy criterion for uniform convergence]
+  A sequence of functions $f_n: E \to \R$ converges uniformly on $E$ if and only if it is uniformly Cauchy on $E$. \label{cauchyCritereon}
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $(f_n)$ converges uniformly on $E$}
+    Since $(f_n)$ converges uniformly, there is a function $f: E \to \R$ such that $f_n \to f$ uniformly on $E$.
+
+    Fix some $\varepsilon > 0$, since $f_n \to f$ uniformly, there exists $N(\varepsilon)$ such that $\sup_{x \in E} |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N$.
+
+    Now for any $n, m \geq N$, we have:
+    \begin{align*}
+      |f_n(x) - f_m(x)| &\leq |f_n(x) - f(x)| + |f_m(x) - f(x)| \\
+                        &\leq \sup_{x \in E} [|f_n(x) - f(x)| + |f_m(x) - f(x)|] \\
+                        &\leq \sup_{x \in E} |f_n(x) - f(x)| + \sup_{x \in E} |f_m(x) - f(x)| \\
+      \implies \sup_{x \in E} |f_n(x) - f_m(x)| &\leq \sup_{x \in E} |f_n(x) - f(x)| + \sup_{x \in E} |f_m(x) - f(x)| \\
+                                                &< \varepsilon + \varepsilon = 2\varepsilon
+    \end{align*}
+    which is a fixed positive multiple of $\varepsilon$ and so $(f_n)$ is uniformly Cauchy on $E$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $(f_n)$ is uniformly Cauchy on $E$}
+    If we fix some $\varepsilon > 0$, then since $(f_n)$ is uniformly Cauchy, there exists $N(\varepsilon)$ such that:
+    \[
+      \sup_{x \in E} |f_m(x) - f_n(x)| < \varepsilon\ \forall n, m \geq N
+    \]
+    Now for any $x \in E$ $|f_m(x) - f_n(x)| \leq \sup_{x \in E} |f_m(x) - f_n(x)| < \varepsilon$, and the real sequence $(f_n(x))$ is Cauchy.
+    Thus by the completeness of $\R$, the sequence $(f_n(x))$ must converge to some limit.
+    We can then define an $f(x)$ to be the limit of $(f_n(x))$ for each $x \in E$ and so $f_n \to f$ pointwise on $E$.
+
+    We now only need to check for uniform convergence to this function $f$.
+    Now for any $n \geq N$ and $x \in E$:
+    \begin{align*}
+      |f_n(x) - f(x)| &\leq |f_n(x) - f_m(x)| + |f_m(x) - f(x)| \\
+                      &\leq \varepsilon + |f_m(x) - f(x)|\ \forall m \geq N
+    \end{align*}
+    Since $f_m \to f$ pointwise, we can pick $m = m(x) \geq N$ sufficiently large such that $|f_m(x) - f(x)| < \varepsilon$ also.
+
+    Therefore, for any $n \geq N$ and $x \in E$ we have $|f_n(x) - f(x)| < 2\varepsilon$ and so $\sup_{x \in E} |f_n(x) - f(x)| < 2 \varepsilon$ for all $n \geq N$.
+    So $f_n \to f$ uniformly on $E$ as required.
+  \end{proofdirection}
+\end{proof}
+\section{Properties of Uniform Convergence}
+\subsection{Continuity}
+\begin{remark}[Recap]
+  Recall from IA Analysis that a function $f: [a, b] \to \R$ is said to be \textit{continuous} at a point $x_0 \in [a, b]$ if:
+  \[
+    \forall \varepsilon > 0,\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } (|x - x_0| < \delta \implies |f(x) - f(x_0)| < \varepsilon)
+  \]
+  We say that $f$ is continuous on $[a, b]$ if it is continuous at every $x \in [a, b]$.
+\end{remark}
+\begin{theorem}[Uniform limits preserve continuity at points]
+  Let $f_n, f: [a, b] \to \R$ be such that $f_n \to f$ uniformly and fix some $x_0 \in [a, b]$.
+  If $f_n$ is continuous at $x_0$ for all $n \in \N$, then $f$ is continuous at $x_0$ also. \label{unifCont}
+\end{theorem}
+\begin{remark}[Note]
+  We switched from an arbitrary $E \subseteq \R$ to the interval $E = [a, b]$ to allow us to discuss continuity.
+\end{remark}
+\begin{proof}
+  If we fix some $\varepsilon > 0$, then by assumption, there exists $N$ such that $\sup_{x \in [a, b]} |f_n(x) - f(x)| < \varepsilon$ for all $n \geq N$.
+
+  To show continuity, we wish to bound $|f(x) - f(x_0)|$ for $x \in [a, b]$ sufficiently close to $x_0$:
+  \begin{align*}
+    |f(x) - f(x_0)| &\leq |f(x) - f_N(x)| + |f_N(x) - f_N(x_0)| + |f_N(x_0) - f(x_0)| \\
+                  &\leq 2\varepsilon + |f_N(x) - f_N(x_0)|
+  \end{align*}
+  Now since $f_N$ is continuous at $x_0$, these exists $\delta > 0$ such that:
+  \[
+    |x - x_0| < \delta \implies |f_N(y) - f_N(x)| < \varepsilon \implies |f(x) - f(x_0)| < 3 \varepsilon
+  \]
+  and so $f$ is continuous at $x_0$.
+\end{proof}
+\begin{corollary}[Uniform limits of continious functions are continious]
+  Let $f_n, f: [a, b] \to \R$ be such that $f_n \to f$ uniformly and fix some $x \in [a, b]$.
+  If $f$ is continuous on $[a, b]$, then $f$ is continuous on $[a, b]$ also. \label{unifContFunc}
+\end{corollary}
+\begin{proof}
+  Follows from applying \cref{unifCont} to each $x \in [a, b]$.
+\end{proof}
+\begin{remark}[Notation]
+  We define $C([a, b])$ to be the following space of functions:
+  \begin{align*}
+    C([a, b]) = \{(f: [a, b] \to \R): f \text{ is continuous on $[a, b]$}\}
+  \end{align*}
+\end{remark}
+\begin{corollary}
+  If $(f_n)$ is a uniformly Cauchy sequence on $C([a, b])$, then there exists $f \in C([a, b])$ such that $f_n \to f$ uniformly.
+\end{corollary}
+\begin{remark}
+  This means that $C([a, b])$ is \textit{complete} if we measure distance between elements using the supremum $\sup_{x \in [a, b]} |f_1(x) - f_2(x)|$.
+  Completeness will be covered in detail later in the course during the discussion of metric spaces.
+\end{remark}
+\begin{proof}
+  By \cref{cauchyCritereon}, there exists $f: [a, b] \to \R$ such that $f_n \to f$ uniformly, and by \cref{unifContFunc}, $f \in C([a, b])$.
+\end{proof}
 \end{document}
