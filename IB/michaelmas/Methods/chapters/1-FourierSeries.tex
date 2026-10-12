@@ -33,9 +33,9 @@ We equip $V$ with the following inner product:
 where $\overline{g}$ is the complex conjugate of $g$.
 Since $f$ and $g$ are $L$-periodic, we can take the integral bounds to be any interval of length $L$.
 We can now define the norm in $V$ the standard way:
-\[
-  \norm{f} = \sqrt{\langle f, f \rangle} = \sqrt{\int_{0}^{L} |f|^2 \d{\theta}}
-\]
+\begin{equation}
+  \norm{f} = \sqrt{\langle f, f \rangle} = \sqrt{\int_{0}^{L} |f|^2 \d{\theta}} \label{fourierNorm}
+\end{equation}
 
 Consider the following family of functions:
 \[
@@ -187,4 +187,210 @@ are called the \textit{Fourier coefficients} of $f$.
   To suggest why this is the case, notice how in the above example, each time we integrate by parts, we bring down a factor of $1/n$ which would cause the coefficient will decay faster, however we also introduce a boundary term which slows down decay, unless it vanishes.
   Here, we see that the first boundary term disappears because $f$ is continuous at the boundaries, but the second one does not since $f'$ is not continuous at the boundaries.
 \end{remark}
+\section{Convergence of Fourier Series}
+\begin{definition}[Partial Fourier Series]
+  For an $L$-periodic function $f: \R \to \C$ we define the \textit{partial Fourier series} of $f$ as the finite sum:
+  \[
+    (S_N f)(\theta) = \sum_{|n| \leq N} \hat{f}_{n} e^{2 \pi n \theta / L}
+  \]
+  where:
+  \[
+    \hat{f}_{n} = \frac{1}{L} \int_{0}^{L} f(\theta) e^{- 2\pi i n \theta/L} \d{\theta}
+  \]
+\end{definition}
+We would like to figure out if $S_N f \to f$ as $N \to \infty$.
+But in what way do we want the sequence of functions $S_N f$ to converge to $f$?
+\begin{itemize}
+  \item \textbf{Pointwise Convergence}:
+    \[
+      \lim_{N \to \infty} |S_{N}f(\theta) - f(\theta)| = 0\ \forall \theta \in [0, L)
+    \]
+  \item \textbf{Uniform Convergence}:
+    \[
+      \lim_{N \to \infty} \left[\sup_{x \in [0, L)} |S_N f(\theta) - f(\theta)|\right] = 0
+    \]
+  \item \textbf{Convergence in Norm}:
+    Using the norm we defined earlier in \cref{fourierNorm}, convergence in norm is:
+    \[
+      \lim_{N \to \infty} \norm{S_N f - f}^2 = \lim_{N \to \infty} \int_{0}^{L} |S_{N} f(\theta) - f(\theta)|^2 \d{\theta} = 0
+    \]
+\end{itemize}
+Convergence in norm is the nicest to show, however we would like to be able to show pointwise convergence.
+\begin{proposition}
+  If $f: \R \to \C$ is $L$-periodic such that the following hold:
+  \begin{enumerate}
+    \item $f$ is continuous on $[0, L)$ apart from at a finite number of jump discontinuities.
+    \item Both $\Re(f)$ and $\Im(f)$ have a finite number of local extremum on $[0, L)$.
+  \end{enumerate}
+  then we have:
+  \[
+    \frac{1}{2}[f(\theta_{+}) + f(\theta_{-})] = \lim_{N \to \infty} S_N f(\theta)\ \forall \theta \in \R
+  \]
+  where $f(\theta_{\pm}) = \lim_{\varepsilon \to 0^\pm} f(\theta + \varepsilon)$.
+\end{proposition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item At points of continuity of $f$, $f(\theta_{+}) = f(\theta_{-})$ and so $\lim_{N \to \infty} S_{N} f(\theta) = f(\theta)$.
+    \item At jump discontinuities, $\lim_{N \to \infty} S_{N} f(\theta)$ is the average value of the left and right limits at the jump.
+    \item Functions satisfying \textbf{(i)} and \textbf{(ii)} are called \textit{Dirichlet functions}.
+      We will only deal with such functions for the remainder of the course and so we take the relation:
+      \[
+        f(\theta) \sim \sum_{n \in \Z} \hat{f}_{n} e^{2 \pi i n \theta / L}
+      \]
+      to mean that the two sides are equal at points of continuity of $f$, and at jump discontinuities, the right and side is the average of $f$ at the jump discontinuity.
+  \end{itemize}
+\end{remark}
+For ease, we shall only prove this result for smooth $f$.
+\begin{proof}[For $f \in C^\infty$]
+  We assume take $L = 2\pi$ for notational brevity, however the result still holds in the general case.
+  Due to the periodicity of $S_N f$, we need only show the result for each $\theta_0 \in [-\pi, \pi)$.
+  In fact, we need only show that we have convergence at $\theta = 0$ by redefining $f(\theta)$ to be $f(\theta + \theta_0)$.
+
+  Consider the partial Fourier series evaluated at $\theta = 0$:
+  \begin{align*}
+    (S_N f)(\theta) &= \sum_{|n| \leq N} \hat{f}_{n} e^{in \cdot 0} \\
+                    &= \sum_{|n| \leq N} \frac{1}{2\pi} \int_{-\pi}^{\pi} f(\theta) e^{-i n \theta} \d{\theta} \\
+                    &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \left[\sum_{|n| \leq N} e^{-i n \theta} \right] f(\theta) \d{\theta}
+  \end{align*}
+  For $\theta \in \R \setminus (2 \pi \Z)$, this sum can be written as:
+  \begin{align*}
+    \sum_{|n| \leq N} e^{-i n \theta} &= e^{i N \theta} \sum_{i = 0}^{2N} e^{- i n \theta} \\
+                                      &= e^{i N \theta} \cdot \frac{1 - e^{- i (2N + 1) \theta}}{1 - e^{-i \theta}} \\
+                                      &= \frac{e^{i N \theta} - e^{- i (N + 1) \theta}}{1 - e^{-i \theta}} \\
+                                      &= \frac{e^{i \left(N + \frac{1}{2}\right)\theta} - e^{-i \left(N + \frac{1}{2}\right)\theta}}{e^{i \frac{\theta}{2}} - e^{-i \frac{\theta}{2}}} \\
+                                      &= \frac{\sin\left[\left(N + \frac{1}{2}\right)\theta\right]}{\sin(\theta/2)}
+  \end{align*}
+  For $\theta \in 2 \pi \Z$, the sum is just $\sum_{|n| \leq N} 1 = 2N + 1$.
+
+  We define the value of this sum to be the \textit{$N$-th Dirichlet kernel}:
+  \[
+    D_{N}(\theta) = \begin{cases}
+    \frac{\sin\left[\left(N + \frac{1}{2}\right)\theta\right]}{\sin(\theta/2)} & \text{ if } \theta \in \R \setminus (2 \pi \Z) \\
+    2N + 1 & \text{ if } \theta \in 2 \pi \Z
+    \end{cases}
+  \]
+  By considering the finite sum of exponentials:
+  \begin{enumerate}
+    \item $D_N$ is smooth and $2\pi$-periodic.
+    \item $\int_{-\pi}^{\pi} D_{N}(\theta) \d{\theta} = 2 \pi$ for all $N \geq 0$ as only $N = 0$ will contribute when integrated.
+  \end{enumerate}
+  We now consider the quantity:
+  \begin{align}
+    S_{N}f(0) - f(0) &= \frac{1}{2\pi} \int_{-\pi}^{\pi} D_N(\theta) f(\theta) \d{\theta} - f(0) \nonumber \\
+                     &= \frac{1}{2\pi} \int_{-\pi}^{\pi} D_N(\theta) f(\theta) \d{\theta} - f(0) \cdot \frac{1}{2\pi} \int_{-\pi}^{\pi} D_N(\theta) \d{\theta} \nonumber \\
+                     &= \frac{1}{2\pi} \int_{-\pi}^{\pi} D_N(\theta)[f(\theta) - f(0)] \d{x} \nonumber \\
+                     &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \sin\left[\left(N + \frac{1}{2}\right)\theta\right] F(\theta) \d{\theta} \tag{$\dag$} \label{convDag}
+  \end{align}
+  where we define:
+  \[
+    F(\theta) = \frac{\theta}{\sin(\theta/2)} \left[\frac{f(\theta) - f(0)}{\theta}\right]
+  \]
+  Since $f \in C^{\infty}(\R)$, it follows that $F(\theta) \in C^{\infty}(\R)$ as:
+  \[
+    f(\theta) - f(0) = \int_{0}^{\theta} f'(t) \d{t} = \theta \int_{0}^{1} f'(t \theta) \d{t} \implies \abs{\frac{f(\theta) - f(0)}{\theta}} \leq \int_{0}^{1} |f'(t \theta)| \d{t}
+  \]
+  Since $F(\theta)$ is smooth, we can therefore integrate \cref{convDag} by parts to yield:
+  \begin{align*}
+    S_{N} f(0) - f(0) &= \frac{1}{2 \pi} \cdot \frac{1}{N + \frac{1}{2}} \int_{-\pi}^{\pi} \cos\left[\left(N + \frac{1}{2}\right)\theta\right] F'(\theta) \d{\theta}
+  \end{align*}
+  and so:
+  \[
+    |S_N f(0) - f(0)| \leq \frac{1}{2\pi} \cdot \frac{1}{N + \frac{1}{2}} \int_{-\pi}^{\pi} |F'(\theta)| \d{\theta} \to 0 \text{ as $N \to \infty$}
+  \]
+  Therefore $S_N f(0) \to f(0)$ as $N \to \infty$, as required.
+\end{proof}
+\begin{remark}[Remarks]
+  \nonexaminable
+  \begin{itemize}
+    \item If $f$ was not so regular, then we cannot proceed past:
+      \[
+        (S_N f)(0) - f(0) = \frac{1}{2\pi} \int_{-\pi}^{\pi} \sin\left[\left(N + \frac{1}{2}\right)\theta\right] F(\theta) \d{\theta}
+      \]
+      For Dirichlet functions $f$ which are not $C^{1}$, we can in fact deal proceed from here using the \textit{Riemann-Lebesgue Lemma}.
+    \item For a while, people believed that if $\int_{0}^{L} |f(\theta)| \d{\theta} < \infty$, then:
+      \[
+        f(\theta) = \sum_{n \in \Z} \hat{f} e^{2 \pi i \theta / L}
+      \]
+      almost everywhere.
+      However, later on, a counter example was constructed which causes this sum to diverges almost everywhere.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  Let $f: \R \to \R$ be $2\pi$-periodic such that on $[0, 2\pi)$
+  \[
+    f(\theta) = \begin{cases}
+    1 & \text{ if } 0 \leq \theta < \pi \\
+    -1 & \text{ if } \pi \leq \theta < 2\pi
+    \end{cases}
+  \]
+  We start by considering a graph of the function:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (-4, 0) -- (4, 0) node[right] {$\theta$};
+    \draw[->] (0, -2) -- (0, 2) node[right] {$f(\theta)$};
+
+    \clip (-4, -2) rectangle (4, 2);
+    \foreach \x in {-4, -2, 0, 2, 4} {
+      \draw (\x, 1) -- (\x + 1, 1);
+      \draw (\x-1, -1) -- (\x, -1);
+
+
+      \draw[dashed] (\x, 1) -- (\x, -1);
+      \draw[dashed] (\x + 1, 1) -- (\x + 1, -1);
+
+      \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x \pi$};
+
+      \filldraw[fill=black, draw=black] (\x, 1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x, -1) circle (1.3pt);
+
+      \filldraw[fill=black, draw=black] (\x + 1, -1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x + 1, 1) circle (1.3pt);
+    }
+    \foreach \x in {-3, -1, 1, 3} \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x \pi$};
+  \end{tikzpicture}
+  \end{center}
+  We see that $f$ is odd so $a_n = 0\ \forall n$.
+  To find $b_n$:
+  \begin{align*}
+    b_n &= \frac{2}{2\pi} \int_{-\pi}^{\pi} f(\theta) \sin(n \theta) \d{\theta} \\
+        &= \frac{2}{\pi} \int_{0}^{\pi} \sin(n\theta) \d{\theta} \\
+        &= \frac{2}{n \pi}[1 - (-1)^{n}]
+  \end{align*}
+  For even $n$, $[1 - (-1)]^{n} = 0$ and so $b_n = 0$, thus our Fourier series need only sum over odd $n$:
+  \[
+    f(\theta) \sim \frac{4}{\pi} \sum_{\substack{n \text{ odd} \\ n\geq0}} \frac{\sin (n\theta)}{n}
+  \]
+  At the jump discontinuities at $\theta = n \pi$, we get that the right hand side is $0$, which is the average across the jump discontinuity:
+  \[
+    \frac{1}{2}[f(n \pi_+) + f(n \pi_-)] = 0
+  \]
+  Graphically, the Fourier series for $f$ looks like:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (-4, 0) -- (4, 0) node[right] {$\theta$};
+    \draw[->] (0, -2) -- (0, 2) node[right] {$f(\theta)$};
+
+    \clip (-4, -2) rectangle (4, 2);
+    \foreach \x in {-4, -2, 0, 2, 4} {
+      \draw (\x, 1) -- (\x + 1, 1);
+      \draw (\x-1, -1) -- (\x, -1);
+
+
+      \draw[dashed] (\x, 1) -- (\x, -1);
+      \draw[dashed] (\x + 1, 1) -- (\x + 1, -1);
+
+      \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x \pi$};
+
+      \filldraw[fill=white, draw=black] (\x, 1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x, -1) circle (1.3pt);
+      \filldraw[fill=black, draw=black] (\x, 0) circle (1.3pt);
+
+      \filldraw[fill=white, draw=black] (\x + 1, -1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x + 1, 1) circle (1.3pt);
+      \filldraw[fill=black, draw=black] (\x + 1, 0) circle (1.3pt);
+    }
+    \foreach \x in {-3, -1, 1, 3} \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x \pi$};
+  \end{tikzpicture}
+  \end{center}
+\end{example}
 \end{document}
