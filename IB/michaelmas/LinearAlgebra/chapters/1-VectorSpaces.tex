@@ -1,10 +1,89 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Vector Spaces}
-\section{Definitions}
+\section{An Aside on Fields}
+In this course we will encounter the concept of a \textit{field} for the first time.
+The specifics of the field itself will rarely be relevant but it is important to understand the notion of what is meant by a field.
+\subsection{Definition and Examples}
+\begin{definition}[Field]
+  A \textit{field} is a tuple $(\F, +, \cdot, 0, 1)$ where:
+  \begin{itemize}
+    \item $\F$ is a set
+    \item $+: \F \times \F \to \F$ is a binary operation called \textit{addition}
+    \item $\cdot: \F \times \F \to \F$ is a binary operation called \textit{multiplication}
+    \item $0 \in \F$ is the \textit{additive identity}
+    \item $1 \in \F$ is the \textit{multiplicative identity}
+  \end{itemize}
+  such that the following axioms hold:
+  \begin{enumerate}
+    \item $(\F, +, 0)$ and $(F \setminus \{0\}, \cdot, 1)$ are both abelian groups.
+    \item For all $a, b, c \in \F$, we have $a \cdot (b + c) = a \cdot b + a \cdot c$.
+      That is, $\cdot$ distributes over $+$.
+    \item $0 \neq 1$, this is called the \textit{axiom of total collapse}.
+  \end{enumerate}
+\end{definition}
 \begin{remark}[Notation]
-  Throughout this course, we will use $\F$ to denote a \textit{field}.
+  For $a \in \F$, we denote its additive inverse as $-a$ and for $a \in F \setminus \{0\}$, we write $a^{-1}$ for the multiplicative inverse of $a$.
 \end{remark}
+\begin{lemma}
+  For every $a \in \F$, $0 \cdot a = 0$. \label{fieldLemma}
+\end{lemma}
+\begin{proof}
+  Using axiom \textbf{(ii)} we have:
+  \[
+    0 \cdot a = (0 + 0) \cdot a = 0 \cdot a + 0 \cdot a
+  \]
+  so by adding $-a \cdot 0$ to both sides we obtain $0 \cdot a = 0$.
+\end{proof}
+\begin{remark}
+  We call axiom \textbf{(iii)} the \textit{axiom of total collapse} because if $0 = 1$, then for any $a \in \F$:
+  \[
+    a = 1 \cdot a = 0 \cdot a = 0
+  \]
+\end{remark}
+\begin{example}[Examples of fields] \label{fieldEx}
+  \begin{enumerate}
+    \item $\R$, $\C$, and $\Q$ are all examples of fields.
+    \item If $p$ is prime then $\Z / p\Z$ (i.e. the integers modulo $p$) is a field.
+      We saw in IA Numbers and Sets that since $p$ is prime, every non-zero element has a multiplicative inverse.
+  \end{enumerate}
+\end{example}
+\begin{example}[Non-examples of fields]
+  \begin{enumerate}
+    \item The integers do not form a field under the usual addition and multiplication operations because multiplicative inverses in $\Z$ do not exist for all elements of $\Z$.
+    \item If $n \in \N$ is composite, then $\Z / n\Z$ is not a field.
+
+      In the case of $n = 1$, the axiom of total collapse fails as $|\Z / \Z| = 1$.
+      In the case of $n > 1$ we can always find a non-zero element with no multiplicative inverse in $\Z / n\Z$.
+  \end{enumerate}
+\end{example}
+\subsection{Important Classes of Field}
+It usually does not matter field $\F$ a vector space is defined on.
+However, there are a few results in the course which contain restrictions on the structure of $\F$.
+It is therefore important to be aware of such restrictions as you may need to impose such restrictions on your own proofs.
+We will briefly discuss a few issues to look out for.
+\subsubsection{Finite vs Infinite Fields}
+$\R$, $\C$, $\Q$ are all examples of infinite fields, however, it is important to keep in mind that there are finite fields, for example, $\Z / p\Z$ for prime $p$ as discussed in \cref{fieldEx} \textbf{(ii)}.
+\subsubsection{Dividing by Zero}
+Given an arbitrary field $\F$, suppose that $0$ has a multiplicative inverse $0^{-1} \in \F$ such that $0 \cdot 0^{-1} = 1$.
+However by \cref{fieldLemma}, $0 \cdot 0^{-1} = 0$ so the axiom of total collapse has been violated.
+Thus $0$ cannot have a multiplicative inverse.
+
+Because of this, it is important to check that an element $a$ is non-zero before starting to use its multiplicative inverse.
+\subsubsection{Algebraic Closure}
+\begin{definition}[Algebraically Closed]
+  We say that a field $\F$ is \textit{algebraically closed} if any polynomial $f(X) = 0$ with coefficients in $\F$ has a solution in $\F$.
+\end{definition}
+\begin{example}
+  \begin{itemize}
+    \item The Fundamental Theorem of Algebra is precisely the statement that $\C$ is algebraically closed as a field.
+    \item $\R$ is not algebraically closed as the polynomial $x^2 + 1 = 0$ with real coefficients does not have a solution in $\R$.
+    \item $\Z / 2\Z$ is not algebraically closed as the polynomial $X^2 + X + 1 = 0$ with coefficients modulo 2 has no solution.
+    \item In fact, for any prime $p$, $\Z / p \Z$ is not algebraically closed.
+      This is because for any prime $p$, we can in fact construct a quadratic polynomial over $\Z / p \Z$ with no solutions in $\Z / p \Z$.
+  \end{itemize}
+\end{example}
+\section{Definition of a Vector Space}
 \begin{definition}[Vector Space]
   An \textit{$\F$-vector space} is an abelian group $(V, +, \vec{0})$ equipped with an additional operation called \textit{scalar multiplication}: \label{vecSpaceDef}
   \[
@@ -201,7 +280,7 @@ As discussed, their union is rarely a subspace, however we can instead take the 
 \begin{remark}[Note]
   If $V = W$, then a linear map $\alpha: V \to V$ is called an \textit{endomorphism} of $V$.
 \end{remark}
-\begin{example}[Examples of linear maps]
+\begin{example}[Examples of linear maps] \label{linearMapEx}
   \begin{enumerate}
     \item For $V = \F^{n}$, $W = \F^{m}$ and $A \in M_{n \times m}(\F)$, the map:
       \[
@@ -235,7 +314,14 @@ As discussed, their union is rarely a subspace, however we can instead take the 
         \alpha: V \to W,\ v \mapsto \vec{0}_{W}
       \]
       is linear.
-    \item For linear maps $\alpha: U \to V$ and $\beta: V \to W$ the composition $(\beta \circ \alpha): U \to W$ is also linear.
+    \item Let $U, V, W$ all be $\F$-vector spaces and let $\alpha: U \to V$ and $\beta: V \to W$ be linear maps.
+      For any $u_1, u_2 \in U$ and $\lambda \in \F$ we have:
+      \begin{align*}
+        (\beta \circ \alpha) (u_1 + \lambda u_2) &= \beta(\alpha u_1 + \lambda \alpha u_2) \text{ as $\alpha$ is linear} \\
+                                                 &= \beta(\alpha(u_1)) + \lambda \beta(\alpha(u_2)) \text{ as $\beta$ is linear} \\
+                                                 &= (\beta \circ \alpha)(u_1) + \lambda (\beta \circ \alpha)(u_2)
+      \end{align*}
+      and so $(\beta \circ \alpha): U \to W$ is also linear.
   \end{enumerate}
 \end{example}
 \begin{remark}[Notation]
@@ -276,4 +362,203 @@ As discussed, their union is rarely a subspace, however we can instead take the 
   \]
   is both linear and bijective, so is an isomorphism.
 \end{example}
+\begin{proposition}
+  If $\alpha: V \to W$ is an isomorphism, then so is $\alpha^{-1}: V \to W$. \label{invIso}
+\end{proposition}
+\begin{proof}
+  Since $\alpha$ bijective, so is $\alpha^{-1}$ and thus we just need to check that $\alpha^{-1}$ is linear.
+
+  Let $w_1, w_2 \in W$ and $\lambda \in \F$.
+  Since $\alpha$ is surjective, there exists $v_1, v_2 \in V$ such that $\alpha(v_1) = w_1$ and $\alpha(v_2) = w_2$.
+  We then have:
+  \begin{align*}
+    \alpha^{-1}(w_1 + \lambda w_2) &= \alpha^{-1}(\alpha(v_1) + \lambda \alpha(v_2)) \\
+                                   &= \alpha^{-1}(\alpha(v_1 + \lambda v_2)) \\
+                                   &= v_1 + \lambda v_2 \\
+                                   &= \alpha^{-1}(w_1) + \lambda \alpha^{-1}(w_2)
+  \end{align*}
+  and so $\alpha^{-1}$ is linear.
+\end{proof}
+\begin{corollary}
+  For any set $X$ of $\F$-vector spaces, the relation $\cong$ forms an equivalence relation on $X$.
+\end{corollary}
+\begin{proof}
+  We show that $\cong$ is reflexive, symmetric, and transitive:
+  \begin{itemize}
+    \item \textbf{Reflexive} Provided by the identity linear map.
+    \item \textbf{Symmetric} Provided by \cref{invIso}.\par
+    \item \textbf{Transitive} The composition of bijections is also a bijection and the composition of linear maps is also linear (see \cref{linearMapEx} \textbf{(vii)}).
+      Thus the composition of isomorphisms is also an isomorphism and so $\cong$ is transitive.
+  \end{itemize}
+  So $\cong$ is an equivalence relation on any set of $\F$-vector spaces.
+\end{proof}
+\begin{definition}[Kernel and Image]
+  For a linear map $\alpha: V \to W$ we define the \textit{kernel} of $\alpha$ to be:
+  \[
+    \ker \alpha = \{v \in V: \alpha(v) = \vec{0}_{W}\} \subseteq V
+  \]
+  and the \textit{image} of $\alpha$ to be:
+  \[
+    \im \alpha = \{w \in W: \exists v \in V \text{ with } \alpha(v) = w\} \subseteq W
+  \]
+\end{definition}
+\begin{lemma}
+  For a linear map $\alpha: V \to W$:
+  \begin{enumerate}
+    \item $\ker \alpha \leq V$
+    \item $\im \alpha \leq W$
+    \item $\alpha$ is surjective if and only if $\im \alpha = W$
+    \item $\alpha$ is injective if and only if $\ker \alpha = \{\vec{0}_V\}$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  Since $\alpha$ is linear, we have:
+  \[
+    \alpha(\vec{0}_{V}) = \alpha(\vec{0}_{V} + \vec{0}_{V}) = \alpha(\vec{0}_{V}) + \alpha(\vec{0}_{V}) \implies \alpha(\vec{0}_{V}) = \vec{0}_{W}
+  \]
+  So $\vec{0}_{V} \in \ker \alpha$, i.e. $\ker \alpha \neq \emptyset$.
+
+  For any $v_1, v_2 \in \ker \alpha$ and $\lambda \in \F$ we have:
+  \[
+    \alpha(v_1 + \lambda v_2) = \alpha(v_1) + \lambda \alpha(v_2) = \vec{0}_W + \lambda \cdot \vec{0}_{W} = \vec{0}_{W}
+  \]
+  and so $v_1 + \lambda v_2 \in \ker \alpha$.
+  Thus $\ker \alpha \leq V$ by the subspace test (\cref{subspaceTest}).
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  As shown in the proof of \textbf{(i)}, $\alpha(\vec{0}_{V}) = \vec{0}_{W} \implies \vec{0}_{W} \in \im \alpha$, and so $\im \alpha \neq \emptyset$.
+  For any $w_1, w_2 \in \im \alpha$ and $\lambda \in \F$, there exists $v_1, v_2 \in V$ such that $\alpha(v_1) = w_1$ and $\alpha(v_2) = w_2$ so:
+  \[
+    \alpha(v_1 + \lambda v_2) = \alpha(v_1) + \lambda \alpha(v_2) = w_1 + \lambda w_2
+  \]
+  and so $w_1 + \lambda w_2 \in \im \alpha$.
+  Thus $\im \alpha \leq W$ by the subspace test (\cref{subspaceTest}).
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Immediate from definition of surjectivity.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  \begin{proofdirection}{Assume $\alpha$ is injective}
+    As shown in the proof of \textbf{(i)}, $\alpha(\vec{0}_{V}) = \vec{0}_{W}$.
+    If $v \in \ker \alpha$, then $\alpha(v) = \vec{0}_{W} = \alpha(\vec{0}_{V})$ and so $v = \vec{0}_{V}$ by injectivity.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\ker \alpha = \{\vec{0}_{V}\}$}
+    Suppose we have $u, v \in V$ with $\alpha(u) = \alpha(v)$, then:
+    \[
+      \vec{0}_{W} = \alpha(u) - \alpha(v) = \alpha(u - v) \implies u - v \in \ker \alpha = \{\vec{0}\} \implies u = v
+    \]
+    Thus $\alpha$ is injective.
+  \end{proofdirection}
+\end{proof}
+\section{Quotient Spaces}
+\begin{definition}[Quotient]
+  For an $\F$-vector space $V$ and a subspace $W \leq V$, the \textit{quotient} of $V$ by $W$ is defined as:
+  \[
+    V / W = \{v + W: v \in V\}
+  \]
+  That is, the set of left costs of $W$ in $V$.
+\end{definition}
+\begin{remark}[Recap]
+  Recall from IA Groups that for $u, v \in V$ and a subgroup $W \leq V$:
+  \begin{equation}
+    u + W = v + W \iff u - v \in W \label{cosetRelation}
+  \end{equation}
+\end{remark}
+\begin{proposition}[Quotient Space]
+  For an $\F$-vector space $V$ and a subspace $W \leq V$, the quotient $V / W$ is an $\F$-vector space, called the \textit{quotient space} of $V$ by $W$, under the operations:
+  \begin{enumerate}
+    \item $(u + W) + (v + W) = (u + v) + W$
+    \item $\lambda(v + W) = \lambda v + W$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}\par
+  \textbf{Operations are well defined}\par
+  We first need to check that these operations are indeed well defined.
+  Suppose we have $u_1, u_2, v_1, v_2 \in V$ such that $u_1 + W = v_1 + W$ and $u_2 + W = v_2 + W$.
+
+  For the operation in \textbf{(i)} we use that by \cref{cosetRelation}, $u_1 - v_1 \in W$ and $u_2 - v_2 \in W$.
+  Thus by closure $(u_1 + u_2) - (v_1 + v_2) = (u_1 - v_1) + (u_2 - v_2) \in W$, so using \cref{cosetRelation} again we have $(u_1 + u_2) + W = (v_1 + v_2) + W$.
+
+  For the operation in \textbf{(ii)}, for any $\lambda \in \F$ we have $\lambda u_1 - \lambda v_1 = \lambda(u_1 - v_1) \in W$ also, thus by \cref{cosetRelation} $(\lambda u_1) + W = (\lambda v_1) + W$.
+
+  \textbf{Group Structure}\par
+  By IA Groups, the quotient group $V / W$ of the underlying groups is an abelian group under addition as the quotient of an abelian group is abelian.
+
+  \textbf{Vector space axioms}\par
+  The axioms for the operations on a vector space are inherited from $V$ because of how we defined the operations on $V / W$ to essentially act on the elements of $V$.
+\end{proof}
+\begin{definition}[Quotient Map]
+  For an $\F$-vector space $V$ and a subspace $W \leq V$, we define the \textit{quotient map} by:
+  \[
+    \pi_{W}: V \to V / W,\ v \mapsto v + W
+  \]
+\end{definition}
+\begin{proposition}
+  The quotient map $\pi_{W}: V \to V / W$ satisfies the following:
+  \begin{enumerate}
+    \item $\pi_{W}$ is linear
+    \item $\ker \pi_{W} = W$
+    \item $\im \pi_{W} = V / W$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Given $u, v \in V$ and $\lambda \in \F$ we have:
+  \begin{align*}
+    \pi_{W}(u + \lambda v) &= (u + \lambda v) + W \\
+                           &= (u + W) + ((\lambda v) + W) \\
+                           &= (u + W) + \lambda (v + W) \\
+                           &= \pi_{W} + \lambda \pi_{W}(v)
+  \end{align*}
+  and so $\pi_{W}$ is linear.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  For $v \in V$:
+  \[
+    v \in \ker \pi_{W} \iff v + W = \vec{0}_{V} + W \iff v = v - \vec{0}_{V} \in W
+  \]
+  using \cref{cosetRelation}.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  For any $v + W \in V / W$, $v + W = \pi_{W}(v)$ and so $v + W \in \im \pi_{W}$.
+\end{proof}
+\begin{remark}
+  This is analogous to how in IA Groups, we showed that for a group $G$ and a normal subgroup $N \lhd G$ that the map $\phi: G \to G / N,\ g \mapsto g N$ is a surjective homomorphism with $\ker \phi = N$.
+\end{remark}
+\begin{theorem}[First Isomorphism Theorem]
+  If $V, W$ are $\F$-vector spaces and $\alpha: V \to W$, then the map $\overline{\alpha}$ defined as:
+  \[
+    \overline{\alpha}: V / \ker \alpha \to \im \alpha,\ v + \ker \alpha \mapsto \alpha(v)
+  \]
+  is an isomorphism and so $V / \ker \alpha \cong \im \alpha$.
+\end{theorem}
+\begin{proof}
+  For brevity, define $K = \ker \alpha$.
+
+  \textbf{Well Defined and Injective}\par
+  For $u, v \in V$ we have:
+  \begin{align*}
+    u + K = v + K &\iff u - v \in K \\
+                  &\iff \alpha(u - v) = \vec{0}_{W} \\
+                  &\iff \alpha(u) = \alpha(v) \\
+                  &\iff \overline{\alpha}(u + K) = \overline{\alpha}(v + K)
+  \end{align*}
+  Reading this logic forwards tells us that $\overline{\alpha}$ is well defined, and reading it in reverse tells us that $\overline{\alpha}$ is injective.
+
+  \textbf{Surjectivity}\par
+  Given $w \in \im \alpha$, there exists $v \in V$ such that:
+  \[
+    w = \alpha(v) = \overline{\alpha}(v + K) \implies w \in \im \overline{\alpha}
+  \]
+  and so $\overline{\alpha}$ is surjective.
+
+  \textbf{Linearity}\par
+  Given $u, v \in V$ and $\lambda \in \F$, we have:
+  \begin{align*}
+    \overline{\alpha}((u + K) + \lambda (v + K)) &= \overline{\alpha}((u + \lambda V) + K) \\
+                                                 &= \alpha(u + \lambda v) \\
+                                                 &= \alpha(u) + \lambda \alpha(v) \\
+                                                 &= \overline{\alpha}(u + K) + \lambda \overline{\alpha}(v + K)
+  \end{align*}
+  and so $\overline{\alpha}$ is a linear map.
+\end{proof}
 \end{document}

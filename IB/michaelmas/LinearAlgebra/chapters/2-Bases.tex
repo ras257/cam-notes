@@ -1,0 +1,63 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Bases}
+\section{Spanning Sets}
+\begin{definition}[Span]
+  We define the \textit{span} of a subset $S \subseteq V$ to be:
+  \[
+    \langle S \rangle = \left\{\finitesum_{s \in S} \lambda_s s: \lambda_s \in \F\right\}
+  \]
+\end{definition}
+\begin{remark}[Notation]
+  We introduce the notation:
+  \[
+    \finitesum_{s \in S} \lambda_s
+  \]
+  to mean a finite sum over elements of $S$.
+  That is, we require that $\lambda_s = 0$ for all but finitely many elements $s \in S$.
+\end{remark}
+\begin{remark}
+  By convention we define $\langle \emptyset \rangle = \{\vec{0}_{V}\}$.
+\end{remark}
+\begin{definition}
+We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V$:
+  \begin{enumerate}
+    \item We call expressions of the form:
+      \[
+        \finitesum_{s \in S} \lambda_s s \text{ for } \lambda_s \in \F
+      \]
+      \textit{linear combinations} of elements from $S$.
+    \item We say that $S$ \textit{spans} V (or that $S$ is a \textit{spanning set} for $V$) if $\langle S \rangle = V$.
+    \item We say that $V$ is \textit{finite dimensional} if $V$ has a finite spanning set.
+  \end{enumerate}
+\end{definition}
+\begin{lemma}
+  For an $\F$-vector space $V$ and subsets $S, T \subseteq V$:
+  \begin{enumerate}
+    \item $\langle S \rangle \leq V$
+    \item If $S$ spans $V$ and $S \subseteq \langle T \rangle$, then $T$ spans $V$.
+    \item $\langle S \cup T \rangle = \langle S \rangle + \langle T \rangle$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  Clearly $\vec{0} \in \langle S \rangle$ by setting $\lambda_S = 0\ \forall s \in S$.
+  For $v_1, v_2 \in \langle S \rangle$ and $\lambda \in \F$, clearly $v_1 + \lambda v_2 \in \langle S \rangle$ as we can just regroup the terms to be a sum of scalar multiples of elements of $S$.
+  So $\langle S \rangle \leq V$ by the subspace test (\cref{subspaceTest}).
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  By \textbf{(i)}, $\langle T \rangle \leq V$ and also since $\langle T \rangle$ is a vector space $\langle S \rangle \leq \langle T \rangle$.
+  Thus:
+  \[
+    V = \langle S \rangle \leq \langle T \rangle \leq V \implies \langle T \rangle = V
+  \]
+  So $T$ spans $V$ also.
+\end{proof}
+\begin{proof}
+  For any $s_1, \ldots, s_n \in S$, $t_1, \ldots, t_n \in T$, and $\lambda_1, \ldots, \lambda_n, \mu_1, \ldots, \mu_k \in \F$ we can write:
+  \begin{align*}
+    v &= \lambda_1 s_1 + \cdots + \lambda_n s_n + \mu_1 t_1 + \cdots + \mu_k t_k \in \langle S \cup T \rangle\\
+      &= (\lambda_1 s_1 + \cdots + \lambda_n s_n) + (\mu_1 t_1 + \cdots + \mu_k t_k) \in \langle S \rangle + \langle T \rangle
+  \end{align*}
+  This is the form of all elements in either of the sets and so $\langle S \cup T \rangle = \langle S \rangle + \langle T \rangle$.
+\end{proof}
+\end{document}
