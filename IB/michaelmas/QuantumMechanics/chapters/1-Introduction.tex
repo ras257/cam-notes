@@ -9,16 +9,17 @@
     \[
       m \ddot{\vec{x}}(t) = F(\vec{x}(t), \dot{\vec{x}}(t))
     \]
-  \item \textbf{Waves} are ``spread out'' objects described by $f(x, t)$ which is periodic in both $x$ and $t$.
-    Their propagation is governed by the PDE:
+  \item \textbf{Waves} are ``spread out'' objects described by $f(\vec{x}, t)$ which is periodic in both space and time.
+    In one dimension, i.e. $\vec{x} = x \in \R$, their propagation is governed by the PDE:
     \[
       \pderiv[2]{f}{t} - c^2 \pderiv[2]{f}{x} = 0
     \]
     which, as we saw in IA Differential Equations, has solutions of the form:
     \[
-      f_{\pm}(x, t) = A_{\pm}\exp[i(kx - \omega t)]
+      f_{\pm}(x, t) = A_{\pm}\exp[i(\pm kx - \omega t)]
     \]
-    for $A_{\pm} \in C$ and $k, \omega \in \R$.
+    for $A_{\pm} \in \C$ and $k, \omega \in \R$.
+    These waves travel at a speed $c$ either to the right or to the left depending on the sign of the $\pm$.
     Such solutions obey the \textit{dispersion relation}:
     \[
       \omega = ck
@@ -28,6 +29,18 @@
     \[
       \nu = \frac{\omega}{2\pi} \text{ and } \lambda = \frac{2\pi c}{\omega} = \frac{c}{\nu}
     \]
+
+    We can extend this to three dimensions.
+    In this case their propagation is governed by:
+    \[
+      \pderiv[2]{f}{t} - c^2 \nabla^2 f = 0
+    \]
+    which has solutions in an analogous form:
+    \[
+      f(\vec{x}, t) = A \exp[i(\vec{k} \cdot \vec{x} - \omega t)] \text{ with } \omega = c |\vec{k}|
+    \]
+    These waves propagate with speed $c$ direction of $\vec{k}$ and we call $|A|$ the \textit{amplitude} of the wave.
+
     Waves can also \textit{interfere} with each other.
     If we have two waves with amplitudes $f_1$ and $f_2$, then $f_1 + f_2$ is a \textit{superposition} of the two waves.
     This interference can be \textit{constructive} (where the resulting wave is of larger amplitude), or \textit{destructive} (where the resulting wave is of a smaller amplitude).
@@ -36,17 +49,18 @@
 Suppose we have some monochromatic light (i.e. light of only one frequency) of frequency $\lambda$ incident on a metal plate.
 When the photons interact with the electrons in the metal, they transfer energy to them, allowing them to escape from their atoms and be emitted from the plate.
 
-We want to consider what happens as we increase the intensity $I = |A|^2$ (where $A$ is the \textit{amplitude}) of the light.
-
 \subsection{Classical Expectation}
-From a classical perspective, since incident light has $E \propto I$, we might expect to have to increase $I$ until there is enough energy to free the electrons from the metal.
-We also expect the rate of emission of the electrons to be constant, even as we increase the intensity past the emission threshold.
-Finally, we expect the velocity of emitted electrons to increase as $I$ (and therefore $E$) increases.
+From a classical perspective:
+\begin{enumerate}
+  \item Regardless of the frequency of the light, we would expect electrons to eventually be freed as energy builds over time from the light. This would also cause there to be a lag between when the metal is exposed to the light until when electrons are emitted.
+  \item As the intensity (and therefore energy) of the light increases, we expect the velocity of emitted electrons to increase.
+  \item We also expect the rate of emission of electrons to remain constant, even as the intensity of the light increases.
+\end{enumerate}
 \subsection{Reality}
 However, when we carry out this experiment we obtain the following three results:
 \begin{enumerate}
-  \item Below a certain frequency $\omega$, no electrons were emitted
-  \item The velocity (and therefore the kinetic energy) of the electrons did not change with the intensity
+  \item Below a certain frequency $\omega_{\text{min}}$, no electrons were emitted.
+  \item The velocity (and therefore the kinetic energy) of the electrons did not change with the intensity.
   \item The emission rate increased with energy.
 \end{enumerate}
 In 1905, Einstein theorised an explanation.
@@ -56,7 +70,7 @@ He theorised that light comes in small \textit{quanta} called \textit{photons}, 
 \]
 and momentum:
 \[
-  p = \hbar k
+  \vec{p} = \hbar \vec{k}
 \]
 where $h = \qty{6.63e-34}{\joule\second}$ is the \textit{Planck constant} and $\hbar = \frac{h}{2\pi} = \qty{1.055e-34}{\joule\second}$ is the \textit{reduced Planck constant}.
 
@@ -75,9 +89,9 @@ In 1908, Rutherford supposed that the atom contained a small nucleus where the m
 However this model was flawed as electrons moving in a circular orbit would radiate energy, but nothing was preventing them from collapsing in towards the nucleus.
 Furthermore, when we irradiated an atom was light, it gained energy and then re-emitted light as it lost energy.
 However the wavelength of this re-emitted light was only ever at set of discrete frequencies given by:
-\[
-  \omega_{mn} = 2\pi R_0 \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
-\]
+\begin{equation}
+  \omega_{mn} = 2\pi c R_0 \left(\frac{1}{n^2} - \frac{1}{m^2}\right) \label{reEmittedFreq}
+\end{equation}
 where $n, m \in \N$ and $R_0$ is the \textit{Rydberg constant}.
 This suggests that the electrons instead orbit at set energy levels.
 
@@ -102,8 +116,6 @@ for each $n \in \N^{+}$.
   \[
     v_{n} = \frac{n \hbar}{m_e r}
   \]
-  Thus the velocity is also quantised.
-
   We now want to use Newton's Second Law.
   The electron moves in a circular orbit under the Coulomb force for charge $q = -e$, with centripetal acceleration $a = v^2 / r$ (see IA Dynamics and Relativity).
   We assume also that the electron is in a hydrogen atom and so is orbiting a single proton with charge $Q = e$.
@@ -111,38 +123,74 @@ for each $n \in \N^{+}$.
   \[
     |\vec{F}| = \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r^2} = m_e \frac{v^2}{r}
   \]
-  Using our expression for $v_n$, we have:
+  Using our expression for $v_n$:
   \[
-    r_n = \frac{4\pi \varepsilon_0}{m_e e^2} {\hbar}^2 n^2
+    m_e \cdot \frac{v^2_n}{r} = \frac{m_e}{r} \cdot \frac{n^2 \hbar^2}{m^2_e r^2} = \frac{n^2 \hbar^2}{m_e r^3}
   \]
-  and so the radius is quantised.
+  and so equating this with the force yields:
+  \begin{align*}
+    \frac{e^2}{4 \pi \varepsilon_0} \cdot \frac{1}{r^2} &= \frac{n^2 \hbar^2}{m_e r^3} \\
+    \implies r_n &= \frac{4 \pi \varepsilon_0}{m_e e^2} \hbar^2 n^2
+  \end{align*}
   Since $r_n$ increases with $n$, this gives us a minimum radius of:
   \[
     r_1 = \frac{4\pi \varepsilon_0}{m_e e^2} {\hbar}^2
   \]
   This is called the \textit{Bohr radius}.
   We can then write $r_n = r_1 n^2$.
+  Using this, we can eliminate the $r$ dependence from $v_n$:
+  \[
+    v_n = \frac{n \hbar}{m_e r_n} = \frac{\hbar}{m_e r_1} \cdot \frac{1}{n}
+  \]
 
-  For the energy, we use the potential for the Columb force:
+  For the energy, we use the potential for the Coulomb force:
   \begin{align*}
     E &= \frac{1}{2} m_e v^2 - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} \\
-    \implies E_n &= -\frac{e^2}{8 \pi \varepsilon_0 r_1} \frac{1}{n^2}
+    \implies E_n &= \frac{1}{2} m_e v^2_n - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r_n} \\
+                 &= \frac{1}{2} m_e \left(\frac{\hbar}{m_e r_1 \hbar} \cdot \frac{1}{n}\right)^2 - \frac{e^2}{4 \pi \varepsilon_0} \cdot \frac{1}{r_1 n^2} \\
+                 &= \frac{\hbar^2}{2m_e r^2_1 n^2} - \frac{e^2}{4 \pi \varepsilon_0 r_1 n^2} \\
+                 &= -\frac{e^2}{8 \pi \varepsilon_0 r_1} \cdot \frac{1}{n^2}\left(2 - \frac{4\pi \varepsilon_0}{m_e e^2}\hbar^2 \cdot \frac{1}{r_1}\right) \\
+                 &= -\frac{e^2}{8 \pi \varepsilon_0 r_1} \cdot \frac{1}{n^2}
   \end{align*}
-  and so energy is also quantised.
-\end{proof}
-So electrons exist at discrete \textit{energy levels} $E_n$.
-They can interact with photons to gain energy, causing them to jump to a higher energy level, and then over time, decay back to a lower energy level, emitting a photon with energy equal to the difference between the energy levels.
-We call the lowest energy level $E_1$, the \textit{ground state}.
-\begin{remark}
-  We can use the above to predict the Rydberg constant.
-  We defined $\omega_{m n}$ as the energy of light emitted by photons as they go from energy level $m$ to $n$, thus using the above we have:
-  \begin{align*}
-    \omega_{mn} &= \frac{1}{\hbar}(E_m - E_n) \\
-                &= 2\pi c \left(\frac{e^2}{4\pi \varepsilon_0 \hbar c}\right)^2 \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
-  \end{align*}
-  and so:
+
+  Thus $r_n$, $v_n$, and $E_n$ are given by:
   \[
-    R_0 = \left(\frac{e^2}{4\pi \varepsilon_0 \hbar c}\right)^2
+    r_n = r_1n^2 ,\ v_n = \frac{\hbar}{m_e r_1} \cdot \frac{1}{n},\ E_n = -\frac{e^2}{8 \pi \varepsilon_0 r_1} \cdot \frac{1}{n^2}
   \]
+  and so all three are quantised.
+\end{proof}
+This should that electrons exist at discrete \textit{energy levels} $E_n$.
+They can interact with photons to gain energy, causing them to jump to a higher energy level, and then over time, decay back to a lower energy level, emitting a photon with energy equal to the difference between the energy levels it decays between.
+We call the lowest energy level $E_1$, the \textit{ground state}.
+Often, an electron will take multiple steps to return to a lower energy state and so it will emit multiple different wavelengths of light.
+\begin{remark}
+  \begin{itemize}
+    \item From our expression for $v_n$, $r_n$, and $E_n$ we obtain the following relations involving the energy level $n$:
+      \[
+        v_n \propto \frac{1}{n},\ r_n \propto n^2,\ E_n \propto - \frac{1}{n^2}
+      \]
+    \item We can use our expression for $E_n$ to find the Rydberg constant $R_0$.
+      We defined $\omega_{m n}$ in \cref{reEmittedFreq} experimentally to be the set of all frequencies of light re-emitted by electrons.
+
+      Since we now know that electrons are at discrete energy levels, it is reasonable to suggest that $\omega_{mn}$ is the frequency of light emitted when an electron goes from energy level $m$ to energy level $n$, thus we have:
+      \begin{align*}
+        \omega_{mn} &= \frac{1}{\hbar}(E_m - E_n) \\
+                    &= \frac{e^2}{8 \pi \varepsilon_0 r_1} \cdot \left(\frac{1}{n^2} - \frac{1}{m^2}\right) \\
+                    &= \frac{m_e e^4}{32 \pi^2 \varepsilon^2_0 \hbar^3} \cdot \left(\frac{1}{n^2} - \frac{1}{m^2}\right) \\
+                    &= 2\pi c \cdot \frac{m_e e^4}{64 \pi^3 \varepsilon^2_0 \hbar^3 c} \cdot \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
+      \end{align*}
+      and so looking at \cref{reEmittedFreq}:
+      \[
+        R_0 = \frac{m_e e^4}{64 \pi^3 \varepsilon^2_0 \hbar^3 c} = \frac{m_e c}{2h}\left(\frac{e^2}{4\pi \varepsilon_0 \hbar c}\right)^2
+      \]
+      which is consistent with experimental measurements of $R_0$.
+  \end{itemize}
 \end{remark}
+\section{De Broglie Wavelength}
+In 1923, De Broglie hypothesised that a particle of any mass $m$ is associated with a wave with:
+\[
+  \omega = \frac{E}{\hbar} \text{ and } \vec{k} = \frac{\vec{p}}{\hbar}
+\]
+Indeed, in 1927, when Davisson and Germer scattered electrons off crystals of nickel, they observed an interference pattern, suggesting that the electrons were diffracting through the gaps in the crystals, thus exhibiting wave like properties.
+Furthermore, the measured distance between the fringes of the interference was consistent with the wavelength suggested by De Broglie's hypothesis.
 \end{document}

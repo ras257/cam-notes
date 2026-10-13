@@ -1,0 +1,128 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Foundations of Quantum Mechanics}
+\section{Linear Algebra}
+In this course we will use linear algebra on infinite dimensional vectors within a \textit{function space}.
+It is useful to draw parallels between concepts in finite dimensional vector spaces and concepts of the infinite dimensional function spaces used in quantum mechanics.
+\begin{center}
+\begin{tabular}{c|c}
+Finite dimensional vector space & Quantum mechanics Concept \\
+\hline
+\hline
+Vector in $\C^{n}$ & infinite dimensional state vector \\
+$\vec{v}, \vec{w}, \ldots$ & $\phi, \psi, \ldots$ \\
+\hline
+Discrete basis $\{\vec{e}_{j}\}_{j = 1}^{n}$ & Continuous basis $\vec{x} \in \R^3$ \\
+$\vec{v} = (v_1, \ldots, v_n)^{\trans}$ & $\psi(\vec{x}, t)$ is a component in the continuous basis \\
+\hline
+Underlying set $\C^{n}$ & Underlying set $L^2(\R^3)$ \\
+$n$-dimensional tuples in $\C$ & Complex-valued square integrable functions \\
+\hline
+Inner Product &  Inner Product\\
+$(\vec{v}, \vec{w}) = \overline{v_1} w_1 + \cdots + \overline{v_n} w_n$ & $(\psi, \phi) = \int_{\R^3} \overline{\psi(\vec{x}, t)} \phi(\vec{x}, t) \d{V}$ \\
+\hline
+Linear Maps $\C^{n} \to \C^{n}$ &  Maps $L^2(\R^3) \to L^2(\R^3)$\\
+$n \times n$ matrices, $\vec{w} = A \vec{v}$ & Operators $\hat{O}$, $\phi = \hat{O} \psi$\\
+\end{tabular}
+\end{center}
+\begin{definition}[Square Integrable]
+  We say that a function $f: \R^3 \to \C$ is \textit{square integrable} if $\int_{\R^3} |f(\vec{x})|^2 \d{V} < \infty$.
+\end{definition}
+\section{State, Wavefunction, and Probabilities}
+\subsection{The Wavefunction}
+In classical mechanics, a particle has \textit{definite} position $\vec{x}$ and momentum $\vec{p} = m \dot{\vec{x}}$.
+To completely specific a particle, all we need to do is specify these two vectors.
+
+However in Quantum Mechanics, a particle is described by a \textit{state} $\psi$.
+This describes the dynamics of the particle in a \textit{probabilistic} way.
+\begin{definition}[State]
+  The state of a particle is an infinite dimensional vector $\psi$ which mathematically describes the particle.
+\end{definition}
+\begin{remark}
+  We need not specify \textit{how} the state represents a particle, just that is using the infinite amount of information provided by $\psi$.
+\end{remark}
+\begin{definition}[Wavefunction]
+  The \textit{wavefunction} of a state $\psi$ is a function which returns the complex coefficient of $\psi$ in the continuous basis $\vec{x}$ at a given time $t$:
+  \[
+    \psi(\vec{x}, t): \R^3 \to \C\ \forall t \in \R
+  \]
+\end{definition}
+We impose that $\psi$ satisfies the mathematical properties dictated by its \textit{physical interpretation}.
+This physical interpretation is one of the key postulates of quantum mechanics and is known as Born's rule.
+It tells us that the probability density function $\rho(\vec{x}, t)$ for a particle described by $\psi$ to be at a point $\vec{x} \in \R^3$ at some fixed time $t$ satisfies:
+\[
+  \rho(\vec{x}, t) \propto |\psi(\vec{x}, t)|^2 = \overline{\psi(\vec{x}, t)} \psi(\vec{x}, t)
+\]
+So if $\d{V}$ is a volume element centered at the point $\vec{x}$, then $\rho(\vec{x}, t) \d{V}$ is the probability that the particle is in the volume element $\d{V}$ at time $t$.
+
+This leads us to the following properties:
+\begin{enumerate}
+  \item The particle represented by $\psi$ has to be \textit{somewhere} in space and so $\psi$ must be integrable over $\R^3$:
+    \[
+      \int_{\R^3} \overline{\psi(\vec{x}, t)} \psi(\vec{x}, t) \d{V} = \int_{R^3} |\psi(\vec{x}, t)|^2 \d{V} = \mathcal{N}(t) < \infty\ \forall t > 0
+    \]
+    We also note that $\mathcal{N}(t) \neq 0$ else the particle would be nowhere.
+  \item For $\rho$ to be a valid probability density function over $\R^3$, its integral over $\R^3$ must be 1.
+    Since $\rho(\vec{x}, t) \propto |\psi(\vec{x}, t)|^2$ for each $t$, $\rho = k(t)^2 |\psi|^2$ for some $k(t)$, thus:
+    \[
+      \int_{\R^3} \rho(\vec{x}, t) \d{V} = 1 \iff k(t) = \frac{1}{\sqrt{\mathcal{N}(t)}}
+    \]
+    We therefore define the \textit{normalised wavefunction} as:
+    \[
+      \overline{\psi}(\vec{x}, t) = \frac{1}{\sqrt{\mathcal{N}(t)}} \psi(\vec{x}, t)
+    \]
+    so that we can write $\rho(\vec{x}, t) = |\overline{\psi}(\vec{x}, t)|^2$.
+  \item
+    For normalised wavefunctions $\widetilde{\psi}$ and $\psi$, if $\widetilde{\psi}(\vec{x}, t) = e^{i \alpha} \psi(\vec{x}, t)$ for $\alpha \in \R$, or equivalently $|\widetilde{\psi}(\vec{x}, t)|^2 = |\psi(\vec{x}, t)|^2$, then both states share the same probability density.
+
+    In fact we will see later, that in such cases, all observable/physical quantities represented in $\psi$ will be identical to those in $\widetilde{\psi}$.
+    We therefore consider such states to be \textit{physically equivalent}.
+\end{enumerate}
+\begin{remark}
+  \nonexaminable
+  Physically equivalent states in quantum mechanics correspond to equivalence classes of functions in $L^2(\R^3)$ under the equivalence relation:
+  \[
+    \psi_{1} \sim \psi_{2} \iff \psi_1 = e^{i\alpha} \psi_2 \text{ for some } \alpha \in \R
+  \]
+  These equivalence classes $[\psi]$ are called \textit{rays}.
+\end{remark}
+\begin{remark}[Notation]
+  It will usually be clear from the context if the wavefunctions we are working with are normalised or not and so we will often just use $\psi$ to mean the normalised wavefunction.
+  Despite this, it is important to remember that they need to be normalised when computing probabilities.
+\end{remark}
+\section{The Hilbert Space}
+\begin{definition}[Hilbert Space]
+  The set of all square-integrable functions in $\R^3$ is called the \textit{Hilbert space} $\mathcal{H}$ or equivalently $L^2(\R^3)$.
+\end{definition}
+\begin{proposition}[Superposition principle for wavefunctions]
+  If $\psi_1, \psi_2 \in \mathcal{H}$ and $a_1, a_2 \in \C$, then $\psi = a_1 \psi_1 + a_2 \psi_2 \in \mathcal{H}$.
+\end{proposition}
+\begin{remark}
+  This superposition principle is key to quantum mechanics, taking the linear combination of two physical wave function gives us another wave function that also has a physical meaning.
+
+  This is unlike in classical physicals where taking the sum of, for example, two orbits does not necessarily give you another valid orbit.
+\end{remark}
+\begin{proof}
+  Since $\psi_1, \psi_2 \in \mathcal{H}$, by definition of square integrability:
+  \[
+    \int_{\R^3} |\psi_1(\vec{x}, t)|^2 \d{V} = N_1 < \infty \text{ and } \int_{\R^3} |\psi_2(\vec{x}, t)|^2 \d{V} = N_2 < \infty
+  \]
+  To show that $\psi \in \mathcal{H}$, we need to show that it is square integrable.
+  Using the triangle inequality we have:
+  \begin{align*}
+    |\psi(\vec{x}, t)| &= |a_1 \psi_1(\vec{x}, t) + a_2 \psi_2(\vec{x}, t)|^2 \\
+                       &\leq (|a_1 \psi_1(\vec{x}, t)| + |a_2 \psi_2(\vec{x}, t)|)^2 \\
+                       &= |a_1 \psi_1(\vec{x}, t)|^2 + |a_2 \psi_2(\vec{x}, t)|^2 + 2|a_1 \psi_1(\vec{x}, t)||a_2 \psi_2(\vec{x}, t)|
+  \end{align*}
+  We then use that for $z_1, z_2 \in \C$, $(|z_1| - |z_2|)^2 \geq 0 \implies 2|z_1||z_2| \leq |z_1|^2 + |z_2|^2$ and so:
+  \[
+    |\psi(\vec{x}, t)| \leq 2(|a_1 \psi_1(\vec{x}, t)|^2 + |a_2 \psi_2(\vec{x}, t)|^2) \\
+  \]
+  Integrating $|\psi|^2$ over $\R^3$ we have:
+  \begin{align*}
+    \int_{\R^3} |\psi(\vec{x}, t)|^2 \d{V} &\leq 2 |a_1|^2 \int_{\R^3} |\psi_1(\vec{x}, t)| \d{V} + 2 |a_2|^2 \int_{\R^3} |\psi_2(\vec{x}, t)| \d{V} \\
+                                           &= 2 |a_1|^2 N^2_1 + 2 |a_2|^2 N^2_2 < \infty
+  \end{align*}
+  and so $\psi \in \mathcal{H}$.
+\end{proof}
+\end{document}
