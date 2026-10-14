@@ -27,9 +27,9 @@ It can be easily check that the vector space axioms hold provided that the sum o
   \end{itemize}
 \end{remark}
 We equip $V$ with the following inner product:
-\[
-  \langle f, g \rangle = \int_{0}^{L} f(\theta)\overline{g(\theta)} \d{\theta}
-\]
+\begin{equation}
+  \langle f, g \rangle = \int_{0}^{L} f(\theta)\overline{g(\theta)} \d{\theta} \label{innerProdFourier}
+\end{equation}
 where $\overline{g}$ is the complex conjugate of $g$.
 Since $f$ and $g$ are $L$-periodic, we can take the integral bounds to be any interval of length $L$.
 We can now define the norm in $V$ the standard way:
@@ -216,8 +216,8 @@ But in what way do we want the sequence of functions $S_N f$ to converge to $f$?
     \]
 \end{itemize}
 Convergence in norm is the nicest to show, however we would like to be able to show pointwise convergence.
-\begin{proposition}
-  If $f: \R \to \C$ is $L$-periodic such that the following hold:
+\begin{theorem}[Convergence of Fourier Series]
+  If $f: \R \to \C$ is $L$-periodic such that the following hold: \label{convFourier}
   \begin{enumerate}
     \item $f$ is continuous on $[0, L)$ apart from at a finite number of jump discontinuities.
     \item Both $\Re(f)$ and $\Im(f)$ have a finite number of local extremum on $[0, L)$.
@@ -227,7 +227,7 @@ Convergence in norm is the nicest to show, however we would like to be able to s
     \frac{1}{2}[f(\theta_{+}) + f(\theta_{-})] = \lim_{N \to \infty} S_N f(\theta)\ \forall \theta \in \R
   \]
   where $f(\theta_{\pm}) = \lim_{\varepsilon \to 0^\pm} f(\theta + \varepsilon)$.
-\end{proposition}
+\end{theorem}
 \begin{remark}[Remarks]
   \begin{itemize}
     \item At points of continuity of $f$, $f(\theta_{+}) = f(\theta_{-})$ and so $\lim_{N \to \infty} S_{N} f(\theta) = f(\theta)$.
@@ -392,5 +392,210 @@ For ease, we shall only prove this result for smooth $f$.
     \foreach \x in {-3, -1, 1, 3} \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x \pi$};
   \end{tikzpicture}
   \end{center}
+\end{example}
+\section{Even and Odd Extensions}
+Suppose we are given a function $f: [0, L) \to \C$ which we would like to calculate a Fourier series for.
+To do this, $f: \R \to \C$ needs to be periodic.
+We could periodically extend this by just repeating the function every interval of length $L$ and then find the Fourier series of this, however we would have to calculate both the $a_n$ and $b_n$ sets of coefficients.
+However, if we first construct new $2L$-periodic functions $f_{\text{even}}$ and $f_{\text{odd}}$ which are even and odd respectively but still have $f(\theta) = f_{\text{even}}(\theta) = f_{\text{odd}}(\theta)$  for $\theta \in [0, L)$, then we need only calculate $A_n$ for $f_{\text{even}}$ and $B_n$ for $f_{\text{odd}}$.
+
+Based on the above criterion, we arrive at the following functions on $[-L, L)$:
+\begin{align*}
+  f_{\text{even}}(\theta) &= \begin{cases}
+  f(\theta) & \text{ if } \theta \in [0, L) \\
+  f(-\theta) & \text{ if } \theta \in [-L, 0)
+  \end{cases} \\
+  f_{\text{odd}}(\theta) &= \begin{cases}
+  f(\theta) & \text{ if } \theta \in [0, L) \\
+  -f(-\theta) & \text{ if } \theta \in [-L, 0)
+  \end{cases}
+\end{align*}
+which we periodically extend to $\R$.
+
+These have Fourier series given by:
+\begin{align*}
+  f_{\text{even}}(\theta) &\sim \frac{1}{2}A_0 + \sum_{n = 1}^{\infty} A_n \cos\left(\frac{\pi n \theta}{L}\right) \\
+  f_{\text{odd}}(\theta) &\sim \sum_{n = 1}^{\infty} B_n \sin\left(\frac{\pi n \theta}{L}\right)
+\end{align*}
+where:
+\begin{align*}
+  A_n &= \frac{2}{2L} \int_{-L}^{L} f_{\text{even}}(\theta) \cos\left(\frac{2 \pi n \theta}{2L}\right) \d{\theta} \\
+      &= \frac{2}{L} \int_{0}^{L} f(\theta) \cos\left(\frac{\pi n \theta}{L}\right) \d{\theta}
+\end{align*}
+as both $f_{even}$ and $\cos$ are even functions, and:
+\begin{align*}
+  B_n &= \frac{2}{2L} \int_{-L}^{L} f_{\text{odd}}(\theta) \sin\left(\frac{2 \pi n \theta}{2L}\right) \d{\theta} \\
+      &= \frac{2}{L} \int_{0}^{L} f(\theta) \sin\left(\frac{n \pi \theta}{L}\right) \d{\theta}
+\end{align*}
+as both $f_{odd}$ and $\sin$ are odd functions, so their product is even.
+
+By construction $f(\theta) = f_{\text{even}}(\theta) = f_{\text{odd}}(\theta)$ on $[0, L)$ and so provided $f$ is a Dirichlet function, $f_{\text{even}}$ and $f_{\text{odd}}$ will also be Dirichlet functions and so by \cref{convFourier}, for $\theta \in (0, L)$, $f(\theta)$ will be exactly equal to both the Fourier series of $f_{\text{even}}$ and of $f_{\text{odd}}$.
+\begin{definition}[Cosine and Sine Series]
+  For a function $f: [0, L) \to \C$, its \textit{cosine and sine series} are given by:
+  \[
+    \frac{1}{2} A_0 + \sum_{i = 1}^{\infty} A_n \cos\left(\frac{n \pi \theta}{L}\right) \text{ and } \sum_{n = 1}^{\infty} B_n \sin\left(\frac{n \pi \theta}{L}\right)
+  \]
+  respectively, where $A_n$ and $B_n$ are given by:
+  \[
+    A_n = \frac{2}{L} \int_{0}^{L} f(\theta) \cos\left(\frac{\pi n \theta}{L}\right) \d{\theta} \text{ and } B_n = \frac{2}{L} \int_{0}^{L} f(\theta) \sin\left(\frac{n \pi \theta}{L}\right) \d{\theta}
+  \]
+\end{definition}
+\begin{example}
+  Consider the function $f: [0, 1) \to \R,\ \theta \mapsto 1$.
+
+  \textbf{Sine Series}\par
+  The odd extension of this looks like:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (-4, 0) -- (4, 0) node[right] {$\theta$};
+    \draw[->] (0, -2) -- (0, 2) node[right] {$f_{\text{odd}}$};
+
+    \clip (-4, -2) rectangle (4, 2);
+    \foreach \x in {-4, -2, 0, 2, 4} {
+      \draw (\x, 1) -- (\x + 1, 1);
+      \draw (\x-1, -1) -- (\x, -1);
+
+
+      \draw[dashed] (\x, 1) -- (\x, -1);
+      \draw[dashed] (\x + 1, 1) -- (\x + 1, -1);
+
+      \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x$};
+
+      \filldraw[fill=black, draw=black] (\x, 1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x, -1) circle (1.3pt);
+
+      \filldraw[fill=black, draw=black] (\x + 1, -1) circle (1.3pt);
+      \filldraw[fill=white, draw=black] (\x + 1, 1) circle (1.3pt);
+    }
+    \foreach \x in {-3, -1, 1, 3} \node[yshift=-3, xshift=5] at (\x, 0) {\tiny$\x$};
+  \end{tikzpicture}
+  \end{center}
+  Computing $B_n$ we have:
+  \[
+    B_n = \frac{2}{1} \int_{0}^{1} \sin(n \pi \theta) \d{\theta} = \frac{2}{n \pi}[1 - (-1)^{n}]
+  \]
+  Since $f_{\text{odd}}$ is a Dirichlet function, for $\theta \in (0, 1)$, $f_{\text{odd}}$ is always equal to its Fourier series and so:
+  \[
+    1 = \frac{4}{\pi} \sum_{n \text{ odd}} \frac{\sin(n \pi \theta)}{n}\ \forall \theta \in (0, 1)
+  \]
+
+  \textbf{Cosine Series}\par
+  The even extension is just $f_{\text{even}}(\theta) = 1\ \forall \theta \in \R$.
+  Computing $A_n$ we have $A_0 = 2$ and $A_n = 0$ for $n > 0$, giving the tautological result:
+  \[
+    1 = \frac{1}{2} \cdot 2 + 0
+  \]
+\end{example}
+\section{Regularity and Decay of Fourier Coefficients}
+Fourier series are infinite sums and so we would hope that their terms tend to 0.
+\subsection{Riemann Lebesgue Lemma}
+\nonexaminable
+\begin{theorem}[Riemann Lebesgue Lemma]
+  If $\int_{0}^{L} |f(\theta)| \d{\theta} < \infty$, then: \label{RLL}
+  \[
+    \int_{0}^{L} f(\theta) e^{- i \lambda \theta} \d{\theta} \to 0 \text{ as } |\lambda| \to \infty
+  \]
+\end{theorem}
+\begin{proof}
+  Not lectured.
+\end{proof}
+If we take $\lambda = \frac{2 \pi n}{L}$ in the above then we get that:
+\[
+  \hat{f}_n \to 0 \text{ as } |n| \to \infty
+\]
+and so $a_n, b_n \to 0$ also as $n \to \infty$.
+\subsection{Decay of Fourier Coefficients}
+Suppose $f: \R \to \C$ is $L$-periodic and $k$-times continuously differentiable, that is, $f^{(r)}: \R \to \C$ is continuous for $r \in \{0, \ldots, k\}$.
+
+Integrating by parts, for $n \geq 1$:
+\begin{align*}
+  \hat{f}_n &= \frac{1}{L} \int_{0}^{L} f(\theta) e^{-2 \pi \pi n \theta/L} \d{\theta} \\
+            &= \eval{\left(-\frac{L}{2\pi i n}\right) \frac{f(\theta)}{L} e^{-2 \pi i n \theta/L}}{\theta = 0^{+}}{L^{-}} + \left(\frac{L}{2 \pi i n}\right) \frac{1}{L} \int_{0}^{L} f'(\theta) e^{-2 \pi i n \theta / L} \d{\theta}
+\end{align*}
+Since $f$ is continuous , $f(L^{-}) = f(0^{-}) = f(0^{+})$ and so the boundary term vanishes.
+
+Since $f$ is $k$ times continuously differentiable, we can do iterate this process a total of $k$ times to yield:
+\[
+  \hat{f}_n = \left(\frac{L}{2\pi i n}\right)^{k} \frac{1}{L} \int_{0}^{L} f^{(k)}(\theta) e^{-2 \pi i n \theta / L} \d{\theta}
+\]
+Since $|f^{(k)}|$ is continuous it is integrable and so $\int_{0}^{L} |f^{(k)}(\theta)| \d{\theta} < \infty$.
+We can therefore apply \cref{RLL} again with $\lambda = \frac{2 \pi n}{L}$, to conclude that the above integral is $o(1)$.
+Thus $\hat{f}_n = o(1/n^k)$.
+So for larger $k$ (i.e. more regular $f$), the Fourier coefficients $\hat{f}_n$ decay faster.
+
+Furthermore, if it is true that $f^{(k + 1)}(\theta)$ exists and is not necessarily continuous but is integrable, i.e. $\int_{0}^{L} |f^{(k + 1)}(\theta)| \d{\theta}$, then we can iterate this process a further step before applying \cref{RLL} and so in this case $\hat{f}_{n} = o(1/n^{k + 1})$.
+\section{Term-wise Differentiation}
+Let $f: \R \to \C$ be $L$-periodic, continuously differentiable on $(0, L)$ with a bounded derivative.
+Setting $g = f'$, we can find the Fourier coefficients for $g$.
+Instead of applying integration by parts to differentiate $f$, we instead integrate $f'$ and differentiate the exponential to yield:
+\begin{align*}
+  \hat{g}_n &= \frac{1}{L} \int_{0}^{L} f'(\theta) e^{-2\pi i n \theta / L} \d{\theta} \\
+            &= \eval{\frac{1}{L} f(\theta) e^{-2 \pi i n \theta / L}}{\theta = 0^{+}}{L^{-}} + \left(\frac{2 \pi i n}{L}\right) \frac{1}{L} \int_{0}^{L} f(\theta) e^{-2 \pi i n \theta/L} \d{\theta} \\
+            &= \frac{f(L^{-}) - f(0^{+})}{L} + \left(\frac{2 \pi i n}{L}\right) \hat{f}_n
+\end{align*}
+Since $f$ is $L$-periodic $f(L^{-}) = f(0^{-})$ and since it is continuous on $\R$ $f(0^{-}) = f(0^{+})$, thus the boundary term disappears giving:
+\[
+  \hat{g}_n = \frac{2 \pi i n}{L} \hat{f}_n
+\]
+hence:
+\begin{align*}
+  f'(\theta) = g(\theta) &\sim \sum_{n \in \Z} \left(\frac{2 \pi i n}{L}\right) \hat{f}_n e^{2 \pi i n \theta/L}  \\
+                         &= \sum_{n \in \Z}^{\infty} \deriv{}{\theta}[\hat{f}_n e^{2 \pi n \theta /L}]
+\end{align*}
+and so the Fourier series of the derivative is the term by term differentiation of the Fourier series for the original function.
+\section{Parseval's Theorem}
+Suppose that $f, g: \R \to \C$ are $L$-periodic and so they have Fourier series given by:
+\begin{align*}
+  f(\theta) &\sim \sum_{n \in \Z} \hat{f}_n e_n(\theta) \\
+  g(\theta) &\sim \sum_{n \in \Z} \hat{g}_n e_n(\theta)
+\end{align*}
+where $e_n(\theta) = e^{2 \pi i n \theta/L}$.
+
+Taking the inner product as defined in \cref{innerProdFourier} of $f$ and $g$, assuming that we can swap the infinite sums and integrals to utilise linearity, then:
+\begin{align*}
+  \langle f, g \rangle &= \sum_{n, m \in \Z} \hat{f}_n \overline{\hat{g}_m} \langle e_n, e_m \rangle \\
+                       &= L \sum_{n \in \Z} \hat{f}_n \overline{\hat{g}_n}
+\end{align*}
+Note also that we can ignore any differences between $f$ or $g$ and their respective Fourier series as these can only occur at jump discontinuities, of which there is only finitely many and so do not change the value of the integral within the inner product.
+
+Thus:
+\[
+  \frac{1}{L} \int_{0}^{L} f(\theta) \overline{g(\theta)} \d{\theta} = \sum_{n \in \Z} \hat{f}_n \overline{\hat{g}_n}
+\]
+which is \textit{Parseval's theorem}.
+In the case of $g = f$, we obtain:
+\[
+  \frac{1}{L} \int_{0}^{L} |f(\theta)|^2 \d{\theta} = \sum_{n \in \Z} |\hat{f}_n|^2
+\]
+\begin{example}
+  Let $f: \R \to \R$ be $2\pi$-periodic with $f(\theta) = \theta$ on $[-\pi, \pi)$.
+  Calculating the Fourier coefficients we see that for $n = 0$:
+  \[
+    \hat{f}_0 = \int_{-\pi}^{\pi} \theta \d{\theta} = 0
+  \]
+  and for $n \geq 1$:
+  \begin{align*}
+    \hat{f}_n &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \theta e^{-i n \theta} \d{\theta} \\
+              &= -\frac{1}{2\pi i n}\left(\eval{\theta e^{-in\theta}}{-\pi}{\pi} - \int_{-\pi}^{\pi} e^{-i n \theta} \d{\theta}\right) \\
+              &= -\frac{1}{2 \pi i n} \cdot 2 \pi (-1)^n \\
+              &= \frac{i(-1)^n}{n}
+  \end{align*}
+  Thus $f$ has Fourier series:
+  \[
+    f(\theta) \sim \sum_{n \neq 0} \frac{i(-1)^{n}}{n} e^{i n \theta}
+  \]
+
+  To apply Parseval's theorem with $f$ and itself:
+  \[
+    \frac{1}{2\pi} \int_{-\pi}^{\pi} |\theta|^2 \d{\theta} = \frac{1}{\pi} \int_{0}^{\pi} \theta^2 \d{\theta} = \frac{\pi^2}{3}
+  \]
+  and:
+  \[
+    \sum_{n \in \Z} |\hat{f}_n|^2 = \sum_{n \neq 0} \frac{1}{n^2} = 2 \sum_{n = 1}^{\infty} \frac{1}{n^2}
+  \]
+  which yields the solution to the \textit{Basel problem}:
+  \[
+    \sum_{n = 1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+  \]
 \end{example}
 \end{document}
