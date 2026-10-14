@@ -7,7 +7,7 @@
 \section{Definitions}
 Loosely speaking, a \textit{Markov Chain} is a sequence of random variables where each random variable depends only on the previous random variable in the sequence.
 \begin{definition}[Markov Chain]
-  A \textit{Markov Chain} is a sequence $\mchain{X} = (X_n)_{n \geq 0}$ of random variables which all take values in the same discrete, countably infinite \textit{state space} $I$ such that:
+  A \textit{Markov Chain} is a sequence $\mchain{X} = (X_n)_{n \geq 0}$ of random variables which all take values in the same discrete, countably infinite \textit{state space} $I$ such that: \label{mChainDef}
   \[
     \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n, \ldots, X_0 = x_0) = \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n)
   \]
@@ -16,6 +16,10 @@ Loosely speaking, a \textit{Markov Chain} is a sequence of random variables wher
 \begin{remark}[Note]
   This does \textbf{not} mean that $X_{n + 1}$ is independent of $X_1, \ldots, X_{n - 1}$ however it \textbf{does} mean that $X_{n + 1}$ is \textit{conditionally independent} from $X_1, \ldots, X_{n - 1}$ \textit{given} that $X_n = x_n$.
   Intuitively, given we know $X_n = x_n$, the values of $X_1, \ldots, X_{n - 1}$ do not contribute to the probabilities for $X_{n + 1}$.
+
+  For an example of when $X_{n + 1}$ and $X_{n - 1}$ are dependent, consider a simple symmetric random walk on $\Z$.
+  If $X_n$ is the position after $n$ steps, then clearly $\mchain{X} = (X_n)_{n \geq 0}$ is a Markov chain as given we are at $X_n = x_n$, the probability for us to move to $x_n + 1$ or $x_n - 1$ do not depend on the path $x_0, \ldots, x_{n - 1}$ we took to get to $x_n$.
+  However, if we are not given that $X_n = x_n$, then our position at step $n + 1$ is dependent on where we were at step $n - 1$ as $|X_{n + 1} - X_{n - 1}| \leq 2$.
 \end{remark}
 \begin{definition}[Time-Homogenous Markov Chain]
   We say that a Markov chain is \textit{time-homogeneous} if $\P(X_{n + 1} = y \vert X_n = x)$ is always independent of $n$.
@@ -39,7 +43,7 @@ That is, $P_{x y} \geq 0\ \forall x, y$ and $\sum_{y \in I} P_{x y} = 1$ for all
 \end{definition}
 We see that all transition matrices are stochastic because their rows are defined to be conditional distributions given $X_n = x$.
 \begin{example}[Binary Markov Chain]
-  A simple \textit{binary} Markov Chain has two states $I = \{1, 2\}$ with a probability $\alpha$ to transfer from $1 \to 2$ and probability $\beta$ to go back from $2 \to 1$.
+  A simple \textit{binary} Markov Chain has two states $I = \{1, 2\}$ with a probability $\alpha$ to transfer from $1 \to 2$ and probability $\beta$ to go back from $2 \to 1$. \label{binaryEx}
 
   This has the transition matrix:
   \[
@@ -88,24 +92,235 @@ We see that all transition matrices are stochastic because their rows are define
   \end{center}
   We see that if we reach state 3, then we get stuck there indefinitely.
 \end{example}
+\subsection{Identifying Markov Chains}
 \begin{definition}[Initial Distribution]
   We call the vector $\vec{\lambda}$ with components $\lambda_i \in [0, 1]$ for $i \in I$ an \textit{initial distribution} for a Markov Chain $\mchain{X}$ if:
   \[
     \P(X_0 = x) = \lambda_x\ \forall x \in I
   \]
-  That is, $\vec{\lambda}$ specifies the probabilities of the Markov chain starting at any of the states $x \in I$.
+  That is, $\vec{\lambda}$ specifies the probabilities of the Markov chain starting each of the states $x \in I$.
 \end{definition}
 \begin{remark}[Notation]
   Due to time-homogeneity, a Markov chain is uniquely specified by a transition matrix $P$ and initial distribution $\vec{\lambda}$ and so we can write $\mchain{X} \sim \markov(\vec{\lambda}, P)$.
 \end{remark}
 \begin{theorem}
-  A sequence of random variables $\mchain{X} = (X_n)_{n \in \N}$ has $\mchain{X} \sim \markov(\vec{\lambda}, P)$ if and only if:
+  A sequence of random variables $\mchain{X} = (X_n)_{n \in \N}$ has $\mchain{X} \sim \markov(\vec{\lambda}, P)$ if and only if: \label{markovCond}
   \[
-    \P(X_0 = i_0, X_1 = i_1, \ldots, X_n = i_n) = \lambda_{i_0} P(i_0, i_1) \cdots P(i_{n - 1}, i_{n})
+    \P(X_0 = x_0, X_1 = x_1, \ldots, X_n = x_n) = \lambda_{x_0} P_{x_0 x_1} \cdots P_{x_{n - 1} x_n}
   \]
-  for all $n \geq 1$ and paths $i_0, \ldots, i_n \in I$.
+  for all $n \geq 0$ and paths $x_0, \ldots, x_n \in I$ where in the case of $n = 0$, the product of the entries of $P$ is interpreted as the empty product 1.
 \end{theorem}
 \begin{proof}
-  Continued next lecture.
+  \begin{proofdirection}{Assume that $\mchain{X}$ is a Markov chain}
+    Using the definition of conditional probability:
+    \begin{align*}
+      \P(X_0 = x_0, \ldots, X_n = x_n) &= \P(X_n = x_n \vert X_{n - 1} = x_{n - 1}, \ldots, X_0 = x_0) \\
+                                       &\quad\cdot \P(X_0 = x_0, \ldots, X_{n - 1} = x_{n - 1}) \\
+                                       &= P_{x_{n - 1} x_n} \cdot \P(X_0 = x_0, \ldots, X_{n - 1} = x_{n - 1}) \\
+                                       &= P_{x_{n - 1} x_n} P_{x_{n - 1} x_{n - 2}} \cdot \P(X_0 = x_0, \ldots, X_{n - 2} = x_{n - 2}) \\
+                                       &\; \; \vdots \\
+                                       &= P_{x_{n - 1} x_n} P_{x_{n - 1} x_{n - 2}} \cdots P_{x_1 x_2} \underbrace{\P(X_0 = x_0, X_1 = x_1)}_{\lambda_{x_0}P_{x_0 x_1}} \\
+                                       &= \lambda_{x_0} P_{x_0 x_1} \cdots P_{x_{n - 1} x_n}
+    \end{align*}
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the equality holds}
+    Again using the definition of conditional probability, for $n \geq 1$:
+    \begin{align*}
+      \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n, \ldots, X_0 = x_0) &= \frac{\P(X_{n + 1} = x_{n + 1}, \ldots, X_0 = x_0)}{\P(X_n = x_n, \ldots, X_0 = x_0)} \\
+                                                                   &= \frac{\lambda_{x_0} P_{x_0 x_1} \cdots P_{x_{n - 1} x_n} P_{x_n x_{n + 1}}}{\lambda_{x_0} P_{x_0 x_1} \cdots P_{x_{n - 1} x_n}} \\
+                                                                   &= P_{x_n x_{n + 1}} \\
+                                                                   &= \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n)
+    \end{align*}
+    and so $\mchain{X}$ satisfies \cref{mChainDef}.
+    For $n = 0$, we see that it has initial distribution $\vec{\lambda}$ because $\P(X_0 = x_0) = \lambda_{x_0}$ for all $x_0 \in I$.
+    Finally, as we see above $\P(X_{n + 1} = x_{n + 1} \vert X_n = x_n) = P_{x_n x_{n + 1}}$ and so $\mchain{X}$ has transition matrix $P$.
+    Thus $\mchain{X} \sim \markov(\vec{\lambda}, P)$, as required.
+  \end{proofdirection}
 \end{proof}
+\begin{corollary}
+  If $\mchain{X} = (X_n)_{n \geq 0}$ are independent and identically distributed, then $\mchain{X} \sim \markov(\vec{\lambda}, P)$ where $\vec{\lambda}$ is the distribution of $X_0$ and the rows of $P$ are all $\vec{\lambda}$.
+\end{corollary}
+\begin{proof}
+  As before, we define the transition matrix as:
+  \[
+    P_{x y} = \P(X_{n + 1} = y \vert X_n = x)
+  \]
+  Since the variables are independent $P_{x y} = \P(X_{n + 1} = y)$, thus the rows of $P$ are all identical.
+  Further, since the variables are identically distributed $\P(X_{n + 1} = y) = \P(X_0 = y)$ for all $y \in I$.
+  Thus if we define $\lambda_y = \P(X_0 = y)$ and $P_{x y} = \lambda_y$, so that the rows of $P$ are all $\vec{\lambda}$, then for all $x_0, \ldots, x_n \in I$, we have:
+  \begin{align*}
+    \P(X_0 = x_0, X_1 = x_1, \ldots, X_n = x_n) &= \P(X_0 = x_0) \P(X_1 = x_1) \cdots \P(X_n = x_n) \\
+                                                &= \lambda_{x_0} P_{x_0 x_1} P_{x_1 x_2} \cdots P_{x_{n - 1} x_n}
+  \end{align*}
+  and so $\mchain{X} \sim \markov(\lambda, P)$.
+\end{proof}
+\subsection{Independence in Markov Chains}
+\begin{definition}[$\delta_i$-mass]
+  For any $i \in I$, we let $\delta_i$ denote the probability mass function that places a unit mass at $i$, that is:
+  \[
+    \delta_{i}(j) = \begin{cases}
+    1 & \text{ if } j = i \\
+    0 & \text{ otherwise }
+    \end{cases}
+  \]
+  for $j \in I$.
+\end{definition}
+\begin{remark}[Recap]
+  Recall from IA Probability that the finite collection discrete random variables $X_1, \ldots, X_n$ are independent if:
+  \[
+    \P(X_0 = x_0, \ldots, X_n = x_n) = \prod_{i = 0}^{n} \P(X_i = x_i)
+  \]
+  for all $x_0, \ldots, x_n$.
+
+  Further, a sequence $(X_n)_{n \geq 0}$ of random variables is independent if every finite subset of random variables in the sequence is independent.
+
+  Finally, recall that if a set of random variables is independent, then so is any subset of those variables.
+\end{remark}
+\begin{lemma}[Independence within a sequence]
+  The sequence of random variables $\mchain{X} = (X_n)_{n \geq 0}$ is independent if and only if $X_0, \ldots, X_n$ are independent for all $n$.
+\end{lemma}
+\begin{remark}
+  This equivalent definition for independence of a sequence of random variables is often more useful when dealing with Markov chains as we would prefer to consider the first $n$ states of the chain instead of an arbitrary finite collection of states.
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Assume $\mchain{X}$ is independent}
+    The set $\{X_0, \ldots, X_n\}$ is a finite subset of random variables in $\mchain{X}$ for any $n$ and so $X_0, \ldots, X_n$ must be independent for all $n$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $X_0, \ldots, X_n$ are independent for all $n$}
+    Consider a finite subset $X_{i_1}, \ldots, X_{i_k}$ of variables in $\mchain{X}$ with $0 \leq i_1 < \ldots < i_k$.
+    By assumption, the random variables $X_0, \ldots, X_{i_k}$ are independent and $X_{i_1}, \ldots, X_{i_k}$ are a subset of these and so they must be independent.
+    Thus every finite subset of random variables in $\mchain{X}$ is independent and so $\mchain{X}$ is independent.
+  \end{proofdirection}
+\end{proof}
+\begin{definition}[Independence of sequences]
+  The sequences of random variables $\mchain{X} = (X_n)_{n \geq 0}$ and $\mchain{Y} = (Y_n)_{n \geq 0}$ are independent if for any $0 \leq t_1 < t_2 < \cdots < t_l$ and $0 \leq s_1 < s_2 < \cdots <s_k$ we have:
+  \begin{align}
+    &\P(X_{t_1} = x_1, \ldots, X_{t_l} = x_{l}, Y_{s_1} = y_1, \ldots, Y_{s_k} = y_k) \nonumber \\
+    &=\P(X_{t_1} = x_1, \ldots, X_{t_l} = x_l) \cdot \P(Y_{s_1} = y_1, \ldots, Y_{s_k} = y_k) \label{indepSumDef} \tag{$\ast$}
+  \end{align}
+  for all $x_1, \ldots, x_l, y_1, \ldots, y_k \in I$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Equivalently, $\mchain{X} = (X_n)_{n \geq 0}$ and $\mchain{Y} = (Y_n)_{n \geq 0}$ are independent if and only if for any $n , m \geq 0$ we have:
+      \begin{align}
+        &\P(X_0 = x_0, \ldots, X_n = x_n, Y_0 = y_0, \ldots, Y_m = y_m) \nonumber \\
+        &= \P(X_0 = x_0, \ldots, X_n = x_n) \P(Y_0 = y_0, \ldots, Y_m = y_m) \label{indepSumAlt} \tag{\dag}
+      \end{align}
+      for all $x_0, \ldots, x_n, y_0, \ldots, y_m \in I$.
+      Again, this equivalent form is usually more convenient to check for Markov chains.
+
+      The forward direction of this equivalence is immediate.
+      To show the reverse, for $0 \leq t_1 < \cdots < t_l$ and $0 \leq s_1 < \cdots < s_k$ we take $n = t_l$ and $m = s_k$ and then sum over $I$ of all $x_i$ with $i \notin \{t_1, \ldots, t_l\}$ and $y_j$ with $j \notin \{s_1, \ldots, s_k\}$ on both sides of \cref{indepSumAlt}.
+      This removes all the indices we are not bothered about to yield \cref{indepSumDef}.
+    \item If $\mchain{X}$ is a finite sequence $(X_0, \ldots, X_n)$ then we only need:
+      \begin{align*}
+        &\P(X_0 = x_0, \ldots, X_n = x_n, Y_0 = y_0, \ldots, Y_m = y_m) \\
+        &= \P(X_0 = x_0, \ldots, X_n = x_n)\P(Y_0 = y_0, \ldots, Y_m = y_m)
+      \end{align*}
+      for all $x_0, \ldots, x_n, y_0, \ldots, y_m \in I$ and $m \geq 0$
+  \end{itemize}
+\end{remark}
+\begin{theorem}[Simple Markov Property]\par
+  If $\mchain{X} = (X_n)_{n \geq 0} \sim \markov(\vec{\lambda}, P)$, then for any $m \geq 1$ and $i \in I$, conditional on $\{X_m = i\}$, the process: \label{simpleMarkov}
+  \[
+    (X_{m + n})_{n \geq 0} \sim \markov(\delta_i, P)
+  \]
+  and is independent of $(X_0, \ldots, X_n)$ again conditional on $\{X_m = i\}$.
+\end{theorem}
+\begin{proof}\par
+  \textbf{Distribution}\par
+  Clearly $\P(X_m = j \vert X_m = i) = \delta_{i}(j)$ and so conditioning on $\{X_m = i\}$, our initial distribution is $\delta_i$.
+
+  Since $(X_n)_{n \geq 0}$ is a Markov chain, for $n \geq 0$ and $x_0, \ldots, x_m, x_{m + 1}, \ldots, x_{m + n} \in I$ we have:
+  \begin{align*}
+    &\P(X_{m + n} = x_{m + n} \vert X_m = x_m, \ldots, X_{m + n -1} = x_{m + n - 1}) \\
+    &= \P(X_{m + n} = x_{m + n} \vert X_{m + n - 1} = x_{m + n - 1}) \\
+    &= P_{x_{m + n - 1} x_{m + m}}
+  \end{align*}
+  and so $(X_{m + n})_{n \geq 0}$ satisfies \cref{mChainDef} and by definition also has transition matrix $P$, thus $(X_{m + n})_{n \geq 0} \sim \markov(\delta_i, P)$.
+
+  \textbf{Independence}\par
+  To show independence, we appeal to the above remark.
+  Since we are conditioning on $\{X_m = i\}$, we wish to show that for all $n \geq 0$ and $x_0, \ldots, x_m, x_{m + 1}, \ldots, x_{m + n} \in I$ that:
+  \begin{align*}
+    &\P(X_0 = x_0, \ldots, X_m = x_m, X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} = x_{m + n} \vert X_m = i) \\
+    &= \P(X_0 = x_0, \ldots, X_m = x_n \vert X_m = i)\P(X_m = x_m, X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} \vert X_m = i)
+  \end{align*}
+  Starting from the left hand side we have:
+  \begin{align*}
+    &\P(X_0 = x_0, \ldots, X_m = x_m, \ldots, X_{m + n} = x_{m + n} \vert X_m = i) \\
+    &= \frac{\P(X_0 = x_0, \ldots, X_m = x_m, \ldots, X_{m + n} = x_{m + n})}{\P(X_m = i)} \cdot 1(x_m = i)
+  \end{align*}
+  Considering the numerator, using the definition of conditional probability, we have:
+  \begin{align*}
+    &\P(X_0 = x_0, \ldots, X_m = x_m, \ldots, X_{m + n} = x_{m + n}) \\
+    &= \P(X_0 = x_0, \ldots, X_m = x_m) \\
+    &\hspace{0.4cm} \cdot \P(X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} = x_{m + n} \vert X_0 = x_0, \ldots, X_m = x_m) \\
+    &= \P(X_0 = x_0, \ldots, X_m = x_m) \cdot \P(X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} = X_{m + n} \vert X_m = x_m)
+  \end{align*}
+  Thus:
+  \begin{align*}
+    &\P(X_0 = x_0, \ldots, X_m = x_m, \ldots, X_{m + n} = x_{m + n} \vert X_m = i) \\
+    &= \frac{\P(X_0 = x_0, \ldots, X_m = x_m)}{\P(X_m = i)} \cdot 1(x_m = i) \\
+    &\hspace{0.4cm} \cdot \P(X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} = X_{m + n} \vert X_m = x_m) \cdot 1(X_m = i) \\
+    &= \P(X_0 = x_0, \ldots, X_m = x_m \vert X_m = i) \\
+    &\hspace{0.4cm} \cdot \P(X_{m + 1} = x_{m + 1}, \ldots, X_{m + n} = x_{m + n} \vert X_m = i) \cdot 1(X_m = i) \\
+    &= \P(X_0 = x_0, \ldots, X_m = x_m \vert X_m = i) \\
+    &\hspace{0.4cm} \cdot \P(X_m = x_m, \ldots, X_{m + n} = x_{m + n} \vert X_m = i)
+  \end{align*}
+  which is as required.
+\end{proof}
+\subsection{Powers of the Transition Matrix}
+For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to know how $\P(X_n = x)$ varies with $n$, especially as we make $n$ large.
+\begin{proposition}
+  If $\mchain{X} \sim \markov(\vec{\lambda}, P)$, then:
+  \begin{enumerate}
+    \item $\P(X_n = x) = [\lambda P^n]_x$
+    \item $\P(X_{m + n} = y \vert X_m = x) = [P^{n}]_{x y}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Using the law of total probability:
+  \begin{align*}
+    \P(X_n = x) &= \sum_{x_0, \ldots, x_{n - 1} \in I} \P(X_0 = x_0, \ldots, X_{n - 1} = x_{n - 1}, X_n = x) \\
+                &= \sum_{x_0, \ldots, x_{n - 1} \in I} \lambda_{x_0} P_{x_0, x_1} \cdots P_{x_{n - 2}, x_{n - 1}}P_{x_{n - 1} x} \text{ by \cref{markovCond}} \\
+                &= \sum_{x_0 \in I} \lambda_{x_0} [P^n]_{x_0 x} \\
+                &= [\vec{\lambda}^{\trans} P^{n}]_x
+  \end{align*}
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Using the simple Markov property (\cref{simpleMarkov}), we have that $(X_{m + n} \vert X_m = x) \sim \markov(\delta_x, P)$.
+  Thus using \textbf{(i)}:
+  \[
+    \P(x_{m + n} = y \vert X_m = x) = [\delta^{\trans}_x P^{n}]_y = [P^n]_{x y}
+  \]
+  as required.
+\end{proof}
+\begin{remark}[Notation]
+  We introduce the notation:
+  \begin{align*}
+    P_{x y}(n) &= \P(X_{m + n} = y \vert X_m = x) \\
+               &= \P(X_n = y \vert X_0 = x) \text{ by time homogeneity} \\
+               &= [P^n]_{x y}
+  \end{align*}
+\end{remark}
+\begin{example}
+  Returning to the binary Markov chain in \cref{binaryEx}, what is the probability that we finish at state 0 if we take $n$ steps starting from state 0?
+
+  This probability is precisely $P_{0 0}(n)$.
+  Since $P^{n + 1} = P^{n} \cdot P$, we have the following recurrence:
+  \begin{align*}
+    P_{0 0}(n + 1) &= P_{0 0}(n) \cdot (1 - \alpha) + P_{0 1}(n) \cdot \beta \\
+                   &= P_{0 0}(n) \cdot (1 - \alpha) + (1 - P_{0 0}(n)) \cdot \beta \\
+                   &= \beta + (1 - \alpha - \beta) P_{0 0}(n)
+  \end{align*}
+  Noting that $P_{0 0}(0) = 1$, we can solve the above recurrence to yield:
+  \[
+    P_{0 0}(n) = \begin{cases}
+    \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta} (1 - \alpha - \beta)^{n} & \text{ if } \alpha + \beta > 0 \\
+    1 & \text{ if } \alpha = \beta = 0
+    \end{cases}
+  \]
+\end{example}
 \end{document}
