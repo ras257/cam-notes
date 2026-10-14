@@ -32,7 +32,7 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
   \end{enumerate}
 \end{definition}
 \begin{lemma}
-  For an $\F$-vector space $V$ and subsets $S, T \subseteq V$:
+  For an $\F$-vector space $V$ and subsets $S, T \subseteq V$: \label{spanningLemma}
   \begin{enumerate}
     \item $\langle S \rangle \leq V$
     \item If $S$ spans $V$ and $S \subseteq \langle T \rangle$, then $T$ spans $V$.
@@ -52,7 +52,7 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
   \]
   So $T$ spans $V$ also.
 \end{proof}
-\begin{proof}
+\begin{proof}[\textbf{iii}]
   For any $s_1, \ldots, s_n \in S$, $t_1, \ldots, t_n \in T$, and $\lambda_1, \ldots, \lambda_n, \mu_1, \ldots, \mu_k \in \F$ we can write:
   \begin{align*}
     v &= \lambda_1 s_1 + \cdots + \lambda_n s_n + \mu_1 t_1 + \cdots + \mu_k t_k \in \langle S \cup T \rangle\\
@@ -60,4 +60,268 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
   \end{align*}
   This is the form of all elements in either of the sets and so $\langle S \cup T \rangle = \langle S \rangle + \langle T \rangle$.
 \end{proof}
+\begin{example}
+  \begin{enumerate} \label{linIndepEx}
+    \item Consider the vector space $V = \R^3$ and the subsets:
+      \[
+        S = \left\{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        \end{pmatrix}, \begin{pmatrix}
+        1 \\
+        1 \\
+        2 \\
+        \end{pmatrix}\right\} \text{ and } T = \left\{
+        \begin{pmatrix}
+        2 \\
+        1 \\
+        2 \\
+        \end{pmatrix}, \begin{pmatrix}
+        0 \\
+        1 \\
+        2 \\
+        \end{pmatrix}, \begin{pmatrix}
+        -1 \\
+        2 \\
+        4 \\
+        \end{pmatrix}\right\}
+      \]
+      These subsets have:
+      \[
+        \langle S \rangle = \langle T \rangle = \left\{\begin{pmatrix}
+        x \\
+        y \\
+        2y \\
+        \end{pmatrix}: x, y \in \R\right\} \leq \R^3
+      \]
+    \item Recall that $V = \R^{\N}$ is the space of all functions $\N \to \R$.
+      Consider the subset $T = \{\delta_n: n \in \N\} \subseteq V$ where:
+      \[
+        \delta_n: \N \to \R,\ m \mapsto \begin{cases}
+        1 & m = n \\
+        0 & m \neq n
+        \end{cases}
+      \]
+      You might at first think that $\langle T \rangle = \R^{\N}$, however this is \textbf{not} the case.
+      For instance, if $f \in \R^{\N}$ has $f(m) = 1$ for all $m$, then $f \notin \langle T \rangle$ as can only take linear combinations of \textbf{finitely many} elements of $T$.
+
+      Because spanning sets only include finite linear combinations, we in fact have:
+      \[
+        \langle T \rangle = \{g \in V: g(n) = 0 \text{ for all $n$ sufficiently large}\}
+      \]
+  \end{enumerate}
+\end{example}
+\begin{definition}[Linear Independence]
+  We say that a subset $S \subseteq V$ is \textit{linearly independent} if for every linear combination:
+  \[
+    \finitesum_{s \in S} \lambda_s s  = \vec{0} \implies \lambda_s = 0\ \forall s \in S
+  \]
+  That is, the only way to write $\vec{0}$ as a linear combination of elements of $S$ is the trivial linear combination where all coefficients are 0.
+
+  If a subset is not linearly independent, then it is said to be \textit{linearly dependent}.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item If $\vec{0} \in S$, then $S$ is linearly dependent as we always have the non-trivial linear combination $1 \cdot \vec{0} = \vec{0}$.
+    \item If $S = \{v_1, \ldots, v_n\}$ is finite, then $S$ is linearly independent if and only if for all $\lambda_1, \ldots, \lambda_n \in \F$:
+      \[
+        \sum_{i = 1}^{n} \lambda_i v_i = \vec{0} \implies \lambda_1 = \cdots = \lambda_n = 0
+      \]
+    \item If $S$ is infinite, then $S$ is linearly independent if and only if every finite subset of $S$ is linearly independent.
+    \item Every subset of a linearly independent set is linearly independent.
+    \item By convention, we consider the empty set $\emptyset$ to be linearly independent.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item Returning to \cref{linIndepEx} \textbf{(i)}, we see that $T$ is linearly dependent as:
+      \[
+        1 \cdot \begin{pmatrix}
+        2 \\
+        1 \\
+        2 \\
+        \end{pmatrix} - 5 \cdot \begin{pmatrix}
+        0 \\
+        1 \\
+        2 \\
+        \end{pmatrix} + 2 \cdot \begin{pmatrix}
+        -1 \\
+        2 \\
+        4 \\
+        \end{pmatrix} = \vec{0}
+      \]
+      But $S$ is linearly independent as for $\lambda, \mu \in \R$:
+      \[
+        \lambda \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        \end{pmatrix} + \mu \begin{pmatrix}
+        1 \\
+        1 \\
+        2 \\
+        \end{pmatrix} = \vec{0} \implies \lambda = \mu = 0
+      \]
+    \item Returning to \cref{linIndepEx} \textbf{(ii)} where $T = \{\delta_n: n \in \N\}$.
+      Let the function $f$ be an arbitrary linear combination of elements of $T$:
+      \[
+        f = \finitesum_{n \in \N} \lambda_n \delta_n
+      \]
+      If $f \equiv 0$, then for any $m \in \N$:
+      \[
+        0 = f(m) = \finitesum_{n \in \N} \lambda_n \delta_n(m) = \lambda_m
+      \]
+      Thus $\lambda_m = 0$ for all $m$ and so $T$ is linearly independent.
+  \end{enumerate}
+\end{example}
+\begin{definition}[Basis]
+  We say that the subset $S \subseteq V$ is a basis for $V$ if it is linearly independent and spans $V$.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item Let $\vec{e}_i = (0, \ldots, 0, 1, 0, \ldots, 0)^{\trans} \in \F^{n}$ where $1$ is in the $i$-th position.
+      The set $\{\vec{e}_i: i \in \{1, \ldots, n\}\}$ is called the \textit{standard basis} for $\F^{n}$.
+    \item The set:
+      \[
+        \left\{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        \end{pmatrix}, \begin{pmatrix}
+        1 \\
+        1 \\
+        0 \\
+        \end{pmatrix}, \begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        \end{pmatrix}\right\}
+      \]
+      is a basis for $\F^3$.
+    \item Recall that $P(\R)$ is the space of real polynomial functions.
+      For $n \geq 0$, define the function $p_n \in P(\R)$ by:
+      \[
+        p_n: \R \to \R,\ x \mapsto x^n
+      \]
+      The set $\{p_n: n \geq 0\}$ is then a basis for $P(\R)$.
+  \end{enumerate}
+\end{example}
+\begin{proposition}
+  If $S \subseteq V$ is a finite spanning set for $V$, then there exists a subset $S' \subseteq S$ such that $S'$ is a basis for $V$. \label{finiteSpanningSub}
+\end{proposition}
+\begin{proof}
+  Since $S$ spans $V$, by well ordering, there exists a smallest subset $S' \subseteq S$ such that $S'$ spans $V$.
+  If $S' = \emptyset$, then we are done as then $v = \{\vec{0}\}$, in which case $\emptyset$ is a basis for $V$.
+  Otherwise, since $S$ is finite, so is $S'$ and so we can write $S' = \{v_1, \ldots, v_n\}$.
+
+  Suppose for contradiction that $S'$ does not span $V$.
+  Thus there exists $\lambda_1, \ldots, \lambda_n \in \F$ which are not all 0 such that:
+  \[
+    \sum_{i = 1}^{n} \lambda_i v_i = \vec{0}
+  \]
+  Without loss of generality we can assume that $\lambda_1 \neq 0$ and so:
+  \[
+    v_1 = - \frac{1}{\lambda_1} \sum_{i = 2}^{n} \lambda_i v_i \in \langle S' \setminus \{v_1\} \rangle
+  \]
+  Therefore $S' \subseteq \langle S' \setminus \{v_1\} \rangle$ and so we can apply \cref{spanningLemma} \textbf{(ii)} to conclude that $S' \setminus \{v_1\}$ spans $V$, however this is a contradiction as $S' \setminus \{v_1\}$ is smaller than $S_1$.
+
+  Thus $S'$ must span $V$ and so is a basis for $V$.
+\end{proof}
+\begin{remark}
+  We could also view the above proof as a process where starting from $S = \{v_1, \ldots, v_n\}$, if the current set is linearly dependent, then we can remove a vector from it and still have it span $V$.
+  We then repeat this until we get a basis for $V$, or end up with $\emptyset$ which is a basis for $\{\vec{0}\}$.
+\end{remark}
+\begin{corollary}
+  A vector space $V$ is finite dimensional if and only if it has a finite basis. \label{finiteVBasis}
+\end{corollary}
+\begin{proof}
+  \begin{proofdirection}{Assume $V$ is finite dimensional}
+    So we have a finite spanning set $S$ and therefore by \cref{finiteSpanningSub} we have a finite basis $S' \subseteq S$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $V$ has a finite basis}
+    This basis must span $V$ so $V$ has a finite spanning set and thus is finite.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}[Warning]
+  Whilst all finite vector spaces must have a basis, we require the \textit{axiom of choice} to show that every infinite vector space has a basis.
+\end{remark}
+\begin{theorem}[Steinitz Exchange Lemma]
+  If $V$ is an $\F$-vector space, with finite subsets $T, S \subseteq V$ where $S$ is linearly independent and $T$ is a spanning set for $V$, then: \label{steinitz}
+  \begin{enumerate}
+    \item $|S| \leq |T|$
+    \item There exists a subset $T' \subseteq T$ such that $S \cup T'$ spans $V$ and
+      \[
+        |T'| = |T| - |S|
+      \]
+  \end{enumerate}
+\end{theorem}
+\begin{remark}[Intuition]
+  We can remove certain elements of $T$ and replace them by elements of $S$ and still have the resulting set span $V$.
+\end{remark}
+\begin{proof}
+  Since $S$ and $T$ are finite $|S| = m$, $|T| = n$ and so we can write $S = \{s_1, \ldots, s_m\}$ and $T = \{t_1, \ldots, t_n\}$.
+  If $S = \emptyset$, then we are done by taking $T' = T$.
+  Otherwise we proceed as follows.
+
+  \textbf{Step 1}\par
+  Since $\langle T \rangle = V$, we can express the elements of $S$ as linear combinations of elements in $T$.
+  Thus there exists $\lambda_i \in \F$ such that:
+  \[
+    s_1 = \sum_{i = 1}^{N} \lambda_i t_i
+  \]
+  We note that $s_1 \neq \vec{0}$ since $S$ is linearly independent and so without loss of generality we can assume that $\lambda_1 \neq 0$.
+  Hence:
+  \[
+    t_1 = \frac{1}{\lambda_1}\left(s_1 - \sum_{i = 2}^{n} \lambda_i t_i\right)
+  \]
+  so $\{s_1, t_2, \ldots, t_n\}$ spans $T$ and hence spans $V$ by \cref{spanningLemma} \textbf{(ii)}.
+
+  \textbf{Step $k + 1$ for $k < m$}\par
+  We assume that $\{s_1, \ldots, s_k, t_{k + 1}, \ldots, t_n\}$ spans $V$.
+  We then write:
+  \[
+    s_{k + 1} = \sum_{i = k + 1}^{n} \lambda_i t_i + \sum_{j = 1}^{k} \mu_i s_j
+  \]
+  We want to make sure that we can always substitute out a $t_i$.
+  Suppose that we are not able to do that, i.e. all of the $\lambda_i$ are 0.
+  We then have:
+  \[
+    s_{k + 1} - \sum_{i = 1}^{k} \mu_j s_j = \vec{0}
+  \]
+  which is a contradiction as this is a non-trivial linear combination of elements of $S$.
+  So without loss of generality we can assume $\lambda_{k + 1} \neq 0$ and so:
+  \[
+    t_{k + 1} = \frac{1}{\lambda_{k + 1}}\left(s_{k + 1} - \sum_{i = k + 2}^{n} \lambda_i t_i - \sum_{j = 1}^{k} \mu_j s_j\right)
+  \]
+  hence $\{s_1, \ldots, s_{k + 1}, t_{k + 2}, \ldots, t_n\}$ spans $V$.
+
+  \textbf{Conclusion}\par
+  Suppose that this process terminates with us running out of elements of $T$ before we run out of elements of $S$, i.e. $m > n$, then we would have that $\{s_1, \ldots, s_n\}$ spans $V$, which would contradict the linear independence of $V$ as we could write $s_m$ as a linear combination of $\{s_1, \ldots, s_n\}$.
+
+  Thus we must have $m \leq n$ i.e. $|S| \leq |T|$ and so the terminating set is of the form $\{s_1, \ldots, s_m, t_{m + 1}, \ldots, t_n\}$.
+  This spans $V$ and so picking $T' = \{t_{m + 1}, \ldots, t_n\} \subseteq T$ works.
+\end{proof}
+\begin{corollary}
+  If $V$ is a finite dimensional $\F$-vector space, then:
+  \begin{enumerate}
+    \item Every basis for $V$ is finite
+    \item If $B_1$ and $B_2$ are finite bases for $V$, then $|B_1| = |B_2|$
+  \end{enumerate}
+\end{corollary}
+\begin{proof}[\textbf{i}]
+  By \cref{finiteVBasis}, $V$ has a finite basis $B$.
+  Suppose for contradiction that $B'$ is an infinite basis for $V$.
+  Since $B'$ is a basis, we can pick $|B| + 1$ elements from $B$ to construct a $B'' \subseteq B'$ with $|B''| = |B| + 1$ that is linearly independent.
+  Then $S = B''$ is linearly independent and $T = B$ spans $V$, so by \cref{steinitz}, $|B| + 1 = |S| \leq |T| = |B|$, which is a contradiction.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $B_1$ and $B_2$ are bases, they are both linearly independent and both span $V$.
+
+  Setting $S = B_1$ and $T = B_2$, gives $|B_1| \leq |B_2|$ and similarly taking $S = B_2$ and $T = B_1$ gives $|B_2| \leq |B_1|$.
+  Thus $|B_1| = |B_2|$ as required.
+\end{proof}
+\begin{definition}[Dimension]
+  The \textit{dimension}, denoted $\dim(V)$, of a finite vector space $V$ is the common size of any basis for $V$.
+\end{definition}
 \end{document}
