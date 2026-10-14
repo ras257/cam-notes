@@ -103,7 +103,11 @@ We want to come up with a different notion of convergence for sequences of funct
       \[
         \forall \varepsilon > 0\ \exists N = N(\varepsilon) \in \N \text{ s.t. } \sup_{x \in E} |f_n(x) - f(x)| < \varepsilon\ \forall n \geq N
       \]
-      This is often the most convenient form to use as it has less quantifiers to keep track of.
+      or again equivalently:
+      \[
+        \sup_{x \in E} |f_n(x) - f(x)| \to 0 \text{ as $n \to \infty$}
+      \]
+      The above two forms tend to be more convenient to apply as there are fewer quantifiers to keep track of and we can use limit values we already know.
   \end{itemize}
 \end{remark}
 To see how this differs to pointwise convergence, we unpack the pointwise convergence definition in \cref{pointwiseDef}:
@@ -113,7 +117,7 @@ To see how this differs to pointwise convergence, we unpack the pointwise conver
 So for some fixed $\varepsilon$, the key difference is that for uniform convergence our choice of $N(\varepsilon)$ has to work for all choices of $x \in E$ whereas for pointwise convergence, we pick $N(\varepsilon, x)$ after also fixing some $x \in E$.
 \begin{proposition}
   Let $f_n, f: E \to \R$.
-  If $f_n \to f$ uniformly on $E$, then $f_n \to f$ pointwise on $E$.
+  If $f_n \to f$ uniformly on $E$, then $f_n \to f$ pointwise on $E$. \label{unifImpPoint}
 \end{proposition}
 \begin{proof}
   For any fixed $\varepsilon > 0$, since $f_n \to f$ uniformly, there exists $N(\varepsilon) \in N$ such that $\sup_{x \in E} |f_n(x) - f(x)| < \varepsilon$ for $n \geq N$.
@@ -272,4 +276,188 @@ We would like to extend this idea of a Cauchy sequence to sequences of functions
 \begin{proof}
   By \cref{cauchyCritereon}, there exists $f: [a, b] \to \R$ such that $f_n \to f$ uniformly, and by \cref{unifContFunc}, $f \in C([a, b])$.
 \end{proof}
+\subsection{Integrability}
+\begin{theorem}[Convergence of integrals under uniform convergence]
+  If $f_n, f: [a, b] \to \R$ are integrable and $f_n \to f$ uniformly on $[a, b]$, then: \label{unifIntegralValue}
+  \[
+    \int_{a}^{b} f_n \d{x} \to \int_{a}^{b} f \d{x}
+  \]
+  as $n \to \infty$.
+\end{theorem}
+\begin{remark}
+  We will later see that the assuming $f$ is integrable is redundant as it always will be if all of the $f_n$ are.
+\end{remark}
+\begin{proof}
+  We want to bound the difference between the integrals by a quantity convergent to 0:
+  \begin{align*}
+    \abs{\int_{a}^{b} f_n \d{x} - \int_{a}^{b} f \d{x}} &= \abs{\int_{a}^{b} f_n - f \d{x}} \\
+                                                        &\leq \int_{a}^{b} |f_n - f| \d{x} \\
+                                                        &\leq (b -  a) \cdot \sup_{x \in [a, b]} |f_n - f|
+  \end{align*}
+  Since $f_n \to f$ uniformly, $\sup_{x \in [a, b]} |f_n - f| \to 0$ as $n \to \infty$ and so the result follows.
+\end{proof}
+\subsection{Differentiability}
+The case of differentiation and uniform convergence is more subtle than with that of continuity and integration.
+\begin{proposition}
+  If $f_n, f: [a, b] \to \R$ with $f_n \to f$ uniformly on $[a, b]$, then:
+  \begin{enumerate}
+    \item $f$ need not be differentiable.
+    \item Even if $f$ is differentiable, it does not follow that $f_n' \to f$ pointwise on $[a, b]$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Consider the sequence of functions:
+  \[
+    f_n: [-1, 1] \to \R,\ x \mapsto |x|^{1 + 1/n}
+  \]
+  Clearly $f_n$ is differentiable away from 0.
+  At $x = 0$, for fixed $n$:
+  \[
+    \lim_{h \to 0} \frac{f_n(h) - f_n(0)}{h} = \lim_{h \to 0} \operatorname{sign}(h) |h|^{1/n} = 0
+  \]
+  and so $f_{n}'(0) = 0$.
+  Thus $f_n$ are differentiable on $\R$.
+
+  Clearly $f_n \to |x|$ pointwise on $[-1, 1]$, so to check uniform convergence we wish to show that:
+  \[
+    \sup_{x \in [-1, 1]} ||x|^{1 + 1/n} - |x|| \to 0 \text{ as } n \to \infty
+  \]
+  The argument of this supremum is an even function and so we need only consider $x \in [0, 1]$.
+  Furthermore, for $x \in [0, 1]$, as $n \geq 1$ $|x^{1 + 1/n} - x| = x - x^{1 + 1/n}$ and so we want to find $\sup_{x \in [0, 1]} (x - x^{1 + 1/n})$.
+
+  Let $g_n: [0, 1] \to \R,\ x \mapsto x - x^{1 + 1/n} \geq 0$.
+  Since $g_n$ is continuous and $[0, 1]$ is closed and bounded, by the extreme value theorem, there exists $c_n \in [0, 1]$ such that $g_n(c) = \sup_{x \in [0, 1]} g_n(x)$.
+  We know also that $c_n \notin \{0, 1\}$ as $g_n(0) = g_n(1) = 0$ and $g_n$ is clearly not identically 0.
+  So $g_n$ is differentiable and $c_n$ is on the interior of $[0, 1]$, thus as we saw in IA Analysis I, $g_n'(c_n) = 0$.
+  Computing the derivative of $g_n$, we have:
+  \[
+    g_n'(x) = 1 - \left(1 + \frac{1}{n}\right)x^{1/n} \text{ and so } g_n'(x) = 0 \iff x = \left(\frac{1}{1 + 1/n}\right)^n \in (0, 1)
+  \]
+  Thus we must have $c_n = (\frac{1}{1 + 1/n})^n$ and so:
+  \begin{align*}
+    \sup_{x \in [0, 1]} g(x) = g(c) &= \left(\frac{1}{1 + 1/n}\right)^{n} - \left(\frac{1}{1 + 1/n}\right)^{n + 1} \\
+                                    &= \frac{n^n}{(n + 1)^{n + 1}} \\
+                                    &\leq \frac{n^n}{n^{n + 1}} \\
+                                    &= \frac{1}{n}
+  \end{align*}
+  Thus:
+  \[
+    \sup_{x \in [-1, 1]} ||x|^{1 + 1/n} - |x|| \leq \frac{1}{n} \to 0 \text{ as } n \to \infty
+  \]
+  and so $f_n \to |x|$ uniformly on $[-1, 1]$.
+  However $|x|$ is not differentiable at $x = 0$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Consider the sequence of functions for $n \geq 1$:
+  \[
+    f_n: \R \to \R,\ x \mapsto \frac{\sin nx}{\sqrt{n}}
+  \]
+  We see that:
+  \[
+    |f_n(x)| \leq \frac{1}{\sqrt{n}} \to 0 \text{ as } n \to \infty
+  \]
+  and so $f_n \to 0$ pointwise on $\R$.
+  Thus to check uniform convergence:
+  \[
+    \sup_{x \in \R} |f_n| = \frac{1}{\sqrt{n}} \to 0 \text{ as } n \to \infty
+  \]
+  and so $f_n \to f \equiv 0$ uniformly on $\R$.
+
+  However $f_n'(x) = \sqrt{n}\cos nx$, clearly $f_n' \centernot\to f' \equiv 0$ pointwise, for example, at $x = 0$, we have $f_n'(0) \to \infty$.
+\end{proof}
+\begin{theorem}[Uniform convergence and differentiability]
+  If $f_n: [a, b] \to \R$ are differentiable on $[a, b]$ for all $n$, and:
+  \begin{enumerate}
+    \item $f_n' \to g$ uniformly on $[a, b]$ for some $g: [a, b] \to \R$.
+    \item For some $c \in [a, b]$, the sequence $(f_n(c))$ converges.
+  \end{enumerate}
+  then $f_n \to f$ uniformly on $[a, b]$ where $f$ is differentiable on $[a, b]$ and $f'(x) = g(x)\ \forall x \in [a, b]$.
+\end{theorem}
+\begin{remark}[Note]
+  When we say that $f_n: [a, b] \to \R$ is differentiable on $[a, b]$, at the endpoints $\{a, b\}$ we require only that the appropriate one sided limit for the derivative exists.
+\end{remark}
+\begin{proof}\par
+  \textbf{Uniform Convergence}\par
+  We want to appeal to the Cauchy criterion for uniform convergence (\cref{cauchyCritereon}) as we do not know what our limit function is.
+
+  Fix some $x \in [a, b]$ and $n, m$ such that $n \geq m$.
+  By applying the mean value theorem from Analysis I to $f_n(x) - f_m(x)$:
+  \[
+    f_n(x) - f_m(x) = f_n(c) - f_m(c) + (x - c)[f_n - f_m]'(x_{n, m})
+  \]
+  for some $x_{m, n} \in (\min\{x, c\}, \max\{x, c\})$.
+
+  Thus as $|x - c| \leq b - a$ we have:
+  \[
+    \sup_{x \in [a, b]} |f_n - f_m| \leq |f_n(c) - f_m(c)| + (b - a) \sup_{x \in [a, b]} |f_n' - f_m'|
+  \]
+  Since $(f_n(c))$ converges, it must be Cauchy by the completeness of $\R$, $|f_n - f_m| \to 0$ as $m \to \infty$.
+  Similarly, since $(f_n')$ is uniformly Cauchy, by \cref{cauchyCritereon}, $\sup_{x \in [a, b]} |f_n' - f_m'| \to 0$ as $m \to \infty$.
+  Thus $\sup_{x \in [a, b]} |f_n - f_m| \to 0$ as $m \to \infty$ and so by the Cauchy criterion for uniform convergence (\cref{cauchyCritereon}), $f_n \to f$ uniformly for some $f: [a, b] \to \R$.
+
+  \textbf{Differentiability}\par
+  We now need to show that $f$ is differentiable with $f' = g$ on $[a, b]$.
+  Fix some $y \in [a, b]$ and consider the function:
+  \[
+    h(x) = \begin{cases}
+    \frac{f(x) - f(y)}{x - y} & \text{ if } x \neq y \\
+    g(y) & \text{ if } x = y
+    \end{cases}
+  \]
+  which has the property that $f'(y) = g(y) \iff$ $h$ is continuous at $y$.
+  To show that $h$ is continuous, consider the sequence of functions:
+  \[
+    h_n(x) = \begin{cases}
+    \frac{f_n(x) - f_n(y)}{x - y} & \text{ if } x \neq y \\
+    f_n'(y) & \text{ if } x = y
+    \end{cases}
+  \]
+  Since $f_n \to f$ uniformly, by \cref{unifImpPoint}, $f_n \to f$ pointwise and so $h_n \to h$ pointwise for $x \neq y$.
+  By assumption $f'_n \to g$ uniformly, and so $f_n' \to g$ pointwise.
+  Thus, regardless of our prior choice of $y$, $f'_n(y) \to g(y)$ and so $h_n \to h$ pointwise on all of $[a, b]$.
+
+  By assumption $f_n$ is differentiable and so $h_n$ is continuous.
+  Since we know $h_n \to h$ pointwise, if we can show that $h_n \to h$ uniformly, then we can appeal to \cref{unifCont} to conclude that $h$ is continuous.
+  We shall again use the Cauchy criterion, for $n \geq m$
+  \begin{align*}
+    h_n(x) - h_m(x) &= \begin{cases}
+    \frac{f_n(x) - f_n(y) - (f_m(x) - f_m(y))}{x - y} & \text{ if } x \neq y \\
+    f_n'(y) - f_m'(y) & \text{ if } x = y
+    \end{cases} \\
+                    &= \begin{cases}
+                      [f_n - f_m]'(y_{n, m}) &  \text{ if } x \neq y\\
+                      [f_n - f_m]'(y) & \text{ if } x = y
+                    \end{cases}
+  \end{align*}
+  for some $y_{m n} \in (\min\{x, y\}, \max\{x, y\})$ by the mean value theorem.
+  We then have:
+  \[
+    \sup_{x \in [a, b]} |h_n - h_m| \leq \sup_{x \in [a, b]} |f_n' - f_m'| \to 0
+  \]
+  since $(f_n')$ converges uniformly on $[a, b]$.
+  Thus $h_n \to h$ uniformly and so $h$ must be continuous, which as discussed, means that $f'(y) = g(y)$ for any choice of $y \in [a, b]$.
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item $f_n'$ need not \textbf{not} be continuous or even integrable.
+      For example, we can construct differentiable functions with discontinuous derivatives, such as:
+      \[
+        f(x) = \begin{cases}
+        x^2 \sin(\frac{1}{x}) & \text{ if } x \neq 0 \\
+        0 & x = 0
+        \end{cases}
+      \]
+      which has derivative:
+      \[
+        f'(x) = \begin{cases}
+        2x \sin(\frac{1}{x}) - \cos(\frac{1}{x}) & \text{ if } x \neq 0 \\
+        0 &  \text{ if } x = 0
+        \end{cases}
+      \]
+      This is clearly not continuous at $x = 0$ because of $\cos(1/x)$ term can be 1 for $x$ arbitrarily close to 0.
+
+      There are also differentiable functions whose derivative is bounded but not Riemann integrable, for example, \textit{Volterra's function}.
+    \item If we assume that $f_n'$ are all continuous, then the proof of the above is easier and can be based on the Fundemental Theorem of Calculus from Analysis I and \cref{unifIntegralValue}.
+  \end{itemize}
+\end{remark}
 \end{document}
