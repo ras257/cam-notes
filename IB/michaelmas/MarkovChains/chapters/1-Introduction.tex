@@ -92,7 +92,7 @@ We see that all transition matrices are stochastic because their rows are define
   \end{center}
   We see that if we reach state 3, then we get stuck there indefinitely.
 \end{example}
-\subsection{Identifying Markov Chains}
+\section{Identifying Markov Chains}
 \begin{definition}[Initial Distribution]
   We call the vector $\vec{\lambda}$ with components $\lambda_i \in [0, 1]$ for $i \in I$ an \textit{initial distribution} for a Markov Chain $\mchain{X}$ if:
   \[
@@ -154,7 +154,7 @@ We see that all transition matrices are stochastic because their rows are define
   \end{align*}
   and so $\mchain{X} \sim \markov(\lambda, P)$.
 \end{proof}
-\subsection{Independence in Markov Chains}
+\section{Independence in Markov Chains}
 \begin{definition}[$\delta_i$-mass]
   For any $i \in I$, we let $\delta_i$ denote the probability mass function that places a unit mass at $i$, that is:
   \[
@@ -271,7 +271,7 @@ We see that all transition matrices are stochastic because their rows are define
   \end{align*}
   which is as required.
 \end{proof}
-\subsection{Powers of the Transition Matrix}
+\section{Powers of the Transition Matrix}
 For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to know how $\P(X_n = x)$ varies with $n$, especially as we make $n$ large.
 \begin{proposition}
   If $\mchain{X} \sim \markov(\vec{\lambda}, P)$, then:
