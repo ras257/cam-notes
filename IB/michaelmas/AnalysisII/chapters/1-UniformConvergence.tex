@@ -366,7 +366,7 @@ The case of differentiation and uniform convergence is more subtle than with tha
   However $f_n'(x) = \sqrt{n}\cos nx$, clearly $f_n' \centernot\to f' \equiv 0$ pointwise, for example, at $x = 0$, we have $f_n'(0) \to \infty$.
 \end{proof}
 \begin{theorem}[Uniform convergence and differentiability]
-  If $f_n: [a, b] \to \R$ are differentiable on $[a, b]$ for all $n$, and:
+  If $f_n: [a, b] \to \R$ are differentiable on $[a, b]$ for all $n$, and: \label{unifDiff}
   \begin{enumerate}
     \item $f_n' \to g$ uniformly on $[a, b]$ for some $g: [a, b] \to \R$.
     \item For some $c \in [a, b]$, the sequence $(f_n(c))$ converges.
@@ -437,27 +437,67 @@ The case of differentiation and uniform convergence is more subtle than with tha
   since $(f_n')$ converges uniformly on $[a, b]$.
   Thus $h_n \to h$ uniformly and so $h$ must be continuous, which as discussed, means that $f'(y) = g(y)$ for any choice of $y \in [a, b]$.
 \end{proof}
-\begin{remark}[Remarks]
-  \begin{itemize}
-    \item $f_n'$ need not \textbf{not} be continuous or even integrable.
-      For example, we can construct differentiable functions with discontinuous derivatives, such as:
-      \[
-        f(x) = \begin{cases}
-        x^2 \sin(\frac{1}{x}) & \text{ if } x \neq 0 \\
-        0 & x = 0
-        \end{cases}
-      \]
-      which has derivative:
-      \[
-        f'(x) = \begin{cases}
-        2x \sin(\frac{1}{x}) - \cos(\frac{1}{x}) & \text{ if } x \neq 0 \\
-        0 &  \text{ if } x = 0
-        \end{cases}
-      \]
-      This is clearly not continuous at $x = 0$ because of $\cos(1/x)$ term can be 1 for $x$ arbitrarily close to 0.
+\begin{remark}
+  $f_n'$ need not \textbf{not} be continuous or even integrable.
+  For example, we can construct differentiable functions with discontinuous derivatives, such as:
+  \[
+    f(x) = \begin{cases}
+    x^2 \sin(\frac{1}{x}) & \text{ if } x \neq 0 \\
+    0 & x = 0
+    \end{cases}
+  \]
+  which has derivative:
+  \[
+    f'(x) = \begin{cases}
+    2x \sin(\frac{1}{x}) - \cos(\frac{1}{x}) & \text{ if } x \neq 0 \\
+    0 &  \text{ if } x = 0
+    \end{cases}
+  \]
+  This is clearly not continuous at $x = 0$ because of $\cos(1/x)$ term can be 1 for $x$ arbitrarily close to 0.
 
-      There are also differentiable functions whose derivative is bounded but not Riemann integrable, for example, \textit{Volterra's function}.
-    \item If we assume that $f_n'$ are all continuous, then the proof of the above is easier and can be based on the Fundemental Theorem of Calculus from Analysis I and \cref{unifIntegralValue}.
-  \end{itemize}
+  There are also differentiable functions whose derivative is bounded but not Riemann integrable, for example, \textit{Volterra's function}.
+\end{remark}
+If we assume that $f_n'$ are all continuous, then the proof of \cref{unifDiff} is easier and can be based on the Fundemental Theorem of Calculus from Analysis I and \cref{unifIntegralValue}.
+\begin{proof}[Assuming also that $f_n'$ are all continuous]\par
+  Under this assumption, by the second fundamental theorem of calculus:
+  \[
+    \int_{c}^{x} f_n'(t) \d{t} = f_n(x) - f_n(c)
+  \]
+  and so we can write:
+  \[
+    f_n(x) = f_n(c) + \int_{c}^{x} f_n'(t) \d{t}
+  \]
+  Since we do not know what the limit function $f$ is, we want to appeal to the Cauchy criterion (\cref{cauchyCritereon}) and so condsidering $n \geq m$:
+  \begin{align*}
+    |f_n(x) - f_m(x)| &\leq |f_n(c) - f_m(c)| + \abs{\int_{c}^{x} (f_n'(t) - f_m'(t)) \d{t}} \\
+                      &\leq |f_n(c) - f_m(c)| + (b - a) \cdot \sup_{t \in [a, b]} |f_n'(t) - f_m'(t)|
+  \end{align*}
+  Since $(f_n(c))$ converges, it is Cauchy, and since $(f_n')$ converges uniformly, it is uniformly Cauchy.
+  Thus as $m \to \infty$, $|f_n(x) - f_m(x)| \to 0$ regardless of our choice of $x$.
+  Thus by \cref{cauchyCritereon}, $f_n \to f$ uniformly on $[a, b]$ for some $f: [a, b] \to \R$.
+
+  Since $f_n'$ are continuous and $f_n' \to g$ uniformly, by \cref{unifContFunc}, $g$ is continuous and so is integrable.
+  Thus by \cref{unifIntegralValue}, $\lim_{n \to \infty} \int_{c}^{x} f'_n(t) \d{t} = \int_{c}^{x} g(t) \d{t}$.
+  By \cref{unifImpPoint}, we can take the pointwise limit of $f_n$ to recover $f$:
+  \[
+    f(x) = \lim_{n \to \infty} f_n(x) = f(c) + \int_{c}^{x} g(t) \d{t}
+  \]
+  Since $g$ is continuous, by the first fundamental theorem of calculus, $\deriv{}{x} \int_{c}^{x} g(t) \d{t} = g(x)$ and so $f$ is differentiable with $f'(x) = g(x)$.
+\end{proof}
+\begin{proposition}[Limit laws for uniform convergence]
+  For sequences of functions $f_n, g_n: E \to \R$, we have the following:
+  \begin{enumerate}
+    \item If $f_n \to f$ and $g_n \to g$ uniformly on $E$, then $f_n + g_n \to f + g$ uniformly on $E$.
+    \item If $f_n \to f$ and $h: E \to \R$ is bounded, then $hf_n \to hf$ uniformly on $E$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  See Example Sheet 1.
+\end{proof}
+\begin{remark}
+  In \textbf{(ii)}, we cannot drop the boundedness condition on $h$.
+  For example, consider the sequence of functions $f_n: \R \to \R,\ x \mapsto \frac{1}{n}$.
+  Clearly $f_n \to 0$ uniformly on $\R$, however, if we set $h(x) = x$, then $(h f_n)(x) = \frac{x}{n}$ which does not converge to 0 uniformly on $\R$.
+  We could also set $h(x) = \frac{1}{x}$, in this case $(hf_n)(x) = \frac{1}{nx}$, which also does not converge to 0 uniformly on $\R$.
 \end{remark}
 \end{document}

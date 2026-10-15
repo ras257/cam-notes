@@ -1,0 +1,104 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Series of Functions}
+\section{Definitions}
+In the previous chapter, we extended our theory of sequences of numbers to sequences of functions.
+We would also like to extend the idea of series of numbers to series of functions.
+\begin{definition}[$n$-th Partial Sum]
+  Let $g_n: E \to \R$ be  a sequence of functions.
+  We define its \textit{$n$-th partial sum} to be the sequence of functions $f_n: E \to \R$ given by:
+  \[
+    f_n(x) = \sum_{j = 1}^{n} g_j(x)
+  \]
+\end{definition}
+\begin{definition}[Convergence of a series of functions at a point]
+  We say that the series of functions $\sum_{j = 1}^{\infty} g_j$ converges at a point $x \in E$ if the sequence $(f_n(x))$ converges.
+\end{definition}
+\begin{definition}[Uniform convergece for series of functions]
+  We say that the series of functions $\sum_{j = 1}^{\infty} g_j$ \textit{converges uniformly} on $E$ if $(f_n)$ converges uniformly on $E$.
+\end{definition}
+\section{Absolute Convergence}
+We can also extend the concept of absolute convergence.
+\begin{definition}[Absolute convergence for series of functions at a point]
+  We say that the series of functions $\sum_{j = 1}^{\infty} g_j$ \textit{converges absolutely} at a point $x \in E$ if the series $\sum_{j = 1}^{\infty} |g_j(x)|$ converges.
+\end{definition}
+\begin{definition}[Absolute uniform convergence for series of functions]
+  We say that the series of functions $\sum_{j = 1}^{\infty} g_j$ \textit{converges absolutely uniformly} on $E$ if the series of functions $\sum_{j = 1}^{\infty} |g_j|$ converges uniformly.
+\end{definition}
+\begin{remark}[Recap]
+  Recall from Analysis I that for series of numbers in $\C$, absolute convergence of the series implies convergence.
+\end{remark}
+\begin{proposition}
+  If $g_j: E \to \R$ is a sequence of functions and $\sum_{j = 1}^{\infty} g_j$ converges uniformly absolutely on $E$, then $\sum_{j = 1}^{\infty} g_j$ converges uniformly on $E$.
+\end{proposition}
+\begin{proof}
+  Define the partial sums $f_n(x) = \sum_{j = 1}^{n} g_j(x)$ and $h_n(x) = \sum_{j = 1}^{n} |g_j(x)|$.
+  We do not know what the limit function of $f_n$ should be and so we want to appeal to \cref{cauchyCritereon}.
+  Considering $n > m$, we have:
+  \begin{align*}
+    |f_n(x) - f_m(x)| &= \abs{\sum_{j = m + 1}^{n} g_j(x)} \\
+                      &\leq \sum_{j = m + 1}^{n} |g_j(x)| \\
+                      &= h_n(x) - h_m(x) \\
+                      &= |h_n(x) - h_m(x)|
+  \end{align*}
+  Therefore:
+  \[
+    \sup_{x \in E} |f_n(x) - f_m(x)| \leq \sup_{x \in E} |h_n(x) - h_m(x)|
+  \]
+  Since $\sum_{j = 1}^{\infty} g_j$ converges absolutely uniformly, $h_n$ converges uniformly and so by \cref{cauchyCritereon} it is uniformly Cauchy.
+  Thus as $m \to \infty$ $\sup_{x \in E} |f_n(x) - f_m(x)| \to 0$ and so $(f_n)$ converges uniformly by \cref{cauchyCritereon}.
+\end{proof}
+\begin{remark}
+  Uniform convergence of $\sum_{j = 1}^{\infty} g_j$ and absolute convergence of $\sum_{j = 1}^{\infty} g_j(x)$ at every $x \in E$ is \textbf{not} enough to conclude that a series is absolutely uniformly convergent.
+
+  For example, consider the series of functions defined on $E = (0, 1)$:
+  \[
+    \sum_{j = 1}^{\infty} \frac{(-1)^j}{j} x^j
+  \]
+  Using the ratio test for power series from IA Analysis I, $\sum_{j = 1}^{\infty} \frac{x^j}{j}$ has radius of convergence $R = 1$.
+  Thus $\sum_{j = 1}^{\infty} \frac{(-1)^j}{j} x^j$ converges absolutely as a series of numbers at every $x \in (0, 1)$.
+
+  We will see on Example Sheet 1 Q7 that the series converges uniformly on $(0, 1)$.
+  You will see that we are able to do this because the series $\sum_{j = 1}^{\infty} \frac{(-1)^j}{j}$ converges (by the alternating series test) which is the behaviour at the endpoint of $(0, 1)$.
+
+  However, when we consider the absolute version, we now have that $\sum_{j = 1}^{\infty} \frac{1}{j}$ at the endpoint and so we cannot use the strategy above.
+  In fact, this does not converge absolutely uniformly on $(0, 1)$.
+  We can demonstrate this by showing that it violates the uniform Cauchy criterion.
+  For $n > m$ we have:
+  \begin{align*}
+    \sum_{j = 1}^{n} \abs{\frac{(-1)^j}{j} x^j} - \sum_{j = 1}^{m} \abs{\frac{(-1)^j}{j} x^j} &= \sum_{j = n + 1}^{n} \frac{x^j}{j} \\
+                                                                                              &\geq \sum_{j = m + 1}^{n}\frac{x^n}{j}
+  \end{align*}
+  Taking the supremum of both sides over $(0, 1)$:
+  \[
+    \sup_{x \in (0, 1)} \left[\sum_{j = 1}^{n} \abs{\frac{(-1)^j}{j} x^j} - \sum_{j = 1}^{m} \abs{\frac{(-1)^j}{j} x^j}\right] \geq \sum_{j = m + 1}^{n} \frac{1}{j}
+  \]
+  But for any fixed $m$, as $n \to \infty$, $\sum_{j = m + 1}^{n} \frac{x^{n}}{j} \to \infty$ and so $\sum_{j = 1}^{\infty} \abs{\frac{(-1)^j}{j} x^j}$ does not converge uniformly on $(0, 1)$.
+\end{remark}
+We have the following simple but useful criterion for absolute uniform convergence.
+\begin{theorem}[Weierstrass $M$-test]
+  Let $g_j: E \to \R$ be a series of functions.
+  If there exists $M_j \geq 0$ such that:
+  \[
+    \sup_{x \in E} |g_j(x)| \leq M_j\ \forall j \in \N
+  \]
+  and $\sum_{j = 1}^{\infty} M_j$ converges, then $\sum_{j = 1}^{\infty} g_j$ converges absolutely uniformly on $E$.
+\end{theorem}
+\begin{proof}
+  Define the partial sums $h_n(x) = \sum_{j = 1}^{n} |g_j(x)|$ and $s_n = \sum_{j = 1}^{n} M_j$.
+
+  We again wish to appeal to the Cauchy critereon and so considering $n > m$:
+  \begin{align*}
+    h_n(x) - h_m(x) &= \sum_{j = m + 1}^{n} |g_j(x)| \\
+                    &\leq \sum_{j = m + 1}^{n} M_j \\
+                    &= s_n - s_m
+  \end{align*}
+  Thus for all $n, m$:
+  \[
+    \sup_{x \in E} \abs{h_n(x) - h_m(x)} \leq |s_n - s_m|
+  \]
+  Since $\sum_{j = 1}^{\infty} M_j$ converges, its partial sums $(s_n)$ are Cauchy and so $h_n$ is uniformly Cauchy on $E$.
+  Thus by \cref{cauchyCritereon}, $h_n$ converges uniformly on $E$, i.e. $\sum_{j }^{\infty} g_j$ converges uniformly absolutely on $E$.
+\end{proof}
+\section{Power Series}
+\end{document}
