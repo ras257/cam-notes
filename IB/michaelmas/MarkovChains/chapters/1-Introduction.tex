@@ -39,7 +39,7 @@ In this course, we shall assume that all Markov chains considered are time-homog
 \end{remark}
 \begin{definition}[Stochastic Matrix]
 We call a matrix $P$ \textit{stochastic} if each of its rows are probability distributions on $I$.
-That is, $P_{x y} \geq 0\ \forall x, y$ and $\sum_{y \in I} P_{x y} = 1$ for all rows $x \in I$.
+That is, $P_{x y} \geq 0\ \forall x, y$ and $\sum_{y \in I} P_{x y} = 1$ for all rows $x \in I$. \label{stochasticDef}
 \end{definition}
 We see that all transition matrices are stochastic because their rows are defined to be conditional distributions given $X_n = x$.
 \begin{example}[Binary Markov Chain]
@@ -272,6 +272,7 @@ We see that all transition matrices are stochastic because their rows are define
   which is as required.
 \end{proof}
 \section{Powers of the Transition Matrix}
+\subsection{Using Powers of the Transition Matrix}
 For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to know how $\P(X_n = x)$ varies with $n$, especially as we make $n$ large.
 \begin{proposition}
   If $\mchain{X} \sim \markov(\vec{\lambda}, P)$, then:
@@ -300,7 +301,7 @@ For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to
 \begin{remark}[Notation]
   We introduce the notation:
   \begin{align*}
-    P_{x y}(n) &= \P(X_{m + n} = y \vert X_m = x) \\
+    p_{x y}(n) &= \P(X_{m + n} = y \vert X_m = x) \\
                &= \P(X_n = y \vert X_0 = x) \text{ by time homogeneity} \\
                &= [P^n]_{x y}
   \end{align*}
@@ -309,18 +310,109 @@ For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to
   Returning to the binary Markov chain in \cref{binaryEx}, what is the probability that we finish at state 0 if we take $n$ steps starting from state 0?
 
   This probability is precisely $P_{0 0}(n)$.
-  Since $P^{n + 1} = P^{n} \cdot P$, we have the following recurrence:
+  Since $P^{n + 1} = P \cdot P^n$, we have the following recurrence:
   \begin{align*}
-    P_{0 0}(n + 1) &= P_{0 0}(n) \cdot (1 - \alpha) + P_{0 1}(n) \cdot \beta \\
-                   &= P_{0 0}(n) \cdot (1 - \alpha) + (1 - P_{0 0}(n)) \cdot \beta \\
-                   &= \beta + (1 - \alpha - \beta) P_{0 0}(n)
+    p_{0 0}(n + 1) &= p_{0 0}(n) \cdot (1 - \alpha) + p_{0 1}(n) \cdot \beta \\
+                   &= p_{0 0}(n) \cdot (1 - \alpha) + (1 - p_{0 0}(n)) \cdot \beta \\
+                   &= \beta + (1 - \alpha - \beta) p_{0 0}(n)
   \end{align*}
-  Noting that $P_{0 0}(0) = 1$, we can solve the above recurrence to yield:
+  Noting that $p_{0 0}(0) = 1$, we can solve the above recurrence to yield:
   \[
-    P_{0 0}(n) = \begin{cases}
+    p_{0 0}(n) = \begin{cases}
     \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta} (1 - \alpha - \beta)^{n} & \text{ if } \alpha + \beta > 0 \\
     1 & \text{ if } \alpha = \beta = 0
     \end{cases}
   \]
+\end{example}
+\subsection{Finding Powers of the Transition Matrix}
+Suppose that there are finitely many states, that is $|I| = k$, and so $P \in \R^{k \times k}$.
+For simplicity, suppose we want to calculate $p_{1 1}(n)$, however the method is the analogous for other entries.
+\subsubsection{$P$ has $k$ distinct real eigenvalues}
+Let the distinct real eigenvalues of $P$ be $\lambda_1, \ldots, \lambda_k$.
+From IA Vectors and Matrices, $P$ is therefore diagonalisable and so can be written as $P = UDU^{-1}$ for a diagonal matrix $D = \diag(\lambda_1, \ldots, \lambda_k)$ and an invertible matrix $U$.
+
+If we take powers of $P$, we see that:
+\[
+  P^{n} = U D^n U^{-1}
+\]
+which is useful as $D^n = \diag(\lambda^n_1, \ldots, \lambda^n_k)$.
+
+After finding the eigenvalues of $P$, we have two options:
+\begin{enumerate}
+  \item Find the eigenvectors of $P$ and use these to explicitly compute $U$ and $U^{-1}$, allowing us to recover $P^n$.
+    We then find $p_{1 1}(n) = [P^n]_{1 1}$.
+  \item $P^n = UD^nU^{-1}$ tells us that we can write $p_{1 1}(n)$ as:
+    \[
+      p_{1 1} = \sum_{i = 1}^{k} a_i \lambda^n_i
+    \]
+    for some constant coefficients $a_i$.
+    We can then manually compute $p_{1 1}(n)$ for some small values of $n$ (finding these values is often trivial from the problem setup), and then use these to determine the coefficients $a_i$.
+\end{enumerate}
+\subsubsection{P has distinct complex eigenvalues}
+Any complex eigenvalues of $P$ must come in conjugate pairs, for example, if $\lambda_1, \ldots, \lambda_{k - 2}$ are real and distinct, then we must have $\lambda_{k - 1} = re^{i\theta} = r(\cos \theta + i \sin \theta)$, $\lambda_k = re^{-i\theta} = r(\cos \theta - i \sin \theta)$.
+
+We can still diagonalise as above, however if we use the coefficient method, since $p_{1 1}(n) \in \R$, the most general form possible for $p_{1 1}$ is:
+\[
+  p_{1 1}(n) = \sum_{i = 1}^{k - 2} a_i \lambda^n_i + a_{k - 1}r^n \cos(n \theta ) + a_k r^n \sin(n \theta)
+\]
+\subsubsection{P has repeated eigenvalues}
+If we have repeated eigenvalues then we can use the Jordan normal form to get sum as before but with additional terms including $n$.
+For example, if $\lambda_{k - 1} = \lambda_k = \lambda$, then we have to instead use a term of the form $(a + bn) \lambda^n$.
+For higher order multiplicities, we can extend this, for example, for a $\lambda$ of multiplicity 3, we would instead use term of the form $(a + bn + cn^2)\lambda^n$.
+\begin{lemma}
+  If $P \in \R^{k \times k}$ is a transition matrix, then $P$ has an eigenvector $(1, \ldots, 1)^{\trans} \in \R^k$ with eigenvalue 1.
+\end{lemma}
+\begin{proof}
+  Since the transition matrix $P$ is stochastic, from \cref{stochasticDef}, each of its rows must sum to 1.
+  Thus:
+  \[
+    P \begin{pmatrix}
+    1 \\
+    \vdots \\
+    1 \\
+    \end{pmatrix} = \begin{pmatrix}
+    1 \\
+    \vdots \\
+    1 \\
+    \end{pmatrix}
+  \]
+  and so $(1, \ldots, 1)^{\trans}$ is an eigenvector of eigenvalue 1.
+\end{proof}
+\begin{example}
+  Suppose we have a Markov chain on $I = \{1, 2, 3\}$ with transitions:
+  \[
+    P = \begin{pmatrix}
+    0 & 1 & 0 \\
+    0 & 1/2 & 1/2 \\
+    1/2 & 0 & 1/2 \\
+    \end{pmatrix}
+  \]
+  Graphically, this is:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$2$};
+    \node[state] (q_2) [below=of q_0]{$3$};
+
+    \path[->] (q_0) edge node {$1$} (q_1);
+    \path[->] (q_1) edge[loop above] node {$\frac{1}{2}$} ()
+                    edge node {$\frac{1}{2}$} (q_2);
+    \path[->] (q_2) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge node {$\frac{1}{2}$} (q_0);
+  \end{tikzpicture}
+  \end{center}
+  From this, it is reasonable to expect that $p_{1 1}(n)$ is less than $1/3$ for sufficiently large $n$ as as soon as the chain arrives at state 1, it leaves immediately and so we expect it to spend more time at other nodes.
+
+  Calculating the eigenvalues of $P$ we see they are $1$, $i/2$ and $-i/2$.
+  To find $p_{1 1}(n)$, we apply the coefficient method for distinct complex eigenvalues and so $p_{1 1}(n)$ is in the form:
+  \[
+    p_{1 1}(n) = a_1 + a_2 \left(\frac{1}{2}\right)^n \cos \left(\frac{n \pi}{2}\right) + a_3 \left(\frac{1}{2}\right)^n \sin\left(\frac{n \pi}{2}\right)
+  \]
+  We know that $P_{1 1}(0) = 1$ and also that $P_{1 1}(1) = P_{1 1}(2) = 0$ since there is no way to return to 1 within 2 steps.
+  Applying these boundary conditions gives us the solution:
+  \[
+    P_{1 1}(n) = \frac{1}{5} + \left(\frac{1}{2}\right)^n \left[\frac{4}{5} \cos\left(\frac{n\pi}{2}\right) - \frac{2}{5} \sin\left(\frac{n\pi}{2}\right)\right]
+  \]
+  We see also that as $n \to \infty$, $P_{1 1}(n) \to \frac{1}{5} < \frac{1}{3}$ as expected.
 \end{example}
 \end{document}

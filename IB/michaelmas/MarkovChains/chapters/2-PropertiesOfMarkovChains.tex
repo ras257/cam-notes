@@ -1,0 +1,188 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Properties of Markov Chains}
+\section{Communicating Classes}
+\begin{remark}[Notation]
+  For brevity, we introduce the following notation:
+  \begin{align*}
+    \P_{x}(A) &= \P(A \vert X_0 = x) \\
+    \E_{x}[A] &= \E[A \vert X_0 = x]
+  \end{align*}
+\end{remark}
+\begin{definition}[Leads to]
+  For a Markov chain $\mchain{X}$ and states $x, y \in I$, we say that \textit{$x$ leads to $y$}, denoted $x \to y$, if:
+  \[
+    \P_{x}(X_n = y \text{ for some } n \geq 0) > 0
+  \]
+  that is, starting from a state $x$, there is a non-zero probability that we will be at $y$ at some point in the future.
+\end{definition}
+\begin{definition}[Communicates with]
+  For a Markov chain $\mchain{X}$ and states $x, y \in I$, we say that \textit{$x$ communicates with $y$}, denoted $x \leftrightarrow y$, if both $x \to y$ and $y \to x$.
+\end{definition}
+\begin{theorem}
+  The following are equivalent:
+  \begin{enumerate}
+    \item $x \to y$
+    \item There exists a path $x = x_0, x_1, \ldots, x_{n - 1}, x_n = y$ such that $P_{x_i x_{i + 1}} > 0$ for all $i \in \{0, \ldots, n - 1\}$
+    \item $\P_x(X_n = y) > 0$ for some $n \geq 0$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}\par
+  \textbf{(i) $\iff$ (iii)}\par
+  We can decompose the event $\{X_n = y \text{ for some $n > 0$}\}$ as:
+  \[
+    \{X_n = y \text{ for some $n \geq 0$}\} = \bigcup_{n \geq 0} \{X_n = y\}
+  \]
+  and so:
+  \[
+    \P_x(X_n = y \text{ for some $n \geq 0$}) > 0 \iff \P_x(X_n = y) > 0 \text{ for at least one $n \geq 0$}
+  \]
+  \textbf{(ii) $\iff$ (iii)}\par
+  We can rewrite $\P_x(X_n = y)$ as:
+  \begin{align*}
+    \P_x(X_n = y) &= \P(X_n = y \vert X_0 = x) \\
+                  &= \sum_{x_1, \ldots, x_{n - 1}} \P(X_n = y, X_{n - 1} = x_{n - 1}, \cdots, X_1 = x_1 \vert X_0 = x) \\
+                  &= \sum_{x_1, \ldots, x_{n - 1}} P_{x x_1} P_{x_1 x_2} \cdots P_{x_{n - 1} y}
+  \end{align*}
+  This is positive if and only if at least one $P_{x x_1} \cdots P_{x_{n - 1} y}$ is positive, as required.
+\end{proof}
+\begin{corollary}
+  Communication is an equivalence relation on $I$.
+\end{corollary}
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{Reflexive -} $\P_{x}(X_0 = x) = 1$ and so $x \leftrightarrow x$.
+    \item \textbf{Symmetric -} $x \leftrightarrow y \iff x \to y \text{ and } y \to x \iff y \leftrightarrow x$.
+    \item \textbf{Transitive -} If $x \leftrightarrow y$ and $y \leftrightarrow z$, then by composing the two paths from \textbf{(ii)}, we also have $x \leftrightarrow z$.
+  \end{itemize}
+\end{proof}
+\begin{definition}[Communicating Classes]
+  The equivalence classes of $I$ under the relation $\leftrightarrow$ are called \textit{communicating classes}.
+\end{definition}
+\begin{definition}[Closed Class]
+  We say that a communicating class $C \subseteq I$ is \textit{closed} if for any $x \in C$ and $y \in I$:
+  \[
+    x \to y \implies y \in C
+  \]
+\end{definition}
+\begin{example}
+  Consider the Markov chain given by the following diagram:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$3$};
+    \node[state] (q_2) [below=of q_0]{$2$};
+    \node[state] (q_3) [below=of q_1]{$4$};
+
+    \path[->] (q_0) edge [loop above] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_2);
+    \path[->] (q_2) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_0);
+    \path[->] (q_1) edge [loop above] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_3);
+    \path[->] (q_3) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_1);
+  \end{tikzpicture}
+  \end{center}
+  This has two communicating classes $C_1 = \{1, 2\}$ and $C_2 = \{3, 4\}$, both of which are closed.
+  In this case, if we start in one communicating class, then we must stay in that class for all $n$ and so we can consider each class as a separate Markov chain.
+
+  Suppose we now modify the chain so that:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$3$};
+    \node[state] (q_2) [below=of q_0]{$2$};
+    \node[state] (q_3) [below=of q_1]{$4$};
+
+    \path[->] (q_0) edge [loop above] node {$\frac{1}{3}$} ()
+                    edge [bend left] node {$\frac{1}{3}$} (q_2)
+                    edge node {$\frac{1}{3}$} (q_1);
+    \path[->] (q_2) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_0);
+    \path[->] (q_1) edge [loop above] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_3);
+    \path[->] (q_3) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_1);
+  \end{tikzpicture}
+  \end{center}
+  The communicating classes are unchanged, however $C_1$ is no longer closed as $1 \to 3$ but $3 \notin C_2$.
+\end{example}
+\begin{definition}[Irreducible]
+  A transition matrix $P$ (or a Markov chain with transition matrix $P$) is called \textit{irreducible} if there is only one communicating class, which must be all of $I$.
+\end{definition}
+\begin{example}
+  Consider the Markov chain:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$3$};
+    \node[state] (q_2) [below=of q_0]{$2$};
+    \node[state] (q_3) [below=of q_1]{$4$};
+
+    \path[->] (q_0) edge [loop above] node {$\frac{1}{3}$} ()
+                    edge [bend left] node {$\frac{1}{3}$} (q_2)
+                    edge [bend left] node {$\frac{1}{3}$} (q_1);
+    \path[->] (q_2) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_0);
+    \path[->] (q_1) edge [loop above] node {$\frac{1}{3}$} ()
+                    edge [bend left] node {$\frac{1}{3}$} (q_3)
+                    edge [bend left] node {$\frac{1}{3}$} (q_0);
+    \path[->] (q_3) edge [loop below] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_1);
+  \end{tikzpicture}
+  \end{center}
+  This is irreducible as there is only one communicating class.
+\end{example}
+\begin{definition}[Absorbing]
+  We say that a state $x \in I$ is \textit{absorbing} if $\{x\}$ is a closed class, that is, $p_{x x}(n) = 1$ for all $n$.
+\end{definition}
+\begin{example}
+  Consider the Markov chain:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$2$};
+    \node[state] (q_2) [below=of q_0]{$3$};
+
+    \path[->] (q_0) edge [loop above] node {$1$} ();
+    \path[->] (q_1) edge[loop above] node {$\frac{1}{2}$} ()
+                    edge [bend left] node {$\frac{1}{2}$} (q_2);
+    \path[->] (q_2) edge [loop below] node {$\frac{1}{3}$} ()
+                    edge [bend left] node {$\frac{1}{3}$} (q_1)
+                    edge node {$\frac{1}{3}$} (q_0);
+  \end{tikzpicture}
+  \end{center}
+  This has communicating classes $C_1 = \{1\}$ and $C_2 = \{2, 3\}$.
+  We see that $C_2$ is open as $3 \to 1$ but $1 \notin C_2$ and $C_1$ is closed
+  Since $C_1 = \{1\}$ is closed, $1$ is an absorbing state.
+\end{example}
+\section{Hitting Times}
+\begin{definition}[Hitting Time and Probability]
+  Let $A \subseteq I$ be a subset of states.
+  We define the following:
+  \begin{itemize}
+    \item The \textit{first hitting time $T_A$ of $A$} is a discrete random variable defined as:
+      \[
+        T_A = \inf \{n \geq 0: X_n \in A\}
+      \]
+      where we take the convention $\inf \emptyset = \infty$, i.e. $T_A = \infty$ if the chain never enters $A$
+    \item The \textit{hitting probability} of $A$ is defined to be the function $h^{A}: I \to [0, 1]$ given by:
+      \[
+        h^{A}_i = \P_i(T_A < \infty)
+      \]
+      That is, $h^{A}_i$ is the probability that chain enters $A$ at some future step given we start at $i \in I$.
+    \item The \textit{mean hitting time} of $A$ is defined to be the function $k^{A}: I \to [0, \infty]$ given by:
+      \[
+        k^{A}_i = \E_i[T_A] = \begin{cases}
+        \sum_{n \geq 0} n \cdot \P(T_A = n) & \text{ if } \P_i(T_A = \infty) = 0 \\
+        \infty & \text{ if } \P_i(T_A = \infty) > 0
+        \end{cases}
+      \]
+      That is, $k^{A}_i$ is the expected number of steps required for the chain to enter $A$ for the first time given that we start at $i \in I$.
+  \end{itemize}
+\end{definition}
+\begin{remark}
+  Because both $h^{A}$ and $k^{A}$ are functions with domain $I$, we can view them as $|I|$ component vectors.
+\end{remark}
+\end{document}
