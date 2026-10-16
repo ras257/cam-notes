@@ -1,0 +1,199 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Sturm-Liouville Problems}
+\section{Operators and Self-Adjoint Maps}
+\begin{remark}[Recap]
+  Recall from IA Vectors and Matrices that a linear map $A: V_N \to V_N$ is called \textit{Hermitian} if:
+  \[
+    \vec{x} \cdot A \vec{y} = (A \vec{x}) \cdot \vec{y}
+  \]
+  or equivalently $A = A^{\dag}$.
+  We also defined the standard inner product on $\C$ as:
+  \[
+    (\vec{x}, \vec{y}) = \sum_{i = 1}^{n} x_i \overline{y_i}
+  \]
+
+  We saw that Hermitian maps have the following properties:
+  \begin{enumerate}
+    \item Their eigenvalues are all real
+    \item Eigenvectors corresponding to different eigenvalues are orthogonal with respect to the inner product $(\cdot, \cdot)$.
+    \item There exists a set $\{\vec{y}_n\}^{N}_{n = 1}$ of eigenvectors such that every $\vec{x} \in V_N$ can be written as:
+      \[
+        \vec{x} = \sum_{n = 1}^{N} \hat{x}_n \vec{y}_n \text{ where } \hat{x}_n = \frac{\vec{x} \cdot \vec{y}_n}{\norm{\vec{y}_n}^2}
+      \]
+  \end{enumerate}
+\end{remark}
+Can we generalise this idea to vector spaces of functions?
+
+Let $V$ be a vector space which is a subspace of $C^2([a, b])$ and define the inner product:
+\[
+  \langle f, g \rangle_{w} = \int_{a}^{b} f(x) \overline{g(x)} w(x) \d{x}
+\]
+where $w(x)$ is real and $w(x) > 0$ on $(a, b)$.
+\begin{remark}[Notation]
+  When $w \equiv 1$, we write $\langle f, g \rangle \equiv \langle f, g \rangle_{1}$.
+\end{remark}
+
+We then define the norm as usual:
+\[
+  \norm{f}_{w} = \sqrt{\langle f, f \rangle_{w}}
+\]
+\begin{definition}[Self-Adjoint Operator]
+  We say that a linear operator $\mathcal{L}$ on $V$ is called \textit{self-adjoint} on the inner product space $(V, \langle \cdot, \cdot \rangle_{w})$ if:
+  \[
+    \langle \mathcal{L}y_1, y_2 \rangle_{w} = \langle y_1, \mathcal{L}y_2 \rangle_{w}\ \forall y_1, y_2 \in V
+  \]
+\end{definition}
+\begin{definition}[Eigenvalue and Eigenfunction]
+  For a linear operator $\mathcal{L}$ on $V$, we say that $(\lambda, y) \in \C \times (V \setminus \{0\})$ is an eigenvalue-eigenfunction pair for $\mathcal{L}$ if $\mathcal{L} y = \lambda y$.
+\end{definition}
+\begin{proposition}
+  If $\mathcal{L}$ is self adjoint on $(V, \langle \cdot, \cdot \rangle_{w})$, then we have the following: \label{selfAdjProp}
+  \begin{enumerate}
+    \item The eigenvalues of $\mathcal{L}$ are real
+    \item Eigenfunctions corresponding to different eigenvalues are orthogonal with respect to $\langle \cdot, \cdot \rangle_{w}$
+    \item There exists a set $\{y_n\}^{n = 1}_{\infty}$ of eigenfunctions such that every $f \in V$ can be written as:
+      \[
+        f(x) = \sum_{n = 1}^{\infty} \hat{f}_n y_n(x) \text{ where } \hat{f}_n = \frac{\langle f, y_n \rangle_{w}}{\norm{y_n}^2_w}
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Let $y$ be an eigenfunction with eigenvalue $\lambda$, that is, $y \neq 0$ and satisfies $\mathcal{L}y = \lambda y$.
+
+  We want to show that $\lambda - \overline{\lambda} = 0$ and know that $\norm{y}^2_{w}$ is non-zero and so we consider their product:
+  \begin{align*}
+    (\lambda - \overline{\lambda})\norm{y}^2_w &= (\lambda - \overline{\lambda})\langle y, y \rangle_{w} \\
+                                               &= \langle \lambda y, y \rangle_{w} - \langle y, \lambda y \rangle_{w} \\
+                                               &= \langle \mathcal{L}y, y \rangle_{w} - \langle y, \mathcal{L}y \rangle_{w} \\
+                                               &= 0
+  \end{align*}
+  and so $\lambda = \overline{\lambda} \implies \lambda \in \R$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  So we have $y_1, y_2 \neq 0$ such that $\mathcal{L}y_1 = \lambda_1 y_1$ and $\mathcal{L}y_2 = \lambda_2 y_2$ with $\lambda_1 \neq \lambda_2$.
+  Appealing to a similar strategy as in \textbf{(i)}:
+  \begin{align*}
+    (\lambda_1 - \lambda_2) \langle y_1, y_2 \rangle_{w} &= \langle \lambda_1 y_1, y_2 \rangle_{w} - \langle y_1, \overline{\lambda_2} y_2 \rangle_{w} \\
+                                                         &= \langle \lambda_1 y_1, y_2 \rangle_{w} - \langle y_1, \lambda_2 y_2 \rangle_{w} \text{ as $\lambda_2 \in \R$ by \textbf{(i)}} \\
+                                                         &= \langle \mathcal{L} y_1, y_2 \rangle_{w} - \langle y_1, \mathcal{L} y_2 \rangle_{w} \\
+                                                         &= 0 \text{ as $\mathcal{L}$ is self-adjoint}
+  \end{align*}
+  Thus $\langle y_1, y_2 \rangle_{w} = 0$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Not lectured -- See II Functional Analysis.
+\end{proof}
+\section{Self-Adjointness and Boundary Conditions}
+We wish to study problems of the form:
+\begin{equation}
+  \begin{cases}
+  \mathcal{L}y = \lambda y & \text{ if } a < x < b \\
+  \text{Boundary conditions} & \text{ at } x = a = b
+  \end{cases} \label{generalForm}
+\end{equation}
+where $\mathcal{L}$ is a special type of differential operator, called a \textit{Sturm-Liouville} operator.
+\begin{definition}[Sturm-Liouville operator]
+  A \textit{Sturm-Liouville operator} is a second-order differential operator of the form:
+  \[
+    \mathcal{L} \argdot = \frac{1}{w}\left[-\deriv{}{x}\left(p \deriv{}{x} \argdot\right) + q \argdot\right]
+  \]
+  where $p, q$ and $w$ are real valued functions and $p, w > 0$ on $(a, b)$.
+  We call $w$ the \textit{weight function} associated with $\mathcal{L}$
+\end{definition}
+What are the eigenfunctions of this operator?
+$\mathcal{L} y = \lambda y$ becomes:
+\[
+  -\deriv{}{x}\left[p \deriv{y}{x}\right] + qy = \lambda w y \text{ for } a < x < b
+\]
+We then impose the boundary conditions in \cref{generalForm} by forcing $y$ to belong to some vector space $V$ that enforces them.
+Thus \cref{generalForm} becomes:
+\[
+  Ly = \lambda y,\ y \in V
+\]
+\begin{definition}[Singular and non-singular endpoints]
+  Given a Sturm-Liouville operator on $(a, b)$, we say that an endpoint $c \in \{a, b\}$ is \textit{singular} if $p(c) = 0$ and say that it is \textit{non-singular} otherwise.
+\end{definition}
+We will only specify boundary conditions at non-singular endpoints.
+At such endpoints $c$ will impose \textit{real homogeneous} boundary conditions of the form:
+\[
+  \alpha_c y(c) + \beta_c y'(c) = 0
+\]
+where $\alpha_c, \beta_c \in \R$ and $\alpha^2_c + \beta^2_c \neq 0$ (i.e. they are not both zero).
+Note that if $y_1, y_2$ satisfy boundary conditions of this forms then so does $c_1 y_1 + c_2 y_2$ for any constants $c_1$ and $c_2$.
+
+So given a Sturm-Liouville operator we enforce boundary conditions by working on a vector space of form:
+\[
+  V = \{y \in C^2[a, b]: y \text{ satisfies real homogeneous B.C.s at each non-singular endpoint }\}
+\]
+\begin{example}
+  Consider the vector space:
+  \[
+    V = \{y \in C^2[0, \pi]: y(0) = 0\}
+  \]
+  for the problem:
+  \[
+    -\deriv{}{x}\left[\cos\left(\frac{x}{2}\right) \deriv{y}{x}\right] + \sin\left(\frac{x}{2}\right)y = \lambda y
+  \]
+  The above is $\mathcal{L} y = \lambda y$ for a Sturm-Liouville operator with $p = \cos\left(x/2\right)$, $q = \sin(x/2)$ and $w \equiv 1$.
+
+  We see that $p(\pi) = 0$ and $p(0) \neq 0$, that is $\pi$ is singular and $0$ is non-singular.
+  This is consistent with the homogeneous real boundary conditions enforced by $V$.
+\end{example}
+\begin{remark}[Recap]
+  Recall that the \textit{Wronskian} from IA Differential Equations was defined as:
+  \[
+    W(f, g) = fg' - f'g
+  \]
+\end{remark}
+We now equip $V$ with the inner product $\langle \cdot, \cdot \rangle_{w}$ where $w$ is the weight function associated with $\mathcal{L}$, allowing us to use the properties in \cref{selfAdjProp}.
+\begin{proposition}
+  If $V$ is a vector space associated with Sturm-Liouville operator $\mathcal{L}$, then $\mathcal{L}$ is self-adjoint on ($V, \langle \cdot, \cdot \rangle_{w}$) where $w$ is the weight function corresponding to $\mathcal{L}$.
+\end{proposition}
+\begin{proof}
+  We want to show that $\langle \mathcal{L}y_1, y_2 \rangle_{w} = \langle y_1, \mathcal{L}y_2 \rangle_{w}$ for all $y_1, y_2 \in V$.
+
+  For any $y_1, y_2 \in C^2[a, b]$, we have:
+  \begin{align*}
+    \langle \mathcal{L}y_1, y_2 \rangle_{w} - \langle y_1, \mathcal{L}y_2 \rangle_{w} &= \int_{a}^{b} \frac{1}{w}[-(py_1')' + qy_1]\overline{y_2} w\d{x} - \int_{a}^{b} \frac{1}{w} y_1[-(p \overline{y_2}')' + q \overline{y_2}]w \d{x} \\
+                                                                                      &= \int_{a}^{b} [y_1(p \overline{y_2}')' - \overline{y_2}(p y_1')'] \d{x} \\
+                                                                                      &= \int_{a}^{b} [y_1 p' \overline{y_2}' + y_1 p \overline{y_2}'' - \overline{y_2} p' y_1' - \overline{y_2} p y_1''] \d{x} \\
+                                                                                      &= \int_{a}^{b} [p'(y_1 \overline{y_2}' - y_1'\overline{y_2}) + p(y_1 \overline{y_2}'' - y_1'' \overline{y_2})] \d{x} \\
+                                                                                      &= \int_{a}^{b} [p(y_1 \overline{y_2}' - y_1' \overline{y_2})]' \d{x} \\
+                                                                                      &= p(x) W(y_1, \overline{y_2})(x)
+  \end{align*}
+  Now assume that $y_1, y_2 \in V$.
+  If $c \in \{a, b\}$ is singular then $p(c) = 0$, so $p(c) W(y_1, \overline{y_2})(c) = 0$.
+  Otherwise, if $c$ is non-singular, then because $y_1, y_2 \in V$, they obey boundary conditions of the form:
+  \[
+    \alpha_c y(c) + \beta_c y'(c) = 0
+  \]
+  where $\alpha_c, \beta_c \in \R$ and $\alpha_c^2 + \beta_c^2 = 0$.
+  Since $\alpha_c, \beta_c \in \R$, the same boundary conditions hold for $\overline{y}$ by taking the complex conjugate.
+
+  So we therefore have:
+  \[
+    \begin{pmatrix}
+    y_1(c) & y_1'(c) \\
+    \overline{y_2}(c) & \overline{y_2}'(c) \\
+    \end{pmatrix} \begin{pmatrix}
+    \alpha_c \\
+    \beta_c \\
+    \end{pmatrix} = \vec{0}
+  \]
+  But since $(\alpha_c, \beta_c)^{\trans} \neq \vec{0}$, this matrix has non-trivial kernel and so has determinant 0:
+  \[
+    0 = \begin{vmatrix}
+    y_1(c) & y_1'(c) \\
+    \overline{y_2}(c) & \overline{y_2}'(c) \\
+    \end{vmatrix} = W(y_1, \overline{y_2})(c)
+  \]
+  So at non-singular endpoints $c \in \{a, b\}$, we also have $p(c) W(y_1, \overline{y_2})(c) = 0$.
+
+  Hence if $y_1, y_2 \in V$, then:
+  \[
+    \langle \mathcal{L}y_1, y_2 \rangle_{w} - \langle y_1, \mathcal{L}y_2 \rangle_{w} = 0
+  \]
+  that is, $L$ is self adjoint on $(V, \langle \cdot, \cdot \rangle_{w})$.
+\end{proof}
+\end{document}
