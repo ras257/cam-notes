@@ -175,10 +175,11 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
       Thus $\lambda_m = 0$ for all $m$ and so $T$ is linearly independent.
   \end{enumerate}
 \end{example}
+\section{Bases}
 \begin{definition}[Basis]
   We say that the subset $S \subseteq V$ is a basis for $V$ if it is linearly independent and spans $V$.
 \end{definition}
-\begin{example}
+\begin{example} \label{basesExamples}
   \begin{enumerate}
     \item Let $\vec{e}_i = (0, \ldots, 0, 1, 0, \ldots, 0)^{\trans} \in \F^{n}$ where $1$ is in the $i$-th position.
       The set $\{\vec{e}_i: i \in \{1, \ldots, n\}\}$ is called the \textit{standard basis} for $\F^{n}$.
@@ -246,6 +247,7 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
 \begin{remark}[Warning]
   Whilst all finite vector spaces must have a basis, we require the \textit{axiom of choice} to show that every infinite vector space has a basis.
 \end{remark}
+\section{Steinitz Exchange Lemma}
 \begin{theorem}[Steinitz Exchange Lemma]
   If $V$ is an $\F$-vector space, with finite subsets $T, S \subseteq V$ where $S$ is linearly independent and $T$ is a spanning set for $V$, then: \label{steinitz}
   \begin{enumerate}
@@ -303,7 +305,7 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
   This spans $V$ and so picking $T' = \{t_{m + 1}, \ldots, t_n\} \subseteq T$ works.
 \end{proof}
 \begin{corollary}
-  If $V$ is a finite dimensional $\F$-vector space, then:
+  If $V$ is a finite dimensional $\F$-vector space, then: \label{basisSize}
   \begin{enumerate}
     \item Every basis for $V$ is finite
     \item If $B_1$ and $B_2$ are finite bases for $V$, then $|B_1| = |B_2|$
@@ -322,6 +324,303 @@ We define the following for an $\F$-vector space $V$ and a subset $S \subseteq V
   Thus $|B_1| = |B_2|$ as required.
 \end{proof}
 \begin{definition}[Dimension]
-  The \textit{dimension}, denoted $\dim(V)$, of a finite vector space $V$ is the common size of any basis for $V$.
+  The \textit{dimension}, denoted $\dim(V)$, of a finite dimensional vector space $V$ is the common size of any basis for $V$.
 \end{definition}
+\begin{example}
+  Returning to \cref{basesExamples} \textbf{(i)}, since we were able to find an $n$ element basis for $\F^n$, we know that $\dim(\F^n) = n$.
+\end{example}
+\begin{corollary}
+  If $V$ is a \textbf{finite dimensional} $\F$-vector space, with finite subsets $T, S \subseteq V$ where $S$ is linearly independent and $T$ is a spanning set for $V$, then: \label{dimIneq}
+  \begin{enumerate}
+    \item $|S| \leq \dim(V) \leq |T|$
+    \item $|S| = \dim(V)$ if and only if $S$ is a basis
+    \item $|T| = \dim(V)$ if and only if $T$ is a basis
+  \end{enumerate}
+\end{corollary}
+\begin{remark}
+  So if we know the dimension of $V$, for example by finding a ``simple'' basis for $V$, then if we have another set of size $\dim(V)$, we need only check that it is either linearly independent or spanning as the other follows by the above.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  Since $V$ is finite, by \cref{finiteVBasis}, there exists a finite basis $B$ for $V$.
+  $B$ is a basis so is both linearly independent and spanning.
+  We can there fore apply \cref{steinitz} \textbf{(i)} with $S, B$ and $B, T$ giving:
+  \[
+    |S| \leq |B| = \dim(V) = |B| \leq |T|
+  \]
+  as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume $S$ is a basis}
+    So by \cref{basisSize}, $|S| = \dim(V)$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $|S| = \dim(V)$}
+    As in \textbf{(i)}, there is a basis $B$ for $V$ which must have $|B| = \dim(V) = |S|$
+    Since $S$ is linearly independent we can apply \cref{steinitz} \textbf{(ii)} to $S$ and $B$ and so there exists $B' \subseteq B$ such that $S \cup B'$ spans V and $|B'| = |B| - |S| = 0$.
+    But $|B'| = 0 \implies B' = \emptyset$, so $S$ spans $V$ and is therefore a basis.
+  \end{proofdirection}
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  \begin{proofdirection}{Assume $T$ is a basis}
+    So by \cref{basisSize}, $|T| = \dim(V)$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $|T| = \dim(V)$}
+    Since $T$ is a finite spanning set of $V$, by \cref{finiteSpanningSub}, there must be a subset $T' \subseteq T$ such that $T'$ is a basis for $V$.
+    Thus $|T'| = \dim(V) = |T| \implies T' = T$, so $T$ is a basis for $V$.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}
+  If $V$ is a finite dimensional $\F$-vector space and $U \leq V$, then: \label{finiteSubspace}
+  \begin{enumerate}
+    \item $\dim(U) \leq \dim(V)$, so $U$ is finite dimensional
+    \item $U = V$ if and only if $\dim(U) = \dim(V)$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  If $U = \{\vec{0}\}$, then there is nothing to prove.
+  \quietinduction
+  {$n = 1$}{
+    Since $U \neq \{\vec{0}\}$, we can take some $u_1 \in U \setminus \{\vec{0}\}$ and so the set $S_1 = \{u_1\}$ is linearly independent.
+  }
+  {$n = k$}{
+    So we assume that there exists a set $S_k = \{u_1, \ldots, u_k\} \subseteq U$ of size $k$ which is linearly independent.
+
+    By \cref{dimIneq} \textbf{(i)}, $k \leq \dim(V)$.
+    If $\langle S_k \rangle = U$, then $S_k$ is a finite basis for $U$ with $\dim(U) = k \leq \dim(V)$ and so we terminate the process.
+    Otherwise we proceed as follows.
+  }
+  {$n = k + 1$}{
+    We can take some $u_{k + 1} \in U \setminus \langle S_k \rangle$ and then let $S_{k + 1} = \{u_1, \ldots, u_k, u_{k+ 1}\}$.
+    Suppose, for contradiction, that $S_{k + 1}$ is linearly dependent, so there exists $\lambda_1, \ldots, \lambda_{k + 1} \in \F$ not all 0 such that:
+    \[
+      \vec{0} = \sum_{i = 1}^{k + 1} \lambda_i u_i
+    \]
+    If $\lambda_{k + 1} = 0$, then we would have have a non-trivial linear combination of vectors from $S_k$ equal to $\vec{0}$, contradicting the linear independence  of $S_k$.
+    We must therefore have $\lambda_{k + 1} \neq 0$ and so:
+    \[
+      u_{k + 1} = - \frac{1}{\lambda_{k + 1}} \sum_{i = 1}^{k} \lambda_i u_i \in \langle S_k \rangle
+    \]
+    which is a contradiction as $u_{k + 1} \notin \langle S_k \rangle$ by construction.
+    Thus $S_{k + 1}$ is linearly independent.
+  }
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume $U = V$}
+    Clearly both have the same dimension as basis sizes are unique by \cref{basisSize}.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\dim(U) = \dim(V)$}
+    So there is a basis $B$ for $U$ of size $\dim(V)$.
+    But $B \subseteq U \subseteq V$ and $B$ is linearly independent, so by \cref{dimIneq} \textbf{(ii)}, $B$ is a basis for $V$.
+    Thus $U = \langle B \rangle = V$.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}[Extending a Basis]
+  Let $V$ be a finite dimensional $\F$-vector space and $U \leq V$.
+  If $B_U$ is a basis for $U$, then there exists a basis $B_V$ for $V$ such that $B_U \subseteq B_V$. \label{basisExtension}
+\end{proposition}
+\begin{proof}
+  Since $V$ is finite dimensional, by \cref{finiteVBasis}, there exists a finite basis $T$ for $V$.
+  We then apply Steinitz-Exchange (\cref{steinitz}) with $S = B_U$ and $T$ to obtain a subset $T' \subseteq T$ such that $B_U \cup T'$ spans $V$ and $|T'| = |T| - |B_U| = \dim(V) - \dim(U)$.
+  We then have:
+  \[
+    |B_U \cup T'| \leq |B_U| + |T'| = \dim(U) + (\dim(V) - \dim(U)) = \dim(V)
+  \]
+  So $B_U \cup T'$ spans $V$ and has $|B_U \cup T'| = \dim(V)$, thus by \cref{dimIneq} \textbf{(iii)}, $B_U \cup T'$ is a basis for $V$.
+  Thus taking $B_V = B_U \cup T'$ has $B_U \subseteq B_V$.
+\end{proof}
+\section{Bases and Linear Maps}
+\begin{definition}[Rank and Nullity]
+  For a linear map $\alpha: V \to W$ we define its \textit{rank} as:
+  \[
+    \rank \alpha = \dim(\im \alpha)
+  \]
+  and its \textit{nullity} as:
+  \[
+    \nullity \alpha = \dim(\ker \alpha)
+  \]
+\end{definition}
+\begin{remark}[Recap]
+  Recall from \cref{imKerProp} that for a linear map $\alpha: V \to W$, we have $\ker \alpha \leq V$ and $\im \alpha \leq W$.
+\end{remark}
+\begin{theorem}[Rank-Nullity Theorem]
+  Let $V$ and $W$ be $\F$-vector spaces such that $V$ is finite dimensional.
+  If $\alpha: V \to W$ is a linear map, then $\im \alpha$ is finite dimensional and: \label{RNT}
+  \[
+    \dim(V) = \rank \alpha + \nullity \alpha
+  \]
+\end{theorem}
+\begin{remark}[Intuition]
+  The kernel of $\alpha$ can be thought of as the ``information'' lost by $\alpha$ and the image of $\alpha$ can be thought of as the ``information'' preserved by $\alpha$, so it makes sense that the sum of the dimensions of these two quantities should be the dimension of the domain of the map $V$.
+\end{remark}
+\begin{proof}
+  Since $\ker \alpha \leq V$, by \cref{finiteSubspace}, $\ker \alpha$ is finite dimensional and so there exists a basis $\{v_1, \ldots, v_k\}$ for $\ker \alpha$.
+  Using \cref{basisExtension}, we extend this to a basis $\{v_1, \ldots, v_k, \ldots, v_n\}$ for $V$.
+  We claim that $B = \{\alpha(v_{k + 1}), \ldots, \alpha(v_n)\}$ is a basis for $\im \alpha$.
+
+  \textbf{Spanning}\par
+  For any $w \in \im \alpha$, there exists $v \in V$ such that $w = \alpha(v)$.
+  Since $\{v_1, \ldots, v_n\}$ spans $V$, there exists $\lambda_1, \ldots, \lambda_n \in \F$ such that:
+  \[
+    v = \sum_{i = 1}^{n} \lambda_i v_i,\ \lambda_i \in \F
+  \]
+  and so we can rewrite $\alpha(w)$ as:
+  \begin{align*}
+    \alpha(w) &= \alpha\left(\sum_{i = 1}^{n} \lambda_i v_i\right) \\
+              &= \sum_{i = 1}^{n} \lambda_i \alpha(v_i) \\
+              &= \sum_{i = k + 1}^{n} \lambda_i \alpha(v_i)
+  \end{align*}
+  since $v_i \in \ker \alpha$ for $i \in \{1, \ldots, k\}$.
+  Thus $\langle B \rangle \leq \im \alpha \leq \langle B \rangle \implies \im \alpha = \langle B \rangle$.
+
+  \textbf{Linear Independence}\par
+  For linear independence, suppose that there exists $\lambda_{k + 1}, \ldots, \lambda_n$ such that:
+  \begin{align*}
+    \vec{0} = \sum_{i = k + 1}^{n} \lambda_i \alpha(v_i) = \alpha\left(\sum_{i = k +1}^{n} \lambda_i v_i\right) \implies \sum_{i = k + 1}^{n} \lambda_i v_i \in \ker \alpha
+  \end{align*}
+  Thus as $\{v_1, \ldots, v_k\}$ are a basis for $\ker \alpha$, there exists $\lambda_1, \ldots, \lambda_k \in \F$ such that:
+  \[
+    \sum_{i = k + 1}^{n} \lambda_i v_i = - \sum_{i = 1}^{k} \lambda_i v_i \implies \sum_{i = 1}^{n} \lambda_i v_i = \vec{0}
+  \]
+  Since $\{v_1, \ldots, v_n\}$ is a basis for $V$, we must have $\lambda_1 = \cdots = \lambda_k = \lambda_{k + 1} = \cdots = \lambda_n = 0$.
+  Thus $B$ is linearly independent.
+
+  \textbf{Conclusion}\par
+  So we have found a finite basis $B$ for $\im \alpha$ with $\rank \alpha = |B| = n - k = \dim(V) - \im \alpha$, as required.
+\end{proof}
+\begin{corollary}
+  If $V$ is a finite dimensional $\F$-vector space and $U \leq V$, then $V / U$ is finite dimensional with: \label{quotDim}
+  \[
+    \dim(V / U) = \dim(V) - \dim(U)
+  \]
+\end{corollary}
+\begin{proof}[Using rank nullity theorem]
+  Recall from \cref{quotMapProp} that the quotient map:
+  \[
+    \pi_U: V \to V / U,\ v \mapsto v + U
+  \]
+  is surjective with $\ker \pi_U = U$.
+  Applying \cref{RNT} to this, we obtain that $\im \pi_{U} = V / U$ is finite dimensional and:
+  \[
+    \dim(V) = \rank \pi_U + \im \pi_U = \dim(U) + \dim(V / U)
+  \]
+  as required.
+\end{proof}
+We can also prove the above directly.
+Note that this is almost exactly the proof for the rank nullity theorem but with $\alpha$ replaced by $\pi_U$.
+\begin{proof}[Without using rank nullity theorem]
+  Since $U \leq V$, by \cref{finiteSubspace}, $U$ is finite dimensional and so there exists a basis $B_U = \{v_1, \ldots, v_k\}$ for $U$.
+  Using \cref{basisExtension}, we extend this to a basis $B_V = \{v_1, \ldots, v_k, \ldots, v_n\}$ for $V$.
+  We then construct the set:
+  \[
+    B_{V / U} = \{v_{k + 1} + U, \ldots, v_n + U\} \subseteq V / U
+  \]
+  and claim that $B_{V / U}$ is a basis for $V / U$.
+
+  \textbf{Spanning}\par
+  For any $v + U \in V / U$, since $v \in V$ and $\{v_1, \ldots, v_n\}$ spans $V$, there exists $\lambda_1, \ldots, \lambda_n \in \F$ such that:
+  \[
+    v = \sum_{i = 1}^{n} \lambda_i v_i,\ \lambda_i \in \F
+  \]
+  and so we can rewrite $v + U$ as:
+  \[
+    v + U = \left(\sum_{i = 1}^{n} \lambda_i v_i\right) + U = \sum_{i = k + 1}^{n} \lambda_u (v_i + U)
+  \]
+  as $v_i \in U \implies v_i + U = U$ (see \cref{cosetRelation}) for $i \in \{1, \ldots, k\}$.
+  Thus $\langle B_{V / U} \rangle = V / U$
+
+  \textbf{Linear Independence}\par
+  For linear independence, suppose that there exists $\lambda_{k + 1}, \ldots, \lambda_n$ such that:
+  \begin{align*}
+    \vec{0} + U = \sum_{i = k + 1}^{n} \lambda_i (v_i + U) = \left(\sum_{i = k + 1}^{n} \lambda_i v_i\right) + U \implies \sum_{i = k + 1}^{n} \lambda_i v_i \in U
+  \end{align*}
+  Thus as $B_U = \{v_1, \ldots, v_k\}$ are a basis for $U$, there exists $\lambda_1, \ldots, \lambda_k \in \F$ such that:
+  \[
+    \sum_{i = k + 1}^{n} \lambda_i v_i = - \sum_{i = 1}^{k} \lambda_i v_i \implies \sum_{i = 1}^{n} \lambda_i v_i = \vec{0}
+  \]
+  Since $B_V = \{v_1, \ldots, v_n\}$ is a basis for $V$, we must have $\lambda_1 = \cdots = \lambda_k = \lambda_{k + 1} = \cdots = \lambda_n = 0$.
+  Thus $B_{V / U}$ is linearly independent.
+
+  \textbf{Conclusion}\par
+  So we have found a finite basis $B_{V / U}$ for $V / U$ with $\dim(V / U) = |B_{V / U}| = n - k = \dim(V) - \dim(U)$, as required.
+\end{proof}
+\begin{corollary}[Linear pidgeonhole principle]
+  If $V$ and $W$ are finite dimensional $\F$-vector spaces with $\dim(V) = \dim(W)$ and $\alpha: V \to W$ is linear, then the following are equivalent:
+  \begin{enumerate}
+    \item $\alpha$ is injective
+    \item $\alpha$ is surjective
+    \item $\alpha$ is an isomorphism
+  \end{enumerate}
+\end{corollary}
+\begin{remark}[Intuition]
+  This is analogous to how we saw in IA Numbers and Sets that functions between finite sets of the same size are injective if and only if they are surjective.
+\end{remark}
+\begin{proof}
+  From \cref{imKerProp}:
+  \[
+    \textbf{(i)} \iff \ker \alpha = \{\vec{0}\} \iff \nullity \alpha = 0
+  \]
+  and:
+  \[
+    \textbf{(ii)} \iff \im \alpha = W \iff \rank \alpha = \dim(W)
+  \]
+  where the last equivalence follows from \cref{finiteSubspace} \textbf{(ii)}.
+
+  Rank-nullity theorem (\cref{RNT}) tells us that:
+  \[
+    \dim(W) = \dim(V) = \rank \alpha + \nullity \alpha
+  \]
+  and so:
+  \[
+    \rank \alpha = \dim(W) \iff \nullity \alpha = 0
+  \]
+  That is, \textbf{(i)} $\iff$ \textbf{(ii)} $\iff$ \textbf{(iii)} by definition of an isomorphism (\cref{isoDef}).
+\end{proof}
+\begin{proposition}
+  Let $V$ and $W$ be $\F$-vector spaces, which are not necessarily finite dimensional.
+  If $B$ is a for $V$ and $f: B \to W$ is a function, then there exists a unique linear map $F: V \to W$ extending $f$.
+  That is, the restriction of the domain of $F$ to $B$ is exactly $f$, $\at{F}{B} = f$.
+\end{proposition}
+\begin{remark}[Intuition]
+  If two linear maps $F$ and $G$ have $\at{F}{B} = \at{G}{B}$, i.e. they act on a basis the same way, then $F = G$ by the above.
+  So linear maps are uniquely determined by their action on a basis.
+\end{remark}
+\begin{proof}\par
+  \textbf{Existence}\par
+  For any $v \in V$, since $B$ spans $V$, there exists $\lambda_b \in \F$ for $b \in B$ such that:
+  \begin{equation}
+    v = \finitesum_{b \in B} \lambda_b b \label{actionUniqueDag} \tag{\dag}
+  \end{equation}
+  We then define the map $F: V \to W$ using these coefficients as:
+  \[
+    F(V) = \finitesum_{b \in B} \lambda_b f(b)
+  \]
+  \textbf{Well Defined}\par
+  We want to show that our choice of coefficients in \cref{actionUniqueDag} was unique as then $F$ is well defined.
+  Suppose that we can also write $v = \sum_{b \in B} \mu_B b$ for coefficients $\mu_b \in \F$ for $b \in B$.
+  We then have:
+  \[
+    \vec{0} = \sum_{b \in B} (\lambda_b - \mu_b) b
+  \]
+  So by linear independence of $B$, $\lambda_b = \mu_b$ for all $b \in B$ and so the coefficients are unique.
+
+  \textbf{Linearity}\par
+  For any $v, u \in V$ we can write $v = \finitesum_{b \in B} \lambda_b b$ and $u = \finitesum_{b \in B} \mu_b b$ with $\lambda_b, \mu_b \in \F$ for $b \in B$.
+  For $\gamma \in \F$ we have:
+  \begin{align*}
+    F(u + \gamma v) &= F\left(\finitesum_{b \in B} (\mu_b + \gamma \lambda_b) v\right) \\
+                     &= \finitesum_{b \in B} (\mu_b + \gamma \lambda_b) f(v) \text{ by definition} \\
+                     &= \finitesum_{b \in B} \mu_b f(v) + \gamma \finitesum_{b \in B} \lambda_b f(v) \\
+                     &= F(u) + \gamma F(v)
+  \end{align*}
+  and so $F$ is linear.
+
+  \textbf{Uniqueness}\par
+  If $\overline{F}: V \to W$ is linear with $\at{\overline{F}}{B} = f$, then for any $v \in V$ we have:
+  \[
+    \overline{F}(v) = \overline{F}\left(\finitesum_{b \in B} \lambda_b b\right)  = \finitesum_{b \in B} \lambda_B \overline{F}(b) = \finitesum_{b \in B} \lambda_b f(b) = F(v)
+  \]
+  and so $\overline{F} = F$.
+\end{proof}
+\begin{remark}
+  During the proof of the above we also showed the useful fact that the coefficients of basis vectors in a linear combination are unique.
+\end{remark}
 \end{document}
