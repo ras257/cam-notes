@@ -11,7 +11,7 @@ Loosely speaking, a \textit{Markov Chain} is a sequence of random variables wher
   \[
     \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n, \ldots, X_0 = x_0) = \P(X_{n + 1} = x_{n + 1} \vert X_n = x_n)
   \]
-  for all $n \in \N$ and $x_1, \ldots, x_n \in I$.
+  for all $n \in \N$ and $x_1, \ldots, x_n \in I$ such that $\P(X_n = x_n, \ldots, X_0 = x_0) > 0$.
 \end{definition}
 \begin{remark}[Note]
   This does \textbf{not} mean that $X_{n + 1}$ is independent of $X_1, \ldots, X_{n - 1}$ however it \textbf{does} mean that $X_{n + 1}$ is \textit{conditionally independent} from $X_1, \ldots, X_{n - 1}$ \textit{given} that $X_n = x_n$.
