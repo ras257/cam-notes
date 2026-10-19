@@ -194,6 +194,181 @@ We now equip $V$ with the inner product $\langle \cdot, \cdot \rangle_{w}$ where
   \[
     \langle \mathcal{L}y_1, y_2 \rangle_{w} - \langle y_1, \mathcal{L}y_2 \rangle_{w} = 0
   \]
-  that is, $L$ is self adjoint on $(V, \langle \cdot, \cdot \rangle_{w})$.
+  that is, $\mathcal{L}$ is self adjoint on $(V, \langle \cdot, \cdot \rangle_{w})$.
 \end{proof}
+\section{Solving Sturm-Liouville Problems}
+\begin{remark}[Recap]
+  Recall from IA Vectors and Matrices that if $A$ is hermitian then we can always pick its eigenvectors to be real.
+\end{remark}
+Since we know that $\mathcal{L}$ is self adjoint on $(V, \langle \cdot, \cdot \rangle_{w})$, by \cref{selfAdjProp} \textbf{(i)}, we know that all the eigenvalues are real.
+Suppose that we have a complex valued function $f \in V$.
+We can express it as $f = u + iv$ for real valued $u$ and $v$.
+If $f$ is an eigenfunction, then since $p, q, w, \lambda \in \R$, we have:
+\[
+  \lambda u + i\lambda v = \lambda f = \mathcal{L} f = \mathcal{L} u + i\mathcal{L} v \implies \mathcal{L} u = \lambda u,\ \mathcal{L} v = \lambda v
+\]
+so we can always pick our eigenfunctions to be real.
+Thus without loss in generality, we assume that all of our eigenfunctions are real valued.
+
+So for $f \in V$ and $y$ an eigenfunction of $\mathcal{L}$, then we can drop the complex conjugate from the inner product:
+\[
+  \langle f, y \rangle_{w} = \int_{a}^{b} f(x) y(x) w(x) \d{x}
+\]
+From \cref{selfAdjProp} \textbf{(ii)} and \textbf{(iii)}, we know that there exists $(\lambda_n, y_N)_{n = 1}^\infty \in \R \times (V \setminus \{0\})$ such that $L y_n = \lambda_n y_n$ with the property that if $\lambda_n \neq \lambda_m$, then:
+\[
+  \langle y_n, y_m \rangle_{w} = \int_{a}^{b} y_n(x) y_m(x) w(x) \d{x} = 0
+\]
+and for any $f \in V$, we can write:
+\[
+  f(x) = \sum_{n = 1}^{\infty} \hat{f}_n y_n(x) \text{ where } \hat{f}_n = \frac{\langle f, y_n \rangle_{w}}{\norm{y_n}^2_{w}}
+\]
+It will turn out that for the Sturm-Liouville problems will will study, that our eigenvalues are bounded below and can be ordered so that $\lambda_1 < \lambda_2 < \lambda_3 < \cdots$ with $\lambda_n \to \infty$ as $n \to \infty$.
+\begin{example}
+  Consider the problem:
+  \[
+    \begin{cases}
+    -y'' = \lambda y & \text{ if } 0 < x < L \\
+    y(0) = 0 &  \\
+    y(L) = 0 &
+    \end{cases}
+  \]
+  This is a Sturm-Liouville eigenvalue problem with $p = 1$, $q = 0$, $w = 1$ on the set:
+  \[
+    V = \{y \in C^2[0, L]: y(0) = y(L) = 0\}
+  \]
+  We now solve the differential equation $y'' + \lambda y = 0$.
+  In the case of $\lambda < 0$, then after applying the boundary conditions, we see that all solutions are trivial so we require $\lambda \geq 0$ for non-trivial solutions.
+
+  In this case, the general solution is:
+  \[
+    y = A \sin(\sqrt{\lambda} x) + B \cos(\sqrt{\lambda} x)
+  \]
+  We then see that $y(0) = 0 \implies B = 0$ and $y(L) = 0$ tells us that:
+  \[
+    A \sin (\sqrt{\lambda} L) = 0 \iff L\sqrt{\lambda} = n \pi \text{ for } n \in \N_0
+  \]
+  So the eigenvalue-eigenfunction pairs are:
+  \[
+    \lambda_n = \left(\frac{\pi n}{L}\right)^2,\ y_n(x) = \sin\left(\frac{n\pi x}{L}\right) \text{ for } n \in \N_0
+  \]
+  We can verify that indeed:
+  \[
+    \int_{0}^{L} y_n(x) y_m(x) \d{x} = \frac{L}{2} \delta_{n m}
+  \]
+  We also obtain that for any $f \in V$, we can write:
+  \[
+    f(x) = \sum_{n=0}^{\infty} \hat{f}_n \sin\left(\frac{n \pi x}{L}\right)
+  \]
+  where:
+  \[
+    \hat{f}_n = \frac{\langle f, y_n \rangle_{w}}{\norm{y_n}_{w}^2} = \frac{2}{L} \int_{0}^{L} f(x) \sin\left(\frac{n \pi x}{L}\right) \d{x}
+  \]
+  So we have re-derived the Fourier sine series for $f \in C^2([0, L])$ with $f(0) = f(L) = 0$ as defined in \cref{sinCosSeries}.
+\end{example}
+\section{Reduction to Sturm-Liouville Form}
+Consider a generic eigenvalue problem of the form:
+\begin{equation}
+  \alpha(x) y'' + \beta(x) y' + \gamma(x) y + \lambda y = 0 \text{ on } a < x < b \label{genEigenval}
+\end{equation}
+where $\alpha(x) > 0$ on $(a, b)$.
+We would like to reduce this to Sturm-Liouville form so that we can use the results established so far in this chapter.
+
+We can do this by dividing through by $\alpha(x) > 0$ and multiplying by an integrating factor $I(x)$:
+\[
+  I(x) = \exp\left[- \int_{}^{x} \frac{\beta(t)}{\alpha(t)} \d{t}\right]
+\]
+\begin{proposition}
+  The problem in \cref{genEigenVal} is equivalent to the Sturm-Liouville problem:
+  \[
+    -\deriv{}{x}\left[p \deriv{y}{x}\right] + qy = \lambda w y
+  \]
+  where:
+  \[
+    p(x) = I(x),\ q(x) = - \frac{\gamma(x)I(x)}{\alpha(x)} \text{ and } w(x) = \frac{I(x)}{\alpha(x)}
+  \]
+\end{proposition}
+\begin{proof}
+  We see that $p(x) > 0$ and $w(x) > 0$ on $(a, b)$ as required for a Sturm-Liouville operator $\mathcal{L}$.
+  From the definition of $\mathcal{L}$, we see that:
+  \begin{align*}
+    w\mathcal{L}y - w\lambda y &= -\deriv{}{x}\left[p \deriv{y}{x}\right] + qy - \lambda w y \\
+                             &= - p'y' - py'' + qy - \lambda w y \\
+                             &= - \frac{\beta}{\alpha} Iy' - Iy'' - \frac{\gamma}{\alpha}I - \frac{\lambda}{\alpha} Iy \\
+                             &= I(x) \left[-y'' - \frac{\beta}{\alpha}y' - \frac{\gamma}{\alpha} y - \frac{\lambda}{\alpha}\right]
+  \end{align*}
+  Since $I(x) > 0$, this right hand side vanishes if and only if \cref{genEigenval} vanishes and so if and only if $\mathcal{L} y = \lambda y$ since $w(x) > 0$.
+\end{proof}
+\begin{example}
+  Consider the eigenvalue problem:
+  \[
+    \begin{cases}
+    y'' - 2y' + \lambda y = 0 & \text{ if } 0 < x < 1 \\
+    y(0) = 0 &  \\
+    y'(1) = 0 &
+    \end{cases}
+  \]
+  The integrating factor for this is:
+  \[
+    I(x) = \exp\left[\int_{}^{x} (-2) \d{x}\right] = e^{-2x}
+  \]
+  so $p = e^{-2x}, q = 0, w = e^{-2x}$, i.e. the problem is equivalent to:
+  \[
+    \mathcal{L} y = -\deriv{}{x}\left[e^{-2x} \deriv{y}{x}\right] = \lambda e^{-2x} y
+  \]
+
+  The general solution to the original problem is:
+  \[
+    y = e^{x}[A \sinh(\sqrt{1 - \lambda} x) + B \cosh(\sqrt{1 - \lambda}x)]
+  \]
+  for $\lambda \in \R$.
+
+  In the case of $1 - \lambda \geq 0$, we get only trivial solutions after applying the boundary conditions.
+  Thus to look for eigenvalues we set $1 - \lambda = -\mu^2$, where without loss in generality $\mu > 0$.
+  In this case we can write the general solution as:
+  \[
+    y = e^{x}[A \sin(\mu x) + B \cos(\mu x)]
+  \]
+  Applying the boundary conditions, $y(0) = 0 \implies B = 0$ and $y'(1) = 0$ gives:
+  \[
+    0 = A e [\sin \mu + \mu \cos \mu]
+  \]
+  So for non-trivial solutions we need the bracketed term to vanish, i.e.:
+  \[
+    \tan \mu = - \mu \text{ for } \mu > 0
+  \]
+  The solutions to these are precisely the intersections between the graphs of $\tan \mu$ and $-\mu$:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, scale=0.7]
+    \draw[->] (0, 0) -- (7, 0);
+    \draw[->] (0, -5) -- (0, 2);
+    \clip (0, -5) rectangle (7, 2);
+    \draw[thick, dashed] (0, 0) -- (7, -7);
+    \draw[thick, domain=0:1.2, smooth, variable=\x] plot ({\x}, {tan(\x r)});
+    \draw[thick, domain=1.7:4.3, smooth, variable=\x] plot ({\x}, {tan(\x r)});
+    \draw[thick, domain=4.9:7, smooth, variable=\x] plot ({\x}, {tan(\x r)});
+  \end{tikzpicture}
+  \end{center}
+  From this we see that we get infinitely many solutions which we can order with $\mu_1 < \mu_2 < \cdots$.
+  We also see that $\mu_n \to \infty$ as $n \to \infty$.
+
+  Thus we have infinitely many eigenvalues $\lambda_n = 1 + \mu^2_n$ with ordering $\lambda_1 < \lambda_2 < \cdots$ and $\lambda_n \to \infty$ as $n \to \infty$.
+
+  The eigenfunctions are $y_n(x) = e^{x}\sin(\mu_n x)$ which we expect to be orthogonal with respect to a suitable inner product.
+  We saw that $w = e^{-2x}$ and so we check that:
+  \begin{align*}
+    \langle y_n, y_m \rangle_{w} &= \int_{0}^{1} e^{x} \sin(\mu_n x) \cdot e^{x} \sin(\mu_n x) \cdot e^{-2x} \d{x} \\
+                                 &= \int_{0}^{1} \sin(\mu_n x) \sin(\mu_m x) \d{x} \\
+                                 &= \frac{1}{2} \int_{0}^{1} [\cos[(\mu_n - \mu_m)x] - \cos[(\mu_n + \mu_m)x]] \d{x} \\
+                                 &= \frac{1}{2}\left[\frac{\sin(\mu_n - \mu_m)}{\mu_n - \mu_m} - \frac{\sin(\mu_n + \mu_m)}{\mu_n + \mu_m}\right] \\
+                                 &= \frac{1}{2}\left[\frac{\sin \mu_n \cos \mu_m - \sin \mu_m \cos \mu_n}{\mu_n - \mu_m} - \left(\frac{\sin \mu_n \cos \mu_m + \sin \mu_m \cos \mu_n}{\mu_n + \mu_m}\right)\right] \\
+                                 &= \frac{1}{2} \cos \mu_n \cos \mu_m \left[\frac{\tan \mu_n - \tan \mu_m}{\mu_n - \mu_m} - \left(\frac{\tan \mu_n + \tan \mu_m}{\mu_n + \mu_n}\right)\right] \\
+                                 &= \frac{1}{2} \cos \mu_n \cos \mu_m \left[\frac{-\mu_n + \mu_m}{\mu_n - \mu_m} + \frac{\mu_n + \mu_m}{\mu_n + \mu_m}\right] \\
+                                 &= \frac{1}{2} \cos \mu_n \cos \mu_m[-1 + 1] \\
+                                 &= 0
+  \end{align*}
+\end{example}
+\begin{remark}
+  The process of checking that functions are orthogonal can be quite tedious.
+  It is therefore usually quicker to construct a Sturm-Liouville problem of which they are eigenfunctions and then appeal to Sturm-Liouville theory to conclude.
+\end{remark}
 \end{document}
