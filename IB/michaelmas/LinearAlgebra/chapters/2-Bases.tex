@@ -577,7 +577,7 @@ Note that this is almost exactly the proof for the rank nullity theorem but with
 \begin{proposition}
   Let $V$ and $W$ be $\F$-vector spaces, which are not necessarily finite dimensional.
   If $B$ is a for $V$ and $f: B \to W$ is a function, then there exists a unique linear map $F: V \to W$ extending $f$.
-  That is, the restriction of the domain of $F$ to $B$ is exactly $f$, $\at{F}{B} = f$.
+  That is, the restriction of the domain of $F$ to $B$ is exactly $f$, $\at{F}{B} = f$. \label{linMapBasis}
 \end{proposition}
 \begin{remark}[Intuition]
   If two linear maps $F$ and $G$ have $\at{F}{B} = \at{G}{B}$, i.e. they act on a basis the same way, then $F = G$ by the above.
@@ -623,4 +623,243 @@ Note that this is almost exactly the proof for the rank nullity theorem but with
 \begin{remark}
   During the proof of the above we also showed the useful fact that the coefficients of basis vectors in a linear combination are unique.
 \end{remark}
+\begin{corollary}
+  Let $V$ be an $n$-dimensional $\F$-vector space.
+  If $B = \{v_1, \ldots, v_n\}$ is a basis for $V$, then there is an isomorphism:
+  \[
+    F_B: V \to \F^n,\ \sum_{i = 1}^{n} \lambda_i v_i = \begin{pmatrix}
+    \lambda_1 \\
+    \vdots \\
+    \lambda_n \\
+    \end{pmatrix}
+  \]
+  and so $V \cong \F^n$. \label{FIso}
+\end{corollary}
+\begin{proof}
+  We construct the bijection:
+  \[
+    f: B \to \{\vec{e}_1, \ldots, \vec{e}_n\},\ v_i \mapsto \vec{e}_i
+  \]
+  where $\{\vec{e}_1, \ldots, \vec{e}_n\}$ is the standard basis for $\F^n$ as introduced in \cref{basesExamples} \textbf{(i)}.
+  So by \cref{linMapBasis}, $f$ and $f^{-1}$ have linear extensions $F_B: V \to \F^n$ and $\overline{F_B}: \F^n \to V$ respectively.
+
+  We want to show that $\overline{F_B} = (F_B)^{-1}$.
+  We see that:
+  \[
+    \overline{F_B} \circ F_B: V \to V,\ v_i \to v_i
+  \]
+  But $id_V: V \to V$ also sends $v_i \mapsto v_i$.
+  Thus by the uniqueness of linear extensions provided by \cref{linMapBasis}, we have $\overline{F_B} \circ F_B = \id_V$.
+  By a smiler argument, we also see that $F_B \circ \overline{F_B} = \F^n$.
+  Thus $F_B$ is a bijective linear map and so is an isomorphism.
+\end{proof}
+\begin{definition}[Coordinate Vector]
+  For an $n$-dimensional vector space $V$ and basis $B = \{v_1, \ldots, v_n\}$, we define the \textit{coordinate vector} of $v = \sum_{i = 1}^{n} \lambda_i v_i$ with respect to $B$ as:
+  \[
+    [v]_{B} = F_B(v) = \begin{pmatrix}
+    v_1 \\
+    \vdots \\
+    v_n \\
+    \end{pmatrix} \in \F^n
+  \]
+\end{definition}
+\begin{example}
+  If $V \cong \F^n$ and $W \leq V$ with $W \cong \F^m$, then by \cref{quotDim}:
+  \[
+    \dim(V / W) = \dim(V) - \dim(W) = n - m \implies V / W \cong \F^{n - m}
+  \]
+\end{example}
+\begin{corollary}
+  If $V$ and $W$ are finite dimensional $\F$-vector spaces, then: \label{finiteDimIso}
+  \[
+    V \cong W \iff \dim(V) = \dim(W)
+  \]
+\end{corollary}
+\begin{proof}
+  \begin{proofdirection}{Assume $\dim(V) = \dim(W) = n$}
+    Then by \cref{FIso}, $V \cong F^n \cong W$.
+  In \cref{equivIso} we saw that isomorphism is an equivalence relation and so $V \cong W$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $V \cong W$}
+    So there exists an isomorphism $\phi: V \to W$.
+    Using the rank-nullity theorem (\cref{RNT}) and \cref{imKerProp}:
+    \[
+      \dim(V) = \dim(\im \phi) + \dim(\ker \phi) = \dim(W) + \dim(\{\vec{0}\}) = \dim(W)
+    \]
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  Let $V$ and $W$ be $\F$-vector spaces, which are not necessarily finite dimensional.
+  If $\phi: V \to W$ is an isomorphism and $B_V$ is a basis for $V$, then $B_W = \phi(B_V)$ is a basis for $W$.
+\end{lemma}
+\begin{proof}\par
+    \textbf{Spanning}\par
+    Since $\im \phi = W$, there exists a $v \in V$ such that $\phi(v) = w$.
+    We can write $v$ as $v = \finitesum_{b \in B_V} \lambda_b b$ and so:
+    \[
+      w = \phi\left(\finitesum_{b \in B_V} \lambda_b b\right) = \finitesum_{b \in B_V} \lambda_b \phi(b)
+    \]
+    so $B_W = \phi(B_V)$ spans $W$.
+
+    \textbf{Linear Independence}\par
+    Suppose there exists $\lambda_b \in \F$ for $b \in B_V$ such that:
+    \begin{align*}
+      \finitesum_{b \in B_V} \lambda_i \phi(b) = \vec{0} &\implies \phi\left(\finitesum_{b \in B_V} \lambda_b b\right) = \vec{0} \text{ as $\vec{0} \in \ker \phi$} \\
+                                                         &\implies \finitesum_{b \in B_V} \lambda_b b \in \ker \phi = \{\vec{0}\} \text{ as $\phi$ is injective} \\
+                                                         &\implies \finitesum_{b \in B_V} \lambda_b b = \vec{0} \\
+                                                         &\implies \lambda_b = 0\ \forall b \in B_{V} \text{ as $B_V$ linearly independent}
+    \end{align*}
+    so $B_W = \phi(B_V)$ is linearly independent.
+\end{proof}
+\section{Direct Sums}
+\subsection{External Direct Sum}
+\begin{definition}[External Direct Sum]
+  The \textit{external direct sum} of two $\F$-vector spaces $V$ and $W$, denoted $V \oplus W$, has underlying group $V \times W$ and operations:
+  \begin{itemize}
+    \item $(v_1, w_1) + (v_2, w_2) = (v_1 + v_2, w_1 + w_2)$
+    \item $\lambda(v, w) = (\lambda v, \lambda w)$
+  \end{itemize}
+  which satisfy the axioms of a vector space because the operations of both $V$ and $W$ do.
+\end{definition}
+We can iterate this a finite number of times to define the external direct sum $V_1 \oplus \cdots \oplus V_n$ which is a vector space on the group $V_1 \times \cdots \times V_n$.
+\begin{lemma}[Dimension of external direct sum]
+  If $V$ and $W$ are finite dimensional $\F$-vector spaces, then $V \oplus W$ is finite dimensional with: \label{externalDim}
+  \[
+    \dim(V \oplus W) = \dim(V) + \dim(W)
+  \]
+\end{lemma}
+We provide two proofs of this.
+\begin{proof}[By construction]
+  Let $B_V$ and $B_W$ be bases for $V$ and $W$ respectively.
+  Define the set:
+  \[
+    B = (B_V \times \{\vec{0}_W\}) \cup (\{\vec{0}_{V}\} \times B_W)
+  \]
+  This is a basis for $V \oplus W$ as the basis vectors for $V$ are all in the first component and the basis vectors for $W$ are all in the second component.
+\end{proof}
+\begin{remark}
+  The above proof gives us a way to construct a basis for $V \oplus W$ given basis for $V$ and $W$, even if they are not finite dimensional.
+\end{remark}
+\begin{proof}[By isomorphisms]
+  By \cref{FIso}, $V \cong \F^n$ and $W \cong \F^m$.
+  Applying the isomorphisms provided by this to each component for $V \oplus W$, we see that $V \oplus W \cong \F^n \oplus \F^m \cong \F^{n + m}$.
+  Thus by \cref{finiteDimIso}, $\dim(V \oplus W) = \dim(\F^{n + m}) = n + m = \dim V + \dim W$.
+\end{proof}
+\begin{proposition}
+  If $V$ is an $\F$-vector space with subspaces $U, W \leq V$, then the map: \label{externalMap}
+  \[
+    \phi: U \oplus W \to U + W,\ (u, w) \mapsto u + w
+  \]
+  is linear, surjective, and has $\ker \phi \cong U \cap W$.
+\end{proposition}
+\begin{proof}
+  \textbf{Linearity -} Immediate from definition \par
+  \textbf{Surjectivity -} Immediate from definition of $U + W$ \par
+  \textbf{Kernel -}
+  For $(u, w) \in U \oplus W$:
+  \[
+    (u, w) \in \ker \phi \iff w = - u \iff (u, w) = (u, -u) \in \{(x, -x): x \in U \cap W\}
+  \]
+  where we used that $w = -u \implies u, w \in U \cap W$.
+
+  Thus $\ker \phi = \{(x, -x): x \in U \cap W\}$.
+  We then construct the function $\alpha: U \cap W \to \ker \phi,\ x \mapsto (x, -x)$ which is clearly an isomorphism.
+\end{proof}
+\begin{corollary}[Sum-intersection formula]
+  If $V$ is a finite dimensional $\F$-vector space with subspaces $U, W \leq V$, then $U + W$ is finite dimensional with: \label{sumInter}
+  \[
+    \dim(U + W) = \dim(U) + \dim(W) - \dim(U \cap W)
+  \]
+\end{corollary}
+\begin{proof}
+  We apply the rank nullity theorem (\cref{RNT}) to the map $\phi: U \oplus W \to U + W$ from from \cref{externalMap} to obtain that $\im \phi = U + W$ is finite dimensional with:
+  \[
+    \dim(U \oplus W) = \dim(\im \phi) + \dim(\ker \phi) = \dim(U + W) + \dim(U \cap W)
+  \]
+  but we saw in \cref{externalDim} that $\dim(U \oplus W) = \dim(U) + \dim(W)$ and so the result follows.
+\end{proof}
+We might also want a method to construct an explicit basis for $U + W$.
+
+Let $B$ be a basis for $U \cap W \leq U, W$.
+We can then use \cref{basisExtension} to extend this to a basis $B_U$ for $U$ and $B_W$ for $W$.
+Then clearly $B_U \cup B_W$ spans $U + W$ and:
+\begin{align*}
+  |B_{U} \cup B_{W}| &= |B_U| + |B_W| - |B_U \cap B_W| \\
+                     &\leq |B_U| + |B_W| - |B| \text{ since $B \subseteq B_U \cap B_W$}\\
+                     &= \dim(U + W)
+\end{align*}
+Thus using \cref{dimIneq} \textbf{(i)}, we must have $|B_U \cup B_W| = \dim(U + W)$, and then using \cref{dimIneq} \textbf{(iii)}, it must be a basis for $U + W$.
+\begin{remark}
+  We could also check directly that $B_U \cup B_W$ is linearly independent and has size $|B_U| + |B_W| - |B|$, giving us an alternative proof of \cref{sumInter}.
+\end{remark}
+\subsection{Internal Direct Sum}
+\begin{definition}[Internal direct sum]
+  If every element of $U + W$ is \textbf{uniquely} expressible as $u + w$ for some $u \in U$ and $w \in W$, then we say that $U + W$ is the \textit{internal direct sum} of $U$ and $W$.
+  In this case, we notate $U + W$ also as $U \oplus W$.
+\end{definition}
+\begin{remark}[Note]
+  Every element of $U + W$ is uniquely expressible as $u + w$ for some $u \in U$ and $w \in W$ if and only if the map $\phi: U \oplus W \to U + W$ is injective, i.e. $U \cap W = \{\vec{0}_{V}\}$.
+
+  In this case, $\phi$ is an isomorphism so:
+  \[
+    \{u + w: u \in U, w \in W\} = U + W \cong U \oplus W = \{(u, w): u \in U, w \in W\}
+  \]
+  which motivates the notational choice of using $U \oplus W$ for the internal direct sum also.
+
+  As a general rule of thumb, if we are given that $U, W \leq V$, then the notation $U \oplus W$ refers to the internal direct sum, where we implicitly assume that $U \cap W = \{\vec{0}_V\}$.
+  Otherwise, if $U$ and $W$ are two unrelated vector spaces, then the notation $U \oplus W$ refers to the external direct sum because $U + W$ may not even be defined.
+\end{remark}
+More generally, given $U_1, \ldots, U_n \leq V$, say that $V$ is equal to the internal direct sum of $U_1, \ldots, U_n$ and write:
+\[
+  V = \bigoplus_{i = 1}^{n} U_i
+\]
+if the map:
+\[
+  \phi: U_1 \oplus \cdots \oplus U_n \to U_1 + \cdots + U_n,\ (u_1, \ldots, u_n) \mapsto u_1 + \cdots + u_n
+\]
+is an isomorphism.
+\begin{remark}[Warning]
+  Unlike in the case of two subspaces, the conditions:
+  \begin{enumerate}
+    \item $U_1 + \cdots + U_n = V$
+    \item For all $i \neq j$, $U_i \cap U_j = \{\vec{0}_{V}\}$
+  \end{enumerate}
+  are \textbf{not sufficient} to conclude that $\phi$ is an isomorphism for $n \geq 3$ and so are not sufficient to conclude that $U_1 + \cdots + U_n$ is an internal direct sum.
+  See Example Sheet 1 for a counter example.
+\end{remark}
+\subsection{Direct Complement}
+\begin{definition}[Direct Complement]
+  Let $V$ be a $\F$-vector space.
+  For subspaces $U, W \leq V$, we say that $W$ is a \textit{direct complement} to $U$ in $V$ if $V$ is the internal direct sum of $U$ and $W$, that is $V = U \oplus W$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Since we need the internal direct sum to be well defined, a necessary condition for two subspaces to be complements is that their intersection must be trivial
+    \item This is symmetric as the internal direct sum commutes since the underlying group is abelian.
+  \end{itemize}
+\end{remark}
+\begin{example}
+  Consider $V = \R^3$ and $U$ a plane in $\R^3$.
+  Any line $W$ through the origin not lying in the plane $U$ is a direct complement to $U$ in $V$.
+\end{example}
+\begin{proposition}
+  If $V$ is a finite dimensional $\F$-vector space, then every subspace $U \leq V$ has a direct complement.
+\end{proposition}
+\begin{proof}
+  $U$ must be finite dimensional so there exists a basis $B_U$ for $U$.
+  We can then use \cref{basisExtension} to extend this to a basis $B_V$ for $V$.
+  Set $W = \langle B_V \setminus B_U \rangle$, then:
+  \begin{align*}
+    V = \langle B_V \rangle &= \langle B_U \cup (B_V \setminus B_U) \rangle \\
+                            &= \langle B_U \rangle + \langle B_V \setminus B_U \rangle \\
+                            &= U + W
+  \end{align*}
+  We now need to show that this is an internal direct product.
+  By construction, $\dim(U) + \dim(W) = \dim(V)$, thus by the sum intersection formula we have:
+  \[
+    \dim(U) + \dim(W) = \dim(V) = \dim(U) + \dim(W) - \dim(U \cap W)
+  \]
+  and so $\dim(U \cap W) = 0 \implies U \cap W = \{\vec{0}_V\}$.
+  Thus $V = U + W = U \oplus W$.
+\end{proof}
 \end{document}
