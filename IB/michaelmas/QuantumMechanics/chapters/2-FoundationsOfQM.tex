@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Foundations of Quantum Mechanics}
-\section{Linear Algebra}
+\section{Relation to Linear Algebra}
 In this course we will use linear algebra on infinite dimensional vectors within a \textit{function space}.
 It is useful to draw parallels between concepts in finite dimensional vector spaces and concepts of the infinite dimensional function spaces used in quantum mechanics.
 \begin{center}
@@ -28,6 +28,9 @@ $n \times n$ matrices, $\vec{w} = A \vec{v}$ & Operators $\hat{O}$, $\phi = \hat
 \begin{definition}[Square Integrable]
   We say that a function $f: \R^3 \to \C$ is \textit{square integrable} if $\int_{\R^3} |f(\vec{x})|^2 \d{V} < \infty$.
 \end{definition}
+\begin{remark}
+  If $f$ is square integrable on $\R^3$, then we must have $f \to 0$ as $|\vec{x}| \to \infty$.
+\end{remark}
 \section{State, Wavefunctions, and Probabilities}
 In classical mechanics, a particle has \textit{definite} position $\vec{x}$ and momentum $\vec{p} = m \dot{\vec{x}}$.
 To completely specific a particle, all we need to do is specify these two vectors.
@@ -129,7 +132,7 @@ This leads us to the following properties:
 \end{proof}
 \subsection{Inner Product}
 \begin{definition}[Inner Product on $\mathcal{H}$]
-  We define the inner product on the Hilbert space $\mathcal{H}$ as:
+  We define the inner product on the Hilbert space $\mathcal{H}$ as: \label{HInnerProd}
   \[
     (\psi, \phi) = \int_{\R^3} \psi(\vec{x}, t)^{*} \phi(\vec{x}, t) \d{V}
   \]
@@ -216,9 +219,9 @@ We can use this inner product to define a norm on $\mathcal{H}$.
 \section{Time-Dependent Schr\"odinger Equation}
 Born's rule gave us a physical interpretation to the wavefunction, but how does that state evolve over time?
 To investigate this, we need to introduce the second postulate of quantum mechanics, the \textit{time-dependent Schr\"odinger equation} or \textit{TDSE}:
-\[
-  i \hbar \pderiv{\psi(\vec{x}, t)}{t} = - \frac{\hbar^2}{2m} \nabla^2 \psi(\vec{x}, t) + U(\vec{x})\psi(\vec{x}, t)
-\]
+\begin{equation}
+  i \hbar \pderiv{\psi(\vec{x}, t)}{t} = - \frac{\hbar^2}{2m} \nabla^2 \psi(\vec{x}, t) + U(\vec{x})\psi(\vec{x}, t) \label{TDSE}
+\end{equation}
 where $\hbar$ is the reduced Planck constant, $m$ is the mass of the particle, $U(\vec{x}) \in \R$ is the potential, and $\nabla^2 \equiv \pderiv[2]{}{x} + \pderiv[2]{}{y} + \pderiv[2]{}{z}$ is the Laplacian.
 
 This is a first order differential equation in $t$ and so if we know $\psi(\vec{x}, t_0)$ then we know $\psi(\vec{x}, t)$ for all times $t > t_0$.
@@ -296,6 +299,210 @@ It in fact turns out that TDSE tells us that the normalisation factor of $\psi$ 
   \[
     \deriv{N}{t} = \int_{\R^3} \nabla \cdot \left[\frac{i \hbar}{2m} (\psi^{*} \nabla \psi - \psi \nabla \psi^{*})\right] \d{V}
   \]
-  Since $|\psi| \to 0$ as $|\vec{x}| \to \infty$, by applying the Divergence Theorem from IA Vector calculus to a ball of radius $R$ centered at $\vec{0}$ and then taking $R \to \infty$, the above integral over $\R^3$ vanishes and so $\deriv{N}{t} = 0$.
+  Since $\psi$ is square integrable, we have $\psi \to 0$ as $|\vec{x}| \to \infty$.
+  Thus by applying the Divergence Theorem from IA Vector calculus to a ball of radius $R$ centered at $\vec{0}$ and then taking $R \to \infty$, the above integral vanishes and so $\deriv{N}{t} = 0$.
+\end{proof}
+In the above proof we demonstrated that:
+\begin{align*}
+  \pderiv{}{t} \rho(\vec{x}, t) &= \pderiv{}{t} \psi^{*} \psi \\
+                                &= \nabla \cdot \left[\frac{i \hbar}{2m} (\psi^{*} \nabla \psi - \psi \nabla \psi^{*})\right]
+\end{align*}
+If we define the \textit{probability current} as:
+\[
+  \vec{J} = -\frac{i \hbar}{2m} (\psi^{*} \nabla \psi - \psi \nabla \psi^{*})
+\]
+then we obtain a continuity equation:
+\[
+  \pderiv{\rho}{t} + \nabla \cdot \vec{J} = 0
+\]
+We saw such equations in IA Vector Calculus.
+This one encodes the conservation of probability for solutions of the TDSE.
+\section{Measurements}
+\subsection{Observables}
+Currently, we do not have a way of retrieving information other about the particle from its state $\psi$, other than the probability density of its position.
+How can we extract other information, like momentum or energy.
+\begin{definition}[Observable]
+  We say that a property of particle is \textit{observable} if it can be measured.
+\end{definition}
+Observables are represented using operators $\hat{O}$ acting on $\psi$ and their measurements are the expectation value of the operator $\langle \hat{O} \rangle$.
+\subsubsection{Heuristic Derivation of Expectation Values}
+For ease, we will work in 1D.
+From Born's rule (\cref{bornsRule}), we can find the expected value of the position $x$ using the integral:
+\begin{align*}
+  \langle x \rangle &= \int_{-\infty}^{\infty} x \rho(x, t) \d{x} \\
+                    &= \int_{-\infty}^{\infty} \psi^{*}(x, t) x \psi(x, t) \d{x}
+\end{align*}
+\begin{remark}[Note]
+  $\langle x \rangle$ is \textbf{not} the average value obtained when repeatedly measuring a single particle.
+  The first measurement, whose outcome is not deterministic, causes the wavefunction to collapse into a spike at the measurement obtained causing any further measurements to result in the same outcome.
+  Instead, this is the average value obtained when measuring a particle once in many identically configured states.
+\end{remark}
+Since $\langle x \rangle$ changes over time, we might want to know the expectation of the momentum $\langle p \rangle$.
+Assuming that we can exchange derivatives and expectations like this, and assuming that $x$ is a free particle, i.e. $U \equiv 0$, we have:
+\begin{align*}
+  \langle p \rangle &= m \deriv{\langle x \rangle}{t} \\
+                    &= m \deriv{}{t} \int_{-\infty}^{\infty} \psi^{*} x \psi \d{x} \\
+                    &= m \int_{-\infty}^{\infty} x \pderiv{}{t} \psi^{*}\psi \d{x} \\
+                    &= \frac{i\hbar}{2} \int_{-\infty}^{\infty} x \pderiv{}{x}\left(\psi^{*} \pderiv{\psi}{x} - \psi \pderiv{\psi^{*}}{x}\right) \d{x} \\
+                    &= \frac{i\hbar}{2} \cancelto{0}{\eval{x\left(\psi^{*} \pderiv{\psi}{x} - \psi \pderiv{\psi^{*}}{x}\right)}{-\infty}{\infty}} - \frac{i\hbar}{2} \int_{-\infty}^{\infty} \left(\psi^{*} \pderiv{\psi}{x} - \psi \pderiv{\psi^{*}}{x}\right) \d{x} \\
+                    &= -\frac{i\hbar}{2} \int_{-\infty}^{\infty} \psi^{*} \pderiv{\psi}{x} \d{x} + \frac{i\hbar}{2} \cancelto{0}{\eval{\psi \psi^{*}}{-\infty}{\infty}} - \frac{i\hbar}{2} \int_{-\infty}^{\infty} \psi^{*} \pderiv{\psi}{x} \d{x} \\
+                    &= \int_{-\infty}^{\infty} \psi^{*} \left(-i\hbar \pderiv{}{x}\right)\psi \d{x}
+\end{align*}
+Where we assumed that $\psi \to 0$ as $|x| \to \infty$ faster than $1/x$ does.
+
+Comparing our expressions for $\langle x \rangle$ and $\langle p \rangle$, we see that they both are of the form of an integral over $\R$ of $\psi^{*}\hat{O}\psi$ for some operator $\hat{O}$.
+We say that the operator $\hat{x} = x$ represents the position of the particle and the operator $\hat{p} = - i\hbar \pderiv{}{x}$ represents the momentum of the particle.
+We will look at this in depth later in this chapter.
+\subsection{Hermitian Operators}
+\begin{definition}[Operator]
+  A \textit{operator} $\hat{O}$ acting on $\mathcal{H}$ is any map $\hat{O}: \mathcal{H} \to \mathcal{H}$ that is linear, i.e.:
+  \[
+    \hat{O}(a_1 \psi_1 + a_2 \psi_2) = a_1 \hat{O} \psi_1 + a_2 \hat{O} \psi_2
+  \]
+  for any $a_1, a_2 \in \C$ and $\psi_1, \psi_2 \in \mathcal{H}$.
+\end{definition}
+\begin{example}
+  The following operators are all linear:
+  \begin{itemize}
+    \item Finite differential operators, that is, operators of the form:
+      \[
+        \hat{O} = \sum_{n = 0}^{N} q_n(x) \pderiv[n]{}{x}
+      \]
+      where $q_n(x)$ are $n$-th degree polynomials.
+      Both $\hat{x}$ and $\hat{p}$ from the above are finite differential operators.
+    \item Translation operators:
+      \[
+        \hat{s}_1: \mathcal{H} \to \mathcal{H},\ \psi(x) \mapsto \psi(x  - a)
+      \]
+      for $a \in \R$
+    \item The parity operator:
+      \[
+        \hat{p}: \mathcal{H} \to \mathcal{H},\ \psi(x) \mapsto \psi(-x)
+      \]
+  \end{itemize}
+\end{example}
+In this course, we will focus on a particular type of operators called \textit{hermitian operators}.
+We will focus on such operators because all physical observables are associated with hermitian operators.
+\begin{definition}[Hermitian conjugate]
+  The \textit{hermitian conjugate}of an operator $\hat{O}$ is the operator $\hat{O}^{\dag}$ such that:
+  \[
+    (\hat{O}^{\dag} \psi_1, \psi_2) = (\psi_1, \hat{O} \psi_2)
+  \]
+  for all $\psi_1, \psi_2 \in \mathcal{H}$.
+\end{definition}
+\begin{proposition}[Properties of hermitian conjugate]
+  For all $a_1, a_2 \in \C$ and operators $A_1, A_2, A, B: \mathcal{H} \to \mathcal{H}$, the Hermitian conjugate satisfies the following properties:
+  \begin{enumerate}
+    \item $(a_1 \hat{A}_1 + a_2 \hat{A}_2)^{\dag} = a^{*}_1 \hat{A}^{\dag}_1 + a^{*}_2 \hat{A}^{\dag}_2$
+    \item $(\hat{A} \hat{B})^{\dag} = \hat{B}^{\dag} \hat{A}^{\dag}$
+    \item $(\hat{A}^{\dag})^{\dag} = \hat{A}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Using linearity in the second argument and anti-linearity in the first argument of the inner product defined in \cref{HInnerProd}, for any $\psi_1, \psi_2 \in \mathcal{H}$, we have:
+  \begin{align*}
+    ([a^{*}_1 \hat{A}^{\dag}_1 + a^{*}_2 \hat{A}^{\dag}_2] \psi_1, \psi_2) &= a_1 (\hat{A}^{\dag}_1 \psi_1, \psi_2) + a_2 (\hat{A}^{\dag}_2 \psi_1, \psi_2) \\
+                                                                           &= a_1 (\psi_1, \hat{A}_1 \psi_2) + a_2 (\psi_1, \hat{A}_2 \psi_2) \\
+                                                                           &= (\psi_1, a_1 \hat{A}_1 \psi_2) + (\psi_1, a_2 \hat{A}_2 \psi_2) \\
+                                                                           &= (\psi_1, [a_1 \hat{A}_1 + a_2 \hat{A}_2] \psi_2)
+  \end{align*}
+  So by definition $(a_1 \hat{A}_1 + a_2 \hat{A}_2)^{\dag} = a^{*}_1 \hat{A}^{\dag}_1 + a^{*}_2 \hat{A}^{\dag}_2$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  For any $\psi_1, \psi_2 \in \mathcal{H}$ we have:
+  \begin{align*}
+    ([\hat{B}^{\dag} \hat{A}^{\dag}] \psi_1, \psi_2) &= (\hat{B}^{\dag}[\hat{A}^{\dag} \psi_1], \psi_2) \\
+                                                     &= (\hat{A}^{\dag} \psi_1, \hat{B} \psi_2) \\
+                                                     &= (\psi_1, \hat{A} [\hat{B} \psi_2]) \\
+                                                     &= (\psi_1, [\hat{A} \hat{B}] \psi_2)
+  \end{align*}
+  So by definition $(\hat{A} \hat{B})^{\dag} = \hat{B}^{\dag} \hat{A}^{\dag}$.
+\end{proof}
+\begin{proof}
+  Using the hermitianity of the inner product, for any $\psi_1, \psi_2 \in \mathcal{H}$ we have:
+  \begin{align*}
+    (\hat{A} \psi_1, \psi_2) &= (\psi_2, \hat{A} \psi_1)^{*} \\
+                             &= (\hat{A}^{\dag} \psi_2, \psi_1)^{*} \\
+                             &= (\psi_1, \hat{A}^{\dag} \psi_2)
+  \end{align*}
+  So by definition $(\hat{A}^{\dag})^{\dag} = \hat{A}$.
+\end{proof}
+\begin{definition}[Hermitian Operator]
+  We say that an operator $\hat{O}$ is \textit{hermitian} if $\hat{O}^{\dag} = \hat{O}$, or equivalently:
+  \[
+    (\hat{O} \psi_1, \psi_2) = (\psi_1, \hat{O} \psi_2)
+  \]
+  for all $\psi_1, \psi_2 \in \mathcal{H}$.
+\end{definition}
+\begin{example}
+  We give some examples of operations defining quantum observables in the 1D case.
+  \begin{enumerate}
+    \item The position operator:
+      \[
+        \hat{x}: \mathcal{H} \to \mathcal{H},\ \psi(x, t) \mapsto x \psi(x, t)
+      \]
+      We can verify that $\hat{x}$ is hermitian:
+      \begin{align*}
+        (\hat{x} \psi_1, \psi_2) &= \int_{-\infty}^{\infty} (x \psi_1)^{*} \psi_2 \d{x} \\
+                                 &= \int_{-\infty}^{\infty} \psi^{*}_1 x \psi_2 \d{x} \text{ since $x \in \R$}\\
+                                 &= (\psi_1, x \psi_2)
+      \end{align*}
+    \item The momentum operator:
+      \[
+        \hat{p}: \mathcal{H} \to \mathcal{H},\ \psi(x, t) \mapsto - i \hbar \pderiv{\psi}{x}
+      \]
+      We can verify that $\hat{p}$ is hermitian:
+      \begin{align*}
+        (\hat{p} \psi_1, \psi_2)  &= \int_{-\infty}^{\infty} \left(-i\hbar \pderiv{\psi_1}{x}\right)^{*} \psi_2 \d{x} \\
+                                  &= i \hbar \int_{-\infty}^{\infty} \pderiv{\psi^{*}_1}{x} \psi_2 \d{x} \\
+                                  &= i \hbar \cancelto{0}{\eval{\psi^{*}_1 \psi_2}{-\infty}{\infty}} - i\hbar \int_{-\infty}^{\infty} \psi^{*}_1 \pderiv{\psi_2}{x} \d{x} \text{ as $\psi_1, \psi_2 \to 0$} \\
+                                  &= \int_{-\infty}^{\infty} \psi^{*}_1 \left(-i \hbar \pderiv{\psi_2}{x}\right) \d{x} \\
+                                  &= (\psi_1, \hat{p} \psi_2)
+      \end{align*}
+      where $\psi_1, \psi_2 \to 0$ as $|x| \to \infty$ since they are square integrable.
+    \item The kinetic energy operator:
+      \[
+        \hat{T}: \mathcal{H} \to \mathcal{H},\ \psi(x, t) \mapsto \frac{\hat{p}^2}{2m} \psi(x, t) = - \frac{\hbar^2}{2m} \pderiv[2]{}{x} \psi(x, t)
+      \]
+      This is hermitian since $m \in \R$ and:
+      \[
+        (\hat{p}^2)^{\dag} = \hat{p}^{\dag} \hat{p}^{\dag} = \hat{p} \hat{p} = \hat{p}^2
+      \]
+    \item The potential energy operator:
+      \[
+        \hat{U}: \mathcal{H} \to \mathcal{H},\ \psi(x, t) \mapsto U(\hat{x}) \psi(x, t) = U(x) \psi(x, t)
+      \]
+      We can verify that $\hat{U}$ is hermitian:
+      \begin{align*}
+        (\hat{U} \psi_1, \psi_2) &= \int_{-\infty}^{\infty} U(x)^{*} \psi^{*}_1 \psi_2 \d{x} \\
+                                 &= \int_{-\infty}^{\infty} \psi^{*}_1 U(x) \psi_2 \d{x} \text{ since $U(x) \in \R$} \\
+                                 &= (\psi_1, \hat{U} \psi_2)
+      \end{align*}
+    \item The total energy operator:
+      \[
+        \hat{H}: \mathcal{H} \to \mathcal{H},\ \psi(x, t) \mapsto (\hat{T} + \hat{U})\psi(x, t) = -\frac{\hbar^2}{2m} \pderiv[2]{\psi}{x} + U \psi
+      \]
+      This is hermitian since both $\hat{T}$ and $\hat{U}$ are hermitian so:
+      \[
+        (\hat{T} + \hat{U})^{\dag} = \hat{T}^{\dag} + \hat{U}^{\dag} = \hat{T} + \hat{U}
+      \]
+      When this operator is applied to $\psi$, it returns the right hand side of the TDSE from \cref{TDSE} in the 1D case.
+  \end{enumerate}
+\end{example}
+\begin{proposition}
+  The eigenvalues of a hermitian operator $\hat{A}$ are all real.
+\end{proposition}
+\begin{proof}
+  Let $\psi \in \mathcal{H}$ and $a \in \C$ be an eigenfunction-eigenvalue pair for $\hat{A}$.
+
+  We see that:
+  \[
+    (\psi, \hat{A} \psi) = (\psi, a \psi) = a \norm{\psi}^2
+  \]
+  Since $\hat{A}$ is hermitian:
+  \[
+    (\psi, \hat{A} \psi) = (\hat{A} \psi \psi) = (a \psi, \psi) = a^{*} \norm{\psi}^2
+  \]
+  We know that $\norm{\psi}^2 \neq 0$, else it would not be an eigenfunction, nor would it be physical, and so we must have $a = a^{*} \implies a \in \R$.
 \end{proof}
 \end{document}
