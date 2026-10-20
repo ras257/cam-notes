@@ -78,7 +78,7 @@ We can also extend the concept of absolute convergence.
 We have the following simple but useful criterion for absolute uniform convergence.
 \begin{theorem}[Weierstrass $M$-test]
   Let $g_j: E \to \R$ be a series of functions.
-  If there exists $M_j \geq 0$ such that:
+  If there exists $M_j \geq 0$ such that: \label{MTest}
   \[
     \sup_{x \in E} |g_j(x)| \leq M_j\ \forall j \in \N
   \]
@@ -101,4 +101,129 @@ We have the following simple but useful criterion for absolute uniform convergen
   Thus by \cref{cauchyCritereon}, $h_n$ converges uniformly on $E$, i.e. $\sum_{j }^{\infty} g_j$ converges uniformly absolutely on $E$.
 \end{proof}
 \section{Power Series}
+\begin{remark}[Recap]
+  Recall from IA Analaysis 1 that if $\sum_{n = 0}^{\infty} c_n(x - a)^n$ is a real power series then there exists a unique $R \in [0, \infty]$ called the \textit{radius of convergence}, such that:
+  \begin{itemize}
+    \item If $|x - a| < R$, then the series converges absolutely.
+    \item If $|x - a| > R$, then the series diverges.
+  \end{itemize}
+  Further, we can obtain $R$ using the following:
+  \[
+    R^{-1} = \limsup_{n \to \infty} |c_n|^{1/n}
+  \]
+\end{remark}
+\begin{theorem}[Absolute uniform convergence of power series]
+  Let $R$ be the radius of convergence of the power series $\sum_{n = 0}^{\infty} c_n (x - a)^n$.
+  If $R > 0$ and $r$ is such that $0 < r < R$, then the power series $\sum_{n = 0}^{\infty} c_n (x - a)^n$ converges absolutely uniformly on $[a - r, a + r]$. \label{powerConv}
+\end{theorem}
+\begin{remark}
+  Since the power series converges uniformly on $[a - r, a + r]$ for any $r$ with $0 < r < R$ and each of the partial sums is a finite polynomial, by \cref{unifContFunc}, $\sum_{n = 0}^{\infty} c_n(x - a)^n$ is continuous on $[a - r, a + r]$.
+
+  We can then define the function:
+  \[
+    f: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^n
+  \]
+  which is therefore continuous on its whole domain.
+\end{remark}
+\begin{proof}
+  For any $r$ with $0 < r < R$, from IA Analysis I, the power series converges absolutely at $x = a + r$, i.e. $\sum_{n = 0}^{\infty} |c_n|r^n$ is convergent.
+
+  We then see that for any $x \in [a - r, a + r]$, we have $|c_n(x - a)^n| \leq |c_n| |x - a|^n \leq |c_n| r^n$, thus:
+  \[
+    \sup_{x \in [a - r, a + r]} |c_n(x - a)^n| \leq |c_n| r^n
+  \]
+  So we can apply the $M$-test (\cref{MTest}) with $M_n = |c_n| r^n$ and so the series converges absolutely uniformly on $[a - r,  a + r]$.
+\end{proof}
+\begin{definition}[Locally Uniform Convergence]
+  Let $I = (a, b) \subseteq \R$ and $g_n, g: I \to \R$.
+  We say that $g_n \to g$ \textit{locally uniformly} on $I$ if for all $y \in I$, there exists an $r > 0$ such that $g_n \to g$ uniformly on $[y - r, y + r]$.
+\end{definition}
+\begin{remark}[Intuition]
+  This is not the same as uniform convergence on $(a, b)$.
+  Because our choice of $N(\varepsilon)$ for uniform convergence has to work for the entire interval, we are saying that for any point, we can find an non-empty interval around it on which we have uniform convergence.
+\end{remark}
+So \cref{powerConv} tells us that that the power series converges locally absolutely uniformly on its \textit{interval of convergence} $(a - R, a + R)$.
+\begin{theorem}[Differentiability of power series]
+  Let $\sum_{n = 0}^{\infty} c_n (x - a)^n$ be a real power series with radius of convergence $R > 0$ and define: \label{diffPowerSeries}
+  \[
+    f: (a - R,  a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n (x - a)^n
+  \]
+  We then have the following:
+  \begin{enumerate}
+    \item The term-wise differentiation $\sum_{n = 1}^{\infty} n c_n(x - a)^{n - 1}$ also has radius of convergence $R$.
+    \item $f$ is differentiable on $(a - R, a + R)$ with derivative $f'(x) = \sum_{n = 1}^{\infty} n c_n(x - a)^{n - 1}$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  To find the radius of convergence of the term-wise differentiated series:
+  \[
+    \limsup_{n \to \infty} (n |c_n|)^{1/n} = \limsup_{n \to \infty} n^{1/n} \cdot \limsup_{n \to \infty} |c_n|^{1/n}
+  \]
+  Since $\lim_{n \to \infty} n^{1/n} = 1$, $\limsup_{n \to \infty} n^{1/n} = 1$ and so $\limsup_{n \to \infty} (nc_n)^{1/n} = R^{-1}$.
+  Thus the radius of convergence of $\sum_{n = 1}^{\infty} n c_n (x - a)^{n - 1}$ is also $R$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Define the partial sums:
+  \[
+    f_n(x) = \sum_{j = 0}^{n} c_j (x - a)^j
+  \]
+  We see that $f_n$ is differentiable with:
+  \[
+    f_n'(x) = \sum_{j = 1}^{n} j c_j (x - a)^{j - 1}
+  \]
+  Since the original power series has $R > 0$, by \textbf{(i)}, the term-wise differentiation also has $R > 0$ so by \cref{powerConv}, $f_n'$ converges locally uniformly on $(a - R, a + R)$.
+  Fix some $r$ such that $0 < r < R$, and so $f_n'$ converges uniformly on $[a - r, a + r]$ with limit:
+  \[
+    g(x) = \sum_{n = 1}^{\infty} nc_n(x - a)^{n - 1}
+  \]
+  We also have that $(f_n(c))$ converges at some $c \in [a - r, a + r]$, since it converges at every point in $(a - R, a + R)$.
+
+  Thus by we have that $f$ is differentiable with derivative
+  \[
+    f'(x) = g(x) =  \sum_{n = 1}^{\infty} n c_n (x - a)^{n - 1}
+  \]
+  on any $[a - r, a + r]$.
+
+  Since $r$ was arbitrary in $0 < r < R$, $f$ is differentiable on $(a - R, a + R)$ with derivative as given.
+\end{proof}
+\begin{corollary}
+  If the power series $\sum_{n = 0}^{\infty} c_n(x - a)^n$ has radius of convergence $R > 0$, then the function:
+  \[
+    f: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = 0}^{\infty} c_n(x - a)^n
+  \]
+  is smooth, i.e. infinitely differentiable, on $(a - R, a + R)$.
+  Further, its derivatives are given by:
+  \[
+    f^{(k)}: (a - R, a + R) \to \R,\ x \mapsto \sum_{n = k}^{\infty} n(n - 1) \cdots (n - k + 1) \cdot c_n (x - a)^{n - k}
+  \]
+\end{corollary}
+\begin{proof}
+  Repeatedly apply \cref{diffPowerSeries}, noting that the radius of convergence is unchanged after each step.
+\end{proof}
+Taking $x = a$, we see that:
+\[
+  f^{(k)}(a) = k(k - 1) \cdots (k - k + 1) c_k = k! \cdot c_k \implies c_k = \frac{f^{(k)}(a)}{k!}
+\]
+for any $k \in \N_0$.
+So the whole function on $(a - R, a + R)$ is determined by its behaviour in an arbitrarily small interval of positive length around $a$.
+
+Suppose we have another power series $g(x) = \sum_{n = 0}^{\infty} d_n (x - a)^n$ with radius of convergence $R_1 > 0$.
+If $g \equiv f$ on any arbitrary small interval of positive length around $a$, then their derivatives at $a$ must agree.
+Thus $d_n = c_n$ for all $n$, so $R_1 = R$ and $g \equiv f$ everywhere in $(a - R, a + R)$.
+This is known as the \textit{unique continuation} property.
+\begin{definition}
+  We call functions which can be defined by a power series centered at $a$ with radii of convergence $R_a > 0$ at every point $a$ in their domain \textit{analytic functions}.
+\end{definition}
+\begin{remark}[Warning]
+  It is \textbf{not} true that every smooth function is analytic.
+  For example, on a IA Analysis I Sheet 4, we saw that the function:
+  \[
+    f(x) = \begin{cases}
+    e^{-\frac{1}{x^2}} & \text{ if } x \neq 0\\
+    0 & \text{ if } x =0
+    \end{cases}
+  \]
+  is smooth with $f^{(k)}(0) = 0$ for all $k \in \N_0$.
+  So if it had a power series about 0, all the coefficients would have to be 0 and so it could not be identical to $f$ on any interval of positive length around $0$.
+\end{remark}
 \end{document}
