@@ -1,0 +1,222 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Matrices and Linear Maps}
+For $\F$-vector spaces $V$ and $W$, we define $\mathcal{L}(V, W)$ to be the set of linear maps $V \to W$:
+\[
+  \mathcal{L}(V, W) = \{(\alpha: V \to W): \alpha \text{ is linear}\} \subseteq W^V
+\]
+For $\alpha, \beta \in \mathcal{L}(V, W)$ and $\lambda \in \F$, we define $\alpha + \beta$ and $\lambda \alpha$ as:
+\begin{itemize}
+  \item $(\alpha + \beta)(v) = \alpha(v) + \beta(v)$
+  \item $(\lambda \alpha)(v) = \lambda \cdot \alpha(v)$
+\end{itemize}
+These are both also in $\mathcal{L}(V, W)$ as they respect linearity.
+Thus, under these operations, $\mathcal{L}(V, W)$ forms an $\F$-vector space.
+\begin{theorem}
+  If $V$ and $W$ are finite dimensional vector spaces with $\dim(V) = n$ and $\dim(W) = m$, then $\mathcal{L}(V, W) \cong \mathcal{M}_{m \times n}(\F)$ and so $\mathcal{L}(V, W)$ is finite dimensional with $\dim(\mathcal{L}(V, W)) = nm$.
+\end{theorem}
+\begin{proof}
+  Proved later.
+\end{proof}
+\begin{remark}[Notation]
+  We use $\mathcal{M}_{m \times n}$ to denote the set of all $m \times n$ matrices with entries in $\F$.
+  For $A \in \mathcal{M}_{m \times n}$, we write $A = (a_{i j})$ for $a_{i j} \in \F$, $1 \leq i \leq m$ and $1 \leq j \leq n$.
+
+  $M_{m n}(\F)$ has a standard basis:
+  \[
+    \{E_{r s}: 1 \leq r \leq m,\ 1 \leq s \leq n\}
+  \]
+  where $E_{r s} = (\delta_{r i}\delta_{s j})$, i.e. 1 in entry $(r, s)$ and 0 everywhere else.
+  It is easily checked that this spans and is also linearly independent.
+\end{remark}
+\begin{remark}[Recap]
+  Recall that when talking about components in a basis we need the basis vectors to be ordered, see \cref{basisOrder}.
+\end{remark}
+Let $B = \{v_1, \ldots, v_n\}$ and $C = \{w_1, \ldots, w_m\}$ be \textit{ordered} bases for $V$ and $W$.
+Given $\alpha \in \mathcal{L}(V, W)$, for each $v_i$, $\alpha(v_i) \in W$ and so we can write each of these as a unique linear combination of basis vectors in $C$.
+Call these coefficients $a_{i j} \in \F$ as follows:
+\begin{align}
+  \label{matrixCoeffs}
+  \begin{split}
+  \alpha(v_1) &= a_{1 1}w_1 + a_{2 1}w_2 + \cdots + a_{m 1}w_m \\
+  \alpha(v_2) &= a_{1 2}w_1 + a_{2 2}w_2 + \cdots + a_{m 2}w_m \\
+              &\hspace{0.2cm} \vdots \hspace{3.0cm} \vdots \\
+  \alpha(v_n) &= a_{1 n}w_1 + a_{2 n}w_2 + \cdots + a_{m n}w_m
+  \end{split}
+\end{align}
+\begin{definition}[Matrix of a linear map]
+  The \textit{matrix of $\alpha$ with respect to $B$ and $C$} is defined as:
+  \[
+    [\alpha]^{B}_{C} = (a_{i j}) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  where the entries $a_{i j}$ are defined as in as in \cref{matrixCoeffs}.
+\end{definition}
+\begin{remark}[Warning]
+  The $j$-th column of $A$ is is the coefficients of $\alpha(v_j)$ with respect to the basis $C$, \textbf{not} the $j$-th row.
+  So if we write out the coefficients as in \cref{matrixCoeffs}, we need to transpose these to obtain the matrix of $[\alpha]^{B}_{C}$.
+\end{remark}
+Recall from \cref{coordVector} that there is an isomorphism:
+\[
+  F_B: V \to \F^n,\ v = \sum_{j = 1}^{n} \lambda_j v_j \mapsto [v]_{B} =  \begin{pmatrix}
+  \lambda_1 \\
+  \vdots \\
+  \lambda_n \\
+  \end{pmatrix}
+\]
+which gives the coordinate vector of $v$ with respect to the basis $B$.
+\begin{theorem}
+  Given a linear map $\alpha: V \to W$ between finite vector spaces $V$ and $W$, bases $B$ and $C$ for $V$ and $W$ respectively, then for any $v \in V$ we have: \label{basisMapProp}
+  \begin{enumerate}
+    \item $[\alpha]^{B}_{C} [v]_{B} = [\alpha(v)]_{C}$
+    \item $[\alpha]^{B}_{C}$ is the only such $A \in \mathcal{M}_{m \times n}(\F)$ satisfying $A[v]_B = [\alpha(v)]_C$ for all $v \in V$.
+    \item The map:
+      \[
+        F^{B}_{C}: \mathcal{L}(V, W) \to M_{m \times n}(\F),\ \alpha \mapsto [\alpha]^{B}_{C}
+      \]
+      is an isomorphism of $\F$-vector spaces.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  We can write $v = \sum_{j = 1}^{n} \lambda_i v_j$ for $\lambda_1, \ldots, \lambda_n \in \F$, then:
+  \begin{align*}
+    \alpha(v) &= \sum_{j = 1}^{n} \lambda_j \alpha(v_j) \\
+              &= \sum_{j = 1}^{n} \lambda_j \sum_{i = 1}^{m} a_{i j}w_i \text{ using \cref{matrixCoeffs}}\\
+              &= \sum_{i = 1}^{m} \left(\sum_{j = 1}^{n} a_{i j} \lambda_j\right)w_i
+  \end{align*}
+  The terms in the round brackets are the components with respect to the basis $C$, thus:
+  \begin{align*}
+    ([\alpha(v)]_{C})_i &= \sum_{j = 1}^{n} a_{i j} \lambda_j \\
+                        &= ([\alpha]^{B}_{C} [v]_B)_i
+  \end{align*}
+  for each $i$, and so $[\alpha(v)]_C = [\alpha]^{B}_{C} [v]_B$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  By definition $[v_i]_{B} = \vec{e}_i$, where $\vec{e}_i$ is the $i$-th standard basis vector for $\F^n$.
+  Let $A \in \mathcal{M}_{m \times n}(\F)$.
+  Using matrix multiplication, for each $v_i \in B$:
+  \[
+    A[v_i]_{B} = A \vec{e}_i = \text{$i$-th column of $A$}
+  \]
+  By assumption $A$ satisfies $A[v]_{B} = [\alpha(v)]_{C}$ for any $v \in V$, then for each $v_i \in B$:
+  \begin{align*}
+    A[v_i]_{B} &= [\alpha(v_i)]_{C} \\
+               &= [\alpha]^{B}_{C} [v_i]_{B} \text{ by \textbf{(i)}} \\
+               &= [\alpha]^{B}_{C} \vec{e}_i \\
+               &= \text{$i$-th column of $[\alpha]^{B}_{C}$}
+  \end{align*}
+  Thus $\text{$i$-th column of $A$} = \text{$i$-th column of $[\alpha]^{B}_{C}$}$ for all $i$, that is to say, $A = [\alpha]^{B}_{C}$.
+\end{proof}
+\begin{proof}[\textbf{iii}]\par
+  \textbf{Linearity}\par
+  To demonstrate linearity, for $\alpha, \beta \in \mathcal{L}(V, W)$ and $\lambda \in \F$, we want to compare $[\alpha]^{B}_{C} + \lambda [\beta]^{B}_{C}$ and $[\alpha + \lambda \beta]^{B}_{C}$.
+  By \textbf{(ii)}, we we can show that they do the same thing to all component vectors $[v]_B$ for $v \in V$:
+  \begin{align*}
+    ([\alpha]^{B}_{C} + \lambda [\beta]^{B}_{C}) [v]_{B} &= [\alpha(v)]_{C} + \lambda [\beta(v)]_{C} \text{ by \textbf{(i)}} \\
+                                                         &= [\alpha(v) + \lambda \beta(v)]_C \text{ as $F_C$ is linear} \\
+                                                         &= [(\alpha + \lambda \beta)(v)]_{C} \text{ using operations on $\mathcal{L}(V, W)$}\\
+                                                         &= [\alpha + \lambda \beta]^{B}_{C} [v]_B \text{ by \textbf{(i)}}
+  \end{align*}
+  Thus by \textbf{(ii)}, $[\alpha + \lambda \beta]^{B}_{C} = [\alpha]^{B}_{C} + \lambda [\beta]^{B}_{C}$.
+
+  \textbf{Injectivity}\par
+  If $\alpha, \beta \in \mathcal{L}(V, W)$ with $[\alpha]^{B}_{C} = [\beta]^{B}_{C}$, then each of the columns of the matrices must be equal and so $\alpha(v_i) = \beta(v_i)$ for all $i$.
+
+  So both $\alpha$ and $\beta$ do the same to all of the basis vectors in $B$, by uniqueness of linear extensions provided by \cref{linMapBasis}, $\alpha = \beta$.
+
+  \textbf{Surjectivity}\par
+  Given any $A \in \mathcal{M}_{m \times n}(\F)$ where $A = (a_{i j})$, define a function $\alpha$ on the basis $B$ by $\alpha(v_j) = \sum_{i = 1}^{m} a_{i j}w_i$.
+  We then use \cref{linMapBasis} to obtain a linear extension of this $\alpha \in \mathcal{L}(V, W)$.
+  So by construction, $[\alpha]^{B}_{C} = A$.
+\end{proof}
+\begin{remark}
+  Consider the following diagram:
+  \begin{center}
+  \begin{tikzpicture}
+  \node[scale=1.5] at (0, 0) {
+    \begin{tikzcd}
+    V \arrow{d}[swap]{F_B} \arrow{r}{\alpha} & W \arrow{d}{F_C} \\
+    \F^n \arrow{r}[swap]{[\alpha]^B_C} & \F^m
+    \end{tikzcd}
+  };
+  \end{tikzpicture}
+  \end{center}
+Starting with a vector $v \in V$, we get the same result in $\F^m$ regardless of which way round the diagram we go since $[\alpha]^{B}_{C}[v]_B = [\alpha(v)]_{C}$.
+We say that this diagram \textit{commutes}.
+\end{remark}
+\begin{proposition}
+  If $V, W$ and $X$ are finite dimensional vector spaces with bases $B, C$ and $D$ respectively, then for any $\alpha \in \mathcal{L}(V, W)$ and $\beta \in \mathcal{L}(W, X)$ we have: \label{matrixComp}
+  \[
+    [\beta \circ \alpha]^{B}_{D} = [\beta]^{C}_{D}[\alpha]^{B}_{C}
+  \]
+\end{proposition}
+\begin{proof}
+  We appeal to \cref{basisMapProp} \textbf{(ii)}.
+  For any $v \in V$:
+  \begin{align*}
+    ([\beta]^{C}_{D} [\alpha]^{B}_{C}) [v]_B &= [\beta]^{C}_{D} ([\alpha]^{B}_{C}[v]_B) \\
+                                             &= [\beta]^{C}_{D} [\alpha(v)]_{C} \text{ by \cref{basisMapProp} \textbf{(i)}} \\
+                                             &= [\beta(\alpha(v))]_{D} \text{ by \cref{basisMapProp} \textbf{(i)}} \\
+                                             &= [\beta \circ \alpha]^{B}_{D}[v]_B \text{ by \cref{basisMapProp} \textbf{(i)}}
+  \end{align*}
+  So by \cref{basisMapProp} \textbf{(ii)}, since this is true for all $v \in V$, $[\beta \circ \alpha]^{B}_{D} = [\beta]^{C}_{D}[\alpha]^{B}_{C}$.
+\end{proof}
+\begin{remark}
+  For any basis $B$ of $V$, we have $[\id_V]^{B}_{B} = I_n$ where $I_n \in \mathcal{M}_{n \times n}(\F)$ is the identity matrix with 1 on the diagonal entries and 0 otherwise.
+\end{remark}
+\begin{definition}[Base change matrix]
+  Given basis $B$ and $B'$ for a finite dimensional vector space $V$, the \textit{base-change} matrix from $B$ to $B'$ is defined as:
+  \[
+    P = [\id_V]^{B}_{B'} \in \mathcal{M}_{n \times n}(\F)
+  \]
+  where $n = \dim(V)$.
+
+  Equivalently, for $B = \{v_1, \ldots, v_n\}$ and $B' = \{v_1', \ldots, v_n'\}$, then $P = (p_{i j})$ where $p_{i j}$ are the coefficients of:
+  \[
+    v_j = \sum_{i = 1}^{n} p_{i j} v_i'
+  \]
+  That is, the $j$-th column of $P$ is $[v_j]_B'$.
+\end{definition}
+\begin{remark}[Recap]
+  Recall from IA Vectors and Matrices that we call a matrix $A \in M_{n \times n}(\F)$ is \textit{invertible} if there exists $A^{-1} \in \mathcal{M}_{n \times n}(\F)$ such that:
+  \[
+    A A^{-1} = A^{-1} A = I_n
+  \]
+  where $A^{-1}$ is the unique inverse for $A$.
+
+  Recall further from IA Groups that the group of such invertible matrices over the field $\F$ is denoted $\GL_n(\F)$.
+\end{remark}
+\begin{proposition}[Properties of basis change matrices]
+  If $V$ is finite dimension vector space $V$ with bases $B$ and $B'$, then:
+  \begin{enumerate}
+    \item The base-change matrix $[\id_V]^{B}_{B'}$ is always invertible with inverse $[\id_V]^{B'}_{B}$
+    \item For $\alpha \in \mathcal{L}(V, W)$ and bases $B, B'$ for $V$ and bases $C, C'$ for $W$:
+      \[
+        [\alpha]^{B'}_{C'} = [\id_V]^{C}_{C'} [\alpha]^{B}_{C} [\id_V]^{B'}_{B}
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[i]
+  Using \cref{matrixComp}, we see that:
+  \[
+    [\id_V]^{B'}_{B} [\id_V]^{B}_{B'} = [\id_V \circ \id_V]^{B}_{B} = [\id_V]^{B}_{B} = I_n
+  \]
+  and similarly:
+  \[
+    [\id_V]^{B}_{B'} [\id_V]^{B'}_{B} = [\id_V \circ \id_V]^{B'}_{B'} = [\id_V]^{B'}_{B'} = I_n
+  \]
+  Thus, $([\id_V]^{B'}_{B})^{-1} = [\id_V]^{B}_{B'}$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Again using \cref{matrixComp}, we have:
+  \begin{align*}
+    [\id_V]^{C}_{C'} [\alpha]^{B}_{C} [\id_V]^{B'}_{B} &= [\id_V]^{C}_{C'} [\alpha \circ \id_V]^{B'}_{C} \\
+                                                       &= [\id_V]^{C}_{C'} [\alpha]^{B'}_{C} \\
+                                                       &= [\id_V \circ \alpha]^{B'}_{C'} \\
+                                                       &= [\alpha]^{B'}_{C'}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{remark}
+  Conversely to \textbf{(ii)}, we will show on Example Sheet 2 that every invertible matrix is a base-change matrix for some pair of bases $B$ and $B'$.
+\end{remark}
+\end{document}

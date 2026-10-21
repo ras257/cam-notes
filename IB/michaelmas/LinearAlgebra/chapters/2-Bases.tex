@@ -654,7 +654,7 @@ Note that this is almost exactly the proof for the rank nullity theorem but with
   Thus $F_B$ is a bijective linear map and so is an isomorphism.
 \end{proof}
 \begin{definition}[Coordinate Vector]
-  For an $n$-dimensional vector space $V$ and basis $B = \{v_1, \ldots, v_n\}$, we define the \textit{coordinate vector} of $v = \sum_{i = 1}^{n} \lambda_i v_i$ with respect to $B$ as:
+  For an $n$-dimensional vector space $V$ and basis $B = \{v_1, \ldots, v_n\}$, we define the \textit{coordinate vector} of $v = \sum_{i = 1}^{n} \lambda_i v_i$ with respect to $B$ as: \label{coordVector}
   \[
     [v]_{B} = F_B(v) = \begin{pmatrix}
     v_1 \\
@@ -663,6 +663,10 @@ Note that this is almost exactly the proof for the rank nullity theorem but with
     \end{pmatrix} \in \F^n
   \]
 \end{definition}
+\begin{remark} \label{basisOrder}
+  So far, we have considered bases as unordered sets, however when we start to think of coordinates/components of a vector in a particular basis, the order of the components depends on the order of the basis vectors.
+  Thus when talking about components if we write a basis as $B = \{v_1, \ldots, v_n\}$ then we really mean the ordered basis $(v_1, \ldots, v_n)$.
+\end{remark}
 \begin{example}
   If $V \cong \F^n$ and $W \leq V$ with $W \cong \F^m$, then by \cref{quotDim}:
   \[
