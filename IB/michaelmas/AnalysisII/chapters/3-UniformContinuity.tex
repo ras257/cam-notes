@@ -157,6 +157,10 @@ We can also formulate a similar sequential criterion for uniform continuity.
   \]
   where $I_j = [a_j, a_{j + 1}]$ and $|I_j| = a_{j + 1} - a_j$.
 \end{theorem}
+\begin{remark}
+  This is equivalent to the existence of a sequence of partitions $\mathcal{P}_n$ of $[a, b]$ such that $U(\mathcal{P}_n, f) - L(\mathcal{P}_n, f) \to 0$ as $n \to \infty$.
+  This criterion is often useful when showing that a function is integrable as we can make the size of each subinterval decrease as $n$ increases.
+\end{remark}
 \begin{remark}[Notation]
   We define the \textit{oscillation} of a function $f: [a, b] \to \R$ over an interval $I \subseteq [a, b]$ as:
   \[
