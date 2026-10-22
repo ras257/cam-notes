@@ -229,9 +229,9 @@ However it is a second order differential equation in $\vec{x}$.
 This asymmetry between $\vec{x}$ and $t$ is related to the fact that the TDSE is a non-relativistic equation.
 \subsubsection{Heuristic Justification in 1D}
 We can get a heuristic justification to why this equation holds by considering its 1D version:
-\[
-  i \hbar \pderiv{\psi(x, t)}{t} = - \frac{\hbar^2}{2m} \pderiv[2]{\psi(x, t)}{x} + U(x)\psi(x, t)
-\]
+\begin{equation}
+  i \hbar \pderiv{\psi(x, t)}{t} = - \frac{\hbar^2}{2m} \pderiv[2]{\psi(x, t)}{x} + U(x)\psi(x, t) \label{1DTDSE}
+\end{equation}
 From \cref{1DWaveSoln}, we see that solutions to the 1D wave equation are of the form:
 \begin{equation}
   \psi(x, t) = \exp[i(kx - \omega t)] \label{heuristicEqn} \tag{\dag}
@@ -325,7 +325,7 @@ How can we extract other information, like momentum or energy.
   We say that a property of particle is \textit{observable} if it can be measured.
 \end{definition}
 Observables are represented using operators $\hat{O}$ acting on $\psi$ and their measurements are the expectation value of the operator $\langle \hat{O} \rangle$.
-\subsubsection{Heuristic Derivation of Expectation Values}
+\subsubsection{Heuristic Derivation of Expectation Values} \label{heurDeriv}
 For ease, we will work in 1D.
 From Born's rule (\cref{bornsRule}), we can find the expected value of the position $x$ using the integral:
 \begin{align*}
@@ -336,6 +336,8 @@ From Born's rule (\cref{bornsRule}), we can find the expected value of the posit
   $\langle x \rangle$ is \textbf{not} the average value obtained when repeatedly measuring a single particle.
   The first measurement, whose outcome is not deterministic, causes the wavefunction to collapse into a spike at the measurement obtained causing any further measurements to result in the same outcome.
   Instead, this is the average value obtained when measuring a particle once in many identically configured states.
+
+  This will be discussed further in \cref{expSec}.
 \end{remark}
 Since $\langle x \rangle$ changes over time, we might want to know the expectation of the momentum $\langle p \rangle$.
 Assuming that we can exchange derivatives and expectations like this, and assuming that $x$ is a free particle, i.e. $U \equiv 0$, we have:
@@ -434,8 +436,8 @@ We will focus on such operators because all physical observables are associated 
   \]
   for all $\psi_1, \psi_2 \in \mathcal{H}$.
 \end{definition}
-\begin{example}
-  We give some examples of operations defining quantum observables in the 1D case.
+\begin{example}[Examples of operators and observables]
+  We give some examples of operations defining quantum observables in the 1D case. \label{opExamples}
   \begin{enumerate}
     \item The position operator:
       \[
@@ -490,10 +492,31 @@ We will focus on such operators because all physical observables are associated 
   \end{enumerate}
 \end{example}
 \begin{proposition}
-  The eigenvalues of a hermitian operator $\hat{A}$ are all real.
+  For a hermitian operator $\hat{A}$ we have the following:
+  \begin{enumerate}
+    \item The eigenvalues of a hermitian operator $\hat{A}$ are all real.
+    \item Eigenstates $\psi_1$ and $\psi_2$ corresponding to eigenvalues $a_1, a_2$ such that $a_1 \neq a_2$ are orthogonal.
+    \item The discrete set of eigenstates of $\hat{A}$ form a complete orthonormal basis for $\mathcal{H}$.
+      That is, any $\psi \in \mathcal{H}$ can be written as:
+      \[
+        \psi(x, t) = \sum_{i = 0}^{\infty} a_i \psi_i(x, t)
+      \]
+      for $a_i \in \C$ and $\{\psi_i\}$ the set of eigenstates of $\hat{A}$.
+  \end{enumerate}
 \end{proposition}
-\begin{proof}
-  Let $\psi \in \mathcal{H}$ and $a \in \C$ be an eigenfunction-eigenvalue pair for $\hat{A}$.
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Property \textbf{(iii)} above is useful as if we can find the set of eigenstates $\{\psi_i\}$ for a hermitian operator $\hat{A}$, then any wavefunction can be written in terms of these eigenstates.
+    \item We can also have a continuous set of eigenstates, i.e. $\psi_\lambda$ for $\lambda \in \R$.
+      In this case \textbf{(iii)} tells us that any $\psi \in \mathcal{H}$ can be written as:
+      \[
+        \psi(x, t) = \int_{\Delta \lambda} a(\lambda) \psi_\lambda(x, t) \d{\lambda}
+      \]
+      where $a(\lambda) \in \C$ and $\Delta \lambda \subseteq \R$ is the set of all $\lambda$ such that $\psi_\lambda$ is an eigenstate.
+  \end{itemize}
+\end{remark}
+\begin{proof}[\textbf{i}]
+  Let $\psi \in \mathcal{H}$ and $a \in \C$ be an eigenstate-eigenvalue pair for $\hat{A}$.
 
   We see that:
   \[
@@ -503,6 +526,131 @@ We will focus on such operators because all physical observables are associated 
   \[
     (\psi, \hat{A} \psi) = (\hat{A} \psi \psi) = (a \psi, \psi) = a^{*} \norm{\psi}^2
   \]
-  We know that $\norm{\psi}^2 \neq 0$, else it would not be an eigenfunction, nor would it be physical, and so we must have $a = a^{*} \implies a \in \R$.
+  We know that $\norm{\psi}^2 \neq 0$, else it would not be an eigenstate, nor would it be physical, and so we must have $a = a^{*} \implies a \in \R$.
 \end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $a_1 \in \R$ by \textbf{(i)}, we have:
+  \[
+    a_1 (\psi_1, \psi_2) = a^{*}_1 (\psi_1, \psi_2) = (a_1 \psi_1, \psi_2) = (\hat{A}\psi_1, \psi_2)
+  \]
+  and:
+  \[
+    a_2 (\psi_1, \psi_2) = (\psi_1, a_2 \psi_2) = (\psi_1, \hat{A}\psi_2)
+  \]
+  But $\hat{A}$ is hermitian so:
+  \[
+    (\hat{A} \psi_1, \psi_2) = (\psi_1, \hat{A}\psi_2) \implies (a_1 - a_2)(\psi_1, \psi_2) = 0
+  \]
+  Thus $(\psi_1, \psi_2) = 0$
+\end{proof}
+\begin{proof}
+  Not lectured.
+\end{proof}
+\subsection{Expectation Values and Measurements} \label{expSec}
+Let $\hat{O}$ be a hermitian operator and $\psi$ a normalised state, i.e. $\norm{\psi} = 1$.
+The \textit{Copenhagen} interpretation is the following collection of postulates:
+\begin{enumerate}
+  \item The eigenvalues of $\hat{O}$ are the possible outcomes for a measurement of the observable $O$.
+  \item If $\hat{O}$ has a discrete set of normalised eigenstates $\{\psi_i\}$ with distinct eigenvalues $\{\lambda_i\}$, then the probability that the measurement of $O$ on a particle described by the state $\psi$ yields $\lambda_i$ is:
+    \[
+      \P(O = \lambda_i) = |a_i|^2 = |(\psi_i, \psi)|^2
+    \]
+    where $a_i$ is the coefficient of $\psi$ when expressed using the eigenbasis $\{\psi_i\}$.
+
+    In the case of a repeated eigenvalue $\lambda$, if $\{\psi_j\}_{j \in J}$ is the subset of eigenstates with eigenvalue $\lambda$, then:
+    \[
+      \P(O = \lambda) = \sum_{j \in J} |a_j|^2 = \sum_{j \in J} |(\psi_j, \psi)|^2
+    \]
+  \item \textbf{Projection Postulate -} Suppose all the eigenvalues of $\hat{O}$ are distinct.
+    If $O$ is measured using $\hat{O}$ on the state $\psi$ at some time $t$ and the outcome of the measurement is $\lambda_i$, then the wavefunction \textit{collapses} to the eigenstate $\psi_i$ instantaneously at $t$.
+
+    In the case of repeated eigenvalues, if the outcome of the measurement is $\lambda$, then the wavefunction collapses to become $\sum_{j \in J} \psi_j$ instantaneously at $t$ where again $\{\psi_j\}_{j \in J}$ is the set of eigenstates with eigenvalue $\lambda$
+\end{enumerate}
+\begin{remark}[Interpretation]
+  Physically, the collapse of the wavefunction means that if an observable $O$ is measured twice within an infinitesimal time interval, both observations will share the same result with probability 1.
+
+  This is why we think of the expectation of an observable to be the average of repeated measurements on many identical particles at the same time and not just on a single particle as otherwise all the measurements would necessarily have the same outcome.
+\end{remark}
+\begin{remark}[Sanity check]
+  In the case of distinct eigenvalues in \textbf{(ii)}, we can check that the sum of all the probabilities is indeed 1:
+  \begin{align*}
+    \sum_{i = 0}^{\infty} \P(O = \lambda_i) &= \sum_{i = 0}^{\infty} |a_i|^2 \\
+                                            &= \sum_{i = 0}^{\infty} (a_i \psi_i, a_i \psi_i) \text{ since $\norm{\psi_i}^2 = 1$} \\
+                                            &= \sum_{i, j = 0}^{\infty} (a_i \psi_i, a_j \psi_j) \text{ by orthogonality} \\
+                                            &= \left(\sum_{i = 0}^{\infty} a_i\psi_i, \sum_{j = 0}^{\infty} a_j \psi_j\right) \\
+                                            &= (\psi, \psi) \\
+                                            &= 1 \text{ since $\norm{\psi}^2 = 1$}
+  \end{align*}
+\end{remark}
+\begin{definition}[Projection Operator]
+  For a discrete set of eigenstates $\{\psi_i\}$, the \textit{projection operator} $\hat{P}_i$ is defined as:
+  \[
+    \hat{P}_i: \mathcal{H} \to \mathcal{H},\ \psi \mapsto (\psi_i, \psi) \psi_i
+  \]
+  Note that $(\psi_i, \psi) = a_i$ is the coefficient of $\psi_i$ when $\psi$ is written in the eigenbasis $\{\psi_i\}$.
+\end{definition}
+With this postulate, we know that a measurement of $O$ can only take values in the discrete set $\{\lambda_i\}$, thus its expectation when measuring the state $\psi$ in the statistical sense is:
+\begin{align*}
+  \langle O \rangle_{\psi} &= \sum_{j = 0}^{\infty} \lambda_j \P(O = \lambda_j) \\
+                           &= \sum_{j = 0}^{\infty} \lambda_j |(\psi_j, \psi)|^2
+\end{align*}
+Since $(\psi_i, \psi_j) = \delta_{i j}$ for a normalised eigenbasis $\{\psi_i\}$, we can rewrite the summand of this as:
+\[
+  |(\psi_j, \psi)|^2 = \sum_{i = 0}^{\infty} (\psi_j, \psi)(\psi_i, \psi)(\psi_i, \psi_j)
+\]
+and so:
+\begin{align*}
+  \langle O \rangle_{\psi} &= \sum_{i, j = 0}^{\infty} \lambda_j (\psi_j, \psi)(\psi_i, \psi) (\psi_i, \psi_j) \\
+                           &= \left(\sum_{i = 0}^{\infty} (\psi_i, \psi)\psi_i, \sum_{j = 0}^{\infty} (\psi_j, \psi) \lambda_j \psi_j\right)
+\end{align*}
+But $\{\psi_j\}$ are eigenstates of $\hat{O}$ with eigenvalues $\{\lambda_j\}$, i.e. $\hat{O} \psi_j = \lambda_j \psi_j$ for each $j$, and so:
+\begin{align*}
+  \langle O \rangle_{\psi} &= (\psi, \hat{O} \psi) \\
+                           &= \int_{\R^3} \psi^{*} \hat{O} \psi \d{V}
+\end{align*}
+Notice how this integral agrees with the form we saw in \cref{heurDeriv} for $\langle x \rangle$ and $\langle p \rangle$.
+In light of this, we define the expectation of a measurable as follows.
+\begin{definition}[Expectation of value]
+  For a state $\psi$ and observable $O$ corresponding to an operator $\hat{O}$, we define the \textit{expectation value} of $O$ on $\psi$ to be:
+  \[
+    \langle O \rangle_{\psi} = (\psi, \hat{O} \psi)
+  \]
+\end{definition}
+Using this, we see that expectation is linear, that is, for $a_1, a_2 \in \C$ and hermitian operators $\hat{A}$ and $\hat{B}$ then:
+\begin{align*}
+  \langle a_1 \hat{A} + a_2 \hat{B} \rangle_{\psi} &= (\psi, a_1 \hat{A} \psi + a_2 \hat{B} \psi) \\
+                                                   &= a_1 (\psi, \hat{A} \psi) + a_2 (\psi, \hat{B} \psi) \text{ using linearity of the second argument} \\
+                                                   &= a_1 \langle \hat{A} \rangle_{\psi} + a_2 \langle \hat{B} \rangle_{\psi}
+\end{align*}
+\subsubsection{Generalisation of Born's Rule}
+Suppose $\phi(x, t)$
+If $\phi$ is a state that gives a desired \textbf{outcome} of a measurement on a particle described by $\psi$, then the probability that a measurement on $\psi$ (of not necessarily the same quantity) gives such a desired outcome is:
+\[
+  |(\phi, \psi)|^2 = \abs{\int_{\R^3} \phi^{*}(\vec{x}, t) \psi(\vec{x}, t) \d{V}}^2
+\]
+This quantity is called the \textit{probability amplitude of $\phi$ to be found in $\psi$} at time $t$, thus it can be thought to measure the ``overlap'' of two wavefunctions in a similar way to how the dot product between two vectors measures how much they point in the same direction.
+\section{Time Independent Schr\"odinger Equation}
+Recall the 1D version of the TDSE from \cref{1DTDSE}:
+\begin{align*}
+  i \hbar \pderiv{\psi}{t}(x, t) &= - \frac{\hbar^2}{2m} \pderiv[2]{\psi}{x}(x, t) + U(x)\psi(x, t) \\
+                                 &= \hat{H} \psi(x, t)
+\end{align*}
+where $\hat{H} = \hat{T} + \hat{U}$ is the \textit{Hamiltonian} operator as introduced in \cref{opExamples} \textbf{(v)}.
+
+Suppose we try and find a solution that can be factored into a function of $t$ and a function of $x$:
+\[
+  \psi(x, t) = T(t) \chi(x)
+\]
+Substituting this in:
+\begin{align*}
+  i \hbar \pderiv{T(t)}{t} \chi(x) &= T(t) \hat{H} \chi(x) \\
+  \implies \frac{1}{T(t)} i \hbar \pderiv{T(t)}{t} &= \frac{\hat{H} \chi(x)}{\chi(x)}
+\end{align*}
+The right hand side of this depends only on $t$ and the left hand side of this depends only on $x$, thus both sides must be equal to a constant, say $E$.
+Thus we obtain the following two equations
+\begin{align}
+  \frac{1}{T} i \hbar \pderiv{T}{t} &= E \nonumber \\
+  \text{and } \hat{H} \chi &= E \chi \label{TISE}
+\end{align}
+We call \cref{TISE} the \textit{time independent Schr\"odinger equation} or \textit{TISE}.
 \end{document}
