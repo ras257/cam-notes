@@ -157,7 +157,7 @@
   We see that $C_2$ is open as $3 \to 1$ but $1 \notin C_2$ and $C_1$ is closed
   Since $C_1 = \{1\}$ is closed, $1$ is an absorbing state.
 \end{example}
-\section{Hitting Times}
+\section{Hitting Probabilities and Hitting Times}
 \begin{definition}[Hitting Time and Probability]
   Let $A \subseteq I$ be a subset of states.
   We define the following:
@@ -185,6 +185,7 @@
 \begin{remark}
   Because both $h^{A}$ and $k^{A}$ are functions with domain $I$, we can view them as $|I|$ component vectors.
 \end{remark}
+\subsection{Calculating Hitting Probabilities}
 \begin{theorem}[Calculating hitting probabilitities]
   Let $\mchain{X}$ be a Markov chain on $I$ with transition matrix $P$.
   If $A \subseteq I$, then the hitting probabilities $h^A_i$ each satisfy the following equation: \label{hittingSystem}
@@ -198,7 +199,7 @@
   That is, if $(x_i)_{i \in I}$ is another non-negative solution then $h^A_i \leq x_i$ for all $i \in I$.
 \end{theorem}
 \begin{proof}\par
-  \textbf{Solution}\par
+  \textbf{$h^A$ Solves}\par
   If $i \in A$ then $h^A_i = 1$ by definition.
   Otherwise, if $i \notin A$, then:
   \begin{align*}
@@ -260,7 +261,7 @@
   \end{align*}
   The left hand side of this inequality is independent of $n$, so as we take $n \to \infty$ on the right hand side, we obtain $x_i \geq \P_i(T_A < \infty) = h^A_i$, as required.
 \end{proof}
-\begin{example}
+\begin{example} \label{absorbExample}
   Consider the Markov chain on the states $I = \{1, 2, 3, 4\}$ given by the diagram:
   \begin{center}
   \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
@@ -311,8 +312,7 @@
 
   We would like to know the probability that we return to the origin and so we set $A = \{0\}$.
   Using \cref{hittingSystem}, we obtain that solutions $x_i$ must satisfy:
-  \[
-    x_i = p x_{i + 1} + q x_{i - 1}
+  \[ x_i = p x_{i + 1} + q x_{i - 1}
   \]
   and $x_0 = 1$.
   For $i \geq 1$, using $p + q = 1$ we can rewrite this as:
@@ -356,4 +356,157 @@
   \end{proofcases}
   We could have also found the general solution to the difference equation $x_i = p x_{i + 1} + q x_{i - 1}$ using methods from IA Differential Equations and then used the behaviour as $i \to \infty$ along with minimality and non-negativity to find the same solutions as above.
 \end{example}
+\begin{example}[Birth and Death Chain]
+  Suppose that we now have a random walk on $\Z^+$ with transition probabilities:
+  \begin{align*}
+    P(i, i + 1) &= p_i \\
+    P(i, i - 1) &= q_i = 1 - p_i
+  \end{align*}
+  for $i \geq 1$, and $P(0, 1) = 1$
+
+  We would like to know the probability that the population goes extinct if we start with $i$ members, i.e. $h^A_i$ for $A = \{0\}$.
+  We proceed similarly to before and so obtain that:
+  \[
+    (x_{i + 1} - x_i) = (x_1 - 1)\prod_{j = 1}^{n} \frac{q_j}{p_j}
+  \]
+  We let $\gamma_i = \prod_{j = 1}^{i} \frac{q_j}{p_j}$ and so:
+  \[
+    x_i = 1 + (x_1 - 1) \sum_{j = 0}^{i - 1} \gamma_j
+  \]
+  For nonegativity:
+  \[
+    x_1 \geq 1 - \frac{1}{\sum_{j = 0}^{\infty} \gamma_j}
+  \]
+  So since $h^A$ is minimal:
+  \[
+    h^A_1 = 1 - \frac{1}{\sum_{j = 0}^{\infty} \gamma_j} = 1 - \frac{1}{S}
+  \]
+  where we let $S = \sum_{j = 0}^{\infty} \gamma_j$.
+  \begin{proofcases}
+    \begin{case}{$S$ is finite}
+      So we obtain the solution:
+      \begin{align*}
+        h^A_i &= 1  + \left(-\frac{1}{S}\right) \sum_{j = 0}^{i - 1} \gamma_j \\
+              &= \frac{\sum_{j = i}^{\infty} \gamma_j}{\sum_{j = 0}^{\infty} \gamma_j}
+      \end{align*}
+    \end{case}
+    \begin{case}{$S$ diverges}
+      So $h^A_1 = 1$, and so $h^A_i = 1$ for all $i$.
+    \end{case}
+  \end{proofcases}
+\end{example}
+\subsection{Calculating Hitting Times}
+\begin{example}[Calculating hitting times intuitively]
+  Returning to \cref{absorbExample}.
+  Suppose now that we consider $A = \{1, 4\}$, i.e. the absorbing states.
+  Intuitively, using the symmetry of the problem, the expected hitting times satisfy:
+  \[
+    k^A_1 = 1 + \frac{1}{2} k^A_2 = 1 + \frac{1}{2} k^A_1 \implies k^A_1 = 2 = k^A_2
+  \]
+\end{example}
+Similarly to \cref{hittingSystem}, we can derive a similar system of equations that $k^A$ satisfies.
+\begin{theorem}[Calculating mean hitting times]
+  Let $\mchain{X}$ be a Markov chain on $I$ with transition matrix $P$.
+  If $A \subseteq I$, then the mean hitting times $k^A_i$ each satisfy the following equation: \label{meanSystem}
+  \[
+    k^A_i = \begin{cases}
+    0 & \text{ if } i \in A \\
+    1 + \sum_{j \notin A} P(i, j) k^A_j & \text{ if } i \notin A
+    \end{cases}
+  \]
+  Moreover, $(k^A_i)_{i \in I}$ is the minimal non-negative solution of the system above.
+  That is, if $(x_i)_{i \in I}$ is another non-negative solution then $k^A_i \leq x_i$ for all $i \in I$.
+\end{theorem}
+\begin{remark}
+  For $i\notin A$ we can rewrite this as:
+  \[
+    k^A_i = 1 + [Pk^A]_i
+  \]
+  since $k^A_j = 0$ for $j \in A$.
+\end{remark}
+\begin{remark}[Recap]
+  Recall from IA Probability that for a random variable $T$ taking values in $\N_0$ that:
+  \[
+    \E[T] = \sum_{n \geq 0} n \cdot \P(T = n) = \sum_{n \geq 0} \P(T > n)
+  \]
+\end{remark}
+\begin{proof}\par
+  \textbf{$k^A$ Solves}\par
+  If $i \in A$, then clearly $k^A_i = 0$.
+  Otherwise, if $i \notin A$, then we can use a similar series of steps as in the proof for \cref{hittingSystem}:
+  \begin{align*}
+    k^A_i &= \E_i[T_A] \\
+          &= \sum_{n \geq 0} \P_i(T_A > n) \\
+          &= 1 + \sum_{n \geq 1} \P_i(T_A > n) \text{ as $i \in A$} \\
+          &= 1 + \sum_{n \geq 1} \P(X_0 \notin A, X_1 \notin A, \ldots, X_n \notin A \vert X_0 = i) \\
+          &= 1 + \sum_{n \geq 1} \sum_{j \in I} P(i, j) \P(X_1 \notin A, \ldots, X_n \notin A \vert X_0 = i, X_1 = j) \\
+          &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 1} \P(X_1 \notin A, \ldots, X_n \notin A \vert X_1 = j) \\
+          &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 0} \P(X_0 \notin A, \ldots, X_n \notin A \vert X_0 = j) \\
+          &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 0} \P_j(T_A > n) \\
+          &= 1 + \sum_{j \in I} P(i, j) h^A_j \\
+          &= 1 + \sum_{j \notin A} P(i, j) h^A_j \text{ as $h^A_j = 0$ for $j \in A$}
+  \end{align*}
+  Thus $k^A$ is a solution to the given system of equations.
+
+  \textbf{Minimality}\par
+  To show minimality, suppose $(x_i)_{i \in I}$ is another solution to the given system.
+  If $i \in A$, then $k^A_i = x_i = 0$.
+  Otherwise, for $i \notin A$, we have:
+  \begin{align*}
+    x_i &= 1 + \sum_{j_1 \notin A} P(i, j_1) x_{j_1} \\
+        &= 1 + \sum_{j_1 \notin A} P(i, j_1) + \sum_{j_1 \notin A, j_2 \notin A} P(i, j_1)P(j_1, j_2) x_{j_2}
+  \end{align*}
+  Similarly to the proof for the minimality of hitting probabilities, we iterate this to yield:
+  \begin{align*}
+    x_i &= 1 + \sum_{j_1 \notin A} P(i, j_1) + \sum_{j_1 \notin A, j_2 \notin A} P(i, j_1)P(j_1, j_2) + \cdots \\
+        &\hspace{0.4cm} + \sum_{j_1 \notin A, \ldots, j_n \notin A} P(i, j_1) P(j_1, j_2) \cdots P(j_{n - 1}, j_n) \\
+        &\hspace{0.4cm} + \sum_{j_1 \notin A, \ldots, j_{n + 1} \notin A} P(i, j_1) \cdots P(j_n, j_{n + 1}) x_{j_{n + 1}}
+  \end{align*}
+  The final sum here is non-negative and so:
+  \begin{align*}
+    x_i &\geq 1 + \P_i(X_1 \notin A) + \P_i(X_1 \notin A, X_2 \notin A)  + \cdots + \P_i(x_1 \notin A_1, \ldots, X_n \notin A) \\
+    &= \P_i(T_A > 0) + \P_i(T_A > 1) + \P(T_A > 2) + \cdots + \P(T_A > n) \text{ as $i \notin A$}\\
+    &= \sum_{j = 0}^{n} \P_i(T_A > j)
+  \end{align*}
+  Taking $n \to \infty$, we have:
+  \[
+    x_i \geq \sum_{j = 0}^{\infty} \P_i(T_A > j) = \E_i[T_A] = k^A_i
+  \]
+  as required.
+\end{proof}
+\begin{definition}[Stopping time]
+  We say that a random variable $T$ with values in $\N_0 \cup \{\infty\}$ is a \textit{stopping time} with respect to a random process $\mchain{X} = (X_n)_{n \geq 0}$ if the event $\{T = n\}$ only depends on $(X_0, \ldots, X_n)$ for all $n \geq 0$.
+\end{definition}
+\begin{example}[Examples and non-examples of stopping times]
+  Recall that for a subset $A \subseteq I$ and Markov chain $\mchain{X} = (X_n)_{n \geq 0}$, the first hitting time $T_A$ of $A$ is defined to be:
+  \[
+    T_A = \inf \{n \geq 0: X_n \in A\}
+  \]
+  Thus the event $\{T_A = n\}$ can be written as:
+  \[
+    \{T_A = n\} = \{X_0 \notin A, \ldots, X_{n - 1} \notin A, X_n \in A\}
+  \]
+  So $\{T_A = n\}$ depends on only $X_0, \ldots, X_n$ and so $T_A$ is a stopping time with respect to $\mchain{X}$
+
+  The \textit{last exit time} is defined as:
+  \[
+    S_A = \sup \{n \geq 0: X_n \in A\}
+  \]
+  This is not a stopping time with respect to $\mchain{X}$ as the event:
+  \[
+    \{S_A = 1\} = \{X_1 \in A\} \cap \left[\bigcap_{i = 2}^{\infty} \{X_i \notin A\}\right]
+  \]
+  clearly is dependent on variables other that $X_0$ and $X_1$.
+\end{example}
+\begin{theorem}[Strong Markov Property]
+  If $\mchain{X} = (X_n)_{n \geq 0}$ is a Markov chain with $\mchain{X} \sim \markov(\vec{\lambda}, P)$j
+  and $T$ is a stopping time with respect to $\mchain{X}$, then for any $i \in I$, conditional on the event:
+  \[
+    \{T < \infty\} \cap \{X_T = i\}
+  \]
+  the process $(X_{T + n})_{n \geq 0} \sim \markov(\delta_i, P)$ is independent of $(X_0, \ldots, X_T)$.
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
 \end{document}
