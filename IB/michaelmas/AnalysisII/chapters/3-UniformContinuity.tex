@@ -1,0 +1,181 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Uniform Continuity and Integration}
+\section{Uniform Continuity}
+\subsection{Definition}
+\begin{remark}[Recap]
+  Recall from IA Analysis 1 that for a function $f: E \to \R$ where $E \subseteq \R$, we say that $f$ is continuous at $x \in E$, if for all $\varepsilon > 0$, there exists a $\delta = \delta(\varepsilon, x) > 0$ such that $|y - x| < \delta \implies |f(y) - f(x)| < \varepsilon$.
+
+  Symbolically, this is:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon, x) > 0 \text{ s.t. } |y - x| < \delta \text{ for } y \in E \implies |f(y) - f(x)| < \varepsilon
+  \]
+\end{remark}
+\begin{definition}[Uniform continuity]
+  We say that a function $f: E \subseteq \R \to \R$ is \textit{uniformly continuous} on $E$ if for all $\varepsilon > 0$, there exists a $\delta = \delta(\varepsilon) > 0$ such that for any $x, y \in E$, $|x - y| < \delta \implies |f(x) - f(y)| < \varepsilon$.
+
+  Symbolically this is:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } |x - y| < \delta \text{ for } x, y \in E \implies |f(x) - f(y)| < \varepsilon
+  \]
+\end{definition}
+\begin{remark}[Recap]
+  Recall from IA Analysis I that $f: E \to \R$ is continuous at a point $x$ if and only if $f(x_n) \to f(x)$ for every sequence $(x_n)$ on $E$ with $x_n \to x$.
+\end{remark}
+We can also formulate a similar sequential criterion for uniform continuity.
+\begin{proposition}[Sequential uniform continuity]
+  Let $f: E \to \R$ with $E \subseteq \R$.
+  $f$ is uniformly continuous on $E$ if and only if for every pair of sequences $(x_n)$ and $(y_n)$ with $x_n - y_n \to 0$, we also have $f(x_n) - f(y_n) \to 0$. \label{seqUnif}
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is uniformly continuous on $E$}
+    Let $(x_n)$ and $(y_n)$ be such a pair of sequences.
+    If we fix $\varepsilon > 0$, then we obtain a $\delta > 0$ such that $|x - y| < \delta \implies |f(x) - f(y)| < \varepsilon$
+    Since $x_n - y_n \to 0$, there exists an $N$ such that $|x_n - y_n| < \delta$ for all $n \geq N$.
+    Thus $|f(x_n) - f(y_n)| < \varepsilon$ for all $n \geq N$ and so $f(x_n) - f(y_n) \to 0$ as $n \to \infty$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the sequential criterion holds}
+    Suppose, for contradiction, that $f$ is not uniformly continuous on $E$.
+    Thus there exists an $\varepsilon > 0$ such that for all $\delta > 0$, there exists a pair $x, y \in E$ with $|x - y| < \delta$ but $|f(x) - f(y)| \geq \varepsilon$.
+    Taking $\delta_n = 1/n$, we can obtain a pair of sequences $(x_n)$ and $(y_n)$ such that $|x_n - y_n| < \frac{1}{n}$ for all $n$, and so $x_n - y_n \to 0$, but $|f(x_n) - f(y_n)| \geq \varepsilon$ for all $n$ and so $f(x_n) - f(y_n) \centernot\to 0$.
+    This contradicts the sequential criterion and so $f$ must be uniformly continuous on $E$.
+  \end{proofdirection}
+\end{proof}
+\subsection{Relation to Continuity}
+\begin{remark}[Intuition]
+  For normal continuity, $\delta(\varepsilon, x)$ depends on both $\varepsilon$ \textbf{and} the point of continuity $x$, however for uniform convergence a single $\delta(\varepsilon)$ has to work for all pairs of points in $E$.
+
+  It therefore follows immediately that if $f$ is uniformly continuous on $E$, then it is continuous at every point in $E$.
+\end{remark}
+\begin{example}[Continuous but not uniformly continuous function]
+  Consider the function:
+  \[
+    g: (0, 1) \to \R,\ x \mapsto \frac{1}{x}
+  \]
+  We have already seen in IA Analysis 1 that $g$ is continuous everywhere in $(0, 1)$.
+
+  However, $g$ is not uniformly continuous on $(0, 1)$.
+  Taking $\varepsilon = 1$, for any $\delta > 0$, if we take $x \in (0, \delta)$ and $y = x/2$, then clearly $|x - y| < \delta$ but $|g(x) - g(y)| = 1/x > 1$ since $x \in (0, 1)$.
+\end{example}
+\begin{example}[Continuous and bounded but not uniformly continuous function]
+  There are also bounded functions which are continuous but not uniformly continuous.
+  For example, consider the function:
+  \[
+    g: (0, 1) \to \R,\ x \mapsto \sin(1/x)
+  \]
+  This is a bounded continuous function as $\sin$ is bounded and the composition of continuous functions is continuous.
+
+  Contradicting the sequential uniform continuity is the easiest way to show that it is not uniformly continuous.
+  We take $x_n = \frac{1}{2n\pi}$ and $y_n = \frac{1}{(2n + 1/2)\pi}$.
+  This has $|x_n - y_n| \to 0$ but $|g(x_n) - g(y_n)| = 1 \centernot\to 0$.
+  Thus by \cref{seqUnif}, $g$ cannot be uniformly continuous on $(0, 1)$.
+\end{example}
+\begin{remark}[Advice]
+  Putting a unbounded function into $\sin$ or $\cos$ is often a good way to generate a bounded function which shares many of the properties of the original function.
+\end{remark}
+\begin{remark}[Recap]
+  Recall the Bolzano Weierstrass theorem from IA Analysis I.
+  This states that if $(x_n)$ is a bounded sequence then it must have a convergent subsequence.
+\end{remark}
+\begin{theorem}
+  Let $a, b \in \R$ be such that $a < b$.
+  If $f: [a, b] \to \R$ is continuous at every point in $[a, b]$, then $f$ is uniformly continuous on $[a, b]$.
+\end{theorem}
+\begin{proof}[Using contradiction]
+  Suppose, for contradiction, that $f$ is not uniformly continuous on $[a, b]$.
+  Thus there exists an $\varepsilon > 0$ such that for all $\delta > 0$, we can find a pair $x, y \in [a, b]$ with $|x - y| < \delta$ but $|f(x) - f(y)| \geq \varepsilon$.
+
+  Taking $\delta_n = 1/n$ we obtain two sequences $(x_n)$ and $(y_n)$ on $[a, b]$ such that for each $n$, $|x_n - y_n| < 1/n$ but $|f(x_n) - f(y_n)| \geq \varepsilon$.
+
+  Since $(x_n)$ is on the bounded set $[a, b]$, by the Bolzano Weierstrass theorem, there exists a convergent subsequence of $(x_n)$, say $(x_{n_k})$ with $x_{n_k} \to x$ as $k \to \infty$.
+  Moreover, since $[a, b]$ is closed, the limit point $x \in [a, b]$.
+
+  Considering the behaviour of $y_{n_k}$, we see that:
+  \[
+    |y_{n_k} - x|  \leq |y_{n_k} - x_{n_k}| + |x_{n_k} - x| \leq \frac{1}{n_k} + |x_{n_k} - x| \to 0 \text{ as } k \to \infty
+  \]
+  and so $y_{n_k} \to x$ also as $k \to \infty$.
+
+  But $f$ is continuous at $x$, so $f(x_{n_k}) \to f(x)$ and $f(y_{n_k}) \to f(x)$ as $k \to \infty$, which contradicts that $|f(x_n) - f(y_n)| \geq \varepsilon > 0$ for all $n$.
+\end{proof}
+\begin{proof}[Using the sequential critereon]
+  Let $(x_n)$ and $(y_n)$ be any pair of sequences on $[a, b]$ with $x_n - y_n \to 0$.
+  As discussed above, $(x_n)$ has a convergence subsequence $(x_{n_k})$ with $x_{n_k} \to x \in [a, b]$ and so $y_{n_k} \to x$ also.
+  Since $f$ is continuous everywhere in $[a, b]$, by sequential continuity of $f$ from Analysis I, $f(x_{n_k}) \to f(x)$ and $f(y_{n_k}) \to f(x)$.
+  Thus $f(x_{n_k}) - f(y_{n_k}) \to 0$, so by \cref{seqUnif}, $f$ is uniformly continuous on $[a, b]$.
+\end{proof}
+\section{Riemann Integration}
+\begin{remark}[Recap]
+  Recall the following from IA Analysis I.
+
+  Let $f: [a, b] \to \R$ be a bounded function, i.e. there exists $m, M \in \R$ such that $m \leq f(x) \leq M$ for all $x \in [a, b]$.
+
+  A \textit{partition} of $[a, b]$ is a finite subset $\mathcal{P} \subseteq [a, b]$ with elements:
+  \[
+    \mathcal{P} = \{a_0, a_1, \ldots, a_{n - 1}, a_n\}
+  \]
+  satisfying $a = a_0 < a_1 < \cdots < a_{n - 1} < a_n = b$.
+
+  We then define the \textit{upper Riemann sum} of $f$ over a partition $\mathcal{P}$ as:
+  \[
+    U(\mathcal{P}, f) = \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \sup_{x \in [a_j, a_{j + 1}]} f
+  \]
+  and the \textit{lower Riemann sum} of $f$ over a partition $\mathcal{P}$ as:
+  \[
+    L(\mathcal{P}, f) = \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \inf_{x \in [a_j, a_{j + 1}]} f
+  \]
+  These satisfy the following inequality for any $\mathcal{P}$ of $[a, b]$:
+  \[
+    (b - a) \cdot m \leq L(\mathcal{P}, f) \leq U(\mathcal{P}, f) \leq (b - a) \cdot M
+  \]
+  We saw that if we have a partition $\mathcal{P}'$ with $\mathcal{P} \subseteq \mathcal{P}'$, then we say that $\mathcal{P}'$ is  refinement of $\mathcal{P}$ and:
+  \[
+    L(\mathcal{P}, f) \leq L(\mathcal{P}', f) \leq U(\mathcal{P}', f) \leq U(\mathcal{P}, f)
+  \]
+  So adding elements to a partition always ``traps'' the new lower and upper sums between the previous ones.
+
+  Since adding elements to the partition increase $L$ and decreases $U$, we would like to consider their supremum and infimum respectively.
+  From the above, we see that the set $\{U(\mathcal{P}, f): \mathcal{P} \text{ of } [a, b]\}$ is bounded below and the set $\{L(\mathcal{P}, f): \mathcal{P} \text{ of } [a, b]\}$ is bounded above, so both $\inf_{\mathcal{P}} U(\mathcal{P}, f)$ and $\sup_{\mathcal{P}} L(\mathcal{P}, f)$ exist.
+
+  Using this, we define the \textit{upper and lower Riemann integrals} of $f$ on $[a, b]$ by:
+  \[
+    I^{*}(f) = \inf_{\mathcal{P}} U(\mathcal{P}, f) \text{ and } I_{*}(f) = \sup_{\mathcal{P}} L(\mathcal{P}, f)
+  \]
+  respectively.
+
+  We then saw that $I_{*}(f) \leq I^{*}(f)$ and if we have equality, then we say that $f$ is \textit{Riemann integrable}.
+  The common value is then the Riemann integral of $f$ over $[a, b]$, which we denote:
+  \[
+    I(f) = \int_{a}^{b} f \d{x}
+  \]
+\end{remark}
+\begin{theorem}[Riemann Critereon]
+  Let $f: [a, b] \to \R$ be bounded.
+  We then have that $f$ is Riemann integrable if and only if for all $\varepsilon > 0$, there exists a partition $\mathcal{P}$ of $[a, b]$ such that $U(\mathcal{P}, f) - L(\mathcal{P}, f) < \varepsilon$, that is:
+  \[
+    \sum_{j = 0}^{n - 1} |I_j| \left[\sup_{x \in I_j} f - \inf_{x \in I_j} f\right] < \varepsilon
+  \]
+  where $I_j = [a_j, a_{j + 1}]$ and $|I_j| = a_{j + 1} - a_j$.
+\end{theorem}
+\begin{remark}[Notation]
+  We define the \textit{oscillation} of a function $f: [a, b] \to \R$ over an interval $I \subseteq [a, b]$ as:
+  \[
+    \osc_{x \in I} f = \sup_{x \in I} f - \inf_{x \in I} f \geq 0
+  \]
+\end{remark}
+\begin{proof}
+  See IA Analysis I.
+\end{proof}
+\begin{theorem}
+  If $f: [a, b] \to [A, B]$ is integrable and $g: [A, B] \to \R$ is continuous, then $g \circ f: [a, b] \to \R$ is integrable. \label{compInt}
+\end{theorem}
+\begin{proof}
+  See next lecture.
+\end{proof}
+\begin{corollary}
+  If $g: [a, b] \to \R$ is continuous, then $g$ is integrable.
+\end{corollary}
+\begin{proof}
+  Let $f(x) = x$, this is integrable and so by \cref{compInt}, $g$ is integrable.
+\end{proof}
+\end{document}
