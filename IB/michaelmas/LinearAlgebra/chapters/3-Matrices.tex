@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Matrices and Linear Maps}
+\section{Introduction to Matrices}
 For $\F$-vector spaces $V$ and $W$, we define $\mathcal{L}(V, W)$ to be the set of linear maps $V \to W$:
 \[
   \mathcal{L}(V, W) = \{(\alpha: V \to W): \alpha \text{ is linear}\} \subseteq W^V
@@ -16,7 +17,7 @@ Thus, under these operations, $\mathcal{L}(V, W)$ forms an $\F$-vector space.
   If $V$ and $W$ are finite dimensional vector spaces with $\dim(V) = n$ and $\dim(W) = m$, then $\mathcal{L}(V, W) \cong \mathcal{M}_{m \times n}(\F)$ and so $\mathcal{L}(V, W)$ is finite dimensional with $\dim(\mathcal{L}(V, W)) = nm$.
 \end{theorem}
 \begin{proof}
-  Proved later.
+  Proved later in \cref{basisMapProp}.
 \end{proof}
 \begin{remark}[Notation]
   We use $\mathcal{M}_{m \times n}$ to denote the set of all $m \times n$ matrices with entries in $\F$.
@@ -65,7 +66,7 @@ Recall from \cref{coordVector} that there is an isomorphism:
 \]
 which gives the coordinate vector of $v$ with respect to the basis $B$.
 \begin{theorem}
-  Given a linear map $\alpha: V \to W$ between finite vector spaces $V$ and $W$, bases $B$ and $C$ for $V$ and $W$ respectively, then for any $v \in V$ we have: \label{basisMapProp}
+  Given a linear map $\alpha: V \to W$ between finite vector spaces $V$ and $W$ with $\dim V = n$ and $\dim W = m$, bases $B$ and $C$ for $V$ and $W$ respectively, then for any $v \in V$ we have: \label{basisMapProp}
   \begin{enumerate}
     \item $[\alpha]^{B}_{C} [v]_{B} = [\alpha(v)]_{C}$
     \item $[\alpha]^{B}_{C}$ is the only such $A \in \mathcal{M}_{m \times n}(\F)$ satisfying $A[v]_B = [\alpha(v)]_C$ for all $v \in V$.
@@ -161,10 +162,11 @@ We say that this diagram \textit{commutes}.
   So by \cref{basisMapProp} \textbf{(ii)}, since this is true for all $v \in V$, $[\beta \circ \alpha]^{B}_{D} = [\beta]^{C}_{D}[\alpha]^{B}_{C}$.
 \end{proof}
 \begin{remark}
-  For any basis $B$ of $V$, we have $[\id_V]^{B}_{B} = I_n$ where $I_n \in \mathcal{M}_{n \times n}(\F)$ is the identity matrix with 1 on the diagonal entries and 0 otherwise.
+  For any basis $B$ of $V$, we have $[\id_V]^{B}_{B} = I_n$ where $I_n \in \mathcal{M}_{n \times n}(\F)$ is the \textit{identity matrix} which has 1 on the leading diagonal entries and 0 otherwise.
 \end{remark}
+\section{Changing Bases}
 \begin{definition}[Base change matrix]
-  Given basis $B$ and $B'$ for a finite dimensional vector space $V$, the \textit{base-change} matrix from $B$ to $B'$ is defined as:
+  Given basis $B$ and $B'$ for a finite dimensional vector space $V$ with $\dim(V) = n$, the \textit{base-change} matrix from $B$ to $B'$ is defined as:
   \[
     P = [\id_V]^{B}_{B'} \in \mathcal{M}_{n \times n}(\F)
   \]
@@ -186,7 +188,7 @@ We say that this diagram \textit{commutes}.
   Recall further from IA Groups that the group of such invertible matrices over the field $\F$ is denoted $\GL_n(\F)$.
 \end{remark}
 \begin{proposition}[Properties of basis change matrices]
-  If $V$ is finite dimension vector space $V$ with bases $B$ and $B'$, then:
+  If $V$ is finite dimension vector space $V$ with bases $B$ and $B'$, then: \label{cobFormula}
   \begin{enumerate}
     \item The base-change matrix $[\id_V]^{B}_{B'}$ is always invertible with inverse $[\id_V]^{B'}_{B}$
     \item For $\alpha \in \mathcal{L}(V, W)$ and bases $B, B'$ for $V$ and bases $C, C'$ for $W$:
@@ -219,4 +221,287 @@ We say that this diagram \textit{commutes}.
 \begin{remark}
   Conversely to \textbf{(ii)}, we will show on Example Sheet 2 that every invertible matrix is a base-change matrix for some pair of bases $B$ and $B'$.
 \end{remark}
+\begin{theorem}
+  Let $V$ and $W$ be $\F$-vector spaces with $\dim V = n$ and $\dim W = m$.
+  If $\alpha: V \to W$ is a linear map with rank $r = \rank \alpha$, then we have the following: \label{niceMatrixForm}
+  \begin{enumerate}
+    \item There exists bases $B$ and $C$ for $V$ and $W$ respectively
+      \[
+        [\alpha]^{B}_{C} = \left(\begin{array}{c|c}
+        I_r & O \\ \hline
+        O & O
+        \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+      \]
+    \item If $B'$ and $C'$ are also bases for $V$ and $W$ respectively such that:
+      \[
+        [\alpha]^{B'}_{C'} = \left(\begin{array}{c|c}
+        I_{r'} & O \\ \hline
+        O & O
+        \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+      \]
+      for some $r' \in \N$, then $r' = r$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  By the rank nullity theorem (\cref{RNT}):
+  \[
+    n = \dim(V) = r + \dim(\ker \alpha) \implies \dim(\ker \alpha) = n - r
+  \]
+  Thus $\ker \alpha$ has a basis $\{v_{r + 1}, \ldots, v_n\}$.
+  Using \cref{basisExtension}, we extend this to a basis $B = \{v_1, \ldots, v_n\}$ for $V$.
+
+  So $\im \alpha$ is spanned by $\{\alpha(v_1), \ldots, \alpha(v_r)\}$, but this has size at most $r = \dim(\im \alpha)$ and so by \cref{dimIneq}, $\{w_1 = \alpha(v_1), \ldots, w_r = \alpha(v_r)\}$ is a basis for $\im \alpha$.
+
+  Using \cref{basisExtension} again, we extend this to a basis $C = \{w_1, \ldots, w_m\}$.
+
+  To find the matrix for $\alpha$ with respect to $B$ and $C$, we consider the images of $v_j \in B$:
+  \[
+    \alpha(v_j) = \begin{cases}
+    w_j & \text{ if } 1 \leq j \leq r \\
+    \vec{0} & \text{ if } r < j \leq n
+    \end{cases}
+  \]
+  since $v_j \in \ker \alpha$ for $r < j \leq n$.
+  Thus by how we defined matrix components in \cref{matrixCoeffs}:
+  \[
+    [\alpha]^{B}_{C} = \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right)
+  \]
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  If $B' = \{v_1', \ldots, v_n'\}$ and $C' = \{w_1', \ldots, w_m'\}$ are as given then we can recover $\alpha(v_j')$ in terms of the basis vectors $w_j' \in C$:
+  \[
+    \alpha(v_j') = \begin{cases}
+    w_j' & \text{ if } 1 \leq j \leq r' \\
+    \vec{0} & \text{ if } r' < j \leq r'
+    \end{cases}
+  \]
+  Since $B'$ is a basis for $V$, $\{w_1', \ldots, w_{r'}'\}$ spans $\im \alpha$.
+  Further, since $C$ is linearly independent and $\{w_1', \ldots, w_{r'}'\} \subseteq C$, it follows that $\{w_1, \ldots, w_{r'}'\}$ is a basis for $\im \alpha$.
+  So by \cref{basisSize}, $r' = \dim(\im \alpha) = \rank \alpha = r$.
+\end{proof}
+\section{Properties of Matrices}
+\subsection{Equivalence of Matrices}
+\begin{definition}[Equivalence of matrices]
+  We say that the matrices $A, A' \in \mathcal{M}_{m \times n}(\F)$ are \textit{equivalent} if there exists $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$ such that $A' = PAQ$.
+\end{definition}
+\begin{example}
+  Using the change of basis formula in \cref{cobFormula} \textbf{(ii)}, for any linear map $\alpha \in \mathcal{L}(V, W)$ and pairs of bases $B, B'$ for $V$ and $C, C'$ for $W$, the matrix $[\alpha]^{B'}_{C'}$ is equivalent to $[\alpha]^{B}_{C}$ since base change matrices are always invertible.
+\end{example}
+\begin{proposition}
+  Equivalence of matrices forms an equivalence relation on $\mathcal{M}_{m \times n}(\F)$.
+\end{proposition}
+\begin{proof}
+  Let $A, B, C \in \mathcal{M}_{m \times n}(\F)$ be arbitrary.
+
+  \textbf{Reflexivity}\par
+  We can write $A = I_m A I_n$, $I_n$ and $I_m $ are the identities in $\GL_n(\F)$ and $\GL_M(\F)$ respectively.
+  Thus $A$ is similar to $A$ .
+
+  \textbf{Symmetry}\par
+  Suppose $A$ and $B$ are similar, i.e., there exists $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$ such that:
+  \[
+    B = PAQ \implies A = P^{-1} B Q^{-1}
+  \]
+  Since $\GL_m(\F)$ and $\GL_n(\F)$ are groups we also know that $P^{-1} \in \GL_m(\F)$ and $Q^{-1} \in \GL_n(\F)$.
+  Thus $B$ is similar to $A$.
+
+  \textbf{Transitivity}\par
+  Suppose $A, B$ are similar and $B, C$ are similar, thus there exists $P_1, P_2 \in \GL_m(\F)$ and $Q_1, Q_2 \in \GL_n(\F)$ such that:
+  \[
+    B = P_1 A Q_1 \text{ and } C = P_2 B Q_2
+  \]
+  Thus:
+  \[
+    C = P_2 P_1 A Q_1 Q_2 = (P_2 P_1) A (Q_1 Q_2)
+  \]
+  Since $\GL_m(\F)$ and $\GL_n(\F)$ are both groups, $P_2 P_1 \in \GL_m(\F)$ and $Q_1 Q_2 \in \GL_m(\F)$, so $A$ is similar to $C$.
+\end{proof}
+\begin{definition}[Column Space]
+  For $A \in \mathcal{M}_{m \times n}(\F)$ the \textit{column-space} of $A$ is the subspace $\colsp(A) \leq \F^m$ spanned by the columns of $A$.
+  The \textit{column-rank} of $A$ is then $\colrank A = \dim(\colsp(A))$.
+\end{definition}
+\begin{remark}
+  Moreover $\im \alpha = \colsp A$ and so $\rank \alpha = \colrank A$.
+\end{remark}
+\begin{definition}[Row Space]
+  For $A \in \mathcal{M}_{m \times n}(\F)$ the \textit{row-space} of $A$ is the subspace $\rowsp(A) = \colsp(A^{\trans}) \leq \F^n$ spanned by the columns of $A$.
+  The \textit{row-rank} of $A$ is then $\rowrank A = \dim(\rowsp(A))$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item We could have also defined the row-space first and then written $\colsp(A) = \rowsp(A^{\trans})$.
+    \item For $A \in \mathcal{M}_{m \times n}(\F)$ we can construct a linear map $\alpha: \F^n \to \F^m,\ v \mapsto Av$.
+      Let $E_n = \{\vec{e}_1, \ldots, \vec{e}_n\}$ and $E_m = \{\vec{e}_1, \ldots, \vec{e}_m\}$ be the standard bases for $\F^n$ and $\F^m$ respectively as defined in \cref{basesExamples} \textbf{(i)}.
+      We then have that $A = [\alpha]^{E_n}_{E_m}$, so every matrix $A$ can always be obtained as the matrix of a linear map with respect to the standard bases.
+
+      Moreover, $\im \alpha$ is the span of $\{\alpha(\vec{e}_j) = A\vec{e}_j = \text{$j$-th column of $A$}: 1 \leq j \leq n\}$, which is exactly the column-space of $A$.
+      That is, $\im \alpha = \colsp(A)$ and $\rank \alpha = \colrank A$
+  \end{itemize}
+\end{remark}
+\begin{remark}[Notation]
+  We will often write $\ker A$, $\im A$, $\rank A$, $\nullity A$ to mean $\ker \alpha$, $\im \alpha$, $\rank \alpha$, and $\nullity \alpha$ respectively where $\alpha: \F^n \to \F^m,\ v \mapsto Av$ is the associated linear map as discussed above.
+\end{remark}
+\begin{lemma}
+  If $A \in \mathcal{M}_{m \times n}(\F)$ and $B \in \mathcal{M}_{n \times p}(\F)$, then: \label{rankProdIneq}
+  \[
+    \rank(AB) \leq \min\{\rank A, \rank B\}
+  \]
+\end{lemma}
+\begin{remark}[Note]
+  We chose the matrix dimensions to ensure that $A$ and $B$ conformed under multiplication so that the matrix product $AB$ is well defined.
+\end{remark}
+\begin{proof}
+  Since $\im B \leq \F^n$, it follows that $\im(AB) \leq \im A$ and so $\rank(AB) \leq \rank A$.
+
+  Suppose $v \in \ker B$, then $Bv = \vec{0} \implies (AB)v = \vec{0} \implies v \in \ker(AB)$.
+  Thus $\ker B \subseteq \ker(AB)$ and so $\nullity B \leq \nullity(AB)$.
+  Using the rank-bullity theorem (\cref{RNT}) on both $AB$ and $B$, we obtain:
+  \[
+    \rank(AB) = p - \nullity(AB) \leq p - \nullity B = \rank B
+  \]
+
+  Thus, $\rank(AB) \leq \rank A, \rank B \implies \rank(AB) \leq \min\{\rank A, \rank B\}$.
+\end{proof}
+\begin{theorem}
+  If $A, A' \in \mathcal{M}_{m \times n}(\F)$, then: \label{equivNice}
+  \begin{enumerate}
+    \item $A$ is equivalent to the matrix:
+      \[
+        \left(\begin{array}{c|c}
+        I_r & O \\ \hline
+        O & O
+        \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+      \]
+      where $r = \colrank A$.
+    \item $A$ and $A'$ are equivalent if and only if $\colrank A = \colrank A'$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  As discussed earlier, we construct the linear map $\alpha$ as $\alpha(v) = A v$ so that $A = [\alpha]^{E_n}_{E_m}$.
+  Thus by \cref{niceMatrixForm} \textbf{(i)}, there exists bases $B$ and $C$ for $\F^n$ and $\F^m$ respectively such that:
+  \[
+    [\alpha]^{B}_{C} = \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  where $r = \rank \alpha = \colrank A$.
+
+  Using the change of basis formula from \cref{cobFormula} \textbf{(iii)}, we can write:
+  \[
+    [\alpha]^{B}_{C} = \underbrace{[\id_{\F^m}]^{E_m}_{C}}_{P \in \GL_m(\F)}[\alpha]^{E_n}_{E_m}\underbrace{[\id_{\F^n}]^{B}_{E_n}}_{Q \in \GL_n(\F)}
+  \]
+  and so $A = [\alpha]^{E_n}_{E_m}$ is equivalent to $[\alpha]^{B}_{C}$ which is the desired matrix.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume $A$ and $A'$ are equivalent}
+    Thus $A' = PAQ$ for some $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$.
+    Using \cref{rankProdIneq}, we obtain:
+    \[
+      \rank A' = \rank (P(AQ)) \leq \rank(AQ) \leq \rank A
+    \]
+    Since equivalence of matrices is an equivalence relation, by symmetry $\rank A' \geq \rank A$.
+    Thus $\colrank A' = \rank A' = \rank A = \colrank A$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\colrank A = \colrank A' = r$}
+    By \textbf{(i)}, both $A$ and $A'$ are equivalent to:
+    \[
+      \left(\begin{array}{c|c}
+      I_r & O \\ \hline
+      O & O
+      \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+    \]
+    Thus since equivalence of matrices is an equivalence relation, by transitivity, $A$ and $A'$ are equivalent matrices.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}
+  So on the set $\mathcal{M}_{m \times n}(\F)$, the number of equivalence classes under the relation of matrix equivalence is exactly the number of possible column ranks i.e. the number of distinct possibilities for the matrix:
+  \[
+    \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  of which there are $\min\{n, m\} + 1$ such matrices.
+\end{remark}
+\begin{lemma}[Properties of transposition]
+  If $A \in \mathcal{M}_{m \times n}(\F)$ and $B \in \mathcal{M}_{n \times p}(\F)$, then: \label{TProp}
+  \begin{enumerate}
+    \item $(AB)^{\trans} = B^{\trans} A^{\trans}$
+    \item If $m = n$ and $A \in \GL_n(\F)$ is invertible, then so is $A^{\trans}$ with $(A^{\trans})^{-1} = (A^{-1})^{\trans}$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  For each $1 \leq i \leq p$ and $1 \leq j \leq m$, we have:
+  \begin{align*}
+    ((AB)^{\trans})_{i j} &= \sum_{k = 0}^{n} A_{j k}B_{k i} \\
+                          &= \sum_{k = 0}^{n} (B^{\trans})_{i k}(A^{\trans})_{k j} \\
+                          &= (B^{\trans} A^{\trans})_{i j}
+  \end{align*}
+  So $(AB)^{\trans} = B^{\trans} A^{\trans}$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $A$ is invertible, there exists $A^{-1} \in \GL_n(\F)$ such that $A A^{-1} = I_n$.
+  Taking transposes of this, by \textbf{(i)}:
+  \[
+    A^{\trans} (A^{-1})^{\trans} = I^{\trans}_n = I_n
+  \]
+  Thus $A^{\trans}$ is invertible $(A^{\trans})^{-1} = (A^{-1})^{\trans}$.
+\end{proof}
+\begin{theorem}[Equality of row and column rank]
+  For any $A \in \mathcal{M}_{m \times n}(\F)$, we have $\rowrank A = \colrank A$.
+\end{theorem}
+\begin{proof}
+  By \cref{equivNice} \textbf{(i)}, there exists $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$ such that:
+  \[
+    PAQ = \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  where $r = \colrank A$.
+
+  Transposing this equality using \cref{TProp} \textbf{(i)} we obtain:
+  \[
+    Q^{\trans} A^{\trans} P^{\trans} = \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{n \times m}(\F)
+  \]
+  By \cref{TProp} \textbf{(ii)}, $P^{\trans} \in \GL_m(\F)$ and $Q^{\trans} \in \GL_n(\F)$ so $A^{\trans}$ is similar to the matrix on the right hand side.
+  Clearly the right hand side of this has column-rank $r$, so by \cref{equivNice} \textbf{(ii)}, $\colrank A^{\trans} = r$.
+
+  We also saw that $\rowrank A = \colrank A^{\trans}$ and so $\rowrank A = \colrank A$, as required.
+\end{proof}
+\begin{remark}[Warning]
+  In the above, it may \textit{look like} $PAQ = Q^{\trans} A^{\trans} P^{\trans}$, however this is not the case since if $n \neq m$, the above matrices have have different shapes.
+
+  It is important to be aware of such pitfalls when working with block matrices as they can often obscure the dimension of the matrices you are working with.
+\end{remark}
+\subsection{Similar Matrices}
+For a $n$-dimensional $\F$-vector space $V$ with bases $B$ and $B'$, consider the change of basis formula from \cref{cobFormula} \textbf{(ii)} for $\alpha \in \mathcal{L}(V, V)$:
+\[
+  [\alpha]^{B'}_{B'} = [\id_V]^{B}_{B'} [\alpha]^{B}_{B} [\id_V]^{B'}_{B}
+\]
+But we saw in \cref{cobFormula} \textbf{(i)} that $[\id_V]^{B}_{B'}$ and $[\id_V]^{B'}_{B}$ are inverses of each other so $[\alpha]^{B'}_{B'} = P[\alpha]^{B'}_{B}P^{-1}$ for some $P \in \GL_n(\F)$.
+
+This leads us to the concept of \textit{matrix similarity}.
+\begin{definition}[Similar matrices]
+  We say that the matrices $A, A' \in \mathcal{M}_{m \times n}(\F)$ are \textit{similar} if there exists a $P \in \GL_n(\F)$ such that $A' = PAP^{-1}$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item If $A$ and $A'$ are similar, then they are equivalent as matrices.
+    \item By \textbf{(i)}, similarity is a stricter notion of than equivalence and so similarity also forms an equivalence relation on $\mathcal{M}_{n \times n}(\F)$.
+  \end{enumerate}
+\end{remark}
+\begin{example}[Equivalent but not similar matrices]
+  For any $P \in \GL_n(\F)$ we can write $P = I_n I_n P$ where $I_n \in \GL_n(\F)$, so $I_n$ is equivalent to every $P \in \GL_n(\F)$.
+
+  However, $PI_nP^{-1} = I_n$ regardless of $P \in \GL_n(\F)$, so $I_n$ is only similar to itself.
+  Thus there are matrices with are equivalent but not similar.
+\end{example}
 \end{document}
