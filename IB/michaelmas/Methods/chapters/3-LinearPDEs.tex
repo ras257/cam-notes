@@ -1,0 +1,245 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Linear PDEs and Separation of Variables}
+\section{Boundary and Initial Value Problems}
+\subsection{Definition}
+We are interested in solving both \textit{pure boundary value problems} (abbreviated as \textit{BVP}) and \textit{initial boundary value problems} (abbreviated as \textit{IBPV}).
+
+\begin{remark}[Recap]
+  Recall from IA Vector Calculus that for a region $\Omega$ of $\R^n$ for $n \in \{1, 2, 3\}$, we denote its boundary as $\partial \Omega$.
+\end{remark}
+Let $P$ and $Q$ be \textit{linear partial differential operators} and let $\Omega \subseteq \R^n$ be open, bounded, and connected.
+In this course, we will only consider $n \in \{1, 2, 3\}$.
+
+Pure boundary value problems are PDEs for a function of space on some region $\Omega$ and as such only have boundary conditions on $\partial \Omega$:
+\[
+  \begin{cases}
+  P\varphi(\vec{x}) = 0 & \text{ for } \vec{x} \in \Omega \\
+  \text{Boundary conditions} & \text{ for } \vec{x} \in \partial \Omega
+  \end{cases}
+\]
+Initial boundary value problems are PDEs for a function of both space and time on some region $\Omega$ and interval of time $[0, T)$.
+These have both boundary conditions on $\partial \Omega$ and an \textit{initial condition} at $t = 0$:
+\[
+  \begin{cases}
+  Q \varphi(\vec{x}, t) = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, T) \\
+  \text{Boundary conditions} & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, T) \\
+  \text{Initial conditions} & \text{ for } (\vec{x}, t) \in \Omega \times \{0\}
+  \end{cases}
+\]
+
+\subsection{Splitting up IBVPs}
+IBVPs can have quite a few boundary and initial conditions so it is useful to note that we can use linearity to split such problems up into two separate problems.
+
+For example, we could split it into zero and non-zero boundary/initial conditions:
+\begin{align*}
+  &\begin{cases}
+  Q \varphi_1(\vec{x}, t) = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, T) \\
+  \text{All B.C.s} = 0 & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, T) \\
+  \text{Remaining I.C.s} & \text{ for } (\vec{x}, t) \in \Omega \times \{0\}
+  \end{cases} \\
+  &\begin{cases}
+  Q \varphi_2(\vec{x}, t) = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, T) \\
+  \text{Remaining B.C.s} & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, T) \\
+  \text{All I.C.s = 0} & \text{ for } (\vec{x}, t) \in \Omega \times \{0\}
+  \end{cases}
+\end{align*}
+Using the linearity of $Q$, $\varphi = \varphi_1 + \varphi_2$ solves the original problem.
+We can split the boundary/initial conditions in any way provided that $\phi_1 + \phi_2$ satisfies those from the original problem.
+\subsection{Convenient Domains}
+In this course, we will only consider problems defined on a domain $\Omega$ which is able to be transformed into a line/rectangle/cuboid (depending on $n$) by performing a change of variables.
+Thus from now on we will assume that $\Omega$ is a line/plane/rectangle.
+
+In this case, we can further assume without loss of generality that all boundary conditions vanish on all but one endpoint/edge/face.
+This is best demonstrated using an example.
+\begin{example}
+  Consider the BVP on the square $\Omega = (0, 1) \times (0, 1)$:
+  \[
+    \begin{cases}
+    P \psi = 0 & \text{ for } (x, y) \in (0, 1) \times (0, 1) \\
+    \psi = f_i & \text{ on the $i$-th side}
+    \end{cases}
+  \]
+  We split this into four separate problems for $\psi_i$, $i \in \{1, 2, 3, 4\}$:
+  \[
+    \begin{cases}
+    P \psi_i = 0 & \text{ for } (x, y) \in (0, 1) \times (0, 1) \\
+    \psi_i = f_i & \text{ on $i$-th side} \\
+    \psi_i = 0 & \text{ not on the $i$-th side}
+    \end{cases}
+  \]
+  These problems have a zero boundary condition on all but one side as stipulated.
+  By linearity of $Q$, $\psi = \psi_1 + \psi_2 + \psi_3 + \psi_4$ solves the original problem and so we solve each of these problems separately.
+
+  Pictorially, this is:
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{scope}[scale=0.5]
+      \draw (-1, -1) -- node[left] {$f_1$} (-1, 1) -- node[above] {$f_2$} (1, 1) -- node[right] {$f_3$} (1, -1) -- node[below] {$f_4$} cycle;
+      \node at (0, 0) {$\psi$};
+      \node at (2.5, 0) {$=$};
+    \end{scope}
+    \begin{scope}[scale=0.5, xshift=5cm]
+      \draw (-1, -1) -- node[left] {$f_1$} (-1, 1) -- node[above] {$0$} (1, 1) -- node[right] {$0$} (1, -1) -- node[below] {$0$} cycle;
+      \node at (0, 0) {$\psi_1$};
+      \node at (2.5, 0) {$+$};
+    \end{scope}
+    \begin{scope}[scale=0.5, xshift=10cm]
+      \draw (-1, -1) -- node[left] {$0$} (-1, 1) -- node[above] {$f_2$} (1, 1) -- node[right] {$0$} (1, -1) -- node[below] {$0$} cycle;
+      \node at (0, 0) {$\psi_2$};
+      \node at (2.5, 0) {$+$};
+    \end{scope}
+    \begin{scope}[scale=0.5, xshift=15cm]
+      \draw (-1, -1) -- node[left] {$0$} (-1, 1) -- node[above] {$0$} (1, 1) -- node[right] {$f_3$} (1, -1) -- node[below] {$0$} cycle;
+      \node at (0, 0) {$\psi_3$};
+      \node at (2.5, 0) {$+$};
+    \end{scope}
+    \begin{scope}[scale=0.5, xshift=20cm]
+      \draw (-1, -1) -- node[left] {$0$} (-1, 1) -- node[above] {$0$} (1, 1) -- node[right] {$0$} (1, -1) -- node[below] {$f_4$} cycle;
+      \node at (0, 0) {$\psi_4$};
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\begin{remark}[Advice]
+  Linearity is one of the only inherent properties of BVPs and so it is important to utilise it.
+\end{remark}
+\section{Laplace's Equation}
+\subsection{Definitions}
+Recall Laplace's equation from IA Vector Calculus.
+\begin{definition}[Laplace's Equation]
+  For $\varphi: \R^n \to \R$, \textit{Laplace's equation} is:
+  \[
+    \Delta \phi = 0
+  \]
+  where $\Delta = \nabla \cdot \nabla$ is the \textit{Laplacian}
+\end{definition}
+\begin{remark}[Notation]
+  This is the same Laplacian as in IA Vector Calculus however we now use the notation $\Delta$ instead of $\nabla^2$.
+\end{remark}
+\begin{remark}[Intuition]
+  $\Delta \varphi(\vec{x})$ measures the extent to which $\varphi(\vec{x})$ differs from its average over an infinitesimal region centered at $\vec{x}$.
+  So if $\Delta \varphi(\vec{x}) = 0$, then $\varphi$ agrees with its nearby averages, suggesting that there is a state of equilibrium.
+\end{remark}
+\begin{definition}[Harmonic function]
+  We say that $\varphi$ is \textit{harmonic} if $\Delta \varphi = 0$ on its entire domain.
+\end{definition}
+\begin{example}[Imcompressible and irrotational flow]
+  Let $\vec{u}: \R^3 \to \R^3$ be the velocity of an incompressible and irrotational fluid.
+  Since it is incompressible, $\nabla \cdot \vec{u} = \vec{0}$, and since it is irrotational $\nabla \times \vec{u} = \vec{0}$.
+
+  We saw in IA Vector Calculus, that since $\vec{u}$ is irrotational and $\R^3$ is a simply connected domain, there exists a scalar potential $\varphi: \R^3 \to \R$ such that $\vec{u} = \nabla \varphi$.
+  Thus incompressibility tells us that $\Delta \vec{u} = \nabla \cdot \nabla \vec{u} = 0$ and so $\vec{u}$ is harmonic.
+\end{example}
+To obtain a pure BVP, we need to impose boundary conditions:
+\[
+  \begin{cases}
+  \Delta \varphi(\vec{x}) = 0 & \text{ if } \vec{x} \in \Omega \\
+  B\varphi(\vec{x}) = f(\vec{x}) & \text{ if } \vec{x} \in \partial \Omega
+  \end{cases}
+\]
+for a linear differential operator $B$.
+
+As in IA Vector Calculus, we will consider two types of boundary conditions:
+\begin{itemize}
+  \item \textit{Dirichlet} boundary conditions, these have $B \varphi \equiv \phi$.
+  \item \textit{Von-Neumann} boundary conditions, these have $B \varphi \equiv \pderiv{\varphi}{\vec{n}}$
+\end{itemize}
+\begin{remark}[Recap]
+  Recall from IA Vector Calculus the notation:
+  \[
+    \pderiv{}{\vec{n}} = \vec{n} \cdot \nabla
+  \]
+  where $\vec{n}(\vec{x})$ is the outwards normal to $\Omega$ at $\vec{x} \in \partial \Omega$.
+
+  Moreover, recall that in the case of Dirichlet boundary conditions, solutions to such BVP are unique, and in the case of Von-Neumann, solutions are unique up to an additive constant.
+\end{remark}
+\subsection{Separation of Variables on a Square}
+Suppose we want to the following BVP for Laplace's equation on the square $\Omega = (0, 1) \times (0, 1)$.
+\[
+  \begin{cases}
+  \varphi_{x x} + \varphi_{y y} = 0 & \text{ for } (x, y) \in (0, 1) \times (0, 1) \\
+  \varphi(x, y) = 0 & \text{ for } x \in \{0, 1\} \text{ or } y = 0 \\
+  \varphi(x, 1) = f(x) &  \text{ for } x \in (0, 1)
+  \end{cases}
+\]
+We first consider the homogeneous part of the problem:
+\[
+  \begin{cases}
+  \Delta \varphi = \varphi_{x x} + \varphi_{y y} = 0 & \text{ for } (x, y) \in (0, 1) \times (0, 1) \\
+  \varphi(x, y) = 0 & \text{ for } x \in \{0, 1\} \text{ or } y = 0 \\
+  \end{cases}
+\]
+We can use \textit{separation of variables} to look for a solution to this.
+To do this, we guess that the solution is of the form $\varphi = X(x)Y(y)$.
+Substituting this into $\Delta \varphi = 0$, we obtain:
+\[
+  \frac{X''(X)}{X(x)} + \frac{Y''(y)}{Y(y)} = 0 \implies \frac{X''(x)}{X(x)} = - \frac{Y''(y)}{Y(y)}
+\]
+Since both sides depend only on different variables, there must exist some constant $\lambda \in \R$ such that:
+\[
+  X'' + \lambda X = 0 \text{ and } Y'' - \lambda Y = 0
+\]
+For the homogeneous problem we want $\varphi = 0$ when $x \in \{0, 1\}$, the problem for $X$ is:
+\[
+  \begin{cases}
+  -X'' = \lambda X & \text{ for } x \in (0, 1) \\
+  X(0) = 0 &  \\
+  X(1) = 0 &
+  \end{cases}
+\]
+This is the Sturm-Liouville problem we saw in \cref{slpExample} with $L = 1$!
+Thus the eigenfunctions of this problem are:
+\[
+  X_n(x) = \sin(n \pi x) \text{ for } n \in \N
+\]
+
+$Y$ also must solve a particular Sturm-Liouville problem.
+In this case the eigenfunctions are:
+\[
+  Y_n(y) = \sinh (n \pi y) \text{ for } n \in \N
+\]
+
+Since scaled eigenfunctions are still eigenfunctions, we can scale $X_n$ and $Y_n$ by arbitrary constants for each $n$.
+Thus the homogeneous part of the problem is satisfied by:
+\[
+  \varphi_n(x, y) = A_n \sin(n \pi x)\sinh(n \pi y)
+\]
+for $n \in \N$ where $A_n$ is an arbitrary constants.
+
+Since this is for the homogeneous problem and the problem is linear, the superposition of arbitrarily many solutions solves and so:
+\[
+  \varphi(x, y) = \sum_{n = 0}^{\infty} A_n \sin(n \pi x)\sinh(n \pi y)
+\]
+also solves the homogeneous problem.
+
+For it to satisfy the inhomogeneous boundary condition, we need:
+\[
+  f(x) = \varphi(x, 1) = \sum_{n = 1}^{\infty} A_n \sin(n \pi x) \sinh(n \pi)
+\]
+Can we pick the coefficients $A_n$ in such a way that this holds?
+
+Since $\{X_n\}$ are eigenfunctions of a Sturm-Liouville problem with $w = 1$, they satisfy an orthogonality relation:
+\[
+  \langle X_n, X_m \rangle = \int_{0}^{1} \sin(n \pi x) \sin(m \pi x) \d{x} = \frac{1}{2} \delta_{n m}
+\]
+Suppose now that the boundary condition is satisfied, i.e. $f(x) = \varphi(x, 1)$ for $x \in (0, 1)$.
+Thus when we take the inner product of $f(x) = \psi(x, 1)$ with $X_m$ we obtain:
+\begin{align*}
+  \langle f, X_m \rangle &= \sum_{n = 1}^{\infty} A_n \langle X_n, X_m \rangle \sinh(n \pi) \\
+                         &= \frac{1}{2} A_m \sinh(n \pi)
+\end{align*}
+For $n \in \N$, $\sinh(n\pi) > 0$ and so we can take the coefficients as:
+\[
+  A_n = \frac{2}{\sinh(n \pi)} \langle f,X_m \rangle = \frac{2}{\sinh(n \pi)} \int_{0}^{1} f(x) \sin(n \pi x) \d{x}
+\]
+Thus with these coefficients, the function $\varphi$ given by:
+\[
+  \varphi(x, y) = \sum_{n = 1}^{\infty} A_n \sin(n \pi x)\sinh(n \pi y)
+\]
+solves the full BVP.
+\begin{remark}
+  When we impose a boundary condition, we do not just mean that the boundary condition is satisfied exactly on the boundary but implicitly that solutions continuously approach these boundary conditions from inside the domain.
+  We did not checked that was is necessarily the case in the above example, however, we shall not worry about such details within this course.
+\end{remark}
+\end{document}
