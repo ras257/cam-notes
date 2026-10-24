@@ -79,7 +79,7 @@ We can also formulate a similar sequential criterion for uniform continuity.
 \end{remark}
 \begin{theorem}
   Let $a, b \in \R$ be such that $a < b$.
-  If $f: [a, b] \to \R$ is continuous at every point in $[a, b]$, then $f$ is uniformly continuous on $[a, b]$.
+  If $f: [a, b] \to \R$ is continuous at every point in $[a, b]$, then $f$ is uniformly continuous on $[a, b]$. \label{contToUnif}
 \end{theorem}
 \begin{proof}[Using contradiction]
   Suppose, for contradiction, that $f$ is not uniformly continuous on $[a, b]$.
@@ -105,6 +105,7 @@ We can also formulate a similar sequential criterion for uniform continuity.
   Thus $f(x_{n_k}) - f(y_{n_k}) \to 0$, so by \cref{seqUnif}, $f$ is uniformly continuous on $[a, b]$.
 \end{proof}
 \section{Riemann Integration}
+\subsection{Recap}
 \begin{remark}[Recap]
   Recall the following from IA Analysis I.
 
@@ -149,9 +150,10 @@ We can also formulate a similar sequential criterion for uniform continuity.
     I(f) = \int_{a}^{b} f \d{x}
   \]
 \end{remark}
-\begin{theorem}[Riemann Critereon]
+\subsection{Uniform Convergence and Integrability}
+\begin{theorem}[Riemann integrability critereon]
   Let $f: [a, b] \to \R$ be bounded.
-  We then have that $f$ is Riemann integrable if and only if for all $\varepsilon > 0$, there exists a partition $\mathcal{P}$ of $[a, b]$ such that $U(\mathcal{P}, f) - L(\mathcal{P}, f) < \varepsilon$, that is:
+  We then have that $f$ is Riemann integrable if and only if for all $\varepsilon > 0$, there exists a partition $\mathcal{P}$ of $[a, b]$ such that $U(\mathcal{P}, f) - L(\mathcal{P}, f) < \varepsilon$, that is: \label{intCritereon}
   \[
     \sum_{j = 0}^{n - 1} |I_j| \left[\sup_{x \in I_j} f - \inf_{x \in I_j} f\right] < \varepsilon
   \]
@@ -161,25 +163,202 @@ We can also formulate a similar sequential criterion for uniform continuity.
   This is equivalent to the existence of a sequence of partitions $\mathcal{P}_n$ of $[a, b]$ such that $U(\mathcal{P}_n, f) - L(\mathcal{P}_n, f) \to 0$ as $n \to \infty$.
   This criterion is often useful when showing that a function is integrable as we can make the size of each subinterval decrease as $n$ increases.
 \end{remark}
+\begin{proof}
+  See IA Analysis I.
+\end{proof}
 \begin{remark}[Notation]
-  We define the \textit{oscillation} of a function $f: [a, b] \to \R$ over an interval $I \subseteq [a, b]$ as:
+  For brevity, we define the \textit{oscillation} of a function $f: [a, b] \to \R$ over over a set $I \subseteq [a, b]$ as:
   \[
     \osc_{x \in I} f = \sup_{x \in I} f - \inf_{x \in I} f \geq 0
   \]
 \end{remark}
-\begin{proof}
-  See IA Analysis I.
-\end{proof}
+\begin{remark}[Useful properties of the oscillation]
+  \begin{itemize}
+    \item Since $\sup_{I} (f + g) \leq \sup_{I} f + \sup_{I} g$ and $\inf_{I} (f + g) \geq \inf_{I} f + \inf_{I} g$, we have:
+      \[
+        \osc_{I} (f + g) \leq \left[\sup_{I} f - \inf_{I} f\right] + \left[\sup_{I} g - \inf_{I} g\right] = \osc_{I} f + \osc_{I} g
+      \]
+    \item Using properties of supremum and infimum from IA Analysis I:
+      \begin{align*}
+        \osc_{I} f &= \sup_I f - \inf_I f \\
+                   &= \sup_I f + \sup_I (-f) \\
+                   &\leq \sup_I |f| + \sup_I |f| \text{ as $f, -f \leq |f|$} \\
+                   &= 2 \sup_I |f|
+      \end{align*}
+      So if $f$ is bounded on $I$, then so its its oscillation.
+  \end{itemize}
+\end{remark}
 \begin{theorem}
   If $f: [a, b] \to [A, B]$ is integrable and $g: [A, B] \to \R$ is continuous, then $g \circ f: [a, b] \to \R$ is integrable. \label{compInt}
 \end{theorem}
 \begin{proof}
-  See next lecture.
+  By \cref{contToUnif}, since $g$ is continuous at every point in $[A, B]$, $g$ is uniformly continuous on $[A, B]$.
+  Thus, if we fix some $\varepsilon > 0$, then there exists $\delta = \delta(\varepsilon) > 0$ such that for any $x, y \in [A, B]$, $|x - y| < \delta \implies |g(x) - g(y)| < \varepsilon$.
+
+  Let $\varepsilon' > 0$ to be chosen later, by \cref{intCritereon}, there exists a partition $\mathcal{P}$ of $[a, b]$ such that:
+  \begin{equation}
+    U(\mathcal{P}, f) - L(\mathcal{P}, f) = \sum_{j = 0}^{n - 1} (a_{j + 1} - a_{j}) \osc_{I_j} f < \varepsilon' \label{epsBound} \tag{\dag}
+  \end{equation}
+  We consider the same partition but now on $g \circ f$:
+  \begin{align*}
+    U(\mathcal{P}, g \circ f) - L(\mathcal{P}, g \circ f) = \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} g \circ f
+  \end{align*}
+  We want to split up this sum into two parts, one with terms where $\osc_{I_j} g \circ f < \varepsilon$ and one with $\osc_{I_j} g \circ f \geq \varepsilon$.
+  To do this, we define:
+  \[
+    J = \left\{j \in \{0, \ldots, n-1\}: \osc_{I_j} f < \delta\right\}
+  \]
+  By construction, for $j \in J$ and any $x , y \in I_j$,
+  \[
+    |f(x) - f(y)| \leq \osc_{I_j} f < \delta \implies |g \circ f(x) - g \circ f(y)| < \varepsilon
+  \]
+  We then have:
+  \begin{align*}
+    g \circ f(x) < \varepsilon + g \circ f(y)\ \forall x, y \in I_j \implies \sup_{I_j} g \circ f &\leq \varepsilon + g \circ f (y)\ \forall y \in I_j \\
+    \implies \sup_{I_j} g \circ f &\leq \varepsilon + \inf_{I_j} g \circ f \\
+    \implies \osc_{I_j} g \circ f &\leq \varepsilon
+  \end{align*}
+  Thus we can bound the sum over the terms with $j \in J$ as:
+  \begin{align*}
+    \sum_{j \in J} (a_{j + 1} - a_j) \osc_{I_j} g \circ f &\leq \sum_{j \in J} (a_{j + 1} - a_j) \varepsilon \\
+                                                          &\leq \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \varepsilon \text{ as $\varepsilon > 0$} \\
+                                                          &= (b - a)\varepsilon
+  \end{align*}
+  Since this is a positive multiple of $\varepsilon$, we can control this term.
+
+  For $j \notin J$, the only thing we know about $g \circ f$ is that it is bounded since $g$ is bounded by the extreme value theorem, so for $j \notin J$, $\osc_{I_j} \leq 2 \sup_{[A, B]} |g|$.
+  Thus the sum over $j \notin J$ can be bounded by:
+  \begin{align*}
+    \sum_{j \notin J} (a_{j + 1} - a_j) \osc_{I_j} \leq 2 \sup_{[A, B]} |g| \sum_{j \notin J} (a_{j + 1} - a_j)
+  \end{align*}
+  We have still not yet picked $\varepsilon'$ and would like to bound the sum on the right hand side of this expression by $\varepsilon$.
+  Looking at the sum bounded by $\varepsilon'$ in \cref{epsBound}, we hope to use this to bound the above sum.
+  By definition of $J$, for $j \notin J$, $\osc_{I_j} f \geq \delta$ and so:
+  \begin{align*}
+    \varepsilon' &> \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} f \\
+                &\geq \sum_{j \notin J} (a_{j + 1} - a_j) \osc_{I_j} f \text{ since $\osc_{I_j} f \geq 0$} \\
+                &\geq \delta \sum_{j \notin J} (a_{j + 1} - a_j)
+    \implies \sum_{j \notin J} (a_{j + 1} - a_j) < \frac{\varepsilon'}{\delta}
+  \end{align*}
+  So given an $\varepsilon$, we take $\varepsilon' = \varepsilon \cdot \delta(\varepsilon)$ so that $\sum_{j \notin J} (a_{j + 1} - a_j) < \varepsilon$ and thus:
+  \begin{align*}
+    U(\mathcal{P}, g \circ f) - L(\mathcal{P}, g \circ f) &= \sum_{j \in J} (a_{j + 1} - a_j) \osc_{I_j} f + \sum_{j \notin J} (a_{j + 1} - a_j) \osc_{I_j} f \\
+                                                          &< \left[(b - a) + 2 \sup_{[A, B]} |g|\right] \varepsilon
+  \end{align*}
+  This is a positive multiple of $\varepsilon$ and so by \cref{intCritereon}, $g \circ f$ is integrable.
 \end{proof}
-\begin{corollary}
+\begin{corollary}[Integrability of continious functions]
   If $g: [a, b] \to \R$ is continuous, then $g$ is integrable.
 \end{corollary}
 \begin{proof}
-  Let $f(x) = x$, this is integrable and so by \cref{compInt}, $g$ is integrable.
+  Let $f: [a, b] \to \R,\ x \mapsto x$ and set $\mathcal{P}_n = \{a, a + (b - a)/n, \ldots, a + (b - a)(n - 1)/n, b\}$.
+  We then have:
+  \begin{align*}
+    U(\mathcal{P}_n, f) - L(\mathcal{P}_n, f) &= \frac{1}{n}\sum_{j = 0}^{n - 1} \osc_{I_j} x \\
+                                              &= \frac{1}{n} \sum_{j = 0}^{n - 1} \frac{b - a}{n} \\
+                                              &= \frac{b - a}{n} \to 0 \text{ as } n \to \infty
+  \end{align*}
+  Thus $f$ is integrable, and so by \cref{compInt}, $g \circ f = g$ is integrable.
+\end{proof}
+\begin{theorem}[Uniform limits of integrable functions are integrable]
+  If $f_n: [a, b] \to \R$ is a sequence of bounded and integrable functions such that $f_n \to f$ uniformly on $[a, b]$, then $f$ is bounded, integrable, and $\int_{a}^{b} f_n \d{x} \to \int_{a}^{b} f \d{x}$. \label{unifPresInt}
+\end{theorem}
+\begin{proof}
+  We saw on Example Sheet 1 Q4 that since $f_n$ are bounded and $f_n \to f$, so is $f$.
+
+  For an arbitrary partition $\mathcal{P}$, we would like to introduce $f - f_n$ into an expression for $U(\mathcal{P}, f) - L(\mathcal{P}, f)$ and then hope to use both uniform convergence and integrability to bound this:
+  \begin{align*}
+    U(\mathcal{P}, f) - L(\mathcal{P}, f)  &= \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} f \\
+                                           &= \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} (f - f_n + f_n) \\
+                                           &\leq \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \left[\osc_{I_j}(f - f_n) + \osc_{I_j} f_n\right] \\
+                                           &\leq 2(b - a) \sup_{[a, b]} |f - f_n| + \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} f_n
+  \end{align*}
+  Because $f_n \to f$ uniformly, we can control the first term of this, that is, given some $\varepsilon > 0$, we can find $N$ such that $\sup_{[a, b]} |f - f_N| < \varepsilon$.
+
+  Now for the second term, since $f_N$ is integrable, by \cref{intCritereon}, there exists a partition $\mathcal{P}$ such that:
+  \[
+    \sum_{j = 0}^{n - 1} (a_{j + 1} - a_j) \osc_{I_j} f_N < \varepsilon
+  \]
+  Thus:
+  \[
+    U(\mathcal{P}, f) - L(\mathcal{P}, f) < [2(b - a) + 1]\varepsilon
+  \]
+  So by \cref{intCritereon}, $f$ is integrable.
+
+  We saw already in \cref{unifIntegralValue} that since $f$ is integrable, then the value of the integral converges as required.
+\end{proof}
+\subsection{Lebesgue's Criterion for Integrability}
+\nonexaminable
+
+A bounded integrable function $f: [a, b] \to \R$ need not be continuous everywhere.
+Suppose $\mathcal{D}_f$ be the set of points where $f$ is discontinuous.
+
+Around points of continuity, we can make $\osc_{I_j} f$ as small as we would like, however we cannot do this over points of discontinuity.
+Over such intervals, the only bound we have is from the boundedness of $g$.
+We therefore need to be able to pick a partition so that the total length of the intervals containing a discontinuity is arbitrarily small so that the harsh bound of $\sup |g|$ does not contribute too much to $U(\mathcal{P}, f) - L(\mathcal{P}, f)$.
+
+How large can $\mathcal{D}_f$ be before we are unable to construct such a partition?
+\begin{definition}[Null set]
+  We say that a subset $\mathcal{D} \subseteq \R$ is a \textit{null set}, or a set of \textit{Lebesgue measure zero}, if for every $\varepsilon > 0$, there is a countable collection of open intervals $I_j = (a_j, b_j)$ such that:
+  \[
+    \mathcal{D} = \bigcup_{j = 1}^{\infty} I_j \text{ and } \sum_{j = 1}^{\infty} |I_j| < \varepsilon
+  \]
+  That is, they cover $\mathcal{D}$ and have total length less than $\varepsilon$.
+\end{definition}
+\begin{proposition}[Properties of null sets]
+  We have the following examples and properties for null sets:
+  \begin{enumerate}
+    \item $\emptyset$ and $\{a\}$ for any $a \in \R$ are both null sets.
+    \item If $A$ is a null set, then so is any subset $B \subseteq A$.
+    \item A countable union of null sets $\mathcal{D}_n$ is also null.
+    \item Countable sets are null.
+    \item There are uncountable sets which are null, for example, the standard \textit{Cantor Set}.
+    \item There are sets which are not null sets, for example, for any $a < b$ the interval $I = (a, b)$ is not null.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item For $\emptyset$, we need no intervals to satisfy the definition.
+      For $\{a\}$, we take the single interval $(a - \frac{\varepsilon}{2}, a + \frac{\varepsilon}{2})$
+    \item The same collection of open intervals which works for $A$ will also work for $B$.
+    \item Not lectured.
+    \item A countable set can just be thought of as a countable union of singletons each containing one of its elements.
+      So since each singleton is null, the result follows using \textbf{(iii)}.
+    \item Not lectured.
+    \item Not lectured.
+  \end{enumerate}
+\end{proof}
+\begin{lemma}
+  If $I_j$ is a countable collection of open intervals and $a < b$, then:
+  \[
+    (a, b) \subseteq \bigcup_{j = 1}^{\infty} I_j \implies |b - a| \leq \sum_{j = 1}^{\infty} |I_j|
+  \]
+\end{lemma}
+\begin{proof}
+  Not lectured.
+\end{proof}
+\begin{theorem}
+  Let $f: [a, b] \to \R$ be bounded.
+  Then $f$ is integrable if and only if the set of points of discontinuity $\mathcal{D}_f$ is null.
+\end{theorem}
+\begin{proof}
+  Not lectured
+\end{proof}
+\begin{corollary}
+  For a bounded $f: [a, b] \to \R$, we have:
+  \begin{enumerate}
+    \item If $f$ is monotone, then it is integrable
+    \item If $f$ is integrable $g$ is continuous, then $g \circ f$  is integrable (\cref{compInt})
+    \item If $f_n \to f$ uniformly and $f_n$ are integrable, then $f$ is integrable (\cref{unifPresInt})
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  \begin{enumerate}
+    \item This follows as we showed in IA Analysis I Sheet 3 that monotone functions have countably many discontinuities.
+    \item This follows as $\mathcal{D}_f$ is null and $g$ is continuous so $\mathcal{D}_{g \circ f} \subseteq \mathcal{D}_f$, thus $\mathcal{D}_{g \circ f}$ is null so $g \circ f$ is integrable.
+    \item This follows because $\mathcal{D}_{f_n}$ is null for each $n$, so $\bigcup_{n = 1}^{\infty} \mathcal{D}_{f_n}$ is null.
+      Further, since $f_n \to f$ uniformly, using \cref{unifCont}, we have $\mathcal{D}_f \subseteq \bigcup_{n = 1}^{\infty} \mathcal{D}_{f_n}$.
+      Thus $\mathcal{D}_f$ is null so $f$ is integrable.
+  \end{enumerate}
 \end{proof}
 \end{document}
