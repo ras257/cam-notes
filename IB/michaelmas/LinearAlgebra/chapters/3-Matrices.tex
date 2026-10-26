@@ -505,6 +505,7 @@ This leads us to the concept of \textit{matrix similarity}.
   Thus there are matrices with are equivalent but not similar.
 \end{example}
 \section{Elementary Matrix Operations}
+\subsection{Types of Elementary Operation}
 Take some $A \in \mathcal{M}_{m \times n}(\F)$ and let $r_1, \ldots, r_m \in \F^n$ be the rows of $A$.
 There are three types of \textit{elementary row operations}:
 \begin{enumerate}
@@ -596,6 +597,7 @@ Elementary matrix operations have the following nice properties:
 
     By \cref{rowColRank}, they are always equal, so since elementary row operations preserve $\rowrank A$ by \textbf{(i)} and elementary column operations preserve $\colrank A$ by \textbf{(ii)}, thus both elementary row and elementary column operations preserve both $\rowrank A$ and $\colrank A$.
 \end{enumerate}
+\subsection{Row-Reduced Echelon Form and Gaussian Elimination}
 So now we know that elementary operations preserve particular properties of the matrix, if we want to analyse one of these properties, we would want to perform elementary operations to the matrix until analysing these properties is particularly easy.
 \begin{definition}[Row-reduced echelon form]
   We say that $A \in \mathcal{M}_{m \times n}(\F)$ is in \textit{row-reduced echelon form} or \textit{RREF}, if: \label{RREF}
@@ -641,7 +643,7 @@ So now we know that elementary operations preserve particular properties of the 
 \begin{proposition}
   Every $A \in \mathcal{M}_{m\times n}(\F)$ can be put into row-reduced echelon form via a sequence of elementary row operations. \label{gaussElim}
 \end{proposition}
-\begin{proof}[Gaussian Elimintation]
+\begin{proof}[Gaussian Elimination]
   We induct on the number of columns $n$.
   \quietinduction
   {$n = 1$}{
