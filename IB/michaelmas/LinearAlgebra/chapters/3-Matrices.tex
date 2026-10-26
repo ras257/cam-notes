@@ -282,7 +282,7 @@ We say that this diagram \textit{commutes}.
   Further, since $C$ is linearly independent and $\{w_1', \ldots, w_{r'}'\} \subseteq C$, it follows that $\{w_1, \ldots, w_{r'}'\}$ is a basis for $\im \alpha$.
   So by \cref{basisSize}, $r' = \dim(\im \alpha) = \rank \alpha = r$.
 \end{proof}
-\section{Properties of Matrices}
+\section{Relations Between Matrices}
 \subsection{Equivalence of Matrices}
 \begin{definition}[Equivalence of matrices]
   We say that the matrices $A, A' \in \mathcal{M}_{m \times n}(\F)$ are \textit{equivalent} if there exists $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$ such that $A' = PAQ$.
@@ -452,7 +452,7 @@ We say that this diagram \textit{commutes}.
   Thus $A^{\trans}$ is invertible $(A^{\trans})^{-1} = (A^{-1})^{\trans}$.
 \end{proof}
 \begin{theorem}[Equality of row and column rank]
-  For any $A \in \mathcal{M}_{m \times n}(\F)$, we have $\rowrank A = \colrank A$.
+  For any $A \in \mathcal{M}_{m \times n}(\F)$, we have $\rowrank A = \colrank A$. \label{rowColRank}
 \end{theorem}
 \begin{proof}
   By \cref{equivNice} \textbf{(i)}, there exists $P \in \GL_m(\F)$ and $Q \in \GL_n(\F)$ such that:
@@ -504,4 +504,228 @@ This leads us to the concept of \textit{matrix similarity}.
   However, $PI_nP^{-1} = I_n$ regardless of $P \in \GL_n(\F)$, so $I_n$ is only similar to itself.
   Thus there are matrices with are equivalent but not similar.
 \end{example}
+\section{Elementary Matrix Operations}
+Take some $A \in \mathcal{M}_{m \times n}(\F)$ and let $r_1, \ldots, r_m \in \F^n$ be the rows of $A$.
+There are three types of \textit{elementary row operations}:
+\begin{enumerate}
+  \item Swapping $r_i \leftrightarrow r_j$ for $i \neq j$
+  \item Replace $r_i$ with $\lambda r_i$ for $\lambda \in \F \setminus \{0\}$
+  \item Replace $r_i$ by $r_i + \lambda r_j$ for $i \neq j$ and $\lambda \in \F$
+\end{enumerate}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item All of the above operations are reversible
+    \item Similarly, we can define three times of elementary column operations similarly on the columns $c_1, \ldots, c_n \in \F^m$ of $A$.
+      Alternatively, these can be thought of as elementary row operations on $A^{\trans}$.
+  \end{itemize}
+\end{remark}
+This leads us to three classes of \textit{elementary matrices}.
+These are obtained by applying either an elementary row operation to $I_m$ or an elementary column operation to $I_n$:
+\begin{enumerate}
+  \item In the case of rows, swapping rows $r_i \leftrightarrow r_j$:
+    \[
+      T_{i, j} =
+      \begin{pmatrix}
+          \ddots & & & & \\
+          & 0& & 1 &      \\
+          & & \ddots & & \\
+          & 1 & & 0 &      \\
+          & & & & \ddots
+      \end{pmatrix}
+      \begin{matrix}
+          \phantom{\ddots}\\
+          i\text{-th}     \\
+          \phantom{\ddots}\\
+          j\text{-th}     \\
+          \phantom{\ddots}
+      \end{matrix}
+    \]
+    where the other elements on the diagonal are all 1.
+    In the case of columns, this is swapping columns $c_i \leftrightarrow c_j$.
+  \item In the case of rows, scaling $r_i$ by $\lambda$:
+    \[
+      M_{i, \lambda} = \diag(1, \ldots, 1, \lambda, 1, \ldots, 1)
+    \]
+    In the case of columns, this is scaling $c_i$ by $\lambda$.
+  \item
+    In the case of rows, replacing $r_i$ by $r_i + \lambda r_j$:
+    \[
+      C_{i, j, \lambda} =
+      \begin{pmatrix}
+          \ddots & & & & \\
+          & 1& & \lambda &      \\
+          & & \ddots & & \\
+          & 0 & & 1 &      \\
+          & & & & \ddots
+      \end{pmatrix}
+      \begin{matrix}
+          \phantom{\ddots}\\
+          i\text{-th}     \\
+          \phantom{\ddots}\\
+          j\text{-th}     \\
+          \phantom{\ddots}
+      \end{matrix}
+    \]
+    In the case of columns, this is replacing $c_j$ by $c_j + \lambda c_i$.
+\end{enumerate}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item These elementary matrices are all invertible with:
+      \[
+        T_{i,j}^{-1} = T_{i,j},\ M_{i, \lambda}^{-1} = M_{i, \lambda^{-1}},\ C_{i, j, \lambda}^{-1} = C_{i, j, -\lambda}
+      \]
+    \item Note that operations \textbf{(i)} and \textbf{(ii)} are ``the same'' regardless of if we are working on the columns or rows since their respective matrices are symmetric, however the for \textbf{(iii)}, the indices are swapped when switching between row and column operations.
+  \end{enumerate}
+\end{remark}
+\begin{lemma}
+  Let $A \in \mathcal{M}_{m \times n}(\F)$.
+  We then have:
+  \begin{itemize}
+    \item We can find the result of applying an elementary row operation to $A$ by computing $E_1 \cdot A$ where $E_1 \in \GL_m(\F)$ is the corresponding elementary matrix for the row operation.
+    \item We can find the result of applying an elementary column operation to $A$ by computing $A \cdot E_2$ where $E_2 \in \GL_n(\F)$ is the corresponding elementary matrix for the column operation.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  By direct matrix computation.
+\end{proof}
+Elementary matrix operations have the following nice properties:
+\begin{enumerate}
+  \item Elementary row operations preserve $\rowsp A$ as swapping, scaling, and taking linear combinations of rows preserves the span of the rows.
+  \item Similarly, elementary column operations preserve $\colsp A$.
+  \item Both elementary row operations and column operations preserve $\rowrank A$ and $\colrank A$.
+
+    By \cref{rowColRank}, they are always equal, so since elementary row operations preserve $\rowrank A$ by \textbf{(i)} and elementary column operations preserve $\colrank A$ by \textbf{(ii)}, thus both elementary row and elementary column operations preserve both $\rowrank A$ and $\colrank A$.
+\end{enumerate}
+So now we know that elementary operations preserve particular properties of the matrix, if we want to analyse one of these properties, we would want to perform elementary operations to the matrix until analysing these properties is particularly easy.
+\begin{definition}[Row-reduced echelon form]
+  We say that $A \in \mathcal{M}_{m \times n}(\F)$ is in \textit{row-reduced echelon form} or \textit{RREF}, if: \label{RREF}
+  \begin{enumerate}
+    \item All non-zero rows of $A$ are above the zero rows
+    \item In any non-zero row $r_i$, the leftmost non-zero entry must be 1.
+      The index of this element $1 \leq p(r_i) \leq n$ is called the \textit{pivot entry}
+    \item If $r_i$ and $r_j$ are non-zero rows with $i < j$, then $p(r_i) < p(r_j)$
+    \item If a non-zero column contains a pivot entry, then all of its other entries are zero.
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  An example $4 \times 5$ row-reduced echelon form matrix is:
+  \[
+    A = \begin{pmatrix}
+    1 & a & 0 & 0 & b \\
+    0 & 0 & 1 & 0 & c \\
+    0 & 0 & 0 & 1 & d \\
+    0 & 0 & 0 & 0 & 0 \\
+    \end{pmatrix}
+  \]
+\end{example}
+\begin{definition}[Column-reduced echelon form]
+  We say that $A$ is in \textit{column-reduced echelon form} if $A^{\trans}$ is in row-reduced echelon form.
+\end{definition}
+\begin{lemma}
+  If $A$ is in row-reduced echelon form, then $\rowrank A$ is the number of non-zero rows.
+\end{lemma}
+\begin{proof}
+  Suppose we have $k$ non-zero rows.
+  Since $A$ is in RREF, the non-zero rows are $r_1, \ldots, r_k$.
+  The rest of the rows are $\vec{0}$ and so $\rowsp A$ is exactly the span of $\{r_1, \ldots, r_k\}$.
+
+  To find the dimension of $\rowsp A$, we would like to show that these are linearly independent.
+  Suppose there exists $\lambda_1, \ldots, \lambda_k \in \F$ such that:
+  \[
+    \sum_{i = 1}^{k} \lambda_i r_i = \vec{0}
+  \]
+  Since these rows are non-zero, they each must have a pivot entry $p_i = p(r_i)$ with $p_1 < p_2 < \cdots < p_k$.
+  Further, since each column with a pivot entry must be 0 otherwise, the $p_i$-th entry of the above linear combination is just $\lambda_i$.
+  Thus $\lambda_i = 0$ for all $i$, so $\{r_1, \ldots, r_k\}$ is a basis for $\rowsp A$, giving $\rowrank A = k$, as required.
+\end{proof}
+\begin{proposition}
+  Every $A \in \mathcal{M}_{m\times n}(\F)$ can be put into row-reduced echelon form via a sequence of elementary row operations. \label{gaussElim}
+\end{proposition}
+\begin{proof}[Gaussian Elimintation]
+  We induct on the number of columns $n$.
+  \quietinduction
+  {$n = 1$}{
+    So $A \in \mathcal{M}_{m \times 1}$.
+    Let $c_1 \in \F^m$ be the only column of $A$, if $c_1 = \vec{0}$, then we are done.
+    Otherwise, there is some $a_{i 1} \neq 0$ and so we can carry out the following sequence of row operations.
+    \begin{enumerate}
+      \item Swap $r_1 \leftrightarrow r_j$ so that $a_{1 1} \neq 0$
+      \item Scale $r_1$ by $a^{-1}_{1 1}$ so that $a_{1 1} = 1$
+      \item For all other non-zero entry $a_{j 1}$ with $j > 1$ left in $c_1$, replace $r_j$ with $r_j - a_{j 1} r_1$ so that $a_{j 1} = 0$ for all $j > 1$.
+    \end{enumerate}
+    So $c_1$ is now just $c_1 = (1, 0, \ldots, 0)^{\trans} \in \F^m$, which is in RREF.
+  }
+  {$n - 1$}{}
+  {$n$}{
+    Let $c_1, \ldots, c_n$ be the columns of $A$.
+
+    \begin{proofcases}
+      \begin{case}{$c_1 = \vec{0}$}
+        If $c_1 = \vec{0}$, then we apply inductive hypothesis to the matrix $A'$ with columns $c_2, \cdots, c_n$ to obtain a sequence of row operations.
+        Since the first column of $A$ is zero, the same sequence of operations to reduce $A'$ will also reduce $A$.
+      \end{case}
+      \begin{case}{$c_1 \neq \vec{0}$}
+        If $c_1 \neq \vec{0}$, then we use the series of row operations from the base case to transform $A$ so that $c_1 = (1, 0, \ldots, 0)^{\trans}$.
+        After doing this, $A$ is of the form:
+        \[
+          A = \left(\begin{array}{c c c c}
+              \multicolumn{1}{c|}{1} & ? & \cdots & ? \\ \cline{2-4}
+              \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{A'} \\
+              \end{array}\right)
+        \]
+        where $A' \in \mathcal{M}_{(m - 1) \times (n - 1)}(\F)$.
+        $A'$ has $n - 1$ rows, so by the inductive hypothesis, we have a sequence of row operations to reduce $A'$.
+        These operations only act on rows $2$ though $m$ of $A$ and so the first column is not affected by any of these as it is only non-zero in then first row.
+
+        The only potential issue now is if there is a pivot element in $A'$ for which there is a non-zero entry in the top row above it.
+        In this case, let the unwanted entry be $a_{1 j}$ and let the pivot entry be $a_{i j}$ for $i > 2$, then we replace $r_1$ with $r_1 - a_{1 j} r_i$ so that $a_{1 j} = 0$ without affecting the first column.
+      \end{case}
+      In either case, we can put $A$ in RREF, as required.
+    \end{proofcases}
+  }
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item Gaussian elimination performs only row operations and so preserves the row-space of $A$.
+    \item The RREF of a matrix is unique, so the matrix obtained from Gaussian elimination is \textit{the} row-reduced echelon form of $A$.
+      This is sometimes denoted $\operatorname{rref}(A)$
+    \item We can put a matrix into column-reduced echelon form by applying Gaussian elimination to $A^{\trans}$.
+    \item If $A$ is a square matrix, then the row-reduced echelon form is either $I_n$ or has a zero row.
+
+      This is because if all rows are non-zero, there must be $n$ pivot entries, and since $A$ is square, this must be exactly the diagonal.
+      Further, every column has a pivot entry so all other entries in this column must be 0.
+      Thus $\operatorname{rref}(A) = I_n$.
+  \end{itemize}
+\end{remark}
+\begin{theorem}
+  For $A \in \mathcal{M}_{n \times n}(\F)$, the following are equivalent:
+  \begin{enumerate}
+    \item $A$ has \textit{full-rank}, that is $\rank A = n$.
+    \item $A$ is a product of elementary matrices
+    \item $A$ is invertible
+  \end{enumerate}
+\end{theorem}
+\begin{proof}\par
+  \textbf{(i) $\implies$ (ii)}\par
+  By \cref{gaussElim}, there exists a sequence of row operations to reduce $A$ to its RREF $A'$.
+  We can express such operations using the elementary matrices $E_1, \ldots, E_k \in \GL_n(\F)$ as:
+  \[
+    A' = E_{k} \cdots E_1 A
+  \]
+  Since the row rank is preserved by row operations, $\rank A' = n = \rowrank A'$, so the rows of $A'$ are a basis, thus there cannot be a zero row and so by the above remark $A' = I_n$.
+
+  Thus, since the elementary matrices are invertible:
+  \[
+    A = E^{-1}_{1} \cdots E^{-1}_{k}
+  \]
+  We saw also that the inverses of elementary matrices are also elementary and so we are done.
+
+  \textbf{(ii) $\implies$ (ii)}\par
+  Elementary matrices are all in the group $\GL_n(\F)$ which is closed under multiplication.
+
+  \textbf{(iii) $\implies$ (i)}\par
+  So $A$ has an inverse inverse $B$, i.e. $A B = I$.
+  Then for any $v \in \F^n$, $v = A(B v)$, so $v \in \im A$.
+  Thus $\im A = \F^n$ so $\colrank A = \rank A =  n$.
+\end{proof}
 \end{document}
