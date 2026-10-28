@@ -59,7 +59,7 @@ where $\psi^{*}$ is the complex conjugate of $\psi$.
 
 So if $\d{V}$ is a volume element centered at the point $\vec{x}$, then $\rho(\vec{x}, t) \d{V}$ is the probability that the particle is in the volume element $\d{V}$ at time $t$.
 
-This leads us to the following properties:
+This leads us to the following properties: \label{wfProps}
 \begin{enumerate}
   \item The particle represented by $\psi$ has to be \textit{somewhere} in space and so $\psi$ must be integrable over $\R^3$:
     \begin{equation}
@@ -623,8 +623,7 @@ Using this, we see that expectation is linear, that is, for $a_1, a_2 \in \C$ an
                                                    &= a_1 \langle \hat{A} \rangle_{\psi} + a_2 \langle \hat{B} \rangle_{\psi}
 \end{align*}
 \subsubsection{Generalisation of Born's Rule}
-Suppose $\phi(x, t)$
-If $\phi$ is a state that gives a desired \textbf{outcome} of a measurement on a particle described by $\psi$, then the probability that a measurement on $\psi$ (of not necessarily the same quantity) gives such a desired outcome is:
+If $\phi$ is any state that gives a desired \textbf{outcome} of a measurement on a particle described by $\psi$, then the probability that a measurement on $\psi$ (of not necessarily the same quantity) gives such a desired outcome is:
 \[
   |(\phi, \psi)|^2 = \abs{\int_{\R^3} \phi^{*}(\vec{x}, t) \psi(\vec{x}, t) \d{V}}^2
 \]
@@ -636,6 +635,7 @@ Recall the 1D version of the TDSE from \cref{1DTDSE}:
                                  &= \hat{H} \psi(x, t)
 \end{align*}
 where $\hat{H} = \hat{T} + \hat{U}$ is the \textit{Hamiltonian} operator as introduced in \cref{opExamples} \textbf{(v)}.
+For ease, we will require that does not explicitly depend on time.
 
 Suppose we try and find a solution that can be factored into a function of $t$ and a function of $x$:
 \[
@@ -653,4 +653,89 @@ Thus we obtain the following two equations
   \text{and } \hat{H} \chi &= E \chi \label{TISE}
 \end{align}
 We call \cref{TISE} the \textit{time independent Schr\"odinger equation} or \textit{TISE}.
+The first equation tells us that:
+\[
+  T(t) = \exp\left[-\frac{Eit}{\hbar}\right]
+\]
+We can also expand the second equation as:
+\[
+  -\frac{\hbar^2}{2m} \deriv[2]{\chi}{x}(x) + U(x) \chi(x) = E \chi(x)
+\]
+This is just an eigenvalue problem for the Hamiltonian operator $\hat{H}$.
+As we postulated, these eigenvalues are all the possible outcomes when measuring the energy of any state.
+\section{Stationary States}
+\begin{definition}[Stationary State]
+  We say that a state $\psi$ is \textit{stationary} if its wavefunction is of the form:
+  \[
+    \psi(x, t) = e^{-iEt/\hbar} \chi(x)
+  \]
+  where $\chi(x)$ is an eigenfunction of $\hat{H}$ with eigenvalue $E$.
+  We then call $\chi(x)$ the \textit{stationary state wavefunction}.
+\end{definition}
+\begin{remark}
+  We can think of $\chi$ as a state with definite energy $E$.
+  This is because it is in the eigenbasis so $\P(H = E) = |(\chi, \chi)|^2 = 1$.
+\end{remark}
+We call these states \textit{stationary} as the probability density for the position is constant in time:
+\[
+  \rho(x, t) = \abs{e^{-iEt/\hbar} \chi(x)}^2 = |\chi(x)|^2
+\]
+\begin{theorem}
+  Every solution to the TDSE can be written as a linear combination of stationary states.
+\end{theorem}
+\begin{proof}
+  Not lectured.
+\end{proof}
+More explicitly, the above tells us that:
+\begin{itemize}
+  \item For systems where $\hat{H}$ has a discrete set $\{E_1, E_2, \ldots\}$ of eigenvalues associated to eigenstates $\{\chi_1, \chi_2\ldots\}$, then for any $\psi \in \mathcal{H}$ we can write:
+    \[
+      \psi(x, t) = \sum_{n = 1}^{\infty} a_n \chi_n(x) e^{-iE_nt/\hbar}
+    \]
+  \item For systems where $\hat{H}$ has a continuous set of eigenvalues $E(\alpha)$ associated to eigenstates $\chi_{\alpha}$ for $\alpha \in \R$, then for any $\psi \in \mathcal{H}$ we can write:
+    \[
+      \psi(x, t) = \int_{-\infty}^{\infty} A(\alpha) \chi_{\alpha}(x) e^{-iE_\alpha t/\hbar} \d{\alpha}
+    \]
+\end{itemize}
+\begin{example}[System with two eigenvalues]
+  Suppose we have a system with only two eigenvalues $E_1$ and $E_2$ with $E_1 \neq E_2$ and associated eigenfunctions $\chi_1(x)$ and $\chi_2(x)$.
+  Thus, any $\psi \in \mathcal{H}$ can be written as:
+  \[
+    \psi(x, t) = a_1 \chi_1(x) e^{-iE_1 t/\hbar} + a_2 \chi_2(x) e^{-iE_2 t/\hbar}
+  \]
+  for some constants $a_1, a_2 \in \C$.
+
+  At $t = 0$, we have:
+  \[
+    \psi(x, 0) = a_1 \chi_1(t) + a_2 \chi_2(t)
+  \]
+  If $a_1$ or $a_2$ is 0, then $\psi$ is just a stationary state, otherwise:
+  \begin{align*}
+    |\psi(x, t)|^2 &= |a_1 \chi_1(x)e^{-iE_1 t/\hbar} + a_2 \chi_2(x) e^{-iE_2 t/\hbar}|^2 \\
+               &= (a^{*}_1 \chi^{*}_1 e^{i E_1 t/\hbar} + a^{*}_2 \chi^{*}_2 e^{i E_2 t/ \hbar})(a_1 \chi_1 e^{-i E_1 t/\hbar} + a_2 \chi_2 e^{-i E_2 t/ \hbar}) \\
+               &= |a_1|^2|\chi_1|^2 + |a_2|^2|\chi_2|^2 + a^{*}_1 a_2 e^{i(E_1 - E_2)t/\hbar} \chi^{*}_1 \chi_2 + a_1 a^{*}_2 e^{i(E_2 - E_1)t/\hbar} \chi_1 \chi^{*}_2
+  \end{align*}
+  We would like $\chi_1$ and $\chi_2$ to be real, suppose they have argument $\alpha_1(x)$ and $\alpha_2(x)$ respectively.
+  So if we redefine:
+  \begin{align*}
+    \chi_1(x) \to e^{-\alpha_1(x)}\chi_1(x),&\ \chi_2(x) \to e^{-\alpha_2(x)}\chi_2(x) \\
+    \text{and } a_1 \to |a_1| e^{i\alpha_1},&\ a_2 \to |a_2| e^{i \alpha_2}
+  \end{align*}
+  then $a_1 \chi_1$ and $a_2 \chi_2$ are preserved under this but now $\chi_1, \chi_2 \in \R$.
+  We also then have
+  \[
+    a^{*}_1 a_2 = |a_1||a_2| e^{-i(\alpha_1 - \alpha_2)} \text{ and } a^{*}_2 a_1 = |a_1||a_2| e^{i(\alpha_1 - \alpha_2)}
+  \]
+  Upon substituting back in, we obtain:
+  \begin{align*}
+    \rho(x, t) &= |a_1|^2 |\chi_1|^2 + |a_2|^2|\chi_2|^2 + |a_1||a_2| \chi_1\chi_2 \left[e^{i(E_1 - E_2)t/\hbar}e^{-i(\alpha_1 - \alpha_2)} + e^{-i(E_1 - E_2)t/\hbar}e^{i(\alpha_1 - a_2)}\right] \\
+               &= |a_1|^2 |\chi_1|^2 + |a_2|^2 |\chi_2|^2 + 2|a_1||a_2| \chi_1\chi_2 \cos\left(\frac{(E_1 - E_2)t}{\hbar} + \alpha_1 - \alpha_2\right)
+  \end{align*}
+  The only quantity here dependent on $t$ is $\frac{(E_1 - E_2)t}{\hbar}$ and so the probability density for any fixed point $x$ oscillates like:
+  \[
+    \cos\left(\frac{(E_1 - E_2)t}{\hbar}\right)
+  \]
+  which has frequency dependent on $\Delta E = E_1 - E_2$.
+  So if $\psi$ itself is not a stationary state, its probability density function oscillates in time at any given point.
+\end{example}
 \end{document}

@@ -1,0 +1,64 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{1D Solutions of TISE}
+\section{Bound States}
+We would like to find the eigenstates and eigenvalues of the operator $\hat{H}$ for various potentials $U(x)$ as this allows us to express any state $\psi$ as a linear combination of such eigenstates.
+
+When we expand $\hat{H} \chi = E \chi$, we have:
+\[
+  -\frac{\hbar^2}{2m} \chi''(x) + U(x) \chi(x) = E \chi(x)
+\]
+So if $U(x)$ is finite, then any eigenfunction $\chi(x)$ must be twice differentiable.
+Otherwise, if $U(x)$ is infinite in some regions, then $\chi$ is continuous but $\chi'$ will not be.
+\subsection{Infinite Potential Well}
+Suppose the potential $U$ is given by:
+\[
+  U(x) = \begin{cases}
+  0 & \text{ if } |x| \leq a \\
+  \infty & \text{ if } |x| > a
+  \end{cases}
+\]
+where $a \in \R^{+}$ is some constant.
+This is \textit{the infinite potential square well}.
+
+For $|x| > a$, we must have $\chi(x) = 0$ otherwise we would have $U\chi = \infty$.
+For $|x| \leq a$, we want to solve:
+\[
+  \chi'' + \frac{2mE}{\hbar^2} \chi = 0
+\]
+with the continuity condition $\chi(a) = \chi(-a) = 0$.
+
+If $E < 0$, then we always obtain the null state after applying the continuity conditions.
+Thus to look for eigenstates, we must have $E \geq 0$ and so we define $k^2 = \frac{2mE}{\hbar^2} \geq 0$.
+In this case, we have:
+\[
+  \chi'' + k^2 \chi = 0 \implies \chi(x) = A\sin(kx) + B\cos(kx)
+\]
+for constants $A$ and $B$.
+
+Applying the continuity conditions, we obtain that both $A\sin(ka) = 0$ and $B\cos(ka) = 0$.
+We need both of these to hold and $\chi$ to not be identically 0.
+Since $\sin(ka)$ and $\cos(ka)$ cannot both be simultaneously 0, there are two options:
+There is therefore two options:
+\begin{enumerate}
+  \item We have $A = 0$ and $B \neq 0$, thus $k_n = n \cdot \frac{\pi}{2a}$ for odd $n \in \N$.
+    Substituting in, we obtain the eigenfunctions:
+    \[
+      \chi_n(x) = B \cos(k_n x)
+    \]
+    for odd $n \in \N$.
+  \item We have $B = 0$ and $A \neq 0$, thus $k_n = n \cdot \frac{\pi}{2a}$ for even $n \in \N$.
+    Substituting in, we obtain the eigenfunctions:
+    \[
+      \chi_n(x) = A \sin(k_n x)
+    \]
+    for even $n \in \N$.
+\end{enumerate}
+Having found $k_n = n \cdot \frac{\pi}{2a}$ for $n \geq 1$, we can find the eigenvalues $E_n$ for $\hat{H}$:
+\[
+  E_n = \frac{\hbar^2}{2m} k^2_n = \frac{\hbar^2\pi^2}{8ma^2}n^2 \text{ for } n \geq 1
+\]
+which are therefore only allowed energy levels for particles in the system.
+\section{Free Particles}
+\section{Scattering States}
+\end{document}
