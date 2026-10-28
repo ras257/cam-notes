@@ -474,6 +474,8 @@ Similarly to \cref{hittingSystem}, we can derive a similar system of equations t
   \]
   as required.
 \end{proof}
+\section{Strong Markov Property and Stopping Times}
+\subsection{Stopping Times}
 \begin{definition}[Stopping time]
   We say that a random variable $T$ with values in $\N_0 \cup \{\infty\}$ is a \textit{stopping time} with respect to a random process $\mchain{X} = (X_n)_{n \geq 0}$ if the event $\{T = n\}$ only depends on $(X_0, \ldots, X_n)$ for all $n \geq 0$.
 \end{definition}
@@ -498,15 +500,213 @@ Similarly to \cref{hittingSystem}, we can derive a similar system of equations t
   \]
   clearly is dependent on variables other that $X_0$ and $X_1$.
 \end{example}
+\subsection{Strong Markov Property}
 \begin{theorem}[Strong Markov Property]
-  If $\mchain{X} = (X_n)_{n \geq 0}$ is a Markov chain with $\mchain{X} \sim \markov(\vec{\lambda}, P)$j
-  and $T$ is a stopping time with respect to $\mchain{X}$, then for any $i \in I$, conditional on the event:
+  If $\mchain{X} = (X_n)_{n \geq 0}$ is a Markov chain with $\mchain{X} \sim \markov(\vec{\lambda}, P)$ and $T$ is a stopping time with respect to $\mchain{X}$, then for any $i \in I$, conditional on the event: \label{strongMarkov}
   \[
     \{T < \infty\} \cap \{X_T = i\}
   \]
   the process $(X_{T + n})_{n \geq 0} \sim \markov(\delta_i, P)$ is independent of $(X_0, \ldots, X_T)$.
 \end{theorem}
 \begin{proof}
-  Continued next lecture.
+  For this independence to be true, we want to show that for any $n \geq 0$, states $x_0, \ldots, x_n \in I$ and any finite length path $w \in \bigcup_{k \geq 0} I^k$, that the probability factorises as:
+  \begin{align*}
+    &\P((X_0, \ldots, X_T) = w, X_T = x_0, X_{T + 1} = x_1, \ldots, X_{T + n} = x_n \vert T < \infty,\ X_T = i) \\
+    &= 1(X_0 = i) P(x_0, x_1) \cdots P(x_{n - 1}, x_n) \cdot \P((X_0, \ldots, X_T) = w \vert T < \infty,\ X_T= i)
+  \end{align*}
+  For a fixed $w \in I^{k + 1}$ and fixed $x_1, \ldots, x_n$:
+  \begin{align*}
+    &\P((X_0, \ldots, X_T) = w, X_T = x_0, \ldots, X_{T + n} = x_n \vert T < \infty, X_T = i) \\
+    &= \frac{\P((X_0, \ldots, X_T) = w, X_T = x_0, \ldots, X_{T + n} = x_n, T < \infty, X_T = i)}{\P(T< \infty, X_T = i)} \\
+    &= \frac{\P((X_0, \ldots, X_k) = w, X_k = x_0, \ldots, X_{k + n} = x_n, T = k, X_k = i)}{\P(T< \infty, X_T = i)} \text{ since $w \in I^{k + 1}$}
+  \end{align*}
+  Considering the numerator of this:
+  \begin{align*}
+    &\P((X_0, \ldots, X_k) = w, X_k = x_0, \ldots, X_{k + n} = x_n, T = k, X_k = i) \\
+    &= \P((X_0, \ldots, X_k) = w, X_k = i, T = k) \\
+    &\hspace{0.4cm} \cdot \P(X_k = x_0, X_{k + 1} = x_1, \ldots, X_{k + n} = x_n \vert (X_0, \ldots, X_k) = w, X_k = i, T = k) \\
+  \end{align*}
+  We would like to simplify the second term of this expression.
+  Since $T$ is a stopping time $X_{k + 1}, \ldots, X_{k + n}$ do not depend on $T$, further since $X_k = i$ is fixed in the conditioning, it does not matter if $T$ depends on $X_k$ and so we can drop the conditioning on $T = k$.
+  Further, since we are conditioning on $X_k = i$, by the simple Markov property (\cref{simpleMarkov}), $(X_{k + n})_{n \geq 0} \sim \markov(\delta_i, P)$ conditional on $X_k = i$ is independent of $X_0, \ldots, X_k$.
+  Thus:
+  \begin{align*}
+    &\P(X_k = x_0, X_{k + 1} = x_1, \ldots, X_{k + n} = x_n \vert (X_0, \ldots, X_k) = w, X_k = i, T = k) \\
+    &= \P(X_k = x_0, X_{k + 1} = x_1, \ldots, X_{k + n} = x_n \vert X_k = i) \\
+    &= 1(X_0 = i) P(x_0, x_1) \cdots P(x_{n - 1}, x_n) \text{ as } (X_{k + n})_{n \geq 0} \sim \markov(\delta_i, P) \text{ given $X_k = i$}
+  \end{align*}
+  So:
+  \begin{align*}
+    &\P((X_0, \ldots, X_T) = w, X_T = x_0, \ldots, X_{T + n} = x_n \vert T < \infty, X_T = i) \\
+    &= \frac{\P((X_0, \ldots, X_k) = w, X_k = i, T = k)}{\P(T< \infty, X_T = i)} \cdot 1(X_0 = i) P(x_0, x_1) \cdots P(x_{n - 1}, x_n) \\
+    &= \frac{\P((X_0, \ldots, X_T) = w, X_T = i, T < \infty)}{\P(T< \infty, X_T = i)} \cdot 1(X_0 = i) P(x_0, x_1) \cdots P(x_{n - 1}, x_n) \\
+    &= \P((X_0, \ldots, X_T) = w \vert T < \infty, X_T = i) \cdot 1(X_0 = i) P(x_0, x_1) \cdots P(x_{n - 1}, x_n)
+  \end{align*}
+  which is the desired result.
+\end{proof}
+\begin{example}[Simple symmetric random walk]
+  Consider a simple symmetric random walk on $\Z^{+}$.
+  This has transition probabilities:
+  \begin{align*}
+    P(i, i + 1) = P(i, i - 1) &= \frac{1}{2} \text{ for $i \geq 1$} \\
+    P(0, 1) &= 1
+  \end{align*}
+  The strong Markov property (\cref{strongMarkov}) also provides another way to calculating hitting probabilities.
+  Let $A = \{0\}$, we would like to find $h^A_2$.
+
+  We notice that in order to get to 0 starting from 2, we must first get to 1 and then get to zero.
+  More rigorously, let $T^{(2)}_0$ and $T^{(2)}_1$ be the number of steps to get to 0 and 1 respectively when stating from 2 and let $T^{(1)}_0$ be the number of steps to get to 0 starting from 1.
+  Finally, define $\widetilde{T}^{(1)}_0$ to be independent of but following the same distribution as $T^{(1)}_0$.
+
+  By the strong Markov property, conditional on $\{T_1 < \infty\}$, we can write $T^{(2)}_0 = T^{(2)}_1 + \widetilde{T}^{(1)}_0$ and so:
+  \begin{align*}
+    h^A_2 &= \P_2(T^{(2)}_0 < \infty) \\
+          &= \P_2(T^{(2)}_0 < \infty, T^{(2)}_1 < \infty) \\
+          &= \P_2(T^{(2)}_1 + \widetilde{T}^{(1)}_0 < \infty, T^{(2)}_1 < \infty) \\
+          &= \P_2(T^{(2)}_1 < \infty) \P_2(T^{(2)}_1 + \widetilde{T}^{(1)}_0 < \infty \vert T^{(2)}_1 < \infty) \\
+          &= \P_2(T^{(2)}_1 < \infty) \P_1(\widetilde{T}^{(1)}_0 < \infty) \\
+          &= h^A_1 \cdot h^A_1 = (h^A_1)^2
+  \end{align*}
+  From \cref{hittingSystem} we have:
+  \[
+    h^A_1 = \frac{1}{2} + \frac{1}{2}h^A_2
+  \]
+  So $h^A_1 = h^A_2 = 1$.
+\end{example}
+\section{Recurrence and Transience}
+\subsection{Definitions}
+\begin{definition}[Reurrence and Transcience]
+  Let $\mchain{X}$ be a Markov chain on a set of states $I$ with transition matrix $P$.
+  Define the following:
+  \begin{enumerate}
+    \item We say that a state $i \in I$ is \textit{recurrent} if:
+      \[
+        \P_i(X_n = i \text{ for infinitely many $n$}) = 1
+      \]
+    \item We say that the transition matrix $P$ is \textit{recurrent} if all states are recurrent.
+    \item We say that a state $i \in I$ is \textit{transient} if:
+      \[
+        \P_i(X_n = i \text{ for infinity many $n$}) = 0
+      \]
+    \item We say that the transition matrix $P$ is \textit{transient} if all states are transient.
+    \item For a state $i \in I$, we define the \textit{return times to $i$} as:
+      \[
+        T^{(0)}_i = 0 \text{ and } T^{(k + 1)}_i = \inf \{n > T^{(k)}_i: X_n = i\} \text{ for $k \geq 0$}
+      \]
+      That is, $T^{(k)}_i$ is the total number of steps for the chain to return to the state $i$ for the $k$-th time.
+      As we have before denote the \textit{first return time} as just $T_i = T^{(1)}_i$.
+    \item We define the \textit{return probabilities} as:
+      \[
+        f_i = \P_i(T_i < \infty) \text{ for $i \in I$}
+      \]
+      That is, $f_i$ is the probability that starting from $i$, we return to $i$ at some later point.
+  \item We define the \textit{total visits} a state $i \in I$ as:
+      \[
+        V_i = \sum_{k = 0}^{\infty} 1(X_k = i)
+      \]
+  \end{enumerate}
+\end{definition}
+\subsection{Dichotomy of Recurrence and Transience}
+\begin{lemma}
+  For every $r \geq 0$ and $i \in I$ we have $\P_i(V_i > r) = f^r_i$. \label{totalLemma}
+\end{lemma}
+\begin{remark}
+  Equivalently, this means that $(V_i \vert X_0 = i) \sim \geo(1 - f_i)$ for each $i \in I$.
+\end{remark}
+\begin{proof}
+  Fix some $i \in I$ and proceed by induction on $r$.
+  \quietinduction
+  {$r = 0$}{
+    Since $X_0 = i$, $V_i \geq 1$ and so $\P_i(V_i > 0) = 1 = f^0_i$.
+  }
+  {$r$}{}
+  {$r + 1$}{
+    We can write:
+    \begin{align*}
+      \P_i(V_i > r + 1) &= \P_i(V_i > r + 1, V_i > r) \\
+                        &= \P_i(V_i > r) \cdot \P_i(V_i > r + 1 \vert V_i > r) \\
+                        &= f^r_i \cdot \P_i(V_i > r + 1 \vert V_i > r) \text{ by inductive hypothesis}
+    \end{align*}
+    Looking at the second term, we can use the strong Markov property (\cref{strongMarkov}):
+    \begin{align*}
+      \P_i(V_i > r + 1 \vert V_i > r) &= \P_i(T^{(r + 1)}_i < \infty \vert T^{(r)}_i < \infty) \\
+                                      &= \P_i(T_i < \infty) \text{ by the strong Markov property} \\
+                                      &= f_i
+    \end{align*}
+    So $\P_i(V_i > r + 1) = f^{r + 1}_i$, as required.
+  }
+\end{proof}
+\begin{theorem}[Dichotomy of recurrence and transience]
+  For a Markov chain $\mchain{X}$ on $I$: \label{dichot}
+  \begin{enumerate}
+    \item If $f_i = \P_i(T_i < \infty) = 1$, then $i$ is recurrent and $\sum_{n \geq 0} p_{i i}(n) = \infty$
+    \item If $f_i = \P_i(T_i < \infty) < 1$, then $i$ is transient and $\sum_{n \geq 0} p_{i i}(n) < \infty$
+  \end{enumerate}
+\end{theorem}
+\begin{remark}[Intuition]
+  So any state $i \in I$ must be either recurrent or transient.
+\end{remark}
+\begin{proof}
+  We first note that:
+  \begin{align*}
+    \E_i[V_i] &= \E_i\left[\sum_{n = 0}^{\infty} 1(X_n = i)\right] \\
+              &= \sum_{n = 0}^{\infty} \P_i(X_n = i) \\
+              &= \sum_{n = 0}^{\infty} p_{i i}(n)
+  \end{align*}
+  We now consider cases on $f_i$:
+  \begin{proofcases}
+    \begin{case}{$f_i = 1$}
+      So by \cref{totalLemma}, $\P_i(V_i > r) = 1$ for all $r \geq 0$, and so $\P_i(V_i = \infty) = 1$, i.e. $i$ is recurrent.
+      Moreover, since $\P_i(V_i = \infty) = 1$, we must have $\E_i[V_i] = \infty$, so $\sum_{n \geq 0}^{\infty} p_{i i}(n) = \infty$.
+    \end{case}
+    \begin{case}{$f_i < 1$}
+      So by \cref{totalLemma}, $(V_i \vert X_0 = i) \sim \geo(1 - f_i)$.
+      We saw in IA Probability that this has expectation $1/(1 - f_i)$ which is finite and so we must have $\P_i(V_i = \infty) = 0$, i.e. $i$ is transient.
+      Moreover, since $\E_i[V_i] < \infty$, we have $\sum_{n \geq 0}^{\infty} p_{i i}(n) = \infty$
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\begin{remark}
+  In the above proof we also shows the useful relation:
+  \[
+    \E_i[V_i] = \sum_{n = 0}^{\infty} p_{i i}(n)
+  \]
+  That is, the expected number of visits to $i$ starting from $i$ is the sum over $n$ of the probabilities that we return to $i$ starting at $i$ in exactly $n$ steps.
+\end{remark}
+\subsection{Relation to Communicating Classes}
+\begin{theorem}
+  If $x \leftrightarrow y$, then either $x$ and $y$ are both transient, or, $x$ and $y$ are both recurrent.
+\end{theorem}
+\begin{proof}
+  Suppose that $x$ is recurrent, by \cref{dichot}, $\sum_{n \geq 0} p_{i i}(n) = \infty$.
+  Since $x \leftrightarrow y$, by definition, there is a path from $x$ to $y$ with positive probability.
+  So there exists $k$ and $l$ such that $p_{xy}(k) > 0$ and $p_{yx}(l) > 0$.
+  Then:
+  \begin{align*}
+    \E_y[V_y] &= \sum_{n \geq 0} p_{y y}(n) \\
+              &\geq \sum_{n \geq l + k} p_{y y}(n) \\
+              &= \sum_{n \geq 0} p_{y y}(l + n + k) \\
+              &\geq \sum_{n \geq 0} p_{y x}(l) p_{x x}(n) P_{x y}(k) \text{ since we are restricting the path to pass through $x$} \\
+              &= \underbrace{p_{y x}(l) P_{x y}(k)}_{> 0} \sum_{n \geq 0} p_{x x}(n) = \infty
+  \end{align*}
+  so $y$ is also recurrent.
+\end{proof}
+\begin{corollary}
+  If $A \subseteq I$ is a communicating class, then either all states of $A$ are recurrent or all states of $A$ are transient.
+\end{corollary}
+\begin{theorem}
+  If $C \subseteq I$ is a recurrent communicating class, then it must be closed.
+\end{theorem}
+\begin{proof}
+  Suppose for contradiction that $C$ is not closed, i.e. there exists $x \in C$ such that $x \to y \notin C$.
+  By definition, there exists $m$ such that $p_{x y}(m) > 0$ so:
+
+  Since $y \notin C$ we must have $y \centernot\to x$, so if start at $x$ and arrive at $y$, we can never get back to $x$.
+  Thus:
+  \begin{align*}
+    \P_x(V_x < \infty) &\geq \P_x(X_m = y) \text{ since $y \notin C$} \\
+                       &= p_{x y}(m) > 0
+  \end{align*}
+  Thus $\P_x(V_X < \infty) < 1$, which is contradicts the recurrence of $x$.
 \end{proof}
 \end{document}
