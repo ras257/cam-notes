@@ -1,0 +1,180 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Metric and Normed Spaces}
+\section{Motivation}
+Thus far in IA Analysis I and IB Analysis II, we have been doing analysis on $\R$.
+To do this, we relied on the structure provided by $|\argdot|$ on $\R$ that allowed us to define convergence with unique limits.
+We then looked at Cauchy sequences and we saw that all such sequences also converge due to the \textit{completeness} of $\R$.
+We also saw that closed bounded intervals are ``special'' because of the Bolzano Weierstrass theorem.
+
+We then moved onto functions $f: \R \to \R$, or more generally $f: E \subseteq \R \to \R$.
+We then defined continuity and showed that closed bounded intervals are also ``special'' in this case because of the extreme value theorem.
+Finally, in this course, we extended this to notions of uniform continuity.
+
+These definitions and properties are quite useful and so we would like to extend these notions to functions $f: X \to \R$ or $f: X \to Y$.
+But what such sets $X$ and $Y$ can we do this on, and how can we generalise the structures from $\R$?
+\section{Metric Spaces}
+\begin{remark}[Note]
+  In this course, we will assume that all vector spaces are over $\R$.
+\end{remark}
+To impose some structure on a set $X$, we can introduce a \textit{metric}.
+More specifically, when $X$ is a vector space, we do this through the notion of a \textit{norm}.
+\begin{definition}[Metric]
+  A \textit{metric} on a set $X$ is a ``distance'' function $d: X \times X \to \R$ satisfying the following for any $x, y, z \in X$: \label{metricDef}
+  \begin{enumerate}
+    \item $d(x, y) \geq 0$ (i.e. distance is non-negative) with $d(x, y) = 0 \iff x = y$ (i.e. two points are the same if and only if the distance between them is 0)
+    \item $d(x, y) = d(y, x)$ (i.e. the distance from $x$ to $y$ is the same as from $y$ to $x$)
+    \item $d(x, y) \leq d(x, z) + d(z, y)$ (i.e. the triangle inequality)
+  \end{enumerate}
+  We then call $(X, d)$ a \textit{metric space}.
+\end{definition}
+\begin{definition}[Norm]
+  A \textit{norm} on a (real) vector space $V$ is a function $\norm{\argdot}: V \to \R$ satisfying the following for any $x, y \in V$ and $\lambda \in \R$: \label{normDef}
+  \begin{enumerate}
+    \item $\norm{x} \geq 0$ with equality if and only if $x = \vec{0}$.
+    \item $\norm{\lambda x} = |\lambda| \norm{x}$
+    \item $\norm{x + y} \leq \norm{x} + \norm{y}$
+  \end{enumerate}
+  We then call $(V, \norm{\argdot})$ a \textit{normed vector space} or \textit{normed space}.
+\end{definition}
+\begin{proposition}
+  If $(V, \norm{\argdot})$ is a normed space and we define:
+  \[
+    d: V \times V \to \R,\ (x, y) \mapsto \norm{x - y}
+  \]
+  then $(V, d)$ is a metric space.
+\end{proposition}
+\begin{proof}
+  Checking the conditions of \cref{metricDef}, we have:
+  \begin{enumerate}
+    \item By \cref{normDef} \textbf{(i)}, $d(x, y) = \norm{x - y} \geq 0$ with equality if and only if $x - y = \vec{0} \iff x = y$.
+    \item By \cref{normDef} \textbf{(ii)}:
+      \[
+        d(x, y) = \norm{x - y} = \norm{-(y - x)} = |-1| \norm{y - x} = \norm{y - x} = d(x, y)
+      \]
+    \item By \cref{normDef} \textbf{(iii)}:
+      \[
+        d(x, y) = \norm{x - y} = \norm{x - z + z - y} \leq \norm{x - z} + \norm{z - y} = d(x, z) + d(z, y)
+      \]
+  \end{enumerate}
+  So $d$ is indeed a metric on $V$.
+\end{proof}
+\begin{example}[Finite dimensional vector space]
+  The prototypical example of a finite dimensional normed space is $\R^n$ equipped with various norms.
+
+  Recall that:
+  \[
+    \R^n = \{(x_1, \ldots, x_n): x_j \in \R\ \forall j \in \{1, \ldots, n\}\}
+  \]
+  is a vector space under the usual component-wise addition and scalar multiplication.
+
+  We can introduce the following norms:
+  \begin{itemize}
+    \item The \textit{Euclidean} or $\ell^2$-norm defined as:
+      \[
+        \norm{x}_{E} = \left[\sum_{i = 1}^{n} (x_i)^2\right]^{\frac{1}{2}}
+      \]
+      This is sometimes denoted $\norm{\argdot}_2$ or $\norm{\argdot}_{\ell^2}$.
+
+      This is a norm on $\R^n$, \textbf{(i)} and \textbf{(ii)} are trivial to check, for \textbf{(iii)}, consider $x = (x_1, \ldots, x_n)$ and $y = (y_1, \ldots, y_n)$:
+      \begin{align*}
+        \norm{x + y}^2_E &= \sum_{i = 1}^{n} (x_i + y_i)^2 \\
+                         &= \norm{x}^2_E + 2 x \cdot y+ \norm{y}^2_E \\
+                         &\leq \norm{x}^2_E + 2 \norm{x}^2_E \norm{y}^2_E + \norm{y}^2_E \text{ by Cauchy Schwarz} \\
+                         &= (\norm{x}^2_E + \norm{y}^2_E)^2 \implies \norm{x + y}_E \leq \norm{x}_E + \norm{y}_E
+      \end{align*}
+    \item The $\ell^1$-norm on $\R^n$ defined as:
+      \[
+        \norm{x}_{\ell^1} = \sum_{i = 1}^{n} |x_i|
+      \]
+      This is sometimes denoted $\norm{\argdot}_1$.
+      Conditions \textbf{(i)} and \textbf{(ii)} are trivial and \textbf{(iii)} follows from the triangle inequality on $|\argdot|$.
+    \item The $\ell^{\infty}$-norm on $\R^n$ defined as:
+      \[
+        \norm{x}_{\ell^{\infty}} = \sup \{|x_i| : i \in \{1, \ldots, n\}\}
+      \]
+      This is sometimes denoted $\norm{\argdot}_{\infty}$.
+      Conditions \textbf{(i)} and \textbf{(ii)} follow from the properties of $|\argdot|$ on $\R$.
+      For \textbf{(iii)}, we have:
+      \begin{align*}
+        \norm{x + y}_{\infty} &= \sup_{i \in \{1, \ldots, n\}} [|x_i + y_i|] \\
+                              &\leq \sup_{i \in \{1, \ldots, n\}} [|x_i| + |y_i|] \text{ using the triangle inequality} \\
+                              &\leq \sup_{i \in \{1, \ldots, n\}} |x_i| + \sup_{i \in \{1, \ldots, n\}} |y_i| \\
+                              &= \norm{x}_{\infty} + \norm{y}_{\infty}
+      \end{align*}
+  \end{itemize}
+\end{example}
+\begin{remark}[Recap]
+  Suppose that $V$ is an $\F$-vector space with subset $W \subseteq V$.
+  Recall from IB Linear Algebra that the subspace tells us that if $\vec{0} \in W$ and for all $w_1, w_2 \in W$ and $\lambda \in \F$ we have $w_1 + \lambda w_2 \in W$, then $W$ is a subspace of $V$, denoted $W \leq V$.
+\end{remark}
+\begin{example}[Infinite dimensional vector space]
+  Consider the vector space of real sequences, denoted $\R^{\N}$:
+  \[
+    \R^{\N} = \{\text{sequence $(x_k)_{k \in \N}$ with $x_k \in \R\ \forall k \in \N$}\}
+  \]
+  This forms a vector space with element-wise addition and scalar multiplication.
+  In this case, we will define subspaces of $\R^\N$ that have a particular property and then use this property to define a norm on the subspace.
+  \begin{itemize}
+    \item Define the subset $\ell^1$ of $\R^{\N}$ as:
+      \[
+        \ell^1 = \left\{(x_k) \in \R^{\N}: \sum_{k = 1}^{\infty} |x_k| < \infty\right\}
+      \]
+      Clearly $\vec{0} \in \ell^1$, and since $|x_i + \lambda y_i| \leq |x_i| + |\lambda| |y_i|$, if $x, y \in \ell_1$ and $\lambda \in \R$, we have $x + \lambda y \in \ell^1$.
+      Thus by the subspace test, $\ell^1 \leq \R^{\N}$.
+
+      We then define the $\ell^1$-norm on the $\ell^1$ subspace as:
+      \[
+        \norm{x}_{1} = \sum_{i = 1}^{\infty} |x_i| \text{ for $x \in \ell^1$}
+      \]
+      The conditions for $\norm{\argdot}_1$ to be a norm are all inherited from $|\argdot|$ on $\R$.
+    \item We can similarly define the subset $\ell^2$ as:
+      \[
+        \ell^2 = \left\{(x_k) \in \R^{\N}: \sum_{k = 1}^{\infty} x_k^2 < \infty\right\}
+      \]
+      Again, clearly $\vec{0} \in \ell^2$.
+      For any $x, y \in \ell^2$ and $\lambda \in \R$, we see that:
+      \[
+        0 \leq (x_i - \lambda y_i)^2 = x^2_i + \lambda^2 y^2_i - 2\lambda x_i y_i \implies 2 \lambda x_i y_i \leq x^2_i + \lambda^2 y^2_i
+      \]
+      and so:
+      \[
+        (x_i + \lambda y_i)^2 = x^2_i + \lambda^2 y^2_i + 2\lambda x_i y_i \leq 2(x^2_i + \lambda^2 y^2_i)
+      \]
+      Thus $x + \lambda y \in \ell^2$ and so by the subspace test, we have $\ell^2 \leq \R^{\N}$.
+
+      We then define the $\ell^2$-norm on the $\ell^2$ subspace as:
+      \[
+        \norm{x}_{2} = \left[\sum_{i = 1}^{\infty} x^2_i\right]^{\frac{1}{2}} \text{ for $x \in \ell^2$}
+      \]
+      Clearly conditions \textbf{(i)} and \textbf{(ii)} hold.
+      For \textbf{(iii)}, we see that:
+      \[
+        \norm{x}_2 = \lim_{n \to \infty} \norm{(x_1, \ldots, x_n)}_{\ell^2}
+      \]
+      and so the triangle inequality for $\norm{\argdot}_2$ follows from the triangle inequality of $\norm{\argdot}_{\ell^2}$ on $\R^n$.
+    \item We also define the subset $\ell^{\infty}$ as:
+      \[
+        \ell_{\infty} = \left\{(x_k) \in \R^{\N}: \sup_{k \in \N} |x_k| < \infty\right\}
+      \]
+      Again, clearly $\vec{0} \in \ell^{\infty}$.
+      For any $x, y \in \ell^{\infty}$ and $\lambda \in \R$:
+      \[
+        \sup_{k \in \N} |x_k + \lambda y_k| \leq \sup_{k \in \N} |x_k| + |\lambda| \sup_{k \in \N} |y_k| < \infty
+      \]
+      so $x + \lambda y \in \ell^{\infty}$.
+      Thus by the subspace test, we have $\ell^{\infty} \leq \R^{\N}$.
+
+      We then define the $\ell^{\infty}$-norm on the $\ell^{\infty}$ space as:
+      \[
+        \norm{x}_{\infty} = \sup_{k \in \N} |x_k|
+      \]
+      Conditions \textbf{(i)} and \textbf{(ii)} are inherited from $|\argdot|$ on $\R$.
+      For condition \textbf{(iii)}, we have:
+      \[
+        \norm{x}_{\infty} = \lim_{n \to \infty} \norm{(x_1, \ldots, x_n)}_{\ell^{\infty}}
+      \]
+      and so the triangle inequality for $\norm{\argdot}_{\infty}$ follows from the triangle inequality of $\norm{\argdot}_{\ell^{\infty}}$ on $\R^n$.
+  \end{itemize}
+\end{example}
+\end{document}
