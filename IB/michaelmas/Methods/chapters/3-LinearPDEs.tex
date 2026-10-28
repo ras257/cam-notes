@@ -448,4 +448,211 @@ for constants $\alpha_n$ and $\beta_n$.
   \]
   Since this solves and the boundary conditions are Dirichlet B.C.s, it is \textit{the} solution to the problem by uniqueness.
 \end{example}
+\section{The Wave Equation}
+\subsection{Waves on a String}
+Consider a uniform string under constant tension $\tau$ clamped at both $x = 0$ and $x = L$.
+We allow the string to undergo small transverse oscillations, i.e. we assume that motion is only vertical at each point and the displacement $y = y(x, t)$ obeys $\abs{\partial y/\partial x} \ll 1$.
+\begin{remark}
+  Since $y(0, t) = 0$, we can write:
+  \[
+    y(x, t) = \int_{0}^{x} \pderiv{y}{x}(s, t) \d{s}
+  \]
+  and so $y(x, t) \ll L$ for such oscillations.
+\end{remark}
+Consider a small section of the string of horizontal length $\delta x$:
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=stealth]
+  \draw[thick, domain=-2:1.7, smooth, variable=\x] plot ({\x}, {sin(\x r)});
+  \coordinate (A) at (-1, -0.8414);
+  \fill (A) circle (1pt) node[below right] {$x_A$};
+
+  \coordinate (B) at (1, 0.8414);
+  \fill (B) circle (1pt) node[below right] {$x_B$};
+
+  \draw[dashed] (A) -- node[midway, below] {$\delta x$} (1, -0.8414) -- node[midway, right] {$\delta y$} (B) -- node[midway, below right] {$\delta s$} (A);
+
+  \draw[->] (B) -- ($(B) + (B)$) node[above right] {$\tau$};
+  \draw[->] (A) -- ($(A) + (A)$) node[below left] {$\tau$};
+
+  \draw[dashed] (A) -- ($(A)+(-1,0)$);
+  \draw[dashed] (B) -- ($(B)+(1,0)$);
+  \draw (A) ++ (180:0.5) arc (180:220:0.5) node[pos=0.8, left] {$\theta_A$};
+  \draw (B) ++ (0:0.5) arc (0:40:0.5) node[pos=0.8, right] {$\theta_B$};
+\end{tikzpicture}
+\end{center}
+\subsubsection{Horizontal Motion}
+Resolving horizontally, since there is no motion in other planes, we have:
+\[
+  \tau \cos \theta_B - \tau \cos \theta_A = 0
+\]
+For non-zero $\tau$ this is just $\cos \theta_B - \cos \theta_A = 0$.
+
+This is consistent if we work up to $O(y^2_x)$.
+Using $\tan \theta_A = \at{\partial y/\partial x}{A}$, we have:
+\begin{align*}
+  \cos \theta_B - \cos \theta_A &= \frac{1}{\sqrt{1 + \tan^2 \theta_B}} - \frac{1}{\sqrt{1 + \tan^2 \theta_A}} \\
+                                &= \frac{1}{\sqrt{1 + (\at{\partial y/\partial x}{B})^2}} - \frac{1}{\sqrt{1 + (\at{\partial y/\partial x}{A})^2}} \\
+                                &= \at{\pderiv{}{x}\left[\frac{1}{\sqrt{1 + y^2_x}}\right]}{x = \xi} (x_B - x_A) \text{ by the MVT for some $\xi \in [x_B, x_A]$} \\
+                                &= O(\delta x \cdot y^2_x)
+\end{align*}
+
+\subsubsection{Vertical Motion}
+For the vertical motion we need the mass of the section of string to apply Newton's second law.
+Since the string is uniform, the mass of this section of string is propositional to its length $\delta s$.
+\begin{align*}
+  \delta s = \int_{A}^{B} \d{s} = \int_{x_A}^{x_B} \sqrt{1 + y^2_x} \d{x} = \delta x[1 + O(y^2_x)]
+\end{align*}
+Thus since we are working up to $O(y^2_x)$ is reasonable to assume that the mass is $\mu \delta x$ where $\mu > 0$ is the density of the string.
+
+We can now resolve vertically:
+\[
+  \mu \delta_x \at{\pderiv[2]{y}{t}}{x = \frac{1}{2}(x_A + x_B)} = \tau \sin \theta_B - \tau \sin \theta_A
+\]
+Using $\sin \alpha = \cos \alpha \tan \alpha$, we can proceed similarly to before:
+\begin{align*}
+  \sin \theta_B - \sin \theta_A &= \frac{\at{\partial y/\partial x}{B}}{\sqrt{1 + (\at{\partial y/\partial x}{B})^2}} - \frac{\at{\partial y/\partial x}{A}}{\sqrt{1 + (\at{\partial y/\partial x}{A})^2}} \\
+                                &= \at{\pderiv{}{x}\left[\frac{y_x}{\sqrt{1 + y^2_x}}\right]}{x = \xi} (x_B - x_A) \text{ by the MVT} \\
+                                &= [y_{x x} + O(y^2_x)] \delta x
+\end{align*}
+Thus:
+\[
+  \frac{\mu \delta_x}{\tau} \at{\pderiv[2]{y}{t}}{x = \frac{1}{2}(x_A + x_B)} = \tau \delta_x [y_{x x}(\xi, t) + O(y^2_x)]
+\]
+Taking $\delta x \to 0$ so that $\xi \to x$:
+\[
+  \pderiv[2]{y}{t} = c^2 \pderiv[2]{y}{x}
+\]
+where $c^2 = \tau / \mu$ is the \textit{wave speed}.
+
+Since the ends of the string are clamped, we have the boundary conditions $y(0, t) = y(L, t) = 0$.
+We also used Newton's second law which requires the initial conditions $y(x, 0)$, i.e. the initial profile of the string, and $y_{t}(x, 0)$, i.e. the initial velocity of each point on the string.
+\subsubsection{The IBVP}
+So our IBVP is:
+\[
+  \begin{cases}
+  y_{t t} - c^2 y_{x, x} = 0 & \text{ for } x \in (0, L),\ t > 0 \\
+  y(0, t) = y(L, t) = 0 & \text{ for } t > 0 \\
+  y(x, 0) = f(x) & \text{ for } x \in (0, L) \\
+  y_t(x, 0) = g(x) & \text{ for } x \in (0, L)
+  \end{cases}
+\]
+\begin{remark}[Memorisation]
+  We can use dimensional analysis to remember which side of the equation the $c^2$ should be on.
+\end{remark}
+We now try to solve the homogeneous of this equation part via separation of variables.
+To do this we try $y = X(x)T(t)$ and find, as we have in other separation of variables solutions, that there exists $\lambda \in \R$ such that:
+\[
+  \ddot{T} + \lambda c^2 T = 0 \text{ and } \begin{cases}
+  X'' + \lambda X = 0 & \text{ for } x \in (0, L)\\
+  X(0) = X(L) = 0  &
+  \end{cases}
+\]
+The $X$ equation is a Sturm-Liouville problem we solved in \cref{slpExample} and so:
+\[
+  X_n(x) = \sin\left(\frac{n \pi x}{L}\right),\ \lambda_n = \left(\frac{n\pi}{L}\right)^2 \text{ for $n \geq 1$}
+\]
+Using the values for $\lambda_n$, the $T$ equation is then:
+\[
+  \ddot{T} + \left(\frac{n \pi c}{L}\right)^2 T = 0
+\]
+giving the solutions:
+\[
+  T_n(t) = A_n \cos\left(\frac{n \pi ct}{L}\right) + B_n \sin\left(\frac{n \pi ct}{L}\right)
+\]
+for constants $A_n$ and $B_n$.
+\begin{remark}[Sanity Check]
+  Recall from IA Dynamics and Relativity that inputs to functions expressible as power series must be dimensionless.
+  Both the arguments to $\sin$ and $\cos$ are dimensionless which is consistent with this.
+\end{remark}
+So we have a family of solutions:
+\[
+  y(x, t) = \sum_{n = 1}^{\infty} \sin\left(\frac{n\pi x}{L}\right)\left[A_n \cos\left(\frac{n \pi ct}{L}\right) + B_n \sin\left(\frac{n \pi ct}{L}\right)\right]
+\]
+for constants $A_n$ and $B_n$.
+
+Now for the inhomogeneous initial conditions to hold, we need:
+\begin{align*}
+  f(x) &= \sum_{n = 1}^{\infty} A_n \sin\left(\frac{n \pi x}{L}\right) \\
+  g(x) &= \sum_{n = 1}^{\infty} B_n \left(\frac{n \pi c}{L}\right) \sin\left(\frac{n \pi x}{L}\right)
+\end{align*}
+Using the orthogonality relation $\langle X_n, X_m \rangle = \frac{L}{2} \delta_{n m}$ from \cref{slpExample}, we obtain:
+\[
+  A_n = \frac{2}{L} \int_{0}^{L} f(x) \sin\left(\frac{n \pi x}{L}\right) \d{x}
+\]
+and similarly:
+\[
+  B_n = \frac{L}{n \pi c} \int_{0}^{L} g(x) \sin\left(\frac{n \pi x}{L}\right) \d{x}
+\]
+Thus the coefficients in $y(x, t)$ have been obtained from $f$ and $g$ and so, for the purposes of IB Methods, we have a solution.
+\subsection{Waves on a Drum}
+In higher dimensions, the wave equation generalises to:
+\[
+  \frac{1}{c^2} \pderiv[2]{\varphi}{t} = \Delta \varphi
+\]
+for $\varphi = \varphi(\vec{x}, t)$ and $(\vec{x}, t) \in \Omega \times (0, \infty)$.
+
+So the IBVP is:
+\[
+  \begin{cases}
+  \varphi_{t t} - c^2 \Delta \varphi = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, \infty) \\
+  \varphi = 0 & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, \infty) \\
+  \varphi = f & \text{ for } (\vec{x}, t) \in \Omega \times \{t = 0\} \\
+  \varphi_t = g & \text{ for } (\vec{x}, t) \in \Omega \times \{t = 0\}
+  \end{cases}
+\]
+In this case, we will consider a circular drum of radius 1, thus $\Omega$ is given by:
+\[
+  \Omega = \{(r, \theta): r \in [0, 1),\ \theta \in [0, 2\pi)\}
+\]
+where $(r, \theta)$ are plane-polar coordinates.
+For simplicity, we assume that the initial conditions are radially symmetric, i.e. $f = f(r)$ and $g = g(r)$.
+In this case, we expect a radially symmetric solution $\varphi = \varphi(r, t)$.
+
+We solve the homogeneous problem by looking for a separable solution $\varphi = R(r)T(t)$.
+Upon substituting in, we obtain:
+\begin{align*}
+  \frac{1}{c^2} \pderiv[2]{\varphi}{t} &= \frac{1}{r} \pderiv{}{r}\left(r \pderiv{\varphi}{r}\right) \\
+  \implies \frac{\ddot{T}}{c^2 T} &= \frac{[r R']'}{r R}
+\end{align*}
+So there exists $\lambda \in \R$ such that:
+\begin{align*}
+  -\deriv{}{r}\left[r \deriv{R}{r}\right] &= \lambda r R \text{ with } R(1) = 0 \\
+  \ddot{T} + c^2 \lambda T &= 0
+\end{align*}
+The equation for $R$ is the Sturm-Liouville problem relating to the Bessel equation of order $m = 0$ from \cref{besselSec}.
+\begin{remark}
+  If we do not assume that the initial conditions are radially symmetric, then this results in Bessel equations of order $m \neq 0$.
+\end{remark}
+As we saw in \cref{besselSec}, this has solutions:
+\[
+  R_k(r) = J_0(j_{0 k} r) \text{ and } \lambda_k = j^{2}_{0 k} \text{ for } k \geq 1
+\]
+The $T$ equation therefore becomes:
+\[
+  \ddot{T} + (c j_{0 k})^2 T = 0
+\]
+giving the solutions:
+\[
+  T_k(t) = A_k \cos(j_{0 k} ct) + B_j \sin(j_{0 k} ct)
+\]
+So we have a family of solutions:
+\[
+  \varphi(r, t) = \sum_{k = 1}^{\infty} J_0(j_{0 k} r)[A_k \cos(j_{0 k} ct) + B_j \sin(j_{0 k} ct)]
+\]
+Recall from Example Sheet 1 Q10 that the orthogonality relation for Bessel functions of the same order is:
+\[
+  \langle R_k, R_l \rangle_w = \frac{[J_0'(j_{0 k})]^2}{2} \delta_{k l} \text{ where } w = r
+\]
+Now considering the inhomogeneous initial conditions, we need:
+\begin{align*}
+  f(r) &= \sum_{k = 1}^{\infty} A_k J_0(j_{0 k} r) \\
+  g(r) &= \sum_{k = 1}^{\infty} c j_{0 k} B_k J_0(j_{0 k} r)
+\end{align*}
+So, using the orthogonality relation, we obtain:
+\begin{align*}
+  A_k = \frac{2}{[J'(j_{0 k})]^2} \int_{0}^{1} f(r) J_0(j_{0 k} r) r \d{r} \\
+  B_k = \frac{1}{c j_{0 k}} \cdot \frac{2}{[J'(j_{0 k})]^2} \int_{0}^{1} g(r) J_0(j_{0 k} r) r \d{r}
+\end{align*}
+Note that we have $r \d{r}$ and not just $\d{r}$ because the weight function is $w = r$ and not $w = 1$.
+Thus the coefficients in $\varphi(x, t)$ have been obtained from $f$ and $g$.
 \end{document}
