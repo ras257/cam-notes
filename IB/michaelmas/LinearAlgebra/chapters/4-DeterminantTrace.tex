@@ -1,0 +1,160 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Determinant and Trace}
+\section{Defining Determinants}
+For $A \in \mathcal{M}_{n \times n}(\F)$, let $c_1, \ldots, c_n \in \F^n$ be the columns of $A$.
+
+\begin{theorem}[Uniqueness of the determinant]
+  For each $n \in \N$, there exists a unique function $\det: \mathcal{M}_{n \times n}(\F) \to \F$ satisfying the following: \label{detThm}
+  \begin{enumerate}
+    \item \textbf{Alternating -} If there exists $i \neq j$ such that $c_i = c_j$, then $\det A = 0$
+    \item \textbf{Multilinear -} For each $i$ and for any $A$ with columns $c_1, \ldots, c_n \in \F^{n}$, the \textit{column substitution maps} defined as:
+      \[
+        d_{A, i}: \F^n \to \F,\ v \mapsto \det([c_1 \vert \cdots \vert c_{i - 1} \vert v \vert c_{i + 1} \vert \cdots \vert c_n])
+      \]
+      are linear.
+    \item \textbf{Normalised -} $\det I_n = 1$
+  \end{enumerate}
+\end{theorem}
+\begin{remark}[Note]
+  A function satisfying \textbf{(i)} and \textbf{(ii)} but not necessarily \textbf{(iii)} is called an \textit{$n$-dimensional volume form}.
+\end{remark}
+\begin{definition}[Determinant]
+  We call $\det A$ the \textit{determinant of $A$}.
+  This is sometimes denoted $|A|$.
+\end{definition}
+\begin{lemma}
+  If $F: \mathcal{M}_{n \times n}(\F) \to \F$ is an $n$-dimensional volume form and $A \in \mathcal{M}_{n \times n}(\F)$, then: \label{volumeFormLemma}
+  \begin{enumerate}
+    \item If $A$ has a zero-column, then $F(A) = 0$
+    \item $F(AT_{i, j}) = -F(A)$, i.e. swapping two columns flips the sign of $F$
+    \item $F(A M_{i, \lambda}) = \lambda F(A)$ for $\lambda \in \F \setminus \{0\}$, i.e. scaling a column by $\lambda$ scales $F$ by $\lambda$
+    \item $F(A C_{i, j, \lambda}) = F(A)$, i.e. $F$ is unchanged under adding a multiple of one column to another.
+  \end{enumerate}
+  where $T_{i, j}$, $M_{i, \lambda}$ and $C_{i, j, \lambda}$ are the three types of elementary matrices as defined in \cref{elementaryTypes}.
+\end{lemma}
+\begin{remark}[Intuition]
+  If we think of the columns of $A$ as specifying the side vectors of an $n$-dimensional hypercube (e.g. in 2D, the sides of a square) then $F$ has the properties we would expect for such a signed volume.
+\end{remark}
+\begin{proof}
+  Let $d_{A, i}: \F^n \to \F$ be a column substitution map for $F$.
+  We note that $d_{A, i}(c_j) = \delta_{i j} F(A)$ since $F$ is 0 if two columns are equal.
+  \begin{enumerate}
+    \item If $c_i = \vec{0}$, then column $i$ is already $\vec{0}$ so replacing it with $\vec{0}$ leaves the matrix unchanged, thus:
+      \[
+        F(A) = d_{A, i}(\vec{0}) = 0
+      \]
+      as $d_{A, i}$ is linear.
+    \item Let $\overline{A}$ be obtained from $A$ by replacing both $c_i$ and $c_j$ by $c_i + c_j$.
+      By construction $\overline{A}$ has two equal columns so $F(\overline{A}) = 0$.
+      Further, since $F$ is multilinear in its columns, we can split $F(\overline{A})$ into four terms
+      \begin{align*}
+        F(\overline{A}) &= F(c_1 \vert \cdots \vert c_{i - 1} \vert c_i + c_j \vert c_{i + 1} \vert \cdots \vert c_{j - 1} \vert c_i + c_j \vert c_{j + 1} \vert \cdots \vert c_n) \\
+                        &= \cancelto{0}{d_{A, i}(c_j)} + \cancelto{0}{d_{A, j}(c_i)} \\
+                        &\hspace{0.4cm} + F(c_1 \vert \cdots \vert c_{i - 1} \vert c_j \vert c_{i + 1} \vert \cdots \vert c_{j - 1} \vert c_i \vert c_{j + 1} \vert \cdots \vert c_n) \\
+                        &\hspace{0.4cm} + F(c_1 \vert \cdots \vert c_{i - 1} \vert c_i \vert c_{i + 1} \vert \cdots \vert c_{j - 1} \vert c_j \vert c_{j + 1} \vert \cdots \vert c_n) \\
+                        &= F(AT_{i, j}) + F(A)
+      \end{align*}
+      and so $F(A T_{i,j}) = -F(A)$.
+    \item $F(A M_{i, \lambda}) = d_{A, i}(\lambda c_i) = \lambda d_{A, i}(c_i) = \lambda F(A)$ by linearity of $d_{A, i}$.
+    \item $F(A C_{i, j, \lambda}) = d_{A, j}(c_j + \lambda c_i) = d_{A, j}(c_j) + \lambda d_{A, j}(c_i) = F(A)$ again by linearity of $d_{A, i}$.
+  \end{enumerate}
+\end{proof}
+\begin{remark}[Recap]
+  Recall the following facts about permutations from IA Groups:
+  \begin{itemize}
+    \item $S_n$ is the group of permutations of $\{1, \ldots, n\}$.
+    \item There is unique homomorphism $\sign: S_n \to \{\pm 1\}$ such that $\sign(\tau) = -1$ for all transpositions $\tau = \cycle{k l}$.
+    \item $A_n = \ker \sign$ and for any transposition $\tau$ we can write $S_n  = A_n \sqcup A_n \tau$ where $\sqcup$ represents that this union is between disjoint sets.
+  \end{itemize}
+\end{remark}
+\begin{proof}[for \cref{detThm}]\par
+  \textbf{Uniqueness}\par
+  Suppose $F: \mathcal{M}_{n \times n}(\F) \to \F$ satisfies all the properties and fix some arbitrary $A \in \mathcal{M}_{n \times n}(\F)$.
+  Since we now also have that $F(I_n) = 1$, using the results in \cref{volumeFormLemma}, we have:
+  \[
+    F(T_{i, j}) = -1,\ F(M_{i, \lambda}) = \lambda,\ F(C_{i j \lambda}) = 1
+  \]
+  So for any $A \in \mathcal{M}_{n \times n}(\F)$ and elementary $E \in \GL_n(\F)$, we have $F(AE) = F(A)F(E)$.
+  Further, looking at the inverses of the elementary matrices, we see that $F(E^{-1}) = F(E)^{-1}$ for any elementary matrix $E$.
+
+  By using \cref{gaussElim} to find the column-reduced echelon form of $A$, there exists elementary matrices $E_1, \ldots, E_l \in \GL_n(\R)$ such that $A' = AE_1 \cdots E_l$ is in column-reduced echelon form.
+  Thus:
+  \begin{align*}
+    A &= A' E^{-1}_l \cdots E^{-1}_1 \\
+    \implies F(A) &= F(A' E^{-1}_l \cdots E^{-1}_1) \\
+                  &= F(A') F(E^{-1}_l) \cdots F(E^{-1}_1) \\
+                  &= F(A') F(E_l)^{-1} \cdots F(E_1)^{-1}
+  \end{align*}
+  If $\rank A' = \rank A < n$, then then by \cref{RREFRank} $A'$ must have a zero column as we found the CREF.
+  So by \cref{volumeFormLemma} \textbf{(i)}, $F(A) = 0$.
+
+  Otherwise, if $\rank A' = \rank A = n$, then $A'$ has no zero columns by \cref{RREFRank}.
+  So by the remark in \cref{RREFRemarks}, we must have $A' = I_n$, thus:
+  \[
+    F(A) = F(E_1)^{-1} \cdots F(E_l)^{-1}
+  \]
+  which is fully determined by the properties of $F$ as we know what $F$ of the elementary matrices is.
+
+  In both cases, the value of any $A$ is completely determined by the properties required of $F$, thus the determinant is unique.
+
+  \textbf{Existence}\par
+  Define $\det: \mathcal{M}_{n \times n}(\F) \to \F$ by:
+  \[
+    \det A = \sum_{\sigma \in S_n} \sign(\sigma) \prod_{i = 1}^{n} a_{\sigma(i)i}
+  \]
+  This is the \textit{Leibniz formula} for the determinant.
+
+  \begin{enumerate}
+    \item Suppose $c_k = c_l$ and set $\tau = \cycle{k l}$.
+      We then have that $a_{j i} = a_{j \tau(i)}$ for all $i, j$ since $\tau(i) = i$ for $i \notin \{k, l\}$.
+
+      Splitting this sum up into the disjoint parts over $A_n$ and $A_n \tau$ we have:
+      \[
+        \det A = \sum_{\sigma \in A_n} \sign(\sigma) \prod_{i = 0}^{n} a_{\sigma(j) i} + \sum_{\sigma \in A_n} \sign(\sigma \tau) \prod_{i = 0}^{n} a_{\sigma \tau(i) \tau(i)}
+      \]
+      We see that since $\sigma \in A_n$, $\sign(\sigma) = 1$, and since $\tau$ is a transposition $\sign(\sigma \tau) = -1$ so:
+      \[
+        \det A = \sum_{\sigma \in A_n} \prod_{i = 0}^{n} a_{\sigma(j) i} - \sum_{\sigma \in A_n} \prod_{i = 0}^{n} a_{\sigma \tau(i) \tau(i)}
+      \]
+      Since $j = \tau(i)$ ranges over each $1, \ldots, n$ as $i$ also does, applying $\tau$ does not affect the value of the product, only the order of its elements.
+      Thus we have:
+      \[
+        \det A = \sum_{\sigma \in A_n} \prod_{i = 0}^{n} a_{\sigma(j) i} - \sum_{\sigma \in A_n} \prod_{j = 0}^{n} a_{\sigma(j) j} = 0
+      \]
+    \item Each product $\prod_{i = 0}^{n} a_{\sigma(i) i}$ is multilinear in the columns of $A$, hence so is their signed sum.
+    \item We see that $\det(I_n) = 1$ since the only non-zero product $\prod_{i = 1}^{n} a_{\sigma(i) i}$ is when $\sigma = \id_{S_n}$ and $\sign(\id_{S_n}) = 1$ as can be written as the product of zero transpositions.
+  \end{enumerate}
+\end{proof}
+\begin{corollary}
+  For $A \in \mathcal{M}_{n \times n}(\F)$, we have that $\det A \neq 0$ if and only if $A$ is invertible.
+  In the case of invertible $A$, we can write $A = E_1 \cdots E_l$ and then: \label{invertDet}
+  \[
+    \det A = \det(E_1) \cdots \det(E_l)
+  \]
+\end{corollary}
+\begin{proof}
+  In the proof of the theorem, we saw that $\det A = 0$ if $\rank A < n$ and $\det A \neq 0$ if $\rank A = n$.
+  Further, in \cref{equivOperations}, we saw that $\rank A = n$ if and only if $A$ is invertible and so the result follows.
+
+  In the case of $A$ being invertible, again by \cref{equivOperations}, we can write it as a product of elementary matrices.
+  As shown in the proof of the theorem $\det(AE) = \det(A)\det(E)$ for elementary $E$ and so the result follows.
+\end{proof}
+\section{Properties of the Determinant}
+\begin{lemma}[Determinant of transpose]
+  For all $A \in \mathcal{M}_{n \times n}(\F)$:
+  \[
+    \det A^{\trans} = \det A
+  \]
+\end{lemma}
+\begin{proof}
+  We usetappeal to a similar trick as before:
+  \begin{align*}
+    \det A^{\trans} &= \sum_{\sigma \in S_n} \sign(\sigma) \prod_{i = 0}^{n} a_{i \sigma(i)} \\
+                    &= \sum_{\sigma \in S_n} \sign(\sigma) \prod_{j = 0}^{n} a_{\sigma^{-1}(j) j} \text{ since $j = \sigma(i)$ ranges over $\{1, \ldots, n\}$ as $i$ does} \\
+                    &= \sum_{\sigma \in S_n} \sign(\sigma^{-1}) \prod_{j = 0}^{n} a_{\sigma^{-1}(j) j} \text{ since $\sign(\sigma^{-1}) = \sign(\sigma)$} \\
+                    &= \sum_{\sigma \in S_n} \sign(\sigma) \prod_{j = 0}^{n} a_{\sigma(j) j} \text{ since $\sigma$ ranges over $S_n$ as $\sigma^{-1}$ does} \\
+                    &= \det A
+  \end{align*}
+\end{proof}
+\end{document}

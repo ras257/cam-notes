@@ -505,7 +505,7 @@ This leads us to the concept of \textit{matrix similarity}.
   Thus there are matrices with are equivalent but not similar.
 \end{example}
 \section{Elementary Matrix Operations}
-\subsection{Types of Elementary Operation}
+\subsection{Types of Elementary Operation} \label{elementaryTypes}
 Take some $A \in \mathcal{M}_{m \times n}(\F)$ and let $r_1, \ldots, r_m \in \F^n$ be the rows of $A$.
 There are three types of \textit{elementary row operations}:
 \begin{enumerate}
@@ -624,7 +624,7 @@ So now we know that elementary operations preserve particular properties of the 
   We say that $A$ is in \textit{column-reduced echelon form} if $A^{\trans}$ is in row-reduced echelon form.
 \end{definition}
 \begin{lemma}
-  If $A$ is in row-reduced echelon form, then $\rowrank A$ is the number of non-zero rows.
+  If $A$ is in row-reduced echelon form, then $\rowrank A$ is the number of non-zero rows. \label{RREFRank}
 \end{lemma}
 \begin{proof}
   Suppose we have $k$ non-zero rows.
@@ -686,9 +686,10 @@ So now we know that elementary operations preserve particular properties of the 
     \end{proofcases}
   }
 \end{proof}
-\begin{remark}[Remarks]
+\begin{remark}[Remarks] \label{RREFRemarks}
   \begin{itemize}
     \item Gaussian elimination performs only row operations and so preserves the row-space of $A$.
+      In particular, $\rank(\operatorname{rref}(A)) = \rank A$.
     \item The RREF of a matrix is unique, so the matrix obtained from Gaussian elimination is \textit{the} row-reduced echelon form of $A$.
       This is sometimes denoted $\operatorname{rref}(A)$
     \item We can put a matrix into column-reduced echelon form by applying Gaussian elimination to $A^{\trans}$.
@@ -700,7 +701,7 @@ So now we know that elementary operations preserve particular properties of the 
   \end{itemize}
 \end{remark}
 \begin{theorem}
-  For $A \in \mathcal{M}_{n \times n}(\F)$, the following are equivalent:
+  For $A \in \mathcal{M}_{n \times n}(\F)$, the following are equivalent: \label{equivOperations}
   \begin{enumerate}
     \item $A$ has \textit{full-rank}, that is $\rank A = n$.
     \item $A$ is a product of elementary matrices
@@ -729,5 +730,33 @@ So now we know that elementary operations preserve particular properties of the 
   So $A$ has an inverse inverse $B$, i.e. $A B = I$.
   Then for any $v \in \F^n$, $v = A(B v)$, so $v \in \im A$.
   Thus $\im A = \F^n$ so $\colrank A = \rank A =  n$.
+\end{proof}
+Equipped with row and column operations, we can provide an alternative proof of \cref{equivNice} \textbf{(i)}.
+\begin{proof}[for \cref{equivNice} \textbf{(i)}]
+  Using \cref{gaussElim}, there exists elementary matrices $E_1, \ldots, E_{l} \in \GL_m(\F)$ such that:
+  \[
+    A' = E_{\ell} \cdots E_1 A
+  \]
+  is in RREF.
+
+  We let $P = E_{\ell} \cdots E_1 \in \GL_m(\F)$ and then apply elementary column swaps to $A' = PA$ to move all pivot columns to the left to obtain:
+  \[
+    A'' = A' E_1' \ldots E_k' = \left(\begin{array}{c|c}
+    I_r & ? \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  where $r$ is the number of non-zero rows.
+  By \cref{RREFRank}, $\rank A' = \rowrank A'$ is exactly the number of non-zero rows, so $r = \rank A'$.
+  Further, we saw that $\rank A = \rank(\operatorname{rref}(A))$, thus $r = \rank A$ as desired.
+
+  We finally use elementary column operations to purge the top right block using the top left block to obtain:
+  \[
+    A''' = A'' E_1'' \ldots E_j'' = \left(\begin{array}{c|c}
+    I_r & O \\ \hline
+    O & O
+    \end{array}\right) \in \mathcal{M}_{m \times n}(\F)
+  \]
+  Setting $Q = E_1' \cdots E_k' E_1'' \cdots E_j'' \in \GL_n(\F)$, we have $A''' = PAQ$, as desired.
 \end{proof}
 \end{document}
