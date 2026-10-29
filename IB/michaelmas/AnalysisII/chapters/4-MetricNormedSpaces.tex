@@ -14,6 +14,7 @@ Finally, in this course, we extended this to notions of uniform continuity.
 These definitions and properties are quite useful and so we would like to extend these notions to functions $f: X \to \R$ or $f: X \to Y$.
 But what such sets $X$ and $Y$ can we do this on, and how can we generalise the structures from $\R$?
 \section{Metric Spaces}
+\subsection{Definitions}
 \begin{remark}[Note]
   In this course, we will assume that all vector spaces are over $\R$.
 \end{remark}
@@ -38,7 +39,7 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
   We then call $(V, \norm{\argdot})$ a \textit{normed vector space} or \textit{normed space}.
 \end{definition}
 \begin{proposition}
-  If $(V, \norm{\argdot})$ is a normed space and we define:
+  If $(V, \norm{\argdot})$ is a normed space and we define: \label{normToMetric}
   \[
     d: V \times V \to \R,\ (x, y) \mapsto \norm{x - y}
   \]
@@ -59,6 +60,7 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
   \end{enumerate}
   So $d$ is indeed a metric on $V$.
 \end{proof}
+\subsection{Examples of Norms} \label{normExamples}
 \begin{example}[Finite dimensional vector space]
   The prototypical example of a finite dimensional normed space is $\R^n$ equipped with various norms.
 
@@ -177,4 +179,171 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
       and so the triangle inequality for $\norm{\argdot}_{\infty}$ follows from the triangle inequality of $\norm{\argdot}_{\ell^{\infty}}$ on $\R^n$.
   \end{itemize}
 \end{example}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We can analogously define the $\ell^p$ subspace of $\R^\N$ for $p \geq 1$ as:
+      \[
+        \ell^p = \left\{x \in \R^\N: \sum_{k = 1}^{\infty} |x_k|^p < \infty\right\}
+      \]
+      This is a subspace of $\R^\N$ and $(\ell^p, \norm{\argdot}_p)$ is a normed space where the $\ell^p$-norm is defined as:
+      \[
+        \norm{x}_{p}  = \left[\sum_{k = 1}^{\infty} |x_k|^p\right]^\frac{1}{p}
+      \]
+      We can also similarly define an $\ell^p$ norm on $\R^n$.
+    \item In fact, $\lim_{p \to \infty} \norm{x}_{p} = \norm{x}_{\infty}$.
+    \item Further $\ell^p \subset \ell^q$ for $p < q$.
+  \end{enumerate}
+\end{remark}
+\begin{example}[On continuous functions]
+  Consider the vector space of continuous functions:
+  \[
+    V = C([a, b]) = \{f: [a, b] \to \R: f \text{ is continuous}\}
+  \]
+  We can define the following norms on this space:
+  \begin{enumerate}
+    \item The $L^1$-norm on $C([a, b])$ defined by:
+      \[
+        \norm{f}_{L^1([a, b])} = \int_{a}^{b} |f(x)| \d{x}
+      \]
+      This is also denoted $\norm{\argdot}_{L^1}$ or $\norm{f}_1$ if the domain is obvious.
+
+      Since $f \in C([a, b])$, we get $\int_{a}^{b} |f(x)| \d{x} = 0 \iff f \equiv 0$ so property \textbf{(i)} is satisfied.
+      Properties \textbf{(ii)} and \textbf{(iii)} follow from the triangle inequality of $|\argdot|$ on $\R$ and properties of integrals from IA Analysis 1.
+    \item The $L^2$-norm on $C([a, b])$ defined by:
+      \[
+        \norm{f}_{L^2([a, b])} = \left[\int_{a}^{b} f(x)^2 \d{x}\right]^{\frac{1}{2}}
+      \]
+      This is also denoted $\norm{\argdot}_{L^2}$ or $\norm{f}_2$ if the domain is obvious.
+      We saw in IA Analysis I that if $f$ is integrable, so is $f^2$ so the above is indeed well defined.
+
+      For this norm, the triangle inequality follows from the integral version of Cauchy-Schwarz:
+      \[
+        \int_{a}^{b} |fg| \d{x} \leq \left(\int_{a}^{b} |f|^2 \d{x}\right)^{\frac{1}{2}} \left(\int_{a}^{b} |g|^2 \d{x}\right)^{\frac{1}{2}}
+      \]
+      which follows from applying Cauchy Schwarz to the inner product on $C([a, b])$ defined as:
+      \[
+        \langle f, g \rangle = \int_{a}^{b} f(x)g(x) \d{x}
+      \]
+    \item The $L^\infty$-norm on $C([a, b])$, or \textit{uniform norm}, defined by:
+      \[
+        \norm{f}_{L^\infty([a, b])} = \sup_{x \in [a, b]} |f(x)|
+      \]
+      This is also denoted $\norm{\argdot}_{L^\infty}$ or $\norm{f}_{\infty}$ if the domain is obvious.
+  \end{enumerate}
+\end{example}
+\begin{remark}[Aside]
+  \nonexaminable
+  The ``natural'' space for the integral norms $L^1, L^2, \ldots$ to be defined on is $\mathscr{R}([a, b])$, the set of Riemann integrable $f: [a, b] \to \R$.
+  Using properties of integrability IA Analysis I, we see that $\mathscr{R}([a, b])$ this forms a vector space under addition and scalar multiplications of functions.
+
+  However, there is an immediate concern if we do this:
+  \[
+    f \in \mathscr{R}([a, b]) \text{ and } \norm{f}_1 = \int_{a}^{b} |f(x)| \d{x} = 0 \centernot\implies f \equiv 0 \text{ on } [a. b]
+  \]
+  For example, Thomae's function has a zero integral but is not identically zero.
+
+  We can however rectify this issue without needing to restrict to just $C([a, b])$.
+  This is because:
+  \[
+    \int_{a}^{b} |f| \d{x} = 0 \iff f = 0 \text{ almost every where in $[a, b]$}
+  \]
+  By \textit{almost everywhere} (abbreviated \textit{a.e.}), we mean that $f = 0$ except on a null set.
+  This follows from Lebesgue's theorem (\cref{lebesgueInt}).
+
+  We know that since if $f$ is integrable, so is $|f|$, thus the discontinuities of $|f|$ have measure 0.
+  So if $\int_{a}^{b} |f| \d{x} = 0$, then we must have that $f = 0$ at every continuity point of $f$ as if this was not the case, then there would be an interval on which $|f| > 0$, contradicting $I(|f|) = 0$.
+  Thus the set of points on which $f \neq 0$ is null.
+  Conversely, if $f = 0$ almost everywhere, then $L(\mathcal{P}, |f|) = 0$ for any partition $\mathcal{P}$ and so $I(|f|) = 0$.
+
+  We can now define an equivalence relation $f \sim g$ on $\mathscr{R}([a, b])$ by:
+  \[
+    f \sim g \iff f = g \text{ almost everywhere on } [a, b]
+  \]
+  If we then quotient out by this relation, we obtain the set of equivalence classes $\widetilde{\mathscr{R}}([a, b]) = \mathscr{R}([a, b]) / \sim$.
+  Suppose we define the operations on this space as:
+  \[
+    [f] + [g] = [f + g] \text{ and } \lambda [f] = [\lambda f]
+  \]
+  where $[f]$ is the equivalence class of $f$ under $\sim$,
+  These are well defined as $[f_1] = [f_2]$ and $[g_1] = [g_2]$, we have $f_1 = f_2$ a.e. and $g_1 = g_2$ a.e. so $f_1 + g_1 = f_2 + g_2$ a.e., thus $[f_1 + g_1] = [f_2 + g_2]$ so this operation is well defined.
+  Similarly, if $[f_1] = [f_2]$, we have $f_1 = f_2$ a.e. and so $\lambda f_1 = \lambda f_2$ a.e., thus $[\lambda f_1] = [\lambda f_2]$.
+
+  Further, if $f \sim g$, then $|f| - |g| = 0$ a.e. so by previous discussion, $\int_{a}^{b} |f| \d{x} - \int_{a}^{b} |g| \d{x} = 0$, thus the norm defined as:
+  \[
+    \norm{[f]}_{L^1([a, b])} = \int_{a}^{b} |f| \d{x}
+  \]
+  is a well defined norm on $\widetilde{\mathscr{R}}([a, b])$.
+\end{remark}
+\subsection{Examples of Metrics}
+\begin{remark}
+  By \cref{normToMetric}, all the examples from \cref{normExamples} are metric spaces with respect to the natural metric induced by the norm.
+
+  For example, the \textit{Euclidean metric} on $\R^n$ is:
+  \[
+    d_{E}(x, y) = \norm{x - y}_{E} = \left[\sum_{i = 1}^{n} (x_i - y_i)^2\right]^{\frac{1}{2}}
+  \]
+  or the \textit{uniform metric} on $C([a, b])$:
+  \[
+    d_{\infty}(f, g) = \norm{f - g}_{\infty} = \sup_{x \in [a, b]} |f(x) - g(x)|
+  \]
+  This is the notion of ``distance'' between functions we alluded to when introducing uniform convergence.
+\end{remark}
+\begin{example}[Discrete metric]
+  For any set $X$ the \textit{discrete metric} is defined as:
+  \[
+    f: X \times X \to \R,\ (x, y) \mapsto \begin{cases}
+    0 & x = y \\
+    1 & x \neq y
+    \end{cases}
+  \]
+  This is a metric since it satisfies all of the properties from \cref{metricDef}:
+  \begin{enumerate}
+    \item $d(x, y) = 0 \iff x = y$
+    \item $d(x, y) = d(y, x)$ by definition
+    \item If $x = y$, then $d(x, y) = 0$ so we must have $d(x, y) \leq d(x, z) + d(z, y)$ vacuously.
+      If $x \neq y$, then $d(x, y) = 1$, we cannot have both $x = z$ and $y = z$ so $d(x, z) + d(z, y) \geq 1$.
+  \end{enumerate}
+\end{example}
+\begin{example}[British/French Railways metric]
+  On $\R^2$, the \textit{British railways} or \textit{French railways} metric is defined as:
+  \[
+    d(x, y) = \begin{cases}
+    \norm{x - y}_2 & \text{ if } x = ty \text{ for some } t \in \R\\
+    \norm{x}_2 + \norm{y}_2 & \text{ otherwise }
+    \end{cases}
+  \]
+  where $\norm{\argdot}_2$ is the Euclidean norm on $\R^2$.
+\end{example}
+\begin{example}[New metrics from a given metric]
+  Suppose that we have a metric space $(X, d)$, we can define the following new metrics from this metric:
+  \begin{enumerate}
+    \item $g: X \times X \to \R,\ (x, y) \mapsto \min\{1, d(x, y)\}$
+    \item $h: X \times X \to \R,\ (x, y) \mapsto \frac{d(x, y)}{1 + d(x, y)}$
+  \end{enumerate}
+  These metrics are both bounded, more specifically $g(x, y) \leq 1$ and $h(x, y) < 1$ for any $x, y \in X$.
+\end{example}
+\section{Open and Closed Subspaces}
+\begin{definition}[Metric subpaces]
+  If $(X, d)$ is a metric space and $Y \subseteq X$, then the restriction:
+  \[
+    \at{d}{Y\times Y}: Y \times Y \to \R
+  \]
+  is a metric on $Y$.
+  This is called the \textit{subspace metric} or \textit{induced metric} on $Y$.
+\end{definition}
+\begin{definition}[Open ball]
+  For a metric space $(X, d)$ and a point $a \in X$, the \textit{open ball with radius $r$ centered at $a$} is defined to be the set:
+  \[
+    B_r(a) = \{x \in X: d(x, a) < r\}
+  \]
+\end{definition}
+\begin{definition}[Open subset]
+  We say that a subset $U \subseteq X$  is \textit{open} if for every point $a \in U$ there exists $r > 0$  such that $B_r(a) \subset U$.
+\end{definition}
+\begin{definition}[Closed subset]
+  We say that a subset $F \subseteq X$  is \textit{closed} if the subset $X \setminus F$ is open
+\end{definition}
+\begin{remark}[Warning]
+  The definition of open and closed subsets are \textbf{not} negations of one another and so it is possible in some metric spaces for a set to be neither open nor closed.
+\end{remark}
 \end{document}
