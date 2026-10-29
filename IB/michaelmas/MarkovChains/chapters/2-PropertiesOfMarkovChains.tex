@@ -675,7 +675,7 @@ Similarly to \cref{hittingSystem}, we can derive a similar system of equations t
 \end{remark}
 \subsection{Relation to Communicating Classes}
 \begin{theorem}
-  If $x \leftrightarrow y$, then either $x$ and $y$ are both transient, or, $x$ and $y$ are both recurrent.
+  If $x \leftrightarrow y$, then either $x$ and $y$ are both transient, or, $x$ and $y$ are both recurrent. \label{classProperty}
 \end{theorem}
 \begin{proof}
   Suppose that $x$ is recurrent, by \cref{dichot}, $\sum_{n \geq 0} p_{i i}(n) = \infty$.
@@ -709,4 +709,201 @@ Similarly to \cref{hittingSystem}, we can derive a similar system of equations t
   \end{align*}
   Thus $\P_x(V_X < \infty) < 1$, which is contradicts the recurrence of $x$.
 \end{proof}
+\begin{theorem}
+  If $C \subseteq I$ is a finite closed communicating class, then $C$ is recurrent.
+\end{theorem}
+\begin{proof}
+  Take any $x \in C$.
+  Suppose that for every $y \in C$, $\P_x(X_n = y \text{ infinitely often}) = 1$.
+  So each state in $C$ is visited a finite number of times with probability 1, however this contradicts the fact that $C$ is closed because if we start at $x \in C$ we must remain in $C$ indefinitely and so visiting every state only a finite number of times is not possible by the pigeonhole principle.
+
+  Thus there exist some $y \in C$ such that:
+  \[
+    \P_x(X_n = y \text{ infinitely often}) > 0
+  \]
+  Since $C$ is a communicating class, $x \leftrightarrow y$, so there is some $m \geq 1$ such that $p_{y x}(m) > 0$.
+  Then:
+  \begin{align*}
+    \P_y(X_n = y \text{ infinity often}) &\geq \P_y(X_m = x, X_n = y \text{ for infinitely many } n \geq m) \\
+                                         &= p_{y x}(m) \P_y(X_n = y \text{ for infinitely many } n \geq m \vert X_m = x) \\
+                                         &= \underbrace{p_{y x}(m)}_{> 0} \underbrace{\P_x(X_n = y \text{ infinitely often})}_{> 0} \text{ by \cref{simpleMarkov}} \\
+                                         &> 0
+  \end{align*}
+  Thus $y$ is recurrent and so we use \cref{classProperty} to conclude that the whole class $C$ is recurrent.
+\end{proof}
+\begin{theorem}
+  If $A \subseteq I$ is a recurrent class, then for all $x, y \in A$
+  \[
+    \P_x(T_y < \infty) = 1
+  \]
+\end{theorem}
+\begin{remark}[Intuition]
+  So given we start at a state $x$ a recurrent class $A$, then for any other $y \in A$, we will visit $y$ in a finite number of steps with probability 1.
+\end{remark}
+\begin{proof}
+  Fix any pair $x, y \in A$, by definition of communication, there exists some $m \geq 1$ such that $p_{y x}(m) > 0$.
+
+  Since $y$ is recurrent:
+  \begin{align*}
+    1 &= \P_y(X_n = y \text{ infinitely often}) \\
+      &= \sum_{z \in I} \P_y(X_m = z, X_n = y \text{ for infinitely many $n \geq m$}) \\
+      &= \sum_{z \in I} p_{y z}(m) \P_y(X_n = y \text{ for infinitely many $n \geq m$} \vert X_m = z) \\
+      &= \sum_{z \in I} p_{y z}(m) \P_z(X_n = y \text{ infinitely often}) \text{ by \cref{simpleMarkov}}
+  \end{align*}
+  We can write:
+  \begin{align*}
+    &\P_z(X_n = y \text{ infinitely often}) \\
+    &= \P_z(X_n = y \text{ infinitely often}, T_y < \infty) \text{ since the first visit must be finite} \\
+    &= \P_z(T_y < \infty) \P_z(X_n = y \text{ infinitely often } \vert T_y < \infty) \\
+    &= \P_z(T_y < \infty) \P_y(X_n = y \text{ infinitely often}) \text{ by \cref{strongMarkov}} \\
+    &= \P_z(T_y < \infty) \text{ by recurrence of $y$}
+  \end{align*}
+  We can use the strong Markov property in the above as $T_y$ is a stopping time and we are conditioning on the event $\{T_y < \infty\}$ which, by definition of $T_y$, we can rewrite as:
+  \[
+    \{T_y < \infty\} = \{T_y < \infty \} \cap \{X_{T_y} = y\}
+  \]
+  Thus the conditions for \cref{strongMarkov} are satisfied.
+
+  Substituting back in, we have:
+  \[
+    1 = \sum_{z \in I} p_{yz}(m) \P_z(T_y < \infty)
+  \]
+  Since we must be somewhere in $I$ after $n$ steps $\sum_{z \in I} p_{y z}(m) = 1$.
+  Further, we have $p_{y x}(m) > 0$ and $\P_z(T_y < \infty) \leq 1$ for all $z \in I$, and so we must have $\P_x(T_y < \infty) = 1$.
+\end{proof}
+\begin{remark}
+  In the above proof, we saw that when applying the strong Markov property on a return time, say $T_i$, then we need only have conditioning on $\{T_i < \infty\}$ as by definition we always have $X_{T_i} = i$ so $\{T_i < \infty\} = \{T_i < \infty\} \cap \{X_{T_i} = i\}$.
+\end{remark}
+\section{Simple Symmetric Random Walks}
+\begin{definition}[Simple Symmetric Random Walk]
+  A \textit{simple symmetric random walk} or \textit{SSRW} on $\Z^d$ is the Markov chain with transition probabilities:
+  \[
+    P(x, x + e_i) = P(x, x- e_i) = \frac{1}{2d}\ \forall x \in \Z^d
+  \]
+  for $i \in \{1, \ldots, d\}$ where $(e_i)_{i \in \{1, \ldots d\}}$ is the standard basis in $\R^d$.
+  That is, at each step the there is equal probability for each axial direction that we take a single step in that direction.
+\end{definition}
+\begin{theorem}[Reccurence of SSRWs]
+  The simple symmetric random walk on $\Z^d$ is:
+  \begin{itemize}
+    \item Recurrent for $d = 1$ and $d = 2$
+    \item Transient for $d = 3$
+  \end{itemize}
+\end{theorem}
+\begin{remark}[Recap]
+  Recall \textit{Stirling's formula} from IA Probability:
+  \[
+    n! \sim \left(\frac{n}{e}\right)^n\sqrt{2n\pi}
+  \]
+  where we say that $a_n \sim b_n$ if $\lim_{n \to \infty} a_n / b_n = 1$.
+\end{remark}
+\begin{proof}[$d = 1$]
+  Since there is only one communicating class (i.e. the chain is irreducible), and recurrence is a class property by \cref{classProperty}, it suffices to check that the state 0 is recurrent, which, by \cref{dichot} is equivalent to showing:
+  \[
+    \sum_{n \geq 0} p_{0 0}(n) = \infty
+  \]
+
+  Since we start at 0 and only move 1 at each step, the parity of the current state flips which each step and so $p_{0 0}(n) > 0$ if and only if $n$ is even.
+  Furthermore, $p_{0 0}(2n) > 0$ if and only if we have taken exactly $n$  steps to the left and $n$ steps to the right.
+  Thus modelling this as a binomial, we obtain the probability:
+  \[
+    p_{0 0}(2n) = \binom{2n}{n} \left(\frac{1}{2}\right)^{2n} = \frac{(2n)!}{n! n!} 2^{-2n}
+  \]
+  Applying Stirling's formula, we obtain that:
+  \[
+    p_{0 0}(2n) \sim \frac{1}{\sqrt{n\pi}}
+  \]
+  and so by definition of asymptotics, there exists some $N_0 \in \N$ such that
+  \[
+    p_{0 0}(2n) \geq \frac{1}{2\sqrt{\pi n}}\ \forall n \geq N_0
+  \]
+  Thus:
+  \[
+    \sum_{n \geq 0} p_{0 0}(n) = \sum_{n \geq 0} p_{0 0}(2n) \geq \sum_{n \geq N_0} \frac{1}{2\sqrt{\pi n}} = \infty
+  \]
+  since $\sum_{n \geq 0} 1/\sqrt{n}$ divergence.
+  Thus $0$ is recurrent and so all states are recurrent.
+\end{proof}
+For $d = 2$, we can use a clever trick to reuse the result in the case of $d = 1$.
+This involves taking the walk on $\Z^2$ and projecting it onto the lines $y = x$ and $y = -x$ to generate two independent random walks on $\Z / \sqrt{2}$.
+Note that if we were to use the $x$ and $y$ axes instead, the resulting random walks would not be independent.
+\begin{proof}[$d = 2$]
+  Let $\mchain{X} = (X_n)_{n \geq 0}$ be the simple symmetric random walk on $\Z^2$ with $X_0 = 0$.
+
+  Define $f: \Z^2 \to \Z^2$ to be the projection map to the lines $y = x$ and $y = -x$, that is:
+  \[
+    f(x, y) = \left(\frac{x + y}{\sqrt{2}}, \frac{x - y}{\sqrt{2}}\right)
+  \]
+  Now define the processes $X^{+}_n$ and $X^{-}_n$ on $\Z$ by $(X^{+}_n, X^{-}_n) = f(X_n)$.
+  We claim that $(X^{+}_n)_{n \geq 0}$ and $(X^{-}_n)_{n \geq 0}$ are both simple symmetric random walks on $\Z / \sqrt{2}$ which are independent from one another.
+
+  We can express $X_n$ as a sum of all of the individual steps preceding it:
+  \[
+    X_n = 0 + \sum_{i = 1}^{n} \xi_i
+  \]
+  where the sequence $(\xi_i)_{i \geq 1}$ consists of independently and identically distributed copies of:
+  \[
+    \xi_i = \left(\xi^{(1)}_i, \xi^{(2)}_i\right) = \begin{cases}
+    (1, 0) & \text{ with probability } 1/4 \\
+    (-1, 0) & \text{ with probability } 1/4 \\
+    (0, 1) & \text{ with probability } 1/4 \\
+    (0, -1)& \text{ with probability } 1/4 \\
+    \end{cases}
+  \]
+  Applying our projection map $f$ to this, we obtain:
+  \[
+    X^{+}_n = \sum_{i = 1}^{n} \frac{\xi^{(1)}_i + \xi^{(2)}_i}{\sqrt{2}} \text{ and } X^{-}_n = \sum_{i = 1}^{n} \frac{\xi^{(1)}_i - \xi^{(2)}_i}{\sqrt{2}}
+  \]
+  Since $\xi^{(1)} \pm \xi^{(2)} \in \{-1, 1\}$, each of these is a SSRW on $\Z / \sqrt{2}$.
+
+  To see that they are also independent, it suffices to check that each step is independent, i.e.:
+  \[
+    \xi^{(1)}_i + \xi^{(2)}_i \text{ is independent of } \xi^{(1)}_i - \xi^{(2)}_i
+  \]
+  Checking the pairs of possibilities for $\xi^{(1)}_i + \xi^{(2)}_i$ and $\xi^{(1)}_i - \xi^{(2)}_i$, we see that:
+  \begin{align*}
+    \P(\xi^{(1)}_i + \xi^{(2)}_i = 1, \xi^{(1)}_i - \xi^{(2)}_i = -1) &= \P(\xi^{(1)}_i = 0, \xi^{(2)}_i = 1) \\
+                                                                      &= \frac{1}{4} \\
+                                                                      &= \frac{1}{2} \cdot \frac{1}{2} \\
+                                                                      &= \P(\xi^{(1)}_i + \xi^{(2)}_i = 1)\P(\xi^{(1)}_i - \xi^{(2)}_i = -1)
+  \end{align*}
+  and similarly for the other three cases, so they are indeed independent.
+
+  Similarly to in the $d = 1$ case, we the parity of one of the components changes with each step and so if we have taken an odd number of steps, one of the components must be odd and so $p_{0 0}(n) = 0$ for odd $n$.
+  Thus we need only check even $n$:
+  \begin{align*}
+    p_{0 0}(2n) &= \P_0((X^{+}_n, X^{-}_n) = 0) \\
+                &= \P(X^{+}_n = 0)\P(X^{-}_n = 0) \\
+                &\sim \left(\frac{1}{\sqrt{\pi n}}\right)^2 = \frac{1}{\pi n} \text{ by Stirling's formula}
+  \end{align*}
+  Thus:
+  \[
+    \sum_{n \geq 0} p_{0 0}(n) = \sum_{n \geq 0} p_{0 0}(2n) \geq \sum_{n \geq N_0} \frac{1}{\pi n} = \infty
+  \]
+  since $\sum_{n \geq 0} 1/n$ is divergent.
+  Thus $0$ is recurrent and so all states are recurrent.
+\end{proof}
+\begin{proof}[d = 3]
+  Continued next lecture.
+\end{proof}
+What happens to the recurrence in the case of $d = 1$ if we introduce a bias in one of the directions?
+\begin{example}[Asymmetric random walk on $\Z$]
+  Consider the Markov chain $\mchain{X} = (X_n)_{n \geq 0}$ on $\Z$ with transition probabilities:
+  \[
+    P(x, x + 1) = p \text{ and } P(x, x - 1) = 1 - p
+  \]
+  for $p \neq 1/2$ so that the walk is \textit{asymmetric}.
+
+  Then arguing as before:
+  \begin{align*}
+    p_{0 0}(2n) &= \binom{2n}{n}p^n(1 - p)^n \\
+               &\sim \frac{(4p(1 - p))^n}{\sqrt{\pi n}}
+  \end{align*}
+  For $p \in (0, 1)$, we see that $4p(1 - p) = 1 \iff p = 1/2$ and so we must have $r = 4p(1 - p) < 1$ in this case.
+  So for some $N_0 \in \N$:
+  \[
+    \sum_{n \geq 0} p_{0 0}(n) = \sum_{n \geq 0} P_{0 0}(n) \leq \sum_{n \geq N_0} \frac{r^n}{\sqrt{\pi n}} < \infty
+  \]
+  Thus, $0$ is transient and so all states are transient.
+\end{example}
 \end{document}
