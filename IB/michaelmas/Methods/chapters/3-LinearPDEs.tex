@@ -496,7 +496,7 @@ Using $\tan \theta_A = \at{\partial y/\partial x}{A}$, we have:
                                 &= O(\delta x \cdot y^2_x)
 \end{align*}
 
-\subsubsection{Vertical Motion}
+\subsubsection{Vertical Motion} \label{vertMot}
 For the vertical motion we need the mass of the section of string to apply Newton's second law.
 Since the string is uniform, the mass of this section of string is propositional to its length $\delta s$.
 \begin{align*}
@@ -655,4 +655,187 @@ So, using the orthogonality relation, we obtain:
 \end{align*}
 Note that we have $r \d{r}$ and not just $\d{r}$ because the weight function is $w = r$ and not $w = 1$.
 Thus the coefficients in $\varphi(x, t)$ have been obtained from $f$ and $g$.
+\subsection{Energy Conservation and Uniqueness}
+For waves on a string, we define the \textit{energy} as:
+\begin{align*}
+  E(t) &= \frac{1}{2} \mu \int_{0}^{L} y^2_t \d{x} + \frac{1}{2} \tau \int_{0}^{L} y^2_x \d{x} \\
+       &= \text{K.E.} + \text{P.E.}
+\end{align*}
+The latter term represents the potential energy because the energy stored in a small section of string is proportional to its extension $\d{s} - \d{x}$, i.e.:
+\begin{align*}
+  \d{s} - \d{x} &= (\sqrt{1 + y^2_x} - 1)\d{x} \\
+                &\approx \frac{1}{2} y^2_x \d{x}
+\end{align*}
+For convenience, redefine $E \mapsto E / \mu$ so that:
+\[
+  E(t) = \frac{1}{2} \int_{0}^{L} (y^2_t + c^2 y^2_x) \d{x}
+\]
+In $n$ dimensions, we can analogously define:
+\[
+  E(t) = \frac{1}{2} \int_{\Omega} (\varphi^2_t + c^2 |\nabla \varphi|^2) \d{V}
+\]
+Similarly to in 1D, the latter term represents potential energy since it is proportional to the stretching of $(n - 1)$-volumes, for example, of a drum skin in 3D, the difference in areas is:
+\begin{align*}
+  \d{S} - \d{x}\d{y} &= [\sqrt{1 + |\nabla \varphi|^2} - 1] \d{x}\d{y} \\
+                     &\approx \frac{1}{2}|\nabla \varphi|^2 \d{x}\d{y} \\
+                     &= \frac{1}{2}|\nabla \varphi|^2 \d{V} \text{ since $\Omega$ is two dimensional}
+\end{align*}
+In $\R^n$ consider the general IBVP:
+\begin{equation}
+  \label{waveIBVP}
+  \begin{cases}
+    \varphi_{t t} - c^2 \Delta \varphi = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, \infty) \\
+    \varphi = 0 & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, \infty) \\
+    \varphi = f & \text{ for } (\vec{x}, t) \in \Omega \times \{t = 0\} \\
+    \varphi_t = g & \text{ for } (\vec{x}, t) \in \Omega \times \{t = 0\}
+  \end{cases}
+\end{equation}
+As $\varphi$ evolves according to this, how does $E(t)$ change?
+\begin{align*}
+  \deriv{E}{t} &= \frac{1}{2} \int_{\Omega} \pderiv{}{t}(\varphi^2_t + c^2 \nabla \varphi \cdot \nabla \varphi) \d{x} \\
+               &= \int_{\Omega} (\varphi_t \varphi_{tt} + c^2 \nabla \varphi \cdot \nabla \varphi_t) \d{V} \\
+               &= c^2 \int_{\Omega} (\varphi_t \Delta \varphi + \nabla \varphi \cdot \nabla \varphi_t) \d{V} \text{ using \cref{waveIBVP}} \\
+               &= c^2 \int_{\Omega} \nabla \cdot (\varphi_t \nabla \varphi) \d{V} \\
+               &= c^2 \int_{\partial \Omega} \varphi_t \pderiv{\varphi}{\vec{n}} \d{S} \text{ by the divergence theorem}
+\end{align*}
+Since $\varphi(\vec{x}, t) = 0$ for all $(\vec{x}, t) \in \partial \Omega \times (0, \infty)$ we also have $\varphi_t(\vec{x}, t) = 0$ for all $(\vec{x}, t) \in \partial \Omega \times (0, \infty)$, thus $\deriv{E}{t} = 0$ and so $E(t) = E(0)$ for all $t \in (0, \infty)$, i.e. energy is conserved.
+
+Using the initial conditions, we can determine $E(0)$:
+\[
+  E(t) = E(0) = \frac{1}{2} \int_{\Omega} (|g|^2 + c^2 |\nabla f|^2) \d{V}
+\]
+\begin{remark}
+  Using Noether's theorem from IB Variational Principles, we could have known that the energy would be conserved as the boundary conditions do not depend on time.
+\end{remark}
+\begin{proposition}[Uniqueness of solutions]
+  The solution to \cref{waveIBVP} is unique.
+\end{proposition}
+\begin{proof}
+  Suppose $\varphi_1$ and $\varphi_2$ both solve \cref{waveIBVP} and set $\psi = \varphi_1 - \varphi_2$.
+  Then by linearity $\psi$ solves \cref{waveIBVP} when $f = g = 0$.
+
+  So by the above, the energy of such solutions must be conserved:
+  \[
+    E(0) = 0 = E(t) = \frac{1}{2} \int_{\Omega} (\psi^2_t + c^2 |\nabla \psi|^2) \d{V}
+  \]
+  Since $\psi^2_t + c^2 |\nabla \psi|^2 \geq 0$ but the integral of it over $\Omega$ is 0, we must have both $\psi_t = 0$ and $\nabla \psi = \vec{0}$ throughout $\Omega$.
+  Thus $\psi$ is constant in both space and time in $\Omega$
+
+  But $\psi = 0$ on $\partial \Omega$ and so $\psi = 0$ always.
+  Thus $\varphi_1 = \varphi_2$ throughout $\Omega \times (0, \infty)$, i.e. $\varphi_1 = \varphi_2$, so any two solutions must be identical.
+\end{proof}
+\subsection{Wave reflection and transmission}
+Consider an infinitely long string under a tension $\tau$ with density $\mu_{+}$ on $x > 0$ and $\mu_{-}$ on $x < 0$.
+Set $c^2_{\pm} = \tau/\mu_{\pm}$ so that we have the PDE:
+\[
+  \begin{cases}
+  \frac{1}{c^2_{-}} \pderiv[2]{y}{t} = \pderiv[2]{y}{x} & \text{ for } x < 0 \\
+  \frac{1}{c^2_{+}} \pderiv[2]{y}{t} = \pderiv[2]{y}{x} & \text{ for } x < 0 \\
+  \end{cases}
+\]
+or just $y_{t t} = c(x)^2 y_{x x}$ where the wave speed varies as
+\[
+  c(x) = \begin{cases}
+  c_{-} & \text{ if } x < 0 \\
+  c_{+} & \text{ if } x> 0
+  \end{cases}
+\]
+Consider an incoming wave of the form:
+\[
+  y(x, t) = \cos\left[\omega\left(t - \frac{x}{c_{-}}\right)\right] \equiv \Re\left[\exp\left(i\omega\left(t - \frac{x}{c_{-}}\right)\right)\right]
+\]
+We expect some reflection and transmission due to the environment at $x = 0$ and so expect a solution of the form:
+\[
+  y(x, t) = \begin{cases}
+  \exp\left[i\omega\left(t - \frac{x}{c_{-}}\right)\right] + R \exp\left[i\omega\left(t + \frac{x}{c_{-}}\right)\right] & \text{ if } x < 0 \\
+  T \exp\left[i\omega\left(t - \frac{x}{c_{+}}\right)\right] & \text{ if } x > 0
+  \end{cases}
+\]
+where $R$ and $T$ are constants representing how much the wave is reflected and transmitted respectively.
+
+What happens at $x = 0$?
+\begin{enumerate}
+  \item We do not want the string to break and so we need continuity, i.e.:
+    \[
+      y(0^{+}, t) = y(0^{-}, t)
+    \]
+  \item The point $x = 0$ on string has no mass as it has zero length, so for Newton's second law to have, we must have $F = 0$ at $x = 0$.
+\end{enumerate}
+Resolving forces horizontally about $\vec{0}$:
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=stealth]
+  \draw[thick, domain=-2:1.7, smooth, variable=\x] plot ({\x}, {sin(\x r)});
+  \coordinate (A) at (0, 0);
+  \fill (A) circle (1pt) node[below right] {$\vec{0}$};
+
+  \draw[->] (A) -- (-1, -1) node[below left] {$\tau$};
+  \draw[->] (A) -- (1, 1) node[above right] {$\tau$};
+
+  \draw[dashed] (A) -- ($(A)+(1,0)$);
+  \draw[dashed] (A) -- ($(A)+(-1,0)$);
+  \draw (A) ++ (180:0.5) arc (180:220:0.5) node[pos=0.8, left] {$\theta^{-}$};
+  \draw (A) ++ (0:0.5) arc (0:40:0.5) node[pos=0.8, right] {$\theta^{+}$};
+\end{tikzpicture}
+\end{center}
+we obtain $\tau \sin \theta^{+} = \tau \sin \theta^{-}$.
+Thus as in \cref{vertMot} we have:
+\begin{align*}
+  \frac{(\partial y/\partial x)_{+}}{\sqrt{1 + (\partial y / \partial x)^{2}_{+}}} &=
+  \frac{(\partial y/\partial x)_{-}}{\sqrt{1 + (\partial y / \partial x)^{2}_{-}}} \\
+  \implies \pderiv{y}{x}(0^{+}, t) &= \pderiv{y}{x}(0^{-}, t) \text{ when working up to } O(y^2_x)
+\end{align*}
+So \textbf{(i)} and \textbf{(ii)} tell us that $y$ and $\partial y/\partial x$ should be continuous at $x = 0$.
+For this to happen we need both:
+\begin{align*}
+  e^{i \omega t} + R e^{i \omega t} &= T e^{i \omega t} \implies 1 + R = T\\
+  \text{and } -\frac{i \omega}{c_{-}}[e^{i\omega t} - R e^{i \omega t}] &= - \frac{i \omega}{c_+} T e^{i \omega t} \implies \frac{i \omega}{c_{-}}[1 - R] = \frac{i \omega}{c_{+}} T
+\end{align*}
+Setting $\lambda = \frac{c_{+}}{c_{-}} = \sqrt{\frac{\mu_{-}}{\mu_{+}}}$, we find:
+\begin{align*}
+  \frac{i\omega}{c_{-}}[1 - R] &= \frac{i\omega}{c_{+}}[1 + R] \\
+  \implies \lambda [1 - R] &= 1 + R \\
+  \implies R(\lambda) &= \frac{\lambda - 1}{\lambda + 1},\ T(\lambda) = \frac{2\lambda}{\lambda + 1}
+\end{align*}
+which are called the \textit{reflection coefficients} and \textit{transmission coefficients} respectively.
+
+We can check this in a few cases to gain physical intuition and to sanity check our solution:
+\begin{enumerate}
+  \item With $\mu_{+} = \mu_{-}$, i.e. $\lambda = 1$, we have $R = 0$ and $T = 1$.
+    This makes sense as if the density does not change, there is no changes for the wave to interact with at the origin.
+  \item With $\mu_{+} \gg \mu_{-}$, i.e. $\lambda \to 0$, we have $R = -1$ and $T = 0$.
+    This makes sense as this has the wave reflected with a phase shift of $i \pi$ (as it is multiplied by $-1 = e^{i \pi}$) and no motion on $x > 0$.
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (-5, 0) -- (5, 0) node[right] {$x$};
+      \draw[->] (0, -2) -- (0, 2) node[right] {$\varphi(x, t)$};
+
+      \draw[thick] (0, 0) -- (5, 0);
+      \draw[thick, domain=-5:0, smooth, variable=\x, samples=50] plot ({\x}, {sin(3 * \x r)});
+      \draw[thick, domain=-5:0, smooth, variable=\x, gray!50, samples=50] plot ({\x}, {sin(3 * (\x + pi) r)});
+
+      \node[scale=0.5] at (-0.5, 1.3) {Reflected};
+      \node[scale=0.5] at (-1.6, 1.3) {Incident};
+    \end{tikzpicture}
+    \end{center}
+  \item With $\mu_{+} \ll \mu_{-}$, i.e. $\lambda \to \infty$ we have $R = 1$ and $T = 2$.
+    We can show that:
+    \[
+      \lim_{x \to \infty} \pderiv{y}{x} = 0 \text{ on } x > 0
+    \]
+    and so the resulting wave looks like:
+    \begin{center}
+    \begin{tikzpicture}[>=stealth]
+      \draw[->] (-5, 0) -- (5, 0) node[right] {$x$};
+      \draw[->] (0, -2) -- (0, 2) node[right] {$\varphi(x, t)$};
+
+      \draw[thick] (0, 1) -- (5, 1);
+      \draw[thick, domain=-5:0, smooth, variable=\x, samples=50] plot ({\x}, {cos(3 * \x r)});
+    \end{tikzpicture}
+    \end{center}
+    This makes sense as the second half of the string is so massive that it is impossible to move.
+\end{enumerate}
+\begin{remark}
+  So we went from the wave speed $c(x)$ to $R(\lambda)$ and $T(\lambda)$.
+  It in fact turns out we actually only need $R(\lambda)$ to recover $c(x)$.
+\end{remark}
 \end{document}
