@@ -304,7 +304,7 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
       If $x \neq y$, then $d(x, y) = 1$, we cannot have both $x = z$ and $y = z$ so $d(x, z) + d(z, y) \geq 1$.
   \end{enumerate}
 \end{example}
-\begin{example}[British/French Railways metric]
+\begin{example}[British/French Railways metric] \label{railwayMetric}
   On $\R^2$, the \textit{British railways} or \textit{French railways} metric is defined as:
   \[
     d(x, y) = \begin{cases}
@@ -338,12 +338,281 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
   \]
 \end{definition}
 \begin{definition}[Open subset]
-  We say that a subset $U \subseteq X$  is \textit{open} if for every point $a \in U$ there exists $r > 0$  such that $B_r(a) \subset U$.
+  We say that a subset $U \subseteq X$  is \textit{open} if for every point $a \in U$ there exists $r > 0$  such that $B_r(a) \subseteq U$.
 \end{definition}
 \begin{definition}[Closed subset]
   We say that a subset $F \subseteq X$  is \textit{closed} if the subset $X \setminus F$ is open
 \end{definition}
 \begin{remark}[Warning]
-  The definition of open and closed subsets are \textbf{not} negations of one another and so it is possible in some metric spaces for a set to be neither open nor closed.
+  \begin{enumerate}
+    \item The definition of open and closed subsets are \textbf{not} negations of one another.
+      For example both $X$ and $\emptyset$ are open and closed.
+    \item The notion of a set being open or closed depends on the choice of metric, some sets will be open under some metrics but not under others.
+  \end{enumerate}
 \end{remark}
+\begin{lemma}
+  If $(X, d)$ is a metric space, then $X$ and $\emptyset$ are both open and closed. \label{emptyClosed}
+\end{lemma}
+\begin{proof}
+  $\emptyset$ is vacuously open as there are no point in it to check and the set $X$ is vacuously open as $B_r(x) \subseteq X$ for any $x \in X$.
+
+  We then see that $X \setminus X = \emptyset$, which is open so $X$ is closed.
+  Similarly, $X \setminus \emptyset = X$, which is open so $\emptyset$ is closed.
+\end{proof}
+When considering metrics which are \textit{norm-induced}, shifting the centre of the ball translates the ball.
+Suppose we have the open balls $B_r(a)$ and $B_r(b)$, since the metric is norm induced it acts on a vector space and so:
+\[
+  x \in B_r(a) \iff \norm{x - a} < r \iff \norm{[x + (b - a)] - b} < r \iff x + (b - a) \in B_r(b)
+\]
+so the ball $B_r(b)$ is a translation of the ball $B_r(a)$ by the vector $b - a$.
+\begin{example}[Translations of open balls]
+  Consider the $d_2$ and $d_{\infty}$ metrics on $\R^2$ induced by the $\ell^2$ and $\ell^{\infty}$ norms respectively.
+
+  The open ball $B_{1}(0, 0)$ and $B_{1}(1, 0)$ are translations of each other under both of these metrics:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \node at (2.5, 2.7) {Using the $d_2$ metric};
+    \draw[dashed, thick] (0, 0) circle (1);
+    \fill[gray!40] (0, 0) circle (1);
+    \fill (0, 0) circle (1pt);
+    \node[below left] at (2, 2) {$B_{1}(0, 0)$};
+
+    \draw[->] (-2, 0) -- (2, 0);
+    \draw[->] (0, -2) -- (0, 2);
+
+    \begin{scope}[xshift=5cm]
+      \draw[dashed, thick] (1, 0) circle (1);
+      \fill[gray!40] (1, 0) circle (1);
+      \fill (1, 0) circle (1pt);
+      \node[below left] at (2, 2) {$B_{1}(1, 0)$};
+
+      \draw[->] (-2, 0) -- (2, 0);
+      \draw[->] (0, -2) -- (0, 2);
+    \end{scope}
+
+    \begin{scope}[yshift=-5cm]
+      \node at (2.5, 2.7) {Using the $d_{\infty}$ metric};
+      \draw[dashed, thick] (-1, -1) rectangle (1, 1);
+      \fill[gray!40] (-1, -1) rectangle (1, 1);
+      \fill (0, 0) circle (1pt);
+      \node[below left] at (2, 2) {$B_{1}(0, 0)$};
+
+      \draw[->] (-2, 0) -- (2, 0);
+      \draw[->] (0, -2) -- (0, 2);
+
+      \begin{scope}[xshift=5cm]
+        \draw[dashed, thick] (0, -1) rectangle (2, 1);
+        \fill[gray!40] (0, -1) rectangle (2, 1);
+        \fill (1, 0) circle (1pt);
+        \node[below left] at (2, 2) {$B_{1}(1, 0)$};
+
+        \draw[->] (-2, 0) -- (2, 0);
+        \draw[->] (0, -2) -- (0, 2);
+      \end{scope}
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+However metrics which are not norm induced will need not behave as nicely and can look vastly different depending on the centre point.
+\begin{example}[Open balls under the railway metric]
+  Consider the metric defined in \cref{railwayMetric} on $\R^2$:
+  \[
+    d(x, y) = \begin{cases}
+    \norm{x - y}_2 & \text{ if } x = ty \text{ for some } t \in \R\\
+    \norm{x}_2 + \norm{y}_2 & \text{ otherwise }
+    \end{cases}
+  \]
+  The shape of the open ball $B_{\frac{1}{2}}(a)$ varies depending on where the point $a$ is:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[dashed, thick] (0, 0) circle (1);
+    \fill[gray!40] (0, 0) circle (1);
+    \fill (0, 0) circle (1pt);
+    \node[below left] at (2, 2) {$B_{\frac{1}{2}}(0, 0)$};
+
+    \draw[->] (-2, 0) -- (2, 0);
+    \draw[->] (0, -2) -- (0, 2);
+
+    \begin{scope}[xshift=5cm]
+      \draw (0.5, 0.5) -- (1.5, 1.5);
+      \fill (1, 1) circle (1pt);
+
+      \draw (0.5, 0.5) circle (1pt);
+      \draw (1.5, 1.5) circle (1pt);
+      \node[below left] at (2, 2) {$B_{\frac{1}{2}}(1, 1)$};
+
+      \draw[->] (-2, 0) -- (2, 0);
+      \draw[->] (0, -2) -- (0, 2);
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+  In the case of $a = (0, 0)$, every point lies on a ray through the origin and so we just get the ball $\norm{x}_2 < \frac{1}{2}$.
+  However, in the case of $a = (1, 1)$, we have $\norm{a}_2 > \frac{1}{2}$ and so if $x$ does not lie on a ray through $a$ and the origin, $d(x, a) > \frac{1}{2}$ and so all points in the ball must be on the ray connecting $a$ and the origin.
+\end{example}
+It is also important to be aware that sets may be open when considering a metric on a whole set but not open  when considering an induced metric on a subset.
+\begin{example}[Subspace metric] \label{subspaceMetric}
+  Consider $X = \R$ with the Euclidean metric and let $Y = [0, 1) \cup \{2\}$ be a subset of $X$ equipped with the subspace metric.
+  That is, we consider the metric spaces $(X, d_2)$ and $(X, \at{d_2}{Y \times Y})$
+  \begin{enumerate}
+    \item $[0, 1)$ is both open and closed in $Y$.\par
+      \textbf{Open - } At any point $x \in [0, 1)$, $B^{Y}_{\frac{1}{2}}(x) \subseteq [0, 1)$ as it is not possible for this ball to capture the only other point $2$ in $Y$.
+
+      \textbf{Closed - } The complement of $[0, 1)$ in $Y$ is $\{2\}$.
+        This is open due to the ball $B^{Y}_{\frac{1}{2}}(2) = \{2\}$.
+    \item $\{2\}$ is both open and closed in $Y$.
+      We have already showed that $[0, 1)$ is both open and closed in $Y$.
+      This is the complement of $\{2\}$ in $Y$ and so $\{2\}$ is both open and closed also.
+    \item $[0, 1)$ is neither open nor closed in $X$.\par
+      \textbf{Not open -} The ball $B_r(0)$ for $r > 0$ always contains a point in $X$ that is not in $[0, 1)$.
+
+      \textbf{Not closed -} The complement of $[0, 1)$ in $X$ is $(-\infty, 0) \cup [1, \infty)$.
+        The ball $B_r(0)$ always contains a point in $X$ that is not in either of these sets.
+    \item $\{2\}$ is closed in $X$ but is not open.\par
+      \textbf{Not open - } The ball $B_r(2)$ for $r > 0$ always contains a point in $X$ that is not $2$.
+
+      \textbf{Closed - } By \cref{singletonClosed}.
+  \end{enumerate}
+\end{example}
+\begin{proposition}
+  If $(X, d)$ is a metric space, then: \label{singletonClosed}
+  \begin{enumerate}
+    \item For any $a \in X$ and $r > 0$, the open ball $B_r(a)$ is an open set in $X$.
+    \item Any singleton $\{x\}$ is a closed set in $X$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Suppose $y \in B_r(a)$, then $d(y, a) < r$ and so we let $r_1 = r - d(y, a) > 0$.
+  Consider the ball of radius $r_1$ centered at $y$, if $x \in B_{r_1}(y)$, then:
+  \[
+    d(x, a) \leq d(x, y) + d(y, a) < r_1 + d(y, a) = r
+  \]
+  So $x \in B_r(a)$, thus $B_{r_1}(y) \subseteq B_r(a)$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  For any $y \in X \setminus \{x\}$, we must have $y \neq x$ and so we let $r = d(y, x) > 0$.
+  Then $B_r(y) \subseteq X \setminus \{x\}$ as it cannot contain $x$.
+  Thus $X \setminus \{x\}$ is open, so by definition $\{x\}$ is closed.
+\end{proof}
+\begin{remark}[Warning]
+  Open balls can be closed sets an singletons can be open.
+  We already saw an example of an open singleton in \cref{subspaceMetric}.
+
+  Consider the discrete metric on some set $X$:
+  \[
+    d(x, y) = \begin{cases}
+    0 & \text{ if } x = y \\
+    1 & \text{ if } x \neq y
+    \end{cases}
+  \]
+  Then $B_{\frac{1}{2}}(x) = \{x\}$ which is closed by \cref{singletonClosed}, so we have an example of an open ball which is an empty set.
+\end{remark}
+\begin{theorem}[Unions and intersections of open sets]
+  If $(X, d)$ is a metric space, then: \label{unionProp}
+  \begin{enumerate}
+    \item The union of any (possibly uncountable) collection of open sets is an open set.
+    \item The intersection of a finite collection of open sets is an open set.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  Suppose $(U_i)_{i \in I}$ is a collection of open sets indexed by the possibly uncountable set $I$.
+  Define their union as the set $U = \bigcup_{i \in I} U_i$.
+
+  Take any $x \in U$, then $x \in U_i$ for some $i \in I$ so there exists $r > 0$ such that $B_r(x) \subseteq U_i$.
+  By construction $U_i \subseteq U$ and so $B_r(x) \subseteq U$.
+  Thus $U$ is an open set.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Suppose the sets $U$ and $V$ are open and consider $W = U \cap V$.
+  If $x \in W$, then $x \in U$ and $x \in V$ so there exists $r_1, r_2 > 0$ such that $B_{r_1}(x) \subseteq U$ and $B_{r_2}(x) \subseteq V$.
+  Let $r = \min\{r_1, r_2\} > 0$, then:
+  \[
+    y \in B_r(x) \implies d(y, x) < r \leq r_1, r_2 \implies y \in B_{r_1}(x) \cap B_{r_2}(x) \subseteq U \cap V = W
+  \]
+  So $B_r(x) \subseteq W$, thus $W$ is also open.
+
+  The empty set is open by \cref{emptyClosed} and so by induction on the number of sets, any finite intersection of open sets is an open set.
+\end{proof}
+\begin{remark}
+  The finiteness in \textbf{(ii)} is important.
+  For example with $X = \R$ and the Euclidean metric:
+  \[
+    \bigcap_{n = 1}^{\infty} \left(-\frac{1}{n}, \frac{1}{n}\right) = \{0\}
+  \]
+  which is not open in $X$.
+
+  The above proof breaks down as given the point $0$, the infimum (instead of the minimum) of the radii $r_n$ from each of the open sets $(-\frac{1}{n}, \frac{1}{n})$ is 0.
+\end{remark}
+\begin{theorem}[Unions and intersections of closed sets]
+  If $(X, d)$ is a metric space, then: \label{interProp}
+  \begin{enumerate}
+    \item The intersection of any (possibly uncountable) collection of closed sets is a closed set.
+    \item The union of a finite collection of closed sets is a closed set.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  Suppose $(U_i)_{i \in I}$ is a collection of closed sets indexed by the possibly uncountable set $I$.
+  Define their intersection as the set $U = \bigcap_{i \in I} U_i$.
+  The complement of this set in $X$ is:
+  \[
+    U \setminus X = U \setminus \left[\bigcap_{i \in I} U_i\right] = \bigcup_{i \in I} (X \setminus U_i)
+  \]
+  Since $U_i$ is closed, its complement $X \setminus U_i$ is open, so $U \setminus X$ is a finite intersection of open sets.
+  Thus by \cref{unionProp} \textbf{(ii)}, $U \setminus X$ is open, i.e. $U$ is closed.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Suppose $(U_i)_{i \in I}$ is a collection of closed sets indexed by the finite set $I$.
+  Define their union as $U = \bigcup_{i \in I} U_i$.
+  The complement of this set in $X$ is:
+  \[
+    U \setminus X = U \setminus \left[\bigcup_{i \in I} U_i\right] = \bigcap_{i \in I} (X \setminus U_i)
+  \]
+  Since $U_i$ is closed, its complement $X \setminus U_i$ is open, so $U \setminus X$ is a union of a collection of open sets.
+  Thus by \cref{unionProp}, $U \setminus X$ is open, i.e. $U$ is closed.
+\end{proof}
+\begin{corollary}[Closure of finite sets]
+  If $(X, d)$ is a metric space, then any finite subset of $X$ is closed. \label{finiteClosed}
+\end{corollary}
+\begin{proof}
+  From \cref{singletonClosed}, for any $x \in X$ singleton $\{x\}$ is closed.
+  Thus if $U$ is a finite subset of $X$, then we can write it as a finite union of singletons, so by \cref{interProp}, $U$ is closed.
+\end{proof}
+\section{Convergence in Metric Spaces}
+\begin{definition}[Convergence in a metric space]
+  Let $(X, d)$ be a metric space.
+  We say that a sequence $(x_k)$ in $X$ \textit{converges} to a point $x \in X$ if:
+  \[
+    d(x_k, x) \to 0 \text{ as $k \to \infty$}
+  \]
+  as a limit on $\R$.
+\end{definition}
+\begin{remark}
+  We can unpack the above using the definition of a limit:
+  \[
+    \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } d(x_k, x) < \varepsilon\ \forall k \geq N
+  \]
+  and can also define it using open balls:
+  \[
+    \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } x_k \in B_{\varepsilon}(x)\ \forall k \geq N
+  \]
+\end{remark}
+\begin{proposition}[Uniqueness of limits]
+  If $(X, d)$ is a metric space and $(x_k)$ is a sequence on $X$ converging to both $x$ and $y$, then $x = y$.
+\end{proposition}
+\begin{proof}
+  For any $\varepsilon > 0$, since $d(x, x_k), d(y, x_k) \to 0$, for sufficiently large $k$:
+  \[
+    d(x, y) \leq d(x, x_k) + d(x_k, y) < \varepsilon
+  \]
+  Since $\varepsilon > 0$ was arbitrary, $d(x, y) = 0$ and so $x = y$.
+\end{proof}
+\begin{proposition}[Converegnce in $\R^n$ with respect to the Euclidean metric]
+  Convergence in $(\R^n, \norm{\argdot}_2)$ is equivalent to coordinate wise convergence.
+  That is, if $x^{(k)} = (x^{(k)}_1, \ldots, x^{(k)}_n)$, then:
+  \[
+    x^{(k)} \xrightarrow{\norm{\argdot}_2} x = (x_1, \ldots, x_n) \iff x^{(k)}_j \to x_j \forall j \in \{1, \ldots, n\}
+  \]
+\end{proposition}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
 \end{document}
