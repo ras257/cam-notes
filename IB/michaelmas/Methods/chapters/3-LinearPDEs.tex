@@ -838,4 +838,194 @@ We can check this in a few cases to gain physical intuition and to sanity check 
   So we went from the wave speed $c(x)$ to $R(\lambda)$ and $T(\lambda)$.
   It in fact turns out we actually only need $R(\lambda)$ to recover $c(x)$.
 \end{remark}
+\section{The Heat Equation}
+\subsection{Introduction}
+The \textit{heat equation} is the PDE:
+\[
+  \pderiv{\varphi}{t} = \kappa \Delta \varphi
+\]
+where $\varphi$ is the temperature of some material under thermal diffusivity and $\kappa > 0$ is a constant.
+If $\pderiv{\varphi}{t} = 0$, then we call $\varphi$ the \textit{steady state solution}.
+
+We can turn this into an IBVP:
+\begin{equation}
+  \label{heatEqn}
+  \begin{cases}
+  \varphi_t - \kappa \Delta \varphi = 0 & \text{ for } (\vec{x}, t) \in \Omega \times (0, \infty) \\
+  \varphi = 0 & \text{ for } (\vec{x}, t) \in \partial \Omega \times (0, \infty) \\
+  \varphi = f & \text{ for } (\vec{x}, t) \in \Omega \times \{t = 0\}
+  \end{cases}
+\end{equation}
+Here, $f(\vec{x})$ represents the initial temperature across $\Omega$.
+
+As we have previously, we will try to solve the homogeneous part of \cref{heatEqn} by writing $\varphi(\vec{x}, t) = T(t)\psi(\vec{x})$.
+Upon substituting in, we obtain that there exists $\mu \in \R$ such that:
+\begin{equation} \label{heatEVP}
+  \dot{T} + \kappa \mu T = 0 \text{ and } \begin{cases}
+  -\Delta \psi = \mu \psi & \text{ for } \vec{x} \in \Omega \\
+  \psi = 0 & \text{ for } \vec{x} \in \partial \Omega
+  \end{cases}
+\end{equation}
+Solving for $T$, we obtain:
+\[
+  T(t) = Ae^{-\kappa \mu t}
+\]
+The $\psi$ equation is an eigenvalue problem for the negative Laplacian $-\Delta$, which we will now solve in the case of various domains $\Omega$.
+\subsection{Heat on a Square Sheet}
+Suppose we are working on the square domain $\Omega = (0, L) \times (0, L)$.
+To find $\psi$, we try a second separation variables $\psi(x, y) = X(x)Y(y)$.
+Substituting in to \cref{heatEVP} and diving by $\psi$, we obtain:
+\[
+  \frac{X''}{X} + \frac{Y''}{Y} + \mu = 0 \implies \frac{Y''}{Y} + \mu = - \frac{X''}{X}
+\]
+Thus there exists a $\lambda \in \R$ such that:
+\begin{align*}
+  &\begin{cases}
+  X'' + \lambda X = 0 & \text{ for } x \in (0, L) \\
+  X(0) = X(L) = 0 &
+  \end{cases} \\
+  &\begin{cases}
+  Y'' + (\mu - \lambda)Y = 0 & \text{ for } y \in (0, L) \\
+  Y(0) = Y(L) = 0 &
+  \end{cases}
+\end{align*}
+We have seen these problems before in \cref{slpExample} and so:
+\[
+  X_n(x) = \sin\left(\frac{n \pi x}{L}\right),\ \lambda_n = \left(\frac{n \pi }{L}\right)^2 \text{ for } n \in \N
+\]
+Plugging $\lambda = \lambda_n$ into the equation for $Y$, we obtain:
+\[
+  Y_m(y) = \sin\left(\frac{m \pi y}{L}\right),\ \mu_{m n} - \lambda_n = \left(\frac{\pi m}{L}\right)^2 \text{ for } m \in \N
+\]
+Thus by superposition, we obtain a family of solutions for the homogeneous part of \cref{heatEqn}:
+\[
+  \varphi(x, y, t) = \sum_{n, m = 1}^{\infty} A_{n m} e^{-\kappa \mu_{n m} t} \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{m \pi y}{L}\right)
+\]
+For the initial condition to be satisfied, we need:
+\begin{equation}
+  f(x, y) = \varphi(x, y, 0) = \sum_{n, m = 1}^{\infty} A_{n m} \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{m \pi y}{L}\right) \label{heatDag} \tag{\dag}
+\end{equation}
+To find $A_{n m}$ we appeal to orthogonality.
+In \cref{slpExample}, we saw that:
+\[
+  \langle X_p, X_q \rangle = \langle Y_p, Y_q \rangle = \int_{0}^{L} \sin\left(\frac{p \pi x}{L}\right)\sin\left(\frac{q \pi y}{L}\right) \d{x} = \frac{L}{2} \delta_{p q}
+\]
+so by multiplying both sides of \cref{heatDag} by $X_pY_q$ and then integrating over $(0, L)$ in both $x$ and $y$, we obtain:
+\begin{align*}
+  \frac{L^2}{4} A_{p q} = \int_{0}^{L} \int_{0}^{L} f(x, y) \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{m \pi y}{L}\right)\d{x} \d{y} \\
+  \implies A_{p q} = \frac{4}{L^2} \int_{0}^{L} \int_{0}^{L} f(x, y) \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{m \pi y}{L}\right)\d{x} \d{y}
+\end{align*}
+Thus we have obtained coefficients $A_{nm}$ such that $\varphi$ satisfies the initial conditions.
+\subsection{Heat in a Cylinder}
+Consider a cylindrical domain for radius $1$ and length $L$.
+To convert to this to a problem over a cuboid, we work in cylindrical polars so that the domain $\Omega$ is:
+\[
+  \Omega = \{(\rho, \phi, z): \rho \in [0, 1), \phi \in [0, 2\pi), z \in (0, L)\}
+\]
+For ease, we assume that the initial data is of the form $f = f(\rho, z)$, i.e. it is independent of $\phi$, and so we expect $\varphi = \varphi(\rho, z, t)$.
+
+As before, we try to separate variables as $\psi = P(\rho)Z(z)$.
+In cylindrical polars, $\Delta \psi$ is:
+\[
+  \Delta \psi = \frac{1}{\rho} \pderiv{}{\rho}\left[\rho \pderiv{\psi}{\rho}\right] + \frac{1}{\rho^2} \cancelto{0}{\pderiv[2]{f}{\phi}} + \pderiv[2]{\psi}{z}
+\]
+So substituting into \cref{heatEVP} and dividing by $\psi$ we obtain:
+\[
+  \frac{[\rho P']'}{\rho P} + \frac{Z''}{Z} + \mu = 0 \implies \frac{Z''}{Z} + \mu = - \frac{[\rho P']'}{\rho P}
+\]
+Thus there exists $\lambda \in \R$ such that:
+\[
+  -\frac{[\rho P']'}{\rho P} = \lambda \text{ and } \frac{Z''}{Z} + \mu = \lambda
+\]
+and so incorporating the boundary conditions:
+\begin{align*}
+  &\begin{cases}
+  -\pderiv{}{\rho}\left[\rho \pderiv{P}{\rho}\right] = \lambda \rho P & \text{ for } \rho \in [0, 1) \\
+  P(1) = 0 &
+  \end{cases} \\
+  \text{and } &\begin{cases}
+  Z'' + (\mu - \lambda)Z = 0 & \text{ for } z \in (0, L) \\
+  Z(0) = Z(L) = 0 &
+  \end{cases}
+\end{align*}
+The equation for $P$ is the Sturm-Liouville problem associated with the Bessel equation of order zero (i.e. $ = 0$) from \cref{besselSec}.
+We saw that the solution for this is:
+\[
+  P_k(\rho) = J_0(j_{0 k} \rho) \text{ with } \lambda_k = j^2_{0 k} \text{ for } k \in \N
+\]
+The equation for $Z$ is again an example of \cref{slpExample}.
+Thus substituting $\lambda = \lambda_k$ into the equation for $Z$, we obtain:
+\[
+  Z_n(z) = \sin\left(\frac{n \pi z}{L}\right) \text{ with } \mu_{k n} - \lambda_k = \left(\frac{n \pi}{L}\right)^2 \text{ for } n \in \N
+\]
+which satisfy the orthogonality relation $\langle Z_n, Z_m \rangle = \frac{L}{2} \delta_{n m}$.
+
+Combining these solutions, we obtain a family of solutions for the homogeneous part of \cref{heatEqn}:
+\[
+  \varphi(\rho, z, t) = \sum_{k, n = 1}^{\infty} A_{k n} e^{-\kappa \mu_{k n} t} J_{0}(j_{0 k} \rho) \sin\left(\frac{n \pi z}{L}\right)
+\]
+To satisfy the initial condition at $t = 0$, we need:
+\begin{equation}
+  f(\rho, z) = \varphi(\rho, z, 0) = \sum_{k, n = 1}^{\infty} A_{k n} J_0(j_{0 k} \rho) \sin\left(\frac{n \pi z}{L}\right) \label{heatAst} \tag{$\ast$}
+\end{equation}
+Recall from Example Sheet 1 that the Bessel functions of order 0 satisfy the orthogonality relation with $w = \rho$:
+\[
+  \langle P_k, P_\ell \rangle_{w} = \int_{0}^{1} J_0(j_{0 k} \rho) J_{0}(j_{0 \ell} \rho) \rho \d{\rho} = \frac{1}{2} [J'(j_{0 k})]^2 \delta_{k \ell}
+\]
+Multiplying both sides of \cref{heatAst} by $\rho P_\ell Z_m$ and integrating $\rho$ over $(0, 1)$ and $z$ over $(0, L)$ we obtain:
+\begin{align*}
+  \frac{J'_0(j_{0 \ell})^2}{2} \cdot \frac{L}{2} A_{\ell m} &= \int_{0}^{1} \int_{0}^{L} J_0(j_{0 \ell} \rho) f(\rho, z) \sin\left(\frac{m \pi z}{L}\right) \d{z} \d{\rho} \\
+  \implies A_{k n} &= \frac{2}{J_0'(j_{0 k})^2} \cdot \frac{2}{L} \int_{0}^{1} \int_{0}^{L} J_0(j_{0 k} \rho) f(\rho, z) \sin\left(\frac{n \pi z}{L}\right) \d{z} \d{\rho}
+\end{align*}
+Thus we have obtained coefficients $A_{nm}$ such that $\varphi$ satisfies the initial conditions.
+\begin{remark}
+  The leading term (i.e. $k = n = 1$) dictates the dominant behaviour for large $t$ due to the rapid decay of $e^{-\kappa \mu_{k n}t}$.
+\end{remark}
+\subsection{Energy Loss and Uniqueness}
+Suppose $\varphi = \varphi(\vec{x}, t)$ a solution to \cref{heatEqn}, we define the \textit{energy} of such solutions as:
+\[
+  Q(t) = \frac{1}{2} \int_{\Omega} \varphi(\vec{x}, t)^2 \d{V}
+\]
+To see how this evolves with time:
+\begin{align*}
+  \deriv{Q}{t} &= \frac{1}{2} \int_{\Omega} \pderiv{}{t}(\varphi^2) \d{V} \\
+               &= \int_{\Omega} \varphi \varphi_t \d{V} \\
+               &= \int_{\Omega} \kappa \varphi \Delta \varphi \d{V} \text{ using \cref{heatEqn}} \\
+               &= \kappa \int_{\Omega} \nabla \varphi \cdot \nabla \varphi + \varphi \Delta \varphi - \nabla \varphi \cdot \nabla \varphi \d{V} \\
+               &= \kappa \int_{\Omega} (\nabla \cdot (\varphi \nabla \varphi) - |\nabla \varphi|^2) \d{V} \\
+               &= \kappa \left[\int_{\partial \Omega} \varphi \pderiv{\varphi}{\vec{n}} \d{S} - \int_{\Omega}  |\nabla \varphi|^2 \d{\Omega}\right] \text{ using the divergence theorem} \\
+               &= -\kappa \int_{\Omega} |\nabla \varphi|^2 \d{V} \text{ as $\varphi = 0$ on $\partial \Omega$} \\
+               &\leq 0
+\end{align*}
+Integrating $\deriv{Q}{t} \leq 0$ over $[0, t]$, we obtain that $Q(t) \leq Q(0)$ for any $t \geq 0$.
+Thus since $\varphi(\vec{x}, 0) = f(\vec{x})$:
+\begin{equation}
+  \frac{1}{2} \int_{\Omega} \varphi^2 \d{V} \leq \frac{1}{2} \int_{\Omega} f^2 \d{V} \label{heatIneq}
+\end{equation}
+We can now establish uniqueness of solutions to \cref{heatEqn}.
+
+Suppose $\varphi_1$ and $\varphi_2$ satisfy \cref{heatEqn}, so by linearity, $\psi = \varphi_1 - \varphi_2$ satisfies \cref{heatEqun} with $f \equiv 0$.
+Thus by \cref{heatIneq}:
+\[
+  \frac{1}{2} \int_{\Omega} \varphi^2 \d{V} \leq 0
+\]
+So $\varphi \equiv 0$ on $\Omega$, i.e. $\varphi_1 = \varphi_2$, so the solutions are the same.
+\begin{remark}
+  \nonexaminable
+  We require finite energy for this argument to work, so when we apply it, we are saying that solutions to \cref{heatEqn} with finite energy are unique.
+
+  For an example of a solution with unbounded energy, consider the following function:
+  \[
+    \varphi(x, t) = \sum_{n = 0}^{\infty} \frac{x^{2n}}{(2n)!} f^{(n)}(t)
+  \]
+  where we define the function:
+  \[
+    f(t) = \begin{cases}
+    e^{-\frac{1}{t}} & \text{ if } t > 0 \\
+    0 & \text{ if } t = 0
+    \end{cases}
+  \]
+  This is smooth with $f^{(n)}(0) = 0$.
+  It can be shown that this solves \cref{heatEqn} in 1D with $\kappa = 1$ and $\varphi(x, 0) = 0$, but the energy is unbounded as $t \to \infty$.
+\end{remark}
 \end{document}
