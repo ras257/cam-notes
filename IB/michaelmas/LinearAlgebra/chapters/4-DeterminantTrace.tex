@@ -424,4 +424,65 @@ For $A \in \mathcal{M}_{n \times n}(\F)$, let $c_1, \ldots, c_n \in \F^n$ be the
 \begin{proof}[\textbf{ii}]
   Immediate from \textbf{(i)} by uniqueness of inverses.
 \end{proof}
+\section{Trace}
+\begin{definition}[Trace]
+  We define the \textit{trace} of a square matrix $A \in \mathcal{M}_{n \times n}(\F)$ to be the sum of its diagonal entries:
+  \[
+    \tr A = \sum_{i = 1}^{n} a_{i i}
+  \]
+  This is a linear map $\tr \in \mathcal{L}(\mathcal{M}_{n \times n}(\F), \F)$.
+\end{definition}
+\begin{lemma}
+  For all $A, B \in \mathcal{M}_{n \times n}(\F)$, $\tr(AB) = \tr(BA)$
+\end{lemma}
+\begin{proof}
+  Let $C = AB$ and $D = BA$, then:
+  \begin{align*}
+    \tr C &= \sum_{i = 1}^{n} c_{i i} \\
+          &= \sum_{i = 1}^{n} \sum_{j = 1}^{n} a_{i j}b_{j i} \\
+          &= \sum_{j = 1}^{n} \sum_{i = 1}^{n} b_{j i} a_{i j} \\
+          &= \sum_{j = 1}^{n} d_{j j} \\
+          &= \tr D
+  \end{align*}
+  So $\tr(AB) = \tr(BA)$.
+\end{proof}
+\begin{remark}[Warning]
+  We saw in \cref{detMult} that the determinant is multiplicative and so also has the property $\det(AB) = \det(BA)$.
+  However, in general, $\tr(AB) \neq \tr(A) \tr(B)$.
+\end{remark}
+\begin{corollary}[Trace of similar matrices]
+  If $A, A' \in \mathcal{M}_{n \times n}(\F)$ are similar matrices, then they have the same trace. \label{simTrace}
+\end{corollary}
+\begin{proof}
+  Since they are similar, there exists $P \in \GL_n(\F)$ such that $A' = PAP^{-1}$.
+  Thus
+  \begin{align*}
+    \tr((PA)P^{-1}) &= \tr(P^{-1}(PA)) \\
+                    &= \tr((P^{-1}P) A) \\
+                    &= \tr A
+  \end{align*}
+  as required.
+\end{proof}
+\begin{remark}[Warning]
+  Be careful when applying $\tr AB = \tr BA$ to products of three matrices.
+  We can cycle the matrices:
+  \[
+    \tr(ABC) = \tr(BCA) = \tr(CAB)
+  \]
+  but in general cannot swap two arbitrarily $\tr(ABC) \neq \tr(ACB)$
+\end{remark}
+\begin{definition}[Trace of a linear map]
+  Let $V$ be a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$.
+  Then for any basis $B$ of $V$, we define the \textit{trace of the linear map $\alpha$} as:
+  \[
+    \tr \alpha = \tr([\alpha]^{B}_{B})
+  \]
+\end{definition}
+\begin{proposition}
+  The trace of a linear map $\alpha$ is independent of the choice of basis $B$.
+\end{proposition}
+\begin{proof}
+  Suppose $B'$ is another basis for $V$, then by \cref{cobFormula}, $[\alpha]^{B}_{B}$ and $[\alpha]^{B'}_{B'}$ are similar.
+  Thus by \cref{simTrace} they have the same trace.
+\end{proof}
 \end{document}

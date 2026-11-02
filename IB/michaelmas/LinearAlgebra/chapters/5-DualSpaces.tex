@@ -1,0 +1,203 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Dual Spaces}
+\section{Definition}
+\begin{definition}[Dual Space]
+  For an $\F$-vector space $V$, its \textit{dual space} is defined to be:
+  \[
+    V^{*} = \mathcal{L}(V, \F) = \{(\theta: V \to \F): \theta \text{ is linear}\}
+  \]
+  which is in itself another $\F$-vector space.
+\end{definition}
+\begin{example}
+  \begin{enumerate}
+    \item For $V = \R^{4}$, the elements $\theta_1, \theta_2, \theta_3 \in V^{*}$ defined as:
+      \begin{align*}
+        \theta_1(v) &= 2(v_2 + v_4) - v_3  \\
+        \theta_2(v) &= 2(v_2 - v_4) - v_3  \\
+        \theta_3(v) &= 2v_2 - 4v_3 - 3v_4  \\
+      \end{align*}
+      are linearly dependent.
+    \item $\tr \in (\mathcal{M}_{n \times n}(\F))^{*}$
+    \item Consider the $\F$-vector space $V = C([0, 1])$, the map:
+      \[
+        \theta(f) = \int_{0}^{1} f(t)e^{-t} \d{t}
+      \]
+      has $\theta \in V^{*}$
+  \end{enumerate}
+\end{example}
+\begin{lemma}
+  If $V$ is a finite dimensional $\F$-vector space, then $V^{*}$ is also finite dimensional with $\dim(V^{*}) = \dim(V)$. \label{dualSize}
+\end{lemma}
+\begin{proof}
+  By \cref{linMapDim}, $\dim(V^{*}) = \dim(\mathcal{L}(V, \F)) = \dim(V) \dim(\F) = \dim(V)$.
+\end{proof}
+\section{Dual Basis}
+\begin{definition}[Dual Basis]
+  Let $V$ be an $\F$-vector space and let $B$ be a basis for $V$.
+  For each $b \in B$, define $b^{*} \in V^{*}$ by:
+  \[
+    b^{*}\left(\finitesum_{c \in B} \lambda_c c\right) = \lambda_b
+  \]
+  i.e. this the unique linear extension (\cref{linMapBasis}) of $b^{*}(c) = \delta_{b c}$ for $c \in B$.
+  We then \textit{dual basis} of $B$ as:
+  \[
+    B^{*} = \{b^{*}: b \in B\} \subseteq V^{*}
+  \]
+\end{definition}
+\begin{proposition}[Properties of the dual basis]
+  If $B$ is a basis for an $\F$-vector space $V$, then its dual basis $B^{*}$ satisfies: \label{dualBasis}
+  \begin{enumerate}
+    \item $B^{*}$ is linearly independent
+    \item If $V$ is finite dimensional then $B^{*}$ is a basis for $V^{*}$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Suppose that we have a linear combination of elements of $B^{*}$ equal to $\vec{0}$:
+  \[
+    \finitesum_{b \in B} \lambda_b b^{*} = \vec{0}
+  \]
+  This is a function in $V^{*} = \mathcal{L}(V, \F)$, passing in any $c \in B$ yields:
+  \[
+    0 = \finitesum \lambda_b b^{*}(c) = \finitesum \lambda_b \delta_{b c} = \lambda_c
+  \]
+  so all the coefficients are 0, i.e. $B^{*}$ is linearly independent.
+\end{proof}
+\begin{proof}[\textbf{ii} - Using dimensions]
+  By \cref{dualBasis}, $\dim(V^{*}) = \dim(V) = |B|$.
+  From \textbf{(i)}, we know $B^{*}$ is linearly independent, so by \cref{dimIneq}, $B^{*}$ is a basis for $V^{*}$.
+\end{proof}
+\begin{proof}[\textbf{ii} - Constructing the span]
+  We can show that any $\theta \in V^{*}$ lies in the span of $B^{*}$.
+
+  Suppose $\theta \in V^{*}$ and define the coefficients $\lambda_b = \theta(b) \in \F$ for $b \in B$.
+  Define $\overline{\theta} \in V^{*}$ as:
+  \[
+    \overline{\theta} = \finitesum_{b \in B} \lambda_b b^{*} \in \langle B^{*} \rangle
+  \]
+  so that for $c \in B$:
+  \[
+    \overline{\theta}(c) = \finitesum_{b \in B} \lambda_b b^{*}(c) = \lambda_c = \theta(c)
+  \]
+  Thus $\overline{\theta}$ and $\theta$ agree on the basis $B^{*}$ so by \cref{linMapBasis} $\overline{\theta} = \theta \in \langle B^{*} \rangle$.
+  Thus since this is true for all $\theta$, $\langle B^{*} \rangle = V^{*}$.
+\end{proof}
+\begin{remark}
+  If $V$ is infinite dimensional, then the second proof of \textbf{(ii)} above could run into issues if infinitely many $\lambda_b$ are non-zero as then we could not construct $\overline{\theta}$ as a finite linear combination.
+\end{remark}
+\begin{corollary}
+  If $V$ is a finite dimensional $\F$-vector space, then $V \cong V^{*}$.
+\end{corollary}
+\begin{proof}
+  From \cref{dualSize}, $\dim(V) = \dim(V^{*})$ and so by \cref{finiteDimIso}, we have $V \cong V^{*}$.
+\end{proof}
+\begin{example}
+  Consider the case of $V = P(\R)$, which is infinite dimensional.
+  We will show on Example Sheet 2 that $V^{*} \cong \R^\N$ but we also showed on Example Sheet 1 that $P(\R) \centernot\cong \R^\N$ and so the above does not always hold if $V$ is infinite dimensional.
+\end{example}
+If $V$ is finite dimensional and $B = \{b_i: 1 \leq i \leq n\}$, then we can use the basis and dual basis to express the application of $\theta \in V^{*}$ as a dot product.
+Since $B$ is a basis for $V$ and $B^{*} = \{b^{*}_i: 1 \leq i \leq n\}$ is a basis for $V^{*}$, we can write:
+\[
+  v = \sum_{i = 1}^{n} \lambda_i b_i \text{ and } \theta = \sum_{j = 1}^{n} \mu_i b^{*}_i
+\]
+Thus:
+\begin{align*}
+  \theta(v) &= \sum_{j = 1}^{n} \mu_i b^{*}_i\left[\sum_{i = 1}^{n} \lambda_i b_i\right] \\
+            &= \sum_{i, j = 1}^{n} \lambda_i \mu_j b^{*}_j(b_i) \\
+            &= \sum_{i = 1}^{n} \lambda_i \mu_i
+\end{align*}
+From the linear combinations we see that:
+\[
+  \begin{pmatrix}
+  \lambda_1 \\
+  \vdots \\
+  \lambda_n \\
+  \end{pmatrix} = [v]_B \text{ and } \begin{pmatrix}
+  \mu_1 \\
+  \vdots \\
+  \mu_n \\
+  \end{pmatrix} = [\theta]_{B^{*}}
+\]
+so $\theta(v) = ([\theta]_{B^{*}})^{\trans} [v]_{B}$.
+Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifically and not just any basis for $V^{*}$
+\section{Annihilators}
+\begin{definition}[Annihilator]
+  For a subset $S \subseteq V$, we define the \textit{annihilator} of $S$ in $V^{*}$ as:
+  \[
+    S^{0} = \{\theta \in V^{*}: \theta(s) = 0\ \forall s \in S\}
+  \]
+\end{definition}
+\begin{lemma}[Properties of annahilators]
+  For any subsets $S, T \subseteq V$, we have: \label{annaProp}
+  \begin{enumerate}
+    \item $S^{0} \leq V^{*}$
+    \item If $S \subseteq T$, then $T^{0} \leq S^{0}$, i.e. taking annihilators is \textit{inclusion reversing}.
+    \item $S^{0} = \langle S \rangle^{0}$
+    \item $V^{0} = \{\vec{0}_{V^{*}}\}$ and $\{\vec{0}_{V}\}^{0} = V^{*}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  Suppose $\theta_1, \theta_2 \in S^{0}$ and $\lambda \in \F$, then for any $s \in S$:
+  \[
+    (\theta_1 + \lambda \theta_2)(s) = \theta_1(s) + \lambda \theta_2(s) = 0
+  \]
+  so $\theta_1 + \lambda \theta_2 \in S^{0}$.
+  Thus by the subspace test (\cref{subspaceTest}), $S^{0} \leq V^{*}$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  By \textbf{(i)}, it is sufficient to check that $T^{0} \subseteq S^{0}$, which is immediate from the definition.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  We have $S \subseteq \langle S \rangle$, so by \textbf{(ii)}, $\langle S \rangle^{0} \subseteq S^{0}$.
+
+  Conversely, take any $\theta \in S^{0}$ and any $v \in \langle S \rangle$.
+  We can write:
+  \[
+    v = \finitesum_{s \in S} \lambda_s s \in \langle S \rangle
+  \]
+  and so:
+  \[
+    \theta(v) = \finitesum_{s \in S} \lambda_s \theta(s) = \finitesum_{s \in S} \lambda_s \cdot 0 = 0
+  \]
+  i.e. $\theta \in \langle S \rangle^{0}$.
+  So $S^{0} \subseteq \langle S \rangle^{0}$, thus $S^{0} = \langle S \rangle^{0}$.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  \begin{itemize}
+    \item If $\theta \in V^{0}$, then $\theta(v) = 0$ for all $v \in V$, so $\theta = \vec{0}_{V^{*}}$.
+    \item If $\theta \in V^{*}$, then $\theta(\vec{0}_{V}) = 0$ since $\theta$ is linear, so $\theta \in \{\vec{0}_{V}\}^{0}$, i.e. $V^{*} \subseteq \{\vec{0}_{V}\}^{0}$.
+      By definition $\{\vec{0}_{V}\}^{0} \subseteq V^{*}$ and so $V^{*} = \{\vec{0}_{V}\}^{0}$
+  \end{itemize}
+\end{proof}
+\begin{proposition}[Dimensions of annahilators]
+  If $V$ is a finite dimensional $\F$-vector space with a subspace $U \leq V$, then:
+  \[
+    \dim(V) = \dim(U) + \dim(U^{0})
+  \]
+\end{proposition}
+\begin{proof}
+  Let $B_U = \{v_1, \cdots, v_k\}$ be a basis for $V$ which we extend using \cref{basisExtension} to a basis $B_V = \{v_1, \ldots, v_n\}$ for $V$, leading to a dual basis $B^{*}_V = \{v^{*}_1, \ldots, v^{*}_n\}$.
+  It is sufficient to prove that $\widetilde{B} = \{v_{k + 1}^{*}, \ldots, v^{*}_n\}$  is a basis for $U^{0}$ as this has size $\dim(V) - \dim(U)$.
+
+  \textbf{Subset}\par
+  We first need to check that each of the vectors in $\widetilde{B}$ is in $U^{0}$.
+  For $i \leq k$ and $j \geq k + 1$, we have $v^{*}_j(v_i) = 0$ as we cannot have $i = j$, thus $v^{*}_j$ eliminates $B_U$ so $v^{*}_j \in (B_{U})^{0} = \langle B_U \rangle^{0}$ by \cref{annaProp}.
+  But $B_U$ is a basis for $U$ so $v^{*}_j \in \langle B_U \rangle^{0} = U^{0}$, i.e. $\widetilde{B} \subseteq U^{0}$.
+
+  \textbf{Linearly independent}\par
+  $\widetilde{B}$ is a subset of $B^{*}_V$ which is a basis so $\widetilde{B}$ is linearly independent.
+
+  \textbf{Spanning}\par
+  Suppose $\theta \in U^{0} \leq V^{*}$.
+  By \cref{dualBasis}, $B^{*}$ is a basis for $V^{*}$ and so we can write:
+  \[
+    \theta = \sum_{j = 1}^{n} \lambda_j v^{*}_j
+  \]
+  For $i \leq k$ we have $v_i \in U$ so since $\theta \in U^{0}$, we have $\theta(v_i) = 0$ and thus:
+  \[
+    0 = \theta(v_i) = \sum_{j = 1}^{n} \lambda_j v^{*}_j(v_i) = \sum_{j = 1}^{n} \lambda_j \delta_{i j} = \lambda_i
+  \]
+  so $\lambda_i = 0$ for $i \leq k$.
+  Hence $\theta = \sum_{j = k + 1}^{n} \lambda_j v^{*}_j$, which is a linear combination of only vectors in $\widetilde{B}$, so $\widetilde{B}$ spans $U^{0}$.
+\end{proof}
+\end{document}
