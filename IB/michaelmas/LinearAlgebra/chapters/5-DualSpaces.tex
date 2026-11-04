@@ -170,7 +170,7 @@ Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifi
   \end{itemize}
 \end{proof}
 \begin{proposition}[Dimensions of annahilators]
-  If $V$ is a finite dimensional $\F$-vector space with a subspace $U \leq V$, then:
+  If $V$ is a finite dimensional $\F$-vector space with a subspace $U \leq V$, then: \label{annaDim}
   \[
     \dim(V) = \dim(U) + \dim(U^{0})
   \]
@@ -199,5 +199,228 @@ Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifi
   \]
   so $\lambda_i = 0$ for $i \leq k$.
   Hence $\theta = \sum_{j = k + 1}^{n} \lambda_j v^{*}_j$, which is a linear combination of only vectors in $\widetilde{B}$, so $\widetilde{B}$ spans $U^{0}$.
+\end{proof}
+\begin{remark}
+  By how we proved the above, if $U \leq V$, then there exists $X \leq V^{*}$ such that:
+  \[
+    U = \{v \in V: \forall \theta \in X,\ \theta(v) = 0\}
+  \]
+  with $\dim(X) = \dim(V) - \dim(U)$.
+\end{remark}
+\begin{proposition}[Annahilators of subspace sums]
+  If $V$ is an $\F$-vector space and $U, W \leq V$, then:
+  \begin{enumerate}
+    \item $(U + W)^{0} = U^{0} \cap W^{0}$
+    \item $U^{0} + W^{0} \leq (U \cap W)^{0}$
+    \item If $V$ is finite dimensional, then we have equality in \textbf{(ii)}
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  For any $\theta \in V^{*}$:
+  \begin{align*}
+    \theta \in (U + W)^{0} &\iff \theta(u + w) = 0\ \forall u \in U, w \in W \\
+                           &\iff \theta(u) + \theta(w) = 0\ \forall u \in U, w \in W \\
+                           &\iff \theta(u) = \theta(w) = 0\ \forall u \in U, w \in W \text{ by taking either $u$ or $w$ to be $\vec{0}$} \\
+                           &\iff \theta \in U^{0} \cap W^{0}
+  \end{align*}
+  So $(U + W)^{0} = U^{0} \cap W^{0}$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  We see that $U \cap W \leq U, W$, so by \cref{annaProp} \textbf{(ii)} taking annihilators is inclusion reversing, thus $U^{0}, W^{0} \leq (U \cap W)^{0}$.
+  Therefore by closure, $U^{0} + W^{0} \leq (U \cap W)^{0}$, as required.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  So $\dim(V) = n$, thus using the sum-intersection formula (\cref{sumInter}), we have:
+  \begin{align*}
+    \dim(U^{0} + W^{0}) &= \dim(U^{0}) + \dim(W^{0}) - \dim(U^{0} \cap W^{0}) \\
+                        &= \dim(U^{0}) + \dim(W^{0}) - \dim((U + W)^{0}) \text{ by \textbf{(i)}} \\
+                        &= n - \dim(U) - \dim(W) + \dim(U + W) \text{ by \cref{annaDim}} \\
+                        &= n - \dim(U \cap W) \text{ by \cref{sumInter}} \\
+                        &= \dim((U \cap W)^{0}) \text{ by \cref{annaDim}}
+  \end{align*}
+  From \textbf{(ii)}, we have $U^{0} + W^{0} \leq (U \cap W)^{0}$.
+  Thus using \cref{finiteSubspace}, $U^{0} + W^{0} = (U \cap W)^{0}$.
+\end{proof}
+\begin{definition}[Dual map]
+  For $\F$-vector spaces $V, W$ and a linear map $\alpha \in \mathcal{L}(V, W)$, we define the \textit{dual map} of $\alpha$ as:
+  \[
+    \alpha^{*}: W^{*} \to V^{*},\ \theta \mapsto \theta \circ \alpha
+  \]
+\end{definition}
+\begin{lemma}[Properties of dual maps]
+  If $U, V, W$ are $\F$-vector spaces, $\alpha, \beta \in \mathcal{L}(V, W)$, $\gamma \in \mathcal{L}(U, V)$, and $\lambda \in \F$ then:
+  \begin{enumerate}
+    \item $\alpha^{*} \in \mathcal{L}(W^{*}, V^{*})$
+    \item $(\alpha + \lambda \beta)^{*} = \alpha^{*} + \lambda \beta^{*}$
+    \item $(\alpha \circ \gamma)^{*} = \gamma^{*} \circ \alpha^{*}$
+    \item If $\beta$ is an isomorphism, then so is $\beta^{*}$ with $(\beta^{*})^{-1} = (\beta^{-1})^{*}$
+  \end{enumerate}
+\end{lemma}
+\begin{remark}
+  The above properties are similar to the those of the transpose of a matrix, we will see later why this is the case.
+\end{remark}
+\begin{remark}[Advice]
+  When trying to show equality of maps it is usually easiest to show that the maps agree when applied to an arbitrary element of the domain.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  Let $\theta, \eta \in W^{*}$ and $\mu \in \F$ be arbitrary.
+  For any $v \in V$ we have:
+  \begin{align*}
+    \alpha^{*}(\theta + \mu \eta)[v] &= (\theta + \mu \eta)(\alpha(v)) \\
+                                     &= \theta(\alpha(v)) + \mu \eta(\alpha(v)) \\
+                                     &= \alpha^{*}(\theta)[v] + \mu \alpha^{*}(\eta)[v] \\
+                                     &= (\alpha^{*}(\theta) + \mu \alpha^{*}(\eta))[v]
+  \end{align*}
+  Since this is true for any $v \in V$, $\alpha^{*}(\theta + \mu \eta) = \alpha^{*}(\theta) + \mu \alpha^{*}(\eta)$, i.e. $\alpha^{*}$ is linear.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  For $\theta \in W^{*}$ and $v \in V$ we have:
+  \begin{align*}
+    (\alpha + \lambda \beta)^{*}(\theta)[v] &= \theta((\alpha + \lambda \beta)(v)) \\
+                                            &= \theta(\alpha(v) + \lambda \beta(v)) \\
+                                            &= \theta(\alpha(v)) + \lambda \theta(\beta(v)) \\
+                                            &= \alpha^{*}(\theta)[v] + \lambda \beta^{*}(\theta)[v] \\
+                                            &= (\alpha^{*} + \lambda \beta^{*})(\theta)[v]
+  \end{align*}
+  This is true for any $v \in V$ so $(\alpha + \lambda \beta)^{*}(\theta) = (\alpha^{*} + \lambda \beta^{*})(\theta)$ for any $\theta \in W^{*}$, and so $(\alpha + \lambda \beta)^{*} = \alpha^{*} + \lambda \beta^{*}$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  For any $\theta \in W^{*}$:
+  \begin{align*}
+    (\alpha \circ \gamma)^{*}(\theta) &= \theta \circ (\alpha \circ \gamma) \\
+                                      &= (\theta \circ \alpha) \circ \gamma \\
+                                      &= (\alpha^{*}(\theta)) \circ \gamma \\
+                                      &= \gamma^{*}(\alpha^{*}(\theta)) \\
+                                      &= (\gamma^{*} \circ \alpha^{*})(\theta)
+  \end{align*}
+  Since this is true for any $\theta \in W^{*}$, $(\alpha \circ \gamma)^{*} = \gamma^{*} \circ \alpha^{*}$.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  For all $\theta \in V^{*}$:
+  \[
+    (\id_V)^{*}(\theta) = \theta \circ \id_V = \theta = \id_{V^{*}}(\theta)
+  \]
+  Since this is true for all $\theta \in V^{*}$, $(\id_V)^{*} = \id_{V^{*}}$.
+
+  Hence using \textbf{(iii)}, we have:
+  \begin{align*}
+    \id_{V^{*}} &= (\beta^{-1} \circ \beta)^{*} = \beta^{*} \circ (\beta^{-1})^{*} \\
+    \text{ and } \id_{V^{*}} &= (\beta \circ \beta^{-1})^{*} = (\beta^{-1})^{*} \circ \beta^{*}
+  \end{align*}
+  and so $(\beta^{-1})^{*} = (\beta^{*})^{-1}$.
+\end{proof}
+\begin{proposition}
+  If $V$ and $W$ are finite dimensional with bases $B$ and $C$ respectively and $\alpha \in \mathcal{L}(V, W)$, then: \label{starTrans}
+  \[
+    [\alpha^{*}]^{C^{*}}_{B^{*}} = ([\alpha]^{B}_{C})^{\trans}
+  \]
+\end{proposition}
+\begin{proof}
+  Let $n = \dim(V)$ and $m = \dim(W)$, i.e. $B = \{b_1, \ldots, b_n\}$ and $C = \{c_1, \ldots, c_m\}$.
+  Define the matrix $A = [\alpha]^{B}_{C}$.
+  By definition:
+  \[
+    \alpha(b_i) = \sum_{k = 1}^{m} a_{k i}c_k
+  \]
+  Similarly, define $A' = [\alpha^{*}]^{C^{*}}_{B^{*}}$, so that:
+  \[
+    \alpha^{*}(c^{*}_j) = \sum_{\ell = 1}^{n} a_{\ell j}' b^{*}_{\ell}
+  \]
+  By definition $\alpha^{*}: W^{*} \to V^{*}$ so $\alpha^{*}(c^{*}_j) \in V^{*}$, thus we can pass in $b_i$:
+  \begin{align*}
+    \alpha^{*}(c^{*}_j)[b_i] &= \sum_{\ell = 1}^{n} a'_{\ell j} b^{*}_{\ell}(b_i) \\
+                             &= \sum_{\ell = 1}^{n} a
+                             _{\ell j} \delta_{i \ell} \\
+                             &= a'_{i j}
+  \end{align*}
+  Instead, if we use the definition of $\alpha^{*}$:
+  \begin{align*}
+    \alpha^{*}(c^{*}_j)[b_i] &= (c^{*}_j \circ \alpha)[b_i] \\
+                             &= c^{*}_j(\alpha(b_i)) \\
+                             &= \sum_{k = 1}^{m} a_{k i} c^{*}_j(c_k) \\
+                             &= \sum_{k = 1}^{m} a_{k i} \delta_{j k} \\
+                             &= a_{j i}
+  \end{align*}
+  So $a'_{i j} = a_{j i}$ for all $i, j$, i.e. $[\alpha^{*}]^{C^{*}}_{B^{*}} = ([\alpha]^{B}_{C})^{\trans}$.
+\end{proof}
+\begin{example}[Change of basis]
+  Let $B$ and $C$ be bases for a finite $\F$-vector space $V$.
+  Consider the change of basis matrix (\cref{cobFormula}) from $B$ to $C$, $P = [\id_V]^{B}_{C} \in \GL_n(\F)$.
+  To find the change of basis matrix from $B^{*}$ to $C^{*}$, $[\id_{V^{*}}]^{B^{*}}_{C^{*}}$:
+  \[
+    P^{\trans} = [\id_{V^{*}}]^{C^{*}}_{B^{*}} \implies (P^{\trans})^{-1} =  [\id_{V^{*}}]^{B^{*}}_{C^{*}}
+  \]
+  Thus we need to take both the transpose and the inverse to find the corresponding change of basis matrix from $B^{*}$ to $C^{*}$.
+\end{example}
+\begin{proposition}[Annahilators of kernels and images]
+  If $V$ and $W$ are (not necessarily finite dimensional) $\F$-vector spaces with $\alpha \in \mathcal{L}(V, W)$, then:
+  \begin{enumerate}
+    \item $\ker(\alpha^{*}) = (\im \alpha)^{0}$
+    \item $\im(\alpha^{*}) \leq (\ker \alpha)^{0}$
+    \item If $V$ and $W$ are finite dimensional, then $\rank(\alpha^{*}) = \rank(\alpha)$ and we have equality in \textbf{(ii)}
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  For $\theta \in W^{*}$:
+  \begin{align*}
+    \theta \in \ker(\alpha^{*}) &\iff \theta \circ \alpha = \vec{0}_{V^{*}} \\
+                                &\iff \theta(\alpha(v)) = 0\ \forall v \in V \\
+                                &\iff \theta \in (\im \alpha)^{0}
+  \end{align*}
+  Thus $\ker(\alpha^{*}) = (\im \alpha)^{0}$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Suppose $\eta \in \im(\alpha^{*})$, so there exists $\theta \in W^{*}$ such that $\eta = \alpha^{*}(\theta)$.
+
+  For any $v \in \ker \alpha$:
+  \begin{align*}
+    \eta(v) &= \alpha^{*}(\theta)[v] \\
+            &= \theta(\alpha(v)) \\
+            &= \theta(0) \\
+            &= 0
+  \end{align*}
+  So $\eta \in (\ker \alpha)^{0}$.
+  Thus $\im(\alpha^{*}) \subseteq (\ker \alpha)^{0}$, but $\im(\alpha^{*}), (\ker \alpha)^{0} \leq V^{*}$ so $\im(\alpha^{*}) \leq (\ker \alpha)^{0}$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Since $V$ and $W$ are finite, we can always pick basis $B$ and $C$ for $V$ and $W$ respectively.
+  Using \cref{starTrans}, we have:
+  \[
+    A = [\alpha]^{B}_{C} \text{ and } A^{\trans} = [\alpha^{*}]^{C^{*}}_{B^{*}}
+  \]
+  Then, from \cref{rowColRank}, the row rank of a matrix is equal to its column rank and so:
+  \[
+    \rank \alpha = \colrank(A) = \rowrank(A) = \colrank(A^{\trans}) = \rank(\alpha^{*})
+  \]
+
+  We then use \cref{annaDim}:
+  \begin{align*}
+    \dim((\ker \alpha)^{0}) &= \dim(V) - \dim(\ker \alpha) \text{ by \cref{annaDim}} \\
+                            &= \dim(V) - \nullity \alpha \\
+                            &= \rank \alpha \text{ by \cref{RNT}} \\
+                            &= \dim(\im \alpha)
+  \end{align*}
+  From \textbf{(ii)}, $\im(\alpha^{*}) \leq (\ker \alpha)^{0}$ so by \cref{finiteSubspace}, $\im(\alpha^{*}) = (\ker \alpha)^{0}$.
+\end{proof}
+\begin{definition}[Double dual]
+  The \textit{double dual} of an $\F$-vector space $V$ is the dual of the dual space, that is:
+  \[
+    V^{**} = (V^{*})^{*} = \mathcal{L}(V^{*}, \F)
+  \]
+\end{definition}
+\begin{remark}
+  If $V$ is finite dimensional, then by \cref{dualSize}, $\dim(V^{*}) = \dim(V)$ and $\dim(V^{*}) = \dim(V^{**})$, so $\dim(V) = \dim(V^{**})$.
+  Thus by \cref{finiteDimIso}, $V \cong V^{**}$.
+\end{remark}
+\begin{theorem}[Evaluation map]
+  If $V$ is an $\F$-vector space, the \textit{evaluation map} or \textit{natural isomorphism} $V \to V^{**)}$ defined as:
+  \[
+    \varepsilon: V \to V^{**},\ v \mapsto (\varepsilon(v): V^{*} \to \F,\ \theta \mapsto \theta(v)) \in \mathcal{L}(V^{*}, \F)
+  \]
+  is a linear map.
+  Moreover, if $V$ is finite dimensional then $\varepsilon$ is an isomorphism.
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
 \end{proof}
 \end{document}
