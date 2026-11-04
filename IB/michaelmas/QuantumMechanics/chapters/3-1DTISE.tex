@@ -252,6 +252,197 @@ which gives:
 \[
   -\deriv[2]{}{\xi} \chi(\xi) + \xi^2 \chi(\xi) = \varepsilon \chi(\xi)
 \]
+Starting with the case $\varepsilon = 1$, i.e. $E_0 = \frac{\hbar \omega}{2}$, by inspection, we find the normalisable solution:
+\[
+  \chi_0(x) = \exp\left(-\frac{\xi^2}{2}\right)
+\]
+since:
+\[
+  \deriv{\chi}{\xi} = - \xi \chi \implies \deriv[2]{\chi}{\xi} = (\xi^2 - 1)\chi \implies -\deriv[2]{\chi}{\xi} + \xi^2 \chi = 1 \cdot \chi
+\]
+To find the other eigenvalue-eigenfunction pairs, we look for a general solution of the form:
+\begin{align*}
+  \chi(\xi) &= f(\xi) \exp\left(-\frac{\xi^2}{2}\right) \\
+  \implies \deriv{\chi}{\xi} &= \left(\deriv{f}{\xi} - \xi f\right)\exp\left(-\frac{\xi^2}{2}\right) \\
+  \implies \deriv[2]{\chi}{\xi} &= \left(\deriv[2]{f}{\xi} - 2 \xi \deriv{f}{\xi} + (\xi^2 - 1)f\right) \exp\left(-\frac{\xi^2}{2}\right)
+\end{align*}
+and so:
+\begin{align*}
+  &\varepsilon f(\xi) \exp\left(-\frac{\xi^2}{2}\right) = \left(-\deriv[2]{f}{\xi} - 2 \xi \deriv{f}{\xi} - (\xi^2 - 1)f + \xi^2 f\right)\exp\left(-\frac{\xi^2}{2}\right) \\
+  &\implies - \deriv[2]{f}{\xi} + 2 \xi \deriv{f}{\xi} + (1 - \varepsilon)f = 0
+\end{align*}
+The point $\xi = 0$ is an ordinary point of this equation and so we look for a power series solution about $\xi = 0$:
+\begin{align*}
+  f(\xi) = \sum_{n = 0}^{\infty} a_n \xi^n \implies f'(\xi) &= \sum_{n = 1}^{\infty} na_n \xi^{n - 1} \\
+  \implies f''(\xi) &= \sum_{n = 2}^{\infty} n(n - 1) a_n \xi^{n - 2} = \sum_{n = 0}^{\infty} (n + 2)(n + 1)a_{n + 2} \xi^{n}
+\end{align*}
+and so:
+\[
+  \sum_{n = 0}^{\infty} [(n + 1)(n + 2)a_{n + 2} - 2na_n + (\varepsilon - 1)a_n]\xi^{n} = 0
+\]
+which yields the following recurrence relation:
+\begin{equation}
+  a_{n + 2} = \frac{(2n - \varepsilon + 1)}{(n + 1)(n + 2)}a_n \label{coeffRel}
+\end{equation}
+As mentioned, the eigenfunctions must be either even or odd functions of $\xi$.
+If $f$ is an odd function, i.e. $f(\xi) = -f(-\xi)$, then taking $\xi = 0$ tells us that $a_0 = 0$, thus $a_n = 0$ for all even $n$.
+If $f$ is instead an even function, i.e. $f(\xi) = f(-\xi)$, then its derivative $f'(\xi) = -f'(-\xi)$ is even, so taking $\xi = 0$ tells us that $a_1 = 0$, so $a_n = 0$ for all odd $n$.
+\begin{proposition}
+  If the series solution for $f(\xi)$ does not terminate, then it is not normalisable.
+\end{proposition}
+\begin{proof}
+  Suppose the series does not terminate.
+
+  From the recurrence relation, we see that the coefficients follow the asymptotic relation as $n \to \infty$:
+  \[
+    \frac{a_{n + 2}}{a_n} \sim \frac{2}{n}
+  \]
+  This is the same asymptotic behaviour as the coefficients of the Taylor series for the function:
+  \[
+    \exp(\xi^2) = \sum_{m = 0}^{\infty} \frac{\xi^{2m}}{m!} = \sum_{m = 0}^{\infty} b_m \xi^{m}
+  \]
+  where:
+  \[
+    b_n = \begin{cases}
+    \frac{1}{m!} & \text{ for } n = 2m \\
+    0 & \text{ for } n = 2m + 1
+    \end{cases}
+  \]
+  and so as $n \to \infty$, the asymptotic behaviour of the coefficients for even $n$ as $n \to \infty$ is:
+  \[
+    \frac{b_{n + 2}}{b_n} = \frac{(n / 2)!}{(n/2 + 1)!} = \frac{2}{n + 2} \sim \frac{2}{n}
+  \]
+  Thus if the series solution for $\xi$ does not terminate $f(\xi) \sim \exp(\xi^2)$ and thus:
+  \[
+    \chi(\xi) = f(\xi) \exp\left(-\frac{\xi^2}{2}\right) \sim \exp\left(\frac{\xi^2}{2}\right)
+  \]
+  As $\xi \to \infty$, $\exp(\xi^2/2)$ diverges and so $\chi$ cannot be normalisable.
+\end{proof}
+We require our eigenfunctions to be normalisable and so the series must terminate to a finite polynomial.
+Looking at our recurrence relation, we see that for there to exist $N \in \N_0$ such that $a_{N + 2} = 0$ but $a_{N} \neq 0$, we must have:
+\[
+  a_{N + 2} = \frac{2N - \varepsilon + 1}{(N + 1)(N + 2)} a_N = 0 \iff 2N - \varepsilon + 1 = 0 \iff \varepsilon = 2N + 1
+\]
+for some $N \in \N_0$.
+
+By definition $\varepsilon = 2E/\hbar \omega$, and so the eigenvalues are given by:
+\[
+  E = E_N = \left(N + \frac{1}{2}\right) \hbar \omega
+\]
+We see that the ground state energy is $E_0 = \hbar \omega/2$ and the energy levels are equally spaced with $E_{N + 1} - E_N = \hbar \omega$.
+This means that our system can only absorb or emit photons whose angular frequency is an integer multiple of $\omega$, resulting in equally spaced spectral lines.
+
+The corresponding eigenfunction for the eigenvalue $E_N$ is:
+\[
+  \chi_N(x) = f_N(\xi) \exp\left(-\frac{\xi^2}{2}\right)
+\]
+where $f_N$ is the finite polynomial with coefficients following \cref{coeffRel} when $\varepsilon = 2N + 1$.
+Since the last non-zero coefficient is $a_N$, $f_N$ is a polynomial of order $N$.
+So since $f_N(\xi)$ is an even or odd function of $\xi$, if $N$ is even, so is $f_N$ and if $N$ is odd, so is $f_N$.
+We call $f_N$ the \textit{$N$-th Hermite polynomial}.
+If we take $a_0$ or $a_1$ as $1$, for even and odd $N$ respectively, then we obtain the un-normalised eigenfunctions $\chi_N$:
+\begin{center}
+\begin{tabular}{c|c|c|c}
+  $N$ & $E_N$ & $f_N$ & $\chi_N(\xi)$ \\
+\hline
+0 & $\frac{1}{2} \hbar \omega$ & 1 &  $\exp\left(-\frac{\xi^2}{2}\right)$ \\
+1 & $\frac{3}{2} \hbar \omega$ & $\xi$ &$\xi \exp\left(-\frac{\xi^2}{2}\right)$ \\
+2 & $\frac{5}{2} \hbar \omega$ & $1 - 2\xi^2$ &$(1 - 2\xi^2)\exp\left(-\frac{\xi^2}{2}\right)$ \\
+3 & $\frac{7}{2} \hbar \omega$ & $\xi - \frac{2}{3} \xi^3$ & $(\xi - \frac{2}{3} \xi^3) \exp\left(-\frac{\xi^2}{2}\right)$ \\
+$\vdots$ & $\vdots$ & $\vdots$ \\
+\end{tabular}
+\end{center}
+We can generate scaled versions of the above the Hermite polynomials, with leading coefficient $2^{n}$, known as the \textit{physicists Hermite polynomial}, using the equation:
+\[
+  f_n(\xi) = (-1)^{n} e^{\xi^2} \deriv[n]{}{\xi}\left(e^{-\xi^2}\right)
+\]
 \section{Free Particles}
+\subsection{Non-Normalisation}
+Consider the TISE with $U(x) \equiv 0$:
+\begin{align*}
+  -\frac{\hbar^2}{2 m} \chi''(x) + E\chi(x) &= 0 \\
+  \iff \chi''(x) + \frac{2mE}{\hbar^2} \chi(x) &= 0 \\
+  \iff \chi''(x) + k^2 \chi &= 0
+\end{align*}
+where $k^2 = \frac{2mE}{\hbar^2}$.
+This has solution:
+\[
+  \chi(x) = Ce^{ikx} + De^{-ikx}
+\]
+giving the wavefunction:
+\[
+  E_k = \frac{\hbar^2 k^2}{2m} \text{ and } \chi_k(x) = Ce^{ikx}
+\]
+Substituting this into the TISE, we obtain the wavefunctions:
+\[
+  \psi_k(x, t) = \chi_k(x) e^{-i E_k t/k} = C \exp\left[i\left(kx - \frac{\hbar k^2}{2m}t\right)\right]
+\]
+These solutions are not square integrable as, for $C \neq 0$:
+\[
+  \int_{-\infty}^{\infty} |\psi_k(x, t)|^2 \d{x} = \infty
+\]
+If $C = 0$, then $\psi_k$ is the unphysical null state and so these $\psi_k$ are not normalisable.
+We can hope to bypass this problem by building a linear superposition of these $\chi_k$ which is normalisable.
+\subsection{Gaussian Wavepacket}
+Since the above solutions are indexed by $k \in \R$, we can write a wavefunction $\psi$ as a continuous linear combination:
+\begin{align*}
+  \psi(x, t) &= \int_{-\infty}^{\infty} A(k) \psi_{k}(x, t) \d{k} \\
+             &= \int_{-\infty}^{\infty} A(k) \exp\left[i\left(kx - \frac{\hbar k^2}{2m}t\right)\right] \d{k}
+\end{align*}
+where $A(k) \in \R$.
+
+One possible option for $A$ is:
+\[
+  A(k) = A_{\text{GP}}(k) = \exp\left[-\frac{\sigma}{2}(k - k_0)^2\right]
+\]
+where $\sigma \in \R^{+}$ and $k_0 \in \R$.
+This corresponds to the \textit{Gaussian wave packet}.
+\begin{align*}
+  \psi_{\text{GP}}(x, t) &= \int_{-\infty}^{\infty} A_{\text{GP}}(k) \psi_k(x, t) \d{k} \\
+                         &= \int_{-\infty}^{\infty} \exp[F(k)] \d{k}
+\end{align*}
+where we define $F(k)$ as:
+\begin{align*}
+  F(k) &= - \frac{\sigma}{2}(k - k_0)^2 + ikx - i \frac{\hbar k^2}{2m} t \\
+       &= - \frac{1}{2}\left(\sigma + \frac{i\hbar t}{m}\right)k^2 + (k_0 \sigma + ix)k - \frac{\sigma}{2}k^2_0 \\
+       &= - \frac{1}{2} \alpha k^2 + \beta k + \delta
+\end{align*}
+where we define:
+\[
+  \alpha = \sigma + \frac{i\hbar t}{m},\ \beta = k_0 \sigma + ix,\ \delta = - \frac{\sigma}{2} k^2_0
+\]
+so that we can complete the square as:
+\[
+  F(k) = - \frac{\alpha}{2} \left(k - \frac{\beta}{\alpha}\right)^2 + \frac{\beta^2}{2\alpha} + \delta
+\]
+Since $\alpha$, $\beta$, and $\delta$ do not depend on $k$, we can pull them out of the integral:
+\[
+  \psi_{\text{GP}}(x, t) = \exp\left[\frac{\beta^2}{2\alpha} + \delta\right]  \int_{-\infty}^{\infty} \exp\left[-\frac{\alpha}{2}\left(k - \frac{\beta}{\alpha}\right)^2\right] \d{k}
+\]
+We want to try and relate this integral to the Gaussian integral.
+We split up:
+\[
+  \frac{\beta}{\alpha} = \Re\left(\frac{\beta}{\alpha}\right) + i \Im\left(\frac{\beta}{\alpha}\right)
+\]
+Letting $\widetilde{k} = k - \frac{\beta}{\alpha}$ and $\nu = \im[\beta/\alpha]$:
+\begin{align*}
+  \psi_{\text{GP}}(x, t) &= \exp\left[\frac{\beta^2}{2\alpha} + \delta\right] \int_{-\infty}^{\infty} \exp\left[-\frac{\alpha}{2}\left(k - \frac{\beta}{\alpha}\right)^2\right] \d{k} \\
+                         &= \exp\left[\frac{\beta^2}{2\alpha} + \delta\right] \int_{-\infty - i\nu}^{\infty - i\nu} \exp\left[-\frac{\alpha}{2}\widetilde{k}^2\right] \d{\widetilde{k}}
+\end{align*}
+We know from IA Differential Equations/IA Probability that:
+\[
+  \int_{-\infty}^{\infty} \exp[-a x^2] \d{x} = \sqrt{\frac{\pi}{a}}
+\]
+so by appealing to the Cauchy residue theorem, by constructing a closed contour along the real line, and, the line $\R - i\nu$, joined at the ends and then taking the ends off to $\pm \infty$, we obtain that:
+\[
+  \int_{-\infty - i\nu}^{\infty - i\nu} \exp\left[-\frac{\alpha}{2}\widetilde{k}^2\right] \d{\widetilde{k}} = \int_{-\infty}^{\infty} \exp\left[-\frac{\alpha}{2}x\right] \d{x} = \sqrt{\frac{2\pi}{\alpha}}
+\]
+Thus:
+\begin{align*}
+  \psi_{\text{GP}}(x, t) &= \sqrt{\frac{2\pi}{\alpha}}\exp\left[\frac{\beta^2}{2\alpha} + \delta\right] \\
+                         &= \sqrt{\frac{2\pi}{\sigma + \frac{i\hbar t}{m}}}\exp\left[\frac{(k_0 \sigma + ix)^2}{2\sigma + \frac{2i \hbar t}{m}} - \frac{\sigma}{2} k^2_0\right]
+\end{align*}
+As $x \to \pm \infty$, $\psi_{\text{GP}}$ decays exponentially and so it is square integrable.
+Thus $\psi_{\text{GP}}$ is a normalisable solution to the TISE for a free particle.
 \section{Scattering States}
 \end{document}
