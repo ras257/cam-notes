@@ -242,7 +242,7 @@ solves the full BVP.
   When we impose a boundary condition, we do not just mean that the boundary condition is satisfied exactly on the boundary but implicitly that solutions continuously approach these boundary conditions from inside the domain.
   We did not checked that was is necessarily the case in the above example, however, we shall not worry about such details within this course.
 \end{remark}
-\subsection{Separation of Variables an Circular Annulus}
+\subsection{Separation of Variables on a Circular Annulus}
 We would like to solve Laplace's equation on the annular region $r_1 < |\vec{x}| < r_2$ in $\R^2$.
 It is therefore convenient to use polar coordinates $(r, \theta)$ so that the annular region in the $x$-$y$ plane becomes a rectangular region in the $r$-$\theta$ plane.
 
@@ -327,7 +327,7 @@ for arbitrary constants $A_n, B_n, C_n, D_n$.
   \[
     f(\theta) = \frac{1}{2} a_0 + \sum_{n = 1}^{N} [a_n \cos(n\theta) + b_n \sin(n\theta)]
   \]
-  This is a Fourier series as we saw in \label{fourierChap}!
+  This is a Fourier series as we saw in \cref{fourierChap}!
   Thus we can compute $a_n$ and $b_n$ from $f$ using:
   \[
     a_n = \frac{1}{\pi} \int_{0}^{2\pi} f(\theta) \cos(n\theta) \d{\theta} \text{ and } b_n = \frac{1}{\pi} \int_{0}^{2\pi} f(\theta) \sin(n\theta) \d{\theta}
@@ -345,7 +345,7 @@ for arbitrary constants $A_n, B_n, C_n, D_n$.
   \]
   then we can use the method from \cref{domainSplitEx} to find $\varphi_1$ and $\varphi_2$ which each solve with only one functional boundary condition and one zero boundary condition so that $\varphi = \varphi_1 + \varphi_2$ solves this problem.
 \end{example}
-\subsection{Separation of Variables on Spherical Annulus}
+\subsection{Separation of Variables on a Spherical Annulus}
 We would also like to solve Laplace's equation on the spherical annulus $r_1 < |\vec{x}| < r_2$ but in $\R^3$.
 Similarly in in $\R^2$, it makes sense to use spherical polars $(r, \theta, \phi)$, where $r$ is the radial coordinate, $\theta \in [0, \pi]$ and $\varphi \in [0, 2\pi]$.
 
