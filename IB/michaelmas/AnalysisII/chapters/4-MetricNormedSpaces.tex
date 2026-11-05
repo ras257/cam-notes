@@ -110,7 +110,7 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
   Suppose that $V$ is an $\F$-vector space with subset $W \subseteq V$.
   Recall from IB Linear Algebra that the subspace tells us that if $\vec{0} \in W$ and for all $w_1, w_2 \in W$ and $\lambda \in \F$ we have $w_1 + \lambda w_2 \in W$, then $W$ is a subspace of $V$, denoted $W \leq V$.
 \end{remark}
-\begin{example}[Infinite dimensional vector space]
+\begin{example}[Infinite dimensional vector space] \label{infNorms}
   Consider the vector space of real sequences, denoted $\R^{\N}$:
   \[
     \R^{\N} = \{\text{sequence $(x_k)_{k \in \N}$ with $x_k \in \R\ \forall k \in \N$}\}
@@ -605,14 +605,147 @@ It is also important to be aware that sets may be open when considering a metric
   \]
   Since $\varepsilon > 0$ was arbitrary, $d(x, y) = 0$ and so $x = y$.
 \end{proof}
-\begin{proposition}[Converegnce in $\R^n$ with respect to the Euclidean metric]
-  Convergence in $(\R^n, \norm{\argdot}_2)$ is equivalent to coordinate wise convergence.
-  That is, if $x^{(k)} = (x^{(k)}_1, \ldots, x^{(k)}_n)$, then:
+\begin{proposition}[Convergence in $\R^n$ with respect to the Euclidean metric]
+  Convergence in $(\R^n, \norm{\argdot}_2)$ is equivalent to coordinate-wise convergence.
+  That is, if $(x^{(k)})_{k \in \N} = (x^{(k)}_1, \ldots, x^{(k)}_n) \in \R^{n}$, then: \label{vectorConv}
   \[
-    x^{(k)} \xrightarrow{\norm{\argdot}_2} x = (x_1, \ldots, x_n) \iff x^{(k)}_j \to x_j \forall j \in \{1, \ldots, n\}
+    x^{(k)} \xrightarrow{\norm{\argdot}_2} x = (x_1, \ldots, x_n) \iff x^{(k)}_j \to x_j\ \forall j \in \{1, \ldots, n\}
   \]
 \end{proposition}
 \begin{proof}
-  Continued next lecture.
+\begin{proofdirection}{Assume $x^{(k)}$ converges}
+  So if we fix $\varepsilon > 0$, then there exists $K$ such that $\norm{x^{(k)} - x}_2 < \varepsilon$ for all $k \geq K$.
+  Thus, for any $j \in \{1, \ldots, n\}$:
+  \begin{align*}
+    \abs{x^{(k)}_j - x_j} &= \left[(x^{(k)}_j - x_j)^2\right]^{\frac{1}{2}} \\
+                          &\leq \left[(x^{(k)}_1 - x_1)^2 + \cdots + (x^{(k)}_n - x_n)^2\right]^{\frac{1}{2}} \\
+                          &= \norm{x^{(k)} - x}_{2} \\
+                          &< \varepsilon\ \forall k \geq K
+  \end{align*}
+  and so $x^{(k)}_j \to x_j$ as $k \to \infty$ for each $j \in \{1, \ldots, n\}$.
+\end{proofdirection}
+\begin{proofdirection}{Assume each $x^{(k)}_j$ converges}
+  So for each $j \in \{1, \ldots, n\}$, there exists $K_j$ such that $|x^{(k)}_j - x_j| < \frac{\varepsilon}{\sqrt{n}}$ for all $k \geq K_j$.
+  Since there are finitely many of these, we can take $K = \max\{K_1, \ldots, K_n\}$, so that:
+  \begin{align*}
+    \norm{x^{(k)} - x}_2 &= \left[\sum_{i = 1}^{n} (x^{(k)}_i - x_i)^2\right]^{\frac{1}{2}} \\
+                         &< \left[\sum_{i = 1}^{n} \left(\frac{\varepsilon}{\sqrt{n}}\right)^2\right] \\
+                         &= \varepsilon
+  \end{align*}
+  and so $x^{(k)} \to x$ under $\norm{\argdot}_2$ as $k \to \infty$.
+\end{proofdirection}
 \end{proof}
+\begin{remark}
+  We will later show that all norms on $\R^{n}$ (or indeed any other finite dimensional vector space) are, in  sense, equivalent to each other.
+  So the choice of $\norm{\argdot}_2$ is not special in any way, i.e. the result extends to any finite dimensional vector space equipped with any norm induced metric.
+\end{remark}
+\begin{definition}[Bounded set]
+  Let $(X, d)$ be a metric space.
+  We say that a subset $E \subseteq X$ is \textit{bounded} if there exists $R > 0$ and $a \in X$ such that $E \subseteq B_R(a)$.
+\end{definition}
+\begin{remark}[Intuition]
+  A subset $E$ is closed if there exists a ball in which $E$ is entirely contained in.
+\end{remark}
+\begin{remark}
+  Let $E \subseteq X$ is bounded and let $b \in X$ be arbitrary.
+  By definition, there exists $a \in X$ and $R > 0$ such that $E \subseteq B_R(a)$.
+  We see that $E \subseteq B_{R + d(a, b)}(b)$ and so a ball centered at $b$ with radius $R + d(a, b) > 0$ also contains $E$.
+  Thus if $E$ is bounded, then for any point $b \in X$, we can find a ball of radius $R > 0$ such that $E \subseteq B_{R}(b)$.
+\end{remark}
+\begin{corollary}[Subsequences of a convergent sequence on $\R^n$]
+  If $x^{(k)} \in \R^{n}$ is convergent with $x^{(k)} \to x \in \R^{n}$ under $\norm{\argdot}_2$ as $k \to \infty$, then any subsequence $x^{(k_\ell)}$ also has $x^{(k_{\ell})} \to x$ under $\norm{\argdot}_2$ as $\ell \to \infty$. \label{subseqConv}
+\end{corollary}
+\begin{proof}
+  By \cref{vectorConv}, each component has $x^{(k)}_j \to x_j$ as $k \to \infty$.
+In IA Analysis I, we saw that any subsequence of a convergent sequence in $\R$ also converges to the same limit as the original sequence, thus $x^{(k_{\ell})}_j \to x_j$ as $\ell \to \infty$.
+So applying the other \cref{vectorConv}, we have $x^{(k_{\ell})} \to x$ as $\ell \to \infty$ under $\norm{\argdot}_2$.
+\end{proof}
+\begin{definition}[Bolzano-Weierstrass in $\R^n$]
+  Any bounded sequence in $\R^n$ has a convergent subsequence.
+\end{definition}
+We will assume the metric is induced by the Euclidean norm but as in the previous remark, the result also holds with respect to any norm induced metric on a finite vector space.
+\begin{proof}
+  Suppose $(x^{(k)})_{k \in \N}$ is bounded in $\R^n$, by the above remark, we can assume the ball is centered at the origin and so there exists $R > 0$ such that $\norm{x^{k}}_2 < R$ for all $k \in \N$.
+
+  We proceed by induction on the dimension of the space $n$.
+  \quietinduction
+  {$n = 1$}{
+    This is just the usual Bolzano-Weierstrass on $\R$ from IA Analysis I.
+  }
+  {$n - 1$}{}
+  {$n$}{
+    Define $y^{(k)} = (x^{(k)}_1, \ldots, x^{(k)}_{n - 1}) \in \R^{n - 1}$ so that $x^{(k)} = (y^{(k)}, x^{(k)}_n) \in \R^{n}$.
+    By definition of $\norm{\argdot}_2$, we have:
+    \[
+      \norm{y^{(k)}}^2_2 + \abs{x^{(k)}_n}^2 = \norm{x^{(k)}}^2_2 < R^2 \implies \norm{y^{(k)}}_2 < R \text{ and } \abs{x^{(k)}_n} < R
+    \]
+    So $(y^{(k)})_{k \in \N}$ is bounded in $\R^{n - 1}$ and $(x^{(k)}_n)_{k \in \N}$ is bounded in $\R$.
+
+    Thus by the induction hypothesis, there exists a subsequence $(y^{(k_j)})_{j \in \N}$ of $(y^{(k)})$ and a point $y \in \R^{n - 1}$ such that $y^{(k_j)} \to y$ under $\norm{\argdot}_2$ on $\R^{n - 1}$ as $j \to \infty$.
+    Clearly the subsequence $x^{(k_j)}_n$ is still bounded, so the Bolzano-Weierstrass theorem on $\R$ tells us that there exists a subsequence $(x^{(k_{j_{\ell}})}_n)_{\ell \in \N}$ with $x^{(k_{j_{\ell}})}_n \to x_n$ for some $x_n \in \R$ as $\ell \to \infty$.
+    Since $(y^{(k_j)})_{j \in \N}$ converges to $y$, by \cref{subseqConv}, we also have $y^{k_{j_\ell}} \to y$ under $\norm{\argdot}_2$ as $\ell \to \infty$.
+
+    Thus since each component of $x^{(k_{j_\ell})}$ converges as $\ell \to \infty$, appealing to \cref{vectorConv}, we have $x^{(k_{j_{\ell}})} \to x = (y, x_n) \in \R^{n}$ under $\norm{\argdot}_2$ on $\R^n$ as $\ell \to \infty$, i.e. the subsequence $(x^{(k_{j_\ell})})_{\ell \in \N}$ is convergent under $\norm{\argdot}_2$ on $\R$.
+  }
+\end{proof}
+\begin{remark}
+  The finite dimensionality of $\R^n$ is necessary for the above.
+  In fact, it can be shown that this property holds on an arbitrary normed space if and only if it the underlying vector space is finite dimensional.
+
+  For a counter example, consider the normed space $(\ell^{\infty}, \norm{\argdot}_{\infty})$ and let $(e^{(k)})_{k \in \N} \in \ell^{\infty}$ be defined by $e^{(k)}_j = \delta_{k j}$.
+  This is clearly bounded as $\norm{e^{k}}_{\infty} = 1$ for each $k$.
+  Suppose this has a convergent subsequence $e^{k_{j}} \to e = (e_1, e_2, \ldots) \in \ell^{\infty}$ under $\norm{\argdot}_{\infty}$ as $j\to \infty$, i.e. $\norm{e^{(k_j)} - e}_{\infty} \to 0$ as $j \to \infty$.
+
+  Using the definition of $\norm{\argdot}_{\infty}$ (from \cref{infNorms}), for each $\ell \in \N$:
+  \begin{align*}
+    \abs{e^{(k_j)}_{\ell} - e_{\ell}} \leq \sup_{\ell \in \N} \abs{e^{(k_j)}_{\ell} - e_{\ell}} &= \norm{e^{(k_j)} - e}_{\infty} \to 0 \text{ as } j \to \infty \\
+    \implies \abs{e^{(k_j)}_{\ell} - e_{\ell}} &\to 0 \text{ as } j \to \infty
+  \end{align*}
+  But by how we constructed $e^{(k_j)}$, for any $\ell$, $e^{(k_{j})}_{\ell} = 0$ for all sufficiently large $j$, hence $e_{\ell} = 0$ for all $\ell$, i.e. $\norm{e^{k_j}}_{\infty} \to 0$ as $j \to \infty$.
+  This is a contradiction as $\norm{e^{(k_j)}}_{\infty} = 1$ for each $j$ by construction.
+\end{remark}
+For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X$ a subset.
+\begin{definition}[Limit point]
+  We say that a point $x \in X$ is a \textit{limit point of $E$} if there exists a sequence $(x_k)$ in $E \setminus \{x\}$ such that $x_k \to x$.
+\end{definition}
+\begin{remark}
+  The exclusion of the point itself from $E$ is important as otherwise every point of $E$ is a limit point of $E$ by considering a constant sequence.
+\end{remark}
+\begin{definition}[Isolated point]
+  We say that a point $x \in E$ is isolated if it is not a limit point of $E$.
+\end{definition}
+\begin{definition}[Closure]
+  The \textit{closure} of the set $E$ is defined to be the set:
+  \begin{align*}
+    \overline{E} &= \left\{x \in X: x  = \lim_{k \to \infty} x_k \text{ for some sequence $(x_k)$ in $E$}\right\} \\
+                 &= E \cup \{x \in X: x \text{ is a limit point of $E$}\}
+  \end{align*}
+\end{definition}
+\begin{definition}[Interior]
+  We say that a point $x \in X$ is an \textit{interior point} of $E$ if there exists $r > 0$ such that $B_r(x) \subseteq E$.
+
+  The \textit{interior} of $E$, denoted $\dot{E}$ is then defined to be the set of all interior points of $E$.
+\end{definition}
+\begin{remark}
+  For any $r > 0$ we have $x \in B_r(x) \subseteq E$ and so $x \in E$, i.e. all interior points of $E$ must be in $E$, or equivalently, $\dot{E} \subseteq E$.
+\end{remark}
+\begin{example}
+  Consider the set $X = \R$ with the Euclidean metric and the subset $E = [0, 1) \cup \{2\}$.
+  We have the following:
+  \begin{enumerate}
+    \item The limit points of $E$ are $[0, 1]$.
+
+      For $x \in [0, 1)$, we can set $r = 1 - x > 0$ and so we can construct the sequence $(x + \frac{r}{n})_{n \in \N}$ on $E \setminus \{x\}$ which has $x + \frac{r}{n} \to x$, i.e. $x$ is a limit point of $E$.
+      For $x = 1$ we instead use sequence $1 - 1/n$ on $E \{1\}$ which converges to 1.
+    \item The only isolated point of $E$ is $\{2\}$.
+
+      This is because all points in $x \in E \setminus \{2\}$ have $|x - 2| > 1$ and so there cannot be a sequence on $E \setminus \{2\}$ converging to 2.
+    \item The closure of $E$ is $\overline{E} = [0, 1] \cup \{2\}$.
+    \item The interior of $E$ is $\dot{E} = (0, 1)$.
+
+      By the remark, we need only check points in $E$ itself.
+      For any $x \in (0, 1)$, we take $r = \min\{x, 1 - x\} > 0$ so that $B_r(x) \subseteq E$.
+      Further, for any $r > 0$, both $B_r(0)$ and $B_r(2)$ will always contain a point not in $E$, i.e. $0, 2 \notin \dot{E}$
+  \end{enumerate}
+\end{example}
 \end{document}
