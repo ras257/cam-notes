@@ -283,9 +283,9 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
     d_{E}(x, y) = \norm{x - y}_{E} = \left[\sum_{i = 1}^{n} (x_i - y_i)^2\right]^{\frac{1}{2}}
   \]
   or the \textit{uniform metric} on $C([a, b])$:
-  \[
-    d_{\infty}(f, g) = \norm{f - g}_{\infty} = \sup_{x \in [a, b]} |f(x) - g(x)|
-  \]
+  \begin{equation}
+    d_{\infty}(f, g) = \norm{f - g}_{\infty} = \sup_{x \in [a, b]} |f(x) - g(x)| \label{unifMetric}
+  \end{equation}
   This is the notion of ``distance'' between functions we alluded to when introducing uniform convergence.
 \end{remark}
 \begin{example}[Discrete metric]
@@ -663,7 +663,7 @@ So applying the other \cref{vectorConv}, we have $x^{(k_{\ell})} \to x$ as $\ell
 \begin{definition}[Bolzano-Weierstrass in $\R^n$]
   Any bounded sequence in $\R^n$ has a convergent subsequence.
 \end{definition}
-We will assume the metric is induced by the Euclidean norm but as in the previous remark, the result also holds with respect to any norm induced metric on a finite vector space.
+We will assume the metric is induced by the Euclidean norm but as in the previous remark, the result also holds with respect to any norm induced metric on a finite dimensional vector space.
 \begin{proof}
   Suppose $(x^{(k)})_{k \in \N}$ is bounded in $\R^n$, by the above remark, we can assume the ball is centered at the origin and so there exists $R > 0$ such that $\norm{x^{k}}_2 < R$ for all $k \in \N$.
 
@@ -732,7 +732,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
 \begin{example}
   Consider the set $X = \R$ with the Euclidean metric and the subset $E = [0, 1) \cup \{2\}$.
   We have the following:
-  \begin{enumerate}
+  \begin{itemize}
     \item The limit points of $E$ are $[0, 1]$.
 
       For $x \in [0, 1)$, we can set $r = 1 - x > 0$ and so we can construct the sequence $(x + \frac{r}{n})_{n \in \N}$ on $E \setminus \{x\}$ which has $x + \frac{r}{n} \to x$, i.e. $x$ is a limit point of $E$.
@@ -746,6 +746,133 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
       By the remark, we need only check points in $E$ itself.
       For any $x \in (0, 1)$, we take $r = \min\{x, 1 - x\} > 0$ so that $B_r(x) \subseteq E$.
       Further, for any $r > 0$, both $B_r(0)$ and $B_r(2)$ will always contain a point not in $E$, i.e. $0, 2 \notin \dot{E}$
-  \end{enumerate}
+  \end{itemize}
 \end{example}
+\begin{proposition}
+  If $E \subseteq X$, then $\overline{E}$ is a closed subset of $X$.
+  More specifically, we can write: \label{closureInter}
+  \[
+    \overline{E} = \bigcap_{\substack{F \subseteq X \text{ is closed }\\ E \subseteq F}} F
+  \]
+  i.e. $\overline{E}$ is the smallest closed set in $X$ (by \cref{interProp}) which contains $E$.
+\end{proposition}
+\begin{proof}
+  See Example Sheet 2 Q8.
+\end{proof}
+\begin{proposition}
+  If $E \subseteq X$, then the following are equivalent:
+  \begin{enumerate}
+    \item If $(x_k)$ is a sequence in $E$ such that $x_k \to x \in X$, then $x \in E$
+    \item $E = \overline{E}$
+    \item $E$ is a closed subset of $X$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  We have:
+  \[
+    \text{\textbf{(i)}} \iff \{x \in X: x \text{ is a limit point of E}\} \subseteq E \iff E = \overline{E} \iff \text{\textbf{(ii)}}
+  \]
+
+  If we have \textbf{(ii)}, then by \cref{closureInter}, $\overline{E}$ is closed, thus so is $E$.
+  If we have \textbf{(iii)}, then $E \subseteq X$ is closed and $E \subseteq E$, thus $E$ is a set in the intersection from \cref{closureInter} and so $\overline{E} = E$.
+  Therefore \textbf{(i)} $\iff$ \textbf{(ii)} $\iff$ \textbf{(iii)}, as required.
+\end{proof}
+\section{Cauchy Sequences and Completeness}
+\begin{definition}[Cauchy sequence]
+  Let $(X, d)$ be a metric space.
+  We say that a sequence $(x_k)_{k \in \N}$ in $X$ is \textit{Cauchy} if:
+  \[
+    \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } d(x_n, x_m) < \varepsilon\ \forall n, m \geq N
+  \]
+\end{definition}
+\begin{proposition}
+  For a metric space $(X, d)$ and sequence $(x_n)_{n \in \N}$ on $X$ we have the following:
+  \begin{enumerate}
+    \item If $(x_n)$ is convergent, then $(x_n)$ is Cauchy
+    \item If $(x_n)$ is Cauchy, then it is bounded
+    \item If $(x_n)$ is Cauchy and has a subsequence $x_{n_k} \to x \in X$, then $x_n \to X$
+  \end{enumerate}
+\end{proposition}
+\begin{remark}
+  When we say that a sequence $(x_n)$ on $X$ is bounded, we mean that the set $\{x_n: n \in \N\}$ is a bounded subset of $X$.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  We can use the triangle inequality to write:
+  \[
+    d(x_n, x_m) \leq d(x_n, x) + d(x_m, x)
+  \]
+  Since $x_n \to x$ as $n \to \infty$, we can find $N$ such that $d(x_n, x) < \varepsilon/2$ for all $n \geq N$ and so $d(x_n, x_m) < \varepsilon$ for all $n, m \geq N$, i.e. $(x_n)$ is Cauchy.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Taking $\varepsilon = 1$, there exists $N \in \N$ such that $d(x_n, x_m) < 1$ for all $n, m \geq N$.
+  If we take $m = N$, then $d(x_n, x_N) < 1$ for all $n \geq N$.
+  So we know all sequence terms $n \geq N$ are within a ball of radius $1$ centered at $x_N$.
+  As for the terms before $x_N$, since there are finitely many such terms, we can define:
+  \[
+    R = \max\{d(x_1, x_N), \ldots, d(x_{N - 1}, x_N), 1\} \geq 1
+  \]
+  With this $R$, we have that $x_n \in B_{R}(x_N)$ for all $n \in \N$, i.e. $(x_n)$ is bounded.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Since $(x_n)$ is Cauchy, given $\varepsilon > 0$, there exists $N$ such that $d(x_n, x_m) < \varepsilon$ for all $n, m \geq N$.
+  We can use the triangle inequality to write:
+  \[
+    d(x_n, x) \leq d(x_{n_k}, x) + d(x_{n_k}, x_n)
+  \]
+  Since $x_{n_k} \to x$, there exists $K$ such that $d(x_{n_k}, x) < \varepsilon$ for all $k \geq K$.
+  By definition of subsequences, the sequence $n_k$ is a strictly increasing sequence on $\N$ and so $n_k \geq k$ for any $k$, thus if we take $k = \max\{N, K\}$ then $n_k \geq N, K$ so that $d(x_{n_k}, x) < \varepsilon$ and $d(x_{n_k}, x_n) < \varepsilon$ for $n \geq N$.
+
+  Thus for $n \geq N$, we have $d(x_n, x) < 2\varepsilon$, i.e. $x_{n} \to x$.
+\end{proof}
+\begin{definition}[Completeness]
+  We say that a metric space $(X, d)$ is \textit{complete} if every Cauchy sequence in $X$ converges to some element in $X$.
+
+  Moreover, we say a normed space $(V, \norm{\argdot})$ is \textit{complete} if it is complete as a metric space when equipped with the norm induced metric.
+\end{definition}
+\begin{theorem}[Completeness of $\R^n$]
+  $\R^n$ with the Euclidean metric $\norm{\argdot}_2$ is complete.
+\end{theorem}
+\begin{remark}
+  As discussed previously, this result will also holds with respect to any norm induced metric on a finite dimensional vector space.
+\end{remark}
+\begin{proof}
+  Suppose $(x^{(k)})_{k \in \N}$ is a Cauchy sequence under $\norm{\argdot}_2$ in $\R^n$, thus there exists $N$ such that $\norm{x^{(k)} - x^{(m)}}_2 < \varepsilon$ for all $k, m \geq N$
+
+  Considering each of the components of $x^{(k)} - x^{(m)}$, we see that for each $j \in \{1, \ldots, n\}$:
+  \begin{align*}
+    \abs{x^{(k)}_j - x^{(m)}_j} &= \left[\left(x^{(k)}_j - x^{(m)}_j\right)^2\right]^{\frac{1}{2}} \\
+                                &\leq \left[(x^{(k)}_1 - x^{(m)}_1)^2 + \cdots + (x^{(k)}_n - x^{(m)}_n)^2\right]^{\frac{1}{2}} \\
+                                &= \norm{x^{(k)} - x^{(m)}}_{2} \\
+                                &< \varepsilon\ \forall k, m \geq N
+  \end{align*}
+  and so the sequences $(x^{(k)}_j)_{k \in \N}$ are Cauchy for each $j \in \{1, \ldots, n\}$.
+  We saw in IA Analysis I, that $\R$ is complete under $|\argdot|$ and so for each $j \in \{1, \ldots, n\}$ we must have $x^{(k)}_j \to x_j$ for some $x_j \in \R$.
+  Thus using \cref{vectorConv}, $x^{(k)} \to x = (x_1, \ldots, x_n) \in \R^{n}$ under $\norm{\argdot}_2$ as $k \to \infty$.
+\end{proof}
+\begin{theorem}
+  The metric space $(C([a, b]), \norm{\argdot}_{\infty})$ is complete.
+\end{theorem}
+\begin{proof}
+  Looking at the uniform metric from \cref{unifMetric}, we see that the sequence of functions $f_n: [a, b] \to \R$ is uniformly if and only if it is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$.
+
+  Suppose $(f_n)$ is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$, then by the Cauchy criterion (\cref{cauchyCritereon}), $(f_n)$ converges under $\norm{\argdot}_{\infty}$ to some $f: [a, b] \to \R$.
+  Further, in \cref{cabClosed}, we showed that the uniform limit of continuous functions is also continuous and so $f \in C([a, b])$, i.e. the space is complete.
+\end{proof}
+\begin{theorem}[Completeness of $\ell^1$, $\ell^2$, and $\ell^\infty$]
+  The metric spaces $(\ell^1, \norm{\argdot}_1)$, $(\ell^2, \norm{\argdot}_2)$, and $(\ell^{\infty}, \norm{\argdot}_{\infty})$ are all complete normed spaces.
+\end{theorem}
+\begin{proof}[For $\ell^1$ and $\ell^2$]
+  See Example Sheet 2.
+\end{proof}
+\begin{proof}[For $\ell^\infty$]
+  By definition of $\ell^{\infty}$, each sequence in $\ell^{\infty}$ must be bounded.
+  Further, since sequences are just functions $\N \to \R$, $\ell^{\infty}$ can be thought of as the set of bounded functions $\N \to \R$ .
+
+  Thus a Cauchy sequence in $\ell^{\infty}$ under $\norm{\argdot}_{\infty}$ is a Cauchy sequence of bounded functions $\N \to \R$ under the uniform norm for functions.
+
+  The Cauchy criterion only requires the domain of the functions to be a subset of $\R$, thus by the Cauchy criterion, every uniformly Cauchy sequence of functions $f_n: \N \to \R$ converges uniformly to some $f: \N \to \R$.
+  That is, every Cauchy sequence in $\ell^{\infty}$ converges under $\norm{\argdot}_{\infty}$.
+  Moreover, we saw in Example Sheet 1, that since $f_n$ is bounded for each $n$, the limit $f$ is also bounded and so $f \in \ell^{\infty}$.
+  Thus $\ell^{\infty}$ is closed.
+\end{proof}
 \end{document}
