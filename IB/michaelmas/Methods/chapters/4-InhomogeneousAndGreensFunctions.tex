@@ -1,0 +1,164 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Inhomogeneous Problems and Green's Functions}
+\section{Dirac Delta Function}
+\subsection{Defining a Delta Function}
+In IA Differential equations we saw a ``function'' $\delta(x)$ with:
+\[
+  \delta(x) = 0\ \forall x \neq 0 \text{ and } \int_{-\varepsilon}^{\varepsilon} \delta(x) \d{x} = 1\ \forall \varepsilon > 0
+\]
+and a \textit{sampling property}:
+\[
+  \int_{-\infty}^{\infty} \delta(x - a)f(x) \d{x} = f(a)
+\]
+But how can we make sense of such a $\delta(x)$?
+
+We define the sequence of functions $\{\delta_n\}^{n = 1}_{\infty}$ by:
+\[
+  \delta_n(x) = \begin{cases}
+  \frac{n}{\alpha}\exp\left[-\frac{1}{1 - (nx)^2}\right] & |x| < \frac{1}{n} \\
+  0 & |x| \geq \frac{1}{n}
+  \end{cases}
+\]
+where:
+\[
+  \alpha = \int_{-1}^{1} \exp\left[-\frac{1}{1 - y^2}\right] \d{y}
+\]
+Graphically, these look like:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (-5, 0) -- (5, 0) node[right] {$t$};
+  \draw[->] (0, 0) node[below] {0} -- (0, 5) node[right] {$\delta_n(x)$};
+  \def\aconst{0.443993816168}
+
+  \foreach \op/\nconst in {20/5, 40/4, 60/3, 80/2, 100/1} {
+    \draw[thick, domain=-(1/\nconst) + 0.001:(1/\nconst) - 0.001, smooth, samples=100, black!\op] plot (\x,{(\nconst/\aconst) * exp(1/((\nconst * \x)^2 - 1))});
+    \node[black!\op] at (1.2, 0.8 * \nconst) {$n = \nconst$};
+    \draw[thick, black!\op] (-5, 0) -- (-1/\nconst, 0);
+    \draw[thick, black!\op] (1/\nconst, 0) -- (5, 0);
+  }
+\end{tikzpicture}
+\end{center}
+This sequence has the following properties:
+\begin{enumerate}
+  \item $\delta_n(x)$ is smooth for all $n \in \N$
+  \item $\delta_n(x) = 0$ outside of $(-1/n, 1/n)$
+  \item For all $\varepsilon > 0$, there exists $N$ such that for all $n \geq N$:
+    \[
+      \int_{-\varepsilon}^{\varepsilon} \delta_n(x) \d{x} = 1
+    \]
+    This follows from taking $N \geq 1/\varepsilon$ so that for $n \geq N$, the support of $\delta_n$ is within $(-\varepsilon, \varepsilon)$ so that:
+    \begin{align*}
+      \int_{-\varepsilon}^{\varepsilon} f_n(x) \d{x} &= \int_{-1/n}^{1/n} f_n(x) \d{x} \\
+                                                     &= \int_{-1/n}^{1/n} \frac{n}{\alpha} \exp\left[-\frac{1}{1 - (n x)^2}\right] \d{x} \\
+                                                     &= \int_{-1}^{1} \frac{1}{\alpha} \exp\left[-\frac{1}{1 - y^2}\right] \d{x} \\
+                                                     &= 1
+    \end{align*}
+\end{enumerate}
+With this sequence of functions, we have pointwise limits at $x \neq 0$:
+\[
+  \lim_{n \to \infty} \delta_n(x) = 0 \text{ for $x \neq 0$}
+\]
+and:
+\[
+  \lim_{n \to \infty} \int_{-\varepsilon}^{\varepsilon} \delta_n(x) \d{x} = 1\ \forall \varepsilon > 0
+\]
+So it \textit{almost} looks like $\delta(x) = \lim_{n \to \infty} \delta(x)$.
+The limit does not exist in the pointwise sense as $\lim_{n \to \infty} \delta_n(0)$ diverges, however it does exist in a weaker sense.
+
+We note that delta functions rarely exist in isolation and usually appear inside integrals or as a forcing term in a differential equation.
+For example:
+\[
+  \int_{-\infty}^{\infty} \delta(x - a)f(x) \d{x} \text{ and } \ddot{y} + \omega^2 y = \delta(t)
+\]
+To utilise $\delta_n$, we will think of these as \textit{sequences of statements} indexed in $n$, each yielding a result which we will take the limit of.
+In the above example, we interpret the sampling integral as the following:
+\[
+  \int_{-\infty}^{\infty} \delta(x - a) f(x) \d{x} = \lim_{n \to \infty} \int_{-\infty}^{\infty} \delta_n(x - a) f(x) \d{x}
+\]
+Here, since the integral is done \textit{before} the limit, we do not need to worry about the limit of $\delta_n$ at $0$.
+Similarly for the differential equation:
+\[
+  \ddot{y}_n + \omega^2 y_n = \delta_n(t)
+\]
+which has a solution $y_n$ for each $n$.
+We then interpret the solution to the original differential equation as:
+\[
+  y(t) = \lim_{n \to \infty} y_n(t)
+\]
+This framework even allows us to deal with $\delta'(x)$:
+\begin{align*}
+  \int_{-\infty}^{\infty} \delta'(x)f(x) \d{x} &= \lim_{n \to \infty} \int_{-\infty}^{\infty} \delta'_n(x) f(x) \d{x} \\
+                                               &= \lim_{n \to \infty} \left(\eval{\delta_n(x) f(x)}{-\infty}{\infty} - \int_{-\infty}^{\infty} \delta_n(x) f'(x) \d{x}\right) \\
+                                               &= - \lim_{n \to \infty} \int_{-\infty}^{\infty} \delta_n(x) f'(x) \d{x} \\
+                                               &= - \int_{-\infty}^{\infty} \delta(x)f'(x) \d{x} \\
+                                               &= -f'(0)
+\end{align*}
+Dealing with these limits every time we would like to utilise a $\delta$ becomes tedious and so we tend to just ignore them.
+We can then manipulate $\delta$ like an ordinary function, knowing that we are just manipulating the sequence of statements involving $\delta_n$ for each $n$.
+\subsection{Fourier Series}
+We define the \textit{L-periodic $\delta$ function}, $\delta^{L}$, as:
+\[
+  \delta^{L}(x) = \delta(x) \text{ on } x \in \left[-\frac{L}{2}, \frac{L}{2}\right)
+\]
+which we extend to an $L$-periodic function on $\R$.
+Since this is a periodic function, we can compute its Fourier coefficients:
+\[
+  \left(\hat{\delta}\right)_n = \frac{1}{L} \int_{-L/2}^{L/2} \delta(x)e^{-2\pi i n x/L} \d{x} = \frac{1}{L}
+\]
+Thus $\delta^{L}$ has Fourier series:
+\[
+  \delta^{L}(x) \sim \sum_{n \in \Z} \frac{1}{L} e^{2\pi i n x/L}
+\]
+We expect that since $\delta = \delta^{L}$ on $[-L/2, L/2)$ that $\delta^{L}$ would also have the sampling property of $\delta$, that is:
+\[
+  f(0) = \int_{-L/2}^{L/2} \delta^{L}(x)f(x) \d{x}
+\]
+To check this:
+\begin{align*}
+  \int_{-L/2}^{L/2} \delta^{L}(x)f(x) \d{x} &= \int_{-L/2}^{L/2} \frac{1}{L} \sum_{n \in \Z} e^{2 \pi i n x/L} \d{x} \\
+                                            &= \sum_{n \in \Z} \left[\frac{1}{L} \int_{-L/2}^{L/2} f(x) e^{2\pi i n x/L} \d{x}\right] \\
+                                            &= \sum_{n \in \Z} \hat{f}_{-n} \\
+                                            &= \sum_{n \in \N} \hat{f}_n
+\end{align*}
+If $f$ is sufficiently nice (i.e. it satisfies the conditions for \cref{convFourier}), then $f(x) = \sum_{n \in \Z} \hat{f}_n e^{2 \pi i n x/L}$ for $x \in [-L/2, L/2)$, that is:
+\[
+  \int_{-L/2}^{L/2} \delta^{L}(x)f(x) \d{x} = \sum_{n \in \N} \hat{f}_n = f(0)
+\]
+\subsection{Eigenfunction Expansions}
+Consider the Sturm-Liouville problem $\mathcal{L} y = \lambda y$ on the usual vector space from \cref{selfAdjAndBCs}:
+\[
+  V = \{y \in C^2([a, b]): \text{$y$ satisfies real homogeneous B.C.s at non-singular endpoints}\}
+\]
+Let $\{Y_k\}^{\infty}_{k = 1}$ be the \textbf{normalised} eigenfunctions of $\mathcal{L}$.
+Fix $\xi \in (a, b)$ and consider $g_n(x) = \delta_n(x - \xi)$.
+By construction, for $n$ sufficiently large, the support of this function is entirely within $(a, b)$ and has value and derivatives all zero at the endpoints at $a$ and $b$.
+Thus $g_n$ will always satisfy homogeneous boundary conditions and the endpoints of $(a, b)$, i.e. $g_n \in V$ for each $n$.
+
+So by \cref{selfAdjProp}, for each $n$, $g_n$ will have an eigenfunction expansion:
+\[
+  g_n(x) = \delta_n(x - \xi) = \sum_{k = 1}^{\infty} \langle g_n, Y_k \rangle_w Y_k(x)
+\]
+Where:
+\begin{align*}
+  \langle g_n, Y_k \rangle_w &= \int_{a}^{b} \delta_n(t - \xi)Y_k(t) w(t)\d{t} \\
+                           &\to Y_k(\xi) w(\xi) \text{ as $n \to \infty$}
+\end{align*}
+Thus, taking $n \to \infty$ on both sides:
+\[
+  \delta(x - \xi) = \sum_{k = 1}^{\infty} w(\xi)Y_k(\xi)Y_k(x)
+\]
+For $f \in V$, we would hope that this expansion has the sampling property, i.e.:
+\[
+  \int_{a}^{b} \delta(x - \xi) f(\xi) \d{\xi} = f(x)
+\]
+To check this:
+\begin{align*}
+  \int_{a}^{b} \delta(x - \xi) f(\xi) \d{\xi} &= \int_{a}^{b} [f(\xi) \sum_{n = 1}^{\infty} w(\xi) Y_k(\xi) Y_k(x)] \d{\xi} \\
+                                              &= \sum_{n = 1}^{\infty} \left[\int_{a}^{b} f(\xi)Y_k(\xi)w(\xi) \d{\xi}\right] Y_k(x) \\
+                                              &= \sum_{k = 1}^{\infty} \langle f,Y_k \rangle_w Y_k(x) \\
+                                              &= \sum_{k = 1}^{\infty} \hat{f}_k Y_k(x) \\
+                                              &= f(x)
+\end{align*}
+where $\hat{f}_k$ is the generalised Fourier coefficient (from \cref{generalisedFourier}) $\hat{f}_k = \langle f, Y_k \rangle_{w}$ since $\norm{Y_k}_w = 1$.
+\end{document}

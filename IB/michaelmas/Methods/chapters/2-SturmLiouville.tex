@@ -84,7 +84,7 @@ We then define the norm as usual:
 \begin{proof}[\textbf{iii}]
   Not lectured -- See II Functional Analysis.
 \end{proof}
-\section{Self-Adjointness and Boundary Conditions}
+\section{Self-Adjointness and Boundary Conditions} \label{selfAdjAndBCs}
 We wish to study problems of the form:
 \begin{equation}
   \begin{cases}
@@ -219,9 +219,9 @@ From \cref{selfAdjProp} \textbf{(ii)} and \textbf{(iii)}, we know that there exi
   \langle y_n, y_m \rangle_{w} = \int_{a}^{b} y_n(x) y_m(x) w(x) \d{x} = 0
 \]
 and for any $f \in V$, we can write:
-\[
-  f(x) = \sum_{n = 1}^{\infty} \hat{f}_n y_n(x) \text{ where } \hat{f}_n = \frac{\langle f, y_n \rangle_{w}}{\norm{y_n}^2_{w}}
-\]
+\begin{equation}
+  f(x) = \sum_{n = 1}^{\infty} \hat{f}_n y_n(x) \text{ where } \hat{f}_n = \frac{\langle f, y_n \rangle_{w}}{\norm{y_n}^2_{w}} \label{generalisedFourier}
+\end{equation}
 It will turn out that for the Sturm-Liouville problems will will study, that our eigenvalues are bounded below and can be ordered so that $\lambda_1 < \lambda_2 < \lambda_3 < \cdots$ with $\lambda_n \to \infty$ as $n \to \infty$.
 \begin{example} \label{slpExample}
   Consider the problem:
