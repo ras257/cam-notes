@@ -275,7 +275,7 @@ We see that all transition matrices are stochastic because their rows are define
 \subsection{Using Powers of the Transition Matrix}
 For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to know how $\P(X_n = x)$ varies with $n$, especially as we make $n$ large.
 \begin{proposition}
-  If $\mchain{X} \sim \markov(\vec{\lambda}, P)$, then:
+  If $\mchain{X} \sim \markov(\vec{\lambda}, P)$, then: \label{transitionPowers}
   \begin{enumerate}
     \item $\P(X_n = x) = [\lambda P^n]_x$
     \item $\P(X_{m + n} = y \vert X_m = x) = [P^{n}]_{x y}$

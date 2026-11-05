@@ -951,6 +951,7 @@ What happens to the recurrence in the case of $d = 1$ if we introduce a bias in 
   Thus, $0$ is transient and so all states are transient.
 \end{example}
 \section{Invariant Distribution}
+\subsection{Invariant Measures}
 We would like to know how the probability distribution $[\P(X_n = x)]_{x \in I}$ behaves as $n \to \infty$.
 
 Suppose that we would like to define a probability distribution $(\pi_i)_{i \in I}$ such that if $X_n \sim \pi$, then $X_{n + 1} \sim \pi$ also.
@@ -963,8 +964,11 @@ For this to hold, we need:
 \end{align}
 Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
 \begin{definition}[Measure]
-  A \textit{measure} $\lambda$ on $I$ is a vector $(\lambda_i)_{i \in I}$ such that $\lambda_i \geq 0$ for all $i$ and it satisfies $\sum_{i \in I} \lambda_i = 1$, i.e. it is a probability distribution.
+  A \textit{measure} $\lambda$ on $I$ is a vector $(\lambda_i)_{i \in I}$ such that $\lambda_i \geq 0$ for all $i$.
 \end{definition}
+\begin{remark}
+  A \textit{probability distribution} on $I$ is just a measure $\lambda$ on $I$ further satisfying $\sum_{i \in I} \lambda_i = 1$.
+\end{remark}
 \begin{definition}[Invariant Measure]
   We say that a measure $\lambda$ is \textit{invariant} or \textit{stationary} with respect to some transition matrix $P$ if:
   \[
@@ -973,7 +977,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   or equivalently $\pi = \pi P$.
 \end{definition}
 \begin{theorem}
-  If $\pi$ is an invariant for $\mchain{X}$ and $X_0 \sim \pi$, then $X_n \sim \pi$ for all $n$.
+  If $\pi$ is an invariant measure for $\mchain{X}$ and $X_0 \sim \pi$, then $X_n \sim \pi$ for all $n$. \label{invAlln}
 \end{theorem}
 \begin{remark}
   Using the simple Markov property (\cref{simpleMarkov}), the above also tells us that if $X_k \sim \pi$ for any $k$, then $X_n \sim \pi$ for any $n \geq k$.
@@ -997,7 +1001,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   \[
     \P(X_n = j) \to \pi_j \text{ as } n \to \infty \text{ for each } j \in I
   \]
-  then $\pi$ is a probability distribution and is an invariant distribution for $\mchain{X}$.
+  then $\pi$ is an invariant probability distribution for $\mchain{X}$.
 \end{theorem}
 \begin{proof}\par
   \textbf{$\pi$ is a probability distribution}\par
@@ -1074,11 +1078,227 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
           &= \pi
   \end{align*}
 \end{example}
+\subsection{Expected Visit Count}
 \begin{definition}[Expected visits during an excursion]
-  For a fixed $k \in I$, define $\nu_k$ to be the expected number of visits to $i$ during an excursion from $k$, i.e.:
+  For a fixed $k \in I$, define $\nu_k$ to be the expected number of visits to $i$ during an excursion from $k$, that is:
   \[
     \nu_k(i) = \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_n = i)\right]
   \]
   where $T_k$ is the first return time to $k$, i.e. $T_k = \inf \{n \geq 1: X_n = k\}$.
 \end{definition}
+\begin{theorem}
+  If a Markov chain $\mchain{X}$ has an irreducible and recurrent transition matrix $P$, then for an arbitrary fixed $k \in I$ we have: \label{nuIneq}
+  \begin{enumerate}
+    \item $\nu_k(k)= 1$
+    \item $0 < \nu_k(i) < \infty$ for all $i \in I$
+    \item $\nu_k$ is an invariant measure for $P$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  By definition of $T_k$, $1(X_n = k) = 0$ for all $n \in {1, \ldots, T_{k - 1}}$, thus as $\E_k[1(X_0 = k)] = 1$, we have $v_k(k) = 1$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  By \textbf{(i)}, $v_k(k) = 1 = \sum_{j \in I} P(j, k) = \sum_{j \in I} P(j, k) \nu_k(k)$, so we need to only check $i \neq k$.
+  Since $P$ is recurrent, $T_k < \infty$ with probability 1, so we can rewrite:
+  \begin{align*}
+    \sum_{n = 0}^{T_{k - 1}} 1(X_n = i) &= \sum_{n = 1}^{T_{k}} 1(X_n = i) \text{ since $i \neq k$} \\
+                                        &= \sum_{n = 1}^{\infty} 1(X_n = i, n \leq T_k) \text{ since $T_k < \infty$}
+  \end{align*}
+  Thus:
+  \begin{align*}
+    \nu_k(i) &= \E_k\left[\sum_{n = 1}^{\infty} 1(X_n = i, n \leq T_k)\right] \\
+             &= \sum_{n = 1}^{\infty} \P_k(X_n = i, n \leq T_k) \\
+             &= \sum_{n = 1}^{\infty} \sum_{j \in I} \P_k(X_n = i, X_{n - 1} = j, n \leq T_k) \text{ by the law of total probability} \\
+             &= \sum_{n = 1}^{\infty} \sum_{j \in I} \P_k(X_n = i \vert X_{n - 1} = j, n \leq T_k) \P_k(X_{n - 1} = j, n \leq T_k)
+  \end{align*}
+  We then note that:
+  \[
+    \{T_k \geq n\} = \{T_k \leq n - 1\}^{\comp} = \left[\bigcup_{t = 1}^{n - 1} \{T_k = t\}\right]^{\comp}
+  \]
+  which only depends on $X_0, \ldots, X_{n - 1}$, and so $T_k$ is a stopping time.
+  Further, by definition of $T_k$, we have $X_{T_k} = k$, and as mentioned $T_k < \infty$ with probability 1, thus we need no additional conditioning to apply the strong Markov property (\cref{strongMarkov}), so:
+  \[
+    \P_k(X_n = i \vert X_{n - 1} = j, n \leq T_k) = P(j, i)
+  \]
+  Thus:
+  \begin{align*}
+    \nu_k(i) &= \sum_{n = 1}^{\infty} \sum_{j \in I} P(j, i) \P_k(X_{n - 1} = j, T_k \geq n) \\
+             &= \sum_{j \in I} P(j, i) \sum_{n = 1}^{\infty} \E_k[1(X_{n - 1} = j, T_k \geq n)] \\
+             &= \sum_{j \in I} P(j, i) \sum_{n = 0}^{\infty} \E_k[1(X_n = j, T_j \geq n + 1)] \\
+             &= \sum_{j \in I} P(j, i) \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_k = j)\right] \\
+             &= \sum_{j \in I} P(j, i) \nu_k(j)
+  \end{align*}
+  Therefore $v_k(i) = \sum_{j \in I} P(j, i) \nu_k(j)$ for all $i \in I$, i.e. $\nu_k$ is invariant.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $\nu_k$ is invariant, we also have $\nu_k = \nu_k P^n$ for all $n \geq 1$.
+  If we fix an arbitrary $i \in I$, then:
+  \begin{align*}
+    \nu_k(i) &= (\nu_k P^k)_i \\
+             &= \sum_{j \in I} \nu_k(j) p_{j i}(n) \text{ by \cref{transitionPowers}}
+             &\geq \nu_k(k) p_{k i}(n) \\
+             &= p_{k i}(n) \text{ by \textbf{(i)}}
+  \end{align*}
+  Since $P$ is irreducible, there exists $n \geq 1$ such that $p_{k i}(i) > 0$.
+  Thus $\nu_k(i) > 0$.
+
+  Moreover, for any $m \geq 1$, by \textbf{(i)} and \textbf{(iii)}:
+  \[
+    1 = \nu_k(k) = \sum_{j \in I} \nu_k(j) P_{j k}(m) \geq \nu_k(i)P_{i k}(m)
+  \]
+  By irreducibility, we can find $m \geq 1$ such that $p_{i k}(m) > 0$, then:
+  \[
+    \nu_k(i) \leq \frac{1}{p_{i k}(m)} < \infty
+  \]
+  So $0 < \nu_k(i) < \infty$ for each $i \in I$.
+\end{proof}
+\begin{theorem}
+  Suppose $P$ is an irreducible transition matrix and $\lambda$ is an invariant measure of $P$ such that $\lambda_k = 1$, then: \label{lambdaInv}
+  \begin{enumerate}
+    \item $\lambda \geq \nu_k$
+    \item If $P$ is also recurrent, then $\lambda = \nu_k$.
+  \end{enumerate}
+\end{theorem}
+\begin{remark}[Intuition]
+  So $\nu_k$ is the minimal measure on $I$ such that $\nu_k(k) = 1$, and if $P$ is recurrent, then it is the only measure with $\lambda_k = 1$.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  Since $\lambda$ is invariant and $\lambda_k = 1$, we have:
+  \begin{align*}
+    \lambda_i &= \sum_{j_1 \in I} \lambda_{j_1} P(j_1, i) \\
+              &= \lambda_k P(k, i) + \sum_{j_1 \neq k} \lambda_{j_1} P(j_1, i) \\
+              &= P(k, i) + \sum_{j_1 \neq k} \sum_{j_2 \in I} \lambda_{j_2} P(j_2, j_1)P(j_1, i) \\
+              &= P(k, i) + \lambda_k \sum_{j_1 \neq k} P(k, j_1)P(j_1, i) + \sum_{j_1, j_2 \neq k} \lambda_{j_2} P(j_2, j_1) P(j_1, i)  \\
+              &= P(k, i) + \sum_{j_1 \neq k} P(k, j_1)P(j_1, i) + \cdots + \sum_{j_1, \ldots, j_{n - 1} \neq k} P(k, j_{n - 1}) \cdots P(j_2, j_1) P(j_1, i) \\
+              &\hspace{0.4cm} + \sum_{j_1, \ldots, j_n \neq k} \lambda_{j_n} P(j_n, j_{n - 1}) \cdots P(j_2, j_1)P(j_1, i)
+  \end{align*}
+  Since $\lambda$ is a measure, by definition $\lambda_{x} \geq 0$ for all $x \in I$.
+  Thus for $i \neq k$:
+  \begin{align*}
+    \lambda_i &\geq P(k, i) + \sum_{j_1 \neq k} P(k, j_1)P(j_1, i) + \cdots + \sum_{j_1, \ldots, j_{n - 1} \neq k} P(k, j_{n - 1}) \cdots P(j_2, j_1) P(j_1, i) \\
+              &= \P_k(X_1 = i, T_k \geq 1) + \P_k(X_2 = i, T_k \geq 2) + \cdots + \P_k(X_n = i, T_k \geq n) \\
+              &= \sum_{m = 1}^{n} \P_k(X_m = i, T_k \geq m) \\
+              &\to \sum_{m = 1}^{\infty} \P_k(X_m = i, T_k \geq m)
+  \end{align*}
+  Using the same trick as in the proof for \cref{nuIneq} \textbf{(iii)}, we have:
+  \begin{align*}
+    \sum_{m = 1}^{\infty} \P(X_m = i, T_k \geq m) &= \sum_{n = 1}^{\infty} \E_k[1(X_n = i, T_k \geq n)] \\
+                                                  &= \E_k\left[\sum_{n = 1}^{\infty} 1(X_n = i, T_k \geq n)\right] \\
+                                                  &= \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_n = i)\right] \text{ since $i \neq k$} \\
+                                                  &= \nu_k(i)
+  \end{align*}
+  Thus $\lambda_i \geq \nu_k(i)$ for $i \neq k$.
+  For $i = k$, by \cref{nuIneq} \textbf{(i)}, $\nu_k(k) = 1 = \lambda_k$.
+  Thus $\lambda_i \geq \nu_k(i)$ for all $i \in I$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $P$ is recurrent and irreducible, by \cref{nuIneq} \textbf{(iii)}, $\nu_k$ is an invariant measure.
+  We see that since $\lambda$ and $\nu_k$ are both invariant measures for $P$, we have:
+  \[
+    (\lambda - \nu_k)P = \lambda P - \nu_k P = \lambda - \nu_k
+  \]
+  and so $\lambda - \nu_k$ is also an invariant measure.
+  We therefore have:
+  \[
+    (\lambda - \nu_k) = (\lambda - \nu_k) P^{n} \text{ for all } n \geq 1
+  \]
+  and so since $\lambda_k = \nu_k(k) = 1$:
+  \begin{align*}
+    0 &= (\lambda - \nu_k)_k \\
+      &= [(\lambda - \nu_k)P^n]_k \\
+      &= \sum_{j \in I} (\lambda_j - \nu_k(j)) p_{j k}(n) \\
+      &\geq (\lambda_i - \nu_k(i)) p_{i k}(n) \text{ for any $i \in I$ by \textbf{(i)}}
+  \end{align*}
+  Since $P$ is recurrent, for each $i \in I$, we can always choose $n \geq 1$ such that $p_{j k}(n) > 0$ and so:
+  \[
+    0 \geq (\lambda_i - \nu_k(i)) p_{i k}(n) \implies \lambda_i = \nu_k(i)
+  \]
+  Thus $\lambda_i = \nu_k(i)$ for all $i \in I$, i.e. $\lambda = \nu_k$.
+\end{proof}
+\subsection{Positive and Null Recurrence}
+\begin{remark}[Recap]
+  Recall that a state $i \in I$ is \textit{recurrent} if $\P_i(T_i < \infty) = 1$.
+\end{remark}
+\begin{definition}[Positive and null reccurent states]
+  We say that a state $i \in I$ is \textit{positive recurrent} if $\E_i[T_i] < \infty$, otherwise, if $\E_i[T_i] = \infty$, then we say that $i$ is \textit{null recurrent}.
+\end{definition}
+\begin{theorem}
+  If $P$ is an irreducible transition matrix, then the following are equivalent:
+  \begin{enumerate}
+    \item Every state is positive recurrent
+    \item Some state is positive recurrent
+    \item There exists an invariant probability distribution $\pi$ for $P$
+  \end{enumerate}
+  Moreover, if any of the above hold, then the invariant probability distribution for $P$ must be:
+  \[
+    \pi_i = \frac{1}{\E_i[T_i]} \text{ for } i \in I
+  \]
+\end{theorem}
+\begin{proof}\par
+  \textbf{(i) $\implies$ (ii)} is immediate.
+
+  \textbf{(ii) $\implies$ (iii)}\par
+  Let $k \in I$ be a positive recurrent state.
+  By \cref{nuIneq} \textbf{(iii)}, $\nu_k$ is an invariant measure for $P$, we would like to normalise this so that it define a probability distribution on $I$.
+
+  Considering the sum of the entries of $\nu_k$, we have:
+  \begin{align*}
+    \sum_{i \in I} \nu_k(i) &= \sum_{i \in I} \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_n = i)\right] \\
+                            &= \E_k\left[\sum_{i \in I} \sum_{n = 0}^{T_k - 1} 1(X_n = i)\right] \\
+                            &= \E_k[T_k] < \infty
+  \end{align*}
+  Since this is finite and positive, we can define the measure:
+  \[
+    \pi_i = \frac{\nu_k(i)}{\E_k[T_k]}
+  \]
+  which has $\sum_{i \in I} \pi_i = 1$, i.e. it is a probability distribution.
+  Further, since $\nu_k$ is an invariant measure:
+  \[
+    \pi P = \frac{\nu_k}{\E_k[T_k]} P = \frac{\nu_k}{\E_k[T_k]} = \pi
+  \]
+  thus $\pi$ is also an invariant measure, so it is an invariant probability distribution for $P$.
+
+  \textbf{(iii) $\implies$ (i)}\par
+  Let $k \in I$ be arbitrary, then by the invariance of $\pi$, we have:
+  \[
+    \pi_k = \sum_{j \in I} \pi_j p_{j k}(n)
+  \]
+  Since $\pi$ is a measure, we can find $i$ such that $\pi_i > 0$.
+  Further, since $P$ is irreducible, we can also find $n$ such that $p_{i k}(n) > 0$.
+  Thus:
+  \[
+    \pi_k = \sum_{j \in I} \pi_j p_{j k}(n) \geq \pi_i p_{i k}(n) > 0
+  \]
+  Thus $\pi_k \geq \pi_i p_{i k}(n) > 0$, thus $\pi_k > 0$.
+
+  We now define the invariant measure:
+  \[
+    \lambda_i = \frac{\pi_i}{\pi_k}
+  \]
+  so that $\lambda_k = 1$.
+  By \cref{lambdaInv} \textbf{(i)}, we then must have that $\lambda \geq \nu_k$ and so using the expression for $\E[T_k]$ from earlier:
+  \begin{align*}
+    \E[T_k] &= \sum_{i \in I} \nu_k(i) \\
+            &\leq \sum_{i \in I} \lambda_i \\
+            &= \frac{1}{\pi_k} \text{ as $\pi$ is a probability distribution } \\
+            &< \infty \text{ as $\pi_k > 0$}
+  \end{align*}
+  So the state $k \in I$ is positive recurrent.
+  However our choice of $k$ was arbitrary and so all states in $I$ are recurrent.
+
+  \textbf{Finding $\pi$}\par
+  If any of the equivalent statements hold, then \textbf{(iii)} holds so there is an invariant probability distribution $\pi$ for $P$.
+  Since $\pi$ is a probability distribution, there is $k \in I$ such that $\pi_k > 0$, so as before, define the invariant measure:
+  \[
+    \lambda_i = \frac{\pi_i}{\pi_k}
+  \]
+  By \textbf{(i)}, the chain is positive recurrent, and so $\lambda = \nu_k$ by \cref{lambdaInv} \textbf{(ii)}.
+  Thus:
+  \begin{align*}
+    \frac{1}{\pi_k} &= \sum_{i \in I} \frac{\pi_i}{\pi_k} \\
+                    &= \sum_{i \in I} \lambda_i \\
+                    &= \sum_{i \in I} \nu_k(i) \\
+                    &= \E_k[T_k] \implies \pi_k = \frac{1}{\E_k[T_k]}
+  \end{align*}
+\end{proof}
 \end{document}
