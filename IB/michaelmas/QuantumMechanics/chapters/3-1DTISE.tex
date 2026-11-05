@@ -357,7 +357,7 @@ We can generate scaled versions of the above the Hermite polynomials, with leadi
   f_n(\xi) = (-1)^{n} e^{\xi^2} \deriv[n]{}{\xi}\left(e^{-\xi^2}\right)
 \]
 \section{Free Particles}
-\subsection{Non-Normalisation}
+\subsection{Normalisation Issues} \label{normIssSec}
 Consider the TISE with $U(x) \equiv 0$:
 \begin{align*}
   -\frac{\hbar^2}{2 m} \chi''(x) + E\chi(x) &= 0 \\
@@ -444,5 +444,162 @@ Thus:
 \end{align*}
 As $x \to \pm \infty$, $\psi_{\text{GP}}$ decays exponentially and so it is square integrable.
 Thus $\psi_{\text{GP}}$ is a normalisable solution to the TISE for a free particle.
+We pick $C$ as:
+\[
+  C = \left[\int_{-\infty}^{\infty} |\psi_{\text{GP}(x, t)}|^2 \d{x}\right]^{-1/2}
+\]
+So that $\overline{\psi}_{\text{GP}} = C \psi_{\text{GP}}$ has $\norm{\overline{\psi}_{\text{GP}}} = 1$.
+
+The position probability distribution for this state can then we shown to be:
+\begin{align*}
+  \rho_{\text{GP}}(x, t) &= |\overline{\psi}_{\text{GP}}|^2 \\
+                         &= \sqrt{\frac{\sigma}{\pi\left(\sigma^2 + \frac{\hbar^2 t^2}{m^2}\right)}} \exp\left[-\frac{\sigma\left(x - \frac{\hbar k_0 t}{m}\right)^2}{\sigma^2 + \frac{\hbar^2 t^2}{m^2}}\right]
+\end{align*}
+This is symmetric about its peak at $\frac{\hbar k_0 t}{m}$ for all $t$ and so we would guess that the expected position is $\frac{\hbar k_0 t}{m}$.
+Finding this explicitly, we can show that indeed:
+\[
+  \langle \hat{x} \rangle_{\overline{\psi}_{\text{GP}}} = \int_{-\infty}^{\infty} \overline{\psi}_{\text{GP}}^{*} \overline{\psi}_{\text{GP}} \d{x} = \frac{\hbar k_0}{m} t
+\]
+We will define the uncertainty of the position properly later, however, thinking of it as the standard deviation (i.e. the square root of the variance), we can show that:
+\[
+  \Delta x = \sqrt{\langle \hat{x}^2 \rangle_{\overline{\psi}_{\text{GP}}} - \langle \hat{x} \rangle^2_{\overline{\psi}_{\text{GP}}}} = \sqrt{\frac{1}{2}\left(\sigma + \frac{\hbar^2 t^2}{m^2 \sigma}\right)}
+\]
+Similarly, for the momentum of the particle represented by $\overline{\psi}_{\text{GP}}$, we can show that:
+\[
+  \langle \hat{p} \rangle_{\overline{\psi}_{\text{GP}}} = \int_{-\infty}^{\infty} \overline{\psi}_{\text{GP}}^{*} \left(-i \hbar \pderiv{}{x} \overline{\psi}_{\text{GP}}\right) \d{x} = \hbar k_0
+\]
+with uncertainty:
+\[
+  \Delta p = \sqrt{\langle \hat{p}^2 \rangle_{\overline{\psi}_{\text{GP}}} - \langle \hat{p} \rangle^2_{\overline{\psi}_{\text{GP}}}} = \frac{\hbar}{\sqrt{2\sigma}}
+\]
+Interestingly, both of these are independent of time.
+We note that at $t = 0$, $\Delta x \Delta p = \hbar/2$ and for $t > 0$, $\Delta x \Delta p > \hbar / 2$.
+This is related to the \textit{Heisenberg uncertainty principle} that we will see later in the course.
+\subsection{Beam Interpretation}
+What would happen if we just ignored the normalisation problems we came across in \cref{normIssSec} and just took:
+\[
+  \chi_k(x) = e^{i k x}
+\]
+to be the eigenfunctions of $\hat{H}$ with corresponding stationary states:
+\[
+  \psi_k(x, t) = A e^{ikx} e^{-\frac{i\hbar k^2 t}{2m}}
+\]
+For this to make sense, instead of thinking of $\psi_k$ as describing a single particle, we think of it as describing a beam of particles with:
+\[
+  p_k = \hbar k \text{ and } E_k = \frac{\hbar^2 k^2}{2m}
+\]
+Instead of interpreting $\rho_k(x, t) = |A|^2$ as the probability density of the position of a single particle, we instead interpret it as the \textit{average density} of particles in the beam.
+The probability current (from \cref{probCurrent}) of $\psi_k$ is then:
+\begin{align*}
+  J_k(x, t) &= - \frac{i \hbar}{2m} \left(\psi^{*}_k \pderiv{\psi_k}{x} - \psi_k \pderiv{\psi^{*}_k}{x}\right) \\
+            &= - \frac{i \hbar}{2m} \left(ik|A|^2 + ik|A|^2\right) \\
+            &= |A|^2 \cdot \frac{\hbar k}{m} \\
+            &= |A|^2 \cdot \frac{p_k}{m}
+\end{align*}
+which is the product of the average density of the beam $|A|^2$ multiplied by the velocity of the particles, i.e. $J_k$ can be interpreted is the average flux of a beam of particles.
 \section{Scattering States}
+\subsection{Reflection and Transmission Probabilities}
+Consider a potential barrier of height $U_0$ and with $a$.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->, gray!80] (3.6, 1.5) -- (4.4, 1.5);
+  \draw[domain=-6:5, smooth, samples=100, gray!80] plot (\x,{exp(-((\x - 4)/0.5)^2)/(0.5 * sqrt(pi))});
+  \draw[<-, gray!80] (-2.4, 1.5) -- (-1.6, 1.5);
+  \draw[domain=-6:5, smooth, samples=100, gray!80] plot (\x,{exp(-((\x + 2)/0.5)^2)/(0.5 * sqrt(pi))});
+  \draw[->] (-5.4, 1.5) -- (-4.6, 1.5);
+  \draw[domain=-6:5, smooth, samples=100] plot (\x,{exp(-((\x + 5)/0.5)^2)/(0.5 * sqrt(pi))});
+
+  \draw[->] (-6, 0) -- (5, 0) node[right] {$x$};
+  \draw[->] (0, 0) node[below] {0} -- (0, 4) node[right] {$U(x)$};
+  \draw[thick] (0, 0) -- (0, 3) node[left] {$U_0$} -- (2, 3) -- (2, 0) node[below] {$a$};
+\end{tikzpicture}
+\end{center}
+Suppose, we have a particle of mass $m$ and energy $E$ (black in the above) coming in from $-\infty$ and scattering on the potential barrier.
+
+In classical mechanics, if $E > U_0$, the particle overcomes the barrier and travels off to $x = \infty$, on the other hand, if $E < U_0$, the particle is reflected back towards $x = -\infty$.
+
+However in quantum mechanics, we can have both transmission and reflection.
+Consider a gaussian wavepacket with normalised wavefunction $\psi_{\text{GP}}(x, t)$.
+Suppose that the wavepacket is cent at $x_0 \ll 0$ at $t = 0$ with average momentum $\langle p \rangle > 0$ and evolves according to the TDSE, the can be both transmitted or reflected (grey in the above).
+
+The position probability density is then $|\psi_{\text{GP}}(x, t)|^2$ and so the probability the particle is reflected is:
+\[
+  R = \lim_{t \to \infty} \int_{-\infty}^{0} |\psi_{\text{GP}}(x, t)|^2  \d{x}
+\]
+and the probability the particle is transmitted is:
+\[
+  T = \lim_{t \to \infty} \int_{0}^{\infty} |\psi_{\text{GP}}(x, t)|^2  \d{x}
+\]
+These are called the \textit{reflection coefficient} and \textit{transmission coefficient} respectively.
+Since the total probability is conserved for all $t$, we have $R + T = 1$, i.e. a particle must either be transited or reflected.
+
+In the beam interpretation, since $\rho_{\text{GP}}(x, t)$ is the average density of the beam, $R$ is the proportion of incoming particles that are reflected and $T$ is the proposition of incoming particles that are transmitted.
+\subsection{Scattering Off a Potential Step}
+Consider the potential step:
+\[
+  U(x) = \begin{cases}
+  0 & x \leq 0 \\
+  U_0 & x > 0
+  \end{cases}
+\]
+for $U_0 \in \R^{+}$.
+For this, we need solve the TISE in two regions.
+
+For $x \leq 0$, $U(x) = 0$ and so:
+\[
+  \chi''(x) + \frac{2mE}{\hbar^2} \chi(x) = 0
+\]
+As usual if $E > 0$, then we take $k = \sqrt{\frac{2mE}{\hbar^2}}$, giving:
+\[
+  \chi_k(x) = A \exp(ikx) + B \exp(-ikx)
+\]
+In the beam interpretation, the first term is the beam of incident particles and the second term is the beam of reflected particles.
+
+For $x > 0$, $U(x) = U_0$ and so:
+\[
+  \chi''(x) + \frac{2m(E - U_0)}{\hbar^2} \chi(x) = 0
+\]
+We then define:
+\[
+  \overline{k} = \sqrt{\frac{2m}{\hbar^2}(E - U_0)}
+\]
+which is real if and only if $E \geq E_0$.
+\begin{proofcases}
+  \begin{case}{$E \geq U_0$}
+    In this case $\overline{k} \in \R$ so:
+    \[
+      \chi_{\overline{k}}(x) = C\exp(i\overline{k} x) + D \exp(i\overline{k} x)
+    \]
+    In the beam interpretation, first term is the beam of transmitted particles coming from $-\infty$ and the second term is a beam of particles coming from $+\infty$.
+    We assume that the beam of particles comes only from $-\infty$ and so $D = 0$.
+    Thus:
+    \[
+      \chi_{k, \overline{k}}(x) = \begin{cases}
+      A e^{i k x} + Be^{-ikx} & \text{ if } x \leq 0 \\
+      Ce^{i\hbar x} & \text{ if } x > 0
+      \end{cases}
+    \]
+    We need to enforce continuity of $\chi$ and $\chi'$ at $x = 0$.
+    For this, we require:
+    \[
+      A + B = C \text{ and } ikA - ikB = i \overline{k} c \implies B = \frac{k - \overline{k}}{k + \overline{k}} \cdot A \text{ and } C = \frac{2k}{k + \overline{k}} \cdot A
+    \]
+    and so:
+    \[
+      \chi_{k, \overline{k}}(x) = \begin{cases}
+      A\left(e^{ikx} + \frac{k - \overline{k}}{k + \overline{k}}e^{-ikx}\right) & \text{ if } x \leq 0 \\
+      A \cdot \frac{2k}{k + \overline{k}} e^{i\hbar x} & \text{ if } x > 0
+      \end{cases}
+    \]
+    We can also find the probability current for these solutions:
+    \begin{align*}
+      J_k(x, t) &= \frac{i\hbar}{2m}\left(\chi_k^{*} \pderiv{\chi_k}{x} - \chi_k \pderiv{\chi_k^{*}}{x}\right) \\
+              &= \begin{cases}
+              \frac{\hbar}{m}(|A|^2 - |B^2|) & \text{ if } x \leq 0 \\
+              \frac{\hbar \overline{k}}{m} |C|^2 & \text{ if } x > 0
+              \end{cases}
+    \end{align*}
+  \end{case}
+\end{proofcases}
+Continued next lecture.
 \end{document}
