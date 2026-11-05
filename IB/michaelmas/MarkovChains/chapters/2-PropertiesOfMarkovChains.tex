@@ -883,8 +883,52 @@ Note that if we were to use the $x$ and $y$ axes instead, the resulting random w
   since $\sum_{n \geq 0} 1/n$ is divergent.
   Thus $0$ is recurrent and so all states are recurrent.
 \end{proof}
-\begin{proof}[d = 3]
-  Continued next lecture.
+\begin{remark}[Recap]
+  Recall the \textit{multinomial coefficient} from IA Probability.
+  For $n_1, \ldots, n_k$ such that $n_1 + \cdots + n_k = n$:
+  \[
+    \binom{n}{n_1, n_2, \ldots, n_k} = \frac{n!}{n_1! n_2! \cdots n_k!}
+  \]
+  This counts the number of ways to partition a set $X$ of size $n$ into $k$ disjoint subsets $X_1, \ldots, X_k$ with $|X_i| = n_i$ and $n_1 + \cdots + n_k = n$.
+\end{remark}
+\begin{proof}[$d = 3$]
+  Since there is only one communicating class (i.e. the chain is irreducible), and recurrence is a class property by \cref{classProperty}, it suffices to check that the state 0 is transient, which, by \cref{dichot} is equivalent to showing:
+  \[
+    \sum_{n \geq 0} p_{0 0}(n) < \infty
+  \]
+  Similarly, we see that $p_{0 0}(n) > 0$ if and only if $n$ is even.
+  If we start at the origin and return in exactly $2n$ steps, then for some $i, j, k \in \N_0$ with $i + j + k = n$, the walk must have taken $i$ steps along $e_1$, $i$ steps along $-e_1$, $j$ steps along $e_2$, $j$ steps along $-e_2$, $k$ steps along $e_3$, and $k$ steps along $-e_3$.
+
+  Thus:
+  \begin{align*}
+    p_{0 0}(2n) &= \sum_{\substack{i, j, k \\ i + j + k = n}} \binom{2n}{i,i,j,j,k,k} \left(\frac{1}{6}\right)^{2n}
+                &= \sum_{\substack{i, j, k \\ i + j + k = n}} \binom{2n}{n} \binom{n}{i, j, k}^2 \left(\frac{1}{2}\right)^{2n} \left(\frac{1}{3}\right)^{2n}
+  \end{align*}
+  Suppose $n = 3m$, we then have that:
+  \[
+    \binom{n}{i, j, k} \leq \binom{n}{m,m,m}
+  \]
+  as the number of ways to divide $3m$ items between $3$ boxes is maximised when the boxes are of equal size.
+  Thus:
+  \[
+    p_{0 0}(2n) \leq \binom{2n}{n} \binom{n}{m, m, m}\left(\frac{1}{2}\right)^{2n} \left(\frac{1}{3}\right)^{n} \sum_{\substack{i, j, k \\ i + j + k = n}} \binom{n}{i, j, k}\left(\frac{1}{3}\right)^{n}
+  \]
+  The sum on the right hand side is just 1 as the summand is the probability of placing $n = 3m$ balls into 3 boxes at random.
+  Thus by Stirling's formula:
+  \[
+    p_{0 0}(2n) \leq \binom{2n}{n} \left(\frac{1}{2}\right)^{2n} \binom{n}{m, m, m} \left(\frac{1}{3}\right)^{n} \sim \frac{C}{n^{3/2}}
+  \]
+  where $C > 0$ is some constant.
+  Therefore:
+  \[
+    \sum_{m \geq 0} p_{0 0}(6m) < \infty
+  \]
+  We also have the relations:
+  \[
+    p_{0 0}(6m) \geq \left(\frac{1}{6}\right)^2 P_{0 0}(6m - 2) \text{ and } p_{0 0}(6m) \geq \left(\frac{1}{6}\right)^{4} p_{0 0}(6m - 4)
+  \]
+  as the probability of taking any path is greater than that of a particular path.
+  Thus $\sum_{n \geq 0} p_{0 0}(2n) < \infty$, i.e. $0$ is transient.
 \end{proof}
 What happens to the recurrence in the case of $d = 1$ if we introduce a bias in one of the directions?
 \begin{example}[Asymmetric random walk on $\Z$]
@@ -906,4 +950,135 @@ What happens to the recurrence in the case of $d = 1$ if we introduce a bias in 
   \]
   Thus, $0$ is transient and so all states are transient.
 \end{example}
+\section{Invariant Distribution}
+We would like to know how the probability distribution $[\P(X_n = x)]_{x \in I}$ behaves as $n \to \infty$.
+
+Suppose that we would like to define a probability distribution $(\pi_i)_{i \in I}$ such that if $X_n \sim \pi$, then $X_{n + 1} \sim \pi$ also.
+For this to hold, we need:
+\begin{align}
+  \pi_j &= \P(X_{n + 1} = j) \nonumber \\
+        &= \sum_{i \in I} \P(X_n = i, X_{n + 1} = j) \nonumber \\
+        &= \sum_{i \in I} \P(X_n = i) P_{i j} \nonumber \\
+        &= \sum_{i \in I} \pi_i P_{i j} \label{invDistCalc}
+\end{align}
+Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
+\begin{definition}[Measure]
+  A \textit{measure} $\lambda$ on $I$ is a vector $(\lambda_i)_{i \in I}$ such that $\lambda_i \geq 0$ for all $i$ and it satisfies $\sum_{i \in I} \lambda_i = 1$, i.e. it is a probability distribution.
+\end{definition}
+\begin{definition}[Invariant Measure]
+  We say that a measure $\lambda$ is \textit{invariant} or \textit{stationary} with respect to some transition matrix $P$ if:
+  \[
+    \pi_j = \sum_{i \in I} \pi_i P_{i j} \text{ for all } j \in I
+  \]
+  or equivalently $\pi = \pi P$.
+\end{definition}
+\begin{theorem}
+  If $\pi$ is an invariant for $\mchain{X}$ and $X_0 \sim \pi$, then $X_n \sim \pi$ for all $n$.
+\end{theorem}
+\begin{remark}
+  Using the simple Markov property (\cref{simpleMarkov}), the above also tells us that if $X_k \sim \pi$ for any $k$, then $X_n \sim \pi$ for any $n \geq k$.
+\end{remark}
+\begin{proof}
+  \quietinduction
+  {$n = 0$}{
+    By hypothesis, $X_0 \sim \pi$
+  }
+  {$n$}{}
+  {$n + 1$}{
+    By the calculation in \cref{ivnDistCalc}:
+    \[
+      \P(X_{n + 1}) = \sum_{i \in I} \pi_i P_{i j} = \pi_i \text{ by invariance}
+    \]
+    So $X_{n + 1} \sim \pi$.
+  }
+\end{proof}
+\begin{theorem}
+  If $\mchain{X}$ is a Markov chain on a \textbf{finite} set of states $I$ and: \label{invLim}
+  \[
+    \P(X_n = j) \to \pi_j \text{ as } n \to \infty \text{ for each } j \in I
+  \]
+  then $\pi$ is a probability distribution and is an invariant distribution for $\mchain{X}$.
+\end{theorem}
+\begin{proof}\par
+  \textbf{$\pi$ is a probability distribution}\par
+  We see that:
+  \begin{align*}
+    \sum_{j \in I} \pi_j &= \sum_{j \in I} \lim_{n \to \infty} \P(X_n = j) \\
+                         &= \lim_{n \to \infty} \sum_{j \in I} \P(X_n = j) \text{ since the sum is finite} \\
+                         &= \lim_{n \to \infty} 1 \text{ since $[\P(X_n = j)]_{j \in I}$ is a probability distribution} \\
+                         &= 1
+  \end{align*}
+  So $\pi$ is a probability distribution.
+
+  \textbf{$\pi$ is invariant}\par
+  For any $j \in I$ we have:
+  \begin{align*}
+    \pi_j &= \lim_{n \to \infty} \P(X_{n + 1} = j) \text{ by hypothesis}\\
+          &= \lim_{n \to \infty} \sum_{i \in I} \P(X_n = i, X_{n + 1} = j) \\
+          &= \sum_{i \in I} \lim_{n \to \infty} \P(X_n = i) P_{i j} \text{ since the sum is finite} \\
+          &= \sum_{i \in I} \pi_i P_{i j} \text{ by hypothesis}
+  \end{align*}
+  So $\pi$ is invariant.
+\end{proof}
+\begin{remark}
+  The assumption that $I$ is finite is crucial here.
+  For example for the simple symmetric random walk on $\Z$:
+  \[
+    p_{x y}(n) \to 0 \text{ for all } x, y \text{ as } n \to \infty
+  \]
+\end{remark}
+\begin{remark}
+  \nonexaminable
+  It can be shown that if $I$ is finite, then $\mchain{X}$ always has an invariant distribution.
+\end{remark}
+\begin{example}
+  Recall the simple binary Markov chain from \cref{binaryEx}:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, shorten >=1pt, node distance=2cm, auto, every initial by arrow/.style={dashed}]
+    \node[state] (q_0) {$1$};
+    \node[state] (q_1) [right=of q_0]{$2$};
+
+    \path[->] (q_0) edge [loop above] node {$1 - \alpha$} ()
+                    edge [bend left] node {$\alpha$} (q_1);
+    \path[->] (q_1) edge [loop above] node {$1 - \beta$} ()
+                    edge [bend left] node {$\beta$} (q_0);
+  \end{tikzpicture}
+  \end{center}
+  In \cref{binaryProb}, we showed that:
+  \[
+    p_{1 1}(n) = \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta}(1 - \alpha - \beta)^{n} \to \frac{\beta}{\alpha + \beta}
+  \]
+  and so:
+  \[
+    p_{1 2}(n) \to 1 - \frac{\beta}{\alpha + \beta} = \frac{\beta}{\alpha + \beta}
+  \]
+  If $X_0 = 1$, then $p_{1 1}(n) = \P(X_n = 1)$ and $p_{1 2}(n) = \P(X_n = 2)$ so the above can be restated as:
+  \[
+    \P(X_n = \argdot) \to \left(\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta}\right) \text{ as $n \to \infty$}
+  \]
+  So by \cref{invLim}, $\pi = (\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta})$ is invariant for:
+  \[
+    P = \begin{pmatrix}
+    1 - \alpha & \alpha \\
+    \beta & 1 - \beta \\
+    \end{pmatrix}
+  \]
+  We can check that this does indeed satisfy $\pi P = \pi$:
+  \begin{align*}
+    \pi P &= \left(\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta}\right) \begin{pmatrix}
+    1 - \alpha & \alpha \\
+    \beta & 1 - \beta \\
+    \end{pmatrix} \\
+          &= \left(\frac{\beta(1 - \alpha) + \alpha \beta}{\alpha + \beta}, \frac{\alpha\beta + \alpha(1 - \beta)}{\alpha + \beta}\right) \\
+          &= \left(\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta}\right) \\
+          &= \pi
+  \end{align*}
+\end{example}
+\begin{definition}[Expected visits during an excursion]
+  For a fixed $k \in I$, define $\nu_k$ to be the expected number of visits to $i$ during an excursion from $k$, i.e.:
+  \[
+    \nu_k(i) = \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_n = i)\right]
+  \]
+  where $T_k$ is the first return time to $k$, i.e. $T_k = \inf \{n \geq 1: X_n = k\}$.
+\end{definition}
 \end{document}

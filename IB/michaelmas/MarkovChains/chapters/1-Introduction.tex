@@ -307,18 +307,18 @@ For a Markov chain $\mchain{X} \sim \markov(\vec{\lambda}, P)$, we would like to
   \end{align*}
 \end{remark}
 \begin{example}
-  Returning to the binary Markov chain in \cref{binaryEx}, what is the probability that we finish at state 0 if we take $n$ steps starting from state 0?
+  Returning to the binary Markov chain in \cref{binaryEx}, what is the probability that we finish at state 1 if we take $n$ steps starting from state 1? \label{binaryProb}
 
-  This probability is precisely $P_{0 0}(n)$.
+  This probability is precisely $P_{1 1}(n)$.
   Since $P^{n + 1} = P \cdot P^n$, we have the following recurrence:
   \begin{align*}
-    p_{0 0}(n + 1) &= p_{0 0}(n) \cdot (1 - \alpha) + p_{0 1}(n) \cdot \beta \\
-                   &= p_{0 0}(n) \cdot (1 - \alpha) + (1 - p_{0 0}(n)) \cdot \beta \\
-                   &= \beta + (1 - \alpha - \beta) p_{0 0}(n)
+    p_{1 1}(n + 1) &= p_{1 1}(n) \cdot (1 - \alpha) + p_{1 2}(n) \cdot \beta \\
+                   &= p_{1 1}(n) \cdot (1 - \alpha) + (1 - p_{1 1}(n)) \cdot \beta \\
+                   &= \beta + (1 - \alpha - \beta) p_{1 1}(n)
   \end{align*}
-  Noting that $p_{0 0}(0) = 1$, we can solve the above recurrence to yield:
+  Noting that $p_{1 1}(0) = 1$, we can solve the above recurrence to yield:
   \[
-    p_{0 0}(n) = \begin{cases}
+    p_{1 1}(n) = \begin{cases}
     \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta} (1 - \alpha - \beta)^{n} & \text{ if } \alpha + \beta > 0 \\
     1 & \text{ if } \alpha = \beta = 0
     \end{cases}
