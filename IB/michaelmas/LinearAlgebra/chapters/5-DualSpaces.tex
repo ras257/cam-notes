@@ -241,6 +241,7 @@ Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifi
   From \textbf{(ii)}, we have $U^{0} + W^{0} \leq (U \cap W)^{0}$.
   Thus using \cref{finiteSubspace}, $U^{0} + W^{0} = (U \cap W)^{0}$.
 \end{proof}
+\section{Dual Maps}
 \begin{definition}[Dual map]
   For $\F$-vector spaces $V, W$ and a linear map $\alpha \in \mathcal{L}(V, W)$, we define the \textit{dual map} of $\alpha$ as:
   \[
@@ -395,13 +396,41 @@ Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifi
 
   We then use \cref{annaDim}:
   \begin{align*}
-    \dim((\ker \alpha)^{0}) &= \dim(V) - \dim(\ker \alpha) \text{ by \cref{annaDim}} \\
-                            &= \dim(V) - \nullity \alpha \\
+    \dim((\ker \alpha)^{0}) &= \dim(V) - \nullity(\alpha) \text{ by \cref{annaDim}} \\
                             &= \rank \alpha \text{ by \cref{RNT}} \\
                             &= \dim(\im \alpha)
   \end{align*}
   From \textbf{(ii)}, $\im(\alpha^{*}) \leq (\ker \alpha)^{0}$ so by \cref{finiteSubspace}, $\im(\alpha^{*}) = (\ker \alpha)^{0}$.
 \end{proof}
+We can also prove \textbf{(iii)} another way without needing \cref{starTrans}.
+\begin{proof}[\textbf{iii} -- Alternative]
+  Suppose that $\rank \alpha^{*} < \rank \alpha$, then
+  \begin{align*}
+    \dim(W) &= \dim(W^{*}) \text{ by \cref{dualSize}} \\
+            &= \rank(\alpha^{*}) + \nullity(\alpha^{*}) \text{ by \cref{RNT}} \\
+            &< \rank \alpha + \nullity(\alpha^{*}) \text{ by supposition} \\
+            &= \rank \alpha + \dim(\im(\alpha)^{0}) \text{ by \textbf{(i)}} \\
+            &= (\dim(V) - \nullity \alpha) + (\dim(W) - \rank \alpha) \text{ by \cref{annaDim}} \\
+            &= \dim(W) \text{ by \cref{RNT}}
+  \end{align*}
+  which is a contradiction, so $\rank \alpha^{*} \geq \rank \alpha$.
+
+  As in the first proof, we have that $\dim((\ker \alpha)^{0}) = \rank \alpha$, and so using \textbf{(ii)}, we conclude that $\im(\alpha^{*}) = (\ker \alpha)^{0}$.
+\end{proof}
+\begin{remark}
+  Since this proof does not utilise $\rowrank A = \colrank A$ (\cref{rowColRank}), we can use the above to provide an alternative proof for this equality.
+
+  For any $A \in \mathcal{M}_{m \times n}(\F)$, we can construct the map:
+  \[
+    \alpha: \F^n \to \F^m,\ v \mapsto Av
+  \]
+  so that $A = [\alpha]^{\varepsilon_n}_{\varepsilon_m}$ where $\varepsilon_n$ and $\varepsilon_m$ are the standard bases for $\F^n$ and $\F^m$ respectively.
+  Thus by \cref{starTrans} $A^{\trans} = [\alpha^{*}]^{E_m^{*}}_{E_n^{*}}$ and so using \textbf{(iii)}:
+  \[
+    \colrank(A) = \rank \alpha = \rank(\alpha^{*}) = \colrank(A^{\trans}) = \rowrank(A)
+  \]
+\end{remark}
+\section{Double Dual}
 \begin{definition}[Double dual]
   The \textit{double dual} of an $\F$-vector space $V$ is the dual of the dual space, that is:
   \[
@@ -413,14 +442,115 @@ Note that for this to work, we need $B^{*}$ to be the dual basis for $B$ specifi
   Thus by \cref{finiteDimIso}, $V \cong V^{**}$.
 \end{remark}
 \begin{theorem}[Evaluation map]
-  If $V$ is an $\F$-vector space, the \textit{evaluation map} or \textit{natural isomorphism} $V \to V^{**)}$ defined as:
+  If $V$ is an $\F$-vector space, the \textit{evaluation map} or \textit{natural isomorphism} $V \to V^{**}$ is defined as: \label{evalMap}
   \[
     \varepsilon: V \to V^{**},\ v \mapsto (\varepsilon(v): V^{*} \to \F,\ \theta \mapsto \theta(v)) \in \mathcal{L}(V^{*}, \F)
   \]
   is a linear map.
   Moreover, if $V$ is finite dimensional then $\varepsilon$ is an isomorphism.
 \end{theorem}
-\begin{proof}
-  Continued next lecture.
+\begin{remark}
+  More compactly, $\varepsilon$ satisfies $\varepsilon(v)[\theta] = \theta(v)$ for all $v \in V$ and $\theta \in V^{*}$.
+\end{remark}
+\begin{proof}\par
+  \textbf{Linearity}\par
+  Let $v, w \in V$ and $\lambda \in \F$.
+  For any $\theta \in V^{*}$, we have:
+  \begin{align*}
+    \varepsilon(v + \lambda w)[\theta] &= \theta(v + \lambda w) \\
+                                       &= \theta(v) + \lambda \theta(w) \text{ as $\theta$ is linear} \\
+                                       &= \varepsilon(v)[\theta] + \lambda \varepsilon(w)[\theta] \\
+                                       &= (\varepsilon(v) + \lambda\varepsilon(w))[\theta]
+  \end{align*}
+  This holds for all $\theta \in V^{*}$ and so $\varepsilon(v + \lambda w) = \varepsilon(v) + \lambda \varepsilon(w)$, i.e. $\varepsilon$ is linear.
+
+  Suppose further that $V$ is finite dimensional.\par
+  \textbf{Injective}\par
+  Suppose that $\ker(\varepsilon) \neq \{\vec{0}_{V}\}$, thus there exists $v \in \ker(\varepsilon) \setminus \{\vec{0}_{V}\}$.
+  So for all $\theta \in V^{*}$:
+  \[
+    \varepsilon(v)[\theta] = \theta(v) = 0
+  \]
+  For contradiction, we want to find a $\theta \in V^{*}$ for which this does not hold.
+
+  We use \cref{basisExtension} to extend $\{v\}$ to a basis $B = \{v = v_1, v_2, \ldots, v_n\}$ for $V$, and let $B^{*} = \{v^{*}_1, \ldots, v^{*}_n\}$ be the dual basis to $B$.
+  Taking $\theta= v^{*}_1$, we see that $1 = \theta(v) = 0$, which is a contradiction, so $\ker(\varepsilon) = \{\vec{0}\}$, i.e. $\varepsilon$ is injective.
+
+  \textbf{Surjectivity}\par
+  Since $\dim(V^{**}) = \dim(V)$, by \cref{linPidge}, we have that $\varepsilon$ is an isomorphism.
 \end{proof}
+\begin{remark}
+  We knew already by a dimension argument that if $V$ is finite dimensional, then $V \cong V^{**}$, however the isomorphisms provided by this argument will always depend on a choice of basis.
+
+  This makes $\varepsilon$ a particularly useful isomorphism to work with as it does not depend on any choice of basis.
+\end{remark}
+\begin{proposition}
+  If $V$ is finite dimensional with $\dim(V) = n$, then every basis $C$ of $V^{*}$ is dual to some basis for $V$.
+\end{proposition}
+\begin{proof}
+  Write $C$ as $C = \{\theta_1, \ldots, \theta_n\} \subseteq V^{*}$.
+  We can find the dual basis $C^{*} = \{\theta^{*}_1, \ldots, \theta^{*}_n\}$ which is a basis for $V^{**}$.
+
+  Define the set $B = \{v_1, \ldots, v_n\}$ by $v_i = \varepsilon^{-1}(\theta^{*}_i)$.
+  By \cref{evalMap}, $\varepsilon$ is an isomorphism and so since $C^{*}$ is a basis for $V^{**}$, we must have that $B = \{v_1, \ldots, v_n\}$ is a basis for $V$.
+
+  We now need to check that $B^{*} = C$.
+  Consider the following:
+  \begin{align*}
+    \theta_i(v_j) &= \varepsilon(v_j)[\theta] \text{ by definition of $\varepsilon$} \\
+                  &= \theta^{*}_j(\theta_i) \text{ by definition of $v_j$} \\
+                  &= \delta_{i j} \text{ by definition of the dual basis}
+  \end{align*}
+  So for each $i$, $\theta_i$ agrees with $v^{*}_i$ on each element $v_j \in B$, thus by \cref{linMapBasis}, $\theta_i = v^{*}_i$.
+  Therefore, $B^{*} = \{v^{*}_1, \ldots, v^{*}_n\} = \{\theta_1, \ldots, \theta_n\} = C$.
+\end{proof}
+\begin{proposition}
+  If $V$ is finite dimensional with $\dim(V) = n$, then for any $U \leq V$, $\varepsilon(U) = (U^{0})^{0}$
+\end{proposition}
+\begin{remark}
+  $\varepsilon(U)$ is the image of the subspace $U$ under $\varepsilon$ and so is a subset of $V^{**}$ along with $(U^{0})^{0}$. \cref{doubleAnna}
+\end{remark}
+\begin{proof}
+  If $u \in U$, then for all $\theta \in U^{0}$:
+  \[
+    \varepsilon(u)[\theta] = \theta(u) = 0
+  \]
+  i.e. $\varepsilon(u) \in V^{*}$ annihilates all $\theta \in U^{0}$, so $\varepsilon(u) \in (U^{0})^{0}$ for all $u \in U$.
+  Thus $\varepsilon(U) \leq (U^{0})^{0}$.
+
+  \begin{align*}
+    \dim((U^{0})^{0}) &= \dim(V^{*}) - \dim(U^{0}) \text{ by \cref{annaDim}} \\
+                      &= \dim(V^{*}) - (\dim(V) - \dim(U)) \text{ by \cref{annaDim}} \\
+                      &= \dim(U) \text{ by \cref{dualSize}} \\
+                      &= \dim(\varepsilon(U)) \text{ as $\varepsilon$ is an isomorphism}
+  \end{align*}
+  So by \cref{finiteSubspace}, $\varepsilon(U) = (U^{0})^{0}$.
+\end{proof}
+\begin{remark}
+  For any subspace $X \leq V^{*}$, we have $X^{0} \leq V^{**}$.
+  This subspace $X^{0}$ will have a preimage under $\varepsilon$, namely $X_0 = \varepsilon^{-1}(X^{0}) \leq V$.
+  We can find a more explicit expression for $X_0$:
+  \begin{align*}
+    X_0 &= \{v \in V: \varepsilon(v) \in X^{0}\} \\
+        &= \{v \in V: \varepsilon(v)[\theta] = 0\ \forall \theta \in X\} \\
+        &= \{v \in V: \theta(v) = 0\ \forall \theta \in X\} \\
+        &= \{v \in V: v \in \ker \theta\ \forall \theta \in X\} \\
+        &= \bigcap_{\theta \in X} \ker \theta
+  \end{align*}
+  Since $\varepsilon$ is an isomorphism, we further have that $\dim(X_0) = \dim(X^{0}) = n - \dim(X)$.
+
+  In particular, given a subspace $U \leq V$, if we let $X = U^{0} \leq V^{*}$, then
+  \begin{align*}
+    X_0 &= \varepsilon^{-1}((U^{0})^{0}) \\
+        &= \varepsilon^{-1}(\varepsilon(U)) \text{ by \cref{doubleAnna}} \\
+        &= U \text{ as $\varepsilon$ is an isomorphism}
+  \end{align*}
+  So for any subspace $U \leq V$, $U$ is exactly the zero locus of its annihilator $U^{0} \leq V^{*}$, i.e.:
+  \[
+    U = \bigcap_{\theta \in U^{0}} \ker \theta
+  \]
+  A priori, this may not have been true as there could have been elements of $V \setminus U$ which just happened to be sent to $0$ by all $\theta \in U^{0}$.
+
+  For a concrete example of this, if $V = \F^n$, then we can express any subspace $U \leq V$ as a system of linear equations in the components of the vectors under a choice of basis.
+\end{remark}
 \end{document}

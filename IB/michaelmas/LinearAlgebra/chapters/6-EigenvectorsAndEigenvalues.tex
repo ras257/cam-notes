@@ -1,0 +1,167 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Eigenvectors and Eigenvalues}
+\section{Polynomials}
+\begin{definition}[Polynomial expression] A \textit{polynomial} over a field $\F$ is an \textbf{expression}: \[
+    f(t) = a_n t^n + \cdots + a_1 t + a_0
+  \]
+  for some $n \geq 0$ where $a_i \in \F$ are called the \textit{coefficients} of $f$.
+\end{definition}
+\begin{remark}
+  At this point, we are \textbf{not} thinking of polynomials as maps from $\F \to \F$, we are just thinking of them as finite sequences of coefficients $a_0, \ldots, a_n$ in $\F$ of arbitrary length.
+\end{remark}
+\begin{remark}[Notation]
+  We denote the set of polynomial expressions over $\F$ as $\F[t]$.
+\end{remark}
+\begin{definition}[Degree]
+  The degree of $f(t) \in \F[t]$, denoted $\deg(f)$, is the largest $m$ such that $a_m \neq 0$.
+  We call this $a_m$ the \textit{leading coefficient of $f$}.
+\end{definition}
+\begin{remark}
+  By convention, we define the degree of the zero polynomial $f(t) = 0$ to be $-\infty$, i.e. $\deg(0) = -\infty$.
+\end{remark}
+\begin{definition}[Monic]
+  We say that a polynomial $f(t) \in \F[t]$ is \textit{monic} if its leading coefficient is 1.
+\end{definition}
+We can define arithmetic on $\F[t]$.
+For $f, g \in \F[t]$, we can write:
+\[
+  f(t) = \sum_{i = 0}^{n} a_i t^{i} \text{ and } g(t) = \sum_{j = 0}^{m} b_j t^{j}
+\]
+and we then define $f + g$ and $f \cdot g$ as:
+\begin{align*}
+  (f + g)(t) &\text{ has coefficient } a_k + b_k \text{ of $t^k$}\\
+  \text{ and } (f \cdot g)(t) &\text{ has coefficient } \sum_{i = 0}^{k} a_i b_{k - i} \text{ of $t^k$}
+\end{align*}
+\begin{remark}[Remarks]
+  \begin{itemize}
+    \item From the definitions, we see that both $+$ and $\cdot$ are commutative operations on $\F[t]$.
+    \item We see that:
+      \[
+        \deg(f + g) \leq \max\{\deg(f), \deg(g)\}
+      \]
+      as the leading coefficients of the polynomials could cancel.
+      But, in the case of $\cdot$:
+      \[
+        \deg(f \cdot g) = \deg(f) + \deg(g)
+      \]
+      as the leading coefficients of $f$ and $g$ are non-zero.
+  \end{itemize}
+\end{remark}
+\begin{definition}[Divisible]
+  For $f, g \in \F[t]$, we say that $f$ \textit{divides} $g$, written $f \mid g$, if there exists $h \in \F[t]$ such that $g = f \cdot h$.
+\end{definition}
+For $\lambda \in \F$, we \textit{evaluate} a polynomial $f \in \F[t]$ using the expression:
+\[
+  f(\lambda) = \sum_{i = 0}^{n} a_i \lambda^i \in \F
+\]
+Evaluation of a polynomial also passes through the operations $+$ and $\cdot$, i.e. $(f + g)(\lambda) = f(\lambda) + g(\lambda)$ and $f(f \cdot g)(\lambda) = f(\lambda)g(\lambda)$.
+
+\begin{remark}[Warning]
+  This distinction between a polynomial as a finite collection of coefficients and as something we can evaluate at a particular $\lambda \in \F$ is important.
+
+  If $\F$ is finite, then $\F[t]$ is \textbf{not} isomorphic to the space of polynomial functions $\F \to \F$.
+  We see that $\F[t]$ is infinite dimensional as the set $\{t^n: n \in \N_0\}$ is a basis for $\F[t]$.
+  However the set of all functions from $\F \to \F$ is finite dimensional as we can think of each function as a column vector in $\F^{|\F|}$.
+  Thus as the space of polynomial functions $\F \to \F$ is a subspace of this, it must also be finite dimensional.
+\end{remark}
+\begin{proposition}[Euclidian algorithm for polynomials]
+  For all $f, g \in \F[t]$ and $g \neq 0$, there exists $q, r \in \F[t]$ such that: \label{EAP}
+  \[
+    f = q \cdot g + r
+  \]
+  with $\deg(r) < \deg(g)$
+\end{proposition}
+\begin{proof}
+  Let $n = \deg(f)$ and $m = \deg(g)$ and write:
+  \[
+    f(t) = \sum_{i = 0}^{n} a_i t^{i} \text{ and } g(t) = \sum_{j = 0}^{m} b_j t^{j}
+  \]
+
+  If $m > n$, we take $q = 0$ and $r = f$ as then $\deg(r) = \deg(f) < \deg(g)$.
+  Otherwise, if $n \geq m$, define $\widetilde{f}(t) = f(t) - (\frac{a_n}{b_m}) t^{n - m} g(t)$.
+  The leading coefficient of $t^n$ is $a_n - \frac{a_n}{b_m} \cdot b_m = 0$, and so since $\deg(f) \geq \deg(g)$, there cannot be any terms of greater degree, thus $\deg(f') < \deg(f)$.
+  We then repeat the above inductively on $f'$ and $g$ until we reach the case $m > n$.
+\end{proof}
+\begin{corollary}[Bezout's Lemma]
+  If $f_1, \ldots, f_n \in \F[t]$ have no common factor of degree $\geq 1$, then there exists $p_1, \ldots, p_k \in \F[t]$ such that:
+  \[
+    \sum_{i = 1}^{k} f_i(t)p_i(t) = 1
+  \]
+\end{corollary}
+\begin{proof}
+  Proved in the same was as for integers using the Euclidean algorithm in IA Numbers and Sets.
+\end{proof}
+\begin{lemma}
+  For any $\lambda \in \F$, $f(\lambda) = 0$ if and only if $(t - \lambda) \mid f(t)$. \label{polyFac}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $f(\lambda) = 0$}
+    Setting $g(t) = t - \lambda$, we apply \cref{EAP} to $f$ and $g$.
+    Thus there exists $q, r \in \F[t]$ such that:
+    \[
+      f = q \cdot g + r
+    \]
+    with $\deg(r) < \deg(g) = 1$.
+    Thus $r = a$ for some $a \in \F$.
+    Evaluating both sides at $\lambda$, we see that:
+    \[
+      0 = f(\lambda) = q(\lambda) \cdot g(\lambda) + a = 0 + a \implies a = 0
+    \]
+    So $f = q \cdot g$, i.e. $t - \lambda = g \mid f$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $(t - \lambda) \mid f$}
+    So there exists $h \in \F[t]$ such that $f = (t - \lambda) \cdot h$.
+    Evaluating at $\lambda$, we have $f(\lambda) = (\lambda - \lambda) h(\lambda) = 0$.
+  \end{proofdirection}
+\end{proof}
+\begin{definition}[Root]
+  We say that $\lambda \in \F$ is a \textit{root} of \textit{multiplicity} at least $e \in \N_0$ if:
+  \[
+    (t - \lambda)^{e} \mid f
+  \]
+  That is, the multiplicity of a root $\lambda$ is the greatest $e \in \N$ for which this holds.
+\end{definition}
+\begin{corollary}
+  If $\deg(f) = n \geq 0$, then $f$ has at most $n$ roots counted with multiplicity. \label{rootCount}
+\end{corollary}
+\begin{proof}
+  We induct on the degree of $f$, $n = \deg(f)$.
+  \quietinduction
+  {$n = 0$}{
+    So $f(t) = a$ for some $a \in \F \setminus \{0\}$, thus $f$ has zero roots.
+  }
+  {$n - 1$}{}
+  {$n$}{
+    Suppose $f$ has a root $\mu \in \F$, then by \cref{polyFac}, $(t - \mu) \mid f$.
+    So we can write:
+    \[
+      f(t) = (t - \mu) \cdot g(t)
+    \]
+    for some $g(t) \in \F[t]$.
+
+    We see that $n = \deg(f) = \deg(t - \mu) + \deg(g) \implies \deg(g) = n - 1$.
+    So by hypothesis, $g$ has at most $n - 1$ roots counted with multiplicity.
+    We then observe that $\lambda \in \F$ is a root of $f$ if and only if it is $\mu$ or it is a root of $g$.
+    Thus $f$ has at most $n - 1 + 1 = n$ roots counted with multiplicity.
+  }
+\end{proof}
+\begin{corollary}
+  If $\deg(f), \deg(g) < n$ and there exists distinct $\lambda_1, \ldots, \lambda_n \in \F$ such that:
+  \[
+    f(\lambda_i) = g(\lambda_i)\ \forall i \in \{1, \ldots, n\}
+  \]
+  then $f = g$.
+\end{corollary}
+\begin{proof}
+  So $f - g$ has $n$ roots, but $\deg(f - g) \leq \max\{\deg(f), \deg(g)\} < n$.
+  If $\deg(f - g) \geq 0$, then this would contradict \cref{rootCount}.
+  Thus $\deg(f - g) = -\infty$, i.e. $f - g = 0 \implies f = g$.
+\end{proof}
+\begin{theorem}[Fundemental Theorem of Algebra]
+  If $f \in \C[t]$ of degree $\deg n \geq 1$, then $f$ has exactly $n$ roots in $\C$ counted with multiplicity.
+\end{theorem}
+\begin{proof}
+  See IB Complex Analysis
+\end{proof}
+\end{document}
