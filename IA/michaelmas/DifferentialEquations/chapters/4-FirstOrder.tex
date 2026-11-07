@@ -229,7 +229,7 @@ We can then determine the coefficients $a_n$ by substituting into the ODE.
 \end{example}
 \subsection{Eigenfunction Forcing}
 In eigenfunction forcing, the forcing term is an eigenfunction of the differential operator.
-\begin{example}[Radioactive Decay]
+\begin{example}[Radioactive Decay] \label{radioactive}
   Suppose we have three isotopes $A$, $B$, $C$ where:
   \[
     \underbrace{A}_{a(t)} \xrightarrow{k_a a} \underbrace{B}_{b(t)} \xrightarrow{k_b b} \underbrace{C}_{c(t)}
@@ -242,7 +242,6 @@ In eigenfunction forcing, the forcing term is an eigenfunction of the differenti
   \begin{align*}
     \deriv{b}{t} &= k_a a -k_b b \\
     \deriv{b}{t} + k_b b &= \underbrace{k_a a_0 e^{-k_a t}}_{\text{forcing}} \\
-    \label{radioactive}
   \end{align*}
   Try a P.I., $b_p(t) = \beta e^{-k_a t}$, and for now, assume that $k_a \neq k_b$:
   \begin{align*}
