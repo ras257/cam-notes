@@ -231,7 +231,7 @@ More specifically, when $X$ is a vector space, we do this through the notion of 
       This is also denoted $\norm{\argdot}_{L^\infty}$ or $\norm{f}_{\infty}$ if the domain is obvious.
   \end{enumerate}
 \end{example}
-\begin{remark}[Aside]
+\begin{remark}[Aside] \label{RIntAside}
   \nonexaminable
   The ``natural'' space for the integral norms $L^1, L^2, \ldots$ to be defined on is $\mathscr{R}([a, b])$, the set of Riemann integrable $f: [a, b] \to \R$.
   Using properties of integrability IA Analysis I, we see that $\mathscr{R}([a, b])$ this forms a vector space under addition and scalar multiplications of functions.
@@ -760,7 +760,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   See Example Sheet 2 Q8.
 \end{proof}
 \begin{proposition}
-  If $E \subseteq X$, then the following are equivalent:
+  If $E \subseteq X$, then the following are equivalent: \label{closedEquiv}
   \begin{enumerate}
     \item If $(x_k)$ is a sequence in $E$ such that $x_k \to x \in X$, then $x \in E$
     \item $E = \overline{E}$
@@ -786,7 +786,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   \]
 \end{definition}
 \begin{proposition}
-  For a metric space $(X, d)$ and sequence $(x_n)_{n \in \N}$ on $X$ we have the following:
+  For a metric space $(X, d)$ and sequence $(x_n)_{n \in \N}$ on $X$ we have the following: \label{convCauchy}
   \begin{enumerate}
     \item If $(x_n)$ is convergent, then $(x_n)$ is Cauchy
     \item If $(x_n)$ is Cauchy, then it is bounded
@@ -850,7 +850,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   Thus using \cref{vectorConv}, $x^{(k)} \to x = (x_1, \ldots, x_n) \in \R^{n}$ under $\norm{\argdot}_2$ as $k \to \infty$.
 \end{proof}
 \begin{theorem}
-  The metric space $(C([a, b]), \norm{\argdot}_{\infty})$ is complete.
+  The metric space $(C([a, b]), \norm{\argdot}_{\infty})$ is complete. \label{CInfComp}
 \end{theorem}
 \begin{proof}
   Looking at the uniform metric from \cref{unifMetric}, we see that the sequence of functions $f_n: [a, b] \to \R$ is uniformly if and only if it is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$.
@@ -859,7 +859,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   Further, in \cref{cabClosed}, we showed that the uniform limit of continuous functions is also continuous and so $f \in C([a, b])$, i.e. the space is complete.
 \end{proof}
 \begin{theorem}[Completeness of $\ell^1$, $\ell^2$, and $\ell^\infty$]
-  The metric spaces $(\ell^1, \norm{\argdot}_1)$, $(\ell^2, \norm{\argdot}_2)$, and $(\ell^{\infty}, \norm{\argdot}_{\infty})$ are all complete normed spaces.
+  The metric spaces $(\ell^1, \norm{\argdot}_1)$, $(\ell^2, \norm{\argdot}_2)$, and $(\ell^{\infty}, \norm{\argdot}_{\infty})$ are all complete normed spaces. \label{lComp}
 \end{theorem}
 \begin{proof}[For $\ell^1$ and $\ell^2$]
   See Example Sheet 2.
@@ -875,4 +875,116 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   Moreover, we saw in Example Sheet 1, that since $f_n$ is bounded for each $n$, the limit $f$ is also bounded and so $f \in \ell^{\infty}$.
   Thus $\ell^{\infty}$ is closed.
 \end{proof}
+\begin{theorem}[Completness of closed subsets]
+  If $(X, d)$ is a complete metric space and $Y \subseteq X$, then $Y$ with the induced metric $\at{d}{Y \times Y}$ is complete if and only if $Y$ is a closed subset of $X$. \label{compClosed}
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $(Y, \at{d}{Y\times Y})$ is complete}
+    Would like to appeal to \cref{closedEquiv} and so suppose that $(y_k)$ is a sequence in $Y$ with $y_k \to x \in X$.
+    Since $(y_k)$ is a convergent sequence in $X$, by \cref{convCauchy}, $(y_k)$ is Cauchy in $X$, and so it must also be Cauchy in $Y$ as we are using the induced metric and all sequence elements are in $Y$.
+    Since $(Y, \at{d}{Y\times Y})$ is complete and $(y_k)$ is Cauchy in $Y$, $y_k \to y$ for some $y \in Y$.
+    Thus by uniqueness of limits, $x = y$, hence $x \in Y$.
+    So $Y$ is closed.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $Y$ is a closed subset of $X$}
+    Suppose $(y_k)$ is a Cauchy sequence in $(Y, \at{d}{Y \times Y})$.
+    Since the metric is induced from $d$, $(y_k)$ is also Cauchy in $X$.
+    $X$ is complete and $(y_k)$ is Cauchy in $X$ and so $y_k \to y \in X$.
+    Since $Y$ is close and $(y_k)$ converges, by \cref{closedEquiv}, $y \in Y$.
+    Thus $(y_k)$ converges to a limit in $Y$, so $(Y, \at{d}{Y \times Y})$ is complete.
+  \end{proofdirection}
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Consider $X = (0, 1) \subseteq \R$ with the Euclidean metric.
+      We saw in IA Analysis I that $\R$ is complete under the Euclidean metric.
+      $X$ is not a closed subset of $\R$ and so by \cref{compClosed}, $X$ cannot be complete under the Euclidean metric.
+
+      Alternatively, we can consider the sequence $x_k = \frac{1}{k}$, this is Cauchy in $X$ but does not converge in $X$ as its limit in $\R$ is $0$.
+    \item Consider $X = \R \setminus \{0\}$ with the Euclidean metric.
+      The set $X$ is not complete as it is not a closed subset of $\R$.
+      Consider $Y = (0, \infty) \subseteq X$.
+      $Y$ is a closed subset of $X$, since $X \setminus Y = (-\infty, 0)$ is open in $X$, but $Y$ is not complete.
+      So the completeness of the ambient set is definitely necessary for the theorem.
+
+      We can however have subsets of incomplete spaces that are complete.
+      For example, the set $Z = [1, \infty) \subseteq X$ is complete and closed in $X$.
+  \end{enumerate}
+\end{example}
+\begin{example}[Incomplete normed space]
+  Define the space:
+  \[
+    V = \{(x_k) \in \R^{\N}: x_k = 0 \text{ for all but finitely many $n$}\}
+  \]
+  By the subspace test, $V \leq \ell^{\infty}$.
+  Equip $V$ with the induced norm $\norm{\argdot}_{\infty}$.
+
+  Consider the sequence $x^{(k)}$ in $V$ defined as:
+  \[
+    x^{(k)} = \left(1, \frac{1}{2}, \frac{1}{3}, \ldots, \frac{1}{k}, 0, 0, \ldots\right)
+  \]
+  As a sequence in $\ell^{\infty}$, we see that:
+  \[
+    x^{(k)} \to x = \left(1, \frac{1}{2}, \frac{1}{3}, \ldots\right) \in \ell^{\infty}
+  \]
+  since:
+  \[
+    \norm{x^{k} - x}_{\infty} = \frac{1}{k + 1} \to 0
+  \]
+  However $x \notin V$, so by \cref{closedEquiv}, $V$ is not closed in $\ell_{\infty}$.
+  We saw in \cref{lComp} that $(\ell_{\infty}, \norm{\argdot}_{\infty})$ is complete, so by \cref{compClosed}, $(V, \norm{\argdot}_{\infty})$ is not complete.
+\end{example}
+\begin{example}[Functions bounded by a specific value]
+  Consider $C([a, b])$ with the metric induced by the supremum norm $\norm{\argdot}_{\infty}$.
+  We saw already in \cref{CInfComp} that this is a closed space.
+  For a fixed $R > 0$, define:
+  \[
+    X = \{f \in C([a, b]): |f(x)| \leq R\ \forall x \in [a, b]\}
+  \]
+  We want to show that $X$ is a closed subset of $C([a, b])$.
+  Suppose $(f_n)$ is a sequence on $X$ converging to some $f \in C$.
+  We can write:
+  \begin{align*}
+    \norm{f}_{\infty} &\leq \norm{f_n - f}_{\infty} + \norm{f_n}_{\infty} \text{ using the triangle inequality} \\
+                      &\leq \norm{f_n - f}_{\infty} + R \text{ since } f_n \in X \\
+                      &\to R \text{ as } n \to \infty
+  \end{align*}
+  So $f \in X$, thus by \cref{closedEquiv}, $X$ is a closed subset of $C([a, b])$, so by \cref{compClosed}, $(X, \norm{\argdot}_{\infty})$ is a complete metric space.
+\end{example}
+\begin{example}[Incompleteness of the Riemann $L^1$ norm]
+  \begin{enumerate}
+    \item On Example Sheet 2, we will show that $(C([a, b]), \norm{\argdot}_{L^1})$ is not complete.
+    \item Consider the set $\mathscr{R}([a, b])$, the set of bounded Riemann integrable functions.
+      As we saw in \cref{RIntAside}, the space $(\widetilde{\mathscr{R}}([a, b]), \norm{\argdot}_{L^1})$ where $\mathscr{R}([a, b]) / \sim$ for $f \sim g$ if $f = g$ almost everywhere, is a well defined metric space.
+      However one can show that this space is not complete.
+      This is the fundamental issue with Riemann integration, one which is rectified by the more general notion of Lebesgue integration.
+  \end{enumerate}
+\end{example}
+\section{Compactness}
+\subsection{Sequential Compactness}
+\begin{definition}[Sequential Compactness]
+  Let $(X, d)$ be a metric space and $K \subseteq X$.
+  \begin{enumerate}
+    \item We say that the metric space $(X, d)$ is \textit{sequentially compact} if every sequence in $X$ has a subsequence converging to an element in $X$.
+    \item We say that the subset $K$ is \textit{sequentially compact} if every sequence in $K$ has subsequence converging to an element in $K$, or equivalently, $(K, \at{d}{K \times K})$ is sequentially compact in the sense of \textbf{(i)}.
+  \end{enumerate}
+\end{definition}
+\begin{remark}
+  There is another more general notion simply called \textit{compactness}, applicable to \textit{topological spaces}, which will be convened in IB Topological Spaces.
+
+  In metric spaces, compactness in the topological sense is equivalent to sequential compactness defined above.
+  For this reason, from now on, we will just use ``compact'' to mean sequentially compact as we are working only with metric spaces.
+\end{remark}
+\begin{example}[Examples of compact and non-compact spaces]
+  \begin{enumerate}
+    \item Consider $I = [0, 1]$ under the Euclidean metric.
+      By the Bolzano Weierstrass theorem, any sequence in $I$ has a convergent subsequence in $\R$.
+      Since $I$ is a closed subset of $\R$, this limit must also be in $I$.
+      Thus $I$ under the Euclidean metric is a compact space.
+    \item $J = (0, 1) \subseteq \R$ is not compact.
+      To see this, consider the sequence $x_k = \frac{1}{k}$ on $J$.
+      Any subsequence of $(x_k)$ will always converge to $0$ in $\R$ and so $(x_k)$ does not have a convergent subsequence converging in $J$.
+    \item $\R$ is not compact since the sequence $x_k = k$ has no convergent subsequence as every subsequence is unbounded above.
+  \end{enumerate}
+\end{example}
 \end{document}
