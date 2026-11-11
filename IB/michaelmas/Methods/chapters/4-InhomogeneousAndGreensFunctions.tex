@@ -125,7 +125,7 @@ If $f$ is sufficiently nice (i.e. it satisfies the conditions for \cref{convFour
 \[
   \int_{-L/2}^{L/2} \delta^{L}(x)f(x) \d{x} = \sum_{n \in \N} \hat{f}_n = f(0)
 \]
-\subsection{Eigenfunction Expansions}
+\subsection{Eigenfunction Expansions} \label{eigenFnExp}
 Consider the Sturm-Liouville problem $\mathcal{L} y = \lambda y$ on the usual vector space from \cref{selfAdjAndBCs}:
 \[
   V = \{y \in C^2([a, b]): \text{$y$ satisfies real homogeneous B.C.s at non-singular endpoints}\}
@@ -162,24 +162,24 @@ To check this:
 \end{align*}
 where $\hat{f}_k$ is the generalised Fourier coefficient (from \cref{generalisedFourier}) $\hat{f}_k = \langle f, Y_k \rangle_{w}$ since $\norm{Y_k}_w = 1$.
 \section{Green's Functions}
-\subsection{Finding Green's Functions}
+\subsection{Finding Green's Functions} \label{findingGreens}
 \subsubsection{Motivation}
 Suppose that we want to solve the BVP:
 \begin{equation}
-  \label{genSL}
+  \label{genLP}
   \begin{cases}
   \mathcal{L}y = f & \text{ for } x \in (a, b) \\
   y(a) = y(b) = 0 &  \\
   \end{cases}
 \end{equation}
-As we have seen, we can equivalently formulate this as solving $\mathcal{L} y = f$ for $y \in V$ where:
+or equivalently solving $\mathcal{L} y = f$ for $y \in V$ where:
 \[
   V = \{y \in C^2([a, b]): y(a) = y(b) = 0\}
 \]
-Suppose now that $\mathcal{L}$ is a second-order ordinary differential operator, i.e. it can be written as:
-\[
-  \mathcal{L} = \alpha(x) \deriv[2]{}{x} + \beta(x) \deriv{}{x} + \gamma(x)
-\]
+Suppose now that $\mathcal{L}$ is a second-order ordinary linear differential operator, i.e. it can be written as:
+\begin{equation}
+  \mathcal{L} = \alpha(x) \deriv[2]{}{x} + \beta(x) \deriv{}{x} + \gamma(x) \label{genSOL}
+\end{equation}
 where $\alpha, \beta, \gamma$ are smooth and $\alpha(x) \neq 0$ on $(a, b)$.
 
 Fix some $\xi \in (a, b)$.
@@ -200,7 +200,7 @@ then $y(a) = y(b) = 0$ and upon applying $\mathcal{L}$:
                 &= \int_{a}^{b} f(\xi) \delta(x - \xi) \d{\xi} \\
                 &= f(x)
 \end{align*}
-Thus $y$ is a solution to \cref{genSL}.
+Thus $y$ is a solution to \cref{genLP}.
 We call $G(x, \xi)$ the \textit{Dirichlet Green's Function} for $\mathcal{L}$.
 But how can we find such $G$?
 
@@ -279,7 +279,7 @@ Thus, the jump discontinuity at $x = \xi$ must satisfy:
   \eval{\deriv{G}{x}(x, \xi)}{x = \xi^{-}}{x = \xi^{+}} = \frac{1}{\alpha(\xi)}
 \]
 
-\subsubsection{Summary}
+\subsubsection{Summary} \label{GProps}
 In summary, if $\mathcal{L}G = \delta(x - \xi)$, then $G$ will have the following properties:
 \begin{itemize}
   \item $G(x, \xi)$ is continuous at $x = \xi$
@@ -288,7 +288,7 @@ In summary, if $\mathcal{L}G = \delta(x - \xi)$, then $G$ will have the followin
       \deriv{G}{x}(\xi^{+}, \xi) - \deriv{G}{x}(\xi^{-}, \xi) = \frac{1}{\alpha(\xi)}
     \]
 \end{itemize}
-\begin{example}
+\begin{example} \label{greenExample}
   Consider the differential operator:
   \[
     \mathcal{L} = \deriv[2]{}{x} + \omega^2
@@ -345,5 +345,295 @@ In summary, if $\mathcal{L}G = \delta(x - \xi)$, then $G$ will have the followin
   \]
   for a constant $K$.
 \end{example}
-Continued next lecture.
+\begin{proposition}[Dirichlet Green's function for $\mathcal{L}$]
+  For the operator $\mathcal{L}$ defined as: \label{genDGF}
+  \[
+    \mathcal{L} = \alpha(x) \deriv[2]{}{x} + \beta(x) \deriv{}{x} + \gamma(x)
+  \]
+  If $y_1$, $y_2$ are linearly independent and satisfy $\mathcal{L}y_1 = 0 $, $\mathcal{L}y_2 = 0$, and $y_1(a) = y_2(b) = 0$, then the function defined as:
+  \[
+    G(x, \xi) = \frac{1}{\alpha(\xi) W(y_1, y_2)(\xi)} \begin{cases}
+    y_1(x)y_2(\xi) & \text{ for } x \in (a, \xi) \\
+    y_1(\xi)y_2(x) & \text{ for } x \in (\xi, b)
+    \end{cases}
+  \]
+  is the Dirichlet Green's function for $\mathcal{L}$ where $W(y_1, y_2) = y_1 y_2' - y_1' y_2$ is the Wronskian of $y_1$ and $y_2$.
+  That is, it satisfies:
+  \[
+    \mathcal{L} G(x, \xi) = \delta(x - \xi) \text{ and } G(a, \xi) = G(b, \xi) = 0
+  \]
+\end{proposition}
+\begin{proof}
+  Certainly, if $x \neq \xi$, then $\mathcal{L}G(x, \xi) = 0$ since $\mathcal{L}y_1 = \mathcal{L}y_2 = 0$
+  Further, $G(x, \xi) = G(b, \xi) = 0$ as $y_1(a) = 0$ and $y_2(b) = 0$.
+
+  We also see that by definition, $G(x, \xi)$ is continuous at $x = \xi$.
+  Moreover:
+  \begin{align*}
+    \at{\deriv{G}{x}}{x = \xi^{+}} - \at{\deriv{G}{x}}{x = \xi^{-}} &= \frac{y_1(\xi)y_2'(\xi) - y_1'(\xi)y_2(\xi)}{\alpha(\xi)W(y_1, y_2)(\xi)} \\
+                                                                    &=\frac{1}{\alpha(\xi)}
+  \end{align*}
+  which is exactly the jump condition we derived in \cref{GProps} for $\mathcal{L}G(x, \xi) = \delta(x - \xi)$.
+\end{proof}
+Thus the solution to the original problem in \cref{genLP} is:
+\begin{align*}
+  y(x) &= \int_{a}^{b} G(x, \xi) f(\xi) \d{\xi} \\
+       &= \int_{a}^{x} \frac{y_2(x)y_1(\xi)f(\xi)}{\alpha(\xi)W(y_1, y_2)(\xi)} \d{\xi} + \int_{x}^{b} \frac{y_1(x)y_2(\xi)f(\xi)}{\alpha(\xi)W(y_1, y_2)(\xi)} \d{\xi}
+\end{align*}
+\begin{remark}[Note]
+  It may look like the regions have swapped around here, however here we are integrating over $\xi$.
+  Suppose we fix some $x$ (i.e. the input to $y$), then for $\xi \in (a, x)$ we have $x \in (\xi, b)$, i.e. we are on the second branch, and for $\xi \in (x, b)$, we have $x \in (x, \xi)$, i.e. we are on the first branch.
+\end{remark}
+\begin{example}
+  Consider again the operator from \cref{greenExample}:
+  \[
+    \mathcal{L} = \deriv[2]{}{x} + \omega^2
+  \]
+  on the domain $(a, b) = (0, 1)$ where $\omega \in \R$ is fixed.
+
+  Looking for solutions to the homogeneous problem $\mathcal{L}y = 0$, we can quickly spot two solutions.
+  We just need any two linearly independent solutions and so we can pick them to make the boundary conditions $y_1(0) = y_2(1) = 0$ easily satisfied:
+  \[
+    y_1(x) = \sin(\omega x) \text{ and } y_2(x) = \sin(\omega(x - 1))
+  \]
+  which indeed have $y_1(0) = y_2(1) = 0$.
+  Computing their Wronskian we see:
+  \begin{align*}
+    W(y_1, y_2) &= \omega[\sin(\omega \xi)\cos[\omega(\xi - 1)] - \cos(\omega \xi) \sin[\omega(\xi - 1)]] \\
+                &= \omega \sin[\omega \xi - \omega(\xi - 1)] \\
+                &= \omega \sin \omega
+  \end{align*}
+  Hence since $\alpha(x) \equiv 1$ in $\mathcal{L}$, the Dirichlet Green's function for $\mathcal{L}$ is:
+  \[
+    G(x, \xi) = \frac{1}{\omega \sin \omega} \begin{cases}
+    \sin(\omega x) \sin(\omega(\xi - 1)) & \text{ for } x \in (0, \xi) \\
+    \sin(\omega \xi) \sin(\omega(x -  1)) & \text{ for } x \in (\xi, 1)
+    \end{cases}
+  \]
+  Which is exactly what we obtained in \cref{greenExample}.
+\end{example}
+\subsection{Dirichlet Green's Functions for Sturm-Liouville Operators}
+Sturm-Liouville operators are a subclass of second-order linear ordinary differential operators and so we can also find their Dirichlet Green's functions.
+Take $\mathcal{L}$ to be the general Sturm-Liouville operator:
+\[
+  \mathcal{L} = \frac{1}{w}\left[- \deriv{}{x}\left(p \deriv{}{x}\right) + q\right]
+\]
+Recall that we wish to solve:
+\[
+  \begin{cases}
+  \mathcal{L}y = f & \text{ for } x \in (a, b) \\
+  y(a) = y(b) = 0 &  \\
+  \end{cases}
+\]
+Thus, without loss of generality, we can assume that $w(x) \equiv 1$ as otherwise we can just absorb it into the function $f$.
+Writing $\mathcal{L}$ as a general second-order linear differential operator as in \cref{genSOL} we have:
+\[
+  \mathcal{L} = -p(x)\deriv[2]{}{x} - p(x)'\deriv{}{x} + q(x)
+\]
+i.e. $\alpha = -p$, $\beta = -p'$ and $\gamma = q$.
+\begin{proposition}[Dirichlet Green's function for SL operators]
+  Let $\mathcal{L}$ be a Sturm-Liouville operator.
+  If $\mathcal{L}y_1 = 0$ and $\mathcal{L}y_2 = 0$, then:
+  \[
+    \deriv{}{x}[p(x) W(y_1, y_2)(x)] = 0
+  \]
+  That is, $pW(y_1, y_2)$ is constant in $x$.
+\end{proposition}
+\begin{proof}
+  For $y_1, y_2 \in C^2([a, b])$, we have:
+  \begin{align*}
+    y_2 \mathcal{L}y_1 - y_1 \mathcal{L}y_2 &= - y_2[(p y_1')' - qy_1] + y_1[(p y_2')' - qy_2] \\
+                                            &= y_1(py_2)' - y_2(py_1')' \\
+                                            &= \deriv{}{x}[p(x)[y_1 y_2' - y_1' y_2]] \\
+                                            &= \deriv{}{x}[p(x)W(y_1, y_2)(x)]
+  \end{align*}
+  So if $\mathcal{L}y_1 = \mathcal{L}y_2 = 0$, then $p(x) W(y_1, y_2)(x)$ is constant.
+\end{proof}
+Using \cref{genDGF}, we see that in this case Dirichlet Green's function for $\mathcal{L}$ is:
+\[
+  G(x, \xi) = K \begin{cases}
+    y_1(x)y_2(\xi) & \text{ for } x \in (0, \xi) \\
+    y_1(\xi)y_2(x) & \text{ for } x \in (\xi, 1)
+    \end{cases}
+\]
+where:
+\[
+  K = - \frac{1}{p(c) W(y_1, y_2)(c)}
+\]
+for any $c \in (a, b)$.
+\begin{remark}
+  The lack of dependence on $q(x)$ here makes sense as after assuming that $w \equiv 1$, we can also absorb $q$ into the inhomogeneous term $f$.
+\end{remark}
+\section{Return to Eigenfunction Expansions}
+Let $\mathcal{L}$ be a Sturm-Liouville operator with $w = 1$ and let $\{Y_k\}_{k = 1}^{\infty}$ be \textbf{normalised} eigenfunctions with eigenvalues $\{\lambda_k\}_{k = 1}^{\infty}$, that is:
+\[
+  \mathcal{L}Y_k = \lambda_k Y_k \text{ and } \langle Y_k, Y_\ell \rangle = \delta_{k \ell}
+\]
+for any $k, \ell \in \N$.
+We need to define a vector space on which these are eigenfunctions of and so we take:
+\[
+  V = \{y \in C^2([a, b]): y(a) = y(b) = 0\}
+\]
+As discussed in \cref{eigenFnExp}, we know that for $f \in V$, we can write:
+\[
+  f(x) = \sum_{k = 1}^{\infty} \hat{f}_k Y_k(x)
+\]
+where $\hat{f}_k = \langle f, Y_k \rangle$ as $Y_k$ is normalised.
+
+If $G(x, \xi)$ is the Dirichlet Green's function for $\mathcal{L}$, then it has the correct boundary conditions for $V$, i.e. $G(a, \xi) = G(b, \xi)$.
+However, $G(x, \xi)$ is not twice continuously differentiable in $x$, i.e. $G(x, \xi) \notin C^2([a, b])$ and so $G(x, \xi) \notin V$.
+
+We can however bypass this issue using the sequential delta functions $\{\delta_n\}_{n = 1}^{\infty}$ that we defined in \cref{deltaDef}.
+We define the sequence of functions $\{G_n(x, \xi)\}_{n = 1}^{\infty}$ as those satisfying:
+\[
+  \mathcal{L}G_n(x, \xi) = \delta_n(x - \xi)
+\]
+subject to the boundary conditions $G_n(a, \xi) = G_n(b, \xi) = 0$.
+
+Since $\delta_n(x - \xi)$ is smooth, we expect that for each $\xi \in (a, b)$, we have $G_n(x, \xi) \in C^2([a, b])$, i.e. $G_n \in V$.
+We can now use the eigenfunction expansion of $\delta_n$ from \cref{eigenFnExp} for each $n$ and then take the limit as $n \to \infty$.
+Similarly to earlier, keeping track of these limits is fiddly and so we manipulate expressions as if $G(x, \xi) \in V$ for convenience as we know we could do it with $G_n$ and then take $n \to \infty$.
+\begin{proposition}
+  For $\mathcal{L}$ with normalised $\{Y_k\}^{k = 1}_{\infty}$ and $\{\lambda_k\}_{k = 1}^{\infty}$ as above, the Dirichlet Green's function for $\mathcal{L}$ is the following:
+  \[
+    G_n(x, \xi) = \sum_{k = 1}^{\infty} \frac{Y_k(x) y_k(\xi)}{\lambda_k}
+  \]
+  provided that $\lambda_k \neq 0$ for all $k \in \N$.
+\end{proposition}
+\begin{remark}[Recap]
+  Recall from \cref{LSelfAdj} that $\mathcal{L}$ is \textit{self-adjoint} on the inner product space $(V, \langle \argdot, \argdot \rangle_w)$ where $w$ is the weight function for $\mathcal{L}$ (which we have assumed is $w \equiv 1$ here) and $V$ is a suitably defined vector space.
+\end{remark}
+\begin{proof}
+  Using the eigenfunction expansion, we can write $G(x, \xi)$ as:
+  \[
+    G(x, \xi) = \sum_{k = 1}^{\infty} \hat{G}_k(\xi) Y_k(x)
+  \]
+  where $\hat{G}_k(\xi)$ is the generalised Fourier coefficient:
+  \begin{align*}
+    \hat{G}_{k}(\xi) &= \langle G(\argdot, \xi), Y_k \rangle \\
+                     &= \frac{1}{\lambda_k} \langle G(\argdot, \xi), \mathcal{L}Y_k \rangle \text{ as $\mathcal{L} Y_k = \lambda_k Y_k$ and $\lambda_k \neq 0$} \\
+                     &= \frac{1}{\lambda_k} \langle \mathcal{L}G(\argdot, \xi), Y_k \rangle \text{ as $\mathcal{L}$ is self-adjoint on $(V, \langle \argdot, \argdot \rangle)$} \\
+                     &= \frac{1}{\lambda_k} \langle \delta(\argdot - \xi), Y_k \rangle \text{ since $G$ is a Dirichlet Green's function for $\mathcal{L}$} \\
+                     &= \frac{1}{\lambda_k} \int_{a}^{b} \delta(x - \xi) Y_k(x) \d{x} \\
+                     &= \frac{Y_k(\xi)}{\lambda_k} \text{ using the sampling property of $\delta$}
+  \end{align*}
+  Thus:
+  \[
+    G_n(x, \xi) = \sum_{k = 1}^{\infty} \frac{Y_k(x) y_k(\xi)}{\lambda_k}
+  \]
+  as required.
+\end{proof}
+\begin{remark}
+  If $\lambda_k = 0$ for any $k$, then the operator $\mathcal{L}$ is no longer injective as we would have $\mathcal{L}Y_k = 0$ but since $Y_k$ is an eigenfunction, $Y_k \centernot\equiv 0$.
+
+  The above is essentially inverting the $\mathcal{L}$ operator and so it makes sense to fail as we would not have a unique solution since we could always add multiples of $Y_k$ and still have the solution satisfy $\mathcal{L}y = 0$.
+\end{remark}
+\begin{example}
+  Consider the operator:
+  \[
+    \mathcal{L} =  - \deriv[2]{x}{}
+  \]
+  on the domain $(a, b) = (0, 1)$.
+  Recall from \cref{slpExample} that this operator has normalised eigenfunctions given by:
+  \[
+    Y_k(x) = \sqrt{2} \sin(k \pi x),\ \lambda_k = (k \pi)^2 \text{ for $k \geq 1$}
+  \]
+  Noting that the $\sqrt{2}$ arises due to the normalisation.
+
+  Thus the Dirichlet Green's function for $\mathcal{L}$ is:
+  \[
+    G(x, \xi) =  2 \sum_{k = 1}^{\infty} \frac{\sin(k \pi x) \sin(k \pi \xi)}{(k \pi)^2}
+  \]
+\end{example}
+Note that $\delta(x - \xi) = \mathcal{L}G(x, \xi)$, we can check that this holds for our expansion:
+\begin{align*}
+  \delta(x - \xi) &= \mathcal{L}G(x, \xi) \\
+                  &= \sum_{k = 1}^{\infty} \frac{\mathcal{L}Y_k(x) Y_k(\xi)}{\lambda_k} \\
+                  &= \sum_{k = 1}^{\infty} Y_k(x)Y_k(\xi)
+\end{align*}
+which is exactly the eigenfunction expansion of $\delta$ we saw previously.
+\section{Initial Value Problems}
+Suppose we want to solve the initial value problem:
+\begin{equation}
+  \label{tIVP}
+  \begin{cases}
+    \mathcal{L}y  = f(t) & \text{ for } t > 0\\
+  y(0) = \dot{y}(0) = 0 &
+  \end{cases}
+\end{equation}
+for the operator $\mathcal{L}$:
+\[
+  \mathcal{L} = \alpha(t) \deriv[2]{}{t} + \beta(t) \deriv{}{t} + \gamma(t)
+\]
+In \cref{findingGreens}, we had the boundary conditions $y(a) = y(b) = 0$, however here we have the initial conditions $y(0) = \dot{y}(0) = 0$.
+
+Proceeding similarly to in \cref{findingGreens}, if we fix some $\tau \in (0, \infty)$ and are able to solve:
+\[
+  \mathcal{L}G(t - \tau) = \delta(t - \tau)
+\]
+subject to $\dot{G}(0, \tau) = G(0, \tau) = 0$, then we can construct a solution:
+\[
+  y(t) = \int_{0}^{\infty} G(t, \tau) f(\tau) \d{\tau}
+\]
+for \cref{tIVP}.
+We can characterise $G$ satisfying this using the following.
+\begin{proposition}[Dirichlet Green's functions for IVPs]
+  Green's function for the IVP in \cref{tIVP} is characterised by:
+  \begin{enumerate}
+    \item $G(t, \tau) = 0$ for $t < \tau$.
+    \item $\mathcal{L}G(t, \tau) = 0$ for $t > \tau$.
+    \item $G(\tau^{+}, \tau) = 0$ and $\dot{G}(\tau^{+}, \tau) = \frac{1}{\alpha(\tau)}$
+  \end{enumerate}
+  That is, if we can find a $G$ with these conditions, then it must be the Dirichlet Green's function for \cref{tIVP}.
+\end{proposition}
+\begin{proof}
+  Suppose that $G$ has the above properties.
+  From \textbf{(i)}, we see that clearly $\mathcal{L} G(t, \tau) = 0$ for $t < \tau$ and also that $G(0, \tau) = \dot{G}(0, \tau) = 0$.
+
+  Furthermore, \textbf{(ii)} tells us that $\mathcal{L}(t, \tau) = 0$ on $t \neq \tau$ and \textbf{(iii)} tells us that we have the required jump discontinuity for $\delta$ at $t = \tau$.
+  Thus we must have $\mathcal{L}G(t, \tau) = \delta(t - \tau)$.
+\end{proof}
+Since $G(t, \tau) = 0$ on $t < \tau$, the solution to \cref{tIVP} is just:
+\[
+  y(t) = \int_{0}^{t} G(t, \tau) f(\tau) \d{\tau}
+\]
+\begin{remark}[Note]
+  This again looks like we have taken the wrong interval, however we are integrating over $\tau$ and so for fixed $t$, taking $\tau \in (t, \infty)$, we have $t < \tau$, so $G(t, \tau) = 0$.
+  Thus we need only integrate over $\tau \in (0, t)$.
+\end{remark}
+\begin{example}
+  Consider the operator:
+  \[
+    \mathcal{L} = \deriv[2]{}{t}
+  \]
+  We therefore need $\mathcal{L}G = \ddot{G} = 0$ on $t > \tau$, giving:
+  \[
+    G(t, \tau) = A(t - \tau) + B
+  \]
+  Moreover, we need $G(\tau^{+}, \tau) = 0$, giving $B = 0$, and we need $\dot{G}(\tau^{+}, \tau) = 1$, giving $A = 1$.
+  So the Dirichlet Green's function for $\mathcal{L}$ is just:
+  \[
+    G(t, \tau) = \begin{cases}
+    0 & \text{ if } t < \tau \\
+    t - \tau & \text{ if } t > \tau
+    \end{cases}
+  \]
+  We can check that this does indeed satisfy $\mathcal{L}G = \delta(t - \tau)$:
+  \[
+    \dot{G}(t, \tau) = \begin{cases}
+    0 & \text{ if } t < \tau \\
+    1 & \text{ if } t > \tau
+    \end{cases} \implies \mathcal{L}G = \ddot{G}(t, \tau) = \delta(t - \tau)
+  \]
+  We can then use this to find the solution \cref{tIVP} with $\mathcal{L}$ as defined above.
+  \[
+    y(t) = \int_{0}^{t} (t - \tau) f(\tau) \d{\tau}
+  \]
+  For example, if we take the inhomogeneous forcing term to be $f(x) = 1$, we obtain:
+  \begin{align*}
+    y(t) &= \int_{0}^{t} (t - \tau) \d{\tau} \\
+         &= \frac{1}{2}t^2
+  \end{align*}
+  Which satisfies $y(0) = 0$, $\dot{y}(0) = 0$, and $\mathcal{L}\ddot{y} = 1$.
+\end{example}
 \end{document}

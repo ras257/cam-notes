@@ -1,0 +1,215 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Fourier Transform}
+\section{Definitions and Simple Properties}
+\begin{definition}[Fourier Transform]
+  For an integrable function $f: \R \to \C$, we define its \textit{Fourier Transform} as the function $\hat{f}: \R \to \C$ given by:
+  \[
+    \hat{f}(\lambda) = \int_{-\infty}^{\infty} e^{-i\lambda x}f(x) \d{x}
+  \]
+  for $\lambda \in \R$.
+\end{definition}
+\begin{remark}[Notation]
+  We denote the linear map taking a function $f$ to its Fourier transform as:
+  \[
+    \mathcal{F}(f) = \hat{f}
+  \]
+  We also write:
+  \[
+    \mathcal{F}_{x \to \lambda}[f(x)] = \hat{f}(\lambda)
+  \]
+  to mean the Fourier transform of $f$ in the variable $x$ evaluated at $\lambda$.
+\end{remark}
+We shall assume that $f$ and its derivatives decay sufficiently fast so that we can integrate by parts.
+
+Using the Riemann-Lebesgue lemma (\cref{RLL}), we have:
+\[
+  \hat{f}(\lambda) \to 0 \text{ as } |\lambda| \to \infty
+\]
+\begin{proposition}
+  For integrable $f: \R \to \C$, we have the following: \label{fourierProps}
+  \begin{enumerate}
+    \item Fourier transforms of derivatives introduce powers of $\lambda$:
+      \[
+        \mathcal{F}_{x \to \lambda}\left[\left(\deriv{}{x}\right)^{k} f(x)\right] = (i \lambda)^{k} \hat{f}(\lambda)
+      \]
+    \item Dual to \textbf{(i)}, introducing powers of $x$, introduces derivatives into the Fourier transform:
+      \[
+        \mathcal{F}_{x \to \lambda}\left[x^k f(x)\right] =
+      \]
+    \item Shifting the function introduces an exponential into the Fourier transform:
+      \[
+        \mathcal{F}_{x \to \lambda}\left[f(x - a)\right] = e^{-i \lambda a} \hat{f}(\lambda)
+      \]
+    \item Dual to \textbf{(iii)}, introducing an exponential shifts the Fourier series:
+      \[
+        \mathcal{F}_{x \to \lambda}\left[e^{-iax}f(x)\right] = \hat{f}(\lambda + a)
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  If we integrate by parts $k$ times, then because the exponential term disappears at $\pm \infty$, the boundary terms disappear and so we obtain:
+  \begin{align*}
+    \mathcal{F}_{x \to \lambda}\left[\left(\deriv{}{x}\right)^{k} f(x)\right] &= \int_{-\infty}^{\infty} f(x) \left(-\deriv{}{x}\right)^{k} e^{-i\lambda x} \d{x} \\
+                                                                              &= \int_{-\infty}^{\infty}  f(x) (i \lambda)^{k} e^{-i\lambda x} \d{x} \\
+                                                                              &= (i \lambda)^{k} \hat{f}(\lambda)
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  In this case, it easier to start from the right hand side of the expression.
+  Differentiating under the integral sign, we have:
+  \begin{align*}
+    \left(i \deriv{}{\lambda}\right)^{k} \hat{f}(\lambda) &= \left(i \deriv{}{\lambda}\right)^{k} \int_{-\infty}^{\infty} e^{-i \lambda x}f(x) \d{x} \\
+                                                          &= \int_{-\infty}^{\infty} f(x) i^k \deriv[k]{}{\lambda}(e^{-i\lambda x}) \d{x}\\
+                                                          &= \int_{-\infty}^{\infty} -i^{2k} x^k e^{-i \lambda x} f(x) \d{x} \\
+                                                          &= \int_{-\infty}^{\infty} e^{-i\lambda x} x^{k} f(x) \d{x} \\
+                                                          &= \mathcal{F}_{x \to \lambda}[x^{k} f(x)]
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  We see that:
+  \begin{align*}
+    \mathcal{F}_{x \to \lambda}\left[f(x - a)\right] &= \int_{-\infty}^{\infty} e^{-i\lambda x} f(x - a) \d{x} \\
+                                                     &= \int_{-\infty}^{\infty} e^{-i \lambda (x + a)} f(x) \d{x} \text{ substituting $x \mapsto x + a$} \\
+                                                     &= e^{-i \lambda a} \int_{-\infty}^{\infty} e^{-i\lambda x} f(x) \d{x} \\
+                                                     &= e^{-i \lambda a} \hat{f}(\lambda)
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  We see that:
+  \begin{align*}
+    \mathcal{F}_{x \to \lambda}\left[e^{-iax}f(x)\right] &= \int_{-\infty}^{\infty} e^{-i\lambda x} e^{-iax} f(x) \d{x} \\
+                                                         &= \int_{-\infty}^{\infty} e^{-i(\lambda + a)x} f(x) \d{x} \\
+                                                         &= \hat{f}(\lambda + a)
+  \end{align*}
+\end{proof}
+Property \textbf{(i)} above turns out to be very useful for solving ODEs.
+Suppose we are trying to solve the problem:
+\begin{equation}
+  p\left(\deriv{}{x}\right)y = f \text{ for } x \in \R \label{polyProb}
+\end{equation}
+where $p$ is a polynomial expression evaluated on the derivative operator, giving another derivative operator, i.e.:
+\[
+  p(z) = \sum_{i = 0}^{n} a_n z^n \implies p\left(\deriv{}{x}\right) = \sum_{i = 0}^{n} a_i \deriv[i]{}{x}
+\]
+Taking the Fourier transform of one of these terms, using \cref{fourierProps} \textbf{(i)}, we have:
+\[
+  \mathcal{F}_{x \to \lambda}\left[a_i \deriv[i]{}{x} y\right] = a_i(i\lambda)^i \hat{y}(\lambda)
+\]
+and so taking Fourier transforms of both sides of \cref{polyProb}:
+\[
+  P(i \lambda) \hat{y}(\lambda) = \hat{f}(\lambda) \text{ for } \lambda \in \R
+\]
+Thus, provided $P(i \lambda) \neq 0$, we can obtain the Fourier transform of the solution $y$:
+\[
+  \hat{y}(\lambda) = \frac{\hat{f}(\lambda)}{P(i\lambda)}
+\]
+It would be useful if we could invert the Fourier transform as this would allow us to recover $y$ from the expression for its Fourier transform $\hat{y}$ above.
+It turns out that we can in fact do this.
+\begin{proposition}[Inverting Fourier transforms]
+  The Fourier transform $\hat{f}$ of an integrable function $f: \R \to \C$ can be inverted using the formula: \label{fourierInverse}
+  \[
+    f(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}(\lambda) \d{\lambda} \text{ for } x \in \R
+  \]
+\end{proposition}
+\begin{proof}
+  Consider the integral:
+  \begin{align*}
+    I_n(x) &= \frac{1}{2\pi} \int_{-n}^{n} e^{i \lambda x} \hat{f}(\lambda) \d{\lambda} \\
+           &= \frac{1}{2\pi} \int_{-n}^{n} e^{i\lambda x} \left[\int_{-\infty}^{\infty} e^{-i\lambda y} f(y) \d{y}\right] \d{\lambda} \\
+           &= \int_{-\infty}^{\infty} f(y) \left[\frac{1}{2\pi} \int_{-n}^{n} e^{i\lambda(x - y)} \d{\lambda}\right] \d{y} \\
+           &= \int_{-\infty}^{\infty} f(y) \cdot \frac{\sin[n(x - y)]}{\pi(x - y)} \d{y} \\
+           &= \int_{-\infty}^{\infty} \frac{\sin[ny]}{\pi y} f(x + y) \d{y} \text{ by substituting $y \mapsto x + y$}
+  \end{align*}
+  Recall from IA Differential Equations Example Sheet 1 Q13 that:
+  \[
+    \int_{-\infty}^{\infty} \frac{\sin[ny]}{\pi y} \d{y} = 1 \text{ for all } n > 0
+  \]
+  Thus, we can write:
+  \begin{align*}
+    I_n(x) - f(x) &= \int_{-\infty}^{\infty} \frac{\sin[ny]}{\pi y}[f(x + y) - f(x)] \d{y} \\
+                  &= \int_{-\infty}^{\infty} \sin[ny] F(x, y) \d{y}
+  \end{align*}
+  where we define:
+  \[
+    F(x, y) = \frac{f(x + y) - f(x)}{\pi y}
+  \]
+  Integrating by parts, we obtain:
+  \[
+    I_n(x) - f(x) = \frac{1}{n} \int_{-\infty}^{\infty} \cos[ny] F_y(x, y) \d{y}
+  \]
+  Taking $n \to \infty$, this vanishes and so $I_n \to f(x)$, i.e.:
+  \[
+    f(x) = \lim_{n \to \infty} I_n(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}(\lambda) \d{\lambda}
+  \]
+\end{proof}
+If we remove the limiting process in the above proof, then:
+\[
+  f(x) = \int_{-\infty}^{\infty} f(y) \left[\frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda(x - y)} \d{\lambda}\right] \d{x}
+\]
+so it might be reasonable to conclude that:
+\[
+  \delta(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda x} \d{\lambda}
+\]
+when used inside of an appropriate integral.
+We can use this to derive an result analogous to Parseval's theorem for Fourier series from \cref{parsevalSec}.
+\begin{proposition}[Parseval's theorem for Fourier transform]
+  For integrable functions $f, g: \R \to \C$, we have:
+  \[
+    \int_{-\infty}^{\infty} f(x) \overline{g(x)} \d{x} = \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat{f}(\lambda) \overline{\hat{g}(\lambda)} \d{\lambda}
+  \]
+\end{proposition}
+\begin{proof}
+Starting from the right hand side, using \cref{fourierInverse}, we have:
+\begin{align*}
+  \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat{f}(\lambda) \overline{\hat{g}(\lambda)} \d{\lambda} &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \left[\int_{-\infty}^{\infty} e^{-i \lambda y} f(y) \d{y}\right]\left[\int_{-\infty}^{\infty} e^{i\lambda x} \overline{g(x)} \d{x}\right] \d{\lambda} \\
+                                                                                                  &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}  f(y) \overline{g(x)}\underbrace{\left[\frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda(x - y)} \d{\lambda}\right]}_{\delta(x - y)} \d{x} \d{y} \\
+                                                                                                  &= \int_{-\infty}^{\infty} f(x) \overline{g(x)} \d{x}
+\end{align*}
+as required.
+\end{proof}
+\begin{remark}
+  Taking $g = f$ in the above, we obtain:
+  \[
+    \int_{-\infty}^{\infty} |f(x)|^2 \d{x} = \frac{1}{2\pi} \int_{-\infty}^{\infty} |\hat{f}(\lambda)|^2 \d{\lambda}
+  \]
+\end{remark}
+\begin{definition}[Convolution]
+  For integrable functions $f, g: \R \to \C$, we define their \textit{convolution} as:
+  \[
+    (f \ast g)(x) = \int_{-\infty}^{\infty} f(x - y)g(y) \d{y}
+  \]
+\end{definition}
+\begin{lemma}
+  For integrable functions $f, g: \R \to \C$, $f \ast g = g \ast f$.
+\end{lemma}
+\begin{proof}
+  We have:
+  \begin{align*}
+    (f \ast g)(x) &= \int_{-\infty}^{\infty} f(x - y)g(y) \d{y} \\
+                  &= \int_{-\infty}^{\infty} f(y)g(x - y) \d{y} \text{ by substituting $y \mapsto x - y$} \\
+                  &= (g \ast f)(x)
+  \end{align*}
+  This is true for any $x$ and so $f \ast g = g \ast f$.
+\end{proof}
+\begin{proposition}[Convolution Theorem]
+  For integrable functions $f, g: \R \to \C$, we have:
+  \[
+    \mathcal{F}[f \ast g] = \hat{f} \hat{g}
+  \]
+\end{proposition}
+\begin{proof}
+  Starting from the left hand side:
+  \begin{align*}
+    \mathcal{F}[f \ast g] &= \int_{-\infty}^{\infty} e^{-i \lambda x} \left[\int_{-\infty}^{\infty} f(x - y) g(y) \d{y}\right] \d{x} \\
+                          &= \int_{-\infty}^{\infty} \left[\int_{-\infty}^{\infty} f(x - y) g(y) e^{-i\lambda x} \d{x}\right] \d{y} \\
+                          &= \int_{-\infty}^{\infty} \left[\int_{-\infty}^{\infty} f(x) g(y) e^{-i\lambda(x + y)} \d{x}\right] \d{y} \text{ taking $x \mapsto x  + y$} \\
+                          &= \left[\int_{-\infty}^{\infty} e^{-i \lambda x} f(x) \d{x}\right]\left[\int_{-\infty}^{\infty} e^{-i \lambda y} g(y) \d{y}\right] \\
+                          &= \hat{f}(\lambda) \hat{g}(\lambda)
+  \end{align*}
+  as required.
+\end{proof}
+\end{document}
