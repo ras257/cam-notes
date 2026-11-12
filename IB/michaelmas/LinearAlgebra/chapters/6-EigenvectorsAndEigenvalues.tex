@@ -42,9 +42,9 @@ and we then define $f + g$ and $f \cdot g$ as:
       \]
       as the leading coefficients of the polynomials could cancel.
       But, in the case of $\cdot$:
-      \[
-        \deg(f \cdot g) = \deg(f) + \deg(g)
-      \]
+      \begin{equation}
+        \deg(f \cdot g) = \deg(f) + \deg(g) \label{polyDeg}
+      \end{equation}
       as the leading coefficients of $f$ and $g$ are non-zero.
   \end{itemize}
 \end{remark}
@@ -70,7 +70,7 @@ Evaluation of a polynomial also passes through the operations $+$ and $\cdot$, i
   \[
     f = q \cdot g + r
   \]
-  with $\deg(r) < \deg(g)$
+  with $\deg(r) < \deg(g)$.
 \end{proposition}
 \begin{proof}
   Let $n = \deg(f)$ and $m = \deg(g)$ and write:
@@ -159,9 +159,567 @@ Evaluation of a polynomial also passes through the operations $+$ and $\cdot$, i
   Thus $\deg(f - g) = -\infty$, i.e. $f - g = 0 \implies f = g$.
 \end{proof}
 \begin{theorem}[Fundemental Theorem of Algebra]
-  If $f \in \C[t]$ of degree $\deg n \geq 1$, then $f$ has exactly $n$ roots in $\C$ counted with multiplicity.
+  If $f \in \C[t]$ of degree $\deg n \geq 1$, then $f$ has exactly $n$ roots in $\C$ counted with multiplicity. \label{FTA}
 \end{theorem}
 \begin{proof}
   See IB Complex Analysis
+\end{proof}
+For $a_{i j} \in \F[t]$, we can construct a matrix $A = (a_{i j}(t)) \in M_{n \times n}(\F[t])$, i.e. a matrix with polynomial entries.
+Using the Leibniz formula, we see that $\det A \in \F[t]$.
+\section{Definitions of Eigenvalues and Eigenvectors}
+\subsection{Diagonalisable and Triangularisable Maps}
+\begin{definition}[Diagonalisable and triangularisable linear map]
+  Let $V$ be an $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$.
+  \begin{itemize}
+    \item We say that $\alpha$ is \textit{triangularisable} if there exists a basis $B$ for $V$ such that:
+      \[
+        [\alpha]^{B}_{B} = \begin{pmatrix}
+        \lambda_1 & ? & ? \\
+        O & \ddots & ? \\
+        O & O & \lambda_n \\
+        \end{pmatrix}
+      \]
+      i.e. $[\alpha]^{B}_{B}$ only has non zero entries on or above the leading diagonal.
+    \item We say that $\alpha$ is \textit{diagonalisable} if there exists a basis $B$ for $V$ such that:
+      \[
+        [\alpha]^{B}_{B} = \begin{pmatrix}
+        \lambda_1 & O & O \\
+        O & \ddots & O \\
+        O & O & \lambda_n \\
+        \end{pmatrix} = \diag(\lambda_1, \ldots, \lambda_n)
+      \]
+      i.e. $[\alpha]^{B}_{B}$ only has non zero entries on the leading diagonal.
+  \end{itemize}
+\end{definition}
+\begin{definition}[Diagonalisable and triangularisable linear matrix]
+  We say that the matrix $A \in M_{n \times n}(\F)$ is \textit{triangularisable} if it is similar to an upper triangular matrix.
+  Similarly, we say that  $A \in M_{n \times n}(\F)$ is \textit{diagonalisable} if it is similar to a diagonal matrix.
+\end{definition}
+\begin{remark}
+  $\alpha$ is triangularisable/diagonalisable if and only if there exists a basis $B$ for $V$ in which $[\alpha]^{B}_{B}$ is triangularisable/diagonalisable respectively.
+
+  If $\alpha$ is triangularisable/diagonalisable, then this is immediate.
+  Conversely, if $[\alpha]^{B}_{B}$ is triangularisable/diagonalisable, then there exists upper-triangular/diagonal $A$ and $P \in \GL_n(\F)$ such that $[\alpha]^{B}_{B} = PAP^{-1}$.
+  We saw on Example Sheet 2 that given a basis $B$, there exists a basis $B'$ for $V$ such that $P = [\id_V]^{B'}_{B}$ and so:
+  \begin{align*}
+    A &= P^{-1} [\alpha]^{B}_{B} P \\
+      &= [\id_V]^{B}_{B'} [\alpha]^{B}_{B} [\id_V]^{B'}_{B} \\
+      &= [\alpha]^{B'}_{B'} \text{ using \cref{cobFormula}}
+  \end{align*}
+  Thus $\alpha$ is triangularisable/diagonalisable.
+\end{remark}
+\begin{remark}[Motivation]
+  \begin{enumerate}
+    \item In \cref{similarDet}, we saw that similar matrices have the same determinant.
+      Thus to find the determinant of a triangularisable matrix, we can just calculate the determinant of the triangular matrix it is similar to, which is particularly easy due to \cref{blockDiagonal}.
+    \item Multiplying diagonal matrices is particularly easy to analyse so if we can show a matrix is diagonalisable, then it is easiest to try to analyse the behaviour of the similarity class by considering the diagonal matrix within it.
+  \end{enumerate}
+\end{remark}
+\subsection{Eigenspaces}
+\begin{definition}[Eigenvectors and eigenvalues]
+  For an $\F$-vector space $V$ and linear map $\alpha \in \mathcal{L}(V, V)$, we say that $\lambda \in \F$ is an \textit{eigenvalue} of $\alpha$ if there exists $v \in V \setminus \{\vec{0}\}$ such that $\alpha(v) = \lambda v$.
+  We then call such a $v$ a \textit{$\lambda$-eigenvector} of $\alpha$.
+\end{definition}
+\begin{remark}
+  We exclude the zero vector so that each eigenvector corresponds to exactly one eigenvalue as the zero vector could correspond to any eigenvalue.
+\end{remark}
+\begin{definition}[$\lambda$-eigenspace]
+  We define the \textit{$\lambda$-eigenspace} to be the set:
+  \[
+    V_{\lambda} = \{v \in V: \alpha(v) = \lambda v\}
+  \]
+  That is, $V_{\lambda}$ is the set of $\lambda$-eigenvectors of $\alpha$ along with $\vec{0}$.
+\end{definition}
+\begin{remark}
+  \begin{enumerate}
+    \item We note that:
+      \[
+        v \in V_{\lambda} \iff \alpha(v) - \lambda v = 0 \iff (\alpha - \lambda \id_V)(v) = 0 \iff v \in \ker(\alpha - \lambda \id_V)
+      \]
+      and so:
+      \[
+        V_{\lambda} = \ker(\alpha - \lambda\id_V)
+      \]
+      Thus by \cref{imKerProp}, $V_{\lambda} \leq V$.
+    \item If $v \in V_{\mu}$ and $\lambda \neq \mu$ then:
+      \[
+        (\alpha - \lambda \id_V)(v) = (\mu - \lambda)v
+      \]
+      So $(\alpha - \lambda\id_V)$ sends $v \in V_{\mu}$ to non-zero scalar multiple of $v$, i.e. it preserves $V_{\mu}$.
+      Thus the restriction $\at{(\alpha - \lambda \id_V)}{V_\mu}: V_\mu \to V_\mu$ is equivalent to multiplying by a non-zero scalar and so has inverse:
+      \[
+      v \mapsto (\mu - \lambda)^{-1} v
+      \]
+      i.e. it is an isomorphism $V_{\mu} \to V_{\mu}$.
+      Such isomorphisms from a vector space to itself are known as \textit{automorphisms}.
+  \end{enumerate}
+\end{remark}
+\begin{lemma}[Diagonal eigenbasis]
+  If $V$ is finite dimensional, then $\alpha \in \mathcal{L}(V, V)$ is diagonalisable if and only if $V$ has a basis consisting only of eigenvectors of $\alpha$. \label{diagEigenbasis}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $\alpha$ is diagonalisable}
+    So there exists a basis $B = \{v_1, \ldots, v_n\}$ for $V$ that diagonalises $\alpha$:
+    \[
+      [\alpha]^{B}_{B} = \diag(\lambda_1, \ldots, \lambda_n)
+    \]
+    for some $\lambda_1, \ldots, \lambda_n \in \F$.
+    Thus by definition of matrices, $\alpha(v_i) = \lambda_i v_i$ for each $i \in \{1, \ldots, n\}$, i.e. $B$ is a basis consisting only of eigenvectors of $\alpha$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $V$ has a basis of eigenvectors of $\alpha$}
+    So there exists a basis $B = [v_1, \ldots, v_n]$ for $V$ such that $\alpha(v_i) = \lambda_i v_i$ for some $\lambda_i \in \F$.
+    Thus $[\alpha]^{B}_{B} = \diag(\lambda_1, \ldots, \lambda_n)$, so $\alpha$ is diagonalisable.
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  If $\lambda_1, \ldots, \lambda_n \in \F$ are distinct eigenvalues with corresponding eigenvectors $v_1, \ldots, v_n$, then $\{v_1, \ldots, v_n\}$ is a linearly independent set. \label{eLI}
+\end{lemma}
+\begin{proof}
+  Suppose instead that $\{v_1, \ldots, v_n\}$ is linearly dependent.
+  Thus there exists $\mu_i \in \F$ not all zero such that:
+  \begin{equation}
+    \sum_{i = 1}^{n} \mu_i v_i = \vec{0} \label{linComboL15} \tag{\dag}
+  \end{equation}
+  WLOG, after relabelling, we assume that $\mu_1 \neq 0$.
+  Define the linear map:
+  \[
+    \beta = \prod_{i = 2}^{n} (\alpha - \lambda_{i} \id_V)
+  \]
+  So, by \textbf{(ii)} in the previous remark, for each $j \in \{1, \ldots, n\}$:
+  \[
+    \beta(v_j) = \left[\prod_{i = 2}^{n} (\lambda_j - \lambda_i)\right] v_j
+  \]
+  Since the eigenvalues are distinct, if $j = 1$, then $\beta(v_j) \neq \vec{0}$, and if $j \neq 1$, then $\beta(v_j) = \vec{0}$.
+
+  So if we apply $\beta$ to the linear combination in \cref{linCombo15}, we obtain:
+  \begin{align*}
+    \vec{0} &= \beta\left(\sum_{i = 1}^{n} \mu_i v_i\right) \\
+            &= \sum_{i = 1}^{n} \mu_i \beta(v_i) \\
+            &= \mu_1 \beta(v_1) \\
+            &= \left[\mu_1 \prod_{j = 2}^{n} (\lambda_1 - \lambda_j)\right] v_1 \\
+            &\neq \vec{0} \text{ as $\lambda_i$ are distinct and $v_1 \neq \vec{0}$}
+  \end{align*}
+  which is a contradiction, thus the set $\{v_1, \ldots, v_n\}$ is linearly independent.
+\end{proof}
+\begin{corollary}
+  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$, then $\alpha$ only has finitely many eigenvalues. \label{finiteEigen}
+\end{corollary}
+\begin{proof}
+  Suppose that $\alpha$ has infinitely many eigenvalues.
+  If we take $\dim(V) + 1$ distinct eigenvalues with corresponding eigenvectors of $\alpha$, then by \cref{eLI}, we have a linearly independent set of $\dim(V) + 1$ vectors in a space of dimension $\dim(V)$, which contradicts \cref{dimIneq}.
+\end{proof}
+\begin{example}[Infinitely many eigenvalues]
+  If $V$ is finite dimensional, then $\alpha$ can have infinitely many eigenvalues.
+  Consider $V = \R^{\N}$ and the map:
+  \[
+    \alpha: V \to V,\ \alpha = (\alpha_1, \alpha_2, \alpha_3, \ldots) \mapsto (\alpha_2, \alpha_3, \alpha_4, \ldots)
+  \]
+  For every $\lambda \in \R$, the sequence $(\lambda^{n})_{n \in \N}$ is an $\lambda$-eigenvector of $\alpha$ as:
+  \[
+    \alpha((\lambda, \lambda^2, \lambda^3, \ldots)) = (\lambda^2, \lambda^3, \lambda^4, \ldots) = \lambda(\lambda, \lambda^2, \lambda^3, \lambda^4, \ldots)
+  \]
+  and so there are uncountably many distinct eigenvalues of $\alpha$.
+\end{example}
+\begin{proposition}
+  Let $V$ be an $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$.
+  If $\lambda_1, \ldots, \lambda_k \in \F$ are \textbf{all} the distinct eigenvalues of $\alpha$, then: \label{eigenSpaceProp}
+  \begin{enumerate}
+    \item The eigenspaces always generate their direct sum:
+      \[
+        \langle V_{\lambda_1} \cup \cdots \cup V_{\lambda_n} \rangle = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_n}
+      \]
+    \item If $V$ is finite dimensional, then $\alpha$ is diagonalisable if and only if:
+      \[
+        V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}
+      \]
+  \end{enumerate}
+\end{proposition}
+\begin{remark}
+  The \textbf{(i)} always works if $V$ is finite dimensional, as by \cref{finiteEigen}, there will always be finitely many eigenvalues for $\alpha$, however it only works for infinite dimensional $V$ if we can show there are only finitely many eigenvalues for $\alpha$.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  Suppose that they do not.
+  Then there are elements in $\langle V_{\lambda_1} \cup \cdots \cup V_{\lambda_n} \rangle$ that cannot be expressed uniquely as a sum of $v_i \in V_{\lambda_i}$ for each $i$.
+  Thus there must exist $v_i \in V_{\lambda_i}$ not all zero such that:
+  \[
+    \sum_{i = 1}^{n} v_i = \vec{0}
+  \]
+  Considering only the non-zero terms of this, it is a sum of non-zero eigenvectors of different eigenvalues as they are in different eigenspaces, which by \cref{eLI} must be linearly independent.
+  However their sum is $\vec{0}$, which is a contradiction.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume $\alpha$ is diagonalisable}
+    If $\alpha$ is diagonalisable, then by \cref{diagEigenbasis}, $V$ has a basis $B$ of eigenvectors of $\alpha$.
+    By assumption, $\lambda_1, \ldots, \lambda_k$ are all of the eigenvalues of $\alpha$ and so all of these basis vectors must lie in $V_{\lambda_1} \cup \cdots \cup V_{\lambda_k}$.
+    Thus $B \leq V_{\lambda_1} \cup \cdots \cup V_{\lambda_k}$, so $\langle V_{\lambda_1} \cup \cdots \cup V_{\lambda_k} \rangle = V$.
+    So by \textbf{(i)}, $V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_n}$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}$}
+    For each $i \in \{1, \ldots, k\}$, since $V$ is finite dimensional so is $V_{\lambda_i}$ and there must exist a basis $B_i$ for $V_{\lambda_i}$ with $|B_i| = n_i$.
+
+    Furthermore, since the eigenvalues are distinct, the bases $B_i$ must be disjoint.
+    So by Example Sheet 2 Q8 \textbf{(iii)}, the set:
+    \[
+      B = \bigcup_{i = 1}^{k} B_i
+    \]
+    is a basis for $V$.
+    Expressing $\alpha$ in this basis, we see that since $\dim(V_{\lambda_i}) = n_i$:
+    \[
+      [\alpha]^{B}_{B} = \diag(\lambda_1 I_{n_1}, \ldots, \lambda_k I_{n_k})
+    \]
+    which is a diagonal matrix and so $\alpha$ is diagonalisable.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}
+  We see that the forward direction of \textbf{(ii)} still works even in the case of an infinite dimensional $V$.
+\end{remark}
+\begin{remark}[Recap]
+  Recall that if $V$ is finite dimensional and $\beta \in \mathcal{L}(V, V)$, then $\det \beta = 0$ if and only if $\ker \beta \neq \{\vec{0}\}$.
+\end{remark}
+So $\lambda \in \F$ is an eigenvalue of $\alpha \in \mathcal{L}(V, V)$ if and only if $\det(\alpha - \lambda \id_V) = 0$ since this happens precisely when $\ker(\alpha - \lambda \cdot \id_V) \neq \{\vec{0}\}$.
+\section{Characteristic Polynomial}
+\subsection{Definitions}
+\begin{definition}[Characteristic polynomial]
+  For a matrix $A \in \mathcal{M}_{n \times n}(\F)$, we define its \textit{characteristic polynomial} as:
+  \[
+    \chi_A(t) = \det(tI_n - A) \in \F[t]
+  \]
+  Similarly, for $\alpha \in \mathcal{L}(V, V)$, we can define its \textit{characteristic polynomial} as:
+  \[
+    \chi_{\alpha}(t) = \chi_{[\alpha]^{B}_{B}}(t) \in \F[t]
+  \]
+  for some basis $B$ of $V$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item Using the Leibniz rule, the characteristic polynomial of $A \in \mathcal{M}_{n \times n}(\F)$ can be expressed as:
+      \begin{align*}
+        \chi_{A}(t) &= \det (tI_n - A) \\
+                    &= C_n t^n + C_{n - 1}t^{n - 1} + \cdots + C_1 t + C_0 \\
+                    &= \sum_{\sigma \in S_n} \sign(\sigma) \prod_{i = 1}^{n} (t\delta_{\sigma(i) i} - a_{\sigma(i)i}) \label{leibnizDet}
+      \end{align*}
+      The leading coefficient of this occurs only when $\sigma(i) = i$ for all $i \in \{1, \ldots, n\}$, which has sign 1, and so $\chi_{A}(t)$ is a monic polynomial of degree $n$ with leading coefficient $C_n = 1$.
+    \item Moreover, to find $C_{n - 1}$, we note that we can only obtain $t^{n - 1}$ from terms where exactly $n - 1$ or $n$ of the $\delta_{\sigma(i) i}$ are 1.
+      Since $\sigma$ is a permutation, there cannot be exactly $n - 1$ that are 1, and so again $\sigma = \id$.
+      Thus $t^{n - 1}$ can only be obtained from the term:
+      \begin{align*}
+        \prod_{i = 1}^{n} (t - a_{i i}) = t^n - (a_{1 1} + \cdots + a_{n n}) t^{n - 1} + \cdots
+      \end{align*}
+      Thus $C_{n - 1} = - \tr \alpha$.
+    \item Finally, to find $C_0$, we see that:
+      \[
+        C_0 = \chi_{A}(0) = \det(-A) = (-1)^{n} \det A
+      \]
+    \item Similar matrices have the same characteristic polynomial as:
+      \begin{align*}
+        \chi_{P A P^{-1}}(t) &= \det(t \cdot I_n - PAP^{-1}) \\
+                             &= \det(P(t \cdot I_n - A)P^{-1}) \\
+                             &= \det(t \cdot I_n - A) \text{ as similar matrices have the same determinant} \\
+                             &= \chi_A(t)
+      \end{align*}
+      In particular, since matrices representing the same linear map with respect to different bases are similar, the characteristic polynomial of $\alpha$ does not depend on the choice of basis $B$ for $V$.
+  \end{enumerate}
+\end{remark}
+\begin{lemma}
+  If $V$ is a finite dimensional vector space and $\alpha \in \mathcal{L}(V, V)$, then: \label{eValRoots}
+  \[
+    \{\text{eigenvalues of $\alpha$}\} = \{\text{roots of $\chi_{\alpha}$}\}
+  \]
+\end{lemma}
+\begin{proof}
+  As mentioned before:
+  \begin{align*}
+    \lambda \in \F \text{ is an eigenvalue} &\iff \exists v \in V \setminus \{\vec{0}\} \text{ s.t. } v \in \ker(\alpha - \lambda\id_V) \\
+                                            &\iff \ker(\alpha - \lambda \id_V) \neq \{\vec{0}\} \\
+                                            &\iff \alpha - \lambda \id_V \text{ is invertible} \\
+                                            &\iff \det(\lambda\id_V - \alpha) = 0 \\
+                                            &\iff \chi_{A}(\lambda) = 0
+  \end{align*}
+  Thus the eigenvalues of $\alpha$ are exactly the roots of $\chi_{A}(t)$.
+\end{proof}
+\begin{proposition}
+  For any $A \in \mathcal{M}_{n \times n}(\F)$, $A$ is triangularisable if and only if $\chi_{A}(t)$ is a product of linear factors. \label{triLinear}
+\end{proposition}
+\begin{proof}
+  \begin{proofdirection}{Assume $A$ is triangularisable}
+    So by definition, $A$ is similar to some upper triangular matrix $A'$.
+    Characteristic polynomials are invariant under similarity, thus:
+    \begin{align*}
+      \chi_A(t) &= \chi_{A'}(t) \\
+                &= \det \begin{pmatrix*}
+                    t - \lambda_1 & ? & ? \\
+                    O & \ddots & ? \\
+                    O & O & t - \lambda_n \\
+                    \end{pmatrix*} \\
+                &= \prod_{i = 1}^{n} (t - \lambda_i) \text{ by \cref{blockDiagonal}}
+    \end{align*}
+    where $\lambda_i$ are the diagonal entries of $A'$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\chi_A$ is a product of linear factors}
+    We proceed by induction on the dimension $n$.
+    \quietinduction
+    {$n = 1$}{
+      $A \in \mathcal{M}_{1 \times 1}(\F)$ is always upper triangular.
+    }
+    {$n - 1$}{}
+    {$n$}{
+      So that we can work with a linear map, define $\alpha(v) = Av$.
+      Let $\lambda\in \F$ be a root of $\chi_A(t)$, thus by \cref{eValRoots}, $\alpha$ has a $\lambda$-eigenvector $v \in \F^{n} \setminus \{\vec{0}\}$.
+      Using \cref{basisExtension}, we extend $\{v_1\}$ to a basis $B = \{v_1, \ldots, v_n\}$ for $\F^{n}$ and so $A$ is similar to:
+      \[
+        [\alpha]^{B}_{B} = \left(\begin{array}{c c c c}
+      \multicolumn{1}{c|}{\lambda} & ? & \cdots & ? \\ \cline{2-4}
+      \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{C} \\
+      \end{array}\right)
+      \]
+      Expanding $\det(tI_n - [\alpha]^{B}_{B})$ along the first column using \cref{laplaceExp} \textbf{(i)}, we have that $\chi_A(t) = (t - \lambda) \chi_{C}(t)$.
+      By assumption, $\chi_{A}(t)$ is a product of linear factors and so $\chi_{C}(t)$ must be also.
+
+      Since $C in \mathcal{M}_{(n - 1) \times (n - 1)}$, by the induction hypothesis it is triangularisable so there exists $P \in \GL_{n - 1}(\F)$ such that $PCP^{-1}$ is upper triangular.
+      Define:
+      \[
+        \overline{P} = \left(\begin{array}{c c c c}
+      \multicolumn{1}{c|}{1} & 0 & \cdots & 0 \\ \cline{2-4}
+      \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{P} \\
+      \end{array}\right) \in \GL_n(\F)
+      \]
+      We see that $[\alpha]^{B}_{B}$ is similar to:
+      \[
+        \overline{P} [\alpha]^{B}_{B} \overline{P}^{-1} = \left(\begin{array}{c c c c}
+      \multicolumn{1}{c|}{1} & ? & \cdots & ? \\ \cline{2-4}
+      \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{PCP^{-1}} \\
+      \end{array}\right)
+      \]
+      which is upper triangular as $PCP^{-1}$ is upper triangular.
+      Thus $A$ is also similar to this, i.e. it is triangularisable.
+    }
+  \end{proofdirection}
+\end{proof}
+\begin{theorem}
+  Every $A \in \mathcal{M}_{n \times n}(\C)$ is triangularisable. \label{CTri}
+\end{theorem}
+\begin{proof}
+  By the fundamental theorem of algebra (\cref{FTA}), $\chi_{A}(t)$ can always be written as a product of linear factors.
+  Thus by \cref{triLinear}, it is triangularisable.
+\end{proof}
+\begin{example}
+  Consider the $2 \times 2$ matrix:
+  \[
+    A = \begin{pmatrix}
+    \cos \theta & -\sin \theta \\
+    \sin \theta & \cos \theta \\
+    \end{pmatrix} \in \mathcal{M}_{2 \times 2}(\R)
+  \]
+  for $\theta \in (0, \pi)$ has characteristic polynomial:
+  \[
+    \chi_A(t) = t^2 - (2 \cos \theta) t + 1
+  \]
+  is irreducible (i.e. it cannot be written as a product of linear factors) over $\R[t]$ as it has no real roots, and so $A$ is not triangularisable.
+  So there are matrices which are diagonalisable when considered over $\C$ but not when considered over $\R$.
+\end{example}
+\subsection{Annihilator Polynomials}
+\begin{definition}[Applying polynomials to linear maps and matrices]
+  Let $V$ be an $\F$-vector space, $\alpha \in \mathcal{L}(V, V)$, $A \in \mathcal{M}_{k \times k}(\F)$, and $p(t) \in \F[t]$ be a polynomial with coefficients:
+  \[
+    p(t) = \sum_{i = 0}^{n} a_i t^i \in \F[t]
+  \]
+  We then define $p(\alpha)$ as:
+  \[
+    p(\alpha) = \sum_{i = 0}^{n} a_i \alpha^{i} \in \mathcal{L}(V, V)
+  \]
+  where $\alpha^{0}$ is interpreted as $\alpha^{0} = \id_V$.
+  Similarly, we define $p(A)$ as:
+  \[
+    p(A) = \sum_{i = 0}^{n} a_i A^{i} \in \mathcal{M}_{k \times k}(\F)
+  \]
+  where $A^{0}$ is interpreted as $A^{0} = I_k$.
+\end{definition}
+\begin{remark}
+  For a finite dimensional space $V$ with $\dim V = n$:
+  \begin{enumerate}
+    \item If basis $B$ is a basis for $V$ and $\alpha \in \mathcal{L}(V, V)$ then:
+      \begin{align*}
+        [p(\alpha)]^{B}_{B} &= \sum_{i = 0}^{n} a_i [\alpha^{i}]^{B}_{B} \\
+                            &= \sum_{i = 0}^{n} a_i ([\alpha]^{B}_{B})^i \text{ by \cref{matrixComp}}\\
+                            &= p([\alpha]^{B}_{B})
+      \end{align*}
+    \item From \cref{LDim}, $\dim(\mathcal{L}(V, V)) = n^2$ and so the set:
+      \[
+        \{\id_V, \alpha^{1}, \ldots, \alpha^{n^2}\} \subseteq \mathcal{L}(V, V)
+      \]
+      must be linearly dependent as it consists of $n^2 + 1$ elements.
+      Thus there exists $a_i \in \F$ not all zero such that:
+      \[
+        \vec{0} = \sum_{i = 0}^{n^2}  a_i \alpha^{i} = p(\alpha)
+      \]
+      where $p(\alpha) = \sum_{i = 0}^{n^2} a_i t^i$.
+      That is to say, every endomorphism $\alpha \in \mathcal{L}(V, V)$ satisfies some polynomial equation of degree at most $n^2$.
+  \end{enumerate}
+\end{remark}
+\begin{remark}[Notation]
+  If $V$ is finite dimensional, then we define:
+  \[
+    I_{\alpha} = \{p(t) \in \F[t]: p(\alpha) = \vec{0}\}
+  \]
+  i.e. the set of all polynomials $p(t) \in \F[t]$ under which $\alpha$ vanishes.
+\end{remark}
+By remark \textbf{(ii)} above, $I_{\alpha} \neq \{\vec{0}\}$.
+So by well ordering on $\N$ and considering the degree of polynomials in $I_{\alpha}$, there exists some \textbf{non-zero} $m_{\alpha} \in I_{\alpha}$ of minimal degree.
+By rescaling, we assume that $m_{\alpha}$ is a monic polynomial.
+\begin{proposition}[Uniquness of $m_\alpha$]
+  The \textit{minimal polynomial of $\alpha$}, $m_{\alpha}$ as obtained above, is unique. \label{minPoly}
+\end{proposition}
+To prove this, we first need the following lemma.
+\begin{lemma}
+  For any $f \in I_{\alpha}$, $m_{\alpha} \mid f$. \label{mLemma}
+\end{lemma}
+\begin{proof}
+  Suppose that $m_{\alpha} \nmid f$, then by the Euclidean algorithm (\cref{EAP}), there exists $q, r \in \F[t]$ such that
+  \[
+    f(t) = m_{\alpha}(t) \cdot q(t) + r(t)
+  \]
+  with $r \neq 0$ and $\deg(r) < \deg(m_{\alpha})$.
+  Since $f \in I_{\alpha}$ and by construction $m_{\alpha} \in I_{\alpha}$, we have:
+  \[
+    \vec{0} = f(\alpha) = m_{\alpha}(\alpha) \circ q(\alpha) + r(\alpha) = r(\alpha)
+  \]
+  Thus $r(\alpha) = \vec{0} \implies r \in I_n$, but $r$ is non-zero and $\deg(r) < \deg(m_{\alpha})$, contradicting the minimality of the degree of $m_{\alpha}$.
+\end{proof}
+\begin{proof}[\cref{minPoly}]
+  Suppose we have an arbitrary $\overline{m}_{\alpha} \in I_{\alpha}$ that is non-zero, has minimal degree, and is monic.
+  We wish to show that we must have $\overline{m}_{\alpha} = m_{\alpha}$.
+
+  By \cref{mLemma}, $m_{\alpha} \mid \overline{m}_{\alpha}$ and so there exists $q(t) \in \F[t]$ such that:
+  \[
+    \overline{m}_{\alpha}(t) = q(t) \cdot m_{\alpha}(t)
+  \]
+  By \cref{polyDeg}, $\deg(m_{\alpha}) = \deg(\overline{m}_{\alpha}) + \deg(q)$, so $\deg(q) = 0$, i.e. $q = \lambda \in \F[t]$.
+  By construction $m_{\alpha}$ and $\overline{m}_{\alpha}$ are monic and so $\lambda = 1$, i.e. $\overline{m}_{\alpha} = m_{\alpha}$.
+\end{proof}
+\subsection{Cayley-Hamilton Theorem}
+\begin{theorem}[Cayley-Hamilton]
+  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$, then $\chi_{\alpha}(\alpha) = \vec{0}$. \label{CHT}
+\end{theorem}
+This holds in general, however, here we will only prove this in the case of $\F = \C$.
+\begin{proof}[Over $\F =\C$]
+  By \cref{CTri}, $\alpha$ is triangularisable and so there exists a basis $B = \{v_1, \ldots, v_n\}$ for $V$ such that:
+  \[
+    [\alpha]^{B}_{B} = \begin{pmatrix*}
+                    \lambda_1 & ? & ? \\
+                    O & \ddots & ? \\
+                    O & O & \lambda_n \\
+                    \end{pmatrix*}
+  \]
+  So using \cref{blockDiagonal}, $\chi_{\alpha}(t) = \prod_{i = 1}^{n} (t - \lambda_i)$.
+
+  We then define the subspaces $U_j = \langle v_1, \ldots, v_j \rangle \leq V$ for $j \in \{1, \ldots, n\}$ and $U_{0} = \{\vec{0}\}$.
+  For a fixed $j \in \{1, \ldots, n\}$, for each $i \in \{1, \ldots, j\}$, recalling that the columns of $[\alpha]^{B}_{B}$ are the components of $\alpha(v_i)$ in the basis $B$, we have:
+  \begin{align*}
+    (\alpha - \lambda_j\id_V)(v_i) &= \alpha(v_i) - \lambda_j v_i \\
+                                   &= \lambda_i v_i + (\text{linear combination of $\{v_1, \ldots, v_{i - 1}\}$}) - \lambda_j v_i
+  \end{align*}
+  So for $i \in \{1, \ldots, j - 1\}$, this is clearly in $U_{j - 1}$, and for $i = j$, we just have a linear combination of $\{v_1, \ldots, v_{i - 1}\}$, which is also in $U_{j - 1}$.
+  Thus each of the basis vectors for $U_j$ is mapped into $U_{j - 1}$ by this, so for $j \in \{1, \ldots, n\}$:
+  \[
+    (\alpha - \lambda_j \id_V)(U_j) \leq U_{j - 1}
+  \]
+  Since $U_n = V$:
+  \begin{align*}
+    \chi_{\alpha}(\alpha)(V) &= \left[\prod_{i = 1}^{n} (\alpha - \lambda_i \id_V)\right](U_n) \\
+                             &= (\alpha - \lambda_1 \id_V) \circ (\alpha - \lambda_n \id_V) (U_n) \\
+                             &\leq U_0 = \{\vec{0}\} \\
+    \implies \chi_{\alpha}(\alpha)(v) &= \vec{0}\ \forall v \in V
+  \end{align*}
+  So $\chi_{\alpha}(\alpha) = \vec{0}$.
+\end{proof}
+\begin{corollary}
+  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$, then $m_{\alpha} \mid \chi_{\alpha}$.
+\end{corollary}
+\begin{proof}
+  By \cref{CHT}, $\chi_{\alpha}(\alpha) = \vec{0}$, i.e. $\chi_{\alpha} \in I_{\alpha}$.
+  Thus by \cref{mLemma}, $m_{\alpha} \mid \chi_{\alpha}$.
+\end{proof}
+\section{Eigenvalue Multiplicities}
+\begin{definition}[Algebraic and geometric multiplicity]
+  For an eigenvalue $\lambda \in \F$ of a linear map $\alpha$, we define its \textit{algebraic multiplicity}, denoted $a_{\lambda}$, to be the multiplicity of $\lambda$ as a root of $\chi_{\alpha}(t)$.
+  We also define its \textit{geometric multiplicity}, denoted $g_{\lambda}$, to be $g_{\lambda} = \dim(V_{\lambda})$.
+\end{definition}
+\begin{remark}
+  We always have $a_{\lambda} \geq 1$ and $g_{\lambda} \geq 1$ for any eigenvalue $\lambda$.
+\end{remark}
+\begin{proposition}[The ``other'' AM-GM inequality]
+  For a finite vector space $V$ and linear map $\alpha \in \mathcal{L}(V, V)$, for any eigenvalue $\lambda$, we have $g_{\lambda} \leq a_{\lambda}$. \label{AMGM}
+\end{proposition}
+\begin{proof}
+  Let $B_{\lambda}$ be a basis for the eigenspace $V_{\lambda}$.
+  We use \cref{basisExtension} to extend this to a basis $B$ for $V$.
+  Then, since $|B_{\lambda}| = g_{\lambda}$ by definition of $g_{\lambda}$, we have:
+  \[
+    [\alpha]^{B}_{B} =  \left(\begin{array}{c|c}
+      \lambda I_{g_{\lambda}} & ? \\ \hline
+      O & C
+    \end{array}\right)
+  \]
+  So by \cref{blockDiagonal}, $\chi_{\alpha}(t) = (t - \lambda)^{g_{\lambda}} \cdot \chi_{C}(t)$.
+  Thus $a_{\lambda} \geq g_{\lambda}$ as there must be at least $g_{\lambda}$ factors of $(t - \lambda)^{g_{\lambda}}$ in $\chi_{\alpha}(t)$.
+\end{proof}
+\begin{lemma}
+  If $V$ is finite dimensional and $\lambda_1, \ldots, \lambda_k \in \F$ are all of the eigenvalues of $\alpha \in \mathcal{L}(V, V)$, then: \label{eValueDT}
+  \begin{enumerate}
+    \item $\sum_{i = 1}^{k} g_{\lambda_k} \leq \dim(V)$ with equality if and only if $\alpha$ is diagonalisable.
+    \item $\sum_{i = 1}^{k} a_{\lambda_k} \leq \dim(V)$ with equality if an only if $\alpha$ is triangularisable.
+  \end{enumerate}
+\end{lemma}
+\begin{remark}[Sanity check]
+  Since all diagonal matrices are also triangular, diagonalisability implies triangularisablity which is consistent with the above and \cref{AMGM}.
+\end{remark}
+\begin{proof}[\textbf{i}]
+  By \cref{eigenSpaceProp}, we have:
+  \[
+    V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k} \leq V
+  \]
+  with equality if and only if $\alpha$ is diagonalisable.
+
+  By \cref{externalDim}, we have:
+  \begin{align*}
+    \dim(V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}) &= \sum_{i = 1}^{k} \dim(V_{\lambda_i}) \\
+                                                           &= \sum_{i = 1}^{k} g_{\lambda_i}
+  \end{align*}
+  So combining these with \cref{finiteSubspace} \textbf{(ii)}, we have:
+  \[
+    \alpha \text{ diagonalisable} \iff V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k} \iff \sum_{i = 1}^{n} g_{\lambda_i} = \dim(V)
+  \]
+  as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $a_{\lambda_i}$ is the multiplicity of $\lambda_i$ in $\chi_{\alpha}(t)$, we can write:
+  \[
+    \chi_{\alpha}(t) = g(t) \cdot \prod_{i = 1}^{k} (t - \lambda_i)^{a_{\lambda_i}}
+  \]
+  for some polynomial $g(t) \in \F[t]$.
+  We then have:
+  \begin{align*}
+    \dim(V) &= \deg(\chi_{\alpha}) \\
+            &= \deg(g) + \sum_{i = 1}^{k} a_{\lambda_i} \text{ by \cref{polyDeg}}
+  \end{align*}
+  Since every root of $\chi_{\alpha}$ is an eigenvalue of $\alpha$, $g$ cannot have any roots.
+  By \cref{triLinear}, we know that $\alpha$ is triangularisable if and only if $\chi_{A}(t)$ is a product of linear factors, which happens if and only if $\deg(g) = 0 \iff \sum_{i = 1}^{k} a_{\lambda_i} = \dim(V)$.
+\end{proof}
+\begin{proposition}
+  For $\F = \C$ and $V$ finite dimensional, $\alpha$ is diagonalisable if and only if $g_{\lambda} = a_{\lambda}$ for all eigenvalues $\lambda$ of $\alpha$.
+\end{proposition}
+\begin{proof}
+  Since $V$ is finite dimensional, by \cref{finiteEigen}, it has finitely many eigenvalues say $\lambda_1, \ldots, \lambda_k$.
+t By \cref{CTri}, $\alpha$ is always triangularisable, so using \cref{eValueDT} \textbf{(i)}:
+  \[
+    \dim(V) = \sum_{i = 1}^{k} a_{\lambda_i}
+  \]
+  By \cref{AMGM} , $g_{\lambda_i} \leq a_{\lambda_i}$ for each $\lambda_i$ and so:
+  \[
+    \sum_{i = 1}^{k} g_{\lambda_i} \leq \sum_{i = 1}^{k} a_{\lambda_i} = \dim(V)
+  \]
+  with equality if and only if $g_{\lambda_i} = a_{\lambda_i}$ for all $i \in \{1, \ldots, k\}$.
+  By \cref{eValueDT} \textbf{(ii)} equality in the above occurs if and only if $\alpha$ is diagonalisable.
+  Thus $g_{\lambda_i} = a_{\lambda_i}$ for all $i \in \{1, \ldots, k\}$ if and only if $\alpha$ is diagonalisable.
 \end{proof}
 \end{document}
