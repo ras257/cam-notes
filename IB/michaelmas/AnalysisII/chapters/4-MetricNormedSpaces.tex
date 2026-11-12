@@ -591,12 +591,12 @@ It is also important to be aware that sets may be open when considering a metric
     \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } d(x_k, x) < \varepsilon\ \forall k \geq N
   \]
   and can also define it using open balls:
-  \[
-    \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } x_k \in B_{\varepsilon}(x)\ \forall k \geq N
-  \]
+  \begin{equation}
+    \forall \varepsilon > 0\ \exists N \in \N \text{ s.t. } x_k \in B_{\varepsilon}(x)\ \forall k \geq N \label{openBallConv}
+  \end{equation}
 \end{remark}
 \begin{proposition}[Uniqueness of limits]
-  If $(X, d)$ is a metric space and $(x_k)$ is a sequence on $X$ converging to both $x$ and $y$, then $x = y$.
+  If $(X, d)$ is a metric space and $(x_k)$ is a sequence on $X$ converging to both $x$ and $y$, then $x = y$. \label{uniqueLim}
 \end{proposition}
 \begin{proof}
   For any $\varepsilon > 0$, since $d(x, x_k), d(y, x_k) \to 0$, for sufficiently large $k$:
@@ -660,9 +660,9 @@ It is also important to be aware that sets may be open when considering a metric
 In IA Analysis I, we saw that any subsequence of a convergent sequence in $\R$ also converges to the same limit as the original sequence, thus $x^{(k_{\ell})}_j \to x_j$ as $\ell \to \infty$.
 So applying the other \cref{vectorConv}, we have $x^{(k_{\ell})} \to x$ as $\ell \to \infty$ under $\norm{\argdot}_2$.
 \end{proof}
-\begin{definition}[Bolzano-Weierstrass in $\R^n$]
-  Any bounded sequence in $\R^n$ has a convergent subsequence.
-\end{definition}
+\begin{proposition}[Bolzano-Weierstrass in $\R^n$]
+  Any bounded sequence in $\R^n$ has a convergent subsequence. \label{BWRn}
+\end{proposition}
 We will assume the metric is induced by the Euclidean norm but as in the previous remark, the result also holds with respect to any norm induced metric on a finite dimensional vector space.
 \begin{proof}
   Suppose $(x^{(k)})_{k \in \N}$ is bounded in $\R^n$, by the above remark, we can assume the ball is centered at the origin and so there exists $R > 0$ such that $\norm{x^{k}}_2 < R$ for all $k \in \N$.
@@ -691,8 +691,9 @@ We will assume the metric is induced by the Euclidean norm but as in the previou
 \begin{remark}
   The finite dimensionality of $\R^n$ is necessary for the above.
   In fact, it can be shown that this property holds on an arbitrary normed space if and only if it the underlying vector space is finite dimensional.
-
-  For a counter example, consider the normed space $(\ell^{\infty}, \norm{\argdot}_{\infty})$ and let $(e^{(k)})_{k \in \N} \in \ell^{\infty}$ be defined by $e^{(k)}_j = \delta_{k j}$.
+\end{remark}
+\begin{example} \label{RnCauchyCE}
+  Consider the normed space $(\ell^{\infty}, \norm{\argdot}_{\infty})$ and let $(e^{(k)})_{k \in \N} \in \ell^{\infty}$ be defined by $e^{(k)}_j = \delta_{k j}$.
   This is clearly bounded as $\norm{e^{k}}_{\infty} = 1$ for each $k$.
   Suppose this has a convergent subsequence $e^{k_{j}} \to e = (e_1, e_2, \ldots) \in \ell^{\infty}$ under $\norm{\argdot}_{\infty}$ as $j\to \infty$, i.e. $\norm{e^{(k_j)} - e}_{\infty} \to 0$ as $j \to \infty$.
 
@@ -703,7 +704,7 @@ We will assume the metric is induced by the Euclidean norm but as in the previou
   \end{align*}
   But by how we constructed $e^{(k_j)}$, for any $\ell$, $e^{(k_{j})}_{\ell} = 0$ for all sufficiently large $j$, hence $e_{\ell} = 0$ for all $\ell$, i.e. $\norm{e^{k_j}}_{\infty} \to 0$ as $j \to \infty$.
   This is a contradiction as $\norm{e^{(k_j)}}_{\infty} = 1$ for each $j$ by construction.
-\end{remark}
+\end{example}
 For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X$ a subset.
 \begin{definition}[Limit point]
   We say that a point $x \in X$ is a \textit{limit point of $E$} if there exists a sequence $(x_k)$ in $E \setminus \{x\}$ such that $x_k \to x$.
@@ -830,7 +831,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   Moreover, we say a normed space $(V, \norm{\argdot})$ is \textit{complete} if it is complete as a metric space when equipped with the norm induced metric.
 \end{definition}
 \begin{theorem}[Completeness of $\R^n$]
-  $\R^n$ with the Euclidean metric $\norm{\argdot}_2$ is complete.
+  $\R^n$ with the Euclidean metric $\norm{\argdot}_2$ is complete. \label{RnComp}
 \end{theorem}
 \begin{remark}
   As discussed previously, this result will also holds with respect to any norm induced metric on a finite dimensional vector space.
@@ -961,7 +962,6 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   \end{enumerate}
 \end{example}
 \section{Compactness}
-\subsection{Sequential Compactness}
 \begin{definition}[Sequential Compactness]
   Let $(X, d)$ be a metric space and $K \subseteq X$.
   \begin{enumerate}
@@ -970,7 +970,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   \end{enumerate}
 \end{definition}
 \begin{remark}
-  There is another more general notion simply called \textit{compactness}, applicable to \textit{topological spaces}, which will be convened in IB Topological Spaces.
+  There is another more general notion simply called \textit{compactness}, applicable to \textit{topological spaces}, which will be covered in IB Topological Spaces.
 
   In metric spaces, compactness in the topological sense is equivalent to sequential compactness defined above.
   For this reason, from now on, we will just use ``compact'' to mean sequentially compact as we are working only with metric spaces.
@@ -986,5 +986,423 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
       Any subsequence of $(x_k)$ will always converge to $0$ in $\R$ and so $(x_k)$ does not have a convergent subsequence converging in $J$.
     \item $\R$ is not compact since the sequence $x_k = k$ has no convergent subsequence as every subsequence is unbounded above.
   \end{enumerate}
+\end{example}
+\begin{theorem}
+  If $(X, d)$ is compact, then: \label{compactBdd}
+  \begin{enumerate}
+    \item $(X, d)$ is complete
+    \item $(X, d)$ is bounded
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  Suppose $(x_k)$ is a Cauchy sequence in $X$.
+  By compactness, this has a convergent subsequence $(x_{k_j})_{j \in \N}$ and $x \in X$ such that $x_{k_{j}} \to x$.
+  But as $(x_k)$ is Cauchy, by \cref{convCauchy} \textbf{(iii)}, $x_k \to x$ also.
+  Thus $(X, d)$ is complete as every Cauchy sequence converges to a limit in $X$.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  If $X = \emptyset$, then $(X, d)$ is vacuously bounded.
+  Otherwise, take an arbitrary $x_0 \in X$ and suppose $X$ is not bounded, then for all $k \in \N$ we can find $x_k \in X$ such that $d(x_0, x_k) \geq k$.
+  By compactness, there must exist a subsequence $(x_{k_j})_{j \in \N}$ and $x \in X$ such that $x_{k_{j}} \to x$.
+  But then, taking $\varepsilon = 1$, for sufficiently large $j$:
+  \begin{align*}
+    k_j &\leq d(x_{k_j}, x_0) \\
+        &\leq d(x_{k_{j}}, x) + d(x, x_0) \\
+        &< 1 + d(x, x_0) < \infty
+  \end{align*}
+  which is a contradiction as $k_j \to \infty$.
+  Thus $X$ must be bounded.
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Consider $X = \R$ equipped with the metric:
+      \[
+        d(x, y) = \min\{1, |x - y|\}
+      \]
+      Since $d \leq 1$, $(X, d)$ is bounded.
+      Further, if a sequence $(x_n)$ on $(X, d)$ is Cauchy, for sufficiently large $n, m$, $d(x_n, x_m) = |x_n - x_m|$, so by completeness of $(\R, |\argdot|)$, $(x_n)$ converges in $X$, i.e. $X$ is also complete.
+
+      However, the sequence $x_k = k$ has no convergent subsequence as $d(x_{k}, x_{j}) = 1$ for $k \neq j$ and for fixed $x$, $d(x_k, x) = 1$ for all $k$ sufficiently large.
+
+      Thus $(X, d)$ is bounded and complete but not compact, i.e. the converse of the above does not hold.
+    \item In \cref{RnCauchyCE} we were able to construct a sequence on $\ell^{\infty}$ with no convergent subsequence.
+      We did this using $(e^{(k)})_{k \in \N}$ defined as $e^{(k)}_i = \delta_{i k}$.
+      Each of these lies in the closed ball $D_1(0) = \{x \in \ell^{\infty}: \norm{x}_{\infty} \leq 1\}$.
+      That is to say, $D_1(0)$ is closed and bounded, but not compact, i.e. the converse of \textbf{(ii)} in the above does not hold.
+  \end{enumerate}
+\end{example}
+\begin{theorem}[Compact subsets]
+  If $(X, d)$ is a metric space and $K \subseteq X$ is compact, then $K$ is bounded and closed. \label{compSub}
+\end{theorem}
+\begin{proof}
+  By definition of sequential compactness, the metric space $(K, \at{d}{K \times K})$ is compact.
+  Thus by \cref{compactBdd} \textbf{(ii)}, $K$ is bounded.
+  To see that $K$ is closed, consider a sequence $(x_k)$ on $K$ with $x_k \to x \in X$.
+  As $K$ is compact, there must be a subsequence $(x_{k_j})_{j \in \N}$ and $y \in K$ such that $x_{k_{j}} \to y$.
+  Since $x_k$ is convergent, we must also have $x_{k_j} \to x$, thus by uniqueness of limits on $\at{d}{K \times K}$, we have $y = x \in K$, i.e. $K$ is closed.
+\end{proof}
+\begin{theorem}
+  If $K \subseteq \R^{n}$ under the Euclidean metric $\norm{\argdot}_2$, then $K$ is compact if and only if $K$ is closed and bounded.
+\end{theorem}
+\begin{remark}
+  Applying \cref{RnComp}, we see that this is also equivalent to $K$ being complete and bounded.
+\end{remark}
+\begin{proof}
+  \begin{proofdirection}{Assume $K$ is compact}
+    Follows from \cref{compSub}.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $K$ is closed and bounded}
+    Suppose $(x_k)_{k \in \N}$ is a sequence on $K$, then as $K$ is bounded, by Bolzano Weierstrass on $\R^{n}$ (\cref{BWRn}), there exists a subsequence $(x_{k_j})_{j \in \N}$ and $x \in \R^{n}$ such that $x_{k_j} \to x$.
+    But $(x_{k_j})$ is on $K$ and $K$ is closed, so $x \in K$.
+    Thus $K$ is compact.
+  \end{proofdirection}
+\end{proof}
+\subsubsection{Aside on Totally Bounded Sets}
+\nonexaminable
+For general metric spaces, completeness and a \textbf{stronger} notion of boundedness is equivalent to compactness.
+\begin{definition}[Totally bounded]
+  We say that the metric space $(X, d)$ is \textit{totally bounded} if for all $\varepsilon > 0$ there exists $x_1, \ldots, x_N \in X$ such that:
+  \[
+    X \subseteq \bigcup_{i = 1}^{N} B_\varepsilon(x_i)
+  \]
+  for some finite $N \in \N$.
+\end{definition}
+\begin{theorem}[Compactness and total boundedness]
+  A metric space is compact if and only if it is complete and totally bounded.
+\end{theorem}
+\begin{proof}
+  See Example Sheet 3.
+\end{proof}
+\section{Continuous Mappings}
+\begin{definition}[Continuous function]
+  Let $(X, d)$ and $(X', d')$ be metric spaces.
+  We say that a map $f: X \to X'$ is \textit{continuous at $x \in X$} if for all $\varepsilon > 0$ there exists $\delta = \delta(\varepsilon) > 0$ such that:
+  \[
+    d(x, y) < \delta \implies d'(f(x), f(y)) < \varepsilon
+  \]
+  or equivalently:
+  \begin{align*}
+    B_{\delta}(x) &\subseteq f^{-1}(B'_{\varepsilon}(f(x))) \\
+                  &= \{y \in X: f(y) \in B'_\varepsilon(f(x))\}
+  \end{align*}
+  where $B'$ is an open ball with respect to the metric $d'$.
+
+  Moreover, we say that $f$ is continuous on $X$ if $f$ is continuous at every $x \in X$.
+\end{definition}
+Similarly to continuity for $f: \R \to \R$, it is useful to have a sequential characterisation of this more general notion of continuity.
+\begin{theorem}[Sequential characterisation of continuity]
+  If $f: X \to X'$, then $f$ is continuous at $x \in X$ if and only if for any $(x_k)_{k \in \N}$ on $X$ with $x_k \to x$, we also have $f(x_k) \to f(x)$. \label{contSeq}
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is continuous at $x$}
+    Suppose $(x_k)_{k \in \N}$ is a sequence on $X$ with $x_k \to x$.
+    If we fix an arbitrary $\varepsilon > 0$, then there exists a $\delta > 0$ such that:
+    \[
+      B_{\delta}(x) \subseteq f^{-1}(B_{\varepsilon}'(f(x)))
+    \]
+    Since $x_k \to x$, there exists $K$ such that for all $k \geq K$ we have:
+    \[
+      x_k \in B_\delta(x) \implies x_k \in f^{-1}(B_{\varepsilon}'(f(x))) \implies f(x_k) \in B_{\varepsilon'}(f(x))
+    \]
+    So using the equivalent definition of convergence from \cref{openBallConv}, $f(x_k) \to f(x)$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f$ has the sequential property}
+    Suppose, for contradiction, that $f$ is not continuous at $x$.
+    Hence there exists $\varepsilon > 0$, such that for all $k \in \N$, by taking $\delta = 1/k$, we have:
+    \[
+      B_{\frac{1}{k}}(x) \centernot\subseteq f^{-1}(B'_\varepsilon(f(x)))
+    \]
+    Thus for each $k$, there exists $x_k \in B_{1/k}(x)$ such that $f(x_k) \notin B'_\varepsilon(f(x))$.
+    We see that $x_k \to x$ as $k \to \infty$ but $f(x_k) \centernot\to f(x)$ as $d'(f(x_n), f(x)) \geq \varepsilon$ for all $k \in \N$.
+  \end{proofdirection}
+\end{proof}
+There are also other ways to characterise continuity using open and closed sets.
+\begin{theorem}
+  If $(X, d)$ and $(X', d')$ are metric spaces and $f: X \to X'$, then the following are equivalent:
+  \begin{enumerate}
+    \item $f$ is continuous on $X$.
+    \item $f(x_k) \to f(x)$ for every sequence $(x_k)_{k \in \N}$ on $X$ with $x_k \to x$.
+    \item $f^{-1}(V)$ is open on $X$ for every open set $V \subseteq X'$.
+    \item $f^{-1}(E)$ is closed for every closed set $E \subseteq X'$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}\par
+  \textbf{(i) $\iff$ (ii)} By \cref{contSeq}.
+
+  \textbf{(iii) $\iff$ (iv)}\par
+  In general, for $A \subseteq X'$:
+  \begin{align*}
+    f^{-1}(X' \setminus A) &= \{x \in X: f(x) \in X' \setminus A\} \\
+                           &= \{x \in X: f(x) \in X'\} \setminus \{x \in X: f(x) \in A\} \\
+                           &= X \setminus f^{-1}(A)
+  \end{align*}
+  So if we have \textbf{(iii)} and $E \subseteq X'$ is closed, taking $A = E$, $X \setminus E$ is open, so by \textbf{(iii)}, $f^{-1}(X \setminus E) = X \setminus f^{-1}(E)$ open, thus $f^{-1}(E)$ is closed, so we have \textbf{(iv)}.
+
+  Conversely, if we have \textbf{(iv)} and $E \subseteq X'$ is open, taking $A = V$, $X \setminus V$ is closed, so by \textbf{(iv)}, $f^{-1}(X \setminus V) = X \setminus f^{-1}(V)$ is closed, thus $f^{-1}(V)$ is open, so we have \textbf{(iii)}.
+
+  \textbf{(i) $\implies$ (iii)}\par
+  Suppose $V \subseteq X'$ is open.
+  Fix some arbitrary $x \in f^{-1}(V) \subseteq X$.
+  $f(x) \in V$ and $V$ is open in $X'$ so there exists $\varepsilon > 0$ such that $B'_{\varepsilon}(f(x)) \subseteq V$.
+  $f$ is continuous at $x$ and so there exists $\delta > 0$ such that $B_{\delta}(x) \subseteq f^{-1}(B'_\varepsilon(f(x))) \subseteq f^{-1}(V)$, and so $f^{-1}(V)$ is open in $X$.
+
+  \textbf{(iii) $\implies$ (i)}\par
+    Take any $x \in X$ and fix some $\varepsilon > 0$.
+    Applying \textbf{(iii)} with $V = B'_{\varepsilon}(f(x))$ tells us that $f^{-1}(B'_{\varepsilon}(f(x)))$ is open.
+    Since $x \in f^{-1}(B_{\varepsilon}(f(x)))$, there exists a $\delta > 0$ such that $B_\delta(x) \subseteq f^{-1}(B'_{\varepsilon}(f(x)))$.
+    Thus $f$ is continuous at $x$.
+\end{proof}
+We can also extend this more general notion of continuity to uniform continuity.
+\begin{definition}
+  We say that $f: X \to X'$ is \textit{uniformly continuous} if for all $\varepsilon > 0$, there exists $\delta(\varepsilon) > 0$ such that for all $x, y \in X$ we have:
+  \[
+    d(x, y) < \delta \implies d'(f(x), f(y)) < \varepsilon
+  \]
+  or equivalently:
+  \[
+    B_{\delta}(x) \subseteq f^{-1}(B_{\varepsilon}'(f(x)))\ \forall x \in X
+  \]
+\end{definition}
+We can also introduce an even stronger notion of continuity.
+\begin{definition}[Lipschitz]
+  We say that $f: X \to X'$ is \textit{Lipschitz} if there exists $L \in [0, \infty)$ such that:
+  \[
+    d'(f(x), f(y)) \leq L d(x, y)
+  \]
+  for all $x, y \in X$.
+\end{definition}
+\begin{definition}[Lipschitz constant]
+  If $f$ is Lipschitz, then we call the smallest such $L$ the \textit{Lipschitz constant} of $f$:
+  \[
+    \operatorname{Lip}(f) = \sup_{\substack{x, y \in X \\ x \neq y}} \frac{d'(f(x), f(y))}{d(x, y)}
+  \]
+\end{definition}
+\begin{remark}
+  We see that:
+  \[
+    \text{Lipschitz} \implies \text{Uniformly continuous} \implies \text{Continuous}
+  \]
+  but none of the reverse implications hold.
+
+  For example:
+  \begin{enumerate}
+    \item $f: (0, 1) \to \R,\ x \mapsto 1/x$ is continuous but not uniformly continuous.
+    \item $g: [0, 1] \to \R,\ x \mapsto x^{1/2}$ is uniformly continuous but not Lipschitz.
+      For $x \neq y$, we have:
+      \[
+        \frac{|g(x) - g(y)|}{|x - y|} = \frac{|x^{1/2} - y^{1/2}|}{|x - y|} = \frac{1}{|x^{1/2} + y^{1/2}|}
+      \]
+      We can make this arbitrarily large by taking $y = 0$ and making $x$ arbitrarily small, thus there can be no such $L \in [0, \infty)$ that upper bounds this quantity.
+  \end{enumerate}
+\end{remark}
+\begin{theorem}
+  Let $(X, d)$ be a compact metric space and let $(X', d')$ be any metric space.
+  If $f: X \to X'$ is continuous, then: \label{ctsProps}
+  \begin{enumerate}
+    \item $f$ is uniformly continuous.
+    \item $f(X) \subseteq X'$ is also compact, i.e. a continuous image of a compact set is compact.
+    \item $f(X)$ is closed and bounded.
+    \item If $(X', d')$ is $(\R, |\argdot|)$, then $f$ attains its supremum and infimum, i.e. there exists $x^{*}, x_{*} \in X$ such that:
+      \[
+        f(x^{*}) = \sup\{f(x): x \in X\} \text{ and } f(x_{*}) = \inf\{f(x): x \in X\}
+      \]
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  Argue by contradiction as in \cref{contToUnif}, utilising that $X$ is compact to generate a convergent subsequence instead of the Bolzano Weierstrass theorem.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Suppose $(y_k)_{k \in \N}$ is a sequence on $f(X)$.
+  Thus there exists a sequence $(x_k)_{k \in \N}$ on $X$ such that $f(x_k) = y_k$ for each $k$.
+  $X$ is compact, so there exists a subsequence $(x_{k_j})_{j \in \N}$ and $x \in X$ such that $x_{k_j} \to x$.
+  Thus, using continuity:
+  \[
+    y_{k_j} = f(x_{k_j}) \to f(x) \in f(X)
+  \]
+  So $f(X)$ is compact.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  As $f(X)$ is compact by \textbf{(ii)}, the result follows from \cref{compSub}.
+\end{proof}
+\begin{proof}[\textbf{iv}]
+  Let $E \subseteq \R$ be bounded.
+  Since $E$ is bounded, let $x = \sup E$.
+  We saw in IA Numbers and Sets that there must exist a sequence $(x_n)$ on $E$ such that $x_n \to \sup E$, so either $\sup E \in E$ or $\sup E \in \R$ is a limit point of $E$.
+
+  By \textbf{(iii)}, $f(X) \subseteq \R$ is closed and bounded, so by \cref{closedEquiv}, it must be equal to its closure, thus we must have have $\sup(f(X)) \in f(X)$.
+  We can argue similarly for $\inf f(X)$.
+\end{proof}
+\section{Equivalence of Norms}
+\begin{definition}[Lipschitz Equivalent]
+  We say that a pair of norms $\norm{\argdot}$ and $\norm{\argdot}'$ are \textit{Lipschitz equivalent} if there exists $a, b > 0$ such that:
+  \[
+    a \norm{x} \leq \norm{x}' \leq b \norm{x}\ \forall x \in V
+  \]
+\end{definition}
+\begin{remark}
+  This is equivalent to saying that the identity maps:
+  \begin{align*}
+    \id_1: (V, \norm{\argdot}) \to (V, \norm{\argdot}'), x \mapsto x\\
+    \id_2: (V, \norm{\argdot}') \to (V, \norm{\argdot}), x \mapsto x
+  \end{align*}
+  are both Lipschitz.
+\end{remark}
+\begin{proposition}
+  The norms $\norm{\argdot}$ and $\norm{\argdot}'$ are equivalent if and only if there exists $r, R > 0$ such that:
+  \[
+    B^{\norm{\argdot}}_{r}(0) \subseteq B^{\norm{\argdot}'}_1(0) \subseteq B^{\norm{\argdot}}_R(0)
+  \]
+\end{proposition}
+\begin{proof}
+  See Example Sheet 3.
+\end{proof}
+\begin{example}
+  On $\R^{n}$, the norms $\norm{\argdot}_2$ and $\norm{\argdot}_{\infty}$ are Lipschitz equivalent.
+  We know that $\norm{x}_{\infty} \leq \norm{x}_{2}$, so $x \in B^{\norm{\argdot}_{2}}_1(0) \implies x \in B^{\norm{\argdot}_{\infty}}_1(0)$ i.e. we can take $r = 1$.
+  If $x \in B^{\norm{\argdot}_{\infty}}_1(0)$, then:
+  \begin{align*}
+    |x_i| &\leq 1\ \forall i \in \{1, \ldots, n\} \\
+    \implies \sum_{i = 1}^{n} |x_i|^2 &\leq n \\
+    \implies \norm{x}_{2} &= \left[\sum_{i = 1}^{n} |x_i|^2\right]^{\frac{1}{2}} \leq \sqrt{n} \\
+    \implies x &\in B^{\norm{\argdot}_2}_{\sqrt{n}}(0)
+  \end{align*}
+  so taking $R = \sqrt{n}$ works.
+  Thus:
+  \[
+    B^{\norm{\argdot}_{2}}_{1}(0) \subseteq B^{\norm{\argdot}_{\infty}}_1(0) \subseteq B^{\norm{\argdot}_{2}}_{\sqrt{n}}(0)
+  \]
+
+  Visually, in $\R^2$, this nesting property in general looks like:
+  \begin{center}
+  \begin{tikzpicture}[>=stealth]
+    \draw[->] (-3, 0)  -- (3, 0);
+    \draw[->] (0, -2)  -- (0, 2);
+
+    \draw[thick] (-0.8, -0.8) rectangle (0.8, 0.8);
+    \draw[thick, dashed] (0, 0) circle (0.6);
+    \draw[thick, dashed] (0, 0) circle (1.4);
+
+    \draw[thick, ->] (1.8, 1.5) node[right] {\small$B^{\norm{\argdot}_{2}}_R(0)$} -- (1.2, 1.1);
+    \draw[thick, ->] (1.8, 0.5) node[right] {\small$B^{\norm{\argdot}_{\infty}}_1(0)$} -- (0.9, 0.5);
+    \draw[thick, ->] (1.8, -0.5) node[right] {\small$B^{\norm{\argdot}_{2}}_r(0)$} -- (0.6, -0.3);
+  \end{tikzpicture}
+  \end{center}
+\end{example}
+\begin{lemma}[Lipschitz equivalence is an equivalance relation]
+  Lipschitz equivalence forms an equivalence relation on the set of all valid norms on a set $X$. \label{lipRelation}
+\end{lemma}
+\begin{proof}\par
+  \textbf{Reflexive -} $\norm{x} \leq \norm{x} \leq \norm{x}$, i.e. $a = b = 1$.
+
+  \textbf{Symmetric -} If there exists $a, b > 0$ such that:
+  \[
+    a \norm{x} \leq \norm{x}' \leq b \norm{x}\ \forall x \in X
+  \]
+  then as $a, b > 0$
+  \[
+    \frac{1}{b} \norm{x}' \leq \norm{x} \leq \frac{1}{a} \norm{x}'\ \forall x \in X
+  \]
+  so $\norm{\argdot}$ and $\norm{\argdot}'$ are Lipschitz equivalent.
+
+  \textbf{Transitive -} Using the symmetry we have already shown, if $\norm{\argdot}$ and $\norm{\argdot}'$ are equivalent and $\norm{\argdot}'$ and $\norm{\argdot}''$ are equivalent, then there exists $a, b, c, d > 0$ such that:
+  \[
+    a \norm{x} \leq \norm{x}' \leq b \norm{x} \text{ and } c \norm{x}'' \leq \norm{x}' \leq d \norm{x}''\ \forall x \in X
+  \]
+  Thus:
+  \begin{align*}
+    a \norm{x} \leq d \norm{x}'' &\text{ and } c \norm{x}'' \leq b \norm{x}\ \forall x \in X \\
+    \implies \frac{a}{d} \norm{x} &\leq \norm{x}'' \leq \frac{b}{c} \norm{x}\ \forall x \in X
+  \end{align*}
+  So $\norm{\argdot}$ and $\norm{\argdot}''$ are Lipschitz equivalent.
+\end{proof}
+\begin{theorem}
+  Any two norms on a finite dimensional real vector space are Lipschitz equivalent.
+\end{theorem}
+\begin{proof}
+  Let $V$ be a real vector space with $\dim V = n$.
+  Since $V$ is finite, we know from IB Linear Algebra that there exists a basis $\{e_1, \ldots, e_n\}$ for $V$.
+  Let $\norm{\argdot}_2$ be the euclidean norm under this basis, i.e.:
+  \[
+    x = \sum_{i = 1}^{n} x_i e_i \mapsto \norm{x}_2 = \left[\sum_{i = 1}^{n} |x_i|^2\right]^{\frac{1}{2}}
+  \]
+  By \cref{lipRelation}, it suffices to show that any arbitrary norm is Lipschitz equivalent to $\norm{\argdot}_2$.
+  Thus, fix some arbitrary norm $\norm{\argdot}$.
+  Using the triangle inequality on $\norm{\argdot}$:
+  \begin{align*}
+    \norm{x} &= \norm{\sum_{i = 1}^{n} x_i e_i} \\
+             &\leq \sum_{i = 1}^{n} \norm{x_i e_i} \\
+             &= \sum_{i = 1}^{n} |x_i| \norm{e_i} \\
+             &\leq \left[\sum_{i = 1}^{n} |x_i|^2\right]^{\frac{1}{2}} \left[\sum_{i = 1}^{n} \norm{e_i}^2\right]^{\frac{1}{2}} \text{ using Cauchy Schwarz for $\R^{n}$} \\
+             &= \norm{x}_{2} \cdot b
+  \end{align*}
+  where $b$ is the constant $b = [\sum_{i = 1}^{n} \norm{e_i}^2]^{1/2} > 0$.
+  Hence $\norm{x} \leq b \norm{x}_2$ for all $x \in V$.
+
+  For the other inequality, we need $a > 0$ such that $a \norm{x}_2 \leq \norm{x}$ for all $x \in V$.
+  We see that this is equivalent to:
+  \begin{align*}
+    a \norm{x}_2 &\leq \norm{x}\ \forall x \in V \\
+    \iff a &\leq \norm{\frac{x}{\norm{x}_2}}\ \forall x \in V \setminus \{0\} \\
+    \iff a &\leq \norm{x} \ \forall x \in S
+  \end{align*}
+  where $S = \{x \in V: \norm{x}_2 = 1\}$.
+  So we need to show that $\norm{x}$ has a non-zero lower bound for $x \in S$, i.e. $\inf_{x \in S} \norm{x} > 0$.
+  We shall do this in two parts.
+
+  \textbf{Claim 1}\par
+  The function:
+  \[
+    f: (V, \norm{\argdot}_2) \to \R,\ x \mapsto \norm{x}
+  \]
+  is continuous.
+  To show this, using the triangle inequality for $\norm{\argdot}$ gives:
+  \begin{align*}
+    |\norm{x} - \norm{y}| &\leq \norm{x - y}\ \forall x, y \in V \\
+                          &\leq b \norm{x - y}_2\ \forall x, y \in V
+  \end{align*}
+  That is to say:
+  \[
+    |f(x) - f(y)| \leq b \norm{x - y}_2
+  \]
+  Hence $f$ is Lipschitz, and so must be continuous.
+
+  \textbf{Claim 2}\par
+  $S$ is a compact set.
+  To show this, suppose we have a sequence $(x^{(k)})_{k \in \N}$ on $S$.
+  Since $\{e_1, \ldots, e_n\}$ is a basis for $V$, we can write $x^{(k)}$ as:
+  \[
+    x^{(k)} = \sum_{j = 1}^{n} x^{(k)}_j e_j \in S
+  \]
+  Since this in in $S$, $\norm{x^{(k)}}_2 = \sum_{j = 1}^{n} |x^{(k)}_j|^2 = 1$ for all $k \in \N$.
+  Define the new sequence $\widetilde{x}^{k} = (x^{(k)}_1, \ldots, x^{(k)}_n) \in \R^{n}$, i.e. we are now considering a sequence of tuples of components.
+  These are bounded and so by
+
+  This is bounded and so by BWT on $\R^{n}$ (\cref{BWRn}), there is a subsequence $(\widetilde{x}^{(k_j)})_{j \in \N}$ and $\widetilde{x} = (x_1, \ldots, x_n) \in \R^{n}$ with $\widetilde{x}^{(k_j)} \to \widetilde{x}$ as $j \to \infty$.
+
+  To take this limit vector back into $V$, we define $x = \sum_{i = 1}^{n} x_i e_i \in V$.
+  Since $\sum_{i = 1}^{n} |x^{(k_j)}_i|^2 = 1$ for all $j$, taking $j \to \infty$, we see that $\sum_{i = 1}^{n} |x_k|^2 = 1$, so $x \in S$.
+
+  To show that $x^{(k_j)}$ indeed limits to this:
+  \begin{align*}
+    \norm{x^{(k_j)} - x}^{2}_{2} &= \norm{\sum_{i = 1}^{n} (x^{(k_j)}_i - x_i) e_i}^2_2 \\
+                                 &= \sum_{i = 1}^{n} (x^{(k_j)}_i - x_i)^2 \\
+                                 &\to 0 \text{ as $j \to \infty$}
+  \end{align*}
+  Thus $x^{(k_j)} \to x \in S$, so $S$ is compact.
+
+  \textbf{Conclusion}\par
+  $S \subseteq V$ is compact and $f$ is continuous, thus by \cref{ctsProps} \textbf{(iv)}, there exists $x_{*} \in S$ such that $f(x_{*}) = \norm{x_{*}} = \inf_{x \in S} f(x)$.
+  Finally, if $\norm{x_{*}} = 0 \implies x_{*} = 0 \implies \norm{x_{*}}_2 = 0 \implies x_{*} \notin S$, which is a contradiction, so we must have $\norm{x_{*}} > 0$, as required.
+\end{proof}
+On infinite dimensional vector spaces, there are norms which are not Lipschitz equivalent.
+\begin{example}[Norms which are not Lipschitz equivalent]
+  Consider $\ell^1 \subseteq \ell^{\infty} \subseteq \R^{\N}$.
+  Both $\norm{\argdot}_1$ and $\norm{\argdot}_{\infty}$ are valid norms on $\ell^{1}$, however they are not Lipschitz equivalent, for example, we can take:
+  \[
+    x^{(k)} = (1, \ldots, 1, 0, 0, \cdots)
+  \]
+  with $k$ ones.
+  This has $\norm{x^{(k)}}_{\infty} = 1$ but $\norm{x^{(k)}}_1 = k$.
+  So if there were a $b > 0$ such that $\norm{x}_1 \leq b \norm{x}_{\infty}$ for all $x$, then $k \leq b$ for all $k \in \N$, which is clearly a contradiction.
 \end{example}
 \end{document}
