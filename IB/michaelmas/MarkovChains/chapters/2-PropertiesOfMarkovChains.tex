@@ -1223,7 +1223,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   We say that a state $i \in I$ is \textit{positive recurrent} if $\E_i[T_i] < \infty$, otherwise, if $\E_i[T_i] = \infty$, then we say that $i$ is \textit{null recurrent}.
 \end{definition}
 \begin{theorem}
-  If $P$ is an irreducible transition matrix, then the following are equivalent:
+  If $P$ is an irreducible transition matrix, then the following are equivalent: \label{piUnique}
   \begin{enumerate}
     \item Every state is positive recurrent
     \item Some state is positive recurrent
@@ -1300,5 +1300,425 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
                     &= \sum_{i \in I} \nu_k(i) \\
                     &= \E_k[T_k] \implies \pi_k = \frac{1}{\E_k[T_k]}
   \end{align*}
+\end{proof}
+\begin{corollary}
+  If $P$ is irreducible and has invariant distribution $\pi$ then for any state $x \in I$: \label{piCoro}
+  \[
+    \nu_x(y) = \frac{\pi_y}{\pi_x}\ \forall y \in I
+  \]
+\end{corollary}
+\begin{proof}
+  Since $P$ has an invariant distribution $\pi$, by \cref{piUnique}, $P$ is positive recurrent.
+  So given a state $x \in I$, if we take $\pi$ and define a new measure $\lambda \propto \pi$ so that $\lambda_{x} = 1$:
+  \[
+    \lambda_y = \frac{\pi_{y}}{\pi_{x}} \text{ for } y \in I \implies \lambda_{x} = 1
+  \]
+  then by \cref{lambdaInv}, we must have $\nu_{x} = \lambda$, and so:
+  \[
+    \nu_{x}(y) = \frac{\pi_{y}}{\pi_{x}}\ \forall x, y \in I
+  \]
+  as required.
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Consider a simple symmetric random walk on $\Z$:
+      \[
+        P(i, i + 1) = P(i, i - 1) = \frac{1}{2}
+      \]
+      This is recurrent as there is a positive probability to go from any state to any other state in a finite number of steps.
+
+      For a measure $\pi$ to be invariant we require:
+      \[
+        \pi_i = \pi_{i - 1} \cdot \frac{1}{2} + \pi_{i + 1} \cdot \frac{1}{2}
+      \]
+      So $\lambda_i = 1$ for all $i \in \Z$ is an invariant measure, however $\lambda$ cannot be normalised to give an invariant distribution.
+      By \cref{lambdaInv}, all invariant measures are multiples of $\lambda$, thus we cannot find a invariant distribution and so by \cref{piUnique}, $P$ cannot be positive recurrent.
+    \item Suppose the walk is now asymmetric, i.e.:
+      \[
+        P(i, i + 1) = p \neq \frac{1}{2} \text{ and }  P(i, i - 1) = q = 1 - p
+      \]
+      For $\pi$ to be invariant we require:
+      \[
+        \pi_i = \pi_{i - 1} \cdot p + \pi_{i + 1} \cdot q \text{ for all } i \in \Z
+      \]
+      which upon solving gives:
+      \[
+        \pi_i = a + \left(\frac{p}{q}\right)^{i} \text{ for } i \in \Z
+      \]
+      for any $a \geq 0$.
+      So we have a family of invariant measures which are not positive multiples of each other, contradicting \cref{lambdaInv}, so the chain is \textbf{not} recurrent (and so cannot be positive recurrent either).
+    \item Suppose instead that we have an asymmetric walk on $\Z^{+}$ with:
+      \[
+        P(i, i + 1) = p \neq \frac{1}{2} \text{ and }  P(i, i - 1) = q = 1 - p \text{ for $i \geq 1$}
+      \]
+      and:
+      \[
+        P(0, 1) = p \text{ and } P(0, 0) = 1 - p
+      \]
+      So for $\pi$ to be invariant we require:
+      \begin{align*}
+        \pi_0 &= q \pi_1 + q \pi_0 \\
+        \pi_k &= q \pi_{k - 1} + q \pi_{k + 1} \text{ for } k \geq 1
+      \end{align*}
+      Upon solving, this yields:
+      \[
+        \pi_1 = \pi_0 \cdot \frac{p}{q} \text{ and } \pi_k = \left(\frac{p}{q}\right)^{k} \cdot \pi_0
+      \]
+      We can normalise this $\pi$ to obtain a probability distribution by taking $\pi_0 = 1 - \frac{p}{q}$, to yield:
+      \[
+        \pi_k = \left(\frac{p}{q}\right)^{k} \cdot \left(1 - \frac{p}{q}\right)
+      \]
+      Since we have found an invariant distribution, $X$ must be positive recurrent by \cref{piUnique}.
+  \end{enumerate}
+\end{example}
+\section{Time Reversibility}
+\begin{definition}[Reversible chain]
+  A Markov chain $\mchain{X}$ with transition matrix $P$ and invariant distribution $\pi$ is \textit{reversible} if:
+  \[
+    P(x, y) = \hat{P}(x, y) \text{ for all $x, y \in I$}
+  \]
+  where we define $\hat{P}$ as:
+  \[
+    \hat{P}(x, y) = P(y, x) \frac{\pi(y)}{\pi(x)}
+  \]
+\end{definition}
+\begin{remark}
+  $\hat{P}$ is always a transition matrix as for each $x \in I$:
+  \begin{align*}
+    \sum_{y \in I} \hat{P}(x, y) &= \frac{1}{\pi(x)} \sum_{y \in I} \pi(y) P(y, x) \\
+                                 &= \frac{\pi(x)}{\pi(x)} \text{ since $\pi$ is an invariant measure} \\
+                                 &= 1
+  \end{align*}
+  i.e. each of the rows of $\hat{P}$ is a probability distribution on $I$.
+\end{remark}
+\begin{theorem}
+  Suppose $\mchain{X} \sim \markov(\pi, P)$ is irreducible and $\pi$ is an invariant distribution for $P$.
+  If some $N \geq 1$ and let $Y_n = X_{N - n}$, then the process $(Y_n)_{0 \leq n \leq N} \sim \markov(\pi, \hat{P})$ and is also irreducible.
+\end{theorem}
+\begin{remark}[Intuition]
+  So if the forward process is irreducible with invariant distribution $\pi$, then the reverse process starting at any $N$ is also irreducible with invariant distribution $\pi$.
+\end{remark}
+\begin{proof}\par
+  \textbf{Invariant Distribution}\par
+  Since $\pi$ is invariant and $X_0 \sim \pi$, by \cref{invAlln}, we have $Y_0 = X_N \sim \pi$.
+  Thus for any $y_0, \ldots, y_N \in I$, we have:
+  \begin{align*}
+    \P(Y_0 = y_0, \ldots, Y_N = y_N) &= \P(X_0 = Y_N, \ldots, X_N = y_0) \\
+                                     &= \pi(y_N) P(y_N, y_{N - 1}) \cdots P(y_1, y_0) \text{ by \cref{markovCond}} \\
+                                     &= \cancel{\pi(y_N)} \hat{P}(y_{N - 1}, y_N) \frac{\cancel{\pi(y_{N - 1})}}{\cancel{\pi(y_N)}} \cdots \hat{P}(y_0, y_1) \frac{\pi(y_0)}{\cancel{\pi(y_1})} \\
+                                     &= \pi(y_0) \hat{P}(y_0, y_1) \cdots \hat{P}(y_{N - 1}, y_n)
+  \end{align*}
+  Thus by \cref{markovCond}, $\mchain{Y} = (Y_n)_{0 \leq n \leq N} \sim \markov(\pi, \hat{P})$.
+
+  \textbf{Irreducibility}\par
+  Let $x$ and $y$ be any two states.
+  Since $\mchain{X}$ is irreducible, thee exists a path $x = x_0, \ldots, x_k = y$ such that $P(x_0, x_1) \cdots P(x_{k - 1}, x_k) > 0$.
+  By the above, we have:
+  \[
+    \pi(x_k) \hat{P}(x_k, x_{k - 1}) \cdots \hat{P}(x_1, x_0) = \pi(x_0) P(x_0, x_1) \cdots P(x_{k - 1}, x_k)
+  \]
+  Since $\pi(i) > 0$ for all $i \in I$, $\hat{P}(x_k, x_{k - 1}) \cdots \hat{P}(x_1, x_0) > 0$, thus the same path reversed has positive probability in the reverse chain.
+  Since $x, y \in I$ were arbitrary, $\mchain{Y}$ is irreducible.
+\end{proof}
+\begin{lemma}[Detailed balance conditions]
+  If a measure $\lambda$ on $I$ satisfies the \textit{detailed balance conditions}:
+  \[
+    \lambda_i P(i, j) = \lambda_j P(j , i)\ \forall i, j \in I
+  \]
+  then $\lambda$ is an invariant measure for $P$.
+\end{lemma}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item This is usually an easier condition to solve than $\lambda = \lambda P$.
+    \item If we can solve the detailed balance equations, then we have both that $\lambda$ is in invariant measure and also that:
+      \[
+        \hat{P}(i, j) = P(j, i) = \frac{\lambda_i}{\lambda_j} P(i, j)
+      \]
+      So if $\lambda$ is also a distribution (so that it can be used as an initial distribution), then the chain $\markov(\lambda, P)$ is reversible.
+  \end{enumerate}
+\end{remark}
+\begin{proof}
+  Suppose $\lambda$ is a measure satisfying the detailed balance conditions.
+  Summing both sides over $i \in I$, for any $j \in I$ we have:
+  \[
+    \sum_{i \in I} \lambda_i P(i, j) = \lambda_j \sum_{i \in I} P(i, j) = \lambda_j
+  \]
+  and so $\lambda$ is an invariant measure for $P$.
+\end{proof}
+\begin{example}
+  \begin{enumerate}
+    \item Suppose $\mchain{X}$ is a asymmetric random walk on the discrete circle $\Z_n = \{0, \ldots, n - 1\}$ with transition probabilities:
+      \[
+        P(i, i + 1 \text{ mod } n) = \frac{2}{3} \text{ and } p(i, i - 1 \text{ mod } n) = \frac{1}{3}
+      \]
+      For a measure to be $\pi$ to be invariant we require:
+      \[
+        \pi_i = \pi_{i + 1} \cdot \frac{1}{3} + \pi_{i - 1} \cdot \frac{2}{3}
+      \]
+      we see that $\lambda_i = 1$ satisfies this.
+      For this to be a distribution, we normalise to the invariant distribution $\pi_i = \frac{1}{n}$.
+      Since the chain is irreducible, by \cref{piUnique}, this is the unique invariant distribution of $P$.
+
+      However, we see that:
+      \[
+        \pi_i \cdot \frac{2}{3} \neq \pi_{i + 1} \cdot \frac{1}{3}
+      \]
+      so by definition, since $\pi$ is the invariant distribution of $P$, the chain is not reversible.
+
+      Intuitively, suppose you are to be shown an evolution of the chain and not told whether the it was progressing forwards or in reverse, you could use the behaviour of the chain to ascertain the direction.
+      If the walk tended to move in an increasing fashion then you would be more certain that the chain was progressing forwards, conversely, if the walk tended to move in a decreasing fashion then you would be more certain that the chain was progressing in reverse because of the asymmetry in transition probabilities.
+    \item Suppose $\mchain{X}$ is again a random walk on $\Z_n = \{0, \ldots, n - 1\}$ with the same behaviour away from the endpoints:
+      \[
+        P(i, i + 1) = \frac{2}{3} \text{ and } P(i, i - 1) = \frac{1}{3} \text{ for $1 \leq i \leq n -2$}
+      \]
+      but with differing behaviour at the endpoints:
+      \begin{align*}
+        P(0, 0) = \frac{1}{3} &\text{ and } P(0, 1) = \frac{2}{3} \\
+        P(n - 1, n - 1) = \frac{2}{3} &\text{ and } P(n - 1, n - 2) = \frac{1}{3}
+      \end{align*}
+      For this chain, we can verify that $\lambda_i = 2^{i}$ satisfies the detailed balance conditions:
+      \[
+        \lambda_i P(i, j) = \lambda_j P(j , i)\ \forall i, j \in I
+      \]
+      We will consider three cases of fixed $i$.
+      \begin{proofcases}
+        \begin{case}{$1 \leq i \leq n - 2$}
+          For $j \notin \{i - 1, i + 1\}$, both sides are 0 and so there is nothing to check.
+          Otherwise:
+          \begin{align*}
+            2^{i} P(i, i + 1) &= \frac{2^{i + 1}}{3} = 2^{i + 1} P(i + 1, i) \\
+            \text{ and } 2^{i} P(i, i - 1) &= \frac{2^{i}}{3} = 2^{i - 1} P(i - 1, i + )
+          \end{align*}
+        \end{case}
+        \begin{case}{$i = 0$}
+          For $j = 0$, there is nothing to check.
+          For $j > 1$, there is also nothing to check as both sides are 0.
+          For $j = 1$:
+          \[
+            2^{0} P(0, 1) = \frac{2}{3} = 2^{1} P(1, 0)
+          \]
+        \end{case}
+        \begin{case}{$i = n - 1$}
+           For $j = n - 1$, there is nothing to check.
+           For $j < n - 1$, there is also nothing to check as both sides are 0 .
+           For $j = n - 2$:
+           \[
+             2^{n - 1} P(n - 1, n - 2) = \frac{2^{n - 1}}{3} = 2^{n - 2} P(n - 2, n - 1)
+           \]
+        \end{case}
+      \end{proofcases}
+      Thus we have a invariant measure satisfying $\lambda$ satisfying the detailed balance equations.
+      Since $n$ is finite we can this to an invariant distribution $\pi$ and so $\pi$ satisfies the detailed balance equations and is an invariant distribution, thus $\mchain{X}$ is reversible.
+
+      Intuitively, why does modifying the behaviour of the endpoints cause the chain to be reversible?
+      We see that the probability of staying at $0$ is $P(0, 0) = 1/3$ whereas the probability of staying at $n - 1$ is $P(n - 1, n - 1) = 2/3$.
+      This means the time that the chain spends towards either end of the states is unbalanced.
+      When watching the chain progress, you are watching the \textbf{joint distribution}, not the conditional distribution.
+      The conditional distribution is unbalanced however this is cancelled out in the join distribution by the unbalanced nature of the invariant distribution.
+    \item Suppose $G = (V, E)$ is a finite, simple, connected, undirected graph.
+      Define $d(x)$ to be the degree of the vertex $x \in V$.
+
+      Suppose the transition probabilities are:
+      \[
+        P(x, y) = \begin{cases}
+        \frac{1}{d(x)} & \text{ if } (x, y) \in E \\
+        0 & \text{ otherwise }
+        \end{cases}
+      \]
+      i.e. there is an equal probability of going from a given vertex to any of its neighbours.
+
+      Consider the distribution:
+      \[
+        \pi_x = \frac{d(x)}{2|E|} \text{ for } x \in V
+      \]
+      This satisfies the detailed balance conditions as for $(x, y) \in E$:
+      \begin{align*}
+        \pi_x P(x, y) &= \frac{d(x)}{2|E|} \cdot \frac{1}{d(x)} = \frac{1}{2|E|} \\
+        \pi_y P(y, x) &= \frac{d(y)}{2|E|} \cdot \frac{1}{d(y)} = \frac{1}{2|E|}
+      \end{align*}
+      Since the graph is connected, there is always a path between any two vertices with positive probability, i.e. the chain is irreducible.
+      Thus by \cref{piUnique}, this is a unique invariant distribution,
+      Moreover, it satisfies the detailed balance equations and so $\mchain{X}$ is reversible.
+  \end{enumerate}
+\end{example}
+\section{Convergence to Equilibrium}
+\begin{definition}[Period]
+  For a transition matrix $P$ and state $i \in I$, we define the \textit{period} of the state $i$ as:
+  \[
+    d_i = \gcd\{n \geq 1: p_{i i}(n) > 0\}
+  \]
+  Moreover, we say that a state $i$ is \textit{aperiodic} if $d_i = 1$.
+
+  If all states are periodic, then we say that $P$ is periodic, and similarly, if all states are aperiodic, then we say that $P$ is aperiodic.
+\end{definition}
+\begin{lemma}
+  A state $i \in I$ is aperiodic if and only if $p_{i i}(n) > 0$ for all sufficiently large $n$. \label{APLemma}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $i$ is aperiodic}
+    Consider the set:
+    \[
+      D(i) = \{n \geq 1: p_{i i}(n) > 0\}
+    \]
+    Since $i$ is aperiodic, $\gcd D(i) = 1$.
+    Moreover, $D(i)$ is closed under addition, that is, if $m, n \in D(i)$, then as taking a path via a specific point always reduces/maintains the probability:
+    \[
+      p_{i i}(m + n) \geq p_{i i}(m)p_{i i}(n) > 0
+    \]
+    so $m + n \in D(i)$.
+
+    The result is then a consequence of the number theoretic result that any set $D \subseteq \N$ with these properties contains all $n$ larger than some $N$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $p_{i i}(n) > 0$ for sufficiently large $n$}
+    It is then immediate that $d_i = 1$, i.e. $i$ is aperiodic.
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  If $P$ is irreducible and there exists a state $i \in I$ which is aperiodic, then all states are aperiodic.
+\end{lemma}
+\begin{proof}
+  Take any $j \in I$.
+  By irreducibility, we can find $m, \ell$ such that $p_{i j}(m) > 0$ and $p_{j i}(\ell) > 0$.
+  We can then write:
+  \[
+    p_{j j}(\ell + n + m) \geq p_{j i}(\ell) p_{i i}(n) p_{i j}(m)
+  \]
+  Since $i$ is aperiodic, by \cref{APLemma}, there exists $K$ such that $p_{i i}(k) > 0$ for all $k \geq K$.
+  Thus $p_{j j}(\ell + n + m) > 0$ for $n \geq k$, i.e. $p_{j j}(k) > 0$ for sufficiently large $k$, so $j$ is also aperiodic.
+  Our choice of $j \in J$ was arbitrary and so every state is aperiodic.
+\end{proof}
+\begin{remark}
+  If $P$ is irreducible and $P(i, i) > 0$ for some $i \in I$, i.e. the state $i$ has a loop back to itself, then $i$ is aperiodic, so the whole chain is aperiodic.
+\end{remark}
+\begin{theorem}
+  If $\mchain{X} \sim \markov(\lambda, P)$ on $I$ is irreducible, aperiodic, and has an invariant distribution $\pi$, then:
+  \[
+    \P(X_n = j) \to \pi_j \text{ as } n \to \infty \text{ for all } j \in I
+  \]
+  regardless of the initial distribution $\lambda$.
+\end{theorem}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item The condition for the above is equivalent to $P$ being irreducible, aperiodic, and positive recurrent as we can then \cref{piUnique} to provide a invariant distribution $\pi$.
+    \item Upon taking $\lambda = \delta_i$, we obtain:
+      \[
+        p_{i j}(n) = \P(X_1 = j \vert X_0 = i) \to \pi_j \text{ as } n \to \infty \text{ for all } i, j \in I
+      \]
+  \end{enumerate}
+\end{remark}
+\begin{proof}
+  Define the Markov chain $\mchain{Y} = (Y_n)_{n \geq 0} \sim \markov(\pi, P)$ to be independent of $\mchain{X}$.
+  Consider the joint process $\mchain{W} = (W_n)_{n \geq 0}$ defined by $W_n = (X_n, Y_n)$.
+
+  Since $\mchain{X}$ and $\mchain{Y}$ are independent Markov chains and the components of $W_n$ cannot interact, it follows immediately that $\mchain{W}$ is a Markov chain on $I \times I$ with transition probabilities:
+  \[
+    \widetilde{P}((x, y), (x', y')) = P(x, x') P(y, y')
+  \]
+
+  \textbf{$\mchain{W}$ is irreducible -} Fix some arbitrary $(x, y), (x', y') \in I^2$.
+  Since $\mchain{X}$ and $\mchain{Y}$ are independent, we see that:
+  \[
+    \widetilde{p}_{(x, y), (x', y')}(n) = p_{x x'}(x)p_{y y'}(n)
+  \]
+  By irreducibility of the original chains we can pick $m, \ell$ such that:
+  \[
+    p_{x x'}(m) > 0 \text{ and } p_{y y'}(\ell) > 0
+  \]
+  then:
+  \[
+    \widetilde{p}_{(x, y), (x', y')}(m + \ell + n) \geq p_{x x'}(m) p_{x' x'}(\ell + n) \cdot p_{y y'}(\ell) p_{y' y'}(m + n)
+  \]
+  We choose $p_{x x'}(m), p_{y y'}(\ell) > 0$.
+  Further, since $x'$ and $y'$ are states the original chain (or a copy thereof), they must be aperiodic and so $p_{x' x'}(\ell + n), p_{y' y'}(m + n) > 0$ for sufficiently large $n$.
+  Thus by taking such a sufficiently large $n$, $\widetilde{p}_{(x, y), (x', y')}(n + m + \ell) > 0$.
+  Since the pairs in $I^2$ were arbitrary, $\mchain{W}$ is irreducible.
+
+  \textbf{$\widetilde{W}$ is positive recurrent - } Define the probability distribution $\widetilde{\pi}(x, y) = \pi(x)\pi(y)$.
+  We want to show that this is an invariant distribution for $\widetilde{P}$.
+  Consider:
+  \begin{align*}
+    \sum_{x, y \in I} \widetilde{\pi}(x, y) \widetilde{P}((x, y), (x', y')) &= \left[\sum_{x \in I} \pi(x) P(x, x')\right]\left[\sum_{y \in I} \pi(y) P(y, y')\right] \\
+                                                                            &= \pi(x')\pi(y') \text{ as $\pi$ is invariant for $P$}\\
+                                                                            &= \widetilde{\pi}(x', y')
+  \end{align*}
+  Thus $\widetilde{\pi}$ is an invariant distribution for $\widetilde{P}$.
+  So by \cref{piUnique} \textbf{(i)}, $\widetilde{P}$ is positive recurrent.
+
+  \textbf{Coupling - }
+  Fix an arbitrary $a \in I$ and define:
+  \[
+    T = \inf\{n \geq 1: W_n = (a, a)\}
+  \]
+  That is, $T$ is the first time for which the chains $\mchain{X}$ and $\mchain{Y}$ coincide on $a$.
+  Since this depends only on $W_0, \ldots, W_n$, it is a stopping time for $\mchain{W}$.
+  Moreover, since $P$ is positive recurrent, the state $a$ must be recurrent and so we know that $\P(T < \infty) = 1$.
+
+  Now define a new process $Z = (Z_n)_{n \geq 0}$ on $I$ as:
+  \[
+    Z_n = \begin{cases}
+    X_n & \text{ if } n < T \\
+    Y_n & \text{ if } n \geq T
+    \end{cases}
+  \]
+  That is, $Z$ follows $\mchain{X}$ until $\mchain{X}$ and $\mchain{Y}$ meet at $a$, and then follows $\mchain{Y}$.
+  We claim that $Z \sim \markov(\lambda, P)$.
+  By definition $T \geq 1$, so the initial distribution is $Z_0 = X_0 \sim \lambda$.
+
+  For arbitrary $z_0, \ldots, z_{n - 1} \in I$, define the event:
+  \[
+    A = \{Z_0 = z_0, \ldots, Z_{n - 1} = z_{n - 1}\}
+  \]
+  Then for any $x, y \in I$:
+  \begin{align*}
+    &\P(Z_{n + 1} = y \vert Z_n = x, A) \\
+    &= \P(Z_{n + 1} = y, T > n \vert Z_n = x, A) + \P(Z_{n + 1} = y, T \leq n \vert Z_n = x, A) \\
+    &= \frac{\P(Z_{n + 1} y, T > n, Z_n = x, A)}{\P(Z_n = x, A)} + \frac{\P(Z_{n + 1} = y, T \leq n, Z_n = x, A)}{P(Z_n = x, A)} \\
+    &= \frac{\P(Z_{n + 1} = y, T > n, Z_n = x, A)}{\P(T > n, Z_n = x, A)} \cdot \frac{\P(T > n, Z_n = x, A)}{\P(Z_n = x, A)} \\
+    &\hspace{0.4cm} + \frac{\P(Z_{n + 1} = y, T \leq n, Z_n = x, A)}{\P(T \leq n, Z_n = x, A)} \cdot \frac{\P(T \leq n, Z_n = x, A)}{\P(Z_n = x, A)} \\
+    &= \P(Z_{n + 1} = y \vert Z_n = x, A, T > n)\P(T > n \vert Z_n = x, A) \\
+    &\hspace{0.4cm} +\P(Z_{n + 1} = y \vert Z_n = x, A, T \leq n)\P(T \leq n \vert Z_n = x, A)
+  \end{align*}
+  We would like to use the Strong Markov property but do not know if $Z$ is a Markov chain.
+  However, we can introduce conditioning on $\mchain{Y}$ so that we are conditioning on $\mchain{W}$, which we know is a Markov chain.
+
+  Thus we rewrite the following probability as:
+  \begin{align*}
+    &\P(Z_{n + 1} = y \vert Z_n = x, A, T > n) \\
+    &= \P(Z_{n + 1} = y \vert X_n = x, A, T > n) \text{ by definition of $Z_n$} \\
+    &= \sum_{z \in I} \P(Z_{n + 1} = y, Y_n = z \vert X_n = x, A, T > n) \\
+    &= \sum_{z \in I} \frac{\P(Z_{n + 1} = y, X_n = x, Y_n = z, A, T > n)}{\P(X_n = x, Y_n = z, A, T > n)} \cdot \frac{\P(X_n = x, Y_n = z, A, T > n)}{\P(X_n = x, A, T > n)} \\
+    &= \sum_{z \in I} \P(Z_{n + 1} = y \vert X_n = x, Y_n = z, A, T > n) \P(Y_n = z \vert X_n = x, A, T > n) \\
+    &= \sum_{z \in I} \P(Z_{n + 1} = y \vert W_n = (x, z), A, T > n) \P(Y_n = z \vert X_n = x, A, T > n) \\
+    &= P(x, y) \text{ using the strong Markov property on } \mchain{W} \text{ as $\{T > n\}$ is a stopping time }
+  \end{align*}
+  We know that $\{T > n\}$ is a stopping time as its complement $\{T \leq n\}$ depends only on $W_0, \ldots, W_n$, so is a stopping time and complements preserve independence.
+
+  Similarly, we can show that:
+  \[
+    \P(Z_{n + 1} = y \vert Z_n = x, A, T \leq n) = P(x, y)
+  \]
+  Combining the above we have:
+  \begin{align*}
+    \P(Z_{n + 1} = y \vert Z_n = x, A) &= P(x, y) \P(T > b \vert Z_n = x, A) + P(x, y) \P(T \leq n \vert Z_n = x, A) \\
+                                       &= P(x, y)
+  \end{align*}
+  So indeed $Z \sim \markov(\lambda, P)$.
+
+  \textbf{Conclusion}\par
+  Fix an arbitrary $x \in I$.
+  Utilising that $Z \sim \markov(\lambda, P)$ and that $Y \sim \markov(\pi, P)$ where $\pi$ is an invariant of $P$, we obtain:
+  \begin{align*}
+    &|\P(X_n = x) - \pi(x)| \\
+    &= |\P(Z_n = x) - \P(Y_n = x)| \\
+    &= |\P(Z_n = x, T > n) + \P(Z_n = x, T \leq n) - \P(Y_n = x, T > n) - \P(Y_n = x, T \leq n)| \\
+    &= |\P(Z_n = x, T > n) - \P(Y_n = x, T > n)| \text{ as $Z_n = Y_n$ for $T \leq n$}
+  \end{align*}
+  But this is the absolute difference of two non-negative quantities, each of which is less than or equal to $\P(T > n)$ (as adding restrictions can only decrease the probability), thus:
+  \[
+    |\P(X_n = x) - \pi(x)| \leq \P(T > n)
+  \]
+  We saw earlier that $\P(T < \infty)$, thus as $n \to \infty$, $\P(T > n) \to 0$.
+  This allows us to finally conclude that $\P(X_n = x) \to \pi(x)$ as $n \to \infty$.
+  Since $x \in I$ was arbitrary, we have the desired result.
 \end{proof}
 \end{document}
