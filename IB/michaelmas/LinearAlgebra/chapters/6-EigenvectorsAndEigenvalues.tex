@@ -84,7 +84,7 @@ Evaluation of a polynomial also passes through the operations $+$ and $\cdot$, i
   We then repeat the above inductively on $f'$ and $g$ until we reach the case $m > n$.
 \end{proof}
 \begin{corollary}[Bezout's Lemma]
-  If $f_1, \ldots, f_n \in \F[t]$ have no common factor of degree $\geq 1$, then there exists $p_1, \ldots, p_k \in \F[t]$ such that:
+  If $f_1, \ldots, f_n \in \F[t]$ have no common factor of degree $> 1$, then there exists $p_1, \ldots, p_k \in \F[t]$ such that: \label{bezoutsLemma}
   \[
     \sum_{i = 1}^{k} f_i(t)p_i(t) = 1
   \]
@@ -633,7 +633,7 @@ This holds in general, however, here we will only prove this in the case of $\F 
   So $\chi_{\alpha}(\alpha) = \vec{0}$.
 \end{proof}
 \begin{corollary}
-  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$, then $m_{\alpha} \mid \chi_{\alpha}$.
+  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$, then $m_{\alpha} \mid \chi_{\alpha}$. \label{mDivChi}
 \end{corollary}
 \begin{proof}
   By \cref{CHT}, $\chi_{\alpha}(\alpha) = \vec{0}$, i.e. $\chi_{\alpha} \in I_{\alpha}$.
@@ -706,7 +706,7 @@ This holds in general, however, here we will only prove this in the case of $\F 
   By \cref{triLinear}, we know that $\alpha$ is triangularisable if and only if $\chi_{A}(t)$ is a product of linear factors, which happens if and only if $\deg(g) = 0 \iff \sum_{i = 1}^{k} a_{\lambda_i} = \dim(V)$.
 \end{proof}
 \begin{proposition}
-  For $\F = \C$ and $V$ finite dimensional, $\alpha$ is diagonalisable if and only if $g_{\lambda} = a_{\lambda}$ for all eigenvalues $\lambda$ of $\alpha$.
+  For $\F = \C$ and $V$ finite dimensional, $\alpha$ is diagonalisable if and only if $g_{\lambda} = a_{\lambda}$ for all eigenvalues $\lambda$ of $\alpha$. \label{CDiag}
 \end{proposition}
 \begin{proof}
   Since $V$ is finite dimensional, by \cref{finiteEigen}, it has finitely many eigenvalues say $\lambda_1, \ldots, \lambda_k$.
@@ -722,4 +722,286 @@ t By \cref{CTri}, $\alpha$ is always triangularisable, so using \cref{eValueDT} 
   By \cref{eValueDT} \textbf{(ii)} equality in the above occurs if and only if $\alpha$ is diagonalisable.
   Thus $g_{\lambda_i} = a_{\lambda_i}$ for all $i \in \{1, \ldots, k\}$ if and only if $\alpha$ is diagonalisable.
 \end{proof}
+\begin{remark}
+  For any polynomial $p(t) = \sum_{i = 0}^{n} \mu_i t^{i} \in \F[t]$ and $v \in V_{\lambda}$:
+  \[
+    p(\alpha)v = \sum_{i = 0}^{n} \mu_i \alpha^{i}(v) = \left(\sum_{i = 1}^{n} \mu_i \lambda^{i}\right)v = p(\lambda)v
+  \]
+  So $v$ is an eigenvalue of $p(\alpha)$ with eigenvalue $p(\lambda)$.
+\end{remark}
+\section{More on Diagonalisability}
+\subsection{Further Criteria for Diagonalisability}
+\begin{lemma}[Roots of $m_\alpha$]
+  For $\lambda \in \F$, $\lambda$ is a root of $m_{\alpha}$ if and only if $\lambda$ is a root of $\chi_{\alpha}$. \label{mRoots}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $\lambda$ is a root of $m_{\alpha}$}
+    Since $\lambda$ is a root of $m_{\alpha}$, $(t - \lambda) \mid m_{\alpha}(t)$.
+    Further, by \cref{mDivChi}, $m_{\alpha}(t) \mid \chi_{\alpha}(t)$, so $(t - \lambda) \mid m_{\alpha}(t)$.
+    Thus $\lambda$ is also a root of $\chi_{\alpha}$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\lambda$ is a root of $\chi_{\alpha}$}
+    Since $\lambda$ is a root of $\chi_{\alpha}$, by \cref{eValRoots}, there exists some $v \in V_{\lambda} \setminus \{\vec{0}\}$.
+    By the above remark:
+    \[
+      m_{\alpha}(\alpha)v = m_{\alpha}(\lambda)v
+    \]
+    By construction, $m_{\alpha} \in I_{\alpha}$, i.e. $m_{\alpha}(\alpha) = \vec{0}$.
+    Thus as $v \neq \vec{0}$, $m_{\alpha}(\lambda) = 0$, i.e. $\lambda$ is a root of $m_{\alpha}$.
+  \end{proofdirection}
+\end{proof}
+\begin{remark}[Warning]
+  Although the values of the roots of $m_{\alpha}$ and $\chi_{\alpha}$ are the same, the multiplicities of $\lambda$ as roots of each of the polynomials do not necessarily need to be the same.
+\end{remark}
+\begin{remark}[Notation]
+  We denote the multiplicity of $\lambda$ as a root of $m_{\alpha}$ as $c_{\lambda}$.
+\end{remark}
+\begin{remark}
+  By \cref{mRoots}, for any eigenvalue $\lambda$ of $\alpha$, we must have $c_{\lambda} \geq 1$ as any root of $\chi_{\alpha}$ is also a root of $m_{\alpha}$.
+  Moreover, by \cref{mDivChi}, $m_{\alpha} \mid \chi_{\alpha}(t)$ so $c_{\lambda} \leq a_{\lambda}$.
+
+  Thus for any eigenvalue $\lambda$ of $\alpha$:
+  \[
+    1 \leq c_{\lambda} \leq a_{\lambda}
+  \]
+\end{remark}
+\begin{example} \label{JBExample}
+  \begin{enumerate}
+    \item Consider $A = \lambda I_n$.
+      This has characteristic polynomial $\chi_{A}(t) = (t - \lambda)^{n}$.
+      Thus we have only one eigenvalue $\lambda$ with $a_{\lambda} = n$.
+      For any $v \in \F^{n}$, $Av = \lambda v$, so $V_{\lambda} = \F^{n}$, thus $g_{\lambda} = n$.
+
+      We see that if $p(t) = t - \lambda$ then:
+      \[
+        p(A) = A - \lambda I_n = O
+      \]
+      So $p(t) \in I_A$.
+      Since $A \neq O$, there cannot be a lower degree polynomial which annihilates $A$.
+      Thus as $p$ is monic, it must be the minimal polynomial by \cref{minPoly}, i.e. $m_{A}(t) = t - \lambda$ and $c_{\lambda} = 1$
+    \item For $\lambda \in \F$, consider the matrix:
+      \[
+        A = \begin{pmatrix}
+        \lambda & 1 & 0 & \cdots & 0 \\
+        0 & \lambda & 1 & \ddots & 0 \\
+        \vdots & \ddots & \ddots & \ddots & \vdots \\
+        0 & 0 & 0 & \lambda & 1 \\
+        0 & 0 & 0 & 0 & \lambda \\
+        \end{pmatrix} \in \mathcal{M}_{n \times n}(\F)
+      \]
+      Since $A$ is upper triangular, by \cref{blockDiagonal}, we can easy compute the determinant and so we see that it has characteristic polynomial $\chi_{A}(t) = (t - \lambda)^{n}$.
+      We see that $A - \lambda I$ has $n - 1$ linearly indecent columns, so $\nullity(A - \lambda I) = 1$.
+      Further, $(A - \lambda I)e_1 = \vec{0}$ and so $V_{\lambda} = \langle e_1 \rangle$.
+
+      By \cref{mDivChi}, $m_{A} \mid \chi_{A}$, thus $m_{A} = (t - \lambda)^{k}$ for some $k \in \{1, \ldots, n\}$.
+      By direct matrix computation, we see that:
+      \[
+        (A - \lambda I_n)^{n - 1} = \begin{pmatrix}
+        0 & \cdots & 0 & 1 \\
+        0 & \ddots & \vdots & \vdots \\
+        \vdots & \ddots & 0 & 0 \\
+        0 & \cdots & 0 & 0 \\
+        \end{pmatrix} \in \mathcal{M}_{n \times n}(\F)
+      \]
+      Thus $(t - \lambda)^{k}$ does not annihilate $A$ for $k \in \{1, \ldots, n - 1\}$.
+      We therefore have $m_{A}(t) = \chi_{A}(t) = (t - \lambda)^{n}$.
+
+      The multiplicities of $\lambda$ are therefore:
+      \[
+        a_{\lambda} = n,\ g_{\lambda} = 1,\ c_{\lambda} = n
+      \]
+  \end{enumerate}
+\end{example}
+\begin{theorem}
+  If $p(\alpha) = 0$ for some $p(t) \in \F[t] \setminus \{0\}$ which can be written a product of \textbf{distinct} linear factors, then $\alpha$ is diagonalisable. \label{annaLinear}
+\end{theorem}
+\begin{proof}
+  We can assume without loss in generality that $p$ is monic, otherwise we can just rescale as $p \neq 0$.
+  Since $p$ is a product of distinct linear factors, we can write:
+  \[
+    p(t) = \prod_{i = 1}^{k} (t - \mu_i)
+  \]
+  for some distinct $\mu_i \in \F$.
+
+  For each $i \in \{1, \ldots, k\}$, define the polynomial:
+  \[
+    p_i(t) = \prod_{j \neq i} (t - \mu_j) \in \F[t]
+  \]
+  By construction, $p_1, \ldots, p_k$ have no common factors of degree greater than 1.
+  So by \cref{bezoutsLemma}, there exists $q_i(t) \in \F[t]$ such that:
+  \[
+    1 = \sum_{i = 1}^{k} p_i(t) q_i(t)
+  \]
+  If we define $\pi_i = p_i(\alpha) \circ q_i(\alpha) \in \mathcal{L}(V, V)$, then upon applying the above expression to $\alpha$, we obtain:
+  \[
+    \id_V = \sum_{i = 1}^{k} \pi_i
+  \]
+  Thus for any $v \in V$:
+  \[
+    v = \sum_{i = 1}^{k} \pi_i(v)
+  \]
+  and so:
+  \[
+    V = \im \pi_1 + \cdots + \im \pi_k
+  \]
+  Moreover, $(t - \mu_i)p_i(t) = p(t)$ so:
+  \[
+    (\alpha - \mu_i \id_V) \circ \pi_i = p(\alpha) \circ q_i(\alpha) = 0
+  \]
+  as $p(\alpha) = \vec{0}$.
+  Hence $\im \pi_i \leq \ker(\alpha - \mu_i \id_V) = V_{\mu_i}$.
+  So by \cref{eigenSpaceProp} \textbf{(i)}:
+  \[
+    V \leq V_{\mu_1} \oplus \cdots \oplus V_{\mu_k} \leq V
+  \]
+  and so $V = V_{\mu_1} \oplus \cdots \oplus V_{\mu_k}$.
+  Thus by \cref{eigenSpaceProp} \textbf{(ii)}, $\alpha$ is diagonalisable.
+\end{proof}
+\begin{example}
+  In the case of $\F = \C$, the above result tells us that every $A \in \GL_n(\C)$ of finite order (i.e. $A^d = I$ for some finite $d \geq 1$) is diagonalisable.
+
+  Suppose $A^{d} = I_n$ and set $p(t) = t^d - 1 \in \C[t]$.
+  We can factorise this over $\C$ as:
+  \[
+    p(t) = \prod_{j = 1}^{d} (t - \omega^{j})
+  \]
+  where $\omega = e^{\frac{2\pi i}{d}} \in \C$.
+  This is a product of distinct factors and $p(A) = O$.
+  Thus by \cref{annaLinear}, $A$ is diagonalisable.
+\end{example}
+We can now summarise all of the conditions for diagonalisability covered in this course.
+\begin{theorem}[Conditions for diagonalisablity]
+  For a finite dimensional vector space $V$ and $\alpha \in \mathcal{L}(V, V)$, the following are equivalent: \label{diagEquiv}
+  \begin{enumerate}
+    \item $\alpha$ is diagonalisable.
+    \item $V$ has a basis consisting of eigenvectors of $\alpha$.
+    \item There exists $p(t) \in \F[t] \setminus \{0\}$ that is a product of distinct linear factors such that $p(\alpha) = \vec{0}$.
+    \item $m_{\alpha}(t)$ is a product of distinct linear factors.
+  \end{enumerate}
+  If $\F = \C$, the above are also equivalent to
+  \begin{enumerate}
+    \setcounter{enumi}{4}
+    \item For all eigenvalues $\lambda \in \C$, $a_{\lambda} = g_{\lambda}$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}\par
+  \textbf{(i) $\iff$ (ii)} By \cref{diagEigenbasis}. \par
+  \textbf{(i) $\iff$ (v)} By \cref{CDiag}, provided $\F = \C$. \par
+  \textbf{(iii) $\implies$ (iv)} Since $p(\alpha) = \vec{0}$, by \cref{mLemma}, $m_{\alpha} \mid p$.
+  Since $p$ is a product of distinct linear factors and $m_{\alpha}$ has minimal degree in $I_{\alpha}$, $m_{\alpha}$ is also a product of distinct linear factors. \par
+  \textbf{(iv) $\implies$ (iii)} As $m_{\alpha} \in I_{\alpha}$, taking $p = m_{\alpha}$ works. \par
+  \textbf{(iii) $\implies$ (i)} By \cref{annaLinear}. \par
+  \textbf{(i) $\implies$ (iii)} Since $\alpha$ is diagonalisable, there exists a basis $B$ for $V$ such that $[\alpha]^{B}_{B}$ is diagonal.
+  If we reorder the basis the vectors in $B$, $[\alpha]^{B}_{B}$ remains diagonal and so we can assume that:
+  \[
+    [\alpha]^{B}_{B} =
+    \left(\begin{array}{c|c|c}
+      \lambda_1 I_{n_1} & ? &? \\ \hline
+      O & \ddots & ? \\ \hline
+      O & O & \lambda_k I_{n_k}
+    \end{array}\right)
+  \]
+  for some $\lambda_i \in \F$ distinct and $n_1 + \cdots + n_k = n$.
+
+  Consider the polynomial:
+  \[
+    p(t) = \prod_{i = 1}^{k} (t - \lambda_i)
+  \]
+  This is a product of distinct linear factors and:
+  \[
+    [p(\alpha)]^{B}_{B} = p([\alpha]^{B}_{B}) = O
+  \]
+  as there are no diagonal entries shared by all of the $(A - \lambda_i I_n)$.
+  Thus as $[p(\alpha)]^{B}_{B} = O$, and so since $[\argdot]^{B}_{B}$ is linear (\cref{basisMapProp}), we must have $p(\alpha) = \vec{0}$.
+\end{proof}
+\subsection{Simultaneous Diagonalisation}
+\begin{definition}[Simultaneously Diagonalisable]
+  We say that $\alpha, \beta \in \mathcal{L}(V, V)$ are \textit{simultaneously diagonalisable} if there exists a basis for $B$ of $V$ such that $[\alpha]^{B}_{B}$ and $[\beta]^{B}_{B}$ are both diagonal.
+\end{definition}
+\begin{lemma}
+  If $\alpha$ and $\beta$ commute and $V_{\lambda}$ is the $\lambda$-eigenspace of $A$, then $\beta(V_{\lambda}) \leq V_{\lambda}$. \label{eigenSpaceLemma}
+\end{lemma}
+\begin{proof}
+  For any $v \in V_{\lambda}$, we have:
+  \begin{align*}
+    \alpha(\beta(v)) &= \beta(\alpha(v)) \text{ since $\alpha$ and $\beta$ commute}\\
+                     &= \beta(\lambda v) \\
+                     &= \lambda \beta(v) \text{ by linearity}
+  \end{align*}
+  and so $\beta(v) \in V_{\lambda}$ for all $v \in V_{\lambda}$, i.e. $\beta(V_{\lambda}) \leq V_{\lambda}$.
+\end{proof}
+\begin{theorem}
+  If $\alpha$ and $\beta$ are diagonalisable, then they are simultaneously diagonal if and only if they commute (i.e. $\alpha \circ \beta = \beta \circ \alpha$)
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $\alpha$ and $\beta$ are simultaneously diagonalisable}
+    Diagonal matrices commute under matrix multiplication so using \cref{matrixComp}, we have:
+    \begin{align*}
+      [\alpha \circ \beta]^{B}_{B} &= [\alpha]^{B}_{B} [\beta]^{B}_{B} \\
+                                   &= [\beta]^{B}_{B} [\alpha]^{B}_{B} \\
+                                   &= [\beta \circ \alpha]^{B}_{B} \\
+      \implies [\alpha \circ \beta - \beta \circ \alpha]^{B}_{B} &= O \text{ by \cref{basisMapProp} \textbf{(iii)}}
+    \end{align*}
+    Thus $\alpha \circ \beta - \beta \circ \alpha = 0 \implies \alpha \circ \beta = \beta \circ \alpha$, i.e. they commute.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\alpha$ and $\beta$ commute}
+    $\alpha$ is diagonalisable by assumption, by \cref{eigenSpaceProp} \textbf{(ii)}, we can write:
+    \[
+      V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}
+    \]
+    where $V_{\lambda_i}$ are the $\lambda_i$-eigenspaces of $\alpha$ and $\lambda_i$ are the distinct eigenvalues of $\alpha$.
+
+    Since $\beta$ is diagonalisable by assumption, by \cref{diagEquiv}, there exists a $p(t) \in \F[t] \setminus \{0\}$ which is product of distinct linear factors and satisfies $p(\beta) = \vec{0}$.
+    By \cref{eigenSpaceLemma}, we can define the restriction:
+    \[
+      \at{\beta}{V_{\lambda_i}}: V_{\lambda_i} \to V_{\lambda_i}
+    \]
+    So applying $p$ to this:
+    \[
+      p(\at{\beta}{V_{\lambda_i}}) = \at{p(\beta)}{V_{\lambda_i}} = \vec{0}
+    \]
+    so by \cref{diagEquiv}, $\at{\beta}{V_{\lambda_i}}$ is diagonalisable and so we can find a basis $B_i$ be a basis for $V_{\lambda_i}$ consisting of eigenvectors of $\at{\beta}{V_{\lambda_i}}$, which are all eigenvectors of $\beta$.
+
+    Define the set:
+    \[
+      B = \bigcup_{i = 1}^{k} B_i
+    \]
+    Since $V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}$, by Example Sheet 2 Q8 \textbf{(iii)}, $B$ is a basis for $V$.
+    The elements of $B$ are all eigenvectors of $\beta$ by construction, and since all of them are basis vectors for eigenspaces of $A$, they are also all eigenvectors of $\alpha$.
+    Thus both $[\alpha]^{B}_{B}$ and $[\beta]^{B}_{B}$ are diagonal.
+  \end{proofdirection}
+\end{proof}
+\section{Jordan Normal Form}
+We will now shift our focus to the case of $\F = \C$.
+\begin{definition}[Jordan block]
+  For $\lambda \in \C$, we define the \textit{$n \times n$ $\lambda$-Jordan block} as:
+  \[
+    J_n(\lambda) =
+    \begin{pmatrix}
+      \lambda & 1 & 0 & \cdots & 0 \\
+      0 & \lambda & 1 & \ddots & 0 \\
+      \vdots & \ddots & \ddots & \ddots & \vdots \\
+      0 & 0 & 0 & \lambda & 1 \\
+      0 & 0 & 0 & 0 & \lambda \\
+    \end{pmatrix} \in \mathcal{M}_{n \times n}(\C)
+  \]
+\end{definition}
+We saw in \cref{JBExample} \textbf{(ii)} that:
+\[
+  \chi_{J_n(\lambda)}(t) = (t - \lambda)^{n} = m_{J_n(\lambda)}(t)
+\]
+and $V_{\lambda} = \langle e_1 \rangle$.
+\begin{definition}[Jordan normal form]
+  We say that $A \in \mathcal{M}_{n \times n}(\C)$ is in \textit{Jordan normal form} (abbreviated \textit{JNF}) if:
+  \[
+    A = \begin{pmatrix}
+    \multicolumn{1}{c|}{J_{n_1}(\lambda_1)} & O & \cdots & O \\ \cline{1-2}
+    O & \multicolumn{1}{|c|}{J_{n_2}(\lambda_2)} & \cdots & O \\ \cline{2-2}
+    \vdots & \vdots & \ddots & \vdots \\ \cline{4-4}
+    O & O & \cdots & \multicolumn{1}{|c}{J_{n_k}(\lambda_k)} \\
+    \end{pmatrix}
+  \]
+  for some $n_i \in \N$ and $\lambda_i \in \C$ (not necessarily distinct) with $n_1 + \cdots + n_k = n$.
+  We then call $J_{n_i}(\lambda_i)$ the \textit{Jordan blocks of $A$}.
+\end{definition}
 \end{document}
