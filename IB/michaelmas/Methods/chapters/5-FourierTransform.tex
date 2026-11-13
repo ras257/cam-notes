@@ -23,10 +23,10 @@
 We shall assume that $f$ and its derivatives decay sufficiently fast so that we can integrate by parts.
 
 Using the Riemann-Lebesgue lemma (\cref{RLL}), we have:
-\[
-  \hat{f}(\lambda) \to 0 \text{ as } |\lambda| \to \infty
-\]
-\begin{proposition}
+\begin{equation}
+  \hat{f}(\lambda) \to 0 \text{ as } |\lambda| \to \infty \label{FTDecay}
+\end{equation}
+\begin{proposition}[Properties of $\mathcal{F}$]
   For integrable $f: \R \to \C$, we have the following: \label{fourierProps}
   \begin{enumerate}
     \item Fourier transforms of derivatives introduce powers of $\lambda$:
@@ -104,9 +104,9 @@ and so taking Fourier transforms of both sides of \cref{polyProb}:
   P(i \lambda) \hat{y}(\lambda) = \hat{f}(\lambda) \text{ for } \lambda \in \R
 \]
 Thus, provided $P(i \lambda) \neq 0$, we can obtain the Fourier transform of the solution $y$:
-\[
-  \hat{y}(\lambda) = \frac{\hat{f}(\lambda)}{P(i\lambda)}
-\]
+\begin{equation}
+  \hat{y}(\lambda) = \frac{\hat{f}(\lambda)}{P(i\lambda)} \label{fourierPoly}
+\end{equation}
 It would be useful if we could invert the Fourier transform as this would allow us to recover $y$ from the expression for its Fourier transform $\hat{y}$ above.
 It turns out that we can in fact do this.
 \begin{proposition}[Inverting Fourier transforms]
@@ -151,9 +151,9 @@ If we remove the limiting process in the above proof, then:
   f(x) = \int_{-\infty}^{\infty} f(y) \left[\frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda(x - y)} \d{\lambda}\right] \d{x}
 \]
 so it might be reasonable to conclude that:
-\[
-  \delta(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda x} \d{\lambda}
-\]
+\begin{equation}
+  \delta(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda x} \d{\lambda} \label{deltaFormula}
+\end{equation}
 when used inside of an appropriate integral.
 We can use this to derive an result analogous to Parseval's theorem for Fourier series from \cref{parsevalSec}.
 \begin{proposition}[Parseval's theorem for Fourier transform]
@@ -196,7 +196,7 @@ as required.
   This is true for any $x$ and so $f \ast g = g \ast f$.
 \end{proof}
 \begin{proposition}[Convolution Theorem]
-  For integrable functions $f, g: \R \to \C$, we have:
+  For integrable functions $f, g: \R \to \C$, we have: \label{convThm}
   \[
     \mathcal{F}[f \ast g] = \hat{f} \hat{g}
   \]
@@ -212,4 +212,252 @@ as required.
   \end{align*}
   as required.
 \end{proof}
+\section{Important Examples}
+\subsection{Exponentials} \label{FTExp}
+Fix some $\sigma \in \C$ with $\Re(\sigma) > 0$.
+Define $f(x) = H(x)e^{-\sigma x}$ where $H$ is the Heaviside function from \cref{heaviside}.
+
+The Fourier transform of this is then:
+\begin{align*}
+  \hat{f}(\lambda) &= \int_{-\infty}^{\infty} e^{-i \lambda x} f(x) \d{x} \\
+                   &= \int_{0}^{\infty} e^{-(i \lambda + \sigma)x} \d{x} \\
+                   &= \frac{1}{i \lambda + \sigma} \text{ as $\Re(\sigma) > 0$ have $i\lambda + \sigma \neq 0$}
+\end{align*}
+We see that $|\hat{f}(\lambda)| \to 0$ as $|\lambda| \to \infty$, as expected from \cref{FTDecay}.
+
+Using the inversion formula (\cref{fourierInverse}), we expect that:
+\begin{align*}
+  H(x) e^{-\sigma x} &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{i\lambda + \sigma} \d{\lambda} \\
+                     &= \frac{1}{2\pi i} \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{\lambda - i \sigma} \d{\lambda}
+\end{align*}
+This integral is easy to compute using \textit{contour integration} from IB Complex Analysis/Methods, indeed the result does match.
+
+We can apply Feynman's trick/Differentiation under the integral sign to yield further results.
+Applying $(-\partial/\partial \sigma)^{k}$ to each side, we have:
+\[
+  H(x) x^{k} e^{-\sigma x} = \frac{k!}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{(i\lambda + \sigma)^{k + 1}} \d{\lambda}
+\]
+We see that by making the left hand side more regular, we have made the Fourier transform decay faster as $\lambda$ increases.
+\subsection{Gaussians}
+Consider the function:
+\[
+  f(x) = \frac{1}{\sqrt{2 \pi}} e^{-x^2/2}
+\]
+i.e. the probability density function for $\mathcal{N}(0, 1)$ from IA Probability.
+
+This has Fourier transform:
+\[
+  \hat{f}(\lambda) = \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-i\lambda x - x^2/2} \d{x}
+\]
+This integral is difficult to evaluate without contour integration from IB Complex Methods.
+However, we notice that:
+\[
+  \left(\deriv{}{x}\right)f = -xf
+\]
+So taking Fourier transforms of both sides, using \cref{fourierProps}, we have:
+\[
+  (i\lambda)\hat{f} = -\left(-i\deriv{}{\lambda}\right)\hat{f} \\
+  \iff \left(\deriv{}{\lambda}\right) \hat{f} = -\lambda \hat{f}
+\]
+This is exactly the same differential equation that $f$ satisfied and so:
+\[
+  \hat{f}(\lambda) = \hat{f}(0) e^{-\lambda^2/2}
+\]
+To find $\hat{f}(0)$, using the definition:
+\[
+  \hat{f}(0) = \int_{-\infty}^{\infty} f(x) \d{x}  = 1
+\]
+since $f$ is normalised so that its integral over the real line is 1.
+Thus $\hat{f}(\lambda) = e^{-\lambda^2/2}$.
+
+Although via a slightly roundabout method, we have computed the integral:
+\[
+  \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-i\lambda x - x^2/2} \d{x} = e^{-\lambda^2/2}
+\]
+\begin{remark}
+  Since $\mathcal{F}[f] \propto f$, $f(x) = \frac{1}{\sqrt{2 \pi}} e^{-x^2/2}$ is an eigenfunction of $\mathcal{F}$.
+\end{remark}
+\subsection{Dirac Delta}
+We can also take the Fourier transform of the Dirac delta function:
+\begin{align*}
+  \hat{\delta}(\lambda) &= \int_{-\infty}^{\infty} e^{-i\lambda x}\delta(x) \d{x} \\
+                        &= e^{0} \\
+                        &= 1
+\end{align*}
+By inverting we obtain that:
+\[
+  \delta(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda x} \d{\lambda}
+\]
+This is the formula for $\delta$ that we saw earlier \cref{deltaFormula}.
+\section{Revisiting Initial Value Problems}
+Consider the IVP:
+\[
+  \begin{cases}
+  \mathcal{L} y = f(t) & \text{ for } t > 0 \\
+  y(0) = \dot{y}(0) = 0 &
+  \end{cases}
+\]
+where $\mathcal{L}$ is a second-order linear ordinary differential operator, now restricted to only constant coefficients:
+\[
+  \mathcal{L} = \alpha \deriv[2]{}{x} + \beta \deriv{}{x} + \gamma
+\]
+for constants $\alpha, \beta, \gamma$ with $\alpha \neq 0$.
+We then take $\alpha = 1$ without loss of generality.
+
+To take a Fourier transform, we need the function $y$ to be defined on the entire real line.
+To do this, we extend $y$ and $f$ so that $y(t) = f(t) = 0$ for $t < 0$.
+\begin{remark}[Notation]
+  When working with a function of $t$, we usually write:
+  \[
+    \hat{y}(\omega) = \mathcal{F}_{t \to \omega}[y(t)]
+  \]
+  We do this because the Fourier transform takes us from the \textit{time domain} in $t$ to the \textit{frequency domain} in $\omega$.
+\end{remark}
+Taking Fourier transforms of both sides, using \cref{fourierProps}, we obtain:
+\[
+  [(i\omega)^2 + \beta(i\omega) + \gamma] \hat{y}(\omega) = \hat{f}(\omega)
+\]
+Thus:
+\[
+  \hat{y}(\omega) = \frac{\hat{f}(\omega)}{p(\omega)}
+\]
+where $p(\omega) = (i\omega)^2 \alpha + (i\omega) \beta + \gamma$.
+We then assume that $\beta, \gamma$ are such that we can factorised $p$ as:
+\[
+  p(\omega) = (i\omega + \sigma_1)(i\omega + \sigma_2)
+\]
+where $\sigma_1 \neq \sigma_2$ and $\Re(\sigma_1), \Re(\sigma_2) > 0$.
+
+By taking partial fractions, we can rewrite $1/p(\omega)$ as:
+\begin{align*}
+  \frac{1}{p(\omega)} &= \frac{1}{\sigma_2 - \sigma_1}\left[\frac{1}{i\omega + \sigma_1} - \frac{1}{i\omega + \sigma_2}\right] \\
+                      &= \frac{1}{\sigma_2 - \sigma_1}[\mathcal{F}_{t \to \omega}[H(t)e^{-\sigma_1 t}] - \mathcal{F}_{t \to \omega}[H(t)e^{-\sigma_2 t}]] \text{ from \cref{FTExp}} \\
+                      &= \mathcal{F}_{t \to \omega}\left[H(t) \cdot \frac{e^{-\sigma_1 t} - e^{-\sigma_2 t}}{\sigma_2 - \sigma_1}\right] \text{ by linearity}
+\end{align*}
+Thus we can write
+\[
+  \hat{y}(\omega) = \hat{f}(\omega) \hat{R}(\omega)
+\]
+where:
+\[
+  R(t) = H(t) \cdot \frac{e^{-\sigma_1 t} - e^{-\sigma_2 t}}{\sigma_2 - \sigma_1}
+\]
+is called the \textit{response function} associated with $\mathcal{L}$.
+
+If $\sigma_1 = \sigma_2 = \sigma$, then we can let $\sigma_1 = \sigma$ and $\sigma_2 = \sigma + \varepsilon$ and take $\varepsilon \to 0$ to obtain:
+\begin{align}
+  R(t) &= H(t) \lim_{\varepsilon \to 0} \frac{e^{-\sigma t} - e^{-(\sigma + \varepsilon)t}}{\varepsilon} \nonumber \\
+       &= H(t) \lim_{\varepsilon \to 0} \frac{t ^{-(\sigma + \varepsilon)t}}{1} \text{ by L' H\^opital's Rule} \nonumber \\
+       &= H(t) t e^{-\sigma t} \label{RRepeated}
+\end{align}
+By \cref{fourierInverse}, $\mathcal{F}[f \ast g] = \hat{f}\hat{g}$, so $\mathcal{F}^{-1}[\hat{f}\hat{g}] = f \ast g$.
+Therefore:
+\begin{align*}
+  y(t) &= (R \ast f)(t) \\
+       &= \int_{-\infty}^{\infty} R(t - \tau) f(\tau) \d{\tau} \\
+       &= \int_{0}^{\infty} R(t - \tau) f(\tau) \d{\tau} \text{ as $f(\tau) = 0$ for $\tau < 0$} \\
+       &= \int_{0}^{t} R(t - \tau)f(\tau) \d{\tau} \text{ as $R(t - \tau) = 0$ for $\tau > t$}
+\end{align*}
+Thus by comparing to the result in \cref{tIVPGreen}, we see that $R(t - \tau) = G(t, \tau)$ and so:
+\[
+  \mathcal{L}[R(t)] = \delta(t)
+\]
+i.e. $R(t)$ is the response to an impulse at $t = 0$.
+\begin{example}
+  Consider a damped harmonic oscillator under a variable load $f(t)$ which is initially at rest.
+  Under suitable units, this satisfies the IVP:
+  \[
+    \begin{cases}
+    \ddot{y} + 2\gamma \dot{y} + y = f(t) & t > 0 \\
+    y(0) = \dot{y}(0) = 0 &
+    \end{cases}
+  \]
+  for some constant $\gamma$.
+
+  As in \cref{fourierPoly}, we obtain:
+  \[
+    \hat{y}(\omega) = \frac{\hat{f}(\omega)}{p(\omega)}
+  \]
+  where:
+  \begin{align*}
+    p(\omega) &= (i\omega)^2 + 2(i\omega)\gamma + \lambda^2 \\
+              &= (i\omega + \gamma + \sqrt{\gamma^2 - 1})(i\omega + \gamma - \sqrt{\gamma^2 - 1})
+  \end{align*}
+  If we let $\sigma_{\pm} = \gamma \pm \sqrt{\gamma^2 - 1}$, we have that:
+  \[
+    \Re(\sigma_{\pm}) = \Re(\gamma \pm \sqrt{\gamma^2 - 1}) > 0
+  \]
+  Thus the response function in this case is:
+  \[
+    R(t) = H(t) \cdot \frac{e^{-\sigma_{-}t} - e^{-\sigma_{+}t}}{\sigma_{+} - \sigma_{-}}
+  \]
+  \begin{proofcases}
+    \begin{case}{$\gamma > 1$}
+      In this case, we can rewrite the response function as:
+      \[
+        R(t) = H(t) e^{-\gamma t} \frac{\sinh[t\sqrt{\gamma^2 - 1}]}{\sqrt{\gamma^2 - 1}}
+      \]
+      Graphically, this looks like:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->] (0, 0) node[below] {0} -- (0, 3) node[right] {$R(t)$};
+        \draw[->] (-1, 0)  -- (10, 0) node[right] {$t$};
+
+        \def\gconst{1.5}
+        \draw[thick] (-1, 0) -- (0, 0);
+        \draw[thick, domain=0:5, smooth, variable=\x, scale=2, samples=100] plot ({\x}, {3 * exp(-1 * \gconst * \x) * sinh(\x * sqrt(\gconst^2 - 1))});
+      \end{tikzpicture}
+      \end{center}
+      This is \textit{overdamping}.
+    \end{case}
+    \begin{case}{$0 < \gamma < 1$}
+      In this case, we can write the response function as:
+      \[
+        R(t) = H(t) e^{-\gamma t} \frac{\sin[t \sqrt{1 - \gamma^2}]}{\sqrt{1 - \gamma^2}}
+      \]
+      Graphically, this looks like:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->] (0, 0) node[below] {0} -- (0, 3) node[right] {$R(t)$};
+        \draw[->] (-1, 0)  -- (10, 0) node[right] {$t$};
+
+        \def\gconst{0.5}
+        \draw[thick] (-1, 0) -- (0, 0);
+        \draw[thick, domain=0:10, smooth, variable=\x, scale=1, samples=100] plot ({\x}, {4 * exp(-1 * \gconst * \x) * sin(\x * sqrt(1 - \gconst^2) r)});
+      \end{tikzpicture}
+      \end{center}
+      This is \textit{underdamping}.
+    \end{case}
+    \begin{case}{$\gamma = 1$}
+      In the case of $\gamma = 1$, $\sigma = 1$.
+      Thus, using \cref{RRepeated}, we obtain the response function:
+      \[
+        R(t) = H(t) t e^{-t}
+      \]
+      Graphically, this looks like:
+      \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw[->] (0, 0) node[below] {0} -- (0, 3) node[right] {$R(t)$};
+        \draw[->] (-1, 0)  -- (10, 0) node[right] {$t$};
+
+        \draw[thick] (-1, 0) -- (0, 0);
+        \draw[thick, domain=0:10, smooth, variable=\x, scale=1, samples=100] plot ({\x}, {2 * \x * exp(-1 * \x});
+      \end{tikzpicture}
+      \end{center}
+      This is \textit{critical damping}
+    \end{case}
+  \end{proofcases}
+  But what about the initial conditions?
+  When we extended $y$ and $f$, we essentially multiplied both sides of the problem by $H$:
+  \[
+    H(t) [\ddot{y} + \cdots] = H(t) f(t)
+  \]
+  Taking Fourier transforms of the left hand side and recalling the derivation of \cref{fourierProps} \textbf{(i)}, we see that:
+  \begin{align*}
+    \int_{0}^{\infty} e^{-i\omega t} \ddot{y}(t) \d{t} &= \eval{\dot{y} e^{-i\omega t}}{0}{\infty} + i\omega \int_{0}^{\infty} e^{-i\omega t} \dot{y}(t) \d{t} \\
+                                                       &= -\dot{y}(0) + i\omega\left[\eval{ye^{-i\omega t}}{0}{\infty} + i\omega \int_{0}^{\infty} e^{-i\omega t} y \d{t}\right] \\
+                                                       &= -\dot{y}(0) - i\omega y(0) + (i\omega)^2 \hat{y}
+  \end{align*}
+  So by utilising the results of Fourier transforms over $\R$ from \cref{fourierProps}, we are implicitly assuming that these boundary terms disappear.
+\end{example}
 \end{document}

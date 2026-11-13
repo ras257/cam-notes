@@ -239,12 +239,12 @@ Thus:
 \]
 
 So interpreting the $\delta$ function as we did in \cref{deltaDef}, for any $x \neq 0$:
-\[
+\begin{equation}
   H(x) = \lim_{n \to \infty} H_n(x) = \begin{cases}
   1 & \text{ if } x > 0 \\
   0 & \text{ if } x< 0
-  \end{cases}
-\]
+  \end{cases} \label{heaviside}
+\end{equation}
 with $H'(x) = \delta(x)$ where $H$ the called the \textit{Heaviside step function}.
 Thus:
 \[
@@ -594,9 +594,9 @@ We can characterise $G$ satisfying this using the following.
   Thus we must have $\mathcal{L}G(t, \tau) = \delta(t - \tau)$.
 \end{proof}
 Since $G(t, \tau) = 0$ on $t < \tau$, the solution to \cref{tIVP} is just:
-\[
-  y(t) = \int_{0}^{t} G(t, \tau) f(\tau) \d{\tau}
-\]
+\begin{equation}
+  y(t) = \int_{0}^{t} G(t, \tau) f(\tau) \d{\tau} \label{tIVPGreen}
+\end{equation}
 \begin{remark}[Note]
   This again looks like we have taken the wrong interval, however we are integrating over $\tau$ and so for fixed $t$, taking $\tau \in (t, \infty)$, we have $t < \tau$, so $G(t, \tau) = 0$.
   Thus we need only integrate over $\tau \in (0, t)$.
