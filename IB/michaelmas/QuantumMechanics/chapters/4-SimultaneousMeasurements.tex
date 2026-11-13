@@ -1,0 +1,353 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Simultaneous Measurements in Quantum Mechanics}
+\begin{remark}[Recap]
+  Recall from \cref{measurements} that we associated each \textit{observable} $O$ of a particle with a \textit{hermitian operator} $\hat{O}$.
+  By definition, such operators satisfy:
+  \[
+    \hat{O} = \hat{O}^{\dag} \iff (\hat{O} \psi, \phi) = (\psi, \hat{O} \phi)\ \forall \psi, \phi \in \mathcal{H}
+  \]
+  We also saw that the set of outcomes for a measurement of $O$ is exactly the set of eigenvalues of $\hat{O}$.
+
+  Moreover, if we write the state $\psi$ in the eigenbasis $\{\psi_i\}_{i = 1}^{\infty}$ with associated eigenvalues $\{\lambda_i\}^{i = 1}_{\infty}$ of the operator $\hat{O}$ then, for a distinct eigenvalue $\lambda_i$:
+  \[
+    \psi = \sum_{i = 1}^{\infty} a_i \psi_i \implies \P(O = \lambda_i) = |a_i|^2 = |(\psi_i, \psi)|^2
+  \]
+  We saw that the Copenhagen interpretation postulates that immediately after a measurement with outcome $\lambda_i$, the wavefunction $\psi$ collapses immediately to $\psi_i$ at that time.
+
+  Finally, we defined the \textit{expectation} of an observable $O$ on a state $\psi$ as:
+  \[
+    \langle \hat{O} \rangle_{\psi} = (\psi, \hat{O} \psi)
+  \]
+\end{remark}
+\section{Commutator}
+\begin{definition}[Commutator]
+  The \textit{commutator} of the operators $\hat{A}$ and $\hat{B}$ is defined as:
+  \[
+    [\hat{A},  \hat{B}] = \hat{A} \hat{B} - \hat{B} \hat{A}
+  \]
+\end{definition}
+This has the following properties:
+\begin{enumerate}
+  \item $[\hat{A}, \hat{B}] = -(\hat{B}\hat{A} - \hat{A}\hat{B}) = -[\hat{B}, \hat{A}]$
+  \item $[\hat{A}, \hat{A}] = \hat{A}^2 - \hat{A}^2 = 0$
+  \item For $\hat{A}$, $\hat{B}$ and $\hat{C}$
+    \begin{align*}
+      [\hat{A}, \hat{B} \hat{C}] &= \hat{A}\hat{B}\hat{C} - \hat{B}\hat{C}\hat{A} \\
+                                 &= (\hat{A}\hat{B} - \hat{B}\hat{A})\hat{C} + \hat{B}(\hat{A} \hat{C} - \hat{C} \hat{A}) \\
+                                 &= [\hat{A}, \hat{B}] \hat{C} + \hat{B} [\hat{A}, \hat{C}]
+    \end{align*}
+  \item Similarly to \textbf{(iii)}:
+    \begin{align*}
+      [\hat{A} \hat{B}, \hat{C}] &= \hat{A}\hat{B}\hat{C} - \hat{C}\hat{A}\hat{B} \\
+                                 &= \hat{A}(\hat{B}\hat{C} - \hat{C}\hat{B}) + (\hat{A}\hat{C} - \hat{C} \hat{A}) \hat{B} \\
+                                 &= \hat{A} [\hat{B}, \hat{C}] + [\hat{A}, \hat{C}] \hat{B}
+    \end{align*}
+\end{enumerate}
+\begin{example} \label{commExample}
+  Consider the position and momentum operators $\hat{x}$ and $\hat{p}$ in 1D from \cref{opExamples}.
+  For any $\psi \in \mathcal{H}$:
+  \begin{align*}
+    \hat{x} \hat{p} \psi &= x \left(-i\hbar \pderiv{}{x}\right)\psi = -i\hbar x \pderiv{\psi}{x}(x, t) \\
+    \hat{p} \hat{x} \psi &= \left(-i\hbar \pderiv{}{x}\right) (x \psi(x, t)) = -i \hbar \psi - i \hbar x \pderiv{\psi}{x}
+  \end{align*}
+  Thus:
+  \begin{align*}
+    [\hat{x}, \hat{p}]\psi &= \hat{x}\hat{p}\psi - \hat{p}\hat{x}\psi \\
+                           &= i\hbar x \pderiv{\psi}{x} + i\hbar\psi - i\hbar x \pderiv{\psi}{x} \\
+                           &= i\hbar x \psi
+  \end{align*}
+  and so $[\hat{x}, \hat{p}] = i\hbar \hat{I}$ where $\hat{I}$ is the \textit{identity operator}.
+\end{example}
+\begin{definition}[Continuously diagonalisable]
+  We say that a pair of hermitian operators $\hat{A}$ and $\hat{B}$ are \textit{continuously diagonalisable} in $\mathcal{H}$ if there exists a complete basis $\mathcal{H}$ of eigenfunctions $\{\psi_i\}_{i \in I}$ for both $\hat{A}$ and $\hat{B}$ where:
+  \[
+    \hat{A} \psi_i = a_i \psi_i \text{ and } \hat{B} \psi_i = b_i \psi_i
+  \]
+  for some eigenvalues $a_i, b_i \in \R$.
+\end{definition}
+\begin{theorem}
+  If $\hat{A}$ and $\hat{B}$ are hermitian operators, then they are simultaneously diagonalisable if and only if $[\hat{A}, \hat{B}] = 0$.
+\end{theorem}
+\begin{proof}
+  \begin{proofdirection}{Assume $\hat{A}$ and $\hat{B}$ are simultaneously diagonalisable}
+    So there exists a complete basis for $\mathcal{H}$ of joint eigenfunctions $\{\psi_i\}_{i \in I}$ for $\hat{A}$ and $\hat{B}$.
+    So for any $\psi_i$:
+    \begin{align*}
+      [\hat{A}, \hat{B}]\psi_i &= \hat{A}\hat{B} \psi_i - \hat{B}\hat{A}\psi_i \\
+                               &= (a_i b_i - b_i a_i) \psi_i \\
+                               &= 0
+    \end{align*}
+    Since $\{\psi_i\}_{i \in I}$ is a complete basis for $\mathcal{H}$, given any $\psi \in \mathcal{H}$, there exists coefficients $c_i \in \R$:
+    \[
+      \psi = \sum_{i \in I} c_i \psi_i
+    \]
+    and so:
+    \[
+      [\hat{A}, \hat{B}] \psi = \sum_{i \in I} c_i [\hat{A}, \hat{B}] \psi_i = 0
+    \]
+    Thus for any $\psi \in \mathcal{H}$, $[\hat{A}, \hat{B}]\psi = 0$, i.e. $[\hat{A}, \hat{B}] = 0$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume the commutator is 0}
+    Since $\hat{A}$ is Hermitian, by \cref{hermProp}, there exists a complete basis $\{\psi_i\}_{i \in I}$for $\mathcal{H}$ eigenfunctions of $\hat{A}$.
+
+    For any $\psi_i$, we see that
+    \[
+      0 = [\hat{A}, \hat{B}] \psi_i = \hat{A} \hat{B} \psi_i - \hat{B} \hat{A} \psi_i \implies \hat{A}(\hat{B} \psi_i) = a_i \hat{B} \psi_i
+    \]
+    so $\hat{B} \psi_i$ is also an eigenfunction of eigenvalue $a_i$.
+    Thus $\hat{B}$ maps the eigenspace $E_{a_i}$ of $\hat{A}$ with eigenvalue $a_i$ into itself.
+    So for any $\psi \in E_{a_i}$, since $a_i \in \R$:
+    \[
+      (\hat{B}\psi, \psi) = (\lambda \psi, \psi) = (\psi, \lambda \psi) = (\psi, \hat{B}\psi)
+    \]
+    Thus when restricted to the set $E_{a_i}$, $\hat{B}$ is a Hermitian operator on $E_{a_i}$.
+    This holds for all eigenspaces $E_{a_i}$ of $\hat{A}$, thus as $E_{a_i}$ collectively span $\mathcal{H}$, $\{\psi_i\}$ is also a basis of eigenfunctions of $\hat{B}$.
+  \end{proofdirection}
+\end{proof}
+\section{Heisenberg's Uncertainty Principle}
+\begin{definition}[Uncertainty]
+  The \textit{uncertainty} in the measurement of an observable $A$ on a state $\psi$ is defined as:
+  \[
+    \Delta_{\psi} A = \sqrt{(\Delta_{\psi} A)^2}
+  \]
+  where we define:
+  \[
+    (\Delta_{\psi} A)^2 = \langle (\hat{A} - \langle \hat{A} \rangle_{\psi}\hat{I})^2 \rangle_{\psi}
+  \]
+\end{definition}
+We can equivalently define:
+\[
+  (\Delta_{\psi} A)^2 = \langle \hat{A}^2 \rangle_{\psi} - \langle \hat{A} \rangle^2_{\psi}
+\]
+To check this is indeed equivalent:
+\begin{align*}
+  \langle (\hat{A} - \langle \hat{A} \rangle_{\psi}\hat{I})^2 \rangle_{\psi} &= (\psi, (\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})^2 \psi) \\
+                                                                             &= (\psi, [\hat{A}^2 - 2\langle \hat{A} \rangle_{\psi} \hat{A} + \langle \hat{A} \rangle_{\psi}^2 \hat{I}]\psi) \text{ by linearity in the 2nd argument}\\
+                                                                             &= (\psi, \hat{A}^2 \psi) - 2 \langle \hat{A} \rangle_{\psi} (\psi, \hat{A} \psi) + \langle \hat{A} \rangle_{\psi}^2 (\psi, \psi) \\
+                                                                             &= \langle \hat{A}^2 \rangle_{\psi} - 2 \langle \hat{A} \rangle_{\psi}^2 + \langle \hat{A} \rangle_{\psi}^2 \text{ as } \norm{\psi}^2 = 1 \\
+                                                                             &= \langle \hat{A}^2 \rangle_{\psi} - \langle \hat{A} \rangle_{\psi}^2
+\end{align*}
+Thus we we can also write the uncertainty as:
+\[
+  \Delta_{\psi} A = \sqrt{\langle \hat{A}^2 \rangle_{\psi} - \langle \hat{A} \rangle_{\psi}^2}
+\]
+We would like to check that $\Delta_{\psi} A$ is always real.
+\begin{lemma}
+  For an observable $A$ and state $\psi$:
+  \begin{enumerate}
+    \item $(\Delta_{\psi} A)^2 \geq 0$.
+    \item $(\Delta_{\psi} A)^2 = 0$ if and only if $\psi$ is an eigenstate of $A$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  To show that it is non-negative, we can write:
+  \begin{align*}
+    (\Delta_{\psi} A)^2 &= (\psi, (\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})^2 \psi)  \\
+                        &= ((\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})\psi, (\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})\psi) \text{ since $\hat{A}$ and $\hat{I}$ are hermitian} \\
+                        &= \norm{(\hat{A} - \langle \hat{A} \rangle_{\psi}\hat{I})\psi}^2
+  \end{align*}
+  Since the inner product on $\mathcal{H}$ (\cref{HInnerProd}) is positive definite, the result follows.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  \begin{proofdirection}{Assume we have equality}
+    Consider the state $\phi = (\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})\psi$ from the proof of \textbf{(i)}.
+    Since we have equality, $\phi$ satisfies:
+    \[
+      (\Delta_{\psi} A)^2 = \norm{\phi}^2 = 0
+    \]
+    Since this inner product is positive definite, we must have $\phi \equiv 0$ and thus $\hat{A} \psi = \langle \hat{A} \rangle_{\psi} \psi$, i.e. $\psi$ is an eigenstate of $A$ with eigenvalue $\langle \hat{A} \rangle_{\psi}$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $\psi$ is an eigenstate}
+    Let $\psi$ be an eigenstate with eigenvalue $a$.
+    We have:
+    \[
+      \langle \hat{A} \rangle_{\psi} = (\psi, \hat{A} \psi) = (\psi, a \psi) = a (\psi, \psi) = a
+    \]
+    Similarly:
+    \[
+      \langle \hat{A}^2 \rangle_{\psi} = (\psi, \hat{A}^2\psi) = (\psi, a^2 \psi) = a^2
+    \]
+    and so:
+    \[
+      (\Delta_{\psi} A)^2 = \langle \hat{A}^2 \rangle_{\psi} - \langle \hat{A} \rangle_{\psi}^2 = 0
+    \]
+  \end{proofdirection}
+\end{proof}
+\begin{lemma}
+  If $\psi, \phi \in \mathcal{H}$, then $|(\phi, \psi)|^2 \leq (\phi, \phi)(\psi, \psi)$ with equality if and only if $\psi = e^{i\alpha}\phi$ for some $\alpha \in \R$. \label{csIneq}
+\end{lemma}
+\begin{proof}
+  For any $c \in \C$, we have:
+  \[
+    0 \leq \norm{\psi - c\phi}^2 = (\psi - c\phi, \psi - c\phi) = (\psi, \psi) - 2c (\psi, \phi) + c^2(\phi, \phi)
+  \]
+  Taking $c = (\psi, \phi)/(\phi, \phi) \in \C$ we obtain:
+  \begin{align*}
+    0 &\leq (\psi, \psi) - 2 \cdot \frac{|(\psi, \phi)|^2}{(\phi, \phi)} + \frac{|(\psi, \phi)|^2}{(\phi, \phi)} \\
+    \implies |(\psi, \phi)|^2 &\leq (\phi, \phi)(\psi, \psi)
+  \end{align*}
+  By how we arrived at the result, we have equality if and only if $\norm{\psi - c\phi} = 0 \iff \psi = c \phi$.
+  Since both $\psi$ and $\phi$ are normalised, we must have $|c| = 1$, i.e. $c = e^{i\alpha}$ for some $\alpha \in \R$.
+\end{proof}
+\begin{definition}[Anti-Commutator]
+  The \textit{anti-commutator} of the operators $\hat{A}$ and $\hat{B}$ is defined as:
+  \[
+    {\hat{A},  \hat{B}} = \hat{A} \hat{B} + \hat{B} \hat{A}
+  \]
+\end{definition}
+\begin{lemma}[Hermitian conjugates of commutators]
+  For operators $\hat{A}$ and $\hat{B}$:
+  \begin{enumerate}
+    \item $[\hat{A}, \hat{B}]^{\dag} = -[\hat{A}^{\dag}, \hat{B}^{\dag}]$
+    \item $\{\hat{A}, \hat{B}\}^{\dag} = \{\hat{A}^{\dag}, \hat{B}^{\dag}\}$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  Using properties from \cref{opProp}, we see that:
+  \begin{align*}
+    [\hat{A}, \hat{B}]^{\dag} &= (\hat{A}\hat{B} - \hat{B}\hat{A})^{\dag} \\
+                              &= (\hat{A} \hat{B})^{\dag} - (\hat{B} \hat{A})^{\dag} \\
+                              &= \hat{B}^{\dag} \hat{A}^{\dag} - \hat{A}^{\dag} \hat{B}^{\dag} \\
+                              &= [\hat{B}^{\dag}, \hat{A}^{\dag}] \\
+                              &= -[\hat{A}^{\dag}, \hat{B}^{\dag}]
+  \end{align*}
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Similarly to in \textbf{(i)}, we have:
+  \begin{align*}
+    \{\hat{A}, \hat{B}\}^{\dag} &= (\hat{A}\hat{B} + \hat{B}\hat{A})^{\dag} \\
+                              &= (\hat{A} \hat{B})^{\dag} + (\hat{B} \hat{A})^{\dag} \\
+                              &= \hat{B}^{\dag} \hat{A}^{\dag} + \hat{A}^{\dag} \hat{B}^{\dag} \\
+                              &= \{\hat{A}^{\dag}, \hat{B}^{\dag}\}
+  \end{align*}
+\end{proof}
+\begin{remark}
+  In the case of Hermitian $\hat{A}$ and $\hat{B}$, these reduce to:
+  \begin{equation}
+    [\hat{A}, \hat{B}]^{\dag} = - [\hat{A}, \hat{B}] \text{ and } \{\hat{A}, \hat{B}\}^{\dag} = \{\hat{A}, \hat{B}\} \label{commHerm}
+  \end{equation}
+\end{remark}
+\begin{theorem}[Generalised uncertainty theorem]
+  If $A$ and $B$ are observables and $\psi \in \mathcal{H}$, then:
+  \[
+    (\Delta_{\psi} A)(\Delta_{\psi} B) \geq \frac{1}{2} |(\psi, [\hat{A}, \hat{B}]\psi)|
+  \]
+\end{theorem}
+\begin{proof}
+  For convenience, define the hermitian operator $\hat{A}' = \hat{A} - \langle \hat{A} \rangle_{\psi}\hat{I}$ so that:
+  \[
+    (\Delta_{\psi} A)^2 = (\psi, (\hat{A}')^2 \psi) = (\hat{A}'\psi, \hat{A}' \psi)
+  \]
+  Define $\hat{B}'$ analogously so that $(\Delta_{\psi} B)^2 = (\hat{B}' \psi, \hat{B}'\psi)$.
+
+  Using \cref{csIneq}, we have:
+  \begin{align*}
+    (\Delta_{\psi} A)^2(\Delta_{\psi} B)^2 &\geq \abs{(\hat{A}' \psi, \hat{B}' \psi)}^2 \\
+                                           &= \abs{(\psi, \hat{A}' \hat{B}' \psi)}^2 \text{ since $\hat{A}'$ is hermitian}
+  \end{align*}
+  We then write $\hat{A}\hat{B}$ in terms of their commutator and anti-commutator:
+  \[
+    \hat{A}' \hat{B}' = \frac{1}{2} ([\hat{A}', \hat{B}'] + \{\hat{A}', \hat{B}'\})
+  \]
+  so:
+  \begin{equation}
+    (\Delta_{\psi} A)^2 \geq \frac{1}{4} |(\psi, [\hat{A}', \hat{B}']\psi) + (\psi, \{\hat{A}', \hat{B}'\}\psi)| \label{absEqn} \tag{\dag}
+  \end{equation}
+  We then see that:
+  \begin{align*}
+    (\psi, [\hat{A}', \hat{B}'] \psi) &= ([\hat{A}', \hat{B}']^{\dag} \psi, \psi) \text{ by definition (\cref{hermConjDef})} \\
+                                      &= -([\hat{A}', \hat{B}'] \psi, \psi) \text{ by \cref{commHerm}} \\
+                                      &= -(\psi, [\hat{A}', \hat{B}']\psi)^{*} \text{ by hermitianity of $(\argdot, \argdot)$} \\
+    \implies \Re[(\psi, [\hat{A}', \hat{B}'] \psi)] &= 0
+  \end{align*}
+  and similarly:
+  \begin{align*}
+    (\psi, \{\hat{A}', \hat{B}'\} \psi) &= (\{\hat{A}', \hat{B}'\}^{\dag} \psi, \psi) \text{ by definition (\cref{hermConjDef})} \\
+                                        &= (\{\hat{A}', \hat{B}'\} \psi, \psi) \text{ by \cref{commHerm}} \\
+                                        &= (\psi, \{\hat{A}', \hat{B}'\}\psi)^{*} \text{ by hermitianity of $(\argdot, \argdot)$} \\
+    \implies (\psi, [\hat{A}', \hat{B}'] \psi) &\in \R
+  \end{align*}
+  This makes the modulus in \cref{absEqn} particularly easy to compute:
+  \begin{align*}
+    (\Delta_{\psi} A)^2 &\geq \frac{1}{4}(|(\psi, [\hat{A}', \hat{B}']\psi) + (\psi, \{\hat{A}', \hat{B}'\}\psi)|) \\
+                        &= \frac{1}{4}(\psi, [\hat{A}', \hat{B}']\psi)^2 + \frac{1}{4}(\psi, \{\hat{A}, \hat{B}\}\psi)^2 \\
+                        &\geq \frac{1}{4}(\psi, [\hat{A}', \hat{B}']\psi)^2
+  \end{align*}
+  Converting back to $\hat{A}$ and $\hat{B}$ we see that:
+  \begin{align*}
+    [\hat{A}', \hat{B}'] &= [\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I}, \hat{B} - \langle \hat{B} \rangle_{\psi} \hat{I}] \\
+                         &= (\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})(\hat{B} - \langle \hat{B} \rangle_{\psi} \hat{I}) - (\hat{B} - \langle \hat{B} \rangle_{\psi} \hat{I})(\hat{A} - \langle \hat{A} \rangle_{\psi} \hat{I})(\hat{B} - \langle \hat{B} \rangle_{\psi} \hat{I}) \\
+                         &= \hat{A} \hat{B} - \hat{B} \hat{A} \text{ as $\hat{I}$ commutes with everything} \\
+                         &= [\hat{A}, \hat{B}]
+  \end{align*}
+  Thus, after taking taking square roots, we obtain:
+  \[
+    (\Delta_{\psi} A)(\Delta_{\psi} B) \geq \frac{1}{2} |(\psi, [\hat{A}, \hat{B}] \psi)|
+  \]
+  as required.
+\end{proof}
+The above has some important consequences:
+\begin{enumerate}
+  \item If $[\hat{A}, \hat{B}] = 0$, i.e. $\hat{A}$ and $\hat{B}$ commute, then $A$ and $B$ can be measured simultaneously with arbitrary precision on $\psi$
+  \item Taking $\hat{A} = \hat{x}$ and $\hat{B} = \hat{p}$, we saw in \cref{commExample} that $[\hat{x}, \hat{p}] = i\hbar\hat{I}$ and so:
+    \[
+      (\Delta_{\psi} x)(\Delta_{\psi} p) \geq \frac{1}{2}|i\hbar(\psi, \psi)| = \frac{\hbar}{2}
+    \]
+    This is the \textit{Heisenberg uncertainty principle} that we saw when studying the Gaussian wavepacket in \cref{hUncertWP}.
+  \item Recall that when $\psi = \psi_{\text{GP}}$, we have:
+    \[
+      (\Delta_{\psi_{\text{GP}}} x)(\Delta_{\psi_{\text{GP}}} p) = \frac{\hbar}{2} \text{ at } t =0
+    \]
+    i.e. $\psi_{\text{GP}}$ is a state of minimal uncertainty.
+    We can in fact show that $\psi$ is a state of minimal uncertainty if and only if $\hat{x} \psi = ia\hat{p} \psi$ for some $a \in \R$.
+    Which in turn is equivalent to $\psi(x) = Ce^{-bx^2}$ for some $C \in \C$ and $b \in \R^{+}$.
+  \item There exists states for which $\Delta_{\psi} p = 0$ and $\Delta_{\psi} x = \infty$.
+\end{enumerate}
+\section{Ehrenfest Theorem}
+\begin{theorem}[Ehrenfest]
+  The expectation value of $\hat{A}$ on a state $\psi$ evolves according to:
+  \[
+    \deriv{}{t}\langle \hat{A} \rangle_{\psi} = \frac{i}{\hbar} \langle [\hat{H}, \hat{A}] \rangle_{\psi} + \left\langle \pderiv{\hat{A}}{t} \right\rangle_{\psi}
+  \]
+\end{theorem}
+\begin{proof}[In 1D]
+  Differentiating under the integral sign, we obtain:
+  \begin{align*}
+    \deriv{}{t}\langle \hat{A} \rangle_{\psi} &= \deriv{}{t} \int_{-\infty}^{\infty} (\psi^{*} \hat{A} \psi) \d{x} \\
+                                              &= \int_{-\infty}^{\infty} \pderiv{}{t}(\psi^{*} \hat{A} \psi) \d{x} \\
+                                              &= \int_{-\infty}^{\infty} \left[\pderiv{\psi^{*}}{t} \hat{A} \psi + \psi^{*} \pderiv{\hat{A}}{t} \psi + \psi^{*} \hat{A} \pderiv{\psi}{t}\right] \d{x}
+  \end{align*}
+  Recall the TDSE in terms of $\hat{H}$, since $\hat{H}$ is a real operator:
+  \[
+    \hat{H}\psi = i\hbar \pderiv{\psi}{t} \implies \hat{H} \psi^{*} = -i\hbar \pderiv{\psi^{*}}{t}
+  \]
+  Substituting in, we obtain:
+  \begin{align*}
+    \deriv{}{t}\langle \hat{A} \rangle_{\psi} &= \int_{-\infty}^{\infty} \left[\frac{i}{\hbar} \hat{H}\psi^{*}\hat{A}\psi + \psi^{*} \pderiv{\hat{A}}{t} \psi + \psi^{*} \hat{A}\left(-\frac{i}{\hbar} \hat{H} \psi\right)\right] \d{x} \\
+                                              &= \frac{i}{\hbar} \int_{-\infty}^{\infty}(\hat{H} \psi^{*} \hat{A} \psi - \psi^{*} \hat{A} \hat{H} \psi) \d{x} + \int_{-\infty}^{\infty} \psi^{*} \pderiv{\hat{A}}{t} \psi \d{x} \\
+                                              &= \frac{i}{\hbar} ((\hat{H}\psi, \hat{A}\psi) - (\psi, \hat{A}\hat{H}\psi)) + \left\langle \pderiv{\hat{A}}{t} \right\rangle_{\psi} \\
+                                              &= \frac{i}{\hbar} ((\psi, \hat{H}\hat{A}\psi) - (\psi, \hat{A}\hat{H}\psi)) + \left\langle \pderiv{\hat{A}}{t} \right\rangle_{\psi} \text{ since $\hat{H}$ is Hermitian} \\
+                                              &= \frac{i}{\hbar} (\psi, (\hat{H}\hat{A} - \hat{A} \hat{H})\psi) + \left\langle \pderiv{\hat{A}}{t} \right\rangle_{\psi} \\
+                                              &= \frac{i}{\hbar} \langle [\hat{H}, \hat{A}] \rangle_{\psi} + \left\langle \pderiv{\hat{A}}{t} \right\rangle_{\psi}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{example}[Comparison to classical mechanics]
+  Upon substituting in various operators for $\hat{A}$, we see that the expectation values satisfy results which we know from classical mechanics:
+  \begin{enumerate}
+    \item If we take $\hat{A} = \hat{H}$, then $\langle \hat{A} \rangle = \langle \hat{H} \rangle = E$, so this becomes $\deriv{E}{t} = 0$, i.e. the conservation of total energy.
+    \item If we take $\hat{A} = \hat{P}$ then:
+      \[
+        \deriv{}{t}\langle \hat{p} \rangle_{\psi} = - \left\langle \deriv{U}{x} \right\rangle_{\psi} \\
+      \]
+      where $U(x)$ is the potential.
+      This is the quantum version of the classical relation $\deriv{p}{t} = - \deriv{U}{x} = F$.
+    \item If we take $\hat{A} = \hat{x}$ then:
+      \[
+        \deriv{}{t}\langle \hat{x} \rangle_{\psi} = \frac{1}{m} \langle \hat{p} \rangle_{\psi}.
+      \]
+      This is the quantum version of the classical relation $p = mv$.
+  \end{enumerate}
+\end{example}
+\end{document}

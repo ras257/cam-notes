@@ -383,7 +383,7 @@ These solutions are not square integrable as, for $C \neq 0$:
 \]
 If $C = 0$, then $\psi_k$ is the unphysical null state and so these $\psi_k$ are not normalisable.
 We can hope to bypass this problem by building a linear superposition of these $\chi_k$ which is normalisable.
-\subsection{Gaussian Wavepacket}
+\subsection{Gaussian Wavepacket} \label{hUncertWP}
 Since the above solutions are indexed by $k \in \R$, we can write a wavefunction $\psi$ as a continuous linear combination:
 \begin{align*}
   \psi(x, t) &= \int_{-\infty}^{\infty} A(k) \psi_{k}(x, t) \d{k} \\
@@ -576,7 +576,7 @@ which is real if and only if $E \geq E_0$.
     \[
       \chi_{k, \overline{k}}(x) = \begin{cases}
       A e^{i k x} + Be^{-ikx} & \text{ if } x \leq 0 \\
-      Ce^{i\hbar x} & \text{ if } x > 0
+      Ce^{i \overline{k} x} & \text{ if } x > 0
       \end{cases}
     \]
     We need to enforce continuity of $\chi$ and $\chi'$ at $x = 0$.
@@ -588,18 +588,107 @@ which is real if and only if $E \geq E_0$.
     \[
       \chi_{k, \overline{k}}(x) = \begin{cases}
       A\left(e^{ikx} + \frac{k - \overline{k}}{k + \overline{k}}e^{-ikx}\right) & \text{ if } x \leq 0 \\
-      A \cdot \frac{2k}{k + \overline{k}} e^{i\hbar x} & \text{ if } x > 0
+      A \cdot \frac{2k}{k + \overline{k}} e^{i \overline{k} x} & \text{ if } x > 0
       \end{cases}
     \]
     We can also find the probability current for these solutions:
     \begin{align*}
       J_k(x, t) &= \frac{i\hbar}{2m}\left(\chi_k^{*} \pderiv{\chi_k}{x} - \chi_k \pderiv{\chi_k^{*}}{x}\right) \\
               &= \begin{cases}
-              \frac{\hbar}{m}(|A|^2 - |B^2|) & \text{ if } x \leq 0 \\
+              \frac{\hbar k}{m}(|A|^2 - |B^2|) & \text{ if } x \leq 0 \\
               \frac{\hbar \overline{k}}{m} |C|^2 & \text{ if } x > 0
               \end{cases}
     \end{align*}
+    We can identify each part of the flux with each component of the wave function:
+    \begin{align*}
+      \text{The incident flux: } J_{\text{inc}}(x, t) &= \frac{\hbar k}{m}|A|^2 \\
+      \text{The reflected flux: } J_{\text{ref}}(x, t) &= \frac{\hbar k}{m}|B|^2 \\
+      \text{The transmitted flux: } J_{\text{trans}}(x, t) &= \frac{\hbar \overline{k}}{m}|C|^2
+    \end{align*}
+    For a beam of particles, we define the reflection and transmission coefficients as:
+    \[
+      R = \frac{J_{\text{ref}}}{J_{\text{inc}}} \text{ and } T = \frac{J_{\text{trans}}}{J_{\text{inc}}}
+    \]
+    In this case:
+    \begin{align*}
+      R &= \frac{|B|^2}{|A|^2} = \left(\frac{k - \overline{k}}{k + \overline{k}}\right)^2 \\
+      T &= \frac{|C|^2}{|A|^2} \cdot \frac{\overline{k}}{k} = \frac{4k \overline{k}}{(k + \overline{k})^2}
+    \end{align*}
+    We observe the following properties:
+    \begin{itemize}
+      \item $R + T = 1$, i.e. the number of particles is conserved.
+      \item As $E \to U_0$, $\overline{k} \to 0$ and so $T \to 0$, $R \to 1$.
+      \item As $E \to \infty$, $U_0$ becomes insignificant so $\overline{k} \sim k$, giving $T \to 1$ and $R \to 0$
+    \end{itemize}
+  \end{case}
+  \begin{case}{$E < U_0$}
+    In the case of $E < U_0$, for $x > 0$, let:
+    \[
+      \eta = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}} = i \overline{k}
+    \]
+    and so we obtain:
+    \[
+      \chi_{k, \overline{k}} = \begin{cases}
+      Ae^{ikx} + Be^{-ikx} & \text{ for } x \leq 0 \\
+      Ce^{-\eta x} + D e^{\eta x} & \text{ for } x > 0
+      \end{cases}
+    \]
+    We take $D = 0$ otherwise $\chi_{k, \overline{k}} \to \infty$ as $x \to \infty$.
+
+    After imposing continuity of $\chi$ and $\chi'$ at $x = 0$, the components of the flux are:
+    \begin{align*}
+      \text{The incident flux: } J_{\text{inc}}(x, t) &= \frac{\hbar k}{m}|A|^2 \\
+      \text{The reflected flux: } J_{\text{ref}}(x, t) &= \frac{\hbar k}{m}|B|^2 \\
+      \text{The transmitted flux: } J_{\text{trans}}(x, t) &= 0
+    \end{align*}
+    Giving $R = 1$ and $T = 0$.
+    However $\chi_{\overline{k}}(x) \neq 0$ for $x > 0$, this is called an \textit{evanescent wave}.
+    In this case, particles can exist past the potential barrier, however they have no momentum.
   \end{case}
 \end{proofcases}
-Continued next lecture.
+\subsection{Scattering Off a Potential Barrier}
+Consider the potential barrier:
+\[
+  U(x) = \begin{cases}
+  0 & x \leq 0,\ x \geq a \\
+  U_0 & 0 < x < a
+  \end{cases}
+\]
+for some $a, U_0 \in \R^{+}$.
+Considering the case of $E \leq U_0$, We let:
+\[
+  k = \sqrt{\frac{2mE}{\hbar^2}} \text{ and } \eta = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
+\]
+and solve the TISE in three regions to yield:
+\[
+  \chi_{k, \eta}(x) = \begin{cases}
+  e^{ikx} + Ae^{-kx} & \text{ if } x \leq 0 \\
+  Be^{-\eta x} + Ce^{\eta x} & \text{ if } 0 < x < a \\
+  De^{ikx} + Ee^{-ikx} & \text{ if } x \geq a
+  \end{cases}
+\]
+We take $E = 0$ as there is no incident beam from $+\infty$.
+We also assume that the coefficient of $e^{ikx}$ is 1 as it allows us to calculate the transmission coefficient as just $T = |D|^2/1 = |D|^2$.
+
+Imposing continuity of $\chi$ and $\chi'$ at $x = 0$ and $x = a$, we obtain the system of equations:
+\[
+  \begin{cases}
+  1 + A = B + C & \text{ from continuity of $\chi$ at $x = 0$} \\
+  ik - ikA = -\eta B + \eta C & \text{ from continuity of $\chi'$ at $x = 0$} \\
+  Be^{-\eta a} + Ce^{\eta a} = D e^{ika} & \text{ from continuity of $\chi$ at $x = a$} \\
+  -\eta B e^{-\eta a} + \eta C e^{\eta a} = ik De^{ika} & \text{ from continuity of $\chi'$ at $x = a$}
+  \end{cases}
+\]
+Upon solving:
+\begin{align*}
+  D &= - \frac{4i\eta k}{(\eta - ik)^2 \exp[(\eta + ik)a] - (\eta + ik)^2 \exp[-(\eta - ik)a]} \\
+  \implies T &= \frac{|D|^2}{1^2} = \frac{4k^2 \eta^2}{(\eta^2 + k^2) \sinh^2(\eta a) + 4k^2 \eta^2}
+\end{align*}
+So the transmission coefficient is non-zero, despite the fact that $E \leq U_0$.
+This is not possible in classical mechanics and is referred to as \textit{quantum tunneling}.
+Even when $E \ll U_0$, we have $\eta a \gg 1$, giving:
+\[
+  T \to \frac{16 k^2 \eta^2}{(\eta^2 + k^2)^2} e^{-2\eta a} = \frac{16 k^2 \eta^2}{(\eta^2 + k^2)^2} e^{-\frac{2a}{\hbar}\sqrt{2m(U_0 - E)}}
+\]
+So the proposition transmitted decreases as $U_0$ increases, but is always positive.
 \end{document}

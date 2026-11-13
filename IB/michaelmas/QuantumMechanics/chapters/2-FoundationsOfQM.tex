@@ -317,7 +317,7 @@ then we obtain a continuity equation:
 \]
 We saw such equations in IA Vector Calculus.
 This one encodes the conservation of probability for solutions of the TDSE.
-\section{Measurements}
+\section{Measurements} \label{measurements}
 \subsection{Observables}
 Currently, we do not have a way of retrieving information other about the particle from its state $\psi$, other than the probability density of its position.
 How can we extract other information, like momentum or energy.
@@ -386,14 +386,14 @@ We will look at this in depth later in this chapter.
 In this course, we will focus on a particular type of operators called \textit{hermitian operators}.
 We will focus on such operators because all physical observables are associated with hermitian operators.
 \begin{definition}[Hermitian conjugate]
-  The \textit{hermitian conjugate}of an operator $\hat{O}$ is the operator $\hat{O}^{\dag}$ such that:
+  The \textit{hermitian conjugate}of an operator $\hat{O}$ is the operator $\hat{O}^{\dag}$ such that: \label{hermConjDef}
   \[
     (\hat{O}^{\dag} \psi_1, \psi_2) = (\psi_1, \hat{O} \psi_2)
   \]
   for all $\psi_1, \psi_2 \in \mathcal{H}$.
 \end{definition}
 \begin{proposition}[Properties of hermitian conjugate]
-  For all $a_1, a_2 \in \C$ and operators $A_1, A_2, A, B: \mathcal{H} \to \mathcal{H}$, the Hermitian conjugate satisfies the following properties:
+  For all $a_1, a_2 \in \C$ and operators $A_1, A_2, A, B: \mathcal{H} \to \mathcal{H}$, the Hermitian conjugate satisfies the following properties: \label{opProp}
   \begin{enumerate}
     \item $(a_1 \hat{A}_1 + a_2 \hat{A}_2)^{\dag} = a^{*}_1 \hat{A}^{\dag}_1 + a^{*}_2 \hat{A}^{\dag}_2$
     \item $(\hat{A} \hat{B})^{\dag} = \hat{B}^{\dag} \hat{A}^{\dag}$
@@ -492,7 +492,7 @@ We will focus on such operators because all physical observables are associated 
   \end{enumerate}
 \end{example}
 \begin{proposition}
-  For a hermitian operator $\hat{A}$ we have the following:
+  For a hermitian operator $\hat{A}$ we have the following: \label{hermProp}
   \begin{enumerate}
     \item The eigenvalues of a hermitian operator $\hat{A}$ are all real.
     \item Eigenstates $\psi_1$ and $\psi_2$ corresponding to eigenvalues $a_1, a_2$ such that $a_1 \neq a_2$ are orthogonal.
@@ -611,9 +611,9 @@ But $\{\psi_j\}$ are eigenstates of $\hat{O}$ with eigenvalues $\{\lambda_j\}$, 
 Notice how this integral agrees with the form we saw in \cref{heurDeriv} for $\langle x \rangle$ and $\langle p \rangle$.
 In light of this, we define the expectation of a measurable as follows.
 \begin{definition}[Expectation of value]
-  For a state $\psi$ and observable $O$ corresponding to an operator $\hat{O}$, we define the \textit{expectation value} of $O$ on $\psi$ to be:
+  For a state $\psi$ and observable $O$ corresponding to an operator $\hat{O}$, we define the \textit{expectation value} of $O$ on $\psi$ to be: \label{expectationDef}
   \[
-    \langle O \rangle_{\psi} = (\psi, \hat{O} \psi)
+    \langle \hat{O} \rangle_{\psi} = (\psi, \hat{O} \psi)
   \]
 \end{definition}
 Using this, we see that expectation is linear, that is, for $a_1, a_2 \in \C$ and hermitian operators $\hat{A}$ and $\hat{B}$ then:
