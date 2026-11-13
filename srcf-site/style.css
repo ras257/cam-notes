@@ -169,7 +169,7 @@ a.disabled {
   color: var(--status-upcoming);
 }
 
-.status-ongoing, .status-onoing:link, .status-ongoing:visited {
+.status-ongoing, a.status-ongoing:link, a.status-ongoing:visited {
   color: var(--status-ongoing);
 }
 
