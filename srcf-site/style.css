@@ -103,6 +103,7 @@ a.disabled {
   pointer-events: none;
 }
 
+
 .course-list {
   width: 100%;
   display: flex;
@@ -168,10 +169,14 @@ a.disabled {
   color: var(--status-upcoming);
 }
 
-.status-ongoing {
+.status-ongoing, .status-onoing:link, .status-ongoing:visited {
   color: var(--status-ongoing);
 }
 
 .status-complete {
   color: var(--status-complete);
+}
+
+.additional-info {
+  font-size: 0.7rem;
 }
