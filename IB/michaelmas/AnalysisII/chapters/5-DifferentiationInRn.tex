@@ -1,0 +1,208 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Differentiation in \texorpdfstring{$\R^n$}{Higher Dimensions}}
+\section{Defining the Derivative}
+\begin{remark}[Notation]
+  In this section, we will assume the norm $\norm{\argdot}$ on $\R^{n}$ is the Euclidean norm.
+\end{remark}
+\begin{definition}[Limits in higher dimensions]
+  Let $E \subseteq \R^{n}$, $f: E \to \R^{m}$.
+  If $a$ is a limit point of $E$ and $b \in \R^{n}$, then we say that $\lim_{x \to a} f(x) = b$ if:
+  \[
+    \forall \varepsilon > 0\ \exists \delta = \delta(\varepsilon) > 0 \text{ s.t. } 0 < \norm{x - a} < \delta,\ x \in E \implies \norm{f(x) - b} < \varepsilon
+  \]
+\end{definition}
+\begin{remark}
+  Since $a$ is a limit point of $E$, $a$ need not be in $E$ and so $f$ need not be defined at $a$.
+\end{remark}
+How can we use this to define the derivative of a function $f: \R^{n} \to \R$ or $f: \R^{n} \to \R^{m}$?
+\begin{remark}[Recap]
+  Recall that in the case of $n = 1$, $f: \R \to \R$ is \textit{differentiable} at $a \in \R$ if the limit:
+  \begin{equation}
+    Df(a) = f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h} \label{derivRecap}
+  \end{equation}
+  exists.
+\end{remark}
+The main problem here if $h$ is a vector is that we cannot divide by a vector $h$.
+In light of this, we might instead consider the limit:
+\[
+  \lim_{h \to 0} \frac{f(a + h) - f(a)}{\norm{h}}
+\]
+where $h \in \R^{n}$.
+
+However this is not consistent with our existing one dimensional derivative in the case of $n = 1$:
+\begin{equation}
+  \lim_{h \to 0} \frac{f(a + h) - f(a)}{|h|} \label{badDeriv}
+\end{equation}
+This is not the same as \cref{derivRecap}.
+
+For example, with $f(x) = |x|$ at $x = 0$, using \cref{badDeriv}:
+\[
+  \lim_{h \to 0} \frac{|0 + h| - |0|}{|h|} = 1
+\]
+However using \cref{derivRecap}:
+\[
+  \lim_{h \to 0} \frac{|0 + h| - |0|}{h}
+\]
+does not exist as it depends on if $h$ approaches $0$ from above or below.
+
+Moreover, with $g(x) = x$, using \cref{badDeriv}:
+\[
+  \lim_{h \to 0} \frac{x + h - x}{|h|} = \lim_{h \to 0} \frac{h}{|h|}
+\]
+does not exist.
+Whereas using \cref{derivRecap}:
+\[
+  \lim_{h \to 0} \frac{x + h - x}{h} = 1
+\]
+
+We see that our issues with \cref{badDeriv} are due to the fact that by replacing $h$ with $|h|$, we have lost the sense of direction that $h$ is approaching in.
+
+Taking a closer look at our existing theory for $n = 1$, we can reformulate \cref{derivRecap} as:
+\[
+  \lim_{h \to 0} \frac{f(a + h) - f(a) - hf'(a)}{h} = 0
+\]
+Because the limit is 0, we can now equivalently replace $h$ with $|h|$:
+\[
+  \lim_{h \to 0} \frac{f(a + h) - f(a) - hf'(a)}{|h|} = 0
+\]
+This is equivalent to the existence of $A \in \R$ such that:
+\[
+  \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{|h|} = 0
+\]
+This is because if such an $A \in \R$ exists, then it must satisfy $A = f'(a)$, and if $f'(a) = A$, then it must satisfy the above.
+
+Since we have found an equivalent formulation for \cref{derivRecap} that uses $|h|$ instead of $h$ in the denominator, we can try to translate this to higher dimensions.
+\begin{definition}[Derivative]
+  Let $U \subseteq \R^{n}$ be an open subset and $f: U \to \R^{m}$.
+  We say that $f$ is differentiable at a point $a \in U$ if there exits a linear map $A: \R^{n} \to \R^{m}$ such that:
+  \[
+    \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{\norm{h}}  = 0
+  \]
+  We then say that $A$ is the \textit{derivative} of $f$ at $a$ and write $Df(a) = A$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We require $U \subseteq \R^{n}$ to be open so that when $a \in U$, there exists an $r > 0$ such that $B_r(a) \subseteq U$ and hence $a + h \in U$ for sufficiently small $h$ so that $f(a + h)$ exists.
+    \item Since $A: \R^n \to \R^m$, $A$ can be represented by a matrix $A \in \mathcal{M}_{m \times n}(\R)$.
+  \end{enumerate}
+\end{remark}
+\begin{remark}[Notation]
+  We denote the space of linear maps $\R^{n} \to \R^{m}$ as $\mathcal{L}(\R^{n}, \R^{m})$.
+\end{remark}
+Many of the properties of derivatives we saw for functions $f: \R \to \R$ in Analysis I also carry over to this higher dimensional derivative.
+\begin{proposition}[Properties of derivatives]
+  Let $U \subseteq \R^{n}$ be open, $f: U \to \R^{m}$ and $a \in U$.
+  \begin{enumerate}
+    \item If $f$ is differentiable at $a$, then the derivative of $f$ at $a$ is unique.
+    \item If $f$ is differentiable at $a$, then $f$ is continuous at $a$.
+    \item If we write $f = (f_1, \ldots, f_m) \in \R^{m}$ where $f_j: U \to \R$ for $j \in \{1, \ldots, m\}$, then $f$ is differentiable at $a$ if and only if $f_j$ is differentiable at $a$ for all $j \in \{1, \ldots, m\}$.
+      In this case:
+      \[
+        Df(a) = \begin{pmatrix}
+          \leftarrow Df_1(a) \rightarrow \\
+          \vdots \\
+          \leftarrow Df_m(a) \rightarrow
+        \end{pmatrix} \in \mathcal{M}_{m \times n}(\R)
+      \]
+      where $Df_j(a)^{\trans} \in \R^{n}$ for each $j$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Suppose $A, A' \in \mathcal{M}_{m \times n}(\R)$ are both derivatives of $f$ at $a$.
+  Thus:
+  \begin{align*}
+    \lim_{h \to 0} \frac{f(a + h) - f(a) - A;h}{\norm{h}} = \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{\norm{h}} &= 0 \\
+    \implies \lim_{h \to 0} \frac{f(a + h) - f(a) - A'h}{\norm{h}} - \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{\norm{h}} &= 0 \\
+    \implies \lim_{h \to 0} \frac{Ah - A'h}{\norm{h}} &= 0
+  \end{align*}
+  Fix some arbitrary $u \in \R^{n} \setminus \{0\}$, and take $h = tu$ for $t \in \R$.
+  We then have:
+  \begin{align*}
+    \lim_{h \to 0} \frac{Ah - A'h}{\norm{h}} = \lim_{t \to 0} \frac{t(Au - A'u)}{|t| \norm{u}} &= 0 \\
+    \implies \lim_{t \to 0} \frac{|t|\norm{Au - A'u}}{|t| \norm{u}} = \norm{Au - A'u} &= 0
+  \end{align*}
+  Thus $Au = A'u$ for all $u \in \R^{n}$ and so $A = A'$, i.e. the derivative of $f$ at $a$ is unique.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $f$ is differentiable at $a$:
+  \begin{align*}
+    \lim_{h \to 0} \frac{f(a + h) - f(a) - Df(a)h}{\norm{h}} &= 0 \\
+    \implies \left[\lim_{h \to 0} \norm{h}\right] \cdot \left[\lim_{h \to 0}\frac{f(a + h) - f(a) - Df(a)h}{\norm{h}}\right] &= 0 \\
+    \implies \lim_{h \to 0} (f(a + h) - f(a) - Df(a)h) &= 0 \\
+    \implies \lim_{h \to 0} f(a + h) &= f(a)
+  \end{align*}
+  Thus $f$ is continuous at $a$.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Using \cref{vectorConv}, we have that the derivative limit exists if and only if the limits of each of its components exist:
+  \[
+    \lim_{h \to 0} \frac{f(a + h) - f(a) - Ah}{\norm{h}} = 0 \iff \lim_{h \to 0} \frac{(f(a + h) - f(a) - A h)_j}{\norm{h}} = 0\ \forall j \in \{1, \ldots, n\}
+  \]
+  Let $A_1, \ldots, A_m$ be the rows of $A: \R^{n} \to \R^{m}$, that is:
+  \[
+    A =  \begin{pmatrix}
+          \leftarrow A_1 \rightarrow \\
+          \vdots \\
+          \leftarrow A_m \rightarrow
+        \end{pmatrix}
+  \]
+  We then have that:
+  \[
+    (f(a + h) - f(a) - Ah)_j = f_j(a + h) - f_j(a) - A_j h
+  \]
+  Thus:
+  \begin{align*}
+    &\text{$f$ differentiable at $a$ with $Df(a) = A$} \\
+    \iff& \lim_{h \to 0} \frac{f_j(a + h) - f_j(a) - A_j h}{\norm{h}} = 0\ \forall j \in \{1, \ldots, m\} \\
+    \iff& f_j \text{ differentiable at $a$ with $Df_j(a) = A_j$}\ \forall j \in \{1, \ldots, m\}
+  \end{align*}
+  as required.
+\end{proof}
+\section{Directional Derivative}
+Our current devotion of the derivatives requires the limit to be 0 regardless of which direction we approach the function in.
+However it also useful to consider how the function changes when we approach a point from a specific direction.
+We can do this using \textit{directional derivatives}.
+\begin{definition}[Directional derivative]
+  Let $f: U \to \R^{m}$, $U \subseteq \R^{n}$.
+  For $u \in \R^{n}$ and $a \in U$, we define the \textit{directional derivative of $f$ at $a$ in the direction $u$} as:
+  \[
+    D_{u}f(a) = \lim_{t \to 0} \frac{f(a + tu) - f(a)}{t} = \at{\deriv{}{t}f(a + tu)}{t =0}
+  \]
+  provided this limit exists.
+\end{definition}
+\begin{proposition}
+  If $f$ is differentiable at $a$, then for any $u \in \R^{n}$, the directional derivative $D_u f(a)$ exists with:
+  \[
+    D_u f(a) = Df(a)u \in \R^{m}
+  \]
+  In particular, the map $u \mapsto D_u f$ is linear if $f$ is differentiable.
+\end{proposition}
+\begin{proof}
+  Since $f$ is differentiable at $a$:
+  \[
+    \lim_{h \to 0} \frac{f(a + h) - f(a) - Df(a)h}{\norm{h}} = 0
+  \]
+  Taking $h = tu$ for $t \in \R$, we have:
+  \[
+    \lim_{t \to 0} \frac{f(a + tu) - f(a) - tDf(a)u}{|t| \norm{u}} = 0
+  \]
+  Since this limit is to 0, we can drop the absolute value around $t$ and multiply by $\norm{u}$, thus:
+  \begin{align*}
+    \lim_{t \to 0} \frac{f(a + tu) - f(a) - tDf(a)u}{t} &= 0 \\
+    \implies D_u f(a) = \lim_{t \to 0} \frac{f(a + tu) - f(a)}{t} &= Df(a)u
+  \end{align*}
+  as required.
+\end{proof}
+We obtain a special case of the directional derivative when considering directional derivatives along each of the standard basis axes.
+Let $e_j = (0, \ldots, 0, 1, 0, \ldots, 0)$ where $1$ is in the $j$-th position for $j \in \{1, \ldots, n\}$ be the standard basis for $\R^{n}$.
+Taking $u = e_j$, the directional derivative along $e_j$ is:
+\[
+  D_{e_j} f(a) = \lim_{t \to 0} \frac{f(a + te_j) - f(a)}{t}
+\]
+When this limit exists, we denote it as:
+\[
+  D_{e_j} f(a),\ D_j f(a), \text{ or } \pderiv{f}{x_j}(a)
+\]
+This is called the \textit{$j$-th partial derivative of $f$ at $a$}.
+\end{document}
