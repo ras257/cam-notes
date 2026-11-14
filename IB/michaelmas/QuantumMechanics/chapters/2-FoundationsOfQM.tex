@@ -19,7 +19,7 @@ Underlying set $\C^{n}$ & Underlying set $L^2(\R^3)$ \\
 $n$-dimensional tuples in $\C$ & Complex-valued square integrable functions \\
 \hline
 Inner Product &  Inner Product\\
-$(\vec{v}, \vec{w}) = \overline{v_1} w_1 + \cdots + \overline{v_n} w_n$ & $(\psi, \phi) = \int_{\R^3} \overline{\psi(\vec{x}, t)} \phi(\vec{x}, t) \d{V}$ \\
+$(\vec{v}, \vec{w}) = \overline{v_1} w_1 + \cdots + \overline{v_n} w_n$ & $(\psi, \phi) = \int_{\R^3} \psi(\vec{x}, t)^{*} \phi(\vec{x}, t) \d{V}$ \\
 \hline
 Linear Maps $\C^{n} \to \C^{n}$ &  Maps $L^2(\R^3) \to L^2(\R^3)$\\
 $n \times n$ matrices, $\vec{w} = A \vec{v}$ & Operators $\hat{O}$, $\phi = \hat{O} \psi$\\
@@ -63,7 +63,7 @@ This leads us to the following properties: \label{wfProps}
 \begin{enumerate}
   \item The particle represented by $\psi$ has to be \textit{somewhere} in space and so $\psi$ must be integrable over $\R^3$:
     \begin{equation}
-      \int_{\R^3} \overline{\psi(\vec{x}, t)} \psi(\vec{x}, t) \d{V} = \int_{R^3} |\psi(\vec{x}, t)|^2 \d{V} = \mathcal{N}(t) < \infty\ \forall t > 0 \label{NDef}
+      \int_{\R^3} \overline{\psi(\vec{x}, t)} \psi(\vec{x}, t) \d{V} = \int_{\R^3} |\psi(\vec{x}, t)|^2 \d{V} = \mathcal{N}(t) < \infty\ \forall t > 0 \label{NDef}
     \end{equation}
     We also note that $\mathcal{N}(t) \neq 0$ else the particle would be nowhere.
   \item For $\rho$ to be a valid probability density function over $\R^3$, its integral over $\R^3$ must be 1.
@@ -334,7 +334,7 @@ From Born's rule (\cref{bornsRule}), we can find the expected value of the posit
 \end{align*}
 \begin{remark}[Note]
   $\langle x \rangle$ is \textbf{not} the average value obtained when repeatedly measuring a single particle.
-  The first measurement, whose outcome is not deterministic, causes the wavefunction to collapse into a spike at the measurement obtained causing any further measurements to result in the same outcome.
+  The first measurement, whose outcome is not deterministic, causes the wavefunction to collapse causing any further measurements to result in the same outcome.
   Instead, this is the average value obtained when measuring a particle once in many identically configured states.
 
   This will be discussed further in \cref{expSec}.
@@ -635,7 +635,7 @@ Recall the 1D version of the TDSE from \cref{1DTDSE}:
                                  &= \hat{H} \psi(x, t)
 \end{align*}
 where $\hat{H} = \hat{T} + \hat{U}$ is the \textit{Hamiltonian} operator as introduced in \cref{opExamples} \textbf{(v)}.
-For ease, we will require that does not explicitly depend on time.
+For ease, we will require that $\hat{H}$ does not explicitly depend on time.
 
 Suppose we try and find a solution that can be factored into a function of $t$ and a function of $x$:
 \[
@@ -705,10 +705,6 @@ More explicitly, the above tells us that:
   \]
   for some constants $a_1, a_2 \in \C$.
 
-  At $t = 0$, we have:
-  \[
-    \psi(x, 0) = a_1 \chi_1(t) + a_2 \chi_2(t)
-  \]
   If $a_1$ or $a_2$ is 0, then $\psi$ is just a stationary state, otherwise:
   \begin{align*}
     |\psi(x, t)|^2 &= |a_1 \chi_1(x)e^{-iE_1 t/\hbar} + a_2 \chi_2(x) e^{-iE_2 t/\hbar}|^2 \\
