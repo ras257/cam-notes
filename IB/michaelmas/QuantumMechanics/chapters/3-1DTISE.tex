@@ -360,7 +360,7 @@ We can generate scaled versions of the above the Hermite polynomials, with leadi
 \subsection{Normalisation Issues} \label{normIssSec}
 Consider the TISE with $U(x) \equiv 0$:
 \begin{align*}
-  -\frac{\hbar^2}{2 m} \chi''(x) + E\chi(x) &= 0 \\
+  \frac{\hbar^2}{2 m} \chi''(x) + E\chi(x) &= 0 \\
   \iff \chi''(x) + \frac{2mE}{\hbar^2} \chi(x) &= 0 \\
   \iff \chi''(x) + k^2 \chi &= 0
 \end{align*}
@@ -568,7 +568,7 @@ which is real if and only if $E \geq E_0$.
   \begin{case}{$E \geq U_0$}
     In this case $\overline{k} \in \R$ so:
     \[
-      \chi_{\overline{k}}(x) = C\exp(i\overline{k} x) + D \exp(i\overline{k} x)
+      \chi_{\overline{k}}(x) = C\exp(i\overline{k} x) + D \exp(-i\overline{k} x)
     \]
     In the beam interpretation, first term is the beam of transmitted particles coming from $-\infty$ and the second term is a beam of particles coming from $+\infty$.
     We assume that the beam of particles comes only from $-\infty$ and so $D = 0$.
@@ -662,7 +662,7 @@ Considering the case of $E \leq U_0$, We let:
 and solve the TISE in three regions to yield:
 \[
   \chi_{k, \eta}(x) = \begin{cases}
-  e^{ikx} + Ae^{-kx} & \text{ if } x \leq 0 \\
+  e^{ikx} + Ae^{-ikx} & \text{ if } x \leq 0 \\
   Be^{-\eta x} + Ce^{\eta x} & \text{ if } 0 < x < a \\
   De^{ikx} + Ee^{-ikx} & \text{ if } x \geq a
   \end{cases}
