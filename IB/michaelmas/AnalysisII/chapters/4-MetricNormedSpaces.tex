@@ -5,7 +5,7 @@
 Thus far in IA Analysis I and IB Analysis II, we have been doing analysis on $\R$.
 To do this, we relied on the structure provided by $|\argdot|$ on $\R$ that allowed us to define convergence with unique limits.
 We then looked at Cauchy sequences and we saw that all such sequences also converge due to the \textit{completeness} of $\R$.
-We also saw that closed bounded intervals are ``special'' because of the Bolzano Weierstrass theorem.
+We also saw that closed bounded intervals are ``special'' because of the Bolzano-Weierstrass theorem.
 
 We then moved onto functions $f: \R \to \R$, or more generally $f: E \subseteq \R \to \R$.
 We then defined continuity and showed that closed bounded intervals are also ``special'' in this case because of the extreme value theorem.
@@ -854,7 +854,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
   The metric space $(C([a, b]), \norm{\argdot}_{\infty})$ is complete. \label{CInfComp}
 \end{theorem}
 \begin{proof}
-  Looking at the uniform metric from \cref{unifMetric}, we see that the sequence of functions $f_n: [a, b] \to \R$ is uniformly if and only if it is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$.
+  Looking at the uniform metric from \cref{unifMetric}, we see that the sequence of functions $f_n: [a, b] \to \R$ is uniformly Cauchy if and only if it is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$.
 
   Suppose $(f_n)$ is a Cauchy sequence on $C([a, b])$ under $\norm{\argdot}_{\infty}$, then by the Cauchy criterion (\cref{cauchyCritereon}), $(f_n)$ converges under $\norm{\argdot}_{\infty}$ to some $f: [a, b] \to \R$.
   Further, in \cref{cabClosed}, we showed that the uniform limit of continuous functions is also continuous and so $f \in C([a, b])$, i.e. the space is complete.
@@ -978,7 +978,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
 \begin{example}[Examples of compact and non-compact spaces]
   \begin{enumerate}
     \item Consider $I = [0, 1]$ under the Euclidean metric.
-      By the Bolzano Weierstrass theorem, any sequence in $I$ has a convergent subsequence in $\R$.
+      By the Bolzano-Weierstrass theorem, any sequence in $I$ has a convergent subsequence in $\R$.
       Since $I$ is a closed subset of $\R$, this limit must also be in $I$.
       Thus $I$ under the Euclidean metric is a compact space.
     \item $J = (0, 1) \subseteq \R$ is not compact.
@@ -1052,7 +1052,7 @@ For the following definitions, let $(X, d)$ be a metric space and $E \subseteq X
     Follows from \cref{compSub}.
   \end{proofdirection}
   \begin{proofdirection}{Assume $K$ is closed and bounded}
-    Suppose $(x_k)_{k \in \N}$ is a sequence on $K$, then as $K$ is bounded, by Bolzano Weierstrass on $\R^{n}$ (\cref{BWRn}), there exists a subsequence $(x_{k_j})_{j \in \N}$ and $x \in \R^{n}$ such that $x_{k_j} \to x$.
+    Suppose $(x_k)_{k \in \N}$ is a sequence on $K$, then as $K$ is bounded, by Bolzano-Weierstrass on $\R^{n}$ (\cref{BWRn}), there exists a subsequence $(x_{k_j})_{j \in \N}$ and $x \in \R^{n}$ such that $x_{k_j} \to x$.
     But $(x_{k_j})$ is on $K$ and $K$ is closed, so $x \in K$.
     Thus $K$ is compact.
   \end{proofdirection}
@@ -1209,7 +1209,7 @@ We can also introduce an even stronger notion of continuity.
   \end{enumerate}
 \end{theorem}
 \begin{proof}[\textbf{i}]
-  Argue by contradiction as in \cref{contToUnif}, utilising that $X$ is compact to generate a convergent subsequence instead of the Bolzano Weierstrass theorem.
+  Argue by contradiction as in \cref{contToUnif}, utilising that $X$ is compact to generate a convergent subsequence instead of the Bolzano-Weierstrass theorem.
 \end{proof}
 \begin{proof}[\textbf{ii}]
   Suppose $(y_k)_{k \in \N}$ is a sequence on $f(X)$.
