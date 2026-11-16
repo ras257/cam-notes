@@ -157,7 +157,7 @@ so it might be reasonable to conclude that:
 when used inside of an appropriate integral.
 We can use this to derive an result analogous to Parseval's theorem for Fourier series from \cref{parsevalSec}.
 \begin{proposition}[Parseval's theorem for Fourier transform]
-  For integrable functions $f, g: \R \to \C$, we have:
+  For integrable functions $f, g: \R \to \C$, we have: \label{parseTrans}
   \[
     \int_{-\infty}^{\infty} f(x) \overline{g(x)} \d{x} = \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat{f}(\lambda) \overline{\hat{g}(\lambda)} \d{\lambda}
   \]
@@ -234,11 +234,11 @@ This integral is easy to compute using \textit{contour integration} from IB Comp
 
 We can apply Feynman's trick/Differentiation under the integral sign to yield further results.
 Applying $(-\partial/\partial \sigma)^{k}$ to each side, we have:
-\[
-  H(x) x^{k} e^{-\sigma x} = \frac{k!}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{(i\lambda + \sigma)^{k + 1}} \d{\lambda}
-\]
+\begin{equation}
+  H(x) x^{k} e^{-\sigma x} = \frac{k!}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{(i\lambda + \sigma)^{k + 1}} \d{\lambda} \label{expGen}
+\end{equation}
 We see that by making the left hand side more regular, we have made the Fourier transform decay faster as $\lambda$ increases.
-\subsection{Gaussians}
+\subsection{Gaussians} \label{gaussSec}
 Consider the function:
 \[
   f(x) = \frac{1}{\sqrt{2 \pi}} e^{-x^2/2}
@@ -460,4 +460,196 @@ i.e. $R(t)$ is the response to an impulse at $t = 0$.
   \end{align*}
   So by utilising the results of Fourier transforms over $\R$ from \cref{fourierProps}, we are implicitly assuming that these boundary terms disappear.
 \end{example}
+\section{Applications of Fourier Transforms}
+\begin{remark}[Note]
+  Throughout this section we will assume that $f$ is a sufficiently nice function that decays fast enough to allow us to take its Fourier transform.
+\end{remark}
+\subsection{Poisson Summation Formula}
+\begin{proposition}[Poisson summation  formula]
+  For integrable $f: \R \to \C$:
+  \[
+    \sum_{n \in \Z} f(x + n) = \sum_{n \in \Z} \hat{f}(2\pi n) e^{2\pi i n x}
+  \]
+\end{proposition}
+\begin{proof}
+  We first note that both sides of this are 1-periodic as both are infinite sums over $\Z$ so we can freely shift around indices by integers.
+  Let $F(x)$ be the left hand side and $G(x)$ be the right hand side.
+  Since $G$ is already a Fourier series, we can read off its Fourier coefficients as $\hat{G}_n = \hat{f}(2\pi i)$.
+
+  Calculating the Fourier coefficients for $F(x)$, we have:
+  \begin{align*}
+    \hat{F}_n &= \int_{0}^{1} e^{-2\pi i n x} F(x) \d{x} \\
+              &= \sum_{m \in \Z} \int_{0}^{1} e^{-2 \pi i n x} f(x + m) \d{x} \\
+              &= \sum_{m  \in \Z} \int_{m}^{m + 1} e^{-2\pi i n y} f(y) \d{y} \text{ substituting $y \mapsto x + m$} \\
+              &= \int_{-\infty}^{\infty} e^{-2\pi i n y} f(y) \d{y} \\
+              &= \hat{f}(2 \pi n)
+  \end{align*}
+
+  Thus $\hat{F}_n = \hat{F}_n$ for all $n \in \Z$, so $F(x) = G(x)$.
+\end{proof}
+\begin{remark}
+  When setting $x = 0$ we obtain:
+  \[
+    \sum_{n \in \Z} f(n) = \sum_{n \in \Z} \hat{f}(2 \pi n)
+  \]
+  This result is often used in \textit{analytic number theory}.
+\end{remark}
+\begin{example}
+  Consider $f(x) = H(x) x e^{-\sigma x}$ with $\Re(\sigma) > 0$.
+  From \cref{expGen}, we know that:
+  \[
+    \hat{f}(\lambda) = (i \lambda + \sigma)^{-2} \implies \hat{f}(2\pi n) = (2ni\pi + \sigma)^{-2}
+  \]
+  Thus applying Poisson's summation formula in the case of $x = 0$, we have:
+  \begin{align*}
+    \sum_{n \in \Z} (2 \pi i n + \sigma)^{-2} & = \sum_{n = 1}^{\infty} n e^{-\sigma n} \\
+                                              &= \frac{e^{\sigma}}{(1 - e^{\sigma})^2} \\
+                                              &= \frac{4}{\sinh^2(\sigma/2)}
+  \end{align*}
+\end{example}
+\subsection{Heisenberg Uncertainty Principle}
+\begin{proposition}
+  If $\int_{-\infty}^{\infty} |\psi|^2 \d{x} = 1$, then: \label{HBU}
+  \[
+    \left(\int_{-\infty}^{\infty} x^2 |\psi|^2 \d{x}\right)\left(\int_{-\infty}^{\infty} \lambda^2 |\hat{\psi}|^2 \d{\lambda}\right) \geq \frac{\pi}{2}
+  \]
+\end{proposition}
+\begin{proof}
+  Integrating by parts, we have:
+  \begin{align*}
+    1 &= \int_{-\infty}^{\infty} |\psi|^2 \d{x} \\
+      &= - \int_{-\infty}^{\infty} x \deriv{}{x}(\psi \overline{\psi}) \d{x} \text{ since $f$ decays rapidly at $\pm \infty$} \\_1.pdf
+      &= - \int_{-\infty}^{\infty} x[\psi \overline{\psi}' - \psi' \overline{\psi}] \d{x} \\
+      &\leq 2\int_{-\infty}^{\infty} |x||\psi||\psi'| \d{x} \text{ by the reverse triangle inequality}\\
+      &\leq 2\left(\int_{-\infty}^{\infty} x^2 |\psi|^2 \d{x}\right)^{1/2}\left(\int_{-\infty}^{\infty} |\psi'|^2 \d{x}\right)^{1/2} \text{ by integral Cauchy-Schwarz}
+  \end{align*}
+  Recall from \cref{parseTrans} that:
+  \[
+    \int_{-\infty}^{\infty} |f(x)|^2 \d{x} = \frac{1}{2\pi} \int_{-\infty}^{\infty} |\hat{f}(\lambda)|^2 \d{\lambda}
+  \]
+  If $f = \psi'$, then by \cref{fourierProps} \textbf{(i)}, we have $\hat{f}(\lambda) = (i \lambda) \hat{\psi}(\lambda)$ and so:
+  \begin{align*}
+    1 \leq 2\left(\int_{-\infty}^{\infty} x^2 |\psi|^2 \d{x}\right)^{1/2}\left(\frac{1}{2\pi} \int_{-\infty}^{\infty} \lambda^2 |\hat{\psi}|^2 \d{\lambda}\right)^{1/2}
+  \end{align*}
+  So upon squaring both sides, we obtain:
+  \[
+    1 \leq 4\left(\int_{-\infty}^{\infty} x^2 |\psi|^2 \d{x}\right)\left(\frac{1}{2\pi} \int_{-\infty}^{\infty} \lambda^2 |\hat{\psi}|^2 \d{\lambda}\right)
+  \]
+  giving the result.
+\end{proof}
+To recover the Heisenberg uncertainty principle that we saw in IB Quantum Mechanics, replace $\psi$ with:
+\[
+  e^{-i \lambda_0 x} \psi(x + x_0)
+\]
+and so using \cref{fourierProps} \textbf{(iii)} and \textbf{(iv)}, $\hat{\psi}$ gets replaced by:
+\[
+  e^{i \lambda x_0} \hat{\psi}(\lambda + \lambda_0)
+\]
+Thus applying \cref{HBU} yields:
+\begin{align*}
+  \left(\int_{-\infty}^{\infty} x^2 |\psi(x + x_0)|^2 \d{x}\right)\left(\int_{-\infty}^{\infty} \lambda^2 |\hat{\psi}(\lambda + \lambda_0)|^2 \d{\lambda}\right) \geq \frac{\pi}{2} \\
+  \iff \left(\int_{-\infty}^{\infty} (x - x_0)^2 |\psi(x)|^2 \d{x}\right)\left(\int_{-\infty}^{\infty} (\lambda - \lambda_0)^2 |\hat{\psi}(\lambda)|^2 \d{\lambda}\right) \geq \frac{\pi}{2} \\
+\end{align*}
+Interpreting this using postulates from IB Quantum Mechanics:
+\begin{align*}
+  \int_{a}^{b} |\psi|^2 \d{x} &\propto \P(\text{particle position in $(a, b)$}) \\
+  \text{ and } \int_{A}^{B} |\hat{\psi}|^2 \d{\lambda} &\propto \P(\text{particle momentum in $(A, B)$})
+\end{align*}
+Thus if we take:
+\[
+  x_0 = \E[\text{position}] \text{ and } x_1 = \E[\text{momentum}]
+\]
+then the above tells us that:
+\[
+  [\text{variance of position}][\text{variance of momentum}] \geq \text{constant}
+\]
+which is the Heisenberg uncertainty principle.
+\subsection{From Fourier Series to Fourier Transforms}
+Let $f: \R \to \C$ be such that $f$ vanishes outside $(-L, L)$.
+Thus by treating $f$ as a $2L$ periodic function, we can find the complex Fourier series for $f$ (\cref{compFourier}).
+So for $x \in (-L, L)$:
+\[
+  f(x) = \sum_{n \in \Z} e^{i \pi n x / L} \hat{f}_n
+\]
+where:
+\begin{align*}
+  \hat{f}_n &= \frac{1}{2L} \int_{-L}^{L} e^{-i \pi n x / L} f(x) \d{x} \\
+            &= \frac{1}{2L} \int_{-\infty}^{\infty} e^{-i \pi n x / L} f(x) \d{x} \text{ as $f = 0$ outside $(-L, L)$} \\
+            &= \frac{1}{2L} \hat{f}(\lambda_n) \text{ where } \lambda_n = \frac{\pi n}{L}
+\end{align*}
+Define $\delta \lambda = \lambda_{n + 1} - \lambda_n = \pi / L$ so that for $x \in (-L, L)$ we can write:
+\[
+  f(x) = \frac{1}{2\pi} \sum_{n \in \Z} e^{i \lambda_n x} \hat{f}(\lambda_n) \delta \lambda
+\]
+The above is a Riemann sum and so taking $L \to \infty$, we see that $\delta \lambda \to 0$, and thus the above expression becomes the integral:
+\[
+  f(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}(\lambda) \d{\lambda}
+\]
+which is the Fourier inversion formula of $\hat{f}$ from \cref{fourierInverse}.
+
+Moreover, using Parseval's theorem for Fourier series from \cref{parsevalSec}:
+\begin{align*}
+  \int_{-L}^{L} |f(x)|^2 \d{x} &= 2L \sum_{n \in \Z} |\hat{f}_n|^2 \\
+                               &= 2L \sum_{n \in \Z} \frac{|\hat{f}(\lambda_n)|^2}{4L^2} \\
+                               &= \frac{1}{2\pi} \sum_{n \in \Z} |\hat{f}(\lambda_n)|^2 \delta \lambda
+\end{align*}
+Again, taking $L \to \infty$, we see that the above expression becomes the integral:
+\[
+  \int_{-\infty}^{\infty} |f(x)|^2 \d{x} = \frac{1}{2\pi} \int_{-\infty}^{\infty} |\hat{f}(\lambda)|^2 \d{\lambda}
+\]
+which is exactly Parseval's theorem for Fourier transforms from \cref{parseTrans}.
+\subsection{Central Limit Theorem}
+Let $X_1, \ldots, X_n$ be independent and identically distributed random variables with mean $\mu = 0$ and variance $\sigma^2 = 1$.
+Define the random variable $S_n$ as:
+\[
+  S_n = \frac{1}{\sqrt{n}} (X_1 + \cdots + X_n)
+\]
+and the probability density of $S_n$ be denoted by $f_n(x)$.
+
+Taking the Fourier transform of $f_n$, we see that:
+\begin{align*}
+  \hat{f}_n(\lambda) &= \int_{-\infty}^{\infty} e^{-i \lambda x} f_n(x) \d{x} \\
+                     &= \E[e^{-i \lambda S_n}]
+\end{align*}
+We can find the limit of this using techniques from IA Probability:
+\begin{align*}
+  \E[e^{-i \lambda S_n}] &= \E[e^{-i \lambda X_1/\sqrt{n} - \cdots - i \lambda X_n/\sqrt{n}}] \\
+                         &= \E[e^{-i \lambda X_1/\sqrt{n}}] \cdots \E[e^{-i \lambda X_n/\sqrt{n}}] \text{ by independence} \\
+                         &= (\E[e^{-i \lambda X_1/\sqrt{n}}])^{n} \text{ as $X_i$ are identically distributed} \\
+                         &= \left(\E\left[1 - \frac{i \lambda X_1}{\sqrt{n}} - \frac{\lambda^2 X^2_1}{2n} + o\left(\frac{1}{n}\right)\right]\right)^{n} \\
+                         &= \left(1 + 0 - \frac{\lambda^2}{2n} + o\left(1/n\right)\right)^{n} \\
+                         &\to e^{-\lambda^2/2} \text{ as $n \to \infty$}
+\end{align*}
+Thus $\hat{f}_n(\lambda) \to e^{-\lambda^2/2}$ as $n \to \infty$.
+
+Recall from \cref{gaussSec} that:
+\[
+  \mathcal{F}_{x \to \lambda}\left[\frac{1}{\sqrt{2\pi}} e^{-x^2/2}\right] = e^{-\lambda^2/2}
+\]
+So using the Fourier inversion theorem (\cref{fourierInverse}):
+\begin{align*}
+  \lim_{n \to \infty} f_n(x) &= \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} e^{-\lambda^2/2} \d{\lambda} \\
+                             &= \frac{1}{\sqrt{2\pi}} e^{-x^2/2}
+\end{align*}
+Hence $S_n \to \mathcal{N}(0, 1)$ in distribution as $n \to \infty$, which is exactly the central limit theorem.
+\subsection{An Aside on PDEs}
+\nonexaminable
+We saw in \cref{fourierPoly} that for a polynomial $p$:
+\[
+  p\left(\deriv{}{x}\right) y = f \implies \hat{y}(\lambda) = \frac{\hat{f}(\lambda)}{p(i\lambda)}
+\]
+Suppose that $p$ is instead of a polynomial an multiple variables and we have the PDE:
+\[
+  p\left(\pderiv{}{x_1}, \ldots, \pderiv{}{x_n}\right) y = f
+\]
+We define the Fourier series in higher dimensions by replacing $e^{-i \lambda x}$ with $e^{-i \vec{\lambda} \cdot \vec{x}}$ and integrating over $\R^{n}$ instead of $\R$.
+In this case, we have the relation:
+\[
+  \hat{y}(\lambda_1, \ldots, \lambda_n) = \frac{\hat{f}(\lambda_1, \ldots, \lambda_n)}{p(i \lambda_1, \ldots, i \lambda_n)}
+\]
+We can similarly adapt \cref{fourierInverse} to yield:
+\[
+  y(\vec{x}) = \frac{1}{(2 \pi)^{n}} \int_{\R^{n}} e^{i \vec{\lambda} \cdot \vec{x}} \frac{\hat{f}(\vec{\lambda})}{p(i \vec{\lambda})} \d^{n}{\vec{\lambda}}
+\]
+Unfortunately we have not just solved all PDEs as this integral is usually difficult to compute due to the poles introduced by the zeroes of $p(i \vec{\lambda})$.
 \end{document}
