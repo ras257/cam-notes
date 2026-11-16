@@ -1004,4 +1004,363 @@ and $V_{\lambda} = \langle e_1 \rangle$.
   for some $n_i \in \N$ and $\lambda_i \in \C$ (not necessarily distinct) with $n_1 + \cdots + n_k = n$.
   We then call $J_{n_i}(\lambda_i)$ the \textit{Jordan blocks of $A$}.
 \end{definition}
+\begin{theorem}[Existence and uniqueness of Jordan normal forms]
+  Every $A \in \mathcal{M}_{n \times n}(\C)$ is similar to a matrix $\operatorname{JNF}(A)$ which is in Jordan normal form.
+  Moreover, $\operatorname{JNF}(A)$ is unique up to rearrangement of Jordan blocks. \label{JNFUnique}
+\end{theorem}
+We shall only prove uniqueness here although a sketch for the proof of uniqueness will be provided.
+Existence will be shown fully in IB Groups Rings and Modules
+\begin{example}[$2\times 2$ matrices]
+  There are three types of Jordan normal form for $2\times 2$ matrices, for $\lambda \neq \mu$, they are:
+  \begin{center}
+  \begin{tabular}{c|c|c}
+    Jordan normal form $A$ & $m_{A}(t)$ & Diagonalisable? \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 0 \\
+    0 & \lambda \\
+  \end{pmatrix}$ & $t - \lambda$ & \tick \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 0 \\
+    0 & \mu \\
+  \end{pmatrix}$ & $(t - \lambda)(t - \mu)$ & \tick \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 1 \\
+    0 & \lambda \\
+  \end{pmatrix}$ &  $(t - \lambda)^2$ & \cross
+  \end{tabular}
+  \end{center}
+  We are able to find the minimal polynomials by considering polynomials $p$ which annihilate the matrix but none of the proper divisors of $p$ do.
+\end{example}
+\begin{example}[$3\times 3$ matrices]
+  There are six types of Jordan normal form for $3\times 3$ matrices, for distinct $\lambda, \mu, \nu$, they are:
+  \begin{center}
+  \begin{tabular}{c|c|c}
+  Jordan normal form $A$ & $m_{A}(t)$ & Diagonalisable? \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 0 & 0 \\
+    0 & \lambda & 0 \\
+    0 & 0 & \lambda \\
+  \end{pmatrix}$ & $t - \lambda$ & \tick \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 0 & 0 \\
+    0 & \lambda & 0 \\
+    0 & 0 & \mu \\
+  \end{pmatrix}$ & $(t - \lambda)(t - \mu)$ & \tick \\
+  \hline
+  $\begin{pmatrix}
+      \lambda & 0 & 0 \\
+      0 & \mu & 0 \\
+      0 & 0 & \nu \\
+  \end{pmatrix}$ & $(t - \lambda)(t - \mu)(t - \nu)$ & \tick \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 1 & 0 \\
+    0 & \lambda & 0 \\
+    0 & 0 & \mu \\
+  \end{pmatrix}$ & $(t - \lambda)^2(t - \mu)$ & \cross \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 1 & 0 \\
+    0 & \lambda & 0 \\
+    0 & 0 & \lambda \\
+  \end{pmatrix}$ & $(t - \lambda)^2$ & \cross \\
+  \hline
+  $\begin{pmatrix}
+    \lambda & 1 & 0 \\
+    0 & \lambda & 1 \\
+    0 & 0 & \lambda \\
+  \end{pmatrix}$ & $(t - \lambda)^3$ & \cross \\
+  \end{tabular}
+  \end{center}
+\end{example}
+\begin{remark}
+  For $n \leq 3$, the Jordan normal form of an $n \times n$ matrix $A$ is determine uniquely by $\chi_A$  and $m_{A}$.
+  We will show on Example Sheet 3 Q7 that this is not the case for $4 \times 4$ matrices.
+  This is false for $4 \times 4$ matrices, see Example Sheet 3.
+\end{remark}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item Consider a diagonal block matrix in $\mathcal{M}_{n \times n}(\C)$:
+      \[
+        A = \left(\begin{array}{c|c|c}
+            A_1 & O & O \\ \hline
+            O & \ddots & O \\ \hline
+          O & O & A_k
+        \end{array}\right) \in \mathcal{M}_{n \times n}(\C)
+      \]
+      where $A_i \in \mathcal{M}_{n_i \times n_i}(\C)$ with $n_1 + \cdots + n_k = n$.
+
+      For any $p(t) \in \C[t]$, utilising how diagonal block matrices behave when raised to a power, we have:
+      \[
+        p(A) = \left(\begin{array}{c|c|c}
+            p(A_1) & O & O \\ \hline
+            O & \ddots & O \\ \hline
+          O & O & p(A_k)
+        \end{array}\right) \in \mathcal{M}_{n \times n}(\C)
+      \]
+      We then see that $p$ annihilates $A$ if and only if $p$ annihilates each of the blocks $A_i$.
+      So $m_{A}$ is the smallest degree monic polynomial which annihilates all of the blocks $A_i$.
+      Thus $m_{A}$ is the lowest common multiple of the $m_{A_i}$, that is:
+      \[
+        m_{A}(t) = \lcm(m_{A_1}(t), \ldots, m_{A_k}(t))
+      \]
+      where the lowest common multiple of a set of polynomials is the minimal degree polynomial (up to a constant non-zero multiple) that is divisible by all of the polynomials.
+      Similarly to the lowest common multiple over $\Z$, we can determine this as:
+      \[
+        m_{A}(t) = \frac{m_{A_1}(t) \cdots m_{A_k}(t)}{\gcd(m_{A_1}, \ldots, m_{A_k}(t))}
+      \]
+      where the greatest common divisor of a set of polynomials is the maximal degree polynomial (up to a constant non-zero multiple) that divides all of the polynomials.
+
+      We can use this to find the multiplicity of the root $\lambda$ in $m_{A}$ similarly to how we find the powers in the prime factorisation of the lowest common multiple of a set of integers:
+      \[
+        c_{\lambda}(A) = \max\{c_{\lambda}(A_1), \ldots, c_{\lambda}(A_k)\}
+      \]
+    \item Now consider $A - \lambda I_n$ for $\lambda \in \C$ of $A$:
+      \[
+        A - \lambda I_n = \left(\begin{array}{c|c|c}
+            (A_1 - \lambda I_{n_1}) & O & O \\ \hline
+            O & \ddots & O \\ \hline
+          O & O & (A_k - \lambda I_{n_k})
+        \end{array}\right) \in \mathcal{M}_{n \times n}(\C)
+      \]
+      Using \cref{blockDiagonal}, we see that the characteristic polynomial is:
+      \[
+        \chi_{A}(t) = \prod_{i = 1}^{k} \chi_{A_i}(t)
+      \]
+      So if we take $a_{\lambda}(A_i) = 0$ when $\lambda$ is not an eigenvalue of $A_i$, then:
+      \[
+        a_{\lambda}(A) = \sum_{i = 1}^{k} a_{\lambda}(A_i)
+      \]
+      So the algebraic multiplicity of $\lambda$ in $A$ is the sum of the algebraic multiplicities of $\lambda$ in each of the blocks $A_i$.
+    \item Moreover, looking at the block matrix form of $A - \lambda I_n$, we clearly have:
+      \[
+        \rank(A - \lambda I_n) = \sum_{i = 1}^{k} \rank(A_i - \lambda I_{n_1})
+      \]
+      Since $g_{\lambda}(A) = \dim(V_{\lambda}) = \nullity(A - \lambda I_n)$, we have:
+      \begin{align*}
+        g_{\lambda}(A) &= \nullity(A - \lambda I_n) \\
+                       &= n - \rank(A - \lambda I_n) \text{ by RNT} \\
+                       &= n_1 + \cdots + n_k - \sum_{i = 1}^{n} \rank(A_i - \lambda I_{n_i})) \\
+                       &= \sum_{i = 1}^{k} (n_i - \rank(A_i - \lambda I_{n_i})) \\
+                       &= \sum_{i = 1}^{k} \nullity(A_i - \lambda I_{n_i}) \\
+                       &= \sum_{i = 1}^{k} g_{\lambda}(A_i)
+      \end{align*}
+      So the geometric multiplicity of $\lambda$ in $A$ is the sum of the geometric multiplicities of $\lambda$ in each of the blocks $A_i$.
+  \end{enumerate}
+\end{remark}
+\begin{remark}[Recap]
+  Recall from \cref{JBExample} that for $A = J_{n}(\lambda)$:
+  \begin{equation}
+    a_{\lambda}(A) = n,\ g_{\lambda}(A) = 1, \text{ and } c_{\lambda}(A) = n \label{JBMultis}
+  \end{equation}
+\end{remark}
+\begin{proposition}
+  If $A \in \mathcal{M}_{n \times n}(\C)$ is in Jordan normal form and $\lambda$ is an eigenvalue of $A$, then: \label{JNFSize}
+  \begin{enumerate}
+    \item $c_{\lambda}(A)$ is the size of the largest $\lambda$-Jordan block in $A$.
+    \item $a_{\lambda}(A)$ is the sum of the sizes of the $\lambda$-Jordan blocks in $A$.
+    \item $g_{\lambda}(A)$ is the number of $\lambda$-Jordan blocks in $A$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  Since $A$ is in Jordan normal form, we can express $A$ as:
+  \[
+    A = \diag(J_{n_1}(\lambda_1), \ldots, J_{n_k}(\lambda_k))
+  \]
+  where $n_1 + \cdots + n_k = n$.
+  \begin{enumerate}
+    \item Using \cref{JBMulties}, $c_{\lambda}(J_{n_i}(\lambda_i)) = n_i$ if $\lambda_i = \lambda$ and 0 otherwise.
+      So applying \textbf{(i)} from the above remark, $c_{\lambda}(A)$ is the size of the largest $\lambda$-Jordan block in $A$.
+    \item Using \cref{JBMulties}, $a_{\lambda}(J_{n_i}(\lambda_i)) = n_i$ if $\lambda_i = \lambda$ and 0 otherwise.
+      So applying \textbf{(ii)} from the above remark, $a_{\lambda}(A)$ is the sum of the sizes of the $\lambda$-Jordan blocks in $A$.
+    \item Using \cref{JBMulties}, $c_{\lambda}(J_{n_i}(\lambda_i)) = 1$ if $\lambda_i = \lambda$ and 0 otherwise.
+      So applying \textbf{(ii)} from the above remark, $g_{\lambda}(A)$ is the number of $\lambda$-Jordan blocks in $A$.
+  \end{enumerate}
+\end{proof}
+\begin{remark}
+  \begin{enumerate}
+    \item Suppose $A, \overline{A} \in \mathcal{M}_{n \times n}(\C)$ are similar matrices.
+      Thus we can write $\overline{A} = PAP^{-1}$ for some $P \in \GL_n(\C)$.
+
+      Since $\chi_A(t)$ is invariant under matrix similarity, so are $a_{\lambda}(A)$ and $c_{\lambda}(A)$.
+      Moreover, from \cref{equivNice}, we see that $\rank(A - \lambda I) = \rank(P(A - \lambda I)P^{-1}) = \rank(\overline{A} - \lambda I)$, and so by \cref{RNT}, $g_{\lambda}(A) = \nullity(A - \lambda I) = \nullity(\overline{A} - \lambda I) = g_{\lambda}(\overline{A})$.
+
+      Thus $a_{\lambda}(A)$, $g_{\lambda}(A)$, and $c_{\lambda}(A)$ are all invariant under matrix similarity.
+    \item In particular, by \cref{JNFUnique} any $A \in \mathcal{M}_{n \times n}(\C)$ is similar to a unique matrix $\overline{A} \in \mathcal{M}_{n \times n}(\C)$ in Jordan normal form.
+      Thus if we find $a_{\lambda}(A)$, $g_{\lambda}(A)$, and $c_{\lambda}(A)$, we also know them for $\overline{A}$ and so can apply \cref{JNFSizes} to determine information about the Jordan blocks in the Jordan normal form for $A$.
+      This information alone is often enough to uniquely determine the Jordan normal form of $A$.
+  \end{enumerate}
+\end{remark}
+\begin{example}[Determining the Jordan normal form of a matrix]
+  Consider the matrix:
+  \[
+    A = \begin{pmatrix}
+    3 & -2 & 0 \\
+    1 & 0 & 0 \\
+    1 & 0 & 1 \\
+    \end{pmatrix}
+  \]
+  We start by calculating its characteristic polynomial:
+  \[
+    \chi_{A}(t) = (t - 1)^2(t - 2)
+  \]
+  which gives $a_{1} = 2$ and $a_{2} = 1$.
+  Thus, up to reordering of Jordan blocks, this gives us two possibilities:
+  \[
+    \begin{pmatrix}
+    2 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1 \\
+    \end{pmatrix} \text{ or } \begin{pmatrix}
+    2 & 0 & 0 \\
+    0 & 1 & 1 \\
+    0 & 0 & 1 \\
+    \end{pmatrix}
+  \]
+  To determine which of these two it is, we want to know if there are 1 or 2 $1$-Jordan blocks and so need to find $g_1(A)$.
+  To do this we consider $A - 1 \cdot I_3$:
+  \[
+    A - 1 \cdot I_3 = \begin{pmatrix}
+    2 & -2 & 0 \\
+    1 & -1 & 0 \\
+    1 & 0 & 0 \\
+    \end{pmatrix}
+  \]
+  This has $\ker(A - I_3) = \langle e_3 \rangle$.
+  So $g_{1} = 1$, i.e. there is only 1 $1$-Jordan block and so the Jordan normal form for $A$ must be the second of the above two options.
+
+  We now wish to find a basis for $\C^3$ in which $A$ is in its Jordan normal form.
+  Since the first block is the $2$-Jordan block, we want to find a basis for $V_{2}$:
+  \[
+    V_{2} = \ker(A - 2 \cdot I_3) = \langle v_1 \rangle
+  \]
+  where $v_1 = (2, 1, 2)^{\trans}$.
+  Since we know $e_3$ spans $V_{1}$, we take $v_2 = e_3$.
+  Looking at the Jordan normal form for $A$, we want to find $v_3$ such that $Av_3 = v_2 + v_3$.
+  One such $v_3$ is $v_3 = (1, 1, 0)^{\trans}$.
+
+  Thus the change of basis matrix to change $A$ into Jordan normal form is:
+  \[
+    P = \begin{pmatrix}
+    2 & 0 & 1 \\
+    1 & 0 & 1 \\
+    2 & 1 & 0 \\
+    \end{pmatrix}
+  \]
+  i.e. $\operatorname{JNF}(A) = P^{-1} A P$.
+\end{example}
+We can now prove the uniqueness of Jordan normal forms.
+\begin{proof}[Uniqueness -- \cref{JNFUnique}]
+  Let $A, \overline{A} \in \mathcal{M}_{n \times n}(\C)$ be similar suppose that $\overline{A}$ is in Jordan normal form.
+
+  For $\lambda \in \C$ and $r \in \N$, define $R_{\lambda, r}(\overline{A})$ to be the number of $\lambda$-Jordan blocks in $\overline{A}$ of size $\geq r$.
+  Thus knowing $R_{\lambda, r}(\overline{A})$ for all $\lambda$ and $r$ determines $\overline{A}$ up to rearrangement of Jordan blocks.
+  This is because we can use $R_{\lambda, r}(\overline{A}) - R_{\lambda, r - 1}(\overline{A})$ to determine the number of $\lambda$-Jordan blocks in $\overline{A}$ of size exactly $r$.
+
+  If we can show that $R_{\lambda, r}(A)$ is invariant under similarity of $A$, then any Jordan normal form matrix similar to $A$ is uniquely determined by a property of $A$ and so this Jordan normal form must be unique for a given $A$.
+  Thus we now want to find a characterisation of $R_{\lambda, r}(A)$ that is invariant under similarity.
+
+  Consider:
+  \begin{equation}
+    R_{\lambda, r}(A) = \rank((A - \lambda I_n)^{r - 1}) - \rank((A - \lambda I_n)^{r}) \label{invChara} \tag{\dag}
+  \end{equation}
+  To show this is invariant under similarity, for $P \in \GL_n(\C)$, we have:
+  \begin{align*}
+    P(A - \lambda I_n)^{k} P^{-1} &= (P(A - \lambda I_n)P^{-1})^{k} \\
+                                  &= (PAP^{-1} - \lambda I_n)^{k}
+  \end{align*}
+  Since these are similar, by \cref{equivNice}, they have the same rank and so:
+  \[
+    \rank((PAP^{-1} - \lambda I_n)^{k}) = \rank((A - \lambda I_n)^{k})
+  \]
+  So this characterisation is indeed invariant under similarity.
+  Hence we assume that $A$ itself is in Jordan normal form.
+
+  We now need to show that we actually have equality in \cref{invChara}.
+  For an arbitrary $\lambda$-Jordan block of $A$ of $J_{\ell}(\lambda)$ we have:
+  \[
+    J_{\ell}(\lambda) - \lambda I_{\ell} =
+    \begin{pmatrix}
+      0 & 1 & 0 & \cdots & 0 \\
+      0 & 0 & 1 & \ddots & 0 \\
+      \vdots & \ddots & \ddots & \ddots & \vdots \\
+      0 & 0 & 0 & 0 & 1 \\
+      0 & 0 & 0 & 0 & 0 \\
+    \end{pmatrix} \in \mathcal{M}_{\ell \times \ell}(\C)
+  \]
+  By matrix computation, we see that powers of this matrix  move the diagonal of $1$ entries up towards the top right of the matrix.
+  Each time this happens the rank of the matrix decreases by 1 and so:
+  \begin{align*}
+    \rank((J_{\ell}(\lambda) - \lambda I_{\ell})^{k}) &= \begin{cases}
+    \ell - k &  \text{ if } k \leq \ell \\
+    0 & \text{ if } k \geq \ell
+    \end{cases} \\
+    \implies \nullity((J_{\ell}(\lambda) - \lambda I_{\ell})^{k}) &= \begin{cases}
+    k & \text{ if } k \leq \ell \\
+    \ell & \text{ if } k \geq \ell
+    \end{cases}
+  \end{align*}
+  Moreover, for $\mu \neq \lambda$, $J_{\ell}(\mu) - \lambda I_{\ell}$ must be invertible as the only root of $\chi_{J_{\ell}(\mu)}$ is $\mu$.
+  Thus $\nullity((J_{\ell}(\mu) - \lambda I_{\ell})^k) = 0$.
+
+  So:
+  \begin{align*}
+    \rank((A - \lambda I_n)^{k}) &= n - \sum_{i = 1}^{k} \nullity((J_{n_i}(\lambda_i) - \lambda I_{n_i})^k) \\
+                                 &= n - k \cdot \#(\text{$\lambda$-Jordan blocks of size $\geq k$}) \\
+                                 &\hspace{0.4cm} - \sum \text{(sizes of $\lambda$-Jordan blocks of size $< k$)}
+  \end{align*}
+  Thus:
+  \begin{align*}
+    &\rank((A - \lambda I_n)^{r - 1}) - \rank((A - \lambda I_n)^{r}) \\
+    &= r \cdot \#(\text{$\lambda$-Jordan blocks of size $\geq r$}) \\
+    &\hspace{0.4cm} - (r - 1) \cdot \#(\text{$\lambda$-Jordan blocks of size $\geq r - 1$}) \\
+    &\hspace{0.4cm} + \sum \text{(sizes of $\lambda$-Jordan blocks of size $< r$)} \\
+    &\hspace{0.4cm} - \sum \text{(sizes of $\lambda$-Jordan blocks of size $< r - 1$)}
+  \end{align*}
+  We can simplify:
+  \begin{align*}
+    &\sum \text{(sizes of $\lambda$-Jordan blocks of size $< r$)} \\
+    &\hspace{0.4cm} - \sum \text{(sizes of $\lambda$-Jordan blocks of size $< r - 1$)} \\
+    &= (r - 1) \#(\text{$\lambda$-Jordan blocks of size $r - 1$})
+  \end{align*}
+  and:
+  \begin{align*}
+    &(r - 1) \cdot \#(\text{$\lambda$-Jordan blocks of size $\geq r - 1$}) \\
+    &= (r - 1)  \cdot (\#(\text{$\lambda$-Jordan blocks of size $r - 1$} + \#(\text{$\lambda$-Jordan blocks of size $r - 1$}))
+  \end{align*}
+  Therefore:
+  \begin{align*}
+    \rank((A - \lambda I_n)^{r - 1}) - \rank((A - \lambda I_n)^{r}) &= (r - (r - 1)) \#(\text{$\lambda$-Jordan blocks of size $\geq r$}) \\
+                                                                    &= \#(\text{$\lambda$-Jordan blocks of size $\geq r$})
+  \end{align*}
+  as required.
+\end{proof}
+\begin{definition}[Generalised eigenspace]
+  Let $V$ be a finite dimensional $\C$-vector space and $\alpha \in \mathcal{L}(V, V)$ with:
+  \[
+    m_{\alpha}(t) = (t - \lambda_1)^{c_1} \cdots (t - \lambda_k)^{c_k}
+  \]
+  for $\lambda_i$ distinct eigenvalue of $\alpha$ and $c_i \geq 1$.
+  We define the \textit{generalised $\lambda_i$ eigenspace} of $\alpha$ as:
+  \[
+    V_i = \ker((\alpha - \lambda_i \id_V)^{c_i}) \leq V
+  \]
+\end{definition}
+\begin{lemma}
+  If $v_i \in V_i \setminus \{\vec{0}\}$ for $i \in \{1, \ldots, k\}$ where $V_i$ is the generalised eigenspace for $\lambda_i$, then $\{v_1, \ldots, v_k\}$ is linearly independent. \label{genLI}
+\end{lemma}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\begin{theorem}[Generalised eigenspace decomposition]
+  $V$ is always the direct sum of its generalised eigenspaces.
+\end{theorem}
+\begin{proof}
+  See Example Sheet 3 Q8 -- Shown using \cref{genLI} and by adapting the criterion for diagonalisation from \cref{annaLinear}.
+\end{proof}
 \end{document}
