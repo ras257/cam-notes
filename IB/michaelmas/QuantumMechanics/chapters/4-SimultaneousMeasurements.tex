@@ -20,7 +20,7 @@
     \langle \hat{O} \rangle_{\psi} = (\psi, \hat{O} \psi)
   \]
 \end{remark}
-\section{Commutator}
+\section{Commutator} \label{commSec}
 \begin{definition}[Commutator]
   The \textit{commutator} of the operators $\hat{A}$ and $\hat{B}$ is defined as:
   \[
@@ -59,15 +59,18 @@ This has the following properties:
   \end{align*}
   and so $[\hat{x}, \hat{p}] = i\hbar \hat{I}$ where $\hat{I}$ is the \textit{identity operator}.
 \end{example}
-\begin{definition}[Continuously diagonalisable]
-  We say that a pair of hermitian operators $\hat{A}$ and $\hat{B}$ are \textit{continuously diagonalisable} in $\mathcal{H}$ if there exists a complete basis $\mathcal{H}$ of eigenfunctions $\{\psi_i\}_{i \in I}$ for both $\hat{A}$ and $\hat{B}$ where:
+\begin{definition}[Simultanously diagonalisable]
+  We say that a pair of hermitian operators $\hat{A}$ and $\hat{B}$ are \textit{simultaneously diagonalisable} in $\mathcal{H}$ if there exists a complete basis $\mathcal{H}$ of eigenfunctions $\{\psi_i\}_{i \in I}$ for both $\hat{A}$ and $\hat{B}$ where:
   \[
     \hat{A} \psi_i = a_i \psi_i \text{ and } \hat{B} \psi_i = b_i \psi_i
   \]
   for some eigenvalues $a_i, b_i \in \R$.
 \end{definition}
+\begin{remark}
+  If two hermitian operators are simultaneously diagonalisable, then we can measure the observables related to each operator simultaneously.
+\end{remark}
 \begin{theorem}
-  If $\hat{A}$ and $\hat{B}$ are hermitian operators, then they are simultaneously diagonalisable if and only if $[\hat{A}, \hat{B}] = 0$.
+  If $\hat{A}$ and $\hat{B}$ are hermitian operators, then they are simultaneously diagonalisable if and only if $[\hat{A}, \hat{B}] = 0$. \label{simDiag}
 \end{theorem}
 \begin{proof}
   \begin{proofdirection}{Assume $\hat{A}$ and $\hat{B}$ are simultaneously diagonalisable}
@@ -350,4 +353,120 @@ The above has some important consequences:
       This is the quantum version of the classical relation $p = mv$.
   \end{enumerate}
 \end{example}
+\section{Harmonic Oscillator Revisited}
+\nonexaminable
+Recall from \cref{harmonicSec} that the potential for the quantum harmonic oscillator is:
+\[
+  U(x) = \frac{1}{2} m\omega^2 x^2
+\]
+Recall also from \cref{opExamples} that we can write the Hamiltonian as:
+\[
+  \hat{H} = \frac{\hat{p}^2}{2m} + U(x)
+\]
+Thus Hamiltonian for the quantum harmonic oscillator can be written as:
+\[
+  \hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2}m \omega^2 \hat{x}^2
+\]
+We first notice that, in this case, we can factorise the operator $\hat{H}$ as:
+\begin{align*}
+  \hat{H} &= \frac{1}{2m} (\hat{p} + i \omega m \hat{x})(\hat{p} - im \omega \hat{x}) + \frac{i\omega}{2}(\hat{p} \hat{x} - \hat{x} \hat{p}) \\
+          &= \frac{1}{2m} (\hat{p} + i \omega m \hat{x})(\hat{p} - im \omega \hat{x}) + \frac{\hbar \omega}{2} \hat{I} \text{ using \cref{commExample}}
+\end{align*}
+\begin{definition}[Harmonic oscillator ladder operators]
+  For this problem, we define the \textit{ladder operators} as:
+  \begin{align*}
+    \hat{a} &= \frac{1}{\sqrt{2m}}(\hat{p} - im\omega \hat{x}) \\
+    \hat{a}^{\dag} &= \frac{1}{\sqrt{2m}}(\hat{p} + im\omega \hat{x})
+  \end{align*}
+\end{definition}
+\begin{remark}
+  Since $\hat{p}$ and $\hat{x}$ are hermitian operators, we see that $\hat{a}$ and $\hat{a}^{\dag}$ are actually hermitian conjugates of one another.
+\end{remark}
+With this, we can write $\hat{H}$ as:
+\[
+  \hat{H} = \hat{a}^{\dag} \hat{a} + \frac{\hbar \omega}{2}\hat{I}
+\]
+We now want to compute the commutators between the three operators $\hat{a}, \hat{a}^{\dag}$ and $\hat{H}$.
+From \cref{commExample}, we know that $[\hat{x}, \hat{p}] = i\hbar \hat{I}$ and so:
+\begin{align*}
+  [\hat{a}, \hat{a}^{\dag}] &= \frac{1}{2m}[\hat{p} - im\omega\hat{x}, \hat{p} + im\omega\hat{x}] \\
+                            &= \frac{1}{2m}([\hat{p}, \hat{p}] - im\omega[\hat{x}, \hat{p}] + im\omega[\hat{p}, \hat{x}] - (im\omega)^2[\hat{x}, \hat{x}]) \\
+                            &= \frac{1}{2m}(-2im\omega[\hat{x}, \hat{p}]) \\
+                            &= -i\omega \cdot i\hbar\hat{I} \\
+                            &= \hbar \omega \hat{I} \\
+\end{align*}
+Using the properties of the commutator from \cref{commSec}, we have:
+\begin{align*}
+  [\hat{H}, \hat{a}] &= \left[\hat{a}^{\dag} \hat{a} + \frac{\hbar\omega}{2}\hat{I}, \hat{a}\right] \\
+                     &= [\hat{a}^{\dag} \hat{a}, \hat{a}] + \frac{\hbar \omega}{2} [\hat{I}, \hat{a}] \\
+                     &= [\hat{a}^{\dag} \hat{a}, \hat{a}] \text{ since $\hat{I}$ commutes with everything} \\
+                     &= \hat{a}^{\dag}[\hat{a}, \hat{a}] + [\hat{a}^{\dag}, \hat{a}] \hat{a} \\
+                     &= -\hbar\omega\hat{I} \hat{a} \\
+                     &= -\hbar \omega \hat{a}
+\end{align*}
+Finally:
+\begin{align*}
+  [\hat{H}, \hat{a}^{\dag}] &= \left[\hat{a}^{\dag} \hat{a} + \frac{\hbar\omega}{2}\hat{I}, \hat{a}^{\dag}\right] \\
+                            &= [\hat{a}^{\dag} \hat{a}, \hat{a}^{\dag}] \\
+                            &= \hat{a}^{\dag}[\hat{a}, \hat{a}^{\dag}] + [\hat{a}^{\dag}, \hat{a}^{\dag}] \hat{a} \\
+                            &= \hat{a}^{\dag} \hbar \omega \hat{I} \\
+                            &= \hbar \omega \hat{a}^{\dag}
+\end{align*}
+Suppose that $\chi$ is an eigenstate of $\hat{H}$ with eigenvalue $E$, i.e. $\hat{H} \chi = E \chi$.
+Since $\hat{a}$ is an operator, $\hat{a} \chi$ is just another state.
+Using $\hat{H}$, we can calculate its energy:
+\begin{align*}
+  \hat{H}(\hat{a} \chi) &= \hat{H} \hat{a} \chi \\
+                        &= \hat{H} \hat{a} \chi - \hat{a} \hat{H} \chi + \hat{a} \hat{H} \chi \\
+                        &= [\hat{H}, \hat{a}]\chi + \hat{a} \hat{H} \chi \\
+                        &= -\hbar \omega(\hat{a} \chi) + E(\hat{a} \chi) \\
+                        &= (E - \hbar \omega) (\hat{a} \chi)
+\end{align*}
+and similarly for the state $\hat{a}^{\dag} \chi$:
+\[
+  \hat{H}(\hat{a}^{\dag} \chi) = (E + \hbar \omega)(\hat{a}^{\dag} \chi)
+\]
+So $\hat{a} \chi$ is an eigenstate of $\hat{H}$ with eigenvalue $E - \hbar \omega$ and $\hat{a}^{\dag} \chi$ is an eigenstate of $\hat{H}$ with eigenvalue $E + \hbar \omega$.
+Looking at \cref{energyOsc} from when we first considered this problem, we see that $\hbar \omega$ are the steps between energy quanta that are possible for solutions.
+So $\hat{a}$ transforms $\chi$ to the state with energy one quanta higher, and $\hat{a}$ transforms $\chi$ to the state with energy one quanta lower.
+This is why $\hat{a}$ and $\hat{a}^{\dag}$ are known as ladder operators.
+
+We can apply $\hat{a}$ and $\hat{a}^{\dag}$ multiple times to yield:
+\begin{align*}
+  (\hat{a}^{n} \chi) &\to \text{eigenstate of $\hat{H}$ with eigenvalue } E - n \hbar \omega \\
+  ([\hat{a}^{\dag}]^{n} \chi) &\to \text{eigenstate of $\hat{H}$ with eigenvalue } E + n \hbar \omega \\
+\end{align*}
+If it were true that $\hat{a}^{n} \chi$ was never 0, then we could always find an eigenfunction with arbitrarily low energy, i.e. there would be no ground state.
+However, since this potential is always positive and kinetic energy is always positive, we must have $E \geq 0$, i.e. $\langle \hat{H} \rangle_{\chi} \geq 0$.
+Thus we cannot have an eigenstate of arbitrarily low energy and thus we must have a group state.
+
+So we want to find an eigenstate $\chi_0$ such that $\hat{a} \chi_0 = 0$:
+\begin{align*}
+  \hat{a} \chi_0 &= 0 \\
+  \iff \frac{1}{\sqrt{2m}}(\hat{p} - im\omega\hat{x})\chi_0 &= 0 \\
+  \iff -i\hbar \pderiv{\chi_0}{x} - im\omega x\chi_{0}(x) &= 0 \\
+  \iff \chi_0(x) = Ce^{-m\omega x^2/2\hbar} \text{ for some } C \in \C
+\end{align*}
+where we can pick $C \in \C$ so that $\chi_0$ is normalised since $e^{-m\omega x^2/2}$ is square integrable.
+
+To find the energy of $\chi_0$:
+\begin{align*}
+  \hat{H} \chi_0 &= \hat{a}^{\dag} \hat{a} \chi_0 + \frac{\hbar \omega}{2} \hat{I} \chi_0 \\
+                 &= \frac{\hbar \omega}{2} \chi_0
+\end{align*}
+Thus the eigenvalue of $\chi_0$ under $\hat{H}$ $\hbar\omega/2$.
+Thus $E_0 = \hbar \omega/2$ which agrees with what we saw in \cref{energyOsc}.
+
+To find eigenstates with $E > E_0$, we just apply the upwards ladder operator $n$ times to $\chi_0$:
+\begin{align*}
+  \chi_n &= (\hat{a}^{\dag})^{n} \chi_0 \\
+         &= \frac{1}{(2m)^{n/2}} (\hat{p} + imx\omega \hat{x})^{n}\chi_0 \\
+         &= \frac{C}{(2m)^{n/2}} \left(-i\hbar \pderiv{}{x} + im\omega x\right)^{n} e^{-m\omega x^2/2\hbar}
+\end{align*}
+which is reminiscent of \cref{hermGen} used to generate Hermite polynomials.
+Since $E_0 = \hbar\omega/2$, using the properties of the ladder operator $\hat{a}^{\dag}$ as derived above, $\chi_n$ will have energies given by:
+\[
+  E_n = \frac{\hbar \omega}{2} + n\hbar \omega = \left(n + \frac{1}{2}\right)\hbar\omega
+\]
+which is exactly as in \cref{energyOsc}.
 \end{document}

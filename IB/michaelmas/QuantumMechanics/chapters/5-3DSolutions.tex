@@ -1,0 +1,133 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{3D Solutions to the Schr\"odinger Equation}
+\section{TISE in \texorpdfstring{$\R^3$}{3D}}
+The TISE in $\R^3$ is given by:
+\[
+  -\frac{\hbar^2}{2m} \nabla^2 \chi(\vec{x}) + U(\vec{x})\chi(\vec{x}) = E\chi(\vec{x})
+\]
+We would like to study spherically symmetric potentials $U(\vec{x}) = U(r)$ and so it is convenient to consider spherical polar coordinates.
+\begin{remark}[Recap]
+  Recall from IA Vector Calculus that spherical polar coordinates are defined by:
+  \[
+    \vec{x}(r, \theta, \varphi) = r\begin{pmatrix}
+    \sin \theta \cos \varphi \\
+    \sin \theta \sin \varphi \\
+    \cos \theta \\
+    \end{pmatrix} = r \vec{e}_r
+  \]
+  where $r \geq 0$, $\theta \in [0, \pi]$ and $\varphi \in [0, 2\pi)$:
+  \begin{itemize}
+    \item $r$ is called the \textit{radial distance} and is the distance the origin to $\vec{x}$.
+    \item $\theta$ is called the \textit{polar angle} and is the angle between the $z$-axis and $\vec{x}$ measured down from the $z$ axis towards the $x$-$y$ plane
+    \item $\varphi$ is called the \textit{azimuth angle} and is the angle measured anticlockwise from the $x$-axis round to the $y$-axis of the projection of $\vec{x}$ onto the $x$-$y$ plane.
+  \end{itemize}
+  Recall also that when performing a change of variables in a volume integral, we have to introduce a factor of the \textit{Jacobian} $|J| = r^2 \sin \theta$:
+  \[
+    \int_{\R^3} f(\vec{x}) \d{V} = \int_{0}^{2\pi} \int_{0}^{\pi} \int_{0}^{\infty} F(r, \theta, \varphi) r^2 \sin \theta \d{r} \d{\theta} \d{\varphi}
+  \]
+  where $F(r, \theta, \varphi) = f(\vec{x}(r, \theta, \varphi))$.
+
+  Finally, the Laplacian in spherical polar coordinates is given by:
+  \[
+    \nabla^2 f = \pderiv[2]{f}{r} + \frac{2}{r} \pderiv{f}{r} + \frac{1}{r^2 \sin \theta} \pderiv{}{\theta}\left(\pderiv{f}{\theta} \sin \theta\right) + \frac{1}{r^2 \sin^2 \theta} \pderiv[2]{f}{\varphi}
+  \]
+\end{remark}
+In IA Dynamics and Relativity, we saw that when we had a spherically symmetric potential, the rate of change of angular momentum $\vec{L} = \vec{x} \times \vec{p}$ was always 0, that is:
+\[
+  \deriv{\vec{L}}{t} = \deriv{}{t}(\vec{x} \times \vec{p}) = \vec{0}
+\]
+Since $\vec{L}$ is constant and $\vec{L} \cdot \vec{x} = 0$, we concluded that the motion must be restricted to the plane $\vec{L} \cdot \vec{x} = 0$.
+On this plane, we could then solve in the radial direction, reducing the problem to 1D motion, where we can use $\vec{L}$ to determine the angular component.
+We would like to try and formulate a quantum mechanical version of this.
+\section{Angular Momentum Operator}
+In 3D, the momentum operator we defined in 1D in \cref{opExamples} becomes:
+\[
+  \hat{p} = -i\hbar \nabla
+\]
+and the position operator becomes:
+\[
+  \hat{x} = \vec{x}
+\]
+\begin{definition}[Angular momentum operator]
+  We define the \textit{angular momentum operator} as:
+  \[
+    \hat{L} = \hat{x} \times \hat{p} = -i\hbar\vec{x} \times \nabla
+  \]
+\end{definition}
+In Cartesian coordinates, the components of this are:
+\begin{align*}
+  \hat{L}_i &= [\hat{x} \times \hat{p}]_i \\
+            &= \levi_{i j k} \hat{x}_j \hat{p}_k \\
+            &= -i\hbar \levi_{i j k} x_j \pderiv{}{x_k}
+\end{align*}
+\subsubsection{Properties}
+\begin{enumerate}
+  \item Since $\hat{L}_i = \levi_{i j k} \hat{x}_j \hat{p}_k$ and the operators $\hat{x}_j = x_j$ and $\hat{p}_k = -i\hbar \pderiv{}{x_k}$ are both Hermitian, for any state $\psi \in \mathcal{H}$ we have:
+    \begin{align*}
+      (\hat{L}_i)^{\dag}\psi &= \levi_{i j k}(\hat{x}_j \hat{p}_k)^{\dag}\psi \\
+                             &= \levi_{i j k}\hat{p}^{\dag}_k \hat{x}^{\dag}_j\psi \text{ by \cref{opProp} \textbf{(ii)}} \\
+                             &= \levi_{i j k}\hat{p}_k \hat{x}_j\psi \text{ as $\hat{x}_j$ and $\hat{p}_k$ are Hermitian} \\
+                             &= \levi_{i j k}\left(-i\hbar \pderiv{}{x_k}\right)(x_j\psi) \\
+                             &= \levi_{i j k} x_j \left(-i\hbar \pderiv{}{x_k}\right)\psi \text{ as $\levi_{i j k} = 0$ if $j = k$} \\
+                             &= \levi_{i j k} \hat{x}_j \hat{p}_k \psi \\
+                             &= \hat{L}_i\psi
+    \end{align*}
+    Thus $(\hat{L}_i)^{\dag} = \hat{L}_i$, so $\hat{L}_i$ is Hermitian, as expected of an operator associated with a physical observable.
+  \item The components of the angular momentum operator do not commute with each other, that is, $[\hat{L}_i, \hat{L}_j] \neq 0$ for $i \neq j$.
+    \begin{align*}
+      [\hat{L}_i, \hat{L}_j] &= \levi_{i p q} \levi_{j r s} [\hat{x}_p \hat{p}_q, \hat{x}_r \hat{p}_s] \\
+                             &= \levi_{i p q} \levi_{j r s} (\hat{x}_p[\hat{p}_q, \hat{x}_r \hat{p}_s] + [\hat{x}_p, \hat{x}_r, \hat{p}_s]\hat{p}_q) \\
+                             &= \levi_{i p q} \levi_{j r s} (\hat{x}_p([\hat{p}_q, \hat{x}_r]\hat{p}_s + \hat{x}_r[\hat{p}_q, \hat{p}_s]) + ([\hat{x}_p, \hat{x}_r]\hat{p}_s + \hat{x}_r[\hat{x}_p, \hat{p}_s])\hat{p}_q)
+    \end{align*}
+    We then see that since partials commute $[\hat{p}_q, \hat{p}_s] = 0$ and since multiplication is commutative $[\hat{x}_p, \hat{x}_r] = 0$.
+    Moreover, for any $\psi \in \mathcal{H}$:
+    \begin{align*}
+      [\hat{p}_q, \hat{x}_r]\psi &= \hat{p}_q \hat{x}_r \psi - \hat{x}_r \hat{p}_q \psi \\
+                                 &= -i\hbar\pderiv{}{x_q}(x_r \psi) + i\hbar x_r \pderiv{\psi}{x_q} \\
+                                 &= -i\hbar\delta_{q r} \psi - i\hbar x_r \pderiv{\psi}{x_q} + i\hbar x_r \pderiv{\psi}{x_q} \\
+                                 &= -i\hbar \delta_{q r} \psi
+    \end{align*}
+    So $[\hat{p}_q, \hat{x}_r] = -i\hbar\delta_{q r}\hat{I}$.
+    Substituting back in, we obtain:
+    \begin{align*}
+      [\hat{L}_i, \hat{L}_j] &= \levi_{i p q} \levi_{j r s} (\hat{x}_p (-i\hbar \delta_{q r}\hat{p}_s) + \hat{x}_r(i\hbar\delta_{p s}\hat{p}_q)) \\
+                             &= -\levi_{i p q} \levi_{j q s} i\hbar \hat{x}_p \hat{p}_s + \levi_{i p q}\levi_{j r p} i\hbar \hat{x}_r \hat{p}_q \\
+                             &= -(\delta_{i s}\delta_{p j} - \delta_{i j}\delta_{p s})i\hbar \hat{x}_p \hat{p}_s + (\delta_{q j}\delta_{i r} - \delta_{q r}\delta_{i j})i\hbar \hat{x}_r \hat{p}_q \\
+                             &= i\hbar(-\hat{x}_j\hat{p}_i + \delta_{i j}\hat{x}_p\hat{p}_p + \hat{x}_i\hat{p}_j - \delta_{i j}\hat{x}_r\hat{p}_r) \\
+                             &= i\hbar(\hat{x}_i\hat{p}_j - \hat{x}_j\hat{p}_i) \\
+    \end{align*}
+    Finally, we see that:
+    \begin{align*}
+      \levi_{i j k} \hat{L}_k &= \levi_{i j k}\levi_{p q k} \hat{x}_p \hat{p}_q \\
+                              &= (\delta_{i p}\delta_{j q} - \delta_{i q}\delta_{j p})\hat{x}_p \hat{p}_q \\
+                              &= \hat{x}_i \hat{p}_j - \hat{x}_j \hat{p}_i
+    \end{align*}
+    giving the result $[\hat{L}_i, \hat{L}_j] = i\hbar\levi_{i j k}\hat{L}_k$.
+
+    Since $\hat{L}_i$ and $\hat{L}_j$ do not commute for $i \neq j$, we cannot measure different components of the angular momentum simultaneously.
+    This means that we cannot have a well defined angular momentum in all three directions simultaneously.
+\end{enumerate}
+\begin{definition}[Total angular momentum operator]
+  We define the \textit{total angular momentum operator} as:
+  \[
+    \hat{L}^2 = \hat{L}^2_1 + \hat{L}^2_2 + \hat{L}^2_3
+  \]
+\end{definition}
+This does commute with each component of $\hat{L}$:
+\begin{align*}
+  [\hat{L}^2, \hat{L}_i] &= [\hat{L}_j \hat{L}_j, \hat{L}_i] \\
+                         &= \hat{L}_j[\hat{L}_j, \hat{L}_i] + [\hat{L}_j, \hat{L}_i] \hat{L}_j \\
+                         &= \hat{L}_j(i\hbar\levi_{j i k}\hat{L}_k) + i\hbar\levi_{j i k}\hat{L}_k \hat{L}_j \\
+                         &= i\hbar\levi_{j i k}(\hat{L}_j\hat{L}_k + \hat{L}_k \hat{L}_j) \\
+                         &= 0 \text{ since } \hat{L}_j\hat{L}_k + \hat{L}_k \hat{L}_j \text{ is symmetric in $j$ and $k$}
+\end{align*}
+So $\hat{L}^2$ and $\hat{L}_i$ are simultaneously diagonalisable, by \cref{simDiag}, we can find a joint set of eigenstates for $\hat{L}^2$ and $\hat{L}_i$.
+
+To find such a set of eigenstates, we first wish to write $\hat{L}_i$ and $\hat{L}^2$ in spherical polar coordinates.
+Using the multivariate chain rule, we obtain the results
+\begin{align*}
+  \hat{L}_3 &= -i\hbar \pderiv{}{\varphi} \\
+  \hat{L}^2 &= -\frac{\hbar^2}{\sin^2\theta}\left[\sin \theta \pderiv{}{\theta}\left(\sin \theta \pderiv{}{\theta}\right) + \pderiv[2]{}{\varphi}\right]
+\end{align*}
+\end{document}

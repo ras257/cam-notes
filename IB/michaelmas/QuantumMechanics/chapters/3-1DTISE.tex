@@ -226,7 +226,7 @@ where $\xi_n$ are $\xi$-coordinates at the points of intersection for $n \in \{1
     \item Because of the exponential terms, these solutions have non-zero probability for $|x| > a$ which is forbidden classically.
   \end{enumerate}
 \end{remark}
-\subsection{Harmonic Oscillator}
+\subsection{Harmonic Oscillator} \label{harmonicSec}
 Suppose the potential $U$ is given by:
 \[
   U(x) = \frac{1}{2} kx^2 = \frac{1}{2} m\omega^2 x^2
@@ -326,9 +326,9 @@ Looking at our recurrence relation, we see that for there to exist $N \in \N_0$ 
 for some $N \in \N_0$.
 
 By definition $\varepsilon = 2E/\hbar \omega$, and so the eigenvalues are given by:
-\[
-  E = E_N = \left(N + \frac{1}{2}\right) \hbar \omega
-\]
+\begin{equation}
+  E = E_N = \left(N + \frac{1}{2}\right) \hbar \omega \label{energyOsc}
+\end{equation}
 We see that the ground state energy is $E_0 = \hbar \omega/2$ and the energy levels are equally spaced with $E_{N + 1} - E_N = \hbar \omega$.
 This means that our system can only absorb or emit photons whose angular frequency is an integer multiple of $\omega$, resulting in equally spaced spectral lines.
 
@@ -353,9 +353,9 @@ $\vdots$ & $\vdots$ & $\vdots$ \\
 \end{tabular}
 \end{center}
 We can generate scaled versions of the above the Hermite polynomials, with leading coefficient $2^{n}$, known as the \textit{physicists Hermite polynomial}, using the equation:
-\[
-  f_n(\xi) = (-1)^{n} e^{\xi^2} \deriv[n]{}{\xi}\left(e^{-\xi^2}\right)
-\]
+\begin{equation}
+  f_n(\xi) = (-1)^{n} e^{\xi^2} \deriv[n]{}{\xi}\left(e^{-\xi^2}\right) \label{hermGen}
+\end{equation}
 \section{Free Particles}
 \subsection{Normalisation Issues} \label{normIssSec}
 Consider the TISE with $U(x) \equiv 0$:
