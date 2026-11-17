@@ -1080,7 +1080,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
 \end{example}
 \subsection{Expected Visit Count}
 \begin{definition}[Expected visits during an excursion]
-  For a fixed $k \in I$, define $\nu_k$ to be the expected number of visits to $i$ during an excursion from $k$, that is:
+  For a fixed $k \in I$, define $\nu_k$ to be the expected number of visits to $i$ during an excursion from $k$, that is: \label{expVisits}
   \[
     \nu_k(i) = \E_k\left[\sum_{n = 0}^{T_k - 1} 1(X_n = i)\right]
   \]
@@ -1220,7 +1220,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   Recall that a state $i \in I$ is \textit{recurrent} if $\P_i(T_i < \infty) = 1$.
 \end{remark}
 \begin{definition}[Positive and null reccurent states]
-  We say that a state $i \in I$ is \textit{positive recurrent} if $\E_i[T_i] < \infty$, otherwise, if $\E_i[T_i] = \infty$, then we say that $i$ is \textit{null recurrent}.
+  We say that a state $i \in I$ is \textit{positive recurrent} if $\E_i[T_i] < \infty$, otherwise, if $\E_i[T_i] = \infty$, then we say that $i$ is \textit{null recurrent}. \label{reccurentStates}
 \end{definition}
 \begin{theorem}
   If $P$ is an irreducible transition matrix, then the following are equivalent: \label{piUnique}
@@ -1595,7 +1595,7 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   \[
     \P(X_n = j) \to \pi_j \text{ as } n \to \infty \text{ for all } j \in I
   \]
-  regardless of the initial distribution $\lambda$.
+  regardless of the initial distribution $\lambda$. \label{longTermInv}
 \end{theorem}
 \begin{remark}[Remarks]
   \begin{enumerate}
@@ -1721,4 +1721,190 @@ Or equivalently, if we treat $\pi$ is a row vector, $\pi = \pi P$.
   This allows us to finally conclude that $\P(X_n = x) \to \pi(x)$ as $n \to \infty$.
   Since $x \in I$ was arbitrary, we have the desired result.
 \end{proof}
+\begin{theorem}
+  If $P$ is an irreducible, null-recurrent, and aperiodic transition matrix, then for all $x, y \in I$:
+  \[
+    p_{xy}(n) \to 0 \text{ as } n \to \infty
+  \]
+\end{theorem}
+\begin{proof}
+  As in the proof for \cref{longTermInv}, consider the transition matrix:
+  \[
+    \widetilde{P}((x, y), (x', y')) = P(x, x')P(y, y')
+  \]
+  As shown, since $P$ is irreducible and aperiodic, $\widetilde{P}$ is irreducible.
+
+  If $\widetilde{P}$ is transient, then as $P$ is also irreducible, we know that:
+  \[
+    \sum_{n = 1}^{\infty} \widetilde{p}_{(x, x), (y, y)}(n) < \infty
+  \]
+  and so:
+  \[
+    \sum_{n = 1}^{\infty} p_{x y}(n)^2 = \sum_{n = 1}^{\infty} \widetilde{p}_{(x, x),(y, y)}(n) < \infty
+  \]
+  and thus $p_{x y}(n) \to 0$ as $n \to \infty$.
+
+  If $\widetilde{P}$ is recurrent, then we fix some arbitrary $y \in I$.
+  Recall from \cref{expVisits} that $\nu_y(x)$ is the expected number of visits to $x$ during an excursion from $y$, that is:
+  \[
+    \nu_y(x) = \E_y\left[\sum_{n = 0}^{T_y - 1} 1(X_n = x)\right]
+  \]
+  We then define $\nu_y(A)$ to be the expected number of visits to states $i \in A$ during an excursion from $y$.
+  We then have that $\nu_y(I)$ is just the expected length of an excursion from $y$ as every state is in $I$, that is:
+  \begin{align*}
+    \nu_y(I) &= \sum_{x \in I} \nu_y(x) \\
+             &= \sum_{x \in I} \E[\sum_{n = 0}^{T_y - 1} 1(X_n = x)] \\
+             &= \E_y\left[\sum_{n = 0}^{T_y - 1} \sum_{x \in I} 1(X_n = x)\right] \\
+             &= \E_y\left[\sum_{n = 0}^{T_y - 1} 1\right] \\
+             &= \E_y[T_y] \\
+  \end{align*}
+  Since $P$ is null recurrent (\cref{reccurentStates}), $\nu_y(I) = \E_y[T_y] = \infty$.
+
+  Fix some arbitrary $M > 0$.
+  For any $A \subseteq I$, we have that $\nu_y(A) \leq \nu_y(I)$, thus as $\nu_y(I) = \infty$, there must exist a finite $A \subseteq I$ such that $\nu_y(A) > M$.
+  We then use this to define a new measure on $I$:
+  \[
+    \mu(x) = \frac{\nu_y(x)}{\nu_y(A)} 1(x \in A)
+  \]
+  This is a probability distribution as:
+  \[
+    \sum_{x \in I} \mu(x) = \frac{1}{\nu_y(A)} \sum_{x \in A} \nu_y(x) = 1
+  \]
+  Moreover, since $\nu_y$ is an invariant measure by \cref{nuIneq} \textbf{(iii)}:
+  \begin{align*}
+    (\mu P^{n})_y &= \sum_{x \in I} \mu(x) p_{x y}(n) \\
+                  &\leq \sum_{x \in I} \frac{\nu_y(x)}{\nu_y(A)} p_{x y}(n) \text{ as } \mu(x) \leq \nu_y(x)/\nu_y(A) \\
+                  &= \frac{\nu_y(y)}{\nu_y(A)} \text{ by invariance} \\
+                  &= \frac{1}{\nu_y(A)} \text{ as $\nu_y(y) = 1$} \\
+                  &< \frac{1}{M}
+  \end{align*}
+   Now we pick an arbitrary $x \in I$ and define the pair of independent Markov chains:
+  \begin{align*}
+    \mchain{X} &= (X_n)_{n \geq 0} \sim \markov(\delta_x, P) \\
+    \mchain{Y} &= (Y_n)_{n \geq 0} \sim \markov(\mu, P)
+  \end{align*}
+  Further as we did in the proof for \cref{longTermInv}, we define $T = \inf \{n \geq 1: X_n' = Y_n = x\}$ which has $\P_x(T < \infty) = 1$.
+  We also again define the process:
+  \[
+    Z_n = \begin{cases}
+    Y_n & \text{ if } n < T \\
+    X_n & \text{ if } n \geq T
+    \end{cases}
+  \]
+  which we demonstrated has $Z = (Z_n)_{n \geq 0} \sim \markov(\lambda, P)$.
+
+  We can now form the following bound:
+  \begin{align*}
+    p_{x y}(n) &= \P(X_n = y) \\
+               &= \P(X_n = y, T > n) + \P(X_n = y, T \leq n) \\
+               &\leq \P(T > n) + \P(Z_n = y) \\
+               &= \P(T > n) + (\mu P^n)_y \\
+               &< \P(T > n) + \frac{1}{M}
+  \end{align*}
+  As $n \to \infty$, $\P(T > n) \to 0$ since $\P(T < \infty) = 1$, thus:
+  \[
+    \limsup_{n \to \infty} p_{x y}(n) \leq \frac{1}{M}
+  \]
+  But $M$ was arbitrary and so $p_{x y}(n) \to 0$ as $n \to \infty$.
+\end{proof}
+\section{The Ergodic Theorem}
+\nonexaminable
+We can formulate a statement similar to that of the strong law of large numbers from IA Probability but for Markov chains.
+\begin{theorem}
+  If $\mchain{X} \sim \markov(\lambda, P)$ is irreducible and positive recurrent with invariant distribution $\pi$, then for all $x \in I$, we have almost surely:
+  \[
+    \frac{1}{n} \sum_{i = 0}^{n - 1} 1(X_i = x) \to \pi(x) \text{ as } n \to \infty
+  \]
+  i.e. it converges to $\pi(x)$ with probability 1.
+\end{theorem}
+\begin{remark}[Recap]
+  For a fixed $x \in I$, recall that we define:
+  \[
+    V_n(x) = \sum_{i = 0}^{n - 1} 1(X_i = x)
+  \]
+  i.e. the total number of visits to $x$ in the first $n - 1$ steps.
+  We also defined the return times as:
+  \[
+    T^{(0)}_x = 0 \text{ and for $k \geq 1$ } T^{(k + 1)}_x = \inf \{n > T^{(k)}_x: X_n = x\}
+  \]
+  for the chain starting at $X_0 = x$.
+\end{remark}
+\begin{proof}
+  We want to show that $\frac{1}{n}V_n(x) \to \pi(x)$ almost surely.
+  Since $P$ is recurrent, $\P(T_x < \infty) = 1$, so by the strong Markov property:
+  \[
+    (X_{T_x + n})_{n \geq 0} \sim \markov(\delta_x, P)
+  \]
+  is independent of $(X_0, \ldots, X_{T_x})$.
+  We do not need conditioning as $\P(T_x < \infty) = 1$ and $X_{T_x} = x$ always by definition of $T_x$.
+
+  We therefore have that the long-term behaviour of $V_n(x) / n$ is independent of the initial distribution $\lambda$ and so we take $\lambda = \delta_x$ without loss of generality.
+
+  Define the \textit{successive excursion length} as:
+  \[
+    S^{(k)}_x = \begin{cases}
+    T^{(k)}_x - T^{(k - 1)}_x & \text{ if } T^{(k - 1)}_x < \infty \\
+    0 & \text{ otherwise }
+    \end{cases}
+  \]
+  i.e. $S^{(k)}_x$ is the length of the $k$-th excursion from $x$.
+
+  Using the definition of the return times, we see that:
+  \[
+    T^{(V_n(x) - 1)}_x \leq n - 1
+  \]
+  or equivalently, using the definition of the successive excursion lengths:
+  \[
+    S^{(1)}_x + \cdots + S^{(V_n(x) - 1)}_x \leq n - 1
+  \]
+  Similarly:
+  \[
+    S^{(1)}_x + \cdots + S^{(V_n(x))}_x = T^{(V_n(x))}_x \geq n
+  \]
+  Combining these:
+  \[
+    S^{(1)}_x + \cdots + S^{(V_n(x) - 1)} \leq n \leq S^{(1)}_x + \cdots + S^{(V_n(x))}_x
+  \]
+  and so dividing through by $V_n(x)$:
+  \begin{equation}
+    \frac{S^{(1)}_x + \cdots + S^{(V_n(x) - 1)}}{V_n(x)} \leq \frac{n}{V_n(x)} \leq \frac{S^{(1)}_x + \cdots + S^{(V_n(x))}_x}{V_n(x)} \label{sqzSLLN}
+  \end{equation}
+  Since the chain is recurrent, by \cref{dichot}, we have that $V_n(x) \to \infty$ as $n \to \infty$.
+  Moreover, by the strong Markov property, the process $(S^{(k)}_x)_{k \geq 1}$ is i.i.d. with expectation given by \cref{piUnique}:
+  \[
+    \E_x[S^{(k)}_n] = \E_x[T_x] = \frac{1}{\pi(x)}
+  \]
+  Therefore, by the usual strong law of large numbers, both sides of \cref{sqzSSLN} converge to $\frac{1}{\pi(x)}$ almost surely.
+
+  Hence, we have that:
+  \[
+    \frac{n}{V_n(x)} \to \frac{1}{\pi(x)}
+  \]
+  almost surely, which yields the desired result.
+\end{proof}
+\begin{remark}
+  We can in fact use the above to recover the strong law of large numbers.
+
+t The above says that:
+  \[
+    \P\left(\left\{\omega: \frac{1}{n} \sum_{i = 0}^{n - 1} 1(X_i(\omega) = x) \to \pi(x)\right\}\right) = 1
+  \]
+  for every $x \in I$.
+  Since $I$ is countable, a measure theoretic fact tells us that:
+  \[
+    \P\left(\left\{\omega: \frac{1}{n} \sum_{i = 0}^{n - 1} 1(X_i(\omega) = x) \to \pi(x)\ \forall x \in I\right\}\right) = 1
+  \]
+  Now define $f: I \to \R$ to be any function such that:
+  \[
+    \E_\pi[|f(X)|] < \infty \text{ i.e. } \sum_{x \in I} \pi(x) |f(x)| < \infty
+  \]
+  Then:
+  \begin{align*}
+    \frac{1}{n} \sum_{i = 0}^{n - 1} f(x_i) &= \frac{1}{n} \sum_{i = 0}^{n - 1} \sum_{x \in I} f(x) 1(X_i = x) \\
+                                            &= \sum_{x \in I} \left[f(x) \cdot \frac{1}{n} \sum_{i =0}^{n - 1} 1(X_i = x)\right] \\
+                                            &\to \sum_{x \in I} f(x) \pi(x) \text{ by the above} \\
+                                            &= \E_\pi[f(X)]
+  \end{align*}
+  which is the strong law of large numbers from IA Probability.
+\end{remark}
 \end{document}
