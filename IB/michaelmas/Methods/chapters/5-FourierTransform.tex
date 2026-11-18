@@ -178,7 +178,7 @@ as required.
   \]
 \end{remark}
 \begin{definition}[Convolution]
-  For integrable functions $f, g: \R \to \C$, we define their \textit{convolution} as:
+  For integrable functions $f, g: \R \to \C$, we define their \textit{convolution} as: \cref{convDef}
   \[
     (f \ast g)(x) = \int_{-\infty}^{\infty} f(x - y)g(y) \d{y}
   \]
@@ -652,4 +652,198 @@ We can similarly adapt \cref{fourierInverse} to yield:
   y(\vec{x}) = \frac{1}{(2 \pi)^{n}} \int_{\R^{n}} e^{i \vec{\lambda} \cdot \vec{x}} \frac{\hat{f}(\vec{\lambda})}{p(i \vec{\lambda})} \d^{n}{\vec{\lambda}}
 \]
 Unfortunately we have not just solved all PDEs as this integral is usually difficult to compute due to the poles introduced by the zeroes of $p(i \vec{\lambda})$.
+\section{Discrete Fourier Transforms}
+\subsection{Definition}
+\begin{definition}[Discrete Fourier transform]
+  Given a sequence of complex numbers $\{X_n\}_{n = 0}^{N - 1}$, we define its \textit{discrete Fourier transform} (abbreviated \textit{DFT}) as the sequence $\{\hat{X}_k\}_{k = 0}^{N - 1}$ given by:
+  \[
+    \hat{X}_k = \sum_{n = 0}^{N - 1} X_n e^{-i(2 \pi n/N)k}
+  \]
+\end{definition}
+It would be useful to be able to invert the discrete Fourier transform like we can with the continuous Fourier transform.
+
+Suppose that $\{X_n\}^{N - 1}_{n = 0}$ is the result of evaluating a $2\pi$-periodic function at the points $x_n = \frac{2\pi n}{N}$, i.e.:
+\[
+  X_n = f(x_n)
+\]
+for a $2\pi$-periodic function $f$.
+
+If we define $\delta x = x_{n + 1} - x_n = 2\pi/N$, then we can write:
+\[
+  \hat{X}_k = N \cdot \frac{1}{2\pi} \sum_{n = 0}^{N - 1} f(x_n) e^{-i k x_n} \delta x
+\]
+Since $x_n \in [0, 2\pi)$ for $n \in \{0, \ldots, N - 1\}$ with $x_n$ running from 0 to approximately $2\pi$ as $n$ increases, for sufficiently large $N$, we can approximate the above us:
+\begin{align*}
+  \hat{X}_k &\approx N \cdot \frac{1}{2\pi} \int_{0}^{2\pi} f(x) e^{-ikx} \d{x} \\
+            &= N \hat{f}_k
+\end{align*}
+where $\hat{f}_k$ are the Fourier coefficients of the $2\pi$-periodic $f$.
+So for $N \gg 1$, we have:
+\[
+  \hat{f}_k \approx \frac{\hat{X}_k}{N}
+\]
+This might lead us to hope that might hope that we can reconstruct $f$ as a Fourier series, that is:
+\begin{align*}
+  X_n = f(x_n) &\approx \sum_{k = 0}^{N - 1} \hat{f}_ke^{ikx_n} \\
+               &\approx \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k e^{i(2 \pi k/N)n}
+\end{align*}
+Although this has just given us a heuristic guess of how we can invert the discrete Fourier transform, it turns out that this works to exactly recover the original sequence from its discrete Fourier transform.
+\begin{proposition}[Inverting the discrete Fourier transform]
+  If $\{X_n\}^{N - 1}_{n = 0}$ is a complex sequence with discrete Fourier transform $\{\hat{X}_k\}^{N - 1}_{k = 0}$, then: \label{invDFT}
+  \[
+    X_n = \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k e^{i(2 \pi k/N)n}
+  \]
+  for $n \in \{0,\ldots, N - 1\}$.
+\end{proposition}
+\begin{proof}
+  Starting from the right-hand side, we have:
+  \begin{align*}
+    \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k e^{i(2 \pi k/N)n} &= \frac{1}{N} \sum_{k = 0}^{N - 1} \left[\sum_{m = 0}^{N - 1} X_m e^{-i(2 \pi m/N)k}\right]e^{i(2\pi k/N)n} \\
+                                                                 &= \frac{1}{N} \sum_{m = 0}^{N - 1} X_m \left[\sum_{k = 0}^{N - 1} e^{2 \pi i(n - m)k/N}\right]
+  \end{align*}
+  If we set $\omega_N = e^{2\pi i/N}$, then for $n \neq m$;
+  \begin{align*}
+    \sum_{k = 0}^{N - 1} e^{2 \pi i(n - m)k/N} &= \sum_{k = 0}^{N - 1} \omega^{(n - m)k}_N \\
+                                               &= \frac{1 - \omega^{(n - m)N}_N}{1 - \omega^{(n - m)}_N} \\
+                                               &= 0 \text{ as $\omega^{N}_N = 1$}
+  \end{align*}
+  and for $n = m$:
+  \[
+    \sum_{k = 0}^{N - 1} e^{2 \pi i(n - m)k/N} = \sum_{k = 0}^{N - 1} 1 = N
+  \]
+  Thus:
+  \begin{align*}
+    \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k e^{i(2 \pi k/N)n} &= \frac{1}{N}\sum_{m = 0}^{N - 1} X_m [N \delta_{m n}] \\
+                                                                 &= X_n
+  \end{align*}
+  as required.
+\end{proof}
+\begin{remark}
+  We can think of this in terms of vectors and linear maps.
+  If we write:
+  \[
+    \vec{X} = \begin{pmatrix}
+    X_0 \\
+    \vdots \\
+    X_{N - 1} \\
+    \end{pmatrix} \in \C^{n}
+  \]
+  then we cam write:
+  \[
+    \hat{\vec{X}} = \begin{pmatrix}
+    \hat{X}_0 \\
+    \vdots \\
+    \hat{X}_{N - 1} \\
+    \end{pmatrix} = \mathcal{F}\vec{X}
+  \]
+  where $\mathcal{F}: \C^{N} \to \C^{N}$ is a linear map with entries $(\mathcal{F})_{k n} = e^{-i(2\pi n/N)k}$.
+  So by \cref{invDFT}, we have $\mathcal{F}^{\dag} \mathcal{F} = \mathcal{F}\mathcal{F}^{\dag} = NI_N$.
+
+  We like to work with unitary matrices and so if we define $U = \frac{1}{\sqrt{N}} \mathcal{F}$, then $U$ is \textit{unitary}, i.e.:
+  \[
+    U^{\dag}U = UU^{\dag} = I_N \iff U^{\dag} = U^{-1}
+  \]
+\end{remark}
+\begin{example}
+  Consider the following sequence of binomial coefficients: \label{binomialEx}
+  \[
+    X_n = \binom{N - 1}{n} \text{ for } n \in \{0, \ldots, N - 1\}
+  \]
+  Calculating its discrete Fourier transform, we obtain:
+  \begin{align*}
+    \hat{X}_k &= \sum_{n = 0}^{N - 1} \binom{N - 1}{k} e^{-i(2 \pi n/N)k} \\
+              &= (1 + e^{-2\pi i k/N})^{N-1} \text{ using the binomial theorem}
+  \end{align*}
+  for $k \in \{0, \ldots, N - 1\}$.
+\end{example}
+\subsection{Properties of Discrete Fourier Transforms}
+Parseval's theorem also has an analogue for discrete Fourier transforms.
+\begin{proposition}[Parseval's theorem for discrete Fourier transforms]
+  If $\{X_n\}_{n = 0}^{N - 1}$ and $\{Y_n\}_{n = 0}^{N - 1}$ are complex sequences with discrete Fourier transforms $\{\hat{X}_k\}_{k = 0}^{N - 1}$ and $\{Y_k\}_{k = 0}^{N - 1}$ respectively, then we have: \label{parseDFT}
+  \[
+    \sum_{n = 0}^{N - 1} X_n \overline{Y_n} = \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k \overline{\hat{Y}_k}
+  \]
+\end{proposition}
+\begin{remark}
+  Defining $Y_n = X_n$ for all $n \in \{0, \ldots, N - 1\}$, we obtain:
+  \[
+    \sum_{n = 0}^{N - 1} |X_n|^2 = \frac{1}{N} \sum_{k = 0}^{N - 1} |\hat{X}_k|^2
+  \]
+\end{remark}
+\begin{proof}
+  Suppose we use the standard inner product on $\C^{N}$, i.e. we can write the left hand side:
+  \[
+    \vec{X} \cdot \vec{Y} = \vec{Y}^{\dag} \vec{X} = \sum_{n = 0}^{N - 1} X_n \overline{Y}_n
+  \]
+  We write the right-hand side similarly as:
+  \begin{align*}
+    \frac{1}{N} \sum_{k = 0}^{N - 1} \hat{X}_k \overline{\hat{Y}_k} &= \left(\frac{1}{\sqrt{N}} \mathcal{F}\vec{X}\right) \cdot \left(\frac{1}{\sqrt{N}} \mathcal{F}\vec{Y}\right) \\
+                                                                    &= (U \vec{X}) \cdot (U \vec{Y}) \\
+                                                                    &= \vec{Y}^{\dag} U^{\dag} U \vec{X} \\
+                                                                    &= \vec{Y}^{\dag} \vec{X} \text{ as $U$ is unitary} \\
+                                                                    &= \vec{X} \cdot \vec{Y}
+  \end{align*}
+  which is the desired result.
+\end{proof}
+\begin{example}
+  Returning to \cref{binomialEx}, we can rewrite the discrete Fourier transform as:
+  \begin{align*}
+    \hat{X}_k &= (1 + e^{-2\pi i k/N})^{N-1} \\
+              &= e^{-2\pi i k(N - 1)/N}(e^{\pi i k/N} + e^{-\pi i k/N})^{N - 1} \\
+              &= e^{-2\pi i k(N - 1)/N}\left[2\cos\left(\frac{\pi k}{N}\right)\right]^{N - 1} \\
+    \implies |\hat{X}_k|^2 &= \left[2\cos\left(\frac{\pi k}{N}\right)\right]^{2N - 2}
+  \end{align*}
+  So applying \cref{parseDFT} in the case of $Y_n = X_n$, we have:
+  \begin{align*}
+    \sum_{n = 0}^{N - 1} \binom{N - 1}{n}^{2} &= \frac{1}{N} \sum_{k = 0}^{N - 1} |\hat{X}_k|^2 \\
+                                               &= \frac{1}{N} \sum_{k = 0}^{N - 1} \left[2\cos\left(\frac{\pi k}{N}\right)\right]^{2N - 2}
+  \end{align*}
+  Using a combinatorial argument, the left hand side of this can be rewritten as:
+  \begin{align*}
+    \sum_{n = 0}^{N - 1} \binom{N - 1}{n}^{2} &= \sum_{n = 0}^{N - 1} \binom{N - 1}{n} \binom{N - 1}{N - 1 - n} \\
+                                              &= \binom{2N - 2}{N - 1}
+  \end{align*}
+  For convenience, define $M = N - 1$ to give the result:
+  \[
+    \frac{1}{2^{2M}} \binom{2M}{M} = \frac{1}{M + 1} \sum_{k = 0}^{M} \cos^{2M}\left(\frac{\pi k}{M + 1}\right)
+  \]
+  Interestingly, the left hand side of this is the probability that we obtain exactly $M$ heads after tossing a fair coin $2M$ times.
+\end{example}
+Similarly to how we can take the convolution of two functions on $\R$ (\cref{convDef}), we can take the convolution of a pair of sequences.
+\begin{definition}[Convolution of sequences]
+  For a pair of sequences $\{X_n\}_{n = 0}^{N - 1}$ and $\{Y_n\}_{n = 0}^{N - 1}$, we define their \textit{convolution} as:
+  \[
+    (X \ast Y)_n = \sum_{m = 0}^{N - 1} X_{(n - m)\text{ mod } N} Y_m \text{ for } n \in \{0, \ldots, N - 1\}
+  \]
+  where $(n - m) \text{ mod } N$ is evaluated in $\{0, \ldots, N - 1\}$ i.e. in the set of least residues mod $N$.
+\end{definition}
+\begin{proposition}[Convolution theorem for the discrete Fourier transform]
+  For a pair of sequences $\{X_n\}_{n = 0}^{N - 1}$ and $\{Y_n\}_{n = 0}^{N - 1}$, we have:
+  \[
+    \mathcal{F}[X \ast Y]_k = \hat{X}_k \hat{Y}_k
+  \]
+\end{proposition}
+\begin{proof}
+  Starting from the left-hand side, we have:
+  \begin{align*}
+    \mathcal{F}[X \ast Y]_k &= \sum_{n = 0}^{N - 1} \left[\sum_{m = 0}^{N - 1} X_{(n - m) \text{ mod } N} Y_m \right]e^{-i(2 \pi n/N)k} \\
+                            &= \left[\sum_{m = 0}^{N - 1} Y_m e^{-i(2 \pi m/N) k}\right]\left[\sum_{n = 0}^{N - 1} X_{(n - m) \text{ mod } N}e^{-i(2\pi[n - m]/N)k}\right] \\
+                            &= \hat{Y}_k \left[\sum_{n = 0}^{N - 1} X_{(n - m) \text{ mod } N}e^{-i(2\pi[n - m]/N)k}\right]
+  \end{align*}
+  In the final sum above, as $n$ ranges over $\{0, \ldots, N - 1\}$, $n - m$ also ranges over every residue mod $N$ and so we can write:
+  \[
+    \sum_{n = 0}^{N - 1} X_{(n - m) \text{ mod } N}e^{-i(2\pi[n - m]/N)k} = \sum_{n = 0}^{N - 1} X_n e^{-i(2\pi n/N)k} = \hat{X}_k
+  \]
+  Substituting back in, we obtain:
+  \[
+    \mathcal{F}[X \ast Y]_k = \hat{X}_k \hat{Y}_k
+  \]
+  as required.
+\end{proof}
+\subsection{Fast Fourier Transform}
+\nonexaminable
+Using a naive approach, since $\{\hat{X}_k\}^{k = 0}_{N - 1}$ has $N$ terms, each of which involve summing $N$ terms, finding a discrete Fourier takes $O(N^2)$ computations.
+However, it turns out that if $N = 2^{M}$, we can in fact find a discrete Fourier transform in $O(N \log_2 N)$ operations using the \textit{fast Fourier transform} (abbreviated \textit{FFT}).
+
+Discrete Fourier transforms are very useful in fields such as signal processing, often on large data sets and so the efficiency of FFT algorithms is crucial.
 \end{document}
