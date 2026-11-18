@@ -477,18 +477,18 @@ So $\lambda \in \F$ is an eigenvalue of $\alpha \in \mathcal{L}(V, V)$ if and on
 
       Since $C in \mathcal{M}_{(n - 1) \times (n - 1)}$, by the induction hypothesis it is triangularisable so there exists $P \in \GL_{n - 1}(\F)$ such that $PCP^{-1}$ is upper triangular.
       Define:
-      \[
+      \begin{equation}
         \overline{P} = \left(\begin{array}{c c c c}
-      \multicolumn{1}{c|}{1} & 0 & \cdots & 0 \\ \cline{2-4}
-      \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{P} \\
-      \end{array}\right) \in \GL_n(\F)
-      \]
+        \multicolumn{1}{c|}{1} & 0 & \cdots & 0 \\ \cline{2-4}
+        \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{P} \\
+        \end{array}\right) \in \GL_n(\F) \label{blockCOB}
+      \end{equation}
       We see that $[\alpha]^{B}_{B}$ is similar to:
       \[
         \overline{P} [\alpha]^{B}_{B} \overline{P}^{-1} = \left(\begin{array}{c c c c}
-      \multicolumn{1}{c|}{1} & ? & \cdots & ? \\ \cline{2-4}
-      \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{PCP^{-1}} \\
-      \end{array}\right)
+        \multicolumn{1}{c|}{1} & ? & \cdots & ? \\ \cline{2-4}
+        \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{PCP^{-1}} \\
+        \end{array}\right)
       \]
       which is upper triangular as $PCP^{-1}$ is upper triangular.
       Thus $A$ is also similar to this, i.e. it is triangularisable.
@@ -972,6 +972,7 @@ We can now summarise all of the conditions for diagonalisability covered in this
   \end{proofdirection}
 \end{proof}
 \section{Jordan Normal Form}
+\subsection{Definitions}
 We will now shift our focus to the case of $\F = \C$.
 \begin{definition}[Jordan block]
   For $\lambda \in \C$, we define the \textit{$n \times n$ $\lambda$-Jordan block} as:
@@ -1153,6 +1154,7 @@ Existence will be shown fully in IB Groups Rings and Modules
       So the geometric multiplicity of $\lambda$ in $A$ is the sum of the geometric multiplicities of $\lambda$ in each of the blocks $A_i$.
   \end{enumerate}
 \end{remark}
+\subsection{Finding Jordan Normal Forms}
 \begin{remark}[Recap]
   Recall from \cref{JBExample} that for $A = J_{n}(\lambda)$:
   \begin{equation}
@@ -1340,27 +1342,112 @@ We can now prove the uniqueness of Jordan normal forms.
   \end{align*}
   as required.
 \end{proof}
+\subsection{Existence of Jordan Normal Forms}
 \begin{definition}[Generalised eigenspace]
   Let $V$ be a finite dimensional $\C$-vector space and $\alpha \in \mathcal{L}(V, V)$ with:
   \[
     m_{\alpha}(t) = (t - \lambda_1)^{c_1} \cdots (t - \lambda_k)^{c_k}
   \]
-  for $\lambda_i$ distinct eigenvalue of $\alpha$ and $c_i \geq 1$.
+  where $\lambda_i$ are the distinct eigenvalues of $\alpha$ and $c_i \geq 1$.
   We define the \textit{generalised $\lambda_i$ eigenspace} of $\alpha$ as:
   \[
     V_i = \ker((\alpha - \lambda_i \id_V)^{c_i}) \leq V
   \]
 \end{definition}
-\begin{lemma}
-  If $v_i \in V_i \setminus \{\vec{0}\}$ for $i \in \{1, \ldots, k\}$ where $V_i$ is the generalised eigenspace for $\lambda_i$, then $\{v_1, \ldots, v_k\}$ is linearly independent. \label{genLI}
+\begin{lemma}[Linear independence of generalised eigenspaces]
+  Let $V$ be a finite dimensional $\C$-vector space and $\alpha \in \mathcal{L}(V, V)$.
+  If $v_i \in V_i \setminus \{\vec{0}\}$ for $i \in \{1, \ldots, k\}$ where $V_i$ is the generalised eigenspace for $\lambda_i$, then provided each $v_i$ is associated with a distinct eigenvalue, $\{v_1, \ldots, v_k\}$ is linearly independent. \label{genLI}
 \end{lemma}
 \begin{proof}
-  Continued next lecture.
+  Since $v_i \in \ker((\alpha - \lambda_i \id_V)^{c_i}) \setminus \{\vec{0}\}$, there must exist a maximal $d_i$ such that $0 \leq d_i < c_i$ and $(\alpha - \lambda_i \id_V)^{d_i}[v_i] \neq \vec{0}$.
+  Define $w_i = (\alpha - \lambda_i \id_V)^{d_i}[v_i]$ for each $i \in \{1, \ldots, k\}$.
+  Since $d_i$ is maximal:
+  \[
+    (\alpha - \lambda_i \id_V)[w_i] = (\alpha - \lambda_i \id_V)^{d_i + 1}[v_i] = \vec{0}
+  \]
+  so $w_i$ is a $\lambda_i$-eigenvector of $\alpha$.
+
+  Define the linear map:
+  \[
+    \beta = \prod_{i = 1}^{k} (\alpha - \lambda_i \id_V)^{d_i}
+  \]
+  We see that the $(\alpha - \lambda_i \id_V)$ all commute, as $\alpha$ certainly commutes with itself and $\id_V$.
+  Thus:
+  \begin{align*}
+    \beta(v_i) &= \left[\prod_{j \neq i} (\alpha - \lambda_j \id_V)^{d_j}\right](\alpha - \lambda_i)^{d_i}[v_i] \\
+               &= \left[\prod_{j \neq i} (\alpha - \lambda_j \id_V)^{d_j}\right](w_i) \\
+               &= \left[\prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j}\right]w_i \text{ since $w_i$ is a $\lambda_i$-eigenvector of $\alpha$} \\
+               &= \mu_i w_i
+  \end{align*}
+  where $\mu_i = \prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j} \in \C \setminus \{0\}$ since the $\lambda_i$ are distinct.
+
+  Suppose that $\sum_{i = 1}^{k} \nu_i v_i = \vec{0}$ for some coefficients $\nu_i \in \C$.
+  Applying $\beta$ to this, we have:
+  \[
+    \sum_{i = 1}^{k} \nu_i \mu_i w_i = \vec{0}
+  \]
+  Since $w_i$ are all $\lambda_i$-eigenvectors of $\alpha$ for distinct $\lambda_i$, by \cref{eLI}, we know that $\{w_1, \ldots, w_k\}$ are independent, thus $\nu_i\mu_i = 0$ for all $i \in \{1, \ldots, k\}$.
+  But since $\mu_i \neq 0$, $\nu_i = 0$ for all $i \in \{1, \ldots, k\}$, i.e. $\{v_1, \ldots, v_k\}$ are linearly independent.
 \end{proof}
 \begin{theorem}[Generalised eigenspace decomposition]
-  $V$ is always the direct sum of its generalised eigenspaces.
+  $V$ is always the direct sum of its generalised eigenspaces. \label{GED}
 \end{theorem}
 \begin{proof}
   See Example Sheet 3 Q8 -- Shown using \cref{genLI} and by adapting the criterion for diagonalisation from \cref{annaLinear}.
+\end{proof}
+We will now provide a sketch for the proof of the existence of Jordan normal forms
+\nonexaminable
+\begin{proof}[Sketch of existence -- \cref{JNFUnique}]
+  Let $\lambda_1, \ldots, \lambda_k \in \C$ be the distinct eigenvalues of $A$.
+  Since $A$ commutes with $(A - \lambda_i I_n)$, by the same argument as in the proof for \cref{eigenSpaceLemma}, $(A - \lambda_i I_n)$ preserves the generalised eigenspaces $V_i$.
+
+  By \cref{GED}, if we take bases for the generalised eigenspaces and take their union, we obtain a basis for $V$, with respect to which $A$ is a block diagonal matrix with one block for each generalised eigenspace.
+  Thus $A$ is similar to a matrix of the form:
+  \[
+    \left(\begin{array}{c|c|c}
+      A_1 & O & O \\ \hline
+      O & \ddots & O \\ \hline
+      O & O & A_k
+    \end{array}\right)
+  \]
+  where each block has exactly one eigenvalue, i.e. $m_{A_i}(t) = (t - \lambda_i)^{c_i}$.
+  Since each block has exactly one eigenvalue, it suffices to show that each $A_i$ has a Jordan normal form as we can perform a change of basis on a specific block by conjugating by an appropriate block change of basis matrix as in \cref{blockCOB}.
+
+  Thus, we assume that $A$ has only one eigenvalue $\lambda$.
+  Up to subtracting a multiple of the identity, we can assume that $\lambda = 0$ for simplicity.
+  By how the generalised eigenspaces were constructed and since $\lambda = 0$, we have that $A^{m} = O$ for some $m \geq 1$, i.e. $A$ is \textit{nilpotent}.
+
+  We have therefore reduced the existence of Jordan normal forms for general $A \in \mathcal{M}_{n \times n}(\C)$ to the existence of Jordan normal forms for nilpotent $A$.
+  Since we have assumed $\lambda = 0$, the its Jordan normal form can only contain $0$-Jordan blocks.
+  We note that $0$-Jordan blocks have 0 along the leading diagonal and then $1$ along the above diagonal, so we want to find a basis $B = \{v_1, \ldots, v_n\}$ such that $\alpha(v_1) = 0$ and for all $i \in \{2, \ldots, n\}$ we have $\alpha(v_i) \in \{v_{i - 1}, \vec{0}\}$.
+  Thus the result follows from \cref{nilpot}.
+\end{proof}
+\begin{remark}
+  We say that a linear map $\alpha$ is \textit{nilpotent} if $\alpha^{m} = 0$ for some $m \geq 1$.
+\end{remark}
+\begin{theorem}
+  If $V$ is a finite dimensional $\F$-vector space and $\alpha \in \mathcal{L}(V, V)$ is nilpotent, then $V$ has a basis $\{v_1, \ldots, v_n\}$ such that for all $i$ we have $\alpha(v_i) \in \{v_{i - 1}, \vec{0}\}$. \label{nilpot}
+\end{theorem}
+\begin{proof}
+  Proceed by induction on $\dim(V)$.
+
+  Let $W = \im \alpha$.
+  Since $\alpha$ is nilpotent, $\dim W < \dim V$ and $\alpha(W) \leq W$.
+  Thus we can apply the induction hypothesis to $\at{\alpha}{W}: W \to W$ to obtain a basis $B'$ for $W$.
+  Since the basis for $W$ has $\alpha(w_i) \in \{w_{i - 1}, \vec{0}\}$, this basis will be in the form:
+  \[
+    B' = \{\alpha^{\ell_1}(w_1), \ldots, \alpha(w_1), w_1, \alpha^{\ell_2}(w_2), \ldots, \alpha(w_2), w_2, \ldots, \alpha^{\ell_k}(w_k), \ldots, \alpha(w_k), w_k\}
+  \]
+  where $\ell_i$ are such that $\alpha^{\ell_i + 1}(w_i) = \vec{0}$.
+
+  Since $w_i \in \im \alpha$, we can pick $\widetilde{v}_i \in V$ with $\alpha(\widetilde{v}_i) = w_i$.
+  Since $\alpha^{\ell_i + 1}(w_i) = \vec{0}$ and $\alpha^{\ell_i}(w_i)$ are linearly independent as they are all in a basis, the set $\{\alpha^{\ell_i}(w_1), \ldots, \alpha^{\ell_k}(w_k)\}$ is a subset of $\ker \alpha$ which is linearly independent.
+  Thus by \cref{basisExtension}, we can extend this using $\{u_1, \ldots, u_m\}$ to a basis for $\ker \alpha$.
+
+  Without proof, we assert that the set:
+  \[
+    \widetilde{B} = B' \cup \{v_1, \ldots, v_k\} \cup \{u_1, \ldots, u_m\}
+  \]
+  is the desired basis up to rearrangement.
 \end{proof}
 \end{document}
