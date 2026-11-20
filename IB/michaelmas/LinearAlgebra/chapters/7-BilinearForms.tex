@@ -110,7 +110,7 @@ Similarly to how we can change the basis under which a matrix represents a linea
   Thus using the uniqueness provided by \cref{bilMat}, the result follows.
 \end{proof}
 \begin{definition}[Rank of a blinear form]
-  The \textit{rank} of a bilinear form $\varphi: U \times V \to \F$, denoted $\rank \varphi$, is defined to be the rank of $[\alpha]_{B, C}$ as a matrix for any pair of bases $B$ and $C$ of $U$ and $V$ respectively.
+  The \textit{rank} of a bilinear form $\varphi: U \times V \to \F$, denoted $\rank \varphi$, is defined to be the rank of $[\alpha]_{B, C}$ as a matrix for any pair of bases $B$ and $C$ of $U$ and $V$ respectively. \label{bilRank}
 \end{definition}
 \begin{remark}
   \begin{enumerate}
@@ -159,4 +159,312 @@ Similarly to how we can change the basis under which a matrix represents a linea
 \begin{definition}[Left and right kernels of a bilinear form]
   For a bilinear form $\varphi: U \times V \to \F$, we call $\ker(\varphi_L) \leq U$ the \textit{left-kernel} of $\varphi$ and we call $\ker(\varphi_R) \leq V$ the \textit{right-kernel} of $\varphi$.
 \end{definition}
+\begin{proposition}
+  If $U$ and $V$ are finite dimensional $\F$-vector spaces with bases $B$ and $C$ respectively with corresponding dual bases $B^{*}$ and $C^{*}$, then: \label{bilTP}
+  \begin{enumerate}
+    \item $[\varphi_{L}]^{B}_{C^{*}} = ([\varphi]_{B, C})^{\trans}$
+    \item $[\varphi_R]^{C}_{B^{*}} = [\varphi]_{B, C}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  Let $A = [\varphi]_{B, C}$, $A' = [\varphi]^{B}_{C^{*}}$, and write $B = \{b_1, \ldots, b_n\}$ and $C = \{c_1, \ldots, c_n\}$.
+  By definition of $[\varphi]^{B}_{C^{*}}$, the entries $a'_{i j}$ of $A'$ satisfy:
+  \[
+    \varphi_L(b_j) = \sum_{k = 1}^{n} a_{k j}c^{*}_k \in V^{*}
+  \]
+  By definition of $[\varphi]_{B, C}$, we also have:
+  \begin{align*}
+    a_{j i} &= \varphi(b_j, c_i) \\
+            &= \varphi_{L}(b_j)[c_i] \\
+            &= \sum_{k = 1}^{n} a_{k j}' c^{*}_k(c_i) \\
+            &= a_{i j}'
+  \end{align*}
+  Since $i$ and $j$ were arbitrary, $A^{\trans} = A'$, as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Proved analogously to \textbf{(i)}.
+\end{proof}
+\begin{corollary}
+  For a bilinear form $\varphi: U \times V \to \F$, we have:
+  \[
+    \rank \varphi_{L} = \rank \varphi = \rank \varphi_{R}
+  \]
+\end{corollary}
+\begin{proof}
+    We defined $\rank \varphi$ to be the rank of the matrix $[\varphi]_{B, C}$ for any choice of bases $B$ and $C$ for $U$ and $V$ respectively (\cref{bilRank}).
+    Thus, using \cref{bilTP} \textbf{(ii)}, it follows immediately that $\rank \varphi_R = \rank \varphi$.
+    Using \cref{bilTP} \textbf{(iii)}, it follows that $\colrank \varphi_L = \rank \varphi$, but we also know that $\rank \varphi_L = \colrank \varphi_L$ from \cref{rowColRank}, as required.
+\end{proof}
+\begin{definition}
+  Given a subset $S \subseteq V$, we define the \textit{right perpendicular/orthogonal subspace} as:
+  \[
+    S^{\perp} = \{v \in V: \varphi(s, v) = 0 \text{ for all } s \in S\}
+  \]
+  and given a subset $T \leq U$, we define the \textit{left perpendicular/orthogonal subspace} as:
+  \[
+    {}^\perp T = \{u \in U: \varphi(u, t) = 0 \text{ for all } t \in T\}
+  \]
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item If $v_1, v_2 \in S^{\perp}$ and $\lambda \in \F$, then for any $s \in S$:
+      \[
+        \varphi(s, v_1 + \lambda v_2) = \varphi(s, v_1) + \lambda \varphi(s, v_2) = 0
+      \]
+      So $v_1 + \lambda v_2 \in S^{\perp}$.
+      Thus $S^{\perp} \leq V$ by the subspace test (\cref{subspaceTest}).
+
+      Similarly, ${}^{\perp} T \leq V$ by the subspace test.
+    \item If $S_1 \subseteq S_2 \subseteq U$, then:
+      \[
+        S^{\perp}_2 \leq S^{\perp}_1 \leq V
+      \]
+      and similarly
+      \[
+        T_1 \subseteq T_2 \subseteq V \implies {}^{\perp} T_2 \leq {}^{\perp} T_1 \leq U
+      \]
+      That is, taking perpendicular subspaces is inclusion reversing.
+    \item In particular, $U^{\perp} = \ker \varphi_R$ and ${}^{\perp} V = \ker \varphi_L$.
+  \end{enumerate}
+\end{remark}
+\begin{definition}[Degenerate bilinear form]
+  We say that the bilinear form $\varphi$ is \textit{degenerate} if either $U^{\perp}$ or ${}^{\perp}V$ is nontrivial.
+\end{definition}
+\begin{remark}[Intuition]
+  A bilinear form is degenerate if there is a non-zero vector which is always sent to 0 by the bilinear form, regardless of the other input.
+\end{remark}
+\begin{proposition}
+  If $U$ and $V$ are finite dimensional $\F$-vector spaces with bases $B$ and $C$ respectively, then $\varphi$ is non-degenerate if and only if $\dim(U) = \dim(V)$ and $[\varphi]_{B, C}$ is invertible.
+\end{proposition}
+\begin{proof}
+  We see that:
+  \begin{align*}
+    \varphi \text{ is non-degenerate} &\iff \ker \varphi_R \text{ and } \ker \varphi_L \text{ trivial} \\
+                                       &\iff \dim(U) = \rank \varphi_L = \rank \varphi = \rank \varphi_R = \dim (V) \text{ by \cref{RNT}} \\
+                                       &\iff [\varphi]_{B, C} \text{ is a square matrix of full rank} \\
+                                       &\iff [\varphi]_{B, C} \text{ is invertible by \cref{equivOperations} \textbf{(iii)}}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{remark}[Notation]
+  For the rest of this chapter, we will assume were are working with bilinear forms for which $U = V$.
+  For convenience, if we are using the same basis for both the left and right inputs of $\varphi$, we will write $[\varphi]_{B, B} = [\varphi]_B$.
+\end{remark}
+\begin{definition}[Symmetric bilinear form]
+  We say that a bilinear form $\varphi: V \times V \to \F$ is \textit{symmetric} if for all $u, v \in V$:
+  \[
+    \varphi(u, v) = \varphi(v, u)
+  \]
+  i.e. the order of the inputs does not matter.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We say that a matrix $A \in \mathcal{M}_{n \times n}(\F)$ is symmetric if $A^{\trans} = A$.
+    \item If $V$ is finite dimensional, then by how we defined the matrix of $\varphi$, we see that $\varphi$ is symmetric if and only if $[\varphi]_B$ is a symmetric matrix for some (or equivalently any as congruent matrices are either both symmetric or both not symmetric) basis $B$ of $V$.
+    \item If $\varphi$ is symmetric, then for any $S \subseteq V$, then $S^{\perp} = {}^{\perp} S$.
+    \item In particular, $V^{\perp} = \ker \varphi_L = \ker \varphi_R = {}^{\perp}V$, we then call this just $\ker \varphi$.
+      Explicitly:
+      \begin{align*}
+        \ker \varphi &= \{v \in V: \varphi(v, u) = 0\ \forall u \in V\} \\
+                     &= \{v \in V: \varphi(u, v) = 0\ \forall u \in V\}
+      \end{align*}
+  \end{enumerate}
+\end{remark}
+\begin{definition}[Quadratic form]
+  We call a function $Q: V \to \F$ a \textit{quadratic form} if there exists a bilinear form $\varphi: V \times V \to \F$ such that $Q(v) = \varphi(v, v)$ for all $v \in V$.
+\end{definition}
+\begin{remark}
+  If given a quadratic form $Q$, the bilinear form $\varphi$ for which $Q(v) = \varphi(v, v)\ \forall v \in V$ need not be unique.
+\end{remark}
+\begin{example}
+  Consider $V = \R^2$ and the matrix:
+  \[
+    A = \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} \in \mathcal{M}_{2 \times 2}(\R)
+  \]
+  Define the quadratic form $Q_{A}$ as:
+  \[
+    Q_{A}(v) = v^{\trans} A v = a v^2_1 + (b + c)v_1 v_2 + d v^2_2
+  \]
+  This can be written as $Q_A(v) = \varphi(v, v)$ for $\varphi(v, w) = v^{\trans} A w$.
+  We note that:
+  \[
+    Q_A = Q_{\frac{1}{2}(A + A^{\trans})}
+  \]
+  since:
+  \begin{align*}
+    v^{\trans}\left(\frac{1}{2}(A + A^{\trans})\right) v &= \frac{1}{2} v^{\trans} A v + \frac{1}{2} v^{\trans} A^{\trans} v \\
+                                              &= v^{\trans} A v \text{ as $v^{\trans} A^{\trans} v = (v^{\trans} A^{\trans} v)^{\trans} = v^{\trans} A v$}
+  \end{align*}
+  i.e. $Q$ is the same when defined with $A$ as when defined with the symmetric part of $A$.
+\end{example}
+\begin{proposition}[Polarisation Identity]
+  If $V$ is an $\F$-vector space where $\F$ is such that $1 + 1 \neq 0$, and $Q: V \to \F$ is a quadratic form, then there is a unique symmetric bilinear for $\psi: V \times V \to \F$ such that: \label{polarisation}
+  \[
+    Q(v) = \psi(v, v) \text{ for all } v \in V
+  \]
+  Moreover, $\psi$ is given by:
+  \[
+    \psi(u, v) = \frac{1}{2} (Q(u + v) - Q(u) - Q(v))
+  \]
+\end{proposition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item So stipulating that the bilinear form associated with $Q$ is symmetric forces us into a unique choice of $\psi$.
+    \item We require that $1 + 1 \neq 0$ in $\F$ otherwise there is no multiplicative inverse of $2 \equiv 1 + 1$.
+  \end{enumerate}
+\end{remark}
+\begin{proof}\par
+  \textbf{Existence}\par
+  Since $Q$ is a quadratic form, there exists a bilinear form $\varphi: V \times V \to \F$ such that $Q(v) = \varphi(v, v)$ for all $v \in V$.
+  Define $\psi: V \times V \to \F$ by:
+  \[
+    \psi(u, v) = \frac{1}{2}(\varphi(u, v) + \varphi(v, u))
+  \]
+  This is symmetric as $\psi(u, v) = \psi(v, u)$ and satisfies:
+  \[
+    \psi(v, v) = \frac{1}{2}(\varphi(v, v) + \varphi(v, v)) = \varphi(v, v) = Q(v)
+  \]
+  as required.
+
+  \textbf{Uniqueness}\par
+  Suppose $\psi$ is a symmetric bilinear form satisfying $Q(v) = \psi(v, v)\ \forall v \in V$.
+  We can write:
+  \begin{align*}
+    Q(u + v) &= \psi(u + v, u + v) \\
+             &= \psi(u, u) + \psi(u, v) + \psi(v, u) + \psi(v, v) \text{ by bilinearity}\\
+             &= Q(u) + Q(v) + 2\psi(u, v) \text{ by symmetry of $\psi$} \\
+    \implies \psi(u, v) &= \frac{1}{2}(Q(u + v) - Q(u) - Q(v)) \text{ as $2 \neq 0$ in $\F$}
+  \end{align*}
+  Thus the above expression for $\psi$ is unique.
+\end{proof}
+\begin{theorem}
+  If $V$ is an $\F$-vector space where $\F$ is such that $1 + 1 \neq 0$, and $\psi: V \times V \to \F$ is a symmetric bilinear form, then there is exists a basis $B$ for $V$ such that $[\varphi]_{B}$ is diagonal. \label{diagonalBil}
+\end{theorem}
+\begin{remark}
+  The assumption that $\varphi$ is symmetric is necessary.
+  If $A \in \mathcal{M}_{n \times n}(\F)$ with $P^{\trans} A P = D$ is diagonal for some $P \in \GL_n(\F)$, then:
+  \[
+    P^{\trans} A P = D = D^{\trans} = (P^{\trans} A P)^{\trans} = P^{\trans} A^{\trans} P \implies A = A^{\trans}
+  \]
+  i.e. $A$ is symmetric.
+  That is to say, if there is a basis in which $[\varphi]_B$ is diagonal, then $\varphi$ is necessarily symmetric bilinear form.
+\end{remark}
+\begin{proof}
+  We proceed by induction on $\dim V = n$.
+  The cases of $n = 0$ and $n = 1$ are clear as $[\psi]_B$ is always diagonal.
+
+  If $\varphi(v, v) = 0$ for all $v \in V$, then by \cref{polarisation}, $\varphi \equiv 0$, so we are done.
+
+  Otherwise, there exists $v_1 \in V$ with $\varphi(v_1, v_1) \neq 0$.
+  Let $U = \{v_1\}^{\perp} = \ker(\varphi_{L}(v_1): V \to \F)$.
+  By construction, $v_1 \notin U$, and $\dim(\F) = 1$, so by \cref{RNT}, $\dim(U) = n - 1$.
+  Moreover, since $\langle v_1 \rangle \cap U = \{\vec{0}\}$, we have that $V = \langle v_1 \rangle \oplus U$.
+
+  Since $\varphi$ is symmetric, the restriction $\at{\varphi}{U}: U \times U \to \F$ is also symmetric.
+  Thus, by the induction hypothesis, there exists a basis $B_U = \{v_2, \ldots, v_n\}$ for $U$ such that $[\at{\varphi}{U}]_{B_U}$ is diagonal.
+  Define $B = \{v_1, v_2, \ldots, v_n\}$.
+  This is a basis for $V$ as $V = \langle v_1 \rangle \oplus U$.
+  Moreover, since $v_i \in U = \ker(\varphi_L(v_1))$ for $i \in \{2, \ldots, n\}$, $\varphi_L(v_1)[v_i] = \varphi(v_1, v_i) = \varphi(v_i, v_1) = 0$ and so in this basis:
+  \[
+    [\varphi]_B = \left(\begin{array}{c c c c}
+              \multicolumn{1}{c|}{\varphi(v_1, v_1)} & 0 & \cdots & 0 \\
+              \hline
+              \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{[\at{\varphi}{U}]_{B_U}} \\
+              \end{array}\right)
+  \]
+  which is diagonal.
+\end{proof}
+\begin{remark}
+  This proof yields an algorithm for determining a basis in which $\varphi$ is diagonal, however in practice shortcuts are often available.
+\end{remark}
+\begin{example}
+  Consider $V = \R^3$ with the quadratic form $Q$ defined for $[x]_{E_3} = (x_1, x_2, x_3)^{\trans}$ as:
+  \begin{align*}
+    Q(x) &= x^2_1 - 4x_2 x_3 + x^2_3 \\
+         &= x^2_1 + (x_3 - 2x_2)^2 - (2 x_2)^2 \\
+         &= z^2_1 + z^2_2 - z^2_3
+  \end{align*}
+  where $z_1 = x_1$, $z_2 = x_3 - 2x_2$, $z_3 = 2x_2$, i.e.:
+  \[
+    z = \begin{pmatrix}
+    1 & 0 & 0 \\
+    0 & -2 & 1 \\
+    0 & 2 & 0 \\
+    \end{pmatrix} x = P^{-1}x
+  \]
+  where $P \in \GL_3(\F)$.
+
+  We can write $Q(x) = \psi(x, x)$ where:
+  \[
+    \psi(x, y) = x_1 y_1 - 2(x_2 y_3 + x_3 y_2) + x_3 y_3
+  \]
+  Thus, with respect to the standard basis, $\psi$ has the matrix:
+  \[
+    A = \begin{pmatrix}
+    1 & 0 & 0 \\
+    0 & 0 & -2 \\
+    0 & -2 & 1 \\
+    \end{pmatrix}
+  \]
+  Since $x = P^{-1} z \implies z = Px$ so:
+  \[
+    z^{\trans} P^{\trans} A P z = (Pz)^{\trans} A Pz = x^{\trans} A x
+  \]
+  Thus:
+  \[
+    P^{\trans} A P = \begin{pmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & -1 \\
+    \end{pmatrix}
+  \]
+  $P$ is also the change of basis matrix $P = [\id_V]^{B}_{E_3}$ for some basis $B$.
+  Thus
+  \[
+    [\varphi]_B = ([\id_V]^{B}_{E_3})^{\trans}[\varphi]_{E_3}[\id_V]^{E_3}_{B}
+  \]
+  is diagonal.
+\end{example}
+\begin{corollary}
+  If $V$ is an $\F$-vector space where $\F$ is such that $1 + 1 \neq 0$, then every symmetric matrix over $\F$ is congruent to a diagonal matrix. \label{symCongruent}
+\end{corollary}
+\begin{proof}
+  We define the bilinear form $\varphi: \F^{n} \times \F^{n} \to \F,\ (u, v) \mapsto u^{\trans} A v$, which is symmetric as $A$ is symmetric
+  So by \cref{diagonalBil}, there is a basis in which $\varphi$ is diagonal, and so $A$ is congruent to a diagonal matrix .
+\end{proof}
+\begin{example}
+  Consider the field $\F = \Z / 2\Z$.
+  Notably, in this field $1 + 1 = 0$.
+  Consider the symmetric matrix:
+  \[
+    A = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+    \end{pmatrix} \in \mathcal{M}_{2 \times 2}(\Z / 2\Z)
+  \]
+  Suppose that there exists:
+  \[
+    P = \begin{pmatrix}
+    a & b \\
+    c & d \\
+    \end{pmatrix} \in \GL_{2}(\Z / 2\Z)
+  \]
+  such that $P^{\trans} A P$ is diagonal.
+  We see that:
+  \[
+    P^{\trans} A P = \begin{pmatrix}
+    0 & ad + bc \\
+    ad + bc & 0 \\
+    \end{pmatrix}
+  \]
+  Since this is diagonal, we must have $ad + bc = 0$.
+  Thus either $ad = bc = 1$ or $ad = bc = 0$.
+  In either case, $\det P = ad - bc = 0$, which contradicts that $P$ is invertible.
+  Thus $A$ not congruent to any diagonal matrix.
+
+  This provides an example a field in which $1 + 1 = 0$ and \cref{symCongruent} does not hold, and so also provides similar examples for \cref{diagonalBil} and \cref{polarisation}.
+\end{example}
 \end{document}
