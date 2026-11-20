@@ -1,0 +1,148 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{PDEs on Unbounded Domains}
+\section{Well-Posedness}
+Hadamard famously declared that a PDE is \textit{well-posed} if:
+\begin{enumerate}
+  \item A solution exists
+  \item Any solution is unique
+  \item Solutions depends continuously on given data (i.e. B.Cs/I.Cs)
+\end{enumerate}
+The reason why we want the third condition is a bit more subtle.
+In an abstract sense, a solution to, for example, an IBVP defines a map:
+\[
+  S_t: X \to Y
+\]
+where $X$ is the set of all initial conditions and boundary conditions, and $Y$ is a set of solutions evaluated at time $t$.
+Thus, condition \textbf{(iii)} stipulates that if two sets of initial/boundary data are sufficiently close, then so are their respective solutions, under a metric/norm of our choosing.
+\begin{example}[IVP]
+  Consider the IVP:
+  \[
+    \deriv{x}{t} = -x \text{ and } x(0) = x_0 \in \R
+  \]
+  This gives us the solution:
+  \[
+    X_0(t) = x_0 e^{-t} \text{ for } t \geq 0
+  \]
+  If instead $x(0) = x_1 \in \R$, then we obtain the solution:
+  \[
+    X_1(t) = x_1 e^{-t} \text{ for } t \geq 0
+  \]
+  Under the supremum norm, we see that:
+  \begin{align*}
+    \norm{X_1 - X_0}_{\infty} &= \sup_{t \geq 0} |e^{-t)}(x_1 - x_0)| \\
+                              &= |x_1 - x_0|
+  \end{align*}
+  So if $x_0$ and $x_1$ are ``close'' with respect to $|\argdot|$, then $X_0$ and $X_1$ are ``close'' with respect to $\norm{\argdot}_{\infty}$.
+\end{example}
+\begin{example}[IBVP -- Backward heat equation]
+  Intuitively speaking, the heat equation in the forward direction tends to ``flatten'' the initial heat distribution out over time.
+  This means that we could have solutions that have very different initial conditions in the forward direction that have similar solutions for large $t$.
+  So if we were to try to reverse this, we would have solutions with very similar initial conditions, but very different solutions for large $t$.
+
+  Explicitly, the backwards heat equation on $\Omega = (0, \pi)$ is:
+  \[
+    \begin{cases}
+    \varphi_{t} + \varphi_{x x} = 0 & \text{ for } (x, t) \in \Omega \times (0, \infty) \\
+    \varphi = f & \text{ for } (x, t) \in \Omega \times \{t = 0\} \\
+    \varphi = 0 & \text{ for } (x, t) \in \partial \Omega \times (0, \infty)
+    \end{cases}
+  \]
+  i.e. we reverse the direction of time and then redefine it to be positive.
+
+  If $f(x) = 0$, then we obtain the solution $\varphi(x, t) = 0$.
+  If $f(x) = f_n(x) = \frac{1}{n} \sin(nx)$, then for each $n$, we obtain the solution:
+  \[
+    \varphi_n(x, t) = \frac{1}{n} e^{n^2 t}\sin(nx)
+  \]
+  Comparing the initial conditions:
+  \begin{align*}
+    \norm{f - f_n} &= \sup_{x \in \Omega} \abs{0 - \frac{1}{n} \sin(nx)} \\
+                   &= \frac{1}{n} \to 0 \text{ as } n \to \infty
+  \end{align*}
+  However, for all $T > 0$, comparing the solutions:
+  \begin{align*}
+    \norm{\varphi(\argdot, T) - \varphi_n(\argdot, T)}_{\infty} &= \sup_{x \in \Omega} \abs{-\frac{1}{n}e^{n^2 T} \sin(nx)} \\
+                                                                &= \frac{1}{n} e^{n^2T} \to \infty \text{ as } n \to \infty
+  \end{align*}
+  So $S_T[f - f_n] \centernot\to 0$ even though $f - f_n \to 0$, i.e. $S_T$ is not continuous with respect to $\norm{\argdot}_{\infty}$.
+  Thus the problem is ill-posed, even if we restrict locally to small $T$.
+\end{example}
+In this course, we would like to avoid technicalities and so we take well posedness to mean that \textbf{(i)}, \textbf{(ii)} hold and if we slightly perturb the initial conditions, then the solution only ``changes a little''.
+\section{Method of Characteristics}
+We would like to solve the following type of PDEs on $\R^2$:
+\[
+  a(x, y) \pderiv{u}{x} + b(x, y) \pderiv{u}{y} = c(x, y, u) \text{ for } (x, y) \in \R^2
+\]
+We call such PDEs \textit{quasi-linear}.
+Note that the left hand side is the directional derivative $\vec{v} \cdot \nabla u$ where $\vec{v}(x, y) = (a(x, y), b(x, y))^{\trans}$.
+
+Assume that the initial data has been given on some curve $C \subset \R^2$, that is, $\at{u}{C} = f$ for some given $f$.
+To solve, we start by writing down the \textit{integral curves of $\vec{v}$}.
+These are those curve which  are tangent to the vector field $\vec{v}$, i.e. they satisfy $\dot{\vec{x}} = \vec{v}(\vec{x})$, i.e.:
+\[
+  \deriv{x}{t} = a(x(t), y(t)) \text{ and } \deriv{y}{t} = b(x(t), y(t))
+\]
+We call the above equations the \textit{characteristic equations}, which upon solving, yield \textit{characteristic curves} associated with the original PDE.
+
+The above are both ODEs which we already have a plethora of techniques for solving and so we assume that we have solved the characteristic equations for some initial conditions $(x(0), y(0)) \in C$ (which we will later determine in terms of $f$) to yield $x = x(t)$ and $y = y(t)$.
+Define $z(t)$ to be $u$ evaluated on a characteristic curve, that is:
+\[
+  z(t) = u(x(t), y(t))
+\]
+Using the multivariate chain rule:
+\begin{align*}
+  \deriv{z}{t} &= \deriv{x}{t} \pderiv{u}{x} + \deriv{y}{t} \pderiv{u}{y} \\
+               &= a \pderiv{u}{x} + b \pderiv{u}{y} \text{ by definition of the characteristic curves} \\
+               &= c(x(t), y(t), z(t)) \text{ if $u$ is to be a solution}
+\end{align*}
+This is just an ODE for $z(t)$ which we assume that we can solve.
+We see that:
+\[
+  z(0) = u(x(0), y(0)) = \at{u}{(x(0), y(0)) \in C} = \at{f}{(x(0), y(0))}
+\]
+so we can determine the initial condition for $z$ using $f$.
+
+Since $C$ is a curve, we can parameterise it in terms of $s$ and so $f = f(s)$.
+Thus, to find $u$ at an arbitrary point $(x, y)$, we hope to find the characteristic curve that goes through $(x, y)$ and trace it back to $C$, i.e. we find $t$.
+We then see how far along $C$ this characteristic hits $C$, i.e. we find $s$.
+By how we defined the characteristics, the differential equations governing the evolution of $u$ are all ODEs which are comparatively easy to solve and so we can usually find $u(s, t)$.
+Then, given $(s, t)$, we hope to invert to find $(x(s, t), y(s, t))$, giving us $u(x, y)$.
+This process is perhaps best demonstrated using an example.
+\begin{example}
+  Suppose we wish to solve the PDE:
+  \[
+    \pderiv{u}{x} + \pderiv{u}{y} = u \text{ with } u(x, 0) = f(x)
+  \]
+  i.e. $a = 1$, $b = 1$, $c(x, y, u) = u$, with the initial conditions specified on the curve $C = \{(s, 0): s \in \R\}$.
+
+  We start by solving the characteristic equations:
+  \[
+    \deriv{x}{t} = 1 \text{ and } \deriv{y}{t} = 1 \implies x(t) = x_0 + t \text{ and } y(t) = y_0 + t
+  \]
+  We want $(x_0, y_0) \in C$, so we take $(x_0, y_0) = (s, 0)$ and thus:
+  \[
+    x(s, t) = s + t \text{ and } y(s, t) = t
+  \]
+  Setting $z(t) = u(x(t), y(t))$, we then have:
+  \[
+    \deriv{z}{t} = u = z \implies z(t) = z(0) e^t
+  \]
+  We then see that $z(0) = u(x_0, y_0) = u(s, 0) = f(s)$.
+  Thus:
+  \[
+    z(t, s) = f(s) e^{t} = u(t, s)
+  \]
+  To find $u(x, y)$, we need to invert $x(s, t)$ and $y(s, t)$ to find $t(x, y)$ and $s(x, y)$:
+  \[
+    t(x, y) = y \text{ and } s(x, y) = x - y
+  \]
+  Thus the solution to the original PDE is:
+  \[
+    u(x, y) = z(x, y) = f(x - y) e^{y}
+  \]
+\end{example}
+\begin{remark}[Warning]
+  In order to be able to find a characteristic which passes through any given point $(x, y)$ and also the curve $C$, we require that the characteristic curves are not tangent to $C$, i.e. we require that $\at{\vec{n} \cdot \vec{v}}{C} \neq 0$ where $\vec{n}$ is normal to $C$ and $v(\vec{x}) = (a(x, y), b(x, y))$.
+\end{remark}
+\end{document}
