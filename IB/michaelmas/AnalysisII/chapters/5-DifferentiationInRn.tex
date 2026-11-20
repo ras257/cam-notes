@@ -159,7 +159,7 @@ Many of the properties of derivatives we saw for functions $f: \R \to \R$ in Ana
   \end{align*}
   as required.
 \end{proof}
-\section{Directional Derivative}
+\section{Directional Derivatives}
 \subsection{Definition}
 Our current devotion of the derivatives requires the limit to be 0 regardless of which direction we approach the function in.
 However it also useful to consider how the function changes when we approach a point from a specific direction.
@@ -394,5 +394,173 @@ Fortunately, we can find conditions under which the existence of partials does a
     f(a + h) - f(a) &= \sum_{j = 1}^{n} h_j D_j f(a) + o(h)
   \end{align*}
   The first term of this is linear in $h$ and so by \cref{diffOrder}, $f$ is differentiable at $a$.
+\end{proof}
+\section{Operator Norm}
+Since the set of linear maps $A: \R^{n} \to \R^{m}$ is a real vector space, i.e. $\mathcal{L}(\R^{n}, \R^{m})$, we can equip it with a norm.
+Its dimension is $\dim(\mathcal{L}(\R^{n}, \R^{m})) = nm < \infty$ so by \cref{lEquiv}, all norms on this space will be Lipschitz equivalent.
+The most convenient for our purposes is the \textit{operator norm}.
+
+We first observe that any $A \in \mathcal{L}(\R^{n}, \R^{m})$ is continuous (See Example Sheet 3).
+Furthermore, the unit sphere:
+\[
+  S = \{x \in \R^{n}: \norm{x} = 1\} \subseteq \R^{n}
+\]
+is both closed and bounded and thus it is compact by \cref{subsetRnComp}.
+Applying \cref{ctsProps} \textbf{(iv)} to each component of $Ax$, we see that $Ax$ is bounded for $x \in S$.
+We can therefore define the operator norm using a supremum of $Ax$ over $x \in S$.
+\begin{definition}[Operator norm]
+  We define the \textit{operator norm} on $\mathcal{L}(\R^{n}, \R^{m})$, denoted $\norm{\argdot}_{\text{op}}$, by:
+  \[
+    \norm{A}_{\text{op}} = \sup_{x \in S} \norm{Ax}
+  \]
+  where $S = \{x \in \R^{n}: \norm{x} = 1\} \subseteq \R^{n}$.
+\end{definition}
+\begin{remark}
+  We can equivalently write:
+  \[
+    \norm{A}_{\text{op}} = \sup_{x \in \R^{n} \setminus \{0\}} \frac{\norm{Ax}}{\norm{x}}
+  \]
+  as $\frac{x}{\norm{x}} \in S$ if and only if $x \in \R^{n} \setminus \{0\}$ and $A\left[\frac{x}{\norm{x}}\right] = \frac{Ax}{\norm{x}}$ as $A$ is linear.
+\end{remark}
+This is indeed a valid norm on $\mathcal{L}(\R^{n}, \R^{m})$:
+\begin{itemize}
+  \item If $\norm{A}_{\text{op}} = 0$, then $\frac{\norm{Ax}}{\norm{x}} = 0$ for all $x \in \R^{n} \setminus \{0\}$.
+    Since $\norm{\argdot}$ is a norm, this means that $Ax = \vec{0}$ for all $x \in \R^{n} \setminus \{0\}$.
+    Moreover, since $A$ is linear, $A(\vec{0}) = \vec{0}$.
+    Thus $Ax = Ox$ for all $x \in \R^{n}$ and so $A = O$.
+  \item For $\lambda \in \R$, we have:
+    \[
+      \norm{\lambda A}_{\text{op}} = \sup_{x \in S} \norm{\lambda Ax} = |\lambda| \sup_{x \in S} \norm{Ax} = |\lambda| \norm{A}_{\text{op}}
+    \]
+  \item For any $x \in S$, we have:
+    \begin{align*}
+      \norm{(A + B)x} &= \norm{Ax + Bx} \\
+                      &\leq \norm{Ax} + \norm{Bx} \\
+                      &\leq \sup_{x \in S} \norm{Ax} + \sup_{x \in S} \norm{Bx} \\
+                      &= \norm{A}_{\text{op}} + \norm{B}_{\text{op}}
+    \end{align*}
+    Thus $\norm{A + B}_{\text{op}} = \sup_{x \in S} \norm{(A + B)x} \leq \norm{A}_{\text{op}} + \norm{B}_{\text{op}}$.
+\end{itemize}
+Since $\norm{\argdot}_{\text{op}}$ is equivalent to any other norm on $\mathcal{L}(\R^{n}, \R^{m})$, it is Lipschitz equivalent to the \textit{Frobenius norm}.
+If we associate $A \in \mathcal{L}(\R^{n}, \R^{m})$ to a matrix $A \in \mathcal{M}_{m \times n}(\R)$ with entries $(A_{i j})$ with respect to the standard basis, then its \textit{Frobenius norm} is defined to be:
+\[
+  \norm{A}_{\text{F}} = \left[\sum_{i, j} A_{i j}^2\right]^{1/2}
+\]
+However, we tend to prefer the operator norm because of properties \textbf{(i)} and \textbf{(ii)} below.
+\begin{proposition}[Properties of the operator norm]
+  If $A \in \mathcal{L}(\R^{n}, \R^{m})$, then:
+  \begin{enumerate}
+      \item For all $x \in \R^{n}$, we have $\norm{Ax} \leq \norm{A}_{\text{op}} \norm{x}$.
+      \item If $B \in \mathcal{L}(\R^{m}, \R^{p})$, then $BA \in \mathcal{L}(\R^{n}, \R^{p})$ satisfies:
+        \[
+          \norm{BA}_{\text{op}} \leq \norm{B}_{\text{op}}\norm{A}_{\text{op}}
+        \]
+      \item The norms $\norm{\argdot}_{\text{op}}$ and $\norm{\argdot}_{\text{F}}$ on $\mathcal{L}(\R^{n}, \R^{m})$ satisfy the following bounds:
+      \[
+        \frac{1}{\sqrt{n}}\norm{A}_{\text{F}} \leq \norm{A}_{\text{op}} \leq \norm{A}_{\text{F}}
+      \]
+      In particular, this gives an explicit proof of their Lipschitz equivalence.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}[\textbf{i}]
+  For $x = 0$, the result follows trivially, otherwise, consider:
+  \begin{align*}
+    \norm{A}_{\text{op}} = \sup_{x \in \R^{n} \setminus \{0\}} \frac{\norm{Ax}}{\norm{x}} &\implies \frac{\norm{Ax}}{\norm{x}} \leq \norm{A}_{\text{op}}\ \forall x \in \R^{n} \setminus \{0\} \\
+                                                                                          &\implies \norm{Ax} \leq \norm{A}_{\text{op}} \norm{x}\ \forall x \in \R^{n} \setminus \{0\}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  For any $x \in \R^{n}$, applying \textbf{(i)} twice we obtain:
+  \begin{align*}
+    \norm{BAx} = \norm{B(Ax)} \leq \norm{B}_{\text{op}} \norm{Ax} &\leq \norm{B}_{\text{op}} \norm{A}_{\text{op}} \norm{x} \\
+    \implies \norm{BA}_{\text{op}} = \sup_{x \in \R^{n} \setminus \{0\}} \frac{\norm{BAx}}{\norm{x}} &\leq \norm{B}_{\text{op}} \norm{A}_{\text{op}}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  See Example Sheet 4.
+\end{proof}
+\begin{proposition}[Special cases of the operator norm]
+  Considering the special cases of $n = 1$ and $m = 1$, we have: \label{opProp}
+  \begin{enumerate}
+    \item If $A \in \mathcal{L}(\R, \R^{m})$, then there exists $a \in \R^{m}$ such that $Ax = xa$ for all $x \in \R$, in fact $a = A(1)$.
+      Moreover, in this case $\norm{A}_{\text{op}} = \norm{a}$.
+    \item If $A \in \mathcal{L}(\R^{n}, \R)$, then there exists $a \in \R^{n}$ such that  $Ax = x \cdot a$ for all $x \in \R^{n}$.
+      Moreover, in this case $\norm{A}_{\text{op}} = \norm{a}$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  See Example Sheet 4.
+\end{proof}
+\section{Differentiation Rules}
+\subsection{Chain Rule}
+\begin{theorem}[Chain rule]
+  Let $U \subseteq \R^{n}$ be open and $V \subseteq \R^{m}$ be open and suppose that $f: U \to \R^{m}$ and $g: V \to \R^{p}$ are such that $f(U) \subseteq V$.
+  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \R^{p}$ is differentiable at $a$ with $D(g \circ f)(a) = Dg(f(a)) Df(a)$.
+\end{theorem}
+\begin{proof}
+  Since $f$ is differentiable at $a$ and $g$ is differentiable at $f(a)$, we can let $A = Df(a) \in \mathcal{M}_{m \times n}(\R)$ and $B = Dg(f(a)) \in \mathcal{M}_{p \times m}(\R)$.
+  Appealing to \cref{diffOrder}, for $h \in \R^{n}$:
+  \[
+    f(a + h) = f(a) + Ah + o(h)
+  \]
+  and for $k \in \R^{m}$:
+  \[
+    g(f(a) + k) = g(f(a)) + Bk + o(k)
+  \]
+  Thus:
+  \begin{align*}
+    g \circ f(a + h) &= g(f(a) + Ah + o(h)) \\
+                     &= g(f(a)) + B(Ah + o(h)) + o(Ah + o(h)) \\
+                     &= g \circ f(a) + BAh + B(o(h)) + o(Ah + o(h))
+  \end{align*}
+  To conclude, we need to show that $B(o(h)) + o(Ah + o(h)) = o(h)$.
+  Firstly, using \cref{opProp} \textbf{(i)}, we see that:
+  \begin{align*}
+    \norm{B(o(h))} \leq \norm{B}_{\text{op}} \norm{o(h)} &\implies \frac{\norm{B(o(h))}}{\norm{h}} \leq \norm{B}_{\text{op}} \frac{\norm{o(h)}}{\norm{h}} \\
+                                                         &\implies B(o(h)) = o(h)
+  \end{align*}
+  We also see that:
+  \begin{align}
+    \norm{Ah + o(h)} &\leq \norm{Ah} + \norm{o(h)} \\
+                     &\leq \norm{A}_{\text{op}} \norm{h} + \norm{o(h)} \text{ by \cref{opProp} \textbf{(i)}}
+  \end{align}
+  By definition $\frac{\norm{o(h)}}{\norm{h}} \to 0$ as $h \to 0$, thus for sufficiently small $\norm{h}$, $\frac{\norm{o(h)}}{\norm{h}} \leq 1$, i.e. $\norm{o(h)} \leq \norm{h}$.
+  Applying this to the above, we have:
+  \begin{align*}
+    \norm{Ah + o(h)} &\leq \norm{A}_{\text{op}} \norm{h} + \norm{h} \text{ for sufficiently small $h$} \\
+                     &= (\norm{A}_{\text{op}} + 1)\norm{h} \\
+  \end{align*}
+  For $f = o(Ah + o(h))$, we therefore have:
+  \[
+    \frac{f}{\norm{h}} \leq \frac{f}{\norm{Ah + o(h)}} \cdot (\norm{A}_{\text{op}} + 1) \to 0 \text{ as $h \to 0$}
+  \]
+  So $f = o(h)$, i.e. $o(Ah + o(h)) = o(h)$.
+
+  This gives $B(o(h)) + o(Ah + o(h)) = o(h)$, i.e.:
+  \[
+    g \circ f(a + h) = g \circ f(a) + BAh + o(h)
+  \]
+  Appealing to \cref{diffOrder} again, $g \circ f$ is differentiable at $a$ with derivative $D(g \circ f)(a) = BA = Dg(f(a))Df(a)$.
+\end{proof}
+\subsection{Mean Value Inequalities}
+\begin{remark}[Recap]
+  Recall from IA Analysis I that the \textit{mean value theorem} tells us that, if $f: [a, b] \to \R$ is continuous and $f$ is differentiable on $(a, b)$, then:
+  \[
+    f(b) - f(a) = f'(c)(b - a)
+  \]
+  for some $c \in (a, b)$.
+\end{remark}
+Unfortunately, the direct analogue of this does not hold for $f: U \to \R^{n}$ with $U \subseteq \R^{n}$ is open when $m \geq 2$, even in the case of $n = 1$ (See Example Sheet 4).
+However, we can obtain \textit{mean value inequalities}.
+\begin{theorem}[Mean value inequality -- $n = 1$]
+  If $f: [a, b] \to \R^{m}$ is continuous everywhere and differentiable on $(a, b)$ and there exists $M > 0$ such that $\norm{Df(t)}_{\text{op}} \leq M$ for all $t \in [a, b]$, then:
+  \[
+    \norm{f(b) - f(a)} \leq M(b - a)
+  \]
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
 \end{proof}
 \end{document}
