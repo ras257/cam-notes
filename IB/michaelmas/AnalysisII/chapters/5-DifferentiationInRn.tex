@@ -91,6 +91,38 @@ Since we have found an equivalent formulation for \cref{derivRecap} that uses $|
   We denote the space of linear maps $\R^{n} \to \R^{m}$ as $\mathcal{L}(\R^{n}, \R^{m})$.
 \end{remark}
 Many of the properties of derivatives we saw for functions $f: \R \to \R$ in Analysis I also carry over to this higher dimensional derivative.
+
+Before we make any statements about the differentiability of the components of $f$, we want to check if they need even be continuous if $f$ is.
+\begin{lemma}[Continious $\iff$ Components continious]
+  Let $U \subseteq \R^{n}$ and $a \in U$.
+  The function $f: U \to \R^{m}$ is continuous at $a$ if and only if $f_i$ is continuous at $a$ for $i \in \{1, \ldots, m\}$. \label{contComp}
+\end{lemma}
+\begin{proof}
+  \begin{proofdirection}{Assume $f$ is continuous at $a$}
+    Fix an arbitrary $\varepsilon > 0$, since $f$ is continuous at $a$, there exists a $\delta > 0$ such that:
+    \[
+      \norm{x - a} < \delta \implies \norm{f(x) - f(a)} < \varepsilon
+    \]
+    Then for each $i \in \{1, \ldots, m\}$:
+    \[
+      |f_i(x) - f_i(a)| \leq \left[\sum_{j = 1}^{m} |f_j(x) - f_j(a)|^2\right]^{\frac{1}{2}} = \norm{f(x) - f(a)} < \varepsilon
+    \]
+    So $f_i$ is continuous at $a$.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $f_i$ are continuous at $a$ for $i \in \{1, \ldots, m\}$}
+    Fix an arbitrary $\varepsilon > 0$, for each $i$, since $f_i$ is continuous at $a$, there exists a $\delta_i > 0$ such that:
+    \[
+      \norm{x - a} < \delta_i \implies |f_i(x) - f_i(a)| < \frac{\varepsilon}{\sqrt{m}}
+    \]
+    Taking $\delta = \min\{\delta_1, \ldots, \delta_m\} > 0$, we see that:
+    \begin{align*}
+      \norm{x - a} < \delta \implies \norm{f(x) - f(a)} &= \left[\sum_{j = 1}^{m} |f_j(x) - f_j(a)|^2\right]^{\frac{1}{2}} \\
+                                                        &\leq \left[\sum_{j = 1}^{m} \frac{\varepsilon^2}{m}\right]^{\frac{1}{2}} \\
+                                                        &= \varepsilon
+    \end{align*}
+    So $f$ is continuous at $a$.
+  \end{proofdirection}
+\end{proof}
 \begin{proposition}[Properties of derivatives]
   Let $U \subseteq \R^{n}$ be open, $f: U \to \R^{m}$ and $a \in U$. \label{derivProp}
   \begin{enumerate}
@@ -448,7 +480,7 @@ If we associate $A \in \mathcal{L}(\R^{n}, \R^{m})$ to a matrix $A \in \mathcal{
 \]
 However, we tend to prefer the operator norm because of properties \textbf{(i)} and \textbf{(ii)} below.
 \begin{proposition}[Properties of the operator norm]
-  If $A \in \mathcal{L}(\R^{n}, \R^{m})$, then:
+  If $A \in \mathcal{L}(\R^{n}, \R^{m})$, then: \label{opProp}
   \begin{enumerate}
       \item For all $x \in \R^{n}$, we have $\norm{Ax} \leq \norm{A}_{\text{op}} \norm{x}$.
       \item If $B \in \mathcal{L}(\R^{m}, \R^{p})$, then $BA \in \mathcal{L}(\R^{n}, \R^{p})$ satisfies:
@@ -482,7 +514,7 @@ However, we tend to prefer the operator norm because of properties \textbf{(i)} 
   See Example Sheet 4.
 \end{proof}
 \begin{proposition}[Special cases of the operator norm]
-  Considering the special cases of $n = 1$ and $m = 1$, we have: \label{opProp}
+  Considering the special cases of $n = 1$ and $m = 1$, we have: \label{opSpecial}
   \begin{enumerate}
     \item If $A \in \mathcal{L}(\R, \R^{m})$, then there exists $a \in \R^{m}$ such that $Ax = xa$ for all $x \in \R$, in fact $a = A(1)$.
       Moreover, in this case $\norm{A}_{\text{op}} = \norm{a}$.
@@ -497,7 +529,7 @@ However, we tend to prefer the operator norm because of properties \textbf{(i)} 
 \subsection{Chain Rule}
 \begin{theorem}[Chain rule]
   Let $U \subseteq \R^{n}$ be open and $V \subseteq \R^{m}$ be open and suppose that $f: U \to \R^{m}$ and $g: V \to \R^{p}$ are such that $f(U) \subseteq V$.
-  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \R^{p}$ is differentiable at $a$ with $D(g \circ f)(a) = Dg(f(a)) Df(a)$.
+  If $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$, then $g \circ f: U \to \R^{p}$ is differentiable at $a$ with $D(g \circ f)(a) = Dg(f(a)) Df(a)$. \label{chainRule}
 \end{theorem}
 \begin{proof}
   Since $f$ is differentiable at $a$ and $g$ is differentiable at $f(a)$, we can let $A = Df(a) \in \mathcal{M}_{m \times n}(\R)$ and $B = Dg(f(a)) \in \mathcal{M}_{p \times m}(\R)$.
@@ -509,6 +541,7 @@ However, we tend to prefer the operator norm because of properties \textbf{(i)} 
   \[
     g(f(a) + k) = g(f(a)) + Bk + o(k)
   \]
+
   Thus:
   \begin{align*}
     g \circ f(a + h) &= g(f(a) + Ah + o(h)) \\
@@ -555,11 +588,181 @@ However, we tend to prefer the operator norm because of properties \textbf{(i)} 
 Unfortunately, the direct analogue of this does not hold for $f: U \to \R^{n}$ with $U \subseteq \R^{n}$ is open when $m \geq 2$, even in the case of $n = 1$ (See Example Sheet 4).
 However, we can obtain \textit{mean value inequalities}.
 \begin{theorem}[Mean value inequality -- $n = 1$]
-  If $f: [a, b] \to \R^{m}$ is continuous everywhere and differentiable on $(a, b)$ and there exists $M > 0$ such that $\norm{Df(t)}_{\text{op}} \leq M$ for all $t \in [a, b]$, then:
+  If $f: [a, b] \to \R^{m}$ is continuous everywhere and differentiable on $(a, b)$ and there exists $M > 0$ such that $\norm{Df(t)}_{\text{op}} \leq M$ for all $t \in [a, b]$, then: \label{MVI1}
   \[
     \norm{f(b) - f(a)} \leq M(b - a)
   \]
 \end{theorem}
+\begin{remark}[Note]
+  We note that since $f: [a, b] \to \R^{m}$ we have $Df(t) \in \mathcal{L}(\R, \R^{m})$.
+  As a matrix $Df(t) = (f_1'(t), \ldots, f_n'(t))^{\trans}$, so in particular, $Df(t)[1] = (f_1'(t), \ldots, f_n'(t))^{\trans}$.
+  Thus by \cref{opSpecial} \textbf{(i)}, we have that:
+  \[
+    \norm{Df(t)}_{\text{op}} = \norm{f'(t)}_2
+  \]
+  where $f'(t) \equiv (f_1'(t), \ldots, f_m'(t))^{\trans} \in \R^{m}$.
+\end{remark}
+\begin{proof}
+  Let $v = f(b) - f(a)$ and define $g(t) = v \cdot f(t) = \sum_{i = 1}^{m} v_i f_i(t)$.
+  Since $f$ is differentiable on $(a, b)$, by \cref{derivProp} \textbf{(iii)}, so are its components $f_i$.
+  Moreover since $f$ is continuous everywhere, by \cref{contComp}, so are its components $f_i$.
+  Thus $g: [a, b] \to \R$ is continuous everywhere and differentiable on $(a, b)$ with:
+  \[
+    g'(t) = \sum_{i = 1}^{n} v_i f_i'(t) = v \cdot f'(t)
+  \]
+  Further, by Cauchy Schwarz, we have:
+  \[
+    |g'(t)| \leq \norm{v}_2 \norm{f'(t)}_2 \leq M \norm{v}_2
+  \]
+  for all $t \in (a, b)$.
+
+  Applying the standard mean value theorem to $g$, there exists some $c \in (a, b)$ such that:
+  \[
+    g(b) - g(a) = g'(c) (b - a)
+  \]
+  By how we defined $g$ and $v$, we can write:
+  \[
+    g(b) - g(a) = v \cdot (f(b) - f(a)) = \norm{v}^2_2
+  \]
+  So:
+  \begin{align*}
+    \norm{v}^2_2 = g'(c) (b - a) \leq M \norm{v}_2 (b - a)
+  \end{align*}
+  If $\norm{v}_2 = 0$, then $v = 0$ and so there is nothing to show as $f(b) = f(a)$.
+  Otherwise, we can divide through by $\norm{v}_2$ to yield:
+  \[
+    \norm{f(b) - f(a)} = \norm{v} \leq M(b - a)
+  \]
+  as required.
+\end{proof}
+\begin{theorem}[Mean value inequality in balls]
+  If $B_r(a) \subseteq \R^{n}$ and $f: B_r(a) \to \R^{m}$ is such that $\norm{Df(x)}_{\text{op}} \leq M$ for all $x \in B_r(a)$, then for any $b_1, b_2 \in B_r(a)$: \label{MVIBall}
+  \[
+    \norm{f(b_1) - f(b_2)} \leq M \norm{b_1 - b_2}
+  \]
+\end{theorem}
+\begin{remark}
+  The shape of the domain $U$ is important here as we need to ensure that the line joining $b_1$ and $b_2$ stays within $U$.
+
+  More generally, the above holds if $U$ is convex and closed by the same proof below.
+\end{remark}
+\begin{proof}
+  Fix arbitrary $b_1, b_2 \in B_r(a)$.
+  We then see that for all $t \in [0, 1]$:
+  \begin{align*}
+    \norm{tb_1 + (1 - t)b_2 - a} &= \norm{t(b_1 - a) + (1 - t)(b_2 - a)} \\
+                                 &\leq t\norm{b_1 - a} + (1 - t)\norm{b_2 - a} \\
+                                 &\leq tr + (1 - t)r \\
+                                 &= r \implies tb_1 + (1 - t)b_2 \in B_r(a)
+  \end{align*}
+  That is, the line segment joining $b_1$ and $b_2$ remains inside $B_r(a)$.
+  Thus we can define a function which returns the output of $f$ along this line:
+  \[
+    g(t) = f(tb_1 + (1 - t)b_2)
+  \]
+  Since $tb_1 + (1 - t)b_2$ is continuous and differentiable in $t$, and $f$ is continuous and differentiable on $B_r(a)$, we have that $g: [0, 1] \to \R^{m}$ is continuous everywhere and differentiable on $(0, 1)$.
+
+  We see that $D(tb_1 + (1 - t)b_2) = b_1 - b_2$ and so applying the chain rule (\cref{chainRule}), we have:
+  \[
+    Dg(t) = Df(tb_1 + (1 - t)b_2)(b_1 - b_2)
+  \]
+  Thus by \cref{opProp}:
+  \begin{align*}
+    \norm{Dg(t)}_{\text{op}} &\leq \norm{Df(tb_1 + (1 - t)b_2)}_{\text{op}} \norm{b_1 - b_2} \\
+                             &\leq M \norm{b_1 - b_2} \text{ as } tb_1 + (1 - t)b_2 \in U
+  \end{align*}
+  Finally, applying \cref{MVI1} to $g$, we have:
+  \begin{align*}
+    \norm{g(1) - g(0)} \leq M \norm{b_1 - b_2}(1 - 0) = M \norm{b_1 - b_2}
+  \end{align*}
+  So $\norm{f(b_1) - f(b_2)} = \norm{g(1) - g(0)} \leq M \norm{b_1 - b_2}$ as required.
+\end{proof}
+\begin{corollary}
+  If $B_r(a) \subseteq \R^{n}$ and $f: B_r(a) \to \R^{m}$ is differentiable with $Df(x) = 0$ for all $x \in B_r(a)$, then $f$ is constant on $B_r(a)$. \label{ballConst}
+\end{corollary}
+\begin{proof}
+  We can take $M = 0$ in \cref{MVIBall} and so for any $b_1, b_2 \in B_r(a)$:
+  \[
+    \norm{f(b_1) - f(b_2)} \leq 0 \implies f(b_1) = f(b_2)
+  \]
+  Thus $f$ is constant on $B_r(a)$.
+\end{proof}
+The above also extends to functions $f: U \to \R^{m}$, provided $U \subseteq \R^{n}$ is open and \textit{path connected}.
+\begin{definition}[Path connected]
+  We say that a subset $E \subseteq \R^{n}$  is \textit{path connected} if for any two points $a, b \in E$, there is a continuous function $\gamma: [0, 1] \to E$ such that $\gamma(0) = a$ and $\gamma(1) = b$.
+  If such a function exists between two points, then we call $\gamma$ a \textit{path} connecting $a$ and $b$ in $E$.
+\end{definition}
+\begin{theorem}
+  If $U \subseteq \R^{n}$ is open and path connected and $f: U \to \R^{m}$ is differentiable with $Df(x) = 0$ for all $x \in U$, then $f$ is constant on $U$.
+\end{theorem}
+\begin{proof}
+  By \cref{derivProp} \textbf{(iii)}, each of the components of $f$ is differentiable with $D f_i(x) = 0$ for all $x \in U$.
+  Thus it is enough to show that each component function of $f$ is constant on $U$ and so for the remainder of the proof we assume that we are in the case of $m = 1$.
+
+  Fix a pair of arbitrary points $a, b \in U$.
+  Since $U$ is path connected, there exists a continuous function $\gamma: [0, 1] \to U$ such that $\gamma(0) = a$ and $\gamma(1) = b$.
+  Since the path remains in $U$, we can define a function which returns $f$ evaluated along the path $\gamma$, i.e. we define:
+  \[
+    g: [0, 1] \to \R,\ t \mapsto f(\gamma(t))
+  \]
+  We unfortunately cannot use the chain rule here as $\gamma$ need not be differentiable.
+
+  Since $U$ is open, for each $s \in (0, 1)$ there exists $\varepsilon > 0$ such that $B_r(\gamma(s)) \subseteq U$.
+  By continuity of $\gamma$, there exists $\delta > 0$ such that $\gamma((s - \delta, s + \delta)) \subseteq B_{\varepsilon}(\gamma(t))$.
+  By \cref{ballConst}, $f$ is constant on $B_{\varepsilon}(\gamma(s))$ and so $g$ is constant on $(s - \delta, s + \delta)$.
+  Thus $g$ is differentiable on $(s - \delta, s + \delta)$ with derivative 0.
+  In particular, $g'(s) = 0$.
+
+  Since $s$ was arbitrary, $g'(t) = 0$ for all $s \in (0, 1)$, so $g$ is constant on $[0, 1]$ by the standard mean value theorem.
+  Thus, comparing $g(0)$ and $g(1)$, we have:
+  \[
+    f(a) = f(\gamma(0)) = g(0) = g(1) = f(\gamma(1)) = f(b)
+  \]
+  So as $a$ and $b$ were arbitrary, $f$ is constant on $U$.
+\end{proof}
+\begin{remark}[Warning]
+  The above is false if we drop the path-connectedness assumption.
+  For example:
+  \[
+    f: (1, 2) \cup (3, 4) \to \R,\ x \mapsto \begin{cases}
+    1 & \text{ if } x \in (1, 2) \\
+    2 & \text{ if } x \in (3, 4)
+    \end{cases}
+  \]
+  This is differentiable everywhere with derivative 0, but $f$ is not constant since $(1, 2) \cup (3, 4)$ is not path connected.
+\end{remark}
+\section{The Second Derivative}
+\begin{definition}[$C^1$ function]
+  Let $U \subseteq \R^{n}$ be an open subset and $f: U \to \R^{m}$.
+  We say that $f$ is \textit{$C^1$ on $U$} if its partial derivatives $D_jf = \partial f/\partial x_j$ exist and are continuous for all $j \in \{1, \ldots n\}$.
+\end{definition}
+\begin{remark}[Notation]
+  We denote the set of all such functions:
+  \[
+    C^{1}(U) = \{(f: U \to \R): D_j f \text{ exists and is continuous }\ \forall j \in \{1, \ldots, n\}\}
+  \]
+\end{remark}
+We can similarly define $C^2$.
+\begin{definition}[$C^2$ function]
+  Let $U \subseteq \R^{n}$ be an open subset and $f: U \to \R^{m}$.
+  We say that $f$ is \textit{$C^2$ on $U$} if all partial derivatives $D_jf = \partial f/\partial x_j$ exist and are $C^1$ on $U$ for all $j \in \{1, \ldots n\}$.
+
+  That is, the second order partial derivatives:
+  \[
+    D_{i j}f \equiv \frac{\partial^2 f}{\partial x_i \partial x_j} \equiv D_i(D_j f)
+  \]
+  exist and are continuous for all $i, j \in \{1, \ldots, n\}$.
+\end{definition}
+\begin{remark}[Notation]
+  We denote the set of all such functions $C^{2}(U)$.
+\end{remark}
+\begin{theorem}
+  Let $U \subseteq \R^{n}$, $a \in U$, and $f: U \to \R$ be such that $B_r(a) \subseteq U$.
+  If $i, j \in \{1, \ldots, n\}$ are such that $D_i D_j f(x)$ and $D_j D_i f(x)$ exist for all $x \in B_r(a)$ and are continuous at $x = a$, Then $D_i D_j f(a) = D_j D_i f(a)$.
+\end{theorem}
+\begin{remark}[Intuition]
+  If both mixed partial derivatives exist in some ball around $a$ and are continuous at $a$, then partial derivatives commute at $a$.
+\end{remark}
 \begin{proof}
   Continued next lecture.
 \end{proof}
