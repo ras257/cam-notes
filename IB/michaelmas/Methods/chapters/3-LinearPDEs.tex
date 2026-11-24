@@ -1,6 +1,6 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-\chapter{Linear PDEs and Separation of Variables}
+\chapter{Linear PDEs and Separation of Variables} \label{PDEChap}
 \section{Boundary and Initial Value Problems}
 \subsection{Definition}
 We are interested in solving both \textit{pure boundary value problems} (abbreviated as \textit{BVP}) and \textit{initial boundary value problems} (abbreviated as \textit{IBPV}).
@@ -104,7 +104,7 @@ This is best demonstrated using an example.
 \begin{remark}[Advice]
   Linearity is one of the only inherent properties of BVPs and so it is important to utilise it.
 \end{remark}
-\section{Laplace's Equation}
+\section{Laplace's Equation} \label{laplace}
 \subsection{Definitions}
 Recall Laplace's equation from IA Vector Calculus.
 \begin{definition}[Laplace's Equation]
@@ -448,7 +448,7 @@ for constants $\alpha_n$ and $\beta_n$.
   \]
   Since this solves and the boundary conditions are Dirichlet B.C.s, it is \textit{the} solution to the problem by uniqueness.
 \end{example}
-\section{The Wave Equation}
+\section{The Wave Equation} \label{waveEqnSec}
 \subsection{Waves on a String}
 Consider a uniform string under constant tension $\tau$ clamped at both $x = 0$ and $x = L$.
 We allow the string to undergo small transverse oscillations, i.e. we assume that motion is only vertical at each point and the displacement $y = y(x, t)$ obeys $\abs{\partial y/\partial x} \ll 1$.
@@ -528,14 +528,15 @@ Since the ends of the string are clamped, we have the boundary conditions $y(0, 
 We also used Newton's second law which requires the initial conditions $y(x, 0)$, i.e. the initial profile of the string, and $y_{t}(x, 0)$, i.e. the initial velocity of each point on the string.
 \subsubsection{The IBVP}
 So our IBVP is:
-\[
+\begin{equation}
+  \label{waveEqn}
   \begin{cases}
   y_{t t} - c^2 y_{x, x} = 0 & \text{ for } x \in (0, L),\ t > 0 \\
   y(0, t) = y(L, t) = 0 & \text{ for } t > 0 \\
   y(x, 0) = f(x) & \text{ for } x \in (0, L) \\
   y_t(x, 0) = g(x) & \text{ for } x \in (0, L)
   \end{cases}
-\]
+\end{equation}
 \begin{remark}[Memorisation]
   We can use dimensional analysis to remember which side of the equation the $c^2$ should be on.
 \end{remark}
@@ -838,7 +839,7 @@ We can check this in a few cases to gain physical intuition and to sanity check 
   So we went from the wave speed $c(x)$ to $R(\lambda)$ and $T(\lambda)$.
   It in fact turns out we actually only need $R(\lambda)$ to recover $c(x)$.
 \end{remark}
-\section{The Heat Equation}
+\section{The Heat Equation} \label{heatEqnSec}
 \subsection{Introduction}
 The \textit{heat equation} is the PDE:
 \[

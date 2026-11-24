@@ -145,4 +145,234 @@ This process is perhaps best demonstrated using an example.
 \begin{remark}[Warning]
   In order to be able to find a characteristic which passes through any given point $(x, y)$ and also the curve $C$, we require that the characteristic curves are not tangent to $C$, i.e. we require that $\at{\vec{n} \cdot \vec{v}}{C} \neq 0$ where $\vec{n}$ is normal to $C$ and $v(\vec{x}) = (a(x, y), b(x, y))$.
 \end{remark}
+\section{Classification of Second Order Linear PDE}
+We will consider problems of the form $\mathcal{L}u = 0$ where:
+\[
+  \mathcal{L}u = a(x, y) \pderiv[2]{u}{x} + 2b(x, y) \frac{\partial^2 u}{\partial x \partial y} + c(x, y) \pderiv[2]{u}{y} + d(x, y) \pderiv{u}{x} + e(x, y) \pderiv{u}{y} + f(x, y)u
+\]
+We would like to find a change of variables $(x, y) \mapsto (\xi, \eta)$, i.e. $\xi = \xi(x,y)$ and $\eta = \eta(x, y)$, which reduces the second order derivatives to a single second order derivative.
+
+For notational convenience, we write $(x, y) \equiv (x_1, x_2)$ and $(\xi, \eta) \equiv (\xi_1, \xi_2)$, so that:
+\[
+  \mathcal{L}u = \sum_{i, j = 1}^{2} a_{i j}(x, y) \frac{\partial^2 u}{\partial x_i \partial x_j} + \text{(lower order terms)}
+\]
+where:
+\[
+  (a_{i j}(x, y))_{i j} = \begin{pmatrix}
+  a(x, y) & b(x, y) \\
+  b(x, y) & c(x, y) \\
+  \end{pmatrix}
+\]
+\begin{proposition}
+  If we write $U(\xi, \eta) = u(x, y)$, then under the chain of variables $(x, y) \mapsto (\xi, \eta)$, $\mathcal{L}u$ transforms into:
+  \[
+    \widetilde{\mathcal{L}}U = \sum_{p, q = 1}^{2} A_{p q} \frac{\partial^2 U}{\partial \xi_p \partial \xi_q} + (\text{lower order terms})
+  \]
+  where:
+  \[
+    A_{p q} = \sum_{i, j = 1}^{2} a_{i j} \pderiv{\xi_p}{x_i} \pderiv{\xi_q}{x_j}
+  \]
+\end{proposition}
+\begin{proof}
+  Using the summation convention, by the chain rule:
+  \[
+    \pderiv{u}{x_i} = \pderiv{\xi_p}{x_i} \pderiv{U}{\xi_p}
+  \]
+  So, using the summation notation for convenience:
+  \begin{align*}
+    a_{i j} \frac{\partial^2 u}{\partial x_i \partial x_j} &= a_{i j}\left[\pderiv{\xi_p}{x_i} \pderiv{\xi_q}{x_j} \frac{\partial^2 U}{\partial \xi_p \partial \xi_q} + \frac{\partial^2 \xi_p}{\partial x_i \partial x_j} \pderiv{U}{\xi_q}\right] \\
+                                                           &= A_{p q} \frac{\partial^2 U}{\partial \xi_p \partial \xi_q} + \text{(lower order terms)}
+  \end{align*}
+  which gives the result.
+\end{proof}
+\begin{remark}
+  When trying to solve an actual problem, we will need to determine these lower order terms, however in this derivation we are simply trying to show that such a change of variables is possible.
+\end{remark}
+Using the above, we find that $A$ is:
+\[
+  A = \begin{pmatrix}
+    a \xi^2_x + 2b\xi_x\xi_y + c \xi^2_y & a \xi_x \eta_x + b(\xi_x \eta_y + \xi_y \eta_x) + c \xi_y \eta_y \\
+    a \xi_x \eta_x + b(\xi_x \eta_y + \xi_y \eta_x) + c \xi_y \eta_y &  a \eta^2_x + 2b \eta_x \eta_y + c^2 \eta^2_y\\
+  \end{pmatrix}
+\]
+Our original goal is to make all but one of these partial derivatives zero.
+Since $\partial^2 U/\partial \xi_p \partial \xi_q = \partial^2 U/\partial \xi_q \partial \xi_p$, if we can make $A_{1 1} = 0$ and $A_{2 2} = 0$, then only a single mixed second derivative will be left.
+
+For $A_{1 1} = 0$, we want:
+\[
+  a \xi^2_x + 2b\xi_x\xi_y + c \xi^2_y = 0 \iff a\left(\frac{\xi_x}{\xi_y}\right)^2 + 2b \left(\frac{\xi_x}{\xi_y}\right) + c = 0
+\]
+and so we want to make our change of variables such that $\xi_x/\xi_y = M(x, y)$ where $M$ satisfies $aM^2 + 2bM + c = 0$.
+Similarly for $A_{2 2} = 0$, we want:
+\[
+  a \eta^2_x + 2b\eta_x\eta_y + c \eta^2_y = 0 \iff  a\left(\frac{\eta_x}{\eta_y}\right)^2 + 2b \left(\frac{\eta_x}{\eta_y}\right) + c = 0
+\]
+and so we want to make our change of variables such that $\eta_x/\eta_y = N(x, y)$ where $N$ satisfies $aN^2 + 2bN + c = 0$.
+
+The quadratic $az^2 + 2bz + c = 0$ in both of the above has solution:
+\[
+  z = \frac{-b \pm \sqrt{b^2 - ac}}{a}
+\]
+where it is important to note that $a$, $b$, and $c$ are functions of $(x, y)$ and so need not be constants.
+
+Suppose we are able to find $M(x, y)$ and $N(x, y)$ satisfying the above.
+We then consider the curves $\xi(x, y) = \text{constant}$ and $\eta(x, y) = \text{constant}$.
+These are called the \textit{characteristic curves} for the PDE.
+We first, consider the characteristic curve for $\xi$.
+On a characteristic curve, we implicitly obtain $y = y(x)$, via $\xi(x, y(x)) = \text{constant}$.
+Differentiating using the multivariate chain rule we obtain:
+\begin{align*}
+  \xi_x + \deriv{y}{x} \xi_y &= 0 \\
+  \iff \deriv{y}{x} = - \frac{\xi_x}{\xi_y} &= M(x, y)
+\end{align*}
+We can perform an analogous derivation for $\eta$ to obtain that the characteristics curves satisfy $\deriv{y}{x} = N(x, y)$.
+
+So in general the characteristic curves satisfy:
+\[
+  \deriv{y}{x} = -\left[\frac{-b \pm \sqrt{b^2 - ac}}{a}\right]
+\]
+Due to the square root, we obtain a classification for such PDEs:
+\begin{enumerate}
+  \item If $b^2 - ac < 0$, then we say that the PDE is \textit{elliptic}, in this case there are no real characteristic curves.
+  \item If $b^2 = ac$, then we say that the PDE is \textit{parabolic}, in this case there is only one family of characteristic curves.
+  \item If $b^2 - ac > 0$, then we say that the PDE is \textit{hyperbolic}, in this case there are two families of characteristic curves
+\end{enumerate}
+\begin{remark}[Note]
+  Because $a(x, y)$, $b(x, y)$, and $c(x, y)$ are functions of $(x, y) \in \R^{2}$, the classification of a PDE can depend on which region of $\R^2$ we are trying to solve in.
+\end{remark}
+\begin{example}[Classification Examples]
+  We can classify then PDEs we saw in \cref{PDEChap}:
+  \begin{enumerate}
+    \item Laplace's equation (\cref{laplace}) $\to$ Elliptic
+    \item Heat Equation (\cref{waveEqnSec}) $\to$ Parabolic
+    \item Wave equation (\cref{heatEqnSec}) $\to$ Hyperbolic
+  \end{enumerate}
+\end{example}
+Thus, when we are in a hyperbolic region of $\R^2$, we have shown that the PDE reduces to:
+\[
+  \frac{\partial^2 U}{\partial \xi \partial \eta} + \text{(lower order terms)} = 0
+\]
+which has only one second order derivative, as desired.
+We call this the \textit{canonical form} of the PDE.
+\begin{example}[Wave equation]
+  Consider the wave equation from \cref{waveEquation} with wave speed $1$.
+  For consistency with the above, we relabel $t \mapsto y$, giving the PDE:
+  \[
+    \pderiv[2]{u}{x} - \pderiv[2]{u}{y} = 0
+  \]
+  Looking at the coefficients we see that $a = 1$, $b = 0$, and $c = -1$, giving:
+  \[
+    b^2 - ac = 1 > 0
+  \]
+  So the wave equation is globally hyperbolic.
+
+  In order to find the \textit{characteristic coordinates} $(\xi, \eta)$, we need to solve:
+  \[
+    \deriv{y}{x} = -\left[\frac{-0 \pm \sqrt{0^2 + 1}}{1}\right] = \mp 1
+  \]
+  This has solution:
+  \[
+    x \pm y = \text{constant}
+  \]
+  We take $\xi$ and $\eta$ to be the two distinct families of solutions here, i.e.:
+  \[
+    \xi(x, y) = x + y \text{ and } \eta(x, y) = x - y
+  \]
+  Now we know the appropriate change of variables we can perform this change of variables on the whole equation to find the lower order terms, noting that we expect all of the second order terms apart from the mixed second order derivatives to disappear.
+
+  In fact, in this case, we do not end up with any lower order terms:
+  \[
+    4 \frac{\partial^2 U}{\partial \xi \partial \eta} = 0
+  \]
+  We can integrate this twice to obtain $U(\xi, \eta) = A(\xi) + B(\eta)$ for arbitrary functions $A$ and $B$.
+
+  Thus, transforming back to our original variables:
+  \[
+    u(x, y) = A(x + y) + B(x - y)
+  \]
+
+  To solve the full IVP:
+  \[
+    \begin{cases}
+    u_{t t} - u_{x x} = 0 & \text{ for } \R \times (0, \infty) \\
+    u = f & \text{ on } \R \times \{t = 0\} \\
+    u_{t} = g & \text{ on } \R \times \{t = 0\}
+    \end{cases}
+  \]
+  We need $A$ and $B$ to satisfy:
+  \[
+    A(x) + B(x) = f(x) \text{ and } A'(x) - B'(x) = g(x)
+  \]
+  Integrating the equation for $g$, we see that:
+  \[
+    A(x) - B(x) = \int_{0}^{x} g(s) \d{s} + C
+  \]
+  for some constant $C$.
+  Thus:
+  \begin{align*}
+    A(x) &= \frac{1}{2}\left[f(x) + \int_{0}^{x} g(s) \d{s} + C\right] \\
+    B(x) &= \frac{1}{2}\left[f(x) - \int_{0}^{x} g(s) \d{s} - C\right] \\
+  \end{align*}
+  and so relabelling back $y \mapsto t$, we have the final solution:
+  \[
+    u(x, t) = \frac{1}{2}[f(x + t) + f(x - t)] + \frac{1}{2} \int_{x - t}^{x + t} g(s) \d{s}
+  \]
+\end{example}
+\begin{example}
+  Consider the PDE:
+  \[
+    xy \pderiv[2]{u}{x} - \pderiv[2]{u}{y} = 0
+  \]
+  Reading off the coefficients, we see that $a(x, y) = xy$, $b = 0$, $c = - 1$.
+  Thus:
+  \[
+    b^2 - ac = xy
+  \]
+  For the PDE to be hyperbolic, this needs to be positive and so it is hyperbolic in the region:
+  \[
+    \{xy > 0\} = \{x, y > 0\} \cup \{x, y < 0\}
+  \]
+  To find the characteristic coordinates, we solve:
+  \begin{align*}
+    \deriv{y}{x} &= -\left[\frac{-0 \pm \sqrt{0^2 + xy}}{xy}\right] \\
+                 &= \mp \frac{1}{\sqrt{xy}}
+  \end{align*}
+  In the case of $x, y > 0$, we obtain:
+  \[
+    \frac{1}{3} y^{\frac{3}{2}} \pm x^{\frac{1}{2}} = \text{constant}
+  \]
+  Thus we take $\xi(x, y) = \frac{1}{3} y^{3/2} + x^{1/2}$ and $\eta(x, y) = \frac{1}{3} y^{3/2} - x^{1/2}$.
+  Now we know the appropriate change of variables we can perform this change of variables on the whole equation to find the lower order terms, noting that we expect all of the second order terms apart from the mixed second order derivatives to disappear.
+  In this case the lower order terms are not non-zero and so we end up with a PDE of the form:
+  \[
+    \frac{\partial^2 U}{\partial \xi \partial \eta} + \text{(lower order terms)} = 0
+  \]
+\end{example}
+\begin{remark}[Weak solutions]
+  \nonexaminable
+  Suppose we have:
+  \[
+    f_{x x} - f_{t t} = 0 \text{ for } (x, t) \in \R \times \R
+    \implies (f_{x x} - f_{t t}) \varphi = 0 \text{ for } (x, t) \in \R \times \R
+  \]
+  where $\varphi \in C^{\infty}_c(\R^2)$, i.e. a smooth function on $\R^2$ with compact support.
+  Integrating both sides over $\R^2$, we have:
+  \[
+    \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (f_{x x} - f_{t t}) \varphi \d{x} \d{t} = 0
+  \]
+  and so applying integration by parts gives:
+  \begin{align*}
+    \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [(-1)^2 \varphi_{x x} f - (-1)^2 \varphi_{t t} f] \d{x} \d{t} = 0 \\
+    \implies \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [\varphi_{x x} - \varphi_{t t}]f \d{x} \d{t} = 0
+  \end{align*}
+  We call any $f$ satisfying this for all $\varphi \in C^{\infty}_c(\R^2)$ a \textit{weak solution} to the heat equation.
+
+  From the above, any solution of the heat equation is a weak solution.
+  However the concept of weak solutions allows us to define a sense in which functions that are not necessarily twice differentiable are solutions to the heat equation.
+  For example:
+  \[
+    f(x, t) = H(x - t) + H(x + t)
+  \]
+  is not twice differentiable but is a weak solution to the wave equation.
+\end{remark}
 \end{document}
