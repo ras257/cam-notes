@@ -135,7 +135,7 @@ Similarly to how we can change the basis under which a matrix represents a linea
 \begin{remark}
   Since $\GL_n(\F)$ is a group and by \cref{TProp} \textbf{(ii)} transposition preserves inverses, congruence forms an equivalence relation on $\mathcal{M}_{m \times n}(\F)$.
 \end{remark}
-\subsection{Perpendicular Subspaces}
+\section{Perpendicular Subspaces}
 \begin{definition}
   For a bilinear form $\varphi: U \times V \to \F$, $u \in U$, and $v \in V$, we define $\varphi_L(u) \in V^{*}$ and $\varphi_R(v) \in U^{*}$ by:
   \[
@@ -251,7 +251,8 @@ Similarly to how we can change the basis under which a matrix represents a linea
   For the rest of this chapter, we will assume were are working with bilinear forms for which $U = V$.
   For convenience, if we are using the same basis for both the left and right inputs of $\varphi$, we will write $[\varphi]_{B, B} = [\varphi]_B$.
 \end{remark}
-\subsection{Symmetric Bilinear Forms}
+\section{Symmetric Bilinear Forms}
+\subsection{Quadratic Forms and Diagonalisation}
 \begin{definition}[Symmetric bilinear form]
   We say that a bilinear form $\varphi: V \times V \to \F$ is \textit{symmetric} if for all $u, v \in V$:
   \[
@@ -469,4 +470,322 @@ Similarly to how we can change the basis under which a matrix represents a linea
 
   This provides an example a field in which $1 + 1 = 0$ and \cref{symCongruent} does not hold, and so also provides similar examples for \cref{diagonalBil} and \cref{polarisation}.
 \end{example}
+\begin{corollary}
+  Suppose $V$ is a finite $\F$-vector space, $\varphi: V \times V \to \F$ a symmetric bilinear form and $Q(v) = \varphi(v, v)$. \label{diagCoro}
+  \begin{enumerate}
+    \item If $\F = \C$, then there exists a basis $B = \{v_1, \ldots, v_n\}$ such that:
+      \[
+        [\varphi]_B = \left(\begin{array}{c|c}
+        I_r & O \\ \hline
+        O & O
+        \end{array}\right)
+      \]
+      where $r = \rank \varphi$.
+      Equivalently:
+      \[
+        Q\left(\sum_{i = 1}^{n} \lambda_i v_i\right) = \sum_{i = 1}^{r} \lambda^2_i
+      \]
+    \item If $\F = \R$, then there exists a basis $B = \{v_1, \ldots v_n\}$ such that:
+      \[
+        [\varphi]_B = \left(\begin{array}{c|c|c}
+            I_p & O & O \\ \hline
+            O & -I_q & O \\ \hline
+            O & O & O
+        \end{array}\right)
+      \]
+      where $p + q = \rank \varphi$.
+      Equivalently:
+      \begin{equation}
+        Q\left(\sum_{i = 1}^{n} \lambda_i v_i\right) = \sum_{i = 1}^{p} \lambda^2_i - \sum_{j = p + 1}^{p + q} \lambda^2_j \label{QRfield}
+      \end{equation}
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  By \cref{diagonalBil}, there exists a basis $C = \{w_1, \ldots, w_n\}$ for $V$ such that:
+  \[
+    [\varphi]_C = \diag(a_1, \ldots, a_n)
+  \]
+  Since $\rank \varphi = \rank [\varphi]_C$ by definition, letting $r = \rank \varphi$, exactly $r$ of the $a_i$ must be non-zero.
+  By reordering $C$, we can assume that $a_i \neq 0$ if and only if $i \leq r$.
+  Moreover, if $\F = \R$, then out of the $r$ non-zero $a_i$, let $p$ be the number which are positive and $q$ be the number which are negative where we must have $r = p + q$.
+  Again, by reordering, we can assume that $a_i > 0$ for $i \leq p$, and $a_i < 0$ for $p + 1 \leq i \leq p + q$.
+
+  We now just need to rescale these basis vectors to obtain identity blocks.
+  \begin{enumerate}
+    \item In the case of $\F = \C$, define:
+      \[
+        v_i = \begin{cases}
+        \frac{1}{\sqrt{a_i}} w_i & i \leq r \\
+        w_i & i \geq r
+        \end{cases}
+      \]
+      Where we note that we can always take the square root of $a_i \in \C$ since every complex number is square.
+    \item In the case of $\F = \R$, set:
+      \[
+        v_i = \begin{cases}
+        \frac{1}{\sqrt{a_i}} w_i & i \leq p \\
+        \frac{1}{\sqrt{-a_i}} w_i & p + 1 \leq i \leq p + q \\
+        w_i & i \geq p + q + 1
+        \end{cases}
+      \]
+      Where we note that we have to split into cases for positive and negative $a_i$ since only non-negative real numbers are square.
+  \end{enumerate}
+  The basis $B = \{v_1, \ldots, v_n\}$ is then the desired basis.
+\end{proof}
+\subsection{Real Symmetric Bilinear Forms and Definiteness}
+\begin{remark}[Note]
+  In this subsection, we will work only with real vector spaces, i.e. $\F = \R$.
+\end{remark}
+\begin{definition}[Definiteness]
+  If $\varphi: V \times V \to \R$ is a symmetric bilinear form, then we say that: \label{definitenessDef}
+  \begin{enumerate}
+    \item $\varphi$ is \textit{positive definite} if $\varphi(v, v) > 0$ for all $v \in V \setminus \{\vec{0}\}$
+    \item $\varphi$ is \textit{negative definite} if $\varphi(v, v) < 0$ for all $v \in V \setminus \{\vec{0}\}$
+    \item $\varphi$ is \textit{positive semidefinite} if $\varphi(v, v) \geq 0$ for all $v \in V$
+    \item $\varphi$ is \textit{negative semidefinite} if $\varphi(v, v) \leq 0$ for all $v \in V$
+  \end{enumerate}
+  If none of the above hold, then we say that $\varphi$ is \textit{indefinite}.
+\end{definition}
+\begin{example}
+  For finite dimensional $\R$-vector space $V$ and basis $B$ obtained from \cref{diagCoro}, if:
+  \begin{enumerate}
+    \item
+      \[
+        [\varphi]_B = \left(\begin{array}{c|c}
+          I_p & O \\ \hline
+          O & O
+          \end{array}\right)
+      \]
+      then $\varphi$ is positive semidefinite, as then for any $v = \sum_{i = 1}^{n} \lambda_i v_i \in V \setminus \{\vec{0}\}$, we have:
+      \[
+        \varphi(v, v) = \sum_{i = 1}^{p} \lambda^2_i \geq 0
+      \]
+      Noting that we have equality if and only if $\lambda_i = 0$ for all $1 \leq i \leq p$.
+      Thus, it is positive definite if and only if $p = n = \dim V$
+    \item If:
+      \[
+        [\varphi]_B = \left(\begin{array}{c|c|c}
+            I_p & O & O \\ \hline
+            O & -I_q & O \\ \hline
+            O & O & O
+        \end{array}\right)
+      \]
+      with both $p, q > 0$, then $\varphi$ is indefinite as taking $v = \lambda_i v_i$ for some $1 \leq i \leq p$ gives:
+      \[
+        \varphi(v, v) = \lambda^2_i \geq 0
+      \]
+      but taking $v' = \lambda_j v_j$ for some $p + 1 \leq j \leq q$ gives:
+      \[
+        \varphi(v', v') = -\lambda^2_j \leq 0
+      \]
+  \end{enumerate}
+\end{example}
+\begin{theorem}[Sylversters Law of Inertia]
+  If $V$ is a finite dimensional $\R$-vector space and $\varphi: V \times V \to \R$ is a symmetric bilinear form with bases $B$ and $B'$ for $V$ such that: \label{sylvesters}
+  \[
+    [\varphi]_B = \left(\begin{array}{c|c|c}
+        I_p & O & O \\ \hline
+        O & -I_q & O \\ \hline
+        O & O & O
+    \end{array}\right) \text{ and }
+    [\varphi]_{B'} = \left(\begin{array}{c|c|c}
+        I_{p'} & O & O \\ \hline
+        O & -I_{q'} & O \\ \hline
+        O & O & O
+    \end{array}\right)
+  \]
+  then $p = p'$ and $q = q'$
+\end{theorem}
+\begin{remark}
+  So $p$ is the maximal dimension of a subspace of $V$ on which $\varphi$ is positive definite and $q$ is the maximal dimension of a subspace of $V$ on which $\varphi$ is negative definite.
+\end{remark}
+To prove this we first need a preliminary definition and a lemma.
+\begin{definition}[Signature]
+  We define the \textit{signature} of a symmetric bilinear form $\varphi: V \times V \to \R$ on a finite dimensional $\R$-vector space $V$ as:
+  \[
+    \sigma(\varphi) = p - q
+  \]
+\end{definition}
+\begin{corollary}
+  $\sigma(\varphi)$ is well defined.
+\end{corollary}
+\begin{proof}
+  Since $p$ and $q$ are the same in any basis $B$ of $V$ for which $[\varphi]_B$ is in the above form, the signature does not depend on the choice of basis and thus is well defined.
+\end{proof}
+\begin{lemma}
+  If $U, W \leq V$ where $V$ is an $\R$-vector space and $\varphi$ a symmetric bilinear form, then: \label{interLemma}
+  \begin{enumerate}
+    \item If $\at{\varphi}{U}: U \times U \to \R$ is positive definite and $\at{\varphi}{W}: W \times W \to \R$ is negative semi definite, then $U \cap W = \{\vec{0}\}$.
+    \item If $\at{\varphi}{U}: U \times U \to \R$ is negative definite and $\at{\varphi}{W}: W \times W \to \R$ is positive semi definite, then $U \cap W = \{\vec{0}\}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{i}]
+  Suppose there exists $v \in U \cap W \setminus \{\vec{0}\}$, then:
+  \[
+    v \in U \implies \varphi(v, v) > 0 \text{ and } v \in W \implies \varphi(v, v) \leq 0
+  \]
+  which is a contradiction.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Suppose there exists $v \in U \cap W \setminus \{\vec{0}\}$, then:
+  \[
+    v \in U \implies \varphi(v, v) < 0 \text{ and } v \in W \implies \varphi(v, v) \geq 0
+  \]
+  which is a contradiction.
+\end{proof}
+We can now prove Sylvester's Law
+\begin{proof}[Sylvester's Law -- \cref{sylvesters}]
+  Suppose $B = \{v_1, \ldots, v_n\}$ is a basis such that:
+  \[
+    [\varphi]_B = \left(\begin{array}{c|c|c}
+        I_p & O & O \\ \hline
+        O & -I_q & O \\ \hline
+        O & O & O
+    \end{array}\right)
+  \]
+  We claim that $p$ is the largest dimension of a subspace of $V$ on which $\varphi$ is positive definite.
+  Set $U = \langle v_1, \ldots, v_p \rangle$ and $W = \langle v_{p + 1}, \ldots, v_{n} \rangle$.
+  Looking at \cref{QRField}, we see that $\at{\varphi}{U}$ is positive definite and $\at{\varphi}{W}$ is negative semidefinite.
+
+  Suppose $U' \leq V$ is such that $\at{\varphi}{U'}$ is positive definite but $\dim(U') > p$, then:
+  \[
+    \dim(U') + \dim(W) > n = \dim(V)
+  \]
+  By \cref{sumInter}, $U' \cap W \neq \{\vec{0}\}$, which contradicts \cref{interLemma}.
+  Thus $p$ is the largest dimension of a subspace of $V$ on which $\varphi$ is positive definite.
+
+  By a similar argument, $q$ is the maximal dimension of any subspace on which $\varphi$ is negative definite.
+  Since $p + q = \rank \varphi = p' + q'$, and $p$, $p'$, $q$, $q'$ are all maximal, we must have $p = p'$ and $q = q'$.
+\end{proof}
+\begin{definition}[Totally isotropic]
+  We say that $\varphi$ is \textit{totally isotropic} on a subspace $T \leq V$ if for all $t, u \in T$, $\varphi(t, u) = 0$.
+\end{definition}
+\begin{proposition}
+  If $V$ is a finite dimensional $\R$-vector space and $\varphi: V \times V \to \R$ is a symmetric bilinear form with a basis $B$ for $V$ such that:
+  \[
+    [\varphi]_B = \left(\begin{array}{c|c|c}
+        I_p & O & O \\ \hline
+        O & -I_q & O \\ \hline
+        O & O & O
+    \end{array}\right)
+  \]
+  then $\dim(V) - \max\{p, q\}$ is the maximal dimension of any subspace of $V$ on which $\varphi$ is totally isotropic.
+\end{proposition}
+\begin{proof}
+  \begin{proofcases}
+    \begin{case}{$p \geq q$}
+      Define the following subspace:
+      \[
+        T = \langle v_1 + v_{p + 1}, v_2 + v_{p + 2}, \ldots, v_q + v_{p + q}, v_{p + q + 1}, \ldots, v_n  \rangle
+      \]
+      which has dimension $n - p = n - \max\{p, q\}$.
+      We see that $\varphi(v_i, v_i) = 0$ for $i \in \{p + q, \ldots, n\}$, and for $i \in \{1, \ldots, q\}$:
+      \begin{align*}
+        \varphi(v_i + v_{p + i}, v_i + v_{p + i}) &= \varphi(v_i, v_i) + 2\cancelto{0}{\varphi(v_i, v_{p + i})} + \varphi(v_{p + i}, v_{p + i}) \\
+                                                  &= 1 - 1 \\
+                                                  &= 0
+      \end{align*}
+      Finally, for $i, j \in \{1, \ldots, q\}$ with $i \neq j$:
+      \begin{align*}
+        \varphi(v_i + v_{p + i}, v_j + v_{p + j}) &= \varphi(v_i, v_j) + \varphi(v_{p + i}, v_j) + \varphi(v_{p + j}, v_i) + \varphi(v_{p + i}, v_{p + j}) \\
+                                                  &= 0
+      \end{align*}
+      Thus $\varphi$ is totally isotropic on $T$.
+
+      We know that $\varphi$ is positive definite on the subspace $U = \langle v_1, \ldots, v_p \rangle$.
+      Suppose that there is a subspace $T' \leq V$ on which $\varphi$ is totally isotropic with $\dim(T') > n - p$, then:
+      \[
+        \dim(T') + \dim(U) > n = \dim(V)
+      \]
+      Thus by \cref{sumInter}, $U \cap T' \neq \{\vec{0}\}$.
+      However:
+      \[
+        v \in U \implies \varphi(v, v) > 0 \text{ and } v \in T \implies \varphi(v, v) = 0
+      \]
+      which is a contradiction as $U \cap T' \neq \{0\}$.
+      So $n - \max\{p, q\}$ is maximal, as required.
+    \end{case}
+    \begin{case}{$p \leq q$}
+      Shown analogously but with $p \leftrightarrow q$ and $U$ being negative definite.
+    \end{case}
+  \end{proofcases}
+\end{proof}
+\section{Sesquilinear Forms}
+\begin{remark}[Note]
+  In this subsection, we will work only with complex vector spaces, i.e. $\F = \C$.
+\end{remark}
+\begin{definition}[Sesquilinear form]
+  For an $\C$-vector space $V$, a \textit{sesquilinear form} is a function:
+  \[
+    \varphi: V \times W \to \C
+  \]
+  such that:
+  \begin{enumerate}
+    \item $\varphi$ is linear in the first argument, for all $v_1, v_2 \in V$ and $w \in W$:
+      \[
+        \varphi(\lambda v_1 + v_2, w) = \lambda \varphi(v_1, w) + \varphi(v_2, w) \\
+      \]
+    \item $\varphi$ is \textit{anti-linear} in the second argument, for all $v \in V$ and $w_1, w_2 \in W$:
+      \[
+        \varphi(v, \mu w_1 + w_2) = \overline{\mu} \varphi(v, w_1) + \varphi(v, w_2)
+      \]
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  The standard dot product on $\C^{n}$, defined as:
+  \[
+    x \cdot y = \sum_{i = 1}^{n} x_i \overline{y_i}
+  \]
+  is a sesquilinear form, however, it is not bilinear due to the anti-linearity in the second argument.
+\end{example}
+\begin{definition}[Matrix of a sesquilinear form]
+  If $V$ and $W$ are finite dimensional $\C$-vector spaces with bases $B = \{b_1, \ldots, b_m\}$ and $C = \{c_1, \ldots, c_n\}$ for $V$ and $W$ respectively, then we define the \textit{matrix of $\varphi: V \times W \to \C$ with respect to $B$ and $C$} as:
+  \[
+    [\varphi]_{B, C} = (\varphi(b_i, c_j))_{i j} \in \mathcal{M}_{m \times n}(\C)
+  \]
+\end{definition}
+\begin{proposition}
+  If $V$ and $W$ are finite dimensional $\C$-vector spaces, $\varphi: V \times W \to \C$ is a sesquilinear form, and $B$ and $C$ are bases for $V$ and $W$ respectively, then we have: \label{seqMat}
+  \[
+    ([v]_B)^{\trans} [\varphi]_{B, C} \overline{[w]_{C}} = \varphi(v, w)\ \forall v \in V, w \in W
+  \]
+  Moreover, $[\varphi]_{B, C}$ is the unique $m \times n$ matrix satisfying the above for all $v \in V$ and $W \in W$.
+\end{proposition}
+\begin{proof}
+  As in \cref{bilMat} but with a complex conjugate.
+\end{proof}
+\begin{corollary}
+  If $V$ and $W$ are finite dimensional $\C$-vector spaces, $\varphi: V \times W \to \C$ is a bilinear form, and $B, B'$ and $C, C'$ are bases for $V$ and $W$ respectively, then: \label{seqCOB}
+  \[
+    [\varphi]_{B', C'} = ([\id_U]^{B'}_{B})^{\trans}[\varphi]_{B, C}\overline{[\id_V]^{C'}_{C}}
+  \]
+\end{corollary}
+\begin{proof}
+  As in \cref{bilCOB} but with a complex conjugate.
+\end{proof}
+\begin{definition}[Hermitian sesquilinear form]
+  We say that a sesquilinear form $\varphi: V \times V \to \C$ is \textit{Hermitian} if:
+  \[
+    \varphi(v, w) = \overline{\varphi(w, v)}\ \forall v,w  \in V
+  \]
+\end{definition}
+\begin{remark}
+  For a Hermitian sesquilinear form $\varphi: V \times V \to \C$:
+  \begin{enumerate}
+    \item We write $[\varphi]_{B}$ when the basis for both the input and output spaces is $B$, i.e.  $[\varphi]_{B, B}$.
+    \item For all $v \in V$, $\varphi(v, v) = \overline{\varphi(v, v)} \implies \varphi(v, v) \in \R$.
+    \item For all $\lambda \in \C$, $\varphi(\lambda v,  \lambda v) = \lambda \overline{\lambda} \varphi(v, v) = |\lambda|^2 \varphi(v, v)$.
+    \item We can use \textbf{(ii)} and \textbf{(iii)} to define definiteness of Hermitian forms (as in \cref{definitenessDef}) since definiteness depends only on the values of $\varphi(v, v)$, which are real.
+    \item $\varphi(u, v) = 0 \iff \varphi(v, u) = 0$, hence for any subset $S \subseteq V$, $S^{\perp} = {}^{\perp}S$.
+  \end{enumerate}
+\end{remark}
+\begin{definition}[Hermitian matrices]
+  We say that a square matrix $A \in \mathcal{M}_{n \times n}(\C)$ is called \textit{Hermitian}, if $A = \overline{A}^{\trans}$, i.e. $A$ is equal to the transpose of its conjugate.
+\end{definition}
+\begin{lemma}
+  If $V$ is a finite dimensional $\C$-vector space and $\varphi: V \times V \to \C$ is a sesquilinear form, then $\varphi$ is Hermitian if and only if the matrix $[\varphi]_B$ is Hermitian for some (or equivalently any) basis $B$ for $V$.
+\end{lemma}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
 \end{document}
