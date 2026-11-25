@@ -127,7 +127,7 @@ This does commute with each component of $\hat{L}$:
                          &= 0 \text{ since } \hat{L}_j\hat{L}_k + \hat{L}_k \hat{L}_j \text{ is symmetric in $j$ and $k$}
 \end{align*}
 Thus by \cref{simDiag}, $\hat{L}^2$ and $\hat{L}_i$ are simultaneously diagonalisable and so we can find a joint set of eigenstates for $\hat{L}^2$ and $\hat{L}_i$.
-\subsection{Finding a Simultaneous Basis}
+\subsection{Finding a Simultaneous Basis for the Angular Components}
 To find such a set of eigenstates, we first wish to write $\hat{L}_i$ and $\hat{L}^2$ in spherical polar coordinates.
 For convenience, we look specifically at $\hat{L}_3$ as it has the nicest expression in spherical polar coordinate.
 Using the multivariate chain rule, we obtain the expressions:
@@ -180,13 +180,15 @@ So, putting everything together we obtain
   Y_{\ell, m}(\theta, \varphi) = P_{\ell, m}(\cos \theta)e^{im\varphi}
 \]
 for $\ell \in \{0, 1, \ldots\}$ and $|m| \leq \ell$, satisfying:
-\begin{align*}
-  \hat{L}^2 Y_{\ell, m}(\theta, \varphi) &= \hbar^2 \ell(\ell + 1)Y_{\ell, m}(\theta, \varphi)  \\
-  \hat{L}_3 Y_{\ell, m}(\theta, \varphi) &= \hbar m Y_{\ell, m}(\theta, \varphi)
-\end{align*}
+\begin{align} \label{Y2Soln}
+  \begin{split}
+    \hat{L}^2 Y_{\ell, m}(\theta, \varphi) &= \hbar^2 \ell(\ell + 1)Y_{\ell, m}(\theta, \varphi) \\
+    \hat{L}_3 Y_{\ell, m}(\theta, \varphi) &= \hbar m Y_{\ell, m}(\theta, \varphi) \\
+  \end{split}
+\end{align}
 Thus $\{Y_{\ell, m}\}$ for $\ell \in \N_0$ and $|m| \leq \ell$ is a complete basis of $\mathcal{H}$ consisting of eigenfunctions for both $\hat{L}^2$ and $\hat{L}_3$.
 \section{3D TISE for Spherically Symmetric Potentials}
-\subsection{Relation to the Hamiltonian}
+\subsection{Incorporating the Hamiltonian}
 Comparing $\hat{L}^2$ in spherical polar coordinates (\cref{L2Spher}) and the Laplacian in spherical polar coordinates (\cref{lapSpher}), we observe that:
 \begin{align*}
   \frac{\hat{L}^2}{r^2} &= -\frac{\hbar^2}{r^2 \sin^2 \theta}\left[\sin \theta \pderiv{}{\theta}\left(\sin \theta \pderiv{}{\theta}\right) + \pderiv[2]{}{\varphi}\right] \\
@@ -198,9 +200,9 @@ From \cref{TISE3DDef}, the Hamiltonian $\hat{H}$ in $\R^3$ is:
   \hat{H} = -\frac{\hbar^2}{2m} \nabla^2 + U(\vec{x})
 \]
 Thus, $\hat{H}$ in spherical polars for a spherically symmetric potential $U(\vec{x}) = U(r)$ can be written as:
-\[
-  \hat{H} = - \frac{\hbar^2}{2mr^2}\pderiv{}{r}\left(r^2 \pderiv{}{r}\right) + \frac{\hat{L}^2}{2mr^2} + U(r)
-\]
+\begin{equation}
+  \hat{H} = - \frac{\hbar^2}{2mr^2}\pderiv{}{r}\left(r^2 \pderiv{}{r}\right) + \frac{\hat{L}^2}{2mr^2} + U(r) \label{TISESpherL2}
+\end{equation}
 Since $\hat{\vec{p}} = -i\hbar \nabla$, we can also write $\hat{\vec{p}}^2 = - \hbar^2 \nabla^2$ and so:
 \begin{equation}
   \hat{H} = -\frac{1}{2m} \hat{\vec{p}}^2 + U(r) \label{hamilP}
@@ -268,37 +270,281 @@ In terms of measurements, this means that we can measure $|\hat{L}|$, $L_z$ and 
 \begin{remark}
   It can be shown that this set of operators is \textit{maximal}, that is, we cannot construct another independent Hermitian operator (other than $\hat{I}$) that commutes with all three operators.
 \end{remark}
-\subsection{Finding Spherically Symmetric Eigenfunctions}
-Taking $\ell = 0$ forces $m = 0$ which gives $Y_{0, 0} = \Theta(\theta) \Phi(\varphi) = C$ for some normalisation constant $C$ and eigenvalue $\lambda = 0$.
-So in this case, $\chi(r, \theta, \varphi) = Y_{0, 0}(\theta, \varphi) R(r) = C R(r)$, i.e. we are looking for spherically symmetric eigenfunctions.
-Since $\hat{L}_3$ has no $r$ derivatives or constant terms, $\chi$ will always be an eigenstate of $\hat{L}_3$.
-For $\chi = C R(r)$ to be an eigenstate of $\hat{L}^2$, we require:
+\subsection{Finding the Radial Part}
+Since we have already found simultaneous eigenfunctions of the angular directions $Y_{\ell m}(\theta, \varphi)$ for $\{\hat{L}^2, \hat{L}_3\}$, we would now like to extend this to simultaneous eigenfunctions for $\{\hat{H}, \hat{L}^2, \hat{L}_3\}$ by solving along the radial direction.
+We look for a solution to the TISE of the form:
 \[
-  \hat{L}^2 R(r) = ER(r)
+  \chi(r, \theta, \varphi) = R(r)Y_{\ell, m}(\theta, \varphi)
 \]
-which gives:
+Since $\hat{L}^2$ and $\hat{L}_3$ are unaffected by the radial component, using \cref{Y2Soln}:
 \begin{align*}
-  -\frac{h^2}{2mr}\deriv[2]{}{r}\left(r R(r)\right) + U(r) R(r) &= ER(r) \\
-  \iff -\frac{h^2}{2m}\left(\deriv[2]{R}{r} + \frac{2}{r} \deriv{R}{r}\right) + U(r) R(r) &= ER(r)
+  \hat{L}^2 \chi(r, \theta, \varphi) &= \hbar^2 \ell(\ell + 1) R(r)Y_{\ell, m}(\theta, \varphi) \\
+  \hat{L}_3 \chi(r, \theta, \varphi) &= \hbar m R(r)Y_{\ell, m}(\theta, \varphi)
 \end{align*}
-For $\chi$ to be normalisable, we need:
+So $\chi$ is an simultaneous eigenfunction for $\hat{L}^2$ and $\hat{L}_3$ regardless of $R(r)$.
+
+Thus our goal is to pick $R(r)$ so that $\chi$ is a also an eigenfunction for $\hat{H}$.
+Using the expression for $\hat{H}$ from \cref{TISESpherL2}, $\hat{H}\chi = E\chi$ becomes:
 \begin{align*}
-  \int_{\R^3} |\chi|^2 \d{V} = \int_{0}^{2\pi} \int_{0}^{\pi} \int_{0}^{\infty} R(r)^2 r^2 \sin \theta \d{r} \d{\theta} &= 1 \\
-  \implies 4\pi \int_{0}^{\infty} r^2R(r)^2 \d{r} &= 1
+  \hat{H}\chi = - \frac{\hbar^2}{2mr^2}\pderiv{}{r}\left(r^2 \pderiv{}{r}\right) + \frac{R}{2mr^2}\hat{L}^2 Y_{\ell, m} + U(r)RY_{\ell, m} &= ERY_{\ell, m} \\
+  \implies -\frac{\hbar^2}{2m}\left(\deriv[2]{R}{r} + \frac{2}{r}\deriv{R}{r}\right)Y_{\ell, m} + \left(U(r) + \frac{\hbar^2\ell(\ell - 1)}{2mr^2}\right)RY_{\ell, m} &= ERY_{\ell, m}
 \end{align*}
-For the above integral to converge, we need that $R(r) \to 0$ sufficiently fast as $r \to \infty$.
-
-Instead of using the above, it is instead more convenient to define $\sigma(r) = r R(r)$.
-We then have that $\sigma(r)$ needs to satisfy:
+Dividing through by $Y_{\ell, m}$, we obtain the radial equation:
+\begin{equation}
+  -\frac{\hbar^2}{2m}\left(\deriv[2]{R}{r} + \frac{2}{r} \deriv{R}{r}\right) + U_{\text{eff}}(r)R = ER \label{radUnsim}
+\end{equation}
+where we define the \textit{effective potential as}:
 \[
-  -\frac{\hbar^2}{2m} \pderiv[2]{\sigma}{r} + U(r)\sigma(r) = E \sigma(r)
+  U_{\text{eff}} = U(r) + \frac{\hbar^2 \ell(\ell + 1)}{2mr^2}
 \]
-This is exactly the 1D TISE (\cref{1DTISE}) but along the radial direction.
-Since $r \in \R^{+}$, the normalisation condition for $\sigma$ is:
+We can rewrite:
 \[
-  \int_{0}^{\infty} \sigma(r)^2 \d{r} = \frac{1}{4 \pi}
+  \deriv[2]{R}{r} + \frac{2}{r} \deriv{R}{r} = \frac{1}{r}\deriv[2]{}{r}(rR)
 \]
-We decide that we want to find a solution with $\sigma(0) = 0$ as imposing the regularity condition $\sigma(0) = a \neq 0$ leads to a $\chi$ which does not belong to the domain of a physical (i.e. Hermitian) Hamiltonian.
+and so we can simply \cref{radUnsim} by introducing the \textit{reduced radial function} $u(r) = rR(r)$.
+Substituting this in, we obtain:
+\begin{equation}
+  -\frac{\hbar^2}{2m} \deriv[2]{u}{r} + U_{\text{eff}}(r)u = Eu \label{radU}
+\end{equation}
+This resembles the 1D TISE, however $u(r)$ is only defined on the half line $r \geq 0$, thus we now require a boundary condition at $r = 0$ and we have a different normalisation condition.
+If $Y_{\ell, m}$ are normalised so that:
+\begin{equation}
+  \int_{0}^{2\pi} \int_{0}^{\pi} |Y_{\ell, m}(\theta, \varphi)|^2 \sin \theta \d{\theta} \d{\varphi} = 1 \label{angNorm}
+\end{equation}
+then for $\chi$ to be normalised, we require:
+\begin{align*}
+  \int_{\R^3} |\chi|^2 \d{V} = 1 &\iff \left[\int_{0}^{\infty} |R(r)|^2 r^2 \d{r} \int_{0}^{2\pi}\right] \left[ \int_{0}^{\pi} |Y_{\ell, m}(\theta, \varphi)|^2 \sin \theta \d{\theta} \d{\varphi}\right] = 1 \\
+  &\iff \int_{0}^{\infty} |R(r)|^2 r^2 \d{r} = 1 \\
+  &\iff \int_{0}^{\infty} |u(r)|^2 \d{r} = 1
+\end{align*}
+Interpreting this probabilistically, $|u(r)|^2\d{r}$ is the probability the particle is in the spherical shell between $r$ and $r + \d{r}$.
 
-Continued next lecture.
+\subsection{Finding a Ground State}
+For the spherically symmetric potentials $U(r)$ considered in this course, if a lowest bound state (i.e. a ground state) exists, then it can always be chosen with $\ell = 0$ as $\ell > 0$ would add a non-negative contribution to the radial energy.
+
+Since $|m| \leq \ell$, taking $\ell = 0$ forces $m = 0$ and so the angular part becomes  a constant $Y_{0, 0} = C$ for some normalisation constant $C$.
+For the angular normalisation in \cref{angNorm} to hold, we need:
+\begin{align*}
+  \int_{0}^{2\pi} \int_{0}^{\pi} |Y_{0, 0}(\theta, \varphi)|^2 \sin \theta \d{\theta} \d{\varphi} &= 1 \\
+  \iff |C|^2 \int_{0}^{\pi} \sin \theta \d{\theta} \int_{0}^{2\pi} \d{\varphi} &= 1 \\
+  \iff |C|^2 &= \frac{1}{4 \pi}
+\end{align*}
+So we can take $C = 1/\sqrt{4\pi}$.
+Thus $\chi$ is given by:
+\[
+  \chi(r, \theta, \varphi) = \chi(r) = \frac{1}{\sqrt{4\pi}} R(r) = \frac{u(r)}{r\sqrt{4\pi}} = \frac{\sigma(r)}{r}
+\]
+where we define $\sigma(r) = u(r) / \sqrt{4\pi}$.
+
+As for the boundary condition at the origin, we look for solutions with $\sigma(0) = 0$ as imposing the regularity condition $\sigma(0) = a \neq 0$ can be shown to lead to a $\chi$ which does not belong to the domain of a physical (i.e. Hermitian) Hamiltonian.
+More general boundary conditions can describe more complex interactions, however we will not consider such cases in this course.
+
+\subsubsection{Summary}
+To summarise, in order to find a ground state $\chi$ which is a joint eigenfunction of $\{\vec{H}, \hat{L}^2, \hat{L}_3\}$, we look for solutions to:
+\[
+  -\frac{\hbar^2}{2m} \deriv[2]{\sigma}{r} + U_{\text{eff}}(r)\sigma = E\sigma \text{ for } r > 0 \text{ where } U_{\text{eff}}(r) = U(r) + \frac{\hbar^2 \ell(\ell + 1)}{2mr^2}
+\]
+that satisfies the boundary condition $\sigma(0) = 0$ and the normalisation condition:
+\[
+  \int_{0}^{\infty} |\sigma(r)|^2 \d{r} = \frac{1}{4\pi}
+\]
+which also tells us that $\sigma$ has to decay sufficiently fast as $r \to \infty$ for the above to converge.
+The full solution is then:
+\[
+  \chi(r, \theta, \varphi) = \frac{\sigma(r)}{r}
+\]
+\begin{remark}[Connection to a solution over $\R$]
+  For $\ell = 0$ and finite potential $U$ at $r = 0$, we can solve the above by extending $r$ to the whole real line to be an even function.
+  That is, we define $U_{\text{ext}}(s) = U(|r|)$ for $s \in \R$.
+  The solution to this with $\sigma(0) = 0$ is then the odd extension of the half line solution above:
+  \[
+    \sigma_{\text{ext}}(s) = \begin{cases}
+    \sigma(s) & s \geq 0 \\
+    -\sigma(-s) & s \leq 0
+    \end{cases}
+  \]
+  for $s \in \R$.
+\end{remark}
+We will now look at solutions to this for various examples of spherically symmetric potentials.
+\subsection{Spherically Symmetric Potential Well}
+Consider the spherically symmetric potential well:
+\[
+  U(r) = \begin{cases}
+  0 & \text{ if } 0 \leq r < a \\
+  U_0 & \text{ if } r > a
+  \end{cases}
+\]
+with $U_0 > 0$.
+Looking for a ground state, i.e. $\ell = 0$, regularity at the origin and decay at $\infty$ tell us we have to select the solution of the form:
+\[
+  \sigma(r) = \begin{cases}
+  A \sin(kt) & \text{ if } 0 \leq r < a \\
+  Be^{-\overline{k} r} & \text{ if } r > a
+  \end{cases}
+\]
+where:
+\[
+  k = \frac{\sqrt{2mE}}{\hbar} \text{ and } \overline{k} = \frac{\sqrt{2m(U_0 - E)}}{\hbar}
+\]
+As in the 1D case from \cref{finitePotWell}, since the potential is finite, both $\sigma$ and $\sigma'$ will be continuous at $r = a$, giving:
+\begin{align*}
+  A \sin(ka) &= B\exp(-\overline{k} a) \\
+  kA \cos(ka) &= - \overline{k} B\exp(-\overline{k} a)
+\end{align*}
+and thus $-k \cot(ka) = \overline{k}$.
+Similarly to as in the 1D case, we introduce:
+\[
+  \xi = ka,\ \eta = \overline{k}a, \text{ and } r_0 = \frac{a\sqrt{2mU_0}}{\hbar}
+\]
+So we are looking for the intersections of the curves:
+\begin{align*}
+  \xi^2 + \eta^2 = r^2_0 \text{ and } -\xi \cot \xi = \eta
+\end{align*}
+for $\xi, \eta > 0$.
+Graphically this is:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \draw[->] (0, 0) -- (0, 6) node[right] {$\eta$};
+  \draw[->] (0, 0) -- (11, 0) node[right] {$\xi$};
+
+  \node[below] at (4.7, 0) {$\frac{\pi}{2}$};
+  \clip (0, 0) rectangle (11, 6);
+  \draw[thick, domain=1.57:2.3, smooth, variable=\x, scale=3] plot ({\x}, {-\x * cot(\x r)}) node[right] {$-\xi \cot \xi$};
+  \draw[thick, domain=4.17:5.5, smooth, variable=\x, scale=3] plot ({\x}, {-\x * cot(\x r)});
+  \draw[thick] (0, 0) circle (5cm);
+  \node at (4, 4.5) {$\xi^2 + \eta^2 = r^2_0$};
+\end{tikzpicture}
+\end{center}
+Unlike in the 1D case, we have a solution if and only if:
+\[
+  r_0 > \frac{\pi}{2} \iff U_0 > \frac{\pi^2 \hbar^2}{8ma^2}
+\]
+We also need to remember that $\chi(r) = r^{-1}\sigma(r)$ which has an additional factor of $r^{-1}$ compared to the 1D case.
+\subsection{3D Harmonic Oscillator}
+In the spherically symmetric case, the potential for a harmonic oscillator is:
+\[
+  U(r) = \frac{1}{2} m\omega^2 r^2
+\]
+In this case, we can write the Hamiltonian as:
+\[
+  \hat{H} = \hat{H}_1 + \hat{H}_2 + \hat{H}_3
+\]
+where:
+\[
+  \hat{H}_i = -\frac{\hbar^2}{2m} \pderiv[2]{}{x_i} + \frac{1}{2} m\omega^2x^2_i
+\]
+On Example Sheet 3, we will show that in Cartesian coordinates, we can obtain a separable solution of the form:
+\[
+  \chi_{n_1, n_2, n_3}(\vec{x}) = \chi_{n_1}(x_1) \chi_{n_2}(x_2) \chi_{n_3}(x_3)
+\]
+for $n_i \in \{0, 1, 2, \ldots\}$.
+
+However, in spherical coordinates using \cref{radU}, we obtain:
+\[
+  - \frac{\hbar^2}{2m} \deriv[2]{u}{r} + \left(\frac{1}{2} m\omega^2r^2 + \frac{\hbar^2\ell(\ell + 1)}{2mr^2}\right)u = E u
+\]
+which can be shown to give the energy levels:
+\[
+  E_{n_r, \ell} = \hbar\omega\left(2n_r + \ell + \frac{2}{3}\right) \text{ where } N = 2n_r + \ell
+\]
+for $n_r \in \{0, 1, \ldots\}$.
+Here $n_r$ counts the \textit{radial nodes} for $r > 0$.
+For a fixed $N$ the allowed values are $\ell \in \{N, N - 2, \ldots\}$ ending at either 0 or 1 depending on the parity of $N$, each corresponding to $2\ell + 1$ potential values for $m$.
+\section{Hydrogen Atom}
+\subsection{Introduction}
+A hydrogen atom consists of a proton of charge $+e$ and an electron of charge $-e$.
+For ease, we assume that the proton is infinitely massive and fixed at the origin.
+Moreover, we ignore spin and other relativistic effects.
+The electron then moves under the \textit{central Coulomb potential}:
+\[
+  U(r) = - \frac{e^2}{4\pi \varepsilon_0 r}
+\]
+which is associated with the central Coulomb force:
+\[
+  F(r) = -\deriv{U}{r} = - \frac{e^2}{4\pi \varepsilon_0 r^2}
+\]
+Let $m_e$ be the mass of the electron, then using the expression for the TISE in \cref{TISESpherL2}, we have that $\chi$ must satisfy:
+\[
+  \hat{H} \chi = -\frac{\hbar^2}{2m_e} \left(\pderiv[2]{\chi}{r} + \frac{2}{r} \pderiv{\chi}{r}\right) + \frac{\hat{L}^2}{2m_e r^2}\chi - \frac{e^2}{4\pi \varepsilon_0 r} \chi = E\chi
+\]
+As previously we look for simultaneous eigenfunctions of $\{\hat{H}, \hat{L}^2, \hat{L}_z\}$ of the form:
+\[
+  \chi(r, \theta, \phi) = R(r) Y_{\ell, m}(\theta, \phi)
+\]
+We already know how to solve for the angular part and using \cref{radUnsim} we obtain the radial equation:
+\[
+  -\frac{\hbar^2}{2m}\left(\deriv[2]{R}{r} + \frac{2}{r}\deriv{R}{r}\right) + \left(-\frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} + \frac{\hbar^2\ell(\ell + 1)}{2m_e r^2}\right)R = ER
+\]
+\subsection{Radial Wavefunction}
+In the case of $\ell = 0$ (i.e. radially symmetric case we saw earlier), define:
+\[
+  \nu^2 = -\frac{2m_eE}{\hbar^2} \text{ and } \beta = \frac{e^2m_e}{2\pi\varepsilon_0 \hbar^2}
+\]
+With these variables, we have:
+\[
+  R''(r) + \frac{2}{r}R'(r) + \left(\frac{\beta}{r} - \nu^2\right)R(r) = 0
+\]
+For large $r$, the dominating behaviour follows from $R'' - \nu^2 R \approx 0$ and so we look for solutions of the form:
+\[
+  R(r) = f(r) e^{\pm\nu r}
+\]
+for a polynomial $f(r)$.
+Since we need decay as $r \to \infty$, we select the solution with a negative exponent.
+
+Substituting in, we obtain the following ODE for $f(r)$:
+\[
+  f''(r) + \frac{2}{3}(1 - \nu r)f'(r) + \frac{1}{r}(\beta - 2\nu) f(r) = 0
+\]
+This has a regular singular point at $r = 0$ and so we can look for a series solution about this point of the form:
+\[
+  f(r) = r^{c} \sum_{n = 0}^{\infty} a_n r^{n}
+\]
+for some $c \in \C$ and $a_0 \neq 0$.
+Substituting into the ODE for $f$, we obtain:
+\[
+  \sum_{n = 0}^{\infty} \left[a_n(c + n)(c + n - 1)r^{c + n - 2} + \frac{2}{r}(1 - \nu r)a_n(c + n)r^{c + n - 1} + a_n(\beta - 2\nu)r^{c + n - 1}\right] = 0
+\]
+Looking at the coefficients for the lowest power of $r$:
+\[
+  a_0 c(c - 1) + 2a_0 c = 0 \implies a_0 c(c + 1) = 0
+\]
+Taking $c = -1$ would result in unbounded behaviour as $r \to 0$ and so as $a_0 \neq 0$, we take $c = 0$.
+Thus the higher powers of $r$ satisfy:
+\[
+  \sum_{n = 0}^{\infty} \left[a_n n(n + 1) + a_{n - 1}(\beta - 2\nu n)\right]r^{n - 2} = 0
+\]
+and so the coefficients satisfy the recurrence relation:
+\[
+  a_n = \frac{2\nu n - \beta}{n(n + 1)}  a_{n - 1}
+\]
+\begin{proposition}
+  If $f(r)$ does not terminate, then $R(r)$ is not be normalisable.
+\end{proposition}
+\begin{proof}
+  We see as $n \to \infty$, the above coefficients follow:
+  \[
+    \frac{a_n}{a_{n - 1}} \sim \frac{2\nu}{n}
+  \]
+  Consider the series expansion:
+  \[
+    e^{2\nu r} = \sum_{n = 0}^{\infty} \frac{(2\nu)^{n}}{n!}r^{n} = \sum_{n = 0}^{\infty} b_n r^{n}
+  \]
+  where $b_n = (2\nu)^{n}/n!$.
+  Considering these coefficients, we see that:
+  \[
+    \frac{b_n}{b_{n - 1}} = \frac{(2\nu)^{n}}{(2\nu)^{n - 1}} \frac{(n - 1)!}{n!} = \frac{2\nu}{n}
+  \]
+  So $a_n/a_{n-1}$ shares the same asymptotic behaviour as the coefficients in the power series for $e^{2\nu r}$.
+  Since $f(r)$ does not terminate, $R(r) = f(r)e^{-\nu r} \sim e^{2\nu r} e^{-\nu r} = e^{\nu r}$, which is not normalisable and so $f(r)$ must terminate.
+\end{proof}
+So for their to be a solution with normalisable $R$, there must exists $N > 0$ such that $a_N = 0$ and $a_{N - 1} \neq 0$.
+Such $N$ must therefore satisfy:
+\[
+  \frac{2\nu N - \beta}{N(N + 1)} a_{N - 1} = 0 \implies \nu_{N} = \frac{\beta}{2N}
+\]
+We can now find the energy of these solutions by rearranging for $E$ and subsisting in $\nu$ and $\beta$ in terms of $N$:
+\[
+  E_N = - \frac{e^{4}m}{32 \pi^2 \varepsilon^2_0 \hbar^2} \frac{1}{N^2}
+\]
+for $N \in \{1, 2, \ldots\}$, which agrees the Bohr energies we saw in \cref{quantE}.
 \end{document}
