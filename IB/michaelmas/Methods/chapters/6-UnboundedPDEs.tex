@@ -375,4 +375,246 @@ We call this the \textit{canonical form} of the PDE.
   \]
   is not twice differentiable but is a weak solution to the wave equation.
 \end{remark}
+\section{Higher Dimensional Fourier Transform}
+\subsection{Defining Higher Dimensional Analogues}
+We would like to define a higher dimensional analogue to the Fourier transform introduced on $\R$ in \cref{FTSec}.
+\begin{definition}[Fourier transform in $\R^n$]
+  For $f: \R^{n} \to \C$, we define its Fourier transform as:
+  \[
+    \hat{f}(\vec{\lambda}) = \int_{\R^{n}} e^{-i \vec{\lambda} \cdot \vec{x}} f(\vec{x}) \d^{n}{\vec{x}}
+  \]
+\end{definition}
+As in the 1D case, there is a Fourier inversion formula, allowing us to recover the original function from its Fourier transform:
+\[
+  f(\vec{x}) = \frac{1}{(2\pi)^{n}} \int_{\R^{n}} e^{i \vec{\lambda} \cdot \vec{x}} \hat{f}(\vec{\lambda}) \d^{n}{\vec{\lambda}}
+\]
+
+We can also define a convolution for $f, g: \R^{n} \to \C$ over $\R^{n}$ as:
+\[
+  f \ast g(\vec{x}) = \int_{\R^{n}} f(\vec{x} - \vec{y}) g(\vec{y}) \d^{n}{\vec{y}}
+\]
+With this, the convolution theorem over $\R$ (\cref{convThm}) in higher dimensions becomes:
+\[
+  \mathcal{F}_{\vec{x} \to \vec{\lambda}}[f \ast g(\vec{x})] = \hat{f}(\vec{\lambda}) \hat{g}(\vec{\lambda})
+\]
+We also have a similar rule to \cref{fourierProps} \textbf{(i)} for Fourier transforms of derivatives which allows for differentiation with respect to of each of the variables in $\vec{x} = (x_1, \ldots, x_n)$:
+\[
+  \mathcal{F}_{\vec{x} \to \vec{\lambda}}\left[\left(\pderiv{}{x_1}\right)^{\alpha_1} \cdots \left(\pderiv{}{x_n}\right)^{\alpha_n}\right] = (i \lambda_1)^{\alpha_1} \cdots (i \lambda_n)^{\alpha_n} \hat{f}(\vec{\lambda})
+\]
+\begin{example}[Fourier transform of the Laplacian]
+  Considering the Laplacian $\Delta = (\partial/\partial x_1)^2 + \cdots + (\partial/\partial x_n)^2$, by linearity of $\mathcal{F}$, we have: \label{FTLP}
+  \begin{align*}
+    \mathcal{F}_{\vec{x} \to \vec{\lambda}}[\Delta f(\vec{x})] &= [(i \lambda_1)^2 + \cdots + (i\lambda_n)^2] \hat{f}(\vec{\lambda}) \\
+                                                               &= - |\lambda|^2 \hat{f}(\vec{\lambda})
+  \end{align*}
+\end{example}
+There is also a higher dimensional version of the Dirac delta function with the following properties:
+\begin{enumerate}
+  \item $\delta(\vec{x}) = 0$ if $\vec{x} \neq \vec{0}$
+  \item For all $\varepsilon > 0$:
+    \[
+      \int_{|\vec{x}| < \varepsilon} \delta(\vec{x}) \d^{n}{\vec{x}} = 1
+    \]
+\end{enumerate}
+Taking the Fourier transform of this, using the sampling property we obtain:
+\begin{align*}
+  \hat{\delta}(\vec{\lambda}) = 1
+\end{align*}
+So using the inversion formula, we obtain a higher dimensional analogue of the identity in \cref{deltaFormula}:
+\[
+  \delta(\vec{x}) = \frac{1}{(2\pi)^{n}} \int_{\R^{n}}  e^{i \vec{\lambda} \cdot \vec{x}} \d^{n}{\vec{\lambda}}
+\]
+\subsection{Higher Dimensional Gaussian}
+\begin{remark}[Recap]
+  Recall from \cref{gaussSec} that if we define:
+  \[
+    g(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}
+  \]
+  then its Fourier transform is:
+  \begin{align}
+    \hat{g}(\lambda) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-i\lambda x - x^2/2} \d{x} = e^{-\lambda^2/2} \label{1DgResult}
+  \end{align}
+  for $x, \lambda \in \R$.
+\end{remark}
+This extends to a higher dimensional Gaussian:
+\begin{proposition}
+  For $x \in \R^{n}$, if we define: \label{higherGS}
+  \[
+    g(\vec{x}) = \frac{1}{(2\pi)^{n/2}} e^{-|\vec{x}|^2/2}
+  \]
+  then its Fourier transform is:
+  \[
+    \hat{g}(\vec{\lambda}) = e^{-|\lambda|^2/2}
+  \]
+\end{proposition}
+\begin{proof}
+  We observe that we can write:
+  \begin{align*}
+    g(\vec{x}) &= \left[\frac{1}{\sqrt{2\pi}}e^{-x^2_1/2}\right] \cdots \left[\frac{1}{\sqrt{2\pi}}e^{-x^2_n/2}\right]
+  \end{align*}
+  This allows us to split up $\hat{g}(\vec{\lambda})$ as:
+  \begin{align*}
+    \hat{g}(\vec{\lambda}) &= \int_{\R^{n}} e^{-i \vec{\lambda} \cdot \vec{x}} g(\vec{x}) \d{V} \\
+                           &= \left[\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{- \lambda_1 x_1 + x^2_1/2} \d{x_1}\right] \cdots \left[\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{- \lambda_n x_n + x^2_n/2} \d{x_n}\right] \\
+                           &= [e^{-\lambda^2_1/2}] \cdots [e^{-\lambda^2_n/2}] \text{ using \cref{1DgResult}} \\
+                           &= e^{-|\vec{\lambda}|^2/2}
+  \end{align*}
+  which is as required.
+\end{proof}
+\section{The Green's Function for the Heat Equation \texorpdfstring{$\R^{n}$}{in higher dimensions}}
+Suppose we want to solve the heat equation (\cref{heatEqn}) over $\R^{n}$ subject to a constant forcing/heating term $F(\vec{x}, t)$ and arbitrary initial heat distribution $f(\vec{x})$.
+This problem is therefore described by the following IVP:
+\[
+  \begin{cases}
+  u_t - \kappa \Delta u = F(\vec{x}, t) & \text{ for } (\vec{x}, t) \in \R^{n} \times (0, \infty) \\
+  u(\vec{x}, 0) = f(\vec{x}) &  \text{ for } \vec{x} \in \R^{n} \\
+  \end{cases}
+\]
+Dealing with both the forcing term $F(\vec{x}, t)$ and the initial condition $f(\vec{x})$ simultaneously is difficult and so we split the above into two separate problems and then utilise superposition:
+\begin{itemize}
+  \item \textbf{Problem (A) -} Zero forcing (i.e. $F = 0$) and arbitrary $f = f(\vec{x})$
+  \item \textbf{Problem (B) -} Zero initial heat distribution (i.e. $f = 0$) and arbitrary $F = F(\vec{x}, t)$.
+\end{itemize}
+To solve these we make use of the \textit{heat-kernel}.
+\begin{definition}[Heat Kernel]
+  For each $t > 0$, we define the \textit{heat-kernel} as:
+  \[
+    K_t(\vec{x}) = \frac{1}{(4\pi \kappa t)^{n / 2}} \exp\left[-\frac{|\vec{x}|^2}{4 \kappa t}\right]
+  \]
+  for $\vec{x} \in \R^{n}$.
+\end{definition}
+\begin{proposition}[Fourier transform of the heat-kernel]
+  For each $t > 0$, the Fourier transform of the heat-kernel is:
+  \[
+    \hat{K}_t(\vec{\lambda}) = e^{-\kappa t |\vec{\lambda}|^2}
+  \]
+  for $\vec{\lambda} \in \R^{n}$.
+\end{proposition}
+\begin{proof}
+  Using the definition of the higher dimensional Fourier transform:
+  \begin{align*}
+    \hat{K}_t(\vec{\lambda}) &= \frac{1}{(4 \pi \kappa t)^{n/2}} \int_{\R^{n}}  e^{-i \vec{\lambda} \cdot \vec{x}} e^{-|\vec{x}|^2/4\kappa t} \d^{n}{\vec{x}}
+  \end{align*}
+  If we make the change of variables $\vec{x} = \sqrt{2\kappa t} \vec{x}'$, then $\d^{n}{\vec{x}} = (2 \kappa t)^{n/2} \d^{n}{\vec{x}'}$, giving:
+  \begin{align*}
+    \hat{K}_t(\vec{\lambda}) &= \frac{(2 \kappa t)^{n/2}}{(4\pi \kappa t)^{n/2}} \int_{\R^{n}} e^{-i \vec{\lambda} \cdot [\vec{x}' \sqrt{2 \kappa t}]} e^{-|\vec{x}'|^2/2} \d^{n}{\vec{x}'} \\
+                             &= \frac{1}{(2\pi)^{n/2}} \int_{\R^{n}} e^{-i[\vec{\lambda}\sqrt{2 \kappa t}]} e^{-|\vec{x}|^2/2} \d^{n}{\vec{x}} \text{ relabelling } \vec{x}' \mapsto \vec{x}\\
+                             &= \hat{g}(\vec{\lambda} \sqrt{2 \kappa t}) \text{ where $g$ is as in \cref{higherGS}} \\
+                             &= e^{-\kappa t |\vec{\lambda}|^2}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{remark}
+  \nonexaminable
+  We note that, for $\vec{x} \neq 0$:
+  \[
+    \lim_{t \to 0^{+}} K_t(\vec{x}) = 0
+  \]
+  and for $\vec{x} = \vec{0}$, $K_t(\vec{x}) \to \infty$ as $t \to 0^{+}$.
+  So the behaviour of $K_t(\vec{x})$ seems similar to that of $\delta(\vec{x})$ as $t \to 0^{+}$.
+
+  In fact, taking $\vec{\lambda} = \vec{0}$, we see that for all $t > 0$:
+  \[
+    \hat{K}_t(0) = 1 = \int_{\R^{n}} \kappa_t(\vec{x}) \d^{n}{\vec{x}}
+  \]
+  and so there is a sense in which $K_t(\vec{x}) \to \delta(\vec{x})$ as $t \to 0^{+}$.
+\end{remark}
+\begin{proposition}
+  The solution to \textbf{(A)} is the following convolution:
+  \[
+    u(\vec{x}, t) = (K_t \ast f)(\vec{x})
+  \]
+\end{proposition}
+\begin{proof}
+  We wish to solve:
+  \[
+    u_t - \kappa \Delta u = 0 \text{ with } \hat{u}(\vec{x}, 0) = \hat{f}(\vec{x})
+  \]
+  and so taking Fourier transforms of both sides, using \cref{FTLP} we obtain:
+  \[
+    \hat{u}_t + \kappa |\vec{\lambda}|^2 \hat{u} = 0 \text{ with } \hat{u}(\vec{\lambda}, 0) = \hat{f}(\vec{\lambda})
+  \]
+  Thus we have an ODE in $\hat{u}$ with respect to $t$ which we can easily solve to obtain:
+  \begin{align*}
+    \hat{u}(\vec{\lambda}, t) &= \hat{u}(\vec{\lambda}, 0) e^{-\kappa |\vec{\lambda}|^2 t} \\
+                              &= \hat{K}_t(\vec{\lambda}) \hat{f}(\vec{\lambda})
+  \end{align*}
+  Using inversion and the convolution theorem:
+  \begin{align*}
+    u(\vec{x}, t) &= \mathcal{F}^{-1}_{\vec{\lambda} \to \vec{x}}[\hat{u}(\vec{\lambda})] \\
+      &= \mathcal{F}^{-1}_{\vec{\lambda} \to \vec{x}}[\hat{K}_t \hat{f}] \\
+      &= (K_t \ast f)(\vec{x})
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proposition}
+  The solution to \textbf{(B)} is:
+  \[
+    u(\vec{x}, t) = \int_{0}^{t} \int_{\R^{n}} K_{t - s}(\vec{x} - \vec{y}) F(\vec{y}, s) \d^{n}{\vec{y}} \d{s}
+  \]
+\end{proposition}
+\begin{proof}
+  We wish to solve:
+  \[
+    u_t - \kappa \Delta u = F(\vec{x}, t) \text{ with } \hat{u}(\vec{x}, 0) = 0
+  \]
+  Similarly to when solving \textbf{(A)}, we take Fourier transforms of both sides and use \cref{FTLP} to obtain:
+  \[
+    \hat{u}_t + \kappa |\vec{\lambda}|^2 \hat{u} = \hat{F}(\vec{\lambda}, t) \text{ with } \hat{u}(\vec{\lambda}, 0) = 0
+  \]
+  This is again an ODE in $\hat{u}$ with respect to $t$.
+  In this case, we use an integrating factor on the ODE to yield:
+  \[
+    \pderiv{}{t}\left[e^{\kappa |\vec{\lambda}|^2 t} \hat{u}\right] = e^{\kappa |\vec{\lambda}|^2 t} \hat{F}(\vec{\lambda}, t)
+  \]
+  We then integrate over $(0, t)$, allowing us to apply the initial conditions and obtain:
+  \[
+    e^{\kappa |\vec{\lambda}^2| t} \hat{u}(\vec{\lambda}, t) - \cancelto{0}{\hat{u}(\vec{\lambda}, 0)} = \int_{0}^{t} e^{\kappa |\vec{\lambda}|^2 s} \hat{F}(\vec{\lambda}, s) \d{s}
+  \]
+  Thus:
+  \begin{align*}
+    \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} e^{-\kappa |\vec{\lambda}|^2 (t - s)} \hat{F}(\vec{\lambda}, s) \d{s} \\
+                              &= \int_{0}^{t} \hat{K}_{t - s}(\vec{\lambda}) \hat{F}(\vec{\lambda, s}) \d{s} \\
+                              &= \int_{0}^{t} \mathcal{F}_{\vec{x} \to \vec{\lambda}}[K_{t - s} \ast F(\vec{x}, s)] \d{s} \text{ by the convolution theorem} \\
+                              &= \mathcal{F}_{\vec{x} \to \vec{\lambda}}\left[\int_{0}^{t} \int_{\R^{n}} K_{t - s}(\vec{x} - \vec{y}) F(\vec{y}, s) \d^{n}{\vec{y}} \d{s}\right]
+  \end{align*}
+  So applying inversion gives the desired result.
+\end{proof}
+Suppose we define the function:
+\[
+  G(\vec{x}, t; \vec{y}, s) = H(t - s)K_{t - s}(\vec{x} - \vec{y})
+\]
+where $H$ is the Heaviside step function.
+
+If we extend $F$ to $t \in \R$ by setting $F(\vec{x}, t) = 0$ for $t < 0$, then we can rewrite the solution to \textbf{(B)} as:
+\[
+  u(\vec{x}, t) = \int_{-\infty}^{\infty} \int_{\R^{n}} G(\vec{x}, t; \vec{y}, s) F(\vec{y}, s) \d{\vec{y}} \d{s}
+\]
+We then call $G$ is Dirichlet Green's function for the heat equation on $\R^{n}$.
+It satisfies the following:
+\begin{equation}
+  G_t - \kappa \Delta G = \delta(t - s) \delta(\vec{x} - \vec{y}) \label{DGRn} \tag{$\dag$}
+\end{equation}
+or equivalently by taking Fourier transforms:
+\begin{equation}
+  \hat{G}_t + \kappa |\vec{\lambda}|^2 \hat{G} = \delta(t - s) e^{-i \vec{\lambda} \cdot \vec{y}} \label{ODEG} \tag{$\star$}
+\end{equation}
+To verify this, we first observe that we can extend \cref{fourierProps} \textbf{(iii)} to $\R^{n}$ with:
+\[
+  \mathcal{F}_{x \to \lambda}\left[f(\vec{x} - \vec{a})\right] = e^{-i \vec{\lambda} \cdot \vec{a}} \hat{f}(\vec{\lambda})
+\]
+and so:
+\begin{align*}
+  \hat{G}(\vec{\lambda}, t; \vec{y}, s) &= \mathcal{F}_{\vec{x} \to \vec{\lambda}}[H(t - s)K_{t - s}(\vec{x} - \vec{y})] \\
+                                        &= H(t - s) \mathcal{F}_{\vec{x} \to \vec{\lambda}} [K_{t - s}(\vec{x} - \vec{y})] \\
+                                        &= H(t - s) e^{-i \vec{\lambda} \cdot \vec{y}} \mathcal{F}_{\vec{x} \to \vec{\lambda}}[K_{t - s}(\vec{x})] \\
+                                        &= H(t - s) e^{-i \vec{\lambda} \cdot \vec{y}} e^{-\kappa(t - s)|\vec{\lambda}|^2}
+\end{align*}
+We can easily check that this satisfies the ODE in \cref{ODEG} for $s > t$ and $s < t$.
+In the case of $s = t$, we have the following:
+\begin{align*}
+  \eval{\hat{G}(\vec{\lambda}, t; \vec{y}, s)}{t = s^{-}}{t = s^{+}} &= e^{-i \vec{\lambda} \cdot \vec{y}} - 0\\
+                                                                     &= e^{-i \vec{\lambda} \cdot \vec{y}}
+\end{align*}
+Which is the same jump condition obtained when taking the integral over $t \in (s - \varepsilon, s + \varepsilon)$ of \cref{DGRn} and sending $\varepsilon \to 0^{+}$.
 \end{document}
