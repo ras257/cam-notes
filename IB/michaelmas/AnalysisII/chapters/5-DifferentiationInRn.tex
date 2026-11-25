@@ -394,7 +394,7 @@ We already know how to compute partial derivatives for a function as we are well
 Fortunately, we can find conditions under which the existence of partials does actually imply the existence of the full derivative.
 \begin{theorem}[Continuity of partials $\implies$ differentiabilty]
   Let $f: U \to \R^{m}$ and let $U \subseteq \R^{n}$ be open with $a \in U$.
-  If for some bounded $B_r(a) \subseteq U$ with $r > 0$, the partials $\pderiv{f_i}{x_j}(x)$ exist for all $x \in B_r(a)$ and $\pderiv{f_i}{x_j}(x)$ are all continuous at $a$, then $f$ is differentiable at $a$.
+  If for some bounded $B_r(a) \subseteq U$ with $r > 0$, the partials $\pderiv{f_i}{x_j}(x)$ exist for all $x \in B_r(a)$ and $\pderiv{f_i}{x_j}(x)$ are all continuous at $a$, then $f$ is differentiable at $a$. \label{contPartial}
 \end{theorem}
 \begin{proof}
   By \cref{derivProp} \textbf{(iii)}, it suffices to prove the result in the case of $m = 1$.
@@ -732,6 +732,7 @@ The above also extends to functions $f: U \to \R^{m}$, provided $U \subseteq \R^
   This is differentiable everywhere with derivative 0, but $f$ is not constant since $(1, 2) \cup (3, 4)$ is not path connected.
 \end{remark}
 \section{The Second Derivative}
+\subsection{Classes of Functions and Mixed Second Derivatives}
 \begin{definition}[$C^1$ function]
   Let $U \subseteq \R^{n}$ be an open subset and $f: U \to \R^{m}$.
   We say that $f$ is \textit{$C^1$ on $U$} if its partial derivatives $D_jf = \partial f/\partial x_j$ exist and are continuous for all $j \in \{1, \ldots n\}$.
@@ -756,14 +757,163 @@ We can similarly define $C^2$.
 \begin{remark}[Notation]
   We denote the set of all such functions $C^{2}(U)$.
 \end{remark}
-\begin{theorem}
+\begin{theorem}[Symmetry of second partial derivatives]
   Let $U \subseteq \R^{n}$, $a \in U$, and $f: U \to \R$ be such that $B_r(a) \subseteq U$.
-  If $i, j \in \{1, \ldots, n\}$ are such that $D_i D_j f(x)$ and $D_j D_i f(x)$ exist for all $x \in B_r(a)$ and are continuous at $x = a$, Then $D_i D_j f(a) = D_j D_i f(a)$.
+  If $i, j \in \{1, \ldots, n\}$ are such that $D_i D_j f(x)$ and $D_j D_i f(x)$ exist for all $x \in B_r(a)$ and are continuous at $x = a$, then $D_i D_j f(a) = D_j D_i f(a)$. \label{2ndSym}
 \end{theorem}
+\begin{remark}
+  In particular, if $f$ is $C^{2}$ on $U$, then $D_i D_j f(x) = D_j D_i f(x)$ for all $x \in U$ and $i, j \in \{1, \ldots, n\}$.
+\end{remark}
 \begin{remark}[Intuition]
   If both mixed partial derivatives exist in some ball around $a$ and are continuous at $a$, then partial derivatives commute at $a$.
 \end{remark}
 \begin{proof}
-  Continued next lecture.
+  For sufficiently small $t$ (so that the below arguments to $f$ remain in $U$), consider a \textit{second difference}:
+  \[
+    g_{i j}(t) = f(a + te_i + te_j) - f(a + te_i) - (f(a + te_j) - f(a))
+  \]
+  We first note that this is symmetric in $i$ and $j$.
+  This can be rewritten as:
+  \[
+    g_{i j}(t) = \varphi(1) - \varphi(0)
+  \]
+  where $\varphi: [0, 1] \to \R$ is defined as:
+  \[
+    \varphi(s) = f(a + st e_i + te_j) - f(a + ste_i)
+  \]
+  So by the mean value theorem, there exists $\theta = \theta(t) \in (0, 1)$ and $\eta = \eta(t) \in (0, 1)$ such that:
+  \begin{align*}
+    g_{i j}(t) &= \phi'(\theta) \\
+               &= t(D_if(a + \theta te_i + te_j) - D_if(a + \theta t e_i)) \\
+               &= t^2 D_j D_i f(a + \theta t e_i + \varepsilon t e_j) \text{ by the MVT again}
+  \end{align*}
+  Since $g_{i j} = g_{j i}$, repeating the above argument, there exist $\widetilde{\theta} = \widetilde{\theta}(t) \in (0, 1)$ and $\widetilde{\eta} = \widetilde{\eta}(t) \in (0, 1)$ such that:
+  \begin{align*}
+    g_{i j}(t) &= t^2 D_i D_j f(a + \widetilde{\theta} t e_1 + \widetilde{\eta} t e_j)
+  \end{align*}
+  Although $\theta, \eta, \widetilde{\theta}, \widetilde{\eta}$ depend on $t$, they are all always between 0 and 1.
+  Thus we can take $t \to 0$ without having to worry about their behaviour affecting $\theta t$ and other similar terms.
+  So taking $t \to 0$, as $D_i D_j(x)$ and $D_j D_i(x)$ are continuous at $a$, we obtain:
+  \[
+    D_j D_i f(a) = D_i D_j f(a)
+  \]
+  as required .
+\end{proof}
+\subsection{Total Second Derivatives}
+How can we find the total derivative of $Df(x)$ as a function of $x$?
+Suppose that $U \subseteq \R^{n}$ is open and  $f: U \to \R^{m}$ is differentiable at each $x \in U$.
+Since $Df$ takes in $x \in U$ and returns a linear map $\mathcal{L}(\R^{n}, \R^{m})$, it is a map $U \to \mathcal{L}(\R^{n}, \R^{m})$.
+But $\mathcal{L}(\R^{n}, \R^{m}) \cong \R^{nm}$, so we can think of this as a map $U \to \R^{nm}$.
+Since $Df$ as $nm$ entries, the component functions are each functions $U \to \R$ denoted $D_j f_k: U \to \R$ for $j \in \{1, \ldots, n\}$ and $k \in \{1, \ldots, m\}$.
+
+By \cref{derivProp} \textbf{(iii)}, $Df$ is differentiable at $a$ if and only if $D_j f_k$ is differentiable at $a \in U$ for all $j \in \{1, \ldots, n\}$ and $k \in \{1, \ldots, m\}$.
+If so, by the definition of the derivative, the derivative of $Df$ at $a$ is the unique linear map $D(Df)(a): \R^{n} \to \mathcal{L}(\R^{n}, \R^{m})$ satisfying:
+\[
+  \lim_{h \to 0} \frac{Df(a + h) - Df(a) - D(Df)(a)[h]}{\norm{h}} = 0 \in \mathcal{L}(\R^{n}, \R^{m})
+\]
+where the limit is taken with respect to a norm on $\mathcal{L}(\R^{n}, \R^{m})$.
+Since $\mathcal{L}(\R^{n}, \R^{m})$ is finite dimensional the above does not depend on the choice of norm, however the operator norm is usually the most convenient.
+\subsection{Linear Algebra Viewpoint}
+Suppose $\varphi: \R^{\ell} \to \mathcal{L}(\R^{n}, \R^{m})$ is a linear map and define the map:
+\[
+  \Phi: \R^{\ell} \times \R^{n} \to \R^{m},\ (u, v) \mapsto \varphi(u)[v]
+\]
+$\Phi$ is bilinear as for any $u_1, u_2 \in \R^{\ell}$, $v_1, v_2 \in \R^{n}$ and $\lambda \in \R$, we have:
+\begin{align*}
+  \Phi(u_1 + \lambda u_2, v_1) &= \varphi(u_1 + \lambda u_2)[v_1] \\
+                               &= (\varphi(u_1) + \lambda \varphi(u_2))[v_1] \text{ by linearity of $\varphi$} \\
+                               &= \varphi(u_1)[v_1] + \lambda \varphi(u_2)[v_1] \\
+                               &= \Phi(u_1, v_1) + \lambda \Phi(u_2, v_1)
+\end{align*}
+and:
+\begin{align*}
+  \Phi(u_1, v_1 + \lambda v_2) &= \varphi(u_1)[v_1 + \lambda v_2] \\
+                               &= \varphi(u_1)[v_1] + \lambda \varphi(u_1)[v_2] \text{ as $\varphi(u_1) \in \mathcal{L}(\R^{n}, \R^{m})$} \\
+                               &= \Phi(u_1, v_1) + \lambda \Phi(u_1, v_2)
+\end{align*}
+\begin{remark}
+  In the case of $m = 1$, $\Phi$ is just a bilinear form as seen in IB Linear Algebra.
+\end{remark}
+Conversely, if $\Phi: \R^{\ell} \times \R^{n} \to \R^{m}$ is a bilinear map, then $\varphi$ defined as:
+\[
+  \varphi: \R^{\ell} \to \mathcal{L}(\R^{n}, \R^{m}),\ u \mapsto (\R^{n} \to \R^{m},\ v \mapsto \Phi(u, v))
+\]
+is linear as for all $u_1, u_2 \in \R^{\ell}$ and $\lambda \in \R$, we have that for any $v \in \R^{n}$
+\begin{align*}
+  \varphi(u_1 + \lambda u_2)[v] &= \Phi(u_1 + \lambda u_2, v) \\
+                                &= \Phi(u_1, v) + \lambda \Phi(u_2, v) \text{ by bilinearity} \\
+                                &= \varphi(u_1)[v] + \lambda \varphi(u_2)[v] \\
+                                &= (\varphi(u_1) + \lambda \varphi(u_2))[v]
+\end{align*}
+Since this is true for all $v \in \R^{n}$, we have $\varphi(u_1 + \lambda u_2) = \varphi(u_1) + \lambda \varphi(u_2)$, i.e. $\varphi$ is linear.
+
+Thus we can identify the space of linear maps $\R^{\ell} \to \mathcal{L}(\R^{n}, \R^{m})$ with the space of bilinear maps $\R^{\ell} \times \R^{n} \to \R^{m}$.
+
+The map $D(Df)(a): \R^{n} \to \mathcal{L}(\R^{n}, \R^{m})$ is linear and so with $\ell = n$, under the above identification, we can instead think of it as a bilinear map $D^2 f(a): \R^{n} \times \R^{n} \to \R^{m}$.
+\begin{definition}[$D^2 f$ as a bilinear map]
+  Let $f: \R^{n} \to \R^{m}$ be such that $Df: \R^{n} \to \mathcal{L}(\R^{n}, \R^{m})$ is differentiable at $a \in \R^{n}$.
+  We then define $D^2 f(a) : \R^{n} \times \R^{n} \to \R^{m}$ by:
+  \[
+    D^2 f(a)[u, v] = (D(Df(a))[u])[v]
+  \]
+  which as shown above is bilinear in $u$ and $v$.
+\end{definition}
+\begin{remark}[Summary]
+  Breaking this down, we have:
+  \begin{enumerate}
+    \item Since $f$ is differentiable, we obtain $Df: \R^{n} \to \mathcal{L}(\R^{n}, \R^{m})$.
+    \item Taking the derivative of this at $a \in \R^{n}$ as a function of $x \in \R^{n}$, we obtain:
+      \[
+        D(Df)(a) \in \mathcal{L}(\R^{n}, \mathcal{L}(\R^{n}, \R^{m}))
+      \]
+    \item We can identify this linear map with a bilinear map $D^2f(a): \R^{n} \times \R^{n} \to \R^{m}$ defined as:
+      \[
+        D^2 f(a)[u, v] = (D(Df(a))[u])[v]
+      \]
+      Looking at the right hand side, we have:
+      \[
+        D(Df(a))[u] \in \mathcal{L}(\R^{n}, \R^{m}) \implies (D(Df(a))[u])[v] \in \R^{m}
+      \]
+      As shown in the above, this is bilinear in $u$ and $v$.
+  \end{enumerate}
+\end{remark}
+\begin{theorem}
+  If $f: U \to \R^{m}$ is $C^2$ (i.e. $f_k \in C^2(U)$ for $k \in \{1, \ldots, m\}$), then $D^2 f(a)$ exists for all $a \in U$ and $D^2f(a)$ is a symmetric bilinear mapping, i.e. $D^2f(a)[u, v] = D^2f(a)[v, u]$ for all $u, v \in U$.
+  Moreover, for $u = \sum_{i = 1}^{n} u_i e_i$ and $v = \sum_{i = 1kn}^{n} v_i e_i$ where $e_i$ are the standard basis vectors, we have:
+  \[
+    D^2 f(a)[u, v] = \sum_{i = 1}^{n} \sum_{j = 1}^{n} u_i u_j D_{i j} f(a)
+  \]
+\end{theorem}
+\begin{proof}
+  Since $f$ is $C^2$, the components $D_j f_k$ of $Df$ have continuous partial derivatives on $U$, by \cref{contPartial}, each $D_j f_k$ is differentiable on $U$.
+  So by \cref{derivProp} \textbf{(iii)}, $Df$ is differentiable on $U$, i.e. $D(Df)(a)$ exists for all $a \in U$.
+  Thus by how we defined $D^2f(a)$, it also exists for all $a \in U$.
+
+  To obtain the coordinate expressions, using the bilinearity of $D^2 f(a)$, we have:
+  \[
+    D^2 f(a)[u, v] = \sum_{j = 1}^{n} \sum_{i = 1}^{n} u_i u_j D^2f(a)[e_i, e_j] \in \R^{m}
+  \]
+  and so we want to show that $D^2 f(a)[e_i, e_j] = D_{i j}f_k(a)$.
+  By the definition of $D(Df)(a)$:
+  \[
+    \lim_{h \to 0} \frac{Df(a + h) - Df(a) - D(Df)(a)[h]}{\norm{h}} = 0 \in \mathcal{L}(\R^{n}, \R^{m})
+  \]
+  Taking $h = te_i$, we obtain:
+  \[
+    \lim_{t \to 0} \frac{Df(a + te_i) - Df(a) + tD(Df)(a)[e_i]}{t} = 0 \in \mathcal{L}(\R^{n}, \R^{m})
+  \]
+  If we have this act on $e_j \in \R^{n}$, then we obtain:
+  \[
+    \lim_{t \to 0}  \frac{Df(a + te_i)[e_j] - Df(a)[e_j] - t(D(Df)(a)[e_i])[e_j]}{t} = 0 \in \R^{m} \\
+  \]
+  So recalling the definition of $D^2 f(a)$, we have:
+  \begin{align*}
+    D^2 f(a)[e_i, e_j] &\equiv (D(Df)(a)[e_i])[e_j] \\
+                       &= \lim_{t \to 0} \frac{Df(a + te_i)[e_j] - Df(a)[e_j]}{t} \\
+                       &= \lim_{t \to 0} \frac{D_jf(a + te_i) - D_jf(a)}{t} \\
+                       &= D_i D_j f(a) \\
+                       &= D_{i j} f(a) \in \R^{m}
+  \end{align*}
+  So the coordinate expressions hold and the symmetry of $D^2f(a)$ as a bilinear map follows from \cref{2ndSym}.
 \end{proof}
 \end{document}
