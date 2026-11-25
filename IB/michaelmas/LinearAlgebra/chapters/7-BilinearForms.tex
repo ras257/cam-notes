@@ -661,7 +661,7 @@ We can now prove Sylvester's Law
   We say that $\varphi$ is \textit{totally isotropic} on a subspace $T \leq V$ if for all $t, u \in T$, $\varphi(t, u) = 0$.
 \end{definition}
 \begin{proposition}
-  If $V$ is a finite dimensional $\R$-vector space and $\varphi: V \times V \to \R$ is a symmetric bilinear form with a basis $B$ for $V$ such that:
+  If $V$ is a finite dimensional $\R$-vector space and $\varphi: V \times V \to \R$ is a symmetric bilinear form with a basis $B$ for $V$ such that: \label{totIsoDim}
   \[
     [\varphi]_B = \left(\begin{array}{c|c|c}
         I_p & O & O \\ \hline
@@ -786,6 +786,101 @@ We can now prove Sylvester's Law
   If $V$ is a finite dimensional $\C$-vector space and $\varphi: V \times V \to \C$ is a sesquilinear form, then $\varphi$ is Hermitian if and only if the matrix $[\varphi]_B$ is Hermitian for some (or equivalently any) basis $B$ for $V$.
 \end{lemma}
 \begin{proof}
-  Continued next lecture.
+  Write $B = \{b_1, \ldots, b_n\}$ and let $A = [\varphi]_B$.
+  \begin{proofdirection}{Assume $\varphi$ is Hermitian}
+    Using the definition of the matrix of $\varphi$ with respect to $B$:
+    \[
+      a_{i j} = \varphi(b_i, b_j) = \overline{\varphi(b_j, b_i)} = \overline{a_{j i}}
+    \]
+    So $A = \overline{A}^{\trans}$, i.e. $A$ is a Hermitian matrix.
+  \end{proofdirection}
+  \begin{proofdirection}{Assume $[\varphi]_{B}$ is Hermitian}
+    Using \cref{seqMat}, for any $v , w \in V$, we have:
+    \begin{align*}
+      \varphi(v, w) &= [v]^{\trans}_B A \overline{[w]_B} \\
+                    &= \overline{[w]^{\trans}_B} A^{\trans} [v]_B \text{ as scalars are invariant under transposition} \\
+                    &= \overline{[w]^{\trans}_B \overline{A}^{\trans} \overline{[v]_B}} \text{ as $\overline{(\overline{z})} = z$} \\
+                    &= \overline{[w]^{\trans}_B A \overline{[v]_B}}\text{ as $\overline{A}^{\trans} = A$} \\
+                    &= \overline{\varphi(w, v)}
+    \end{align*}
+    So $\varphi$ is hermitian.
+  \end{proofdirection}
+\end{proof}
+\begin{proposition}[Polarisation identity for sesquilinear forms]
+  If $V$ is a $\C$-vector space, then a Hermitian form $\varphi$ on $V$ is uniquely determined by: \label{seqPolar}
+  \[
+    Q: V \to \R,\ v \mapsto \varphi(v, v)
+  \]
+  To recover $\varphi$ from $Q$, we can use:
+  \[
+    \varphi(u, v) = \frac{1}{4}(Q(u + v) - Q(u - v) + iQ(u + iv) - iQ(u - iv))
+  \]
+\end{proposition}
+\begin{proof}
+  See Example Sheet 4.
+\end{proof}
+\begin{theorem}
+  If $V$ is a finite dimensional $\C$-vector space and $\varphi$ is a Hermitian form on $V$, then:
+  \begin{enumerate}
+    \item There is a basis $B$ for $V$ such that:
+      \[
+        [\varphi]_B = \left(\begin{array}{c|c|c}
+        I_p & O & O \\ \hline
+        O & -I_q & O \\ \hline
+        O & O & O
+    \end{array}\right)
+      \]
+    \item \textbf{Hermitian Sylvester's Law -} $p$ and $q$ above are uniquely determined by $\varphi$, i.e. $p$ and $q$ are the maximal dimensions of subspaces of $V$ on which $\varphi$ is positive definite and negative definite respectively.
+    \item $\dim(V) - \max\{p, q\}$ is the maximal dimension of subspaces of $V$ on which $\varphi$ is totally isotropic.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  The following proof imitates that of \cref{diagonalBil} and \cref{diagCoro} \textbf{(ii)}.
+
+  We proceed by induction on $\dim V = n$.
+  The cases of $n = 0$ and $n = 1$ are clear as $[\varphi]_B$ is always in the desired form.
+
+  If $\varphi(v, v) = 0$ for all $v \in V$, then by \cref{seqPolar}, $\varphi \equiv 0$, so we are done.
+
+  Otherwise, there exists $v_1 \in V \setminus \{\vec{0}\}$ with $\varphi(v_1, v_1) \neq 0$.
+  Let $U = \{v_1\}^{\perp} = \ker(\varphi_{L}(v_1): V \to \F)$.
+  By construction, $v_1 \notin U$, and $\dim(\F) = 1$, so by \cref{RNT}, $\dim(U) = n - 1$.
+  Moreover, since $\langle v_1 \rangle \cap U = \{\vec{0}\}$, we have that $V = \langle v_1 \rangle \oplus U$.
+
+  Since $\varphi$ is Hermitian, the restriction $\at{\varphi}{U}: U \times U \to \F$ is also Hermitian.
+  Thus, by the induction hypothesis, there exists a basis $B_U = \{v_2, \ldots, v_n\}$ for $U$ such that $[\at{\varphi}{U}]_{B_U}$ is in the desired form.
+  Define $B = \{v_1, v_2, \ldots, v_n\}$.
+  This is a basis for $V$ as $V = \langle v_1 \rangle \oplus U$.
+  Moreover, since $v_i \in U = \ker(\varphi_L(v_1))$ for $i \in \{2, \ldots, n\}$, $\varphi_L(v_1)[v_i] = \varphi(v_1, v_i) = \varphi(v_i, v_1) = 0$ and so in this basis:
+  \[
+    [\varphi]_B = \left(\begin{array}{c c c c}
+              \multicolumn{1}{c|}{\varphi(v_1, v_1)} & 0 & \cdots & 0 \\
+              \hline
+              \multicolumn{1}{c|}{\scriptstyle{\substack{0 \\ \vdots \\ 0}}} & \multicolumn{3}{c}{[\at{\varphi}{U}]_{B_U}} \\
+              \end{array}\right)
+  \]
+  Let $\varphi(v_1, v_1) = a \in \R$.
+  We note that for $\lambda \in \C$, $\varphi(\lambda v_1, \lambda v_1) = |\lambda|^2 \varphi(v_1, v_1)$ and so we rescale $v_1$ to $\widetilde{v}_1$ defined as:
+  \[
+    \widetilde{v}_1 = \begin{cases}
+    \frac{1}{\sqrt{a}} v_1 & a > 0\\
+    \frac{1}{\sqrt{-a}} v_1 & a < 0\\
+    v_1 & a = 0
+    \end{cases} \implies \varphi(\widetilde{v}_1, \widetilde{v}_1) = \begin{cases}
+    1 & a > 0 \\
+    -1 & a < 0 \\
+    0 & a = 0
+    \end{cases}
+  \]
+  Replacing $v_1$ in $B$ with $\widetilde{v}_1$ and reordering the basis vectors appropriately, we obtain a basis $\widetilde{B}$ for which $[\varphi]_{\widetilde{B}}$ is in the desired form.
+\end{proof}
+\begin{remark}
+  We saw in \cref{diagCoro} \textbf{(i)} that in the \textbf{complex symmetric} case, we can rescale the basis vectors so that $\varphi(v_i, v_i) \geq 0$ as all elements of $\C$ are square in $\C$, however similarly to the real cases in \cref{diagCoro} \textbf{(i)}, we cannot do that in the above since $|\lambda|^2 \geq 0$.
+\end{remark}
+\begin{proof}[\textbf{ii}]
+  Almost identically to the proof of \cref{sylvesters}, we check that $p$ is the maximal dimension of a positive definite subspace and $q$ is the maximal dimension of a negative definite subspace.
+\end{proof}
+\begin{proof}[\textbf{iii}]
+  Almost identical to the proof of \cref{totIsoDim}.
 \end{proof}
 \end{document}

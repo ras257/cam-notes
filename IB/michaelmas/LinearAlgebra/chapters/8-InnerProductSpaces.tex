@@ -1,0 +1,204 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Inner Product Spaces}
+\begin{remark}[Note]
+  Throughout this chapter we will be working with vector spaces over $\F = \R$ or $\F = \C$.
+\end{remark}
+\section{Definitions}
+\begin{definition}[Real inner product]
+  An \textit{inner product} $\varphi$ on an $\R$-vector space $V$ is a \textbf{positive definite symmetric} bilinear form on $V$.
+\end{definition}
+\begin{definition}[Complex inner product]
+  An \textit{inner product} $\varphi$ on a $\C$-vector space $V$ is a \textbf{positive definite hermitian} bilinear form on $V$.
+\end{definition}
+\begin{definition}[Inner product space]
+  For a vector space $V$ and inner product $\varphi$ on $V$, we call the pair $(V, \varphi)$ an \textit{inner product space}.
+\end{definition}
+\begin{remark}[Notation]
+  We write $\langle u, v \rangle$ instead of $\varphi(u, v)$ when $\varphi$ is defines an inner product.
+\end{remark}
+\begin{example}
+  \begin{enumerate}
+    \item The standard dot product on $\R^{n}$ and $\C^{n}$ are real and complex inner products respectively.
+    \item On the $\R$-vector space $V = C([0, 1])$, we can define:
+      \[
+        \langle f, g \rangle = \int_{0}^{1} f(t) g(t) \d{t}
+      \]
+      which is an inner product.
+    \item More generally, given a \textit{weight function}:
+      \[
+        w: [0, 1] \to (0, \infty)
+      \]
+      we can define:
+      \[
+        \langle f, g \rangle_{w} = \int_{0}^{1} f(t) g(t) w(t) \d{t}
+      \]
+  \end{enumerate}
+\end{example}
+\begin{definition}[Length]
+  For an inner product space $(V, \langle \argdot, \argdot \rangle)$, we define the \textit{length} of $v \in V$ as:
+  \[
+    \norm{v} = \sqrt{\langle v, v \rangle}
+  \]
+\end{definition}
+\begin{definition}[Distance]
+  For an inner product space $(V, \langle \argdot, \argdot \rangle)$, we define the \textit{distance} between $v \in V$ and $u \in V$ as $\norm{v - u}$.
+\end{definition}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item $\norm{v} = 0$ if and only if $v = \vec{0}$.
+    \item $\norm{\argdot}: V \to \R_{\geq 0}$ uniquely determines $\langle \argdot, \argdot \rangle: V \times V \to \F$.
+      This is because $\norm{v}^2 = \langle v, v \rangle$ and so we can use this to recover $\langle u, v \rangle$ for any $u, v \in V$ using the polarisation identity (\cref{polarisation} if $\F = \R$ and \cref{seqPolar} if $\F = \C$).
+  \end{enumerate}
+\end{remark}
+\begin{lemma}[Cauchy-Schwarz]
+  If $(V, \langle \argdot, \argdot \rangle)$ is an inner product space, then for any $v, w \in V$: \label{CS}
+  \[
+    |\langle v, w \rangle| \leq \norm{v} \norm{w}
+  \]
+\end{lemma}
+\begin{remark}
+  For the following proof, it is useful to note that symmetric inner products on $\R$-vector spaces are also hermitian as $\langle v, u \rangle \in \R \implies \langle u, v \rangle = \langle v, u \rangle = \overline{\langle v, u \rangle}$.
+  This allows us to prove the above for both $\F = \C$ and $\F = \R$ by showing it for complex inner products.
+\end{remark}
+\begin{proof}
+  If $v = \vec{0}$, then there is nothing to show as both sides are 0.
+  Otherwise, for $t \in \F$:
+  \begin{align*}
+    0 &\leq \norm{tv + w}^2 \\
+      &= \langle tv + w, tv + w \rangle \\
+      &= |t|^2 \norm{v}^2 + t\langle v, w \rangle + \overline{t} \overline{\langle v, w \rangle} + \norm{w}^2
+  \end{align*}
+  If we set:
+  \[
+    t = - \frac{\overline{\langle v, w \rangle}}{\norm{v}^2} \in \F
+  \]
+  then:
+  \[
+    0 \leq \norm{w}^2 - \frac{|\langle v, w \rangle|^2}{\norm{v}^2} \implies |\langle v, w \rangle|^2 \leq \norm{v}^2 \norm{w}^2
+  \]
+  So taking square roots gives the desired result.
+\end{proof}
+\begin{remark}[Remarks]
+  \begin{enumerate}
+    \item We see that we have equality in Cauchy-Schwarz if and only if $\norm{tv + w} = 0$, i.e. if and only if $w = - tv$ which is if and only if the dimension of the span of $v$ and $w$ is 1.
+    \item For $\F = \R$, using the bounds From Cauchy-Schwarz, we see that:
+      \[
+        \frac{\langle v, w \rangle}{\norm{v} \norm{w}} \in [-1, 1]
+      \]
+      and so we define the \textit{angle} $\theta$ between $v, w \in V$ as:
+      \[
+        \cos \theta = \frac{\langle v, w \rangle}{\norm{v}\norm{w}}
+      \]
+      which is consistent with our existing notion of angles in the case of $V = \R^2$.
+  \end{enumerate}
+\end{remark}
+\begin{corollary}[Triangle inequality]
+  If $(V, \langle \argdot, \argdot \rangle)$ is an inner product space, then for any $v, w \in V$:
+  \[
+    \norm{v + w} \leq \norm{v} + \norm{w}
+  \]
+\end{corollary}
+\begin{proof}
+  We can write:
+  \begin{align*}
+    \norm{v + w}^2 &= \langle v + w, v + w \rangle \\
+                   &= \norm{v}^2 + \langle v, w \rangle + \overline{\langle v, w \rangle} + \norm{w}^2 \\
+                   &\leq \norm{v}^2 + 2 \norm{v} \norm{w} + \norm{w}^2 \text{ by \cref{CS}} \\
+                   &= (\norm{v} + \norm{w})^2
+  \end{align*}
+  So upon taking square roots, we obtain the desired result.
+\end{proof}
+\begin{remark}
+  Since the triangle inequality holds, $d(v, w) = \norm{v - w}$ is a metric on $V$ as seen in IB Analysis II.
+\end{remark}
+\begin{definition}[Orthogonal and Orthonormal]
+  We say that a set $E \subseteq V$ is \textit{orthogonal} if for all $d, e \in E$:
+  \[
+    d \neq e \implies \langle d, e \rangle = 0
+  \]
+  Moreover, we say that $E \leq V$ is \textit{orthonormal} if it is orthogonal and $\norm{d} = 1$ for all $d \in V$.
+\end{definition}
+\begin{remark}
+  If $V$ is a finite finite dimensional vector space and $B$ is a basis for $V$, then $B$ is orthonormal if and only if $[\langle \argdot, \argdot \rangle]_{B} = I_n$.
+\end{remark}
+\begin{lemma}
+  If $E \subseteq V$ is orthogonal with $\vec{0} \notin E$, then: \label{vExpr}
+  \begin{enumerate}
+    \item If $v \in \langle E \rangle$, then:
+      \[
+        v = \finitesum_{e \in E} \frac{\langle v, e \rangle}{\langle e, e \rangle}e
+      \]
+    \item $E$ is linearly independent.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[\textbf{(i)}]
+
+  If $v \in \langle E \rangle$, then we can write:
+  \[
+    v = \finitesum_{e \in E} \lambda_e e
+  \]
+  for some $\lambda_e \in \F$.
+
+  Thus for any $d \in E$:
+  \begin{align*}
+    \langle v, d \rangle &= \finitesum_{e \in E} \lambda_e \langle e, d \rangle \\
+                         &= \lambda_d \langle d, d \rangle \text{ as $E$ is orthogonal}
+  \end{align*}
+  Since $d \neq \vec{0}$, we have:
+  \[
+    \lambda_d = \frac{\langle v, d \rangle}{\langle d, d \rangle}
+  \]
+  which gives the desired result.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Taking $v = \vec{0} \in \langle E \rangle$ in \textbf{(i)}, we see that:
+  \[
+    \lambda_d = \frac{\langle \vec{0}, d \rangle}{\langle d, d \rangle} = 0
+  \]
+  So:
+  \[
+    \finitesum_{e \in E} \frac{\langle v, e \rangle}{\langle e, e \rangle}e = \vec{0} \implies \lambda_e = 0\ \forall e \in E
+  \]
+  i.e. $E$ is linearly independent.
+\end{proof}
+\begin{corollary}[Parseval's Identity]
+  If $E \subseteq V$ is orthonormal and $v, w \in \langle E \rangle$, then:
+  \[
+    \langle v, w \rangle = \finitesum_{e \in E} \langle v, e \rangle \overline{\langle w, e \rangle}
+  \]
+\end{corollary}
+\begin{proof}
+  Since $E$ is orthonormal, $\vec{0} \notin E$ and $\norm{\vec{0}} \neq 1$ so we can apply \cref{vExpr}.
+  By orthonormality $\langle e, e \rangle = 1$ for all $e \in E$ and so we can write any $v, w \in V$ as:
+  \[
+    v = \finitesum_{e \in E} \langle v, e \rangle e \text{ and } w = \finitesum_{d \in E} \langle w, d \rangle d
+  \]
+  Thus:
+  \begin{align*}
+    \langle v, w \rangle &= \left\langle \finitesum_{e \in E} \langle v, e \rangle e, \finitesum_{d \in E} \langle w, d \rangle d \right\rangle \\
+                         &= \finitesum_{d, e \in E} \langle v, e \rangle \overline{\langle w, d \rangle} \langle e, d \rangle \text{ by anti-linearity and linearity} \\
+                         &= \finitesum_{e \in E} \langle v, e \rangle \overline{\langle w, e \rangle} \text{ as $\langle e, d \rangle = \delta_{e d}$ by orthonormality}
+  \end{align*}
+  as required.
+\end{proof}
+\begin{theorem}[Gram-Schmidt Process]
+  If $(V, \langle \argdot, \argdot \rangle)$ is an inner product space and $\{v_1, \ldots, v_n\} \subseteq V$ is linearly independent, then there is an orthonormal set $\{e_1, \ldots, e_n\} \subseteq V$ such that: \cref{GS}
+  \[
+    \langle e_1, \ldots, e_k \rangle = \langle v_1, \ldots, v_k \rangle
+  \]
+  for each $k \in \{1, \ldots, n\}$.
+\end{theorem}
+\begin{proof}
+  Continued next lecture.
+\end{proof}
+\begin{corollary}
+  If $(V, \langle \argdot, \argdot \rangle)$ then any orthonormal set in $V$ can be extended to an orthonormal basis for $V$.
+\end{corollary}
+\begin{remark}
+  In particular, $V \neq \{\vec{0}\}$ always has an orthonormal basis because we can take any $v \in V \setminus \{\vec{0}\}$, normalise it to length 1 so that the set $\{v\}$ is orthonormal and then use the above to extend it to an orthonormal basis for $V$.
+\end{remark}
+\begin{proof}
+  Given an orthonormal set, we use \cref{basisExtension} to extend it to a basis for $V$ and then apply \cref{GS} to turn it into an orthonormal set with the same span of the original set, i.e. it is still a basis but is now orthonormal.
+\end{proof}
+\end{document}
