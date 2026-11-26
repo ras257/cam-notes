@@ -916,4 +916,166 @@ The map $D(Df)(a): \R^{n} \to \mathcal{L}(\R^{n}, \R^{m})$ is linear and so with
   \end{align*}
   So the coordinate expressions hold and the symmetry of $D^2f(a)$ as a bilinear map follows from \cref{2ndSym}.
 \end{proof}
+\subsection{Critical Points}
+In the case of $m = 1$, we can use the bilinear form $D^2 f(a): U \times U \to \R$ to analyse the \textit{critical points} of $C^2$ functions $f: U \to \R$.
+\begin{remark}[Relation between bilinear and quadratic forms]
+  From IB Linear Algebra, we know that if $B: \R^{n} \times \R^{n} \to \R$ is a symmetric bilinear form, then there is an associated quadratic form:
+  \[
+    Q(u) = B(u, u) = u^{\trans} A u = \sum_{i, j = 1}^{n} a_{i j} u_i u_j
+  \]
+  where $A$ is the matrix of the bilinear form $B$, i.e. $a_{i j} = B(e_i, e_j)$, and $u = \sum_{i = 1}^{n} u_i e_i$.
+  Moreover, given a quadratic form $Q$, using the polarisation identity, we can recover its associated symmetric bilinear form:
+  \[
+    B(u, v) = \frac{1}{2}(Q(u + v) - Q(u) - Q(v))
+  \]
+  That is, there is a one-to-one correspondence between symmetric bilinear forms and quadratic forms.
+\end{remark}
+\begin{remark}[Definiteness]
+  Recall from IB Linear Algebra that we say that a quadratic form $Q: \R^{n} \to \R$ is:
+  \begin{enumerate}
+    \item \textit{Positive definite} if $Q(u) > 0$ for all $u \in \R^{n} \setminus \{\vec{0}\}$
+    \item \textit{Positive semidefinite} if $Q(u) \geq 0$ for all $u \in \R^{n}$
+    \item \textit{Negative definite} if $Q(u) < 0$ for all $u \in \R^{n} \setminus \{\vec{0}\}$
+    \item \textit{Negative semidefinite} if $Q(u) \leq 0$ for all $u \in \R^{n}$
+  \end{enumerate}
+\end{remark}
+If we take a point $a \in U$ and set $B = D^2f(a)$ for a $C^2$ function $f: U \to \R$, then we call the corresponding quadratic form $Q(u) = (D^2f(a))[u, u]$ the \textit{Hessian form} of $f$ at $a$, usually denoted $H_{f, a}(u)$.
+\[
+  H_{f, a}(u) = \sum_{i, j = 1}^{n} D_{i j} f(a)u_i u_j = u^{\trans} A u \text{ where } A = (D_{i j} f(a))_{1 \leq i, j \leq n}
+\]
+\begin{definition}[Critical points and local extrema]
+  For a differentiable $f: U \to \R$ and a point $a \in U$:
+  \begin{enumerate}
+    \item We say that $a$ is a \textit{critical point of $f$} if $Df(a) = 0$.
+    \item We say that $f$ has a \textit{local minimum} at $a$ if there exists $r > 0$  such that $f(x) \geq f(a)$ for all $x \in B_r(a)$.
+    \item We say that $f$ has a \textit{local maximum} at $a$ if there exists $r > 0$  such that $f(x) \leq f(a)$ for all $x \in B_r(a)$.
+    \item We say that $f$ has a \textit{strict local minimum} at $a$ if there exists $r > 0$  such that $f(x) > f(a)$ for all $x \in B_r(a) \setminus \{a\}$.
+    \item We say that $f$ has a \textit{strict local maximum} at $a$ if there exists $r > 0$  such that $f(x) < f(a)$ for all $x \in B_r(a) \setminus \{a\}$.
+  \end{enumerate}
+\end{definition}
+\begin{theorem}[Classifying critical points]
+  If $U \subseteq \R^{n}$ is open, $f: U \to \R$ is $C^2$, and $a \in U$, then:
+  \begin{enumerate}
+    \item We have a \textit{second order Taylor expansion:}
+      \[
+        f(a + h) = f(a) + Df(a) h + \frac{1}{2} D^2 f(a)[h, h] + E(h)
+      \]
+      where $E(h) = o(\norm{h}^2)$, i.e. $E(h)/\norm{h}^2 \to 0$ as $h \to 0$.
+    \item If $x = a$ is a critical point and $H_{f, a} = D^2f(a)$ is positive definite, then $x = a$ is a strict local minimum.
+    \item If $x = a$ is a critical point and $H_{f, a}$ is negative definite, then $x = a$ is a strict local maximum.
+    \item If $f$ has a local minimum at $x = a$, then $a$ is a critical point and $H_{f, a}$ is positive semidefinite.
+    \item If $f$ has a local maximum at $x = a$, then $a$ is a critical point and $H_{f, a}$ is negative semidefinite.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{i}]
+  For a $C^2$ function $g: [0, 1] \to \R$ (i.e. where we take one-sided derivatives at the endpoints), then using integration by parts, we have:
+  \[
+    \int_{0}^{1} (1 - t)g''(t) \d{t} = g(1) - g(0) - g'(0)
+  \]
+  To utilise this, define:
+  \[
+    g: [0, 1] \to \R,\ t \mapsto f(a + th)
+  \]
+  which is $C^2$ as $f$ is $C^2$.
+  By the chain rule:
+  \begin{align*}
+    g'(t) &= Df(a + th)h \\
+          &= \sum_{i = 1}^{n} D_i f(a + th) h_i \text{ as $Df(a + th) \in \mathcal{L}(\R^{n}, \R)$}
+  \end{align*}
+  Differentiating again:
+  \[
+    g''(t) = \sum_{i, j = 1}^{n} h_i h_j D_{i j} f(a + th)
+  \]
+  We then have:
+  \[
+    g(1) = f(a + h),\ g(0) = f(a),\ g'(0) = \sum_{i = 1}^{n} D_if(a)h_i
+  \]
+  and:
+  \begin{align*}
+    &\int_{0}^{1} (1 - t)g''(t) \d{t} \\
+    &= \int_{0}^{1} (1 - t)\left[\sum_{i, j = 1}^{n} h_i h_j D_{i j} f(a + th)\right] \d{t} \\
+    &= \sum_{i, j = 1}^{n} h_i h_j \left[\int_{0}^{1} (1 - t)D_{i j}f(a + th) \d{t}\right] \\
+    &= \sum_{i, j = 1}^{n} h_i h_j D_{i j}f(a) \left[\int_{0}^{1} (1 - t) \d{t}\right] + \sum_{i, j = 1}^{n} h_i h_j \left[\int_{0}^{1} (1 - t)(D_{i j}f(a + th) - D_{i j}f(a)) \d{t}\right] \\
+    &= \frac{1}{2}\sum_{i, j = 1}^{n} h_i h_j D_{i j}f(a) + \sum_{i, j = 1}^{n} h_i h_j \left[\int_{0}^{1} (1 - t)(D_{i j}f(a + th) - D_{i j}f(a)) \d{t}\right] \\
+    &= \frac{1}{2}D^2f(a)[h, h] + \underbrace{\sum_{i, j = 1}^{n} h_i h_j\left[\int_{0}^{1} (1 - t)(D_{i j}f(a + th) - D_{i j}f(a)) \d{t}\right]}_{E(h)}
+  \end{align*}
+  Fix some arbitrary $i, j \in \{1, \ldots, n\}$.
+  Since $f$ is $C^2$, $D_{i j}$ is continuous at $a$ and so given $\varepsilon > 0$, there exists $\delta_{i j} > 0$ such that for $h \in B_{\delta_{i j}}(0)$ we have:
+  \begin{align*}
+    |D_{i j}f(a + th) - D_{i j}f(a)| &< \varepsilon\ \forall t \in[0, 1] \\
+    \implies \int_{0}^{1} (1 - t) |D_{i j}f(a + th) - D_{i j}f(a)| \d{t} &< \varepsilon \int_{0}^{1} (1 - t) \d{t} = \frac{\varepsilon}{2}
+  \end{align*}
+  So if we define $\delta = \min\limits_{i, j \in \{1, \ldots, n\}} \delta_{i j}$, then for all $h \in B_{\delta}(0)$:
+  \begin{align*}
+    |E(h)| &< \frac{\varepsilon}{2} \sum_{i, j = 1}^{n} |h_i h_j| \\
+           &= \frac{\varepsilon}{2} \left[\sum_{i = 1}^{n} |h_i|\right]^2 \\
+           &\leq \frac{\varepsilon}{2} n^2 \max_{i \in \{1, \ldots, n\}} |h_i|^2 \\
+           &\leq \frac{\varepsilon}{2} n^2 \norm{h}^2 \implies \frac{|E(h)|}{\norm{h}^2} \leq \frac{\varepsilon}{2}n^2
+  \end{align*}
+  Since $n$ is constant, we can rescale to just $\varepsilon$.
+  Thus for all $\varepsilon > 0$ there exists $\delta$ such that:
+  \[
+    h \in B_{\delta}(0) \implies \frac{|E(h)|}{\norm{h}^2} < \varepsilon
+  \]
+  and so $E(h)/\norm{h}^2 \to 0$ as $h \to 0$, i.e. $E(h) = o(\norm{h}^2)$.
+
+  So using the integration by parts result:
+  \begin{align*}
+    f(a + h) &= f(a) + Df(a)h + \frac{1}{2} D^2f(a)[h, h] + o(\norm{h}^2)
+  \end{align*}
+  as required.
+\end{proof}
+\begin{proof}[\textbf{ii}]
+  Since $a$ is critical , $Df(a) = 0$ by definition, so using \textbf{(i)}:
+  \[
+    f(a + h) = f(a) + \frac{1}{2}D^2f(a)[h, h] + o(\norm{h}^2)
+  \]
+  Let $Q(h) = D^2f(a)[h, h]$ and define:
+  \[
+    \varepsilon_0 = \inf_{h \in S} Q(h)
+  \]
+  where $S = \{x \in \R^{n}: \norm{x} = 1\}$.
+  $Q$ is just a quadratic in the components of $h$ and so is continuous.
+  $S$ is closed and bounded as a subset of $\R^{n}$ so by \cref{subsetRnComp}, $S$ is compact.
+  Thus, using \cref{ctsProps} \textbf{(iv)}, the infimum of $Q$ is attained on $S$.
+
+  Since $D^2f(a)$ is positive definite, $Q(h) > 0$ for all $h \in \R^{n} \setminus \{0\}$.
+  As $\varepsilon_0$ is attained on $S$ and $0 \notin S$, we must have $\varepsilon_0 > 0$.
+
+  For any $h \in \R^{n} \setminus \{0\}$, we have:
+  \begin{align*}
+    Q\left(\frac{h}{\norm{h}}\right) &= D^2f(a)\left[\frac{h}{\norm{h}}, \frac{h}{\norm{h}}\right] \\
+                                     &= \frac{1}{\norm{h}^2} D^2f(a)[h, h] \text{ by bilinearity } \\
+                                     &= \frac{1}{\norm{h}^2} Q(h) \implies Q(h) = \norm{h}^2 Q\left(\frac{h}{\norm{h}}\right) \leq \varepsilon_0 \norm{h}^2
+  \end{align*}
+  and so:
+  \[
+    f(a + h) \geq f(a) + \frac{\varepsilon_0}{2} \norm{h}^2 + o(\norm{h}^2)
+  \]
+  Suppose $g(h) = o(\norm{h}^2)$, then given any $\varepsilon' > 0$, we have:
+  \[
+    \frac{g(h)}{\norm{h}^2} \to 0 \implies \frac{|g(h)|}{\norm{h}^2} \to 0 \implies |g(h)| < \varepsilon' \norm{h}^2 \text{ for sufficiently small $h$}
+  \]
+  So, taking $\varepsilon' = \varepsilon_0/4$:
+  \[
+    |o(\norm{h}^2)| < \frac{\varepsilon_0}{4} \norm{h}^2 \text{ for sufficiently small $h$}
+  \]
+  Thus for sufficiently small $h \neq 0$:
+  \[
+    f(a + h) \geq f(a) + \frac{\varepsilon_0}{2} \norm{h}^2 + o(\norm{h}^2) > f(a) + \frac{\varepsilon_0}{4} \norm{h}^2 \geq f(a) \implies f(a + h) > f(a)
+  \]
+  i.e. $a$ is a strict local minimum.
+\end{proof}
+\begin{remark}
+  In the above we showed that for any $n \in \N_0$ and $\varepsilon > 0$:
+  \[
+    |o(\norm{h}^{n})| < \varepsilon \norm{h}^{n} \text{ for sufficiently small $h$}
+  \]
+\end{remark}
+\begin{proof}[\textbf{iii}]
+  Analogous to \textbf{(ii)}.
+\end{proof}
+\begin{proof}[\textbf{iv} and \textbf{v}]
+  See Example Sheet 4.
+\end{proof}
 \end{document}
