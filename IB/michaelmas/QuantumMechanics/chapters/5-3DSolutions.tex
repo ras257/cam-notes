@@ -127,7 +127,7 @@ This does commute with each component of $\hat{L}$:
                          &= 0 \text{ since } \hat{L}_j\hat{L}_k + \hat{L}_k \hat{L}_j \text{ is symmetric in $j$ and $k$}
 \end{align*}
 Thus by \cref{simDiag}, $\hat{L}^2$ and $\hat{L}_i$ are simultaneously diagonalisable and so we can find a joint set of eigenstates for $\hat{L}^2$ and $\hat{L}_i$.
-\subsection{Finding a Simultaneous Basis for the Angular Components}
+\subsection{Finding a Simultaneous Basis for the Angular Components} \label{angBasis}
 To find such a set of eigenstates, we first wish to write $\hat{L}_i$ and $\hat{L}^2$ in spherical polar coordinates.
 For convenience, we look specifically at $\hat{L}_3$ as it has the nicest expression in spherical polar coordinate.
 Using the multivariate chain rule, we obtain the expressions:
@@ -409,7 +409,7 @@ Graphically this is:
 
   \node[below] at (4.7, 0) {$\frac{\pi}{2}$};
   \clip (0, 0) rectangle (11, 6);
-  \draw[thick, domain=1.57:2.3, smooth, variable=\x, scale=3] plot ({\x}, {-\x * cot(\x r)}) node[right] {$-\xi \cot \xi$};
+\draw[thick, domain=1.57:2.3, smooth, variable=\x, scale=3] plot ({\x}, {-\x * cot(\x r)}) node[right] {$-\xi \cot \xi$};
   \draw[thick, domain=4.17:5.5, smooth, variable=\x, scale=3] plot ({\x}, {-\x * cot(\x r)});
   \draw[thick] (0, 0) circle (5cm);
   \node at (4, 4.5) {$\xi^2 + \eta^2 = r^2_0$};
@@ -448,7 +448,7 @@ which can be shown to give the energy levels:
   E_{n_r, \ell} = \hbar\omega\left(2n_r + \ell + \frac{2}{3}\right) \text{ where } N = 2n_r + \ell
 \]
 for $n_r \in \{0, 1, \ldots\}$.
-Here $n_r$ counts the \textit{radial nodes} for $r > 0$.
+Here $n_r$ is the degree of the resulting polynomial and counts the \textit{radial nodes} for $r > 0$.
 For a fixed $N$ the allowed values are $\ell \in \{N, N - 2, \ldots\}$ ending at either 0 or 1 depending on the parity of $N$, each corresponding to $2\ell + 1$ potential values for $m$.
 \section{Hydrogen Atom}
 \subsection{Introduction}
@@ -475,8 +475,8 @@ We already know how to solve for the angular part and using \cref{radUnsim} we o
 \[
   -\frac{\hbar^2}{2m}\left(\deriv[2]{R}{r} + \frac{2}{r}\deriv{R}{r}\right) + \left(-\frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} + \frac{\hbar^2\ell(\ell + 1)}{2m_e r^2}\right)R = ER
 \]
-\subsection{Radial Wavefunction}
-In the case of $\ell = 0$ (i.e. radially symmetric case we saw earlier), define:
+\subsection{Radial Wavefunction} \label{radialWF}
+In the case of $\ell = 0$ (i.e. the radially symmetric case we saw earlier), define:
 \[
   \nu^2 = -\frac{2m_eE}{\hbar^2} \text{ and } \beta = \frac{e^2m_e}{2\pi\varepsilon_0 \hbar^2}
 \]
@@ -488,7 +488,7 @@ For large $r$, the dominating behaviour follows from $R'' - \nu^2 R \approx 0$ a
 \[
   R(r) = f(r) e^{\pm\nu r}
 \]
-for a polynomial $f(r)$.
+for some function $f(r)$.
 Since we need decay as $r \to \infty$, we select the solution with a negative exponent.
 
 Substituting in, we obtain the following ODE for $f(r)$:
@@ -547,4 +547,194 @@ We can now find the energy of these solutions by rearranging for $E$ and subsist
   E_N = - \frac{e^{4}m}{32 \pi^2 \varepsilon^2_0 \hbar^2} \frac{1}{N^2}
 \]
 for $N \in \{1, 2, \ldots\}$, which agrees the Bohr energies we saw in \cref{quantE}.
+Since we have fixed $\ell = 0$, thus fixing $m = 0$, there is exactly one state (up to scalar multiples) for each energy level $N$ and thus there is no degeneracy.
+
+Determining the recurrence relation for the coefficients in terms of just $\nu$ and $N$ using $2n\nu = \beta$ gives:
+\[
+  \frac{a_n}{a_{n - 1}} = - 2\nu \frac{N - n}{n(n + 1)}
+\]
+We decide to take $a_0 = 1$ and then introduce a normalisation constant $A_N$.
+\begin{proofcases}
+  \begin{case}{$N = 1$}
+In this case, we obtain a degree zero polynomial:
+    \[
+      R_{1, 0}(r) = A_1 e^{-\nu_1 r}
+    \]
+    for some normalisation constant $A_1$.
+  \end{case}
+  \begin{case}{$N = 2$}
+    In this case, we obtain a degree one polynomial:
+    \[
+      \frac{a_1}{a_0} = -2\nu_2 \frac{2 - 1}{2} \implies a_1 = -\nu_2 a_0 = -\nu_2
+    \]
+    giving:
+    \[
+      R_{2, 0}(r) = A_2 (1 - \nu_2 r) e^{-\nu_2 r}
+    \]
+    for some normalisation constant $A_2$.
+  \end{case}
+  \begin{case}{$N = 3$}
+    In this case, we obtain a degree two polynomial:
+    \[
+      a_0 = 1,\ a_1 = -2\nu_3,\ a_2 = \frac{2}{3}\nu^2_3
+    \]
+    giving:
+    \[
+      R_{3, 0}(r) = A_3\left(1 - 2\nu_3 r + \frac{2}{3} \nu^2_3 r^2\right) e^{-\nu_3 r}
+    \]
+  \end{case}
+\end{proofcases}
+These look like:
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+  \node at (1.8, 2) {$N = 1$};
+  \node at (2.7, -1.8) {$N = 2$};
+  \node at (5.6, 2.3) {$N = 3$};
+
+  \def\nconst{0.5}
+  \draw[thick, domain=0:11, smooth, variable=\x] plot ({\x}, {3 * exp(-\nconst*\x)});
+  \draw[thick, domain=0:11, smooth, variable=\x, gray!80] plot ({\x}, {3 * (1 - \x) * exp(-\nconst*\x)});
+  \draw[thick, domain=0:11, smooth, variable=\x, gray!60] plot ({\x}, {3 * (1 - 2 * \x + 2*\x^2/3) * exp(-\nconst*\x)});
+
+  \draw[->] (0, -3) -- (0, 3) node[right] {$R_{N, 0}(r)$};
+  \draw[->] (0, 0) -- (11, 0) node[right] {$r$};
+\end{tikzpicture}
+\end{center}
+We see that $R_{N, 0}$ has $N - 1$ roots and so there are $N$ regions in which the electron can exist.
+
+In general:
+\[
+  R_{N, 0}(r) \propto L^1_{N - 1}(2\nu_N r) e^{-\nu_N r}
+\]
+where $L^{1}_{N - 1}$ an associated Laguerre polynomial of degree $N - 1$.
+As discussed, the full solution is then:
+\[
+  \chi_{N, 0, 0}(r, \theta, \varphi) = R_{N, 0}(r) Y_{0 0} = \frac{R_{N, 0}(r)}{\sqrt{4\pi}}
+\]
+which has no angular dependence.
+\subsection{Non-Radial Wavefunction}
+In the case of $\ell > 0$, the second term in effective potential is now non-zero:
+\[
+  U_{\text{eff}}(r) = - \frac{e}{4\pi \varepsilon_0}\frac{1}{r} + \frac{\hbar^2\ell(\ell + 1)}{2mr^2}
+\]
+Substituting $\nu$ and $\beta$ as before, we obtain:
+\[
+  R'' + \frac{2}{r}R' + \left(\frac{\beta}{r} - \nu^2 - \frac{\ell(\ell + 1)}{r^2}\right)R = 0
+\]
+The additional $1/r^2$ term here decays quickly as $r \to \infty$ and so solutions to the above have the same asymptotic behaviour as the case of $\ell = 0$ and so we look for solutions of the form:
+\[
+  R(r) = g(r) e^{-\nu r}
+\]
+Substituting in, we obtain an ODE for $g$:
+\[
+  g'' + \frac{2}{r}(1 - \nu r) g' + \left(\frac{\beta - 2\nu}{r} - \frac{\ell(\ell + 1)}{r^2}\right)g = 0
+\]
+Since $r = 0$ is a regular singular point, we look for a series solution of the form:
+\[
+  g(r) = r^{c} \sum_{n = 0}^{\infty} a_n r^{n}
+\]
+for some $c \in \C$ and $a_0 \neq 0$.
+
+Substituting in and looking at the lowest power of $r$, we have:
+\begin{align*}
+  a_0 [c(c - 1) + 2c - \ell(\ell + 1)] = 0 &\iff c(c + 1) - \ell(\ell + 1) = 0 \\
+                                           &\iff (c + \ell + 1)(c - \ell) = 0
+\end{align*}
+We cannot take $c = -\ell - 1$ because of the resulting behaviour as $r \to 0 0$ and so we must have $c = \ell$.
+
+For the rest of the coefficients, we therefore have:
+\[
+  a_n = \frac{2\nu(n + \ell) - \beta}{n(n + 2\ell + 1)} a_{n - 1}
+\]
+As in the case of $\ell = 0$, the resulting $R$ is not normalisable unless the power series terminates.
+Let $n_r$ be the degree of the resulting polynomial, i.e. $a_{n_r + 1} = 0$ and $a_{n_r} \neq 0$.
+$n_r$ must therefore satisfy:
+\[
+  a_{n_r + 1} = 0 = \frac{2\nu(n_r + \ell + 1)}{(n_r + 1)(n_r + 2\ell + 2)} a_{n_r} \implies 2\nu(n_r + \ell + 1) = \beta
+\]
+If we define $N = n_r + \ell + 1$, then $2\nu N = \beta$ as we had in the $\ell = 0$ case, giving the same energy levels:
+\[
+  E_N = - \frac{m_e e^{4}}{32 \pi^2 \varepsilon^2_0 \hbar^2} \frac{1}{N^2}
+\]
+So given $N \in \{1, 2, \ldots\}$ (which each correspond to a unique energy level), we can take any $\ell \in \{0, 1, \ldots, N - 1\}$ to determine the degree $n_r = N - \ell - 1 \geq 0$ of the radial part, and therefore determines the radial part, which we denote $R_{N, \ell}(r)$ after normalisation.
+
+Since $\ell > 0$, the angular part is not zero. We know from \cref{angBasis} that for a given $\ell$, we can choose $m \in \{-\ell, - \ell + 1, \ldots, \ell - 1, \ell\}$, giving the radial part $Y_{\ell, m}(\theta, \varphi)$.
+
+Thus for a given \textit{principal quantum number} $N$, we have a corresponding energy level $E_N$ which is attained by any choices of:
+\begin{align*}
+  \text{\textit{Orbital quantum number} } \ell &\in \{0, 1, \ldots, N - 1\} \\
+  \text{\textit{Magnetic quantum number} } m &\in \{-\ell, -\ell + 1, \ldots, \ell - 1, \ell\}
+\end{align*}
+giving the linearly independent states
+\[
+  \chi_{N, \ell, m}(r, \theta, \varphi) = R_{N, \ell}(r) Y_{\ell, m}(\theta, \varphi)
+\]
+where $R_{N, \ell}$ and $Y_{\ell, m}$ have been appropriately normalised as in their derivations earlier in the chapter.
+
+Counting the number of such states which give the energy level $E_N$, i.e. given $N$ the number of choices for $\ell$ and $m$ for which $\mathcal{L}\chi_{N, \ell, m} = E_N \chi_{N, \ell, m}$, we have a degeneracy $D_N$ given by:
+\[
+  D_N = \sum_{\ell = 0}^{N - 1} \sum_{m = -\ell}^{\ell} 1  = \sum_{\ell = 0}^{N - 1} (2\ell + 1) = N^2
+\]
+
+Using the recurrence relation to determine the coefficients of $R_{N, \ell}(r)$, it can be shown that:
+\[
+  R_{N, \ell}(r) = \left(\frac{2}{Na_0}\right)^{3/2} \sqrt{\frac{(N - \ell - 1)!}{2N(N + \ell)!}} \rho^{\ell} e^{-\rho/2} L^{2\ell + 1}_{N - \ell - 1}(\rho)
+\]
+where we define the dimensionless variable:
+\[
+  \rho = \frac{2r}{Na_0}
+\]
+and $L^{2\ell + 1}_{N - \ell - 1}$ is a generalised Laguerre polynomial of degree $N - \ell - 1 = n_r$.
+In general, these are given by:
+\[
+  L^{\alpha}_{q}(\rho) = \sum_{j = 0}^{q} \frac{(-1)^{j}}{j!} \binom{q + \alpha}{q - j} \rho^{j}
+\]
+for $q, \alpha \in \N_0$.
+
+\begin{example}
+  We will consider the example of $N = 4$.
+  We note that since $N = 4$, $\nu = \beta/8$.
+  In this case, we can take any $\ell \in \{0, 1, 2, 3\}$.
+  \begin{proofcases}
+    \begin{case}{$\ell = 0$}
+      The case of $\ell = 0$, is as in \cref{radialWF}, we just have a radial part given by
+      \[
+        R_{4, 0}(r) \propto (a_0 + a_1 r + a_2 r^2 + a_3 r^3) e^{-r\beta/8}
+      \]
+      for some coefficients $a_i$.
+      This has four regions in which the electron can exist regardless of $\theta$ and $\varphi$.
+    \end{case}
+    \begin{case}{$\ell = 1$}
+      In the case of $\ell = 1$, the radial part is given by:
+      \[
+        R_{4 1}(r) \propto r(a_0 + a_1 r + a_2 r^2) e^{-r\beta/8}
+      \]
+      for some coefficients $a_i$.
+      This has three radial regions in which the electron can exist.
+      However, in this case the angular part is non-zero as we can take $m \in \{-1, 0, 1\}$ and so either have $Y_{1, 0}(\theta, \varphi)$ or $Y_{1, \pm 1}(\theta, \varphi)$.
+    \end{case}
+    \begin{case}{$\ell = 2$}
+      In the case of $\ell = 2$, the radial part is given by:
+      \[
+        R_{4, 2} \propto r^2(a_0 + a_1 r) e^{-r\beta/8}
+      \]
+      for some coefficients $a_i$.
+      This has two radial regions in which the electron can exist.
+      For the angular part, we can take $m \in \{-2, -1, 0, 1, 2\}$ so either have $Y_{2, 0}(\theta, \varphi)$, $Y_{2, \pm1}(\theta, \varphi)$, or $Y_{2, \pm2}(\theta, \varphi)$.
+    \end{case}
+    \begin{case}{$\ell = 3$}
+      Finally, in the case of $\ell = 3$ , the radial part is given by:
+      \[
+        R_{4, 3}(r) \propto r^3 e^{-r\beta/8}
+      \]
+      which has only one radial regions in which the electron can exist.
+      For the angular part, we can take $m \in \{-3, -2, -1, 0, 1, 2, 3\}$, so either have $Y_{3, 0}(\theta, \varphi), Y_{3 \pm1}(\theta, \varphi), Y_{3 \pm2}(\theta, \varphi)$, or $Y_{3 \pm3}(\theta, \varphi)$.
+    \end{case}
+  \end{proofcases}
+  We note that the degree of the radial part is always $N - 1$ and the number of potential radial regions is $N - \ell$.
+\end{example}
+\subsubsection{Comparison to the Bohr Model}
+The energy levels from the above agree with the energy levels $E_N$ from the Bohr model for each $N \in \N$.
+However, in the Bohr model, the angular total momentum for each $N$ satisfies $L^2 = N^2 \hbar^2$, whereas quantum-mechanically there are multiple possible total angular momenta satisfying $L^2 = h^2 \ell(\ell + 1)$ for $\ell \in \{0, \ldots, N - 1\}$.
+Bohr's model predicted a degeneracy of $2N + 1$, however our quantum model gives a degeneracy $D_N = N^2$ which disagrees as a result of Bohr's incorrect angular momentum quantisation.
 \end{document}
