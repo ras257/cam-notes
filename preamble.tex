@@ -361,3 +361,9 @@
 \newcommand{\comp}{\complement} % Set complement
 \newcommand{\levi}{\varepsilon} % Levi-Civita Symbol
 
+% Extra Symbols from mathabx
+\DeclareFontFamily{U}{matha}{}
+\DeclareFontShape{U}{matha}{m}{n}{<-> matha10}{}
+\DeclareSymbolFont{matha}{U}{matha}{m}{n}
+\DeclareMathSymbol{\obotraw}{2}{matha}{"6B}
+\newcommand{\obot}{\mathbin{\scalebox{0.87}{$\obotraw$}}} % Orthogonal subspace sum

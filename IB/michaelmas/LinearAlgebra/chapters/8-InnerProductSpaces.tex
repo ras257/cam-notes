@@ -112,6 +112,8 @@
 \begin{remark}
   Since the triangle inequality holds, $d(v, w) = \norm{v - w}$ is a metric on $V$ as seen in IB Analysis II.
 \end{remark}
+\section{Orthogonality}
+\subsection{Orthonormal Bases}
 \begin{definition}[Orthogonal and Orthonormal]
   We say that a set $E \subseteq V$ is \textit{orthogonal} if for all $d, e \in E$:
   \[
@@ -190,15 +192,304 @@
   for each $k \in \{1, \ldots, n\}$.
 \end{theorem}
 \begin{proof}
-  Continued next lecture.
+  We proceed by induction on $k$.
+  In the case of $k = 1$, we set $e_1 = \frac{1}{\norm{v_1}} v_1$, clearly $\langle e_1 \rangle = \langle v_1 \rangle$ and $\{e_1\}$ is orthonormal.
+
+  Suppose we have constructed $e_1, \ldots, e_k$ as specified for some $k \leq n - 1$.
+  Define:
+  \[
+    \widetilde{e}_{k + 1} = v_{k + 1} - \sum_{i = 1}^{k} \langle v_{k + 1}, e_i \rangle e_i
+  \]
+  We then observe that $\{v_1, \ldots, v_k, v_{k + 1}\}$ is linearly independent as it is a subset of a linearly independent set and so $v_{k + 1} \notin \langle v_1, \ldots, v_k \rangle = \langle e_1, \ldots, e_k \rangle$.
+  This tells us that $\widetilde{e}_{k + 1} \neq \vec{0}$.
+
+  We also see that for any $j \in \{1, \ldots, k\}$:
+  \begin{align*}
+    \langle \widetilde{e}_{k + 1}, e_j \rangle &= \langle v_{k + 1}, e_j \rangle - \langle v_{k + 1}, e_j \rangle \\
+                                               &= 0
+  \end{align*}
+  since $\{e_1, \ldots, e_k\}$ is an orthonormal set, thus $\{e_1, \ldots, e_k, \widetilde{e}_{k + 1}\}$ is orthogonal.
+
+  Finally, as $\widetilde{e}_{k + 1}$ is a linear combination of $v_{k + 1}$ and an element in $\langle e_1, \ldots, e_k \rangle$, we have that:
+  \[
+    \langle e_1, \ldots, e_k, \widetilde{e}_{k + 1} \rangle = \langle v_1, \ldots, v_{k + 1} \rangle
+  \]
+
+  The last thing we need to do is normalise $\widetilde{e}_{k + 1}$ which we can do as $\widetilde{e}_{k + 1} \neq \vec{0}$, i.e. we let:
+  \[
+    e_{k + 1} = \frac{\widetilde{e}_{k + 1}}{\norm{\widetilde{e}_{k + 1}}}
+  \]
+  Thus the set $\{e_1, \ldots, e_k, e_{k + 1}\}$ is orthogonal with $\langle e_1, \ldots, e_{k + 1} \rangle = \langle v_1, \ldots, v_{k + 1} \rangle$, as required.
 \end{proof}
+\begin{remark}
+  Suppose $\{v_1, \ldots, v_k\}$ is already orthonormal for some $k \leq n$, then we see that $e_1 = v_1 \implies e_2 = v_2 \implies \cdots \implies e_k = v_k$, i.e. $e_i = v_i$ for $i \in \{1, \ldots, k\}$.
+\end{remark}
 \begin{corollary}
-  If $(V, \langle \argdot, \argdot \rangle)$ then any orthonormal set in $V$ can be extended to an orthonormal basis for $V$.
+  If $(V, \langle \argdot, \argdot \rangle)$ is an inner product space on a finite vector space $V$, then any orthonormal set in $V$ can be extended to an orthonormal basis for $V$. \label{orthoBasis}
 \end{corollary}
+\begin{proof}
+  Given an orthonormal set $\{v_1, \ldots, v_k\}$, we use \cref{basisExtension} to extend it to a basis for $V$ and then apply \cref{GS} to turn it into an orthonormal set with the same span as the original set.
+  Moreover, as the original set is already orthonormal, $e_i = v_i$ for $i \in \{1, \ldots, k\}$ and thus we have extended our original orthonormal set to an orthonormal basis.
+\end{proof}
 \begin{remark}
   In particular, $V \neq \{\vec{0}\}$ always has an orthonormal basis because we can take any $v \in V \setminus \{\vec{0}\}$, normalise it to length 1 so that the set $\{v\}$ is orthonormal and then use the above to extend it to an orthonormal basis for $V$.
 \end{remark}
+\subsection{Orthogonal Sums and Projections}
+\begin{definition}[Orthogonal direct sum]
+For an inner product space $(V, \langle \argdot, \argdot \rangle)$ and $U, W \leq V$, we say that $V$ is the \textit{orthogonal direct sum} of $U$ and $W$ if:
+  \begin{enumerate}
+    \item $V = U + W$
+    \item $\langle u, w \rangle = 0$ for all $u \in U$ and $w \in W$
+  \end{enumerate}
+  We then write $V = U \obot W$.
+\end{definition}
+\begin{remark}
+  Suppose $V = U \obot W$ and $U \cap W \neq \{\vec{0}\}$.
+  Then by \textbf{(ii)} there exists $v \in U \cap W \setminus \{\vec{0}\}$ such that $\langle v, v \rangle = 0 \implies v = \vec{0}$, which is a contradiction.
+  Thus:
+  \[
+    V = U \obot W \implies U \cap W = \{\vec{0}\} \implies V = U \oplus W
+  \]
+\end{remark}
+\begin{lemma}
+  If $V$ is finite dimensional and $W \leq V$, then we can write $V = W \obot W^{\perp}$.
+\end{lemma}
 \begin{proof}
-  Given an orthonormal set, we use \cref{basisExtension} to extend it to a basis for $V$ and then apply \cref{GS} to turn it into an orthonormal set with the same span of the original set, i.e. it is still a basis but is now orthonormal.
+  By definition of $W^{\perp}$, $\langle u, w \rangle = 0$ for all $u \in W$ and $v \in W^{\perp}$, so \textbf{(ii)} is satisfied.
+
+  Since $W$ is finite dimensional, by the remark of \cref{orthoBasis}, there exists an orthonormal basis $E_W$ for $W$.
+  Moreover, by \cref{orthoBasis}, we can extend this to an orthonormal basis $E_V$ for $V$, then by construction:
+  \[
+    V = W + \langle E_V \setminus E_W \rangle
+  \]
+  Since $E_V$ is orthogonal, all the vectors in $E_V \setminus E_W$ are orthogonal to those in $E_W$ and thus everything in $\langle E_v \setminus E_W \rangle$ is orthogonal to everything in $\langle E_W \rangle = W$, so $\langle E_V \setminus E_W \rangle \subseteq W^{\perp}$.
+  Thus:
+  \[
+    V = W + \langle E_V \setminus E_W \rangle \subseteq W + W^{\perp} \subseteq V
+  \]
+  which tells us that $V = W + W^{\perp}$, thus \textbf{(i)} is satisfied also.
+
+  Both conditions are satisfied so $V = W \obot W^{\perp}$.
+\end{proof}
+\begin{corollary}
+  If $V$ is finite dimensional then for any $W \leq V$:
+  \[
+    \dim(V) = \dim(W) + \dim(W^{\perp})
+  \]
+\end{corollary}
+\begin{proof}
+  As discussed $V = W \obot W^{\perp} \implies V = W \oplus W^{\perp}$.
+  So by \cref{externalDim}:
+  \[
+    \dim(V) = \dim(W \oplus W^{\perp}) = \dim(W) + \dim(W^{\perp})
+  \]
+  as required.
+\end{proof}
+\begin{definition}[Orthogonal projection]
+  Let $(V, \langle \argdot, \argdot \rangle)$ be an inner product space with $W \leq V$.
+  Since $V = W \oplus W^{\perp}$, for any $v \in V$ there is a unique pair of elements $w \in W$ and $u \in W^{\perp}$ such that $v = w + u$.
+  We use this to define the \textit{projection of $V$ onto $W$} as:
+  \[
+    \pi_W: V \to V,\ v \mapsto w
+  \]
+\end{definition}
+\begin{remark}
+  \begin{enumerate}
+    \item Suppose $v_1 = w_1 + u_1$ and $v_2 = w_2 + u_2$ as above, then for any $\lambda \in \F$:
+      \begin{align*}
+        \pi_W(v_1 + \lambda v_2) &= \pi_W((w_1 + \lambda w_2) + (u_1 + \lambda u_2)) \\
+                                 &= w_1 + \lambda w_2 \\
+                                 &= \pi_W(v_1) + \lambda \pi_W(v_2)
+      \end{align*}
+      So $\pi_W$ is linear.
+    \item $\pi_W$ only outputs elements of $W$ and if $w \in W$, then $\pi_W(w) = w$, thus $\im \pi_W = W$.
+    \item Write $v = w + u$ and suppose $v \in \ker \pi_W$, then $\pi_W(v) = w = \vec{0}$, so $v = u \in W^{\perp}$.
+      Similarly $v \in W^{\perp} \implies v \in \ker \pi_W$.
+      Thus $\ker \pi_W = W^{\perp}$.
+    \item $\at{\pi_{W}}{W} = \id_W$, i.e. $(\pi_W)^2 = \pi_W$.
+    \item For any $v \in V$ write $v = w + u$, then:
+      \begin{align*}
+        (\id_V - \pi_W)[v] &= w + u - w \\
+                           &= u \\
+                           &= \pi_{W^{\perp}}(v)
+      \end{align*}
+      So $\id_V - \pi_W = \pi_{W^{\perp}}$.
+  \end{enumerate}
+\end{remark}
+\begin{proposition}[Closest point projection]
+  For all $v \in V$ and $w \in W \leq V$:
+  \[
+    \norm{v - \pi_W(v)} \leq \norm{v - w}
+  \]
+  with equality if and only if $w = \pi_W(v)$.
+\end{proposition}
+\begin{remark}[Intuition]
+  For any point $v \in V$ and a subspace $W \leq V$, the closest point in $W$ to $v$ is its projection onto $W$, i.e. $\pi_W(v)$.
+\end{remark}
+\begin{proof}
+  We see that:
+  \begin{align*}
+    \norm{v - w}^2 &= \norm{(v - \pi_{W}(v)) - (\pi_W(v) - w)}^2
+  \end{align*}
+  Let $u_1 = v - \pi_W(v) \in W^{\perp}$ and $u_2 = \pi_W(v) - w \in W$, then:
+  \begin{align*}
+    \norm{v - w}^2 &= \langle u_1 - u_2, u_1 - u_2 \rangle \\
+                   &= \langle u_1, u_1 \rangle - 2\cancelto{0}{\langle u_1, u_2 \rangle} + \langle u_2, u_2 \rangle \\
+                   &= \norm{u_1}^2 + \norm{u_2}^2 \\
+                   &= \norm{v - \pi_W(v)}^2 + \norm{\pi_{W}(v) - w}^2 \\
+                   &\geq \norm{v - \pi_W(v)}^2
+  \end{align*}
+  with equality if and only if $\norm{\pi_W(v) - w}^2 = 0 \iff w = \pi_{W}(v)$.
+\end{proof}
+\begin{definition}[Inner product on the external direct sum]
+  If $(V_1, \langle \argdot, \argdot \rangle_1)$ and $(V_2, \langle \argdot, \argdot \rangle_2)$ are inner product spaces, then:
+  \[
+    \langle (v_1, v_2), (w_1, w_2) \rangle = \langle v_1, w_1 \rangle_1 + \langle v_2, w_2 \rangle_2
+  \]
+  defines an inner product on the external direct sum $V_1 \oplus V_2$.
+\end{definition}
+\begin{proof}
+  We can check that this satisfies the criterion required of an inner product.
+  \begin{enumerate}
+    \item Linearity and anti-linearity are inherited from $\langle \argdot, \argdot \rangle_1$ and $\langle \argdot, \argdot \rangle_2$.
+    \item Hermitianity is inherited from $\langle \argdot, \argdot \rangle_1$ and $\langle \argdot, \argdot \rangle_2$.
+    \item Suppose $(v_1, v_2) \neq \vec{0}$ then:
+      \[
+        \langle (v_1, v_2), (v_1, v_2) \rangle = \langle v_1, v_1 \rangle_1 + \langle v_2, v_2 \rangle_2 > 0
+      \]
+      Moreover:
+      \begin{align*}
+        \langle (v_1, v_2), (v_1, v_2) \rangle = 0 &\iff \langle v_1, v_1 \rangle_1 = 0 \text{ and } \langle v_2, v_2 \rangle_2 = 0 \\
+                                                   &\iff v_1 = \vec{0} \text{ and } v_2 = \vec{0} \\
+                                                   &\iff (v_1, v_2) = \vec{0}
+      \end{align*}
+      So $\langle \argdot, \argdot \rangle$ is positive definite.
+  \end{enumerate}
+\end{proof}
+\section{Adjoint Maps}
+\begin{remark}[Note]
+  Henceforth, assume that $(V, \langle \argdot, \argdot \rangle_{V})$ and $(W, \langle \argdot, \argdot \rangle_{W})$ are finite dimensional inner product spaces.
+\end{remark}
+\begin{theorem}
+  If $\alpha \in \mathcal{L}(V, W)$, and $B$ and $C$ are orthonormal bases for $V$ and $W$ respectively then: \label{adjUnique}
+  \begin{enumerate}
+    \item There exists a unique linear map $\alpha^{*} : W \to V$ such that:
+      \begin{equation}
+        \langle \alpha(v), w \rangle_{W} = \langle v, \alpha^{*}(w) \rangle_{V}\ \forall v \in V, w \in W \label{adjProp}
+      \end{equation}
+    \item Moreover:
+      \[
+        [\alpha^{*}]^{C}_{B} = (\overline{[\alpha]^{B}_{C}})^{\trans}
+      \]
+  \end{enumerate}
+\end{theorem}
+\begin{definition}[Adjoint map]
+  We call $\alpha^{*}$ the \textit{adjoint map} of $\alpha$.
+\end{definition}
+\begin{remark}[Warning]
+  You might notice that this is the same notation as the dual map $\alpha^{*}: W^{*} \to V^{*}$, there is a reason for this that we will see later.
+\end{remark}
+\begin{remark}[Recap]
+  Recall that if $\dim V = n$ and $B$ is an orthonormal basis for $V$, then:
+  \[
+    [\langle \argdot, \argdot \rangle]_{B} = I_n
+  \]
+\end{remark}
+\begin{proof}[\textbf{i} -- \cref{adjUnique}]
+  Write $B = \{b_1, \ldots, b_n\}$, $C = \{c_1, \ldots, c_n\}$, and set $A = [\alpha]^{B}_{C}$.
+
+  \textbf{Existence}\par
+  Define $\alpha^{*}: W \to V$ by:
+  \[
+    \alpha^{*}(c_j) = \sum_{i = 1}^{n} \overline{a_{j i}} b_i
+  \]
+  so that:
+  \[
+    [\alpha^{*}]^{C}_{B} = \overline{A}^{\trans}
+  \]
+  Then for any $v \in V$ and $w \in W$:
+  \begin{align*}
+    \langle \alpha(v), w \rangle_{W} &= ([\alpha(v)]_C)^{\trans} [\langle \argdot, \argdot \rangle_W]_C \overline{[w]_{C}} \text{ by \cref{seqMat}} \\
+                                     &= (A[v]_{B})^{\trans}\overline{[w]_{C}} \text{ by \cref{basisMapProp} \textbf{(i)}} \\
+                                     &= [v]^{\trans}_B (A^{\trans} \overline{[w]_C}) \\
+                                     &= [v]^{\trans}_B \overline{(\overline{A}^{\trans} [w]_C)} \\
+                                     &= [v]^{\trans}_B \overline{([\alpha^{*}]^{C}_{B} [w]_C)} \text{ by construction} \\
+                                     &= [v]^{\trans}_B \overline{[\alpha^{*}(w)]_B} \text{ by \cref{basisMapProp} \textbf{(i)}} \\
+                                     &= [v]^{\trans}_B [\langle \argdot, \argdot \rangle_V]_B \overline{[\alpha^{*}(w)]_B} \\
+                                     &= \langle v, \alpha^{*}(w) \rangle_{V}
+  \end{align*}
+  Thus such an adjoint map $\alpha^{*}$ exists.
+
+  \textbf{Uniqueness}\par
+  Suppose $\alpha': W \to V$ also satisfies \cref{adjProp} and let $A' = [\alpha']^{C}_{B}$.
+  Similarly to how we showed existence:
+  \begin{align*}
+    \langle \alpha(b_i), c_j \rangle_W &= [\alpha(b_i)]^{\trans}_C [\langle \argdot, \argdot \rangle_W]_C \overline{[c_j]_C} \text{ by \cref{seqMat}} \\
+                                       &= ([\alpha]^{B}_{C}[b_i]_B) I_n e_j \\
+                                       &= (Ae_i)^{\trans} e_j \\
+                                       &= e^{\trans}_i A^{\trans} e_j \\
+                                       &= a_{j i}
+  \end{align*}
+  and also:
+  \begin{align*}
+    \langle b_i, \alpha'(c_j) \rangle_V &= [b_i]^{\trans}_B [\langle \argdot, \argdot \rangle_V]_B \overline{[\alpha'(c_j)]_B} \text{ by \cref{seqMat}} \\
+                                      &= e^{\trans}_i I_n \overline{[\alpha']^{C}_{B}[c_j]_C} \\
+                                      &= e^{\trans}_i \overline{[\alpha']^{C}_{B} e_j} \\
+                                      &= e^{\trans}_i \overline{[\alpha']^{C}_{B}} e_j \\
+                                      &= e^{\trans}_i \overline{A'} e_j \\
+                                      &= \overline{a_{i j}'} \\
+  \end{align*}
+  As $\alpha'$ satisfies \cref{adjProp}:
+  \[
+    a_{j i} = \langle \alpha(b_i), c_j \rangle_W = \langle b_i, \alpha'(c_j) \rangle_V = \overline{a_{i j}'}
+  \]
+  Thus:
+  \[
+    [\alpha']^{C}_{B} = A' = \overline{A}^{\trans} = [\alpha^{*}]^{C}_{B}
+  \]
+  so $\alpha' = \alpha^{*}$, i.e. $\alpha$ is unique.
+\end{proof}
+\begin{proof}[\textbf{ii} -- \cref{adjUnique}]
+  In the proof for \textbf{(i)}, we constructed $\alpha^{*}$ to have this property, and thus as it is unique by \textbf{(i)}, the adjoint map $\alpha^{*}$ always has this property.
+\end{proof}
+\begin{remark}[Notation]
+  We have been using the notation $\overline{A}^{\trans}$ regularly for the conjugate transpose (i.e. the Hermitian conjugate), for brevity, we introduce the shorthand $A^{\dag} = \overline{A}^{\trans}$.
+
+  In this notation, we have:
+  \[
+    [\alpha^{*}]^{B}_{C} = ([\alpha]^{B}_{C})^{\dag}
+  \]
+\end{remark}
+\begin{example}
+  Recalling that $\F = \R$ or $\F = \C$, for $v \in \F^{n}, w \in \F^{m}$, and $A \in \mathcal{M}_{m \times n}(\F)$, then, considering the standard dot product on $\R$ or $\C$ respectively:
+  \begin{align*}
+    (Av) \cdot w &= (Av)^{\trans} \overline{w} \\
+                 &= v^{\trans} (A^{\trans} \overline{w}) \\
+                 &= v^{\trans} \overline{(A^{\dag} w)} \\
+                 &= v \cdot (A^{\dag} w)
+  \end{align*}
+  So the adjoint of $A$ is its Hermitian conjugate $A^{\dag}$.
+\end{example}
+\begin{remark}[Recap]
+  Recall from \cref{linRightMap} that if $(V, \langle \argdot, \argdot \rangle)$ is a \textbf{real} inner product space and $\varphi(v, w) = \langle v, w \rangle$, then the map $\varphi_{R, V}: V \to V^{*}$ is linear where for any $v \in V$:
+  \[
+    \varphi_{R, V}(v)[u] = \langle u, v \rangle \text{ for } u \in V
+  \]
+  Note that we require $\F = \R$ as \cref{linRightMap} is valid only for bilinear forms.
+  Inner products on $\C$ are sesquilinear forms so do not have to be bilinear.
+\end{remark}
+\begin{theorem}[Riesz representation]
+  If $(V, \langle \argdot, \argdot \rangle)$ is a finite dimensional \textbf{real} inner product space, then $\varphi_{R, V}: V \to V^{*}$ is an isomorphism.
+\end{theorem}
+\begin{proof}
+  We saw in \cref{dualSize} that $\dim(V^{*}) = \dim(V)$ and so by \cref{linPidg}, it suffices to show that $\varphi_{R, V}$ is linear and injective.
+
+  \textbf{Linearity -} See the above remark.
+
+  \textbf{Injectivity -} If $v \in \ker \varphi_{R,V}$, then as $v \in V$:
+  \[
+    0 = \varphi_{R, V}(v)[v] = \langle v, v \rangle
+  \]
+  Since $\langle \argdot, \argdot \rangle$ is positive definite, we must have $v = \vec{0}$, i.e. $\ker \varphi_{R, V}$ is trivial, so $\varphi_{R, V}$ is injective.
 \end{proof}
 \end{document}
