@@ -417,9 +417,9 @@ There is also a higher dimensional version of the Dirac delta function with the 
     \]
 \end{enumerate}
 Taking the Fourier transform of this, using the sampling property we obtain:
-\begin{align*}
-  \hat{\delta}(\vec{\lambda}) = 1
-\end{align*}
+\begin{equation}
+  \hat{\delta}(\vec{\lambda}) = 1 \label{FTDelta}
+\end{equation}
 So using the inversion formula, we obtain a higher dimensional analogue of the identity in \cref{deltaFormula}:
 \[
   \delta(\vec{x}) = \frac{1}{(2\pi)^{n}} \int_{\R^{n}}  e^{i \vec{\lambda} \cdot \vec{x}} \d^{n}{\vec{\lambda}}
@@ -600,9 +600,9 @@ or equivalently by taking Fourier transforms:
   \hat{G}_t + \kappa |\vec{\lambda}|^2 \hat{G} = \delta(t - s) e^{-i \vec{\lambda} \cdot \vec{y}} \label{ODEG} \tag{$\star$}
 \end{equation}
 To verify this, we first observe that we can extend \cref{fourierProps} \textbf{(iii)} to $\R^{n}$ with:
-\[
-  \mathcal{F}_{x \to \lambda}\left[f(\vec{x} - \vec{a})\right] = e^{-i \vec{\lambda} \cdot \vec{a}} \hat{f}(\vec{\lambda})
-\]
+\begin{equation}
+  \mathcal{F}_{x \to \lambda}\left[f(\vec{x} - \vec{a})\right] = e^{-i \vec{\lambda} \cdot \vec{a}} \hat{f}(\vec{\lambda}) \label{FTShift}
+\end{equation}
 and so:
 \begin{align*}
   \hat{G}(\vec{\lambda}, t; \vec{y}, s) &= \mathcal{F}_{\vec{x} \to \vec{\lambda}}[H(t - s)K_{t - s}(\vec{x} - \vec{y})] \\
@@ -617,4 +617,229 @@ In the case of $s = t$, we have the following:
                                                                      &= e^{-i \vec{\lambda} \cdot \vec{y}}
 \end{align*}
 Which is the same jump condition obtained when taking the integral over $t \in (s - \varepsilon, s + \varepsilon)$ of \cref{DGRn} and sending $\varepsilon \to 0^{+}$.
+\section{Green's Function for the Laplacian in \texorpdfstring{$\R^{n}$}{Higher Dimensions}}
+\subsection{Derivation}
+Suppose that we want to find a Green's function for the Laplacian on $\R^{n}$, that is, we wish to solve:
+\[
+  \Delta G(\vec{x}; \vec{y}) = \delta(\vec{x} - \vec{y}) \text{ for } \vec{x}, \vec{y} \in \R^{n}
+\]
+where in the case of $n > 2$, we assume that $|G(\vec{x}; \vec{y})| \to 0$ as $|\vec{x}| \to \infty$ for each fixed $\vec{y} \in \R^{n}$.
+We call such a function $G$ the \textit{free space Green's function for the Laplacian}.
+
+Taking Fourier transforms of both sides with respect to $\vec{x}$ and using \cref{FTLP} and \cref{FTShift}, we have:
+\begin{align*}
+  -|\vec{\lambda}|^2 \hat{G}(\vec{\lambda}; \vec{y}) &= e^{-i \vec{\lambda} \cdot \vec{y}} \hat{\delta}(\vec{\lambda}) \\
+  \implies \hat{G}(\vec{\lambda}; \vec{y}) &= -\frac{e^{-i \vec{\lambda} \cdot \vec{y}}}{|\vec{\lambda}|^2} \text{ by \cref{FTDelta}}
+\end{align*}
+We have yet to encounter any functions whose Fourier transform looks like $|\vec{\lambda}|^{-2}$ and so we consider the Fourier transform of $|\vec{x}|^{\alpha}$.
+\begin{proposition}
+  Working over $\R^{n}$, for $\alpha > 0$ we have:
+  \[
+    \mathcal{F}_{\vec{x} \to \vec{\lambda}}[|\vec{x}|^{-\alpha}] = C_{n, \alpha} |\vec{\lambda}|^{\alpha - n}
+  \]
+  for some constant $C_{n, \alpha}$.
+\end{proposition}
+\begin{proof}
+  Define the function:
+  \[
+    f_{\alpha}(\vec{x}) = |\vec{x}|^{-\alpha}
+  \]
+  Taking its Fourier transform, we have:
+  \[
+    \hat{f}_{\alpha}(\vec{\lambda}) = \int_{\R^{n}} e^{-i \vec{\lambda} \cdot \vec{x}} |\vec{x}|^{-\alpha} \d^{n}{\vec{x}}
+  \]
+  We then perform the change of variables $\vec{x} = R^{\trans} \vec{x}'$ for an arbitrary rotation $R \in \SO(n)$.
+  Since $\det(R) = 1$, we have that:
+  \begin{align*}
+    \hat{f}_{\alpha}(\vec{\lambda}) & = \int_{\R^{n}} e^{-i \vec{\lambda} \cdot (R^{\trans} \vec{x}')} |R^{\trans} \vec{x}'|^{-\alpha} \d^{n}{\vec{x}'} \\
+                                    &= \int_{\R^{n}} e^{-i (R \vec{\lambda}) \cdot \vec{x}} |\vec{x}|^{-\alpha} \d^{n}{\vec{x}} \text{ as $R$ is orthogonal} \\
+                                    &= \hat{f}_{\alpha}(R \vec{\lambda})
+  \end{align*}
+  So for any $R \in \SO(n)$, $\hat{f}_{\alpha}(\vec{\lambda}) = \hat{f}(R \vec{\lambda})$, that is, $\hat{f}_\alpha$ is \textit{rotation invariant}.
+
+  Thus if $\vec{\lambda} = \vec{m} |\vec{\lambda}|$ for any $\vec{m} \in S^{n - 1}$, where $S^{n - 1}$ is the $n - 1$ dimensional unit sphere in $\R^{n}$, then $f_{\alpha}(\vec{\lambda})$ is independent of the choice of $\vec{m}$.
+  So making the change of variables $\vec{x} = \vec{x}'/|\vec{\lambda}|$, which has Jacobian $|\vec{\lambda}|^{-n}$:
+  \begin{align*}
+    \hat{f}_{\alpha}(\vec{\lambda}) &= \int_{\R^{n}} e^{-i \vec{m} \cdot \vec{x}'} |\vec{\lambda}|^{\alpha} |\vec{x}'|^{-\alpha} |\vec{\lambda}|^{-n} \d^{n}{\vec{x}'}  \\
+                                    &= |\vec{\lambda}|^{\alpha - n} \int_{\R^{n}} e^{-i \vec{m} \cdot \vec{x}'} |\vec{x}'|^{-\alpha} \d^{n}{\vec{x}'} \\
+                                    &= |\vec{\lambda}|^{\alpha - n} \hat{f}_{\alpha}(\vec{m}) \\
+                                    &= |\vec{\lambda}|^{\alpha - n} C_{n, \alpha}
+  \end{align*}
+  where $C_{n, \alpha}$ is independent of $\vec{m}$ as discussed above.
+\end{proof}
+We wanted something whose Fourier transform looked like $|\vec{\lambda}|^{-2}$, so in particular for $n > 2$, taking $\alpha = n - 2 > 0$, we have:
+\begin{equation}
+  \frac{1}{|\vec{\lambda}|^2} = \mathcal{F}_{\vec{x} \to \vec{\lambda}}[c_n |\vec{x}|^{2 - n}] \label{particG}
+\end{equation}
+where we define $c_n = 1/C_{n, n - 2}$.
+We can use this result to determine $G(\vec{x}; \vec{y})$.
+\begin{proposition}
+  The free space Green's function for the Laplacian on $\R^{n}$ for $n > 2$ is:
+  \[
+    G(\vec{x}; \vec{y}) = - \frac{1}{(n - 2) |S^{n - 1}|} \frac{1}{|\vec{x} - \vec{y}|^{n - 2}}
+  \]
+  where $|S^{n - 1}|$ is defined to be the surface area of the unit sphere in $\R^{n}$.
+\end{proposition}
+\begin{proof}
+  We have that:
+  \begin{align*}
+    \hat{G}(\vec{\lambda}; \vec{y}) &= -\frac{e^{-i \vec{\lambda} \cdot \vec{y}}}{|\vec{\lambda}|^2} \\
+                                    &= - e^{-i \vec{\lambda} \cdot \vec{y}} \mathcal{F}_{\vec{x} \to \vec{\lambda}}[c_n |\vec{x}|^{2 - n}] \text{ by \cref{particG}} \\
+                                    &= \mathcal{F}_{\vec{x} \to \vec{\lambda}}[-c_n |\vec{x} - \vec{y}|^{2 - n}] \text{ by \cref{FTShift}} \\
+    \implies G(\vec{x}; \vec{y}) &= - \frac{c_n}{|\vec{x} - \vec{y}|^{n - 2}} \text{ by \cref{particG}}
+  \end{align*}
+  Recalling that $\Delta G(\vec{x}; \vec{y}) = \delta(\vec{x} - \vec{y})$, taking $\vec{y} = \vec{0}$, we see that:
+  \[
+    -\Delta[|\vec{x}|^{2 - n}] = \frac{\delta(\vec{x})}{c_n}
+  \]
+  Integrating this over $|\vec{x}| \leq 1$:
+  \begin{align*}
+    \frac{1}{c_n} &= -\int_{|\vec{x}| \leq 1} \Delta[|\vec{x}|^{2 - n}] \d^{n}{\vec{x}} \\
+                  &= - \int_{|\vec{x}| = 1} \nabla(|\vec{x}|^{2 - n}) \cdot \d{\vec{S}} \text{ by the divergence theorem} \\
+                  &= (n - 2) \int_{|\vec{x}| = 1} |\vec{x}|^{1-n} \frac{\vec{x}}{|\vec{x}|} \cdot \d{S} \\
+                  &= (n - 2) \int_{|\vec{x}| = 1} 1 \d{S} \text{ as $\vec{x}$ is parallel to the outwards normal } \\
+                  &= (n - 2) |S^{n - 1}| \implies c_n = \frac{1}{(n - 2)|S^{n - 1}|}
+  \end{align*}
+  Thus:
+  \[
+    G(\vec{x}; \vec{y}) = - \frac{1}{(n - 2) |S^{n - 1}|} \frac{1}{|\vec{x} - \vec{y}|^{n - 2}}
+  \]
+\end{proof}
+In the case of $n = 3$, i.e. over $\R^3$, this becomes:
+\begin{equation}
+  G(\vec{x}; \vec{y}) = - \frac{1}{4\pi} \frac{1}{|\vec{x} - \vec{y}|} \label{GR3}
+\end{equation}
+So we have $G$ in the case of $n > 2$, but what about in the case of $n = 2$?
+\begin{proposition}
+  A Green's function for the Laplacian in $\R^2$ is:
+  \[
+    G(\vec{x}; \vec{y}) = \frac{1}{2\pi} \log|\vec{x} - \vec{y}|
+  \]
+\end{proposition}
+\begin{proof}
+  Without loss of generality, we can assume that $\vec{y} = \vec{0}$ since $\Delta$ is translation invariant.
+
+  For $r = \norm{x} \neq 0$, we have:
+  \begin{align*}
+    \Delta(\log r) &= \frac{1}{r} \pderiv{}{r}\left[r \pderiv{}{r} \log r\right] \\
+                   &= \frac{1}{r} \pderiv{}{r}[1] \\
+                   &= 0
+  \end{align*}
+  Moreover, for any $\varepsilon > 0$:
+  \begin{align*}
+    \int_{|\vec{x}| < \varepsilon} \Delta[\log r] \d^2{\vec{x}} &= \int_{|\vec{x}| = \varepsilon} \Delta (\log r) \cdot \d{\vec{S}} \text{ by the divergence theorem} \\
+                                                                &= \int_{0}^{2\pi} \frac{\vec{e}_r}{\varepsilon} \cdot \vec{e}_r  \varepsilon \d{\theta} \text{ as $\d{\vec{S}} = \vec{e}_r \varepsilon \d{\theta}$} \\
+                                                                &= \int_{0}^{2\pi} \d{\theta} \\
+                                                                &= 2\pi
+  \end{align*}
+  In summary:
+  \[
+    \Delta\left[\frac{1}{2\pi} \log |\vec{x}|\right] = 0 \text{ for all } \vec{x} \neq \vec{0}
+  \]
+  and for all $\varepsilon > 0$:
+  \[
+    \int_{|\vec{x}| < \varepsilon} \Delta\left[\frac{1}{2\pi} \log |\vec{x}|\right] \d^2{\vec{x}} = 1
+  \]
+  Thus we conclude that:
+  \[
+    \Delta\left[\frac{1}{2\pi} \log |\vec{x}|\right] = \delta(\vec{x})
+  \]
+\end{proof}
+Collecting the results for $n > 2$ and $n = 2$, the free space Green's function for the Laplacian on $\R^{n}$ is:
+\[
+  G(\vec{x}; \vec{y}) = \begin{cases}
+  - \frac{1}{(n - 2)|S^{n - 1}|} \frac{1}{|\vec{x} - \vec{y}|^{n - 2}} & \text{ if } n > 2 \\
+  \frac{1}{2\pi} \log|\vec{x} - \vec{y}| & \text{ if } n = 2
+  \end{cases}
+\]
+where $|S^{n - 1}|$ is defined to be the surface area of the unit sphere in $\R^{n}$.
+\subsection{Uses}
+Suppose we wish to solve the following BVP over a domain $\Omega \subseteq \R^{n}$:
+\begin{equation}
+  \label{origProbRn}
+  \begin{cases}
+  \Delta u = F & \text{ for } \vec{x} \in \Omega \\
+  u = 0 & \text{ for } \vec{x} \in \partial \Omega
+  \end{cases}
+\end{equation}
+Suppose that for each fixed $\vec{y} \in \Omega$ we can solve:
+\begin{equation}
+  \label{DGProb}
+  \begin{cases}
+  \Delta \mathcal{G}(\vec{x}; \vec{y}) = \delta(\vec{x} - \vec{y}) & \text{ for } \vec{x} \in \Omega \\
+  \mathcal{G}(\vec{x}; \vec{y}) = 0 & \text{ for } \vec{x} \in \partial \Omega
+  \end{cases}
+\end{equation}
+We then call $\mathcal{G}$ the \textit{Dirichlet Green's function for the Laplacian on $\Omega$}.
+With this function, similarly to in \cref{eqnGSol} for the case of $n = 1$, the solution to the original problem in \cref{origProbRn} is:
+\begin{equation}
+  u(\vec{x}) = \int_{\Omega} \mathcal{G}(\vec{x}; \vec{y}) F(\vec{y}) \d^{n}{\vec{y}} \label{RnSolution}
+\end{equation}
+To check this, for $\vec{x} \in \partial \Omega$, $\mathcal{G}(\vec{x}; \vec{y}) = 0$, giving $u = 0$ on $\partial \Omega$, as desired.
+Moreover, if we take the Laplacian of both sides then for $\vec{x} \in \Omega$, we have:
+\begin{align*}
+  \Delta u &= \int_{\Omega} F(\vec{y}) \Delta \mathcal{G}(\vec{x}; \vec{y}) \d^{n}{\vec{y}} \\
+           &= \int_{\Omega} F(\vec{y}) \delta(\vec{x} - \vec{y}) \d^{n}{\vec{y}} \\
+           &= F(\vec{x})
+\end{align*}
+Thus this $u$ solves \cref{origProbRn}.
+
+But how do we find a $\mathcal{G}$ satisfying \cref{DGProb}?
+We first note that for $\vec{x} \in \Omega$ we have:
+\[
+  \Delta[\mathcal{G}(\vec{x}; \vec{y}) - G(\vec{x}; \vec{y})] = \delta(\vec{x} - \vec{y}) - \delta(\vec{x} - \vec{y}) = 0
+\]
+i.e. $\mathcal{G} - G$ is a solution to Laplace's equation.
+Thus, we must have:
+\[
+  \mathcal{G}(\vec{x}; \vec{y}) = G(\vec{x}; \vec{y}) + \varphi
+\]
+for some harmonic function $\varphi$, recalling from IA Vector Calculus that we call a function \textit{harmonic} if $\Delta \varphi = 0$.
+
+We need to choose $\varphi$ so that $\mathcal{G}(\vec{x}; \vec{y}) = 0$ when $\vec{x} \in \partial \Omega$.
+Can we distribute ``point charges'' $\{\vec{y}_0, \vec{y}_1, \ldots\}$ \textit{outside} $\Omega$ to counter the effect of that the internal ``point charge'' has at the boundary $\partial \Omega$, i.e. can we find $\vec{y}_i \notin \Omega$ such that:
+\[
+  \mathcal{G}(\vec{x}; \vec{y}) = G(\vec{x}; \vec{y}) + \sum_{i} c_i G(\vec{x}; \vec{y}_i)
+\]
+If this were to be the case, then taking the Laplacian of both sides:
+\[
+  \Delta \mathcal{G}(\vec{x}; \vec{y}) = \delta(\vec{x} - \vec{y}) + \sum_{i} c_i \delta(\vec{x} - \vec{y}_i)
+\]
+Since $\vec{x} \in \partial \Omega$ and $\vec{y}_i \notin \Omega$, $\vec{x} \neq \vec{y}_i$ for all $\vec{x} \in \Omega$ and thus $\delta(\vec{x} - \vec{y}_i) \equiv 0$.
+So:
+\[
+  \Delta \mathcal{G}(\vec{x}; \vec{y}) = \delta(\vec{x} - \vec{y})
+\]
+i.e. the additional $G(\vec{x}; \vec{y}_i)$ do not modify the behaviour of $\mathcal{G}$ inside $\Omega$.
+
+So we just need to figure out how to pick $\vec{y}_i$ to cancel the effect of the internal behaviour on the boundary.
+The process for this is best explained using an example.
+\begin{example}
+  Consider the domain:
+  \[
+    \Omega = \{(x_1, x_2, x_3) \in \R^3: x_3 > 0\} \subseteq \R^3
+  \]
+
+  Suppose that we have have a ``positive charge'' at $\vec{y} = (y_1, y_2, y_3) \in \Omega$, i.e. $y_3 > 0$, then we try placing a ``negative charge'' at $\widetilde{\vec{y}} = (y_1, y_2, -y_3) \notin \Omega$, i.e. the reflection of $\vec{y}$ across the boundary $\{\vec{x} \in \R^3: x_3 = 0\} = \partial \Omega$.
+  Mathematically, that is, we try:
+  \[
+    \mathcal{G}(\vec{x};  \vec{y}) = G(\vec{x}; \vec{y}) - G(\vec{x}; \widetilde{\vec{y}})
+  \]
+  As discussed, $\Delta \mathcal{G} = \delta(\vec{x} - \vec{y})$ for $\vec{x} \in \Omega$ since $\widetilde{\vec{y}} \notin \Omega$.
+
+  On the boundary $\partial S = \{\vec{x} \in \R^3: x_3 = 0\}$, using \cref{GR3}, we see that:
+  \begin{align*}
+    \at{\mathcal{G}}{x_3 = 0} &= -\frac{1}{4\pi} \left[\frac{1}{|\vec{x} - \vec{y}|} - \frac{1}{|\vec{x} - \widetilde{\vec{y}}|}\right] \\
+                              &= -\frac{1}{4\pi} \left[\frac{1}{\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + (-y_3)^2}} \right. \\
+                              &\hspace{1.6cm} \left.- \frac{1}{\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + (y_3)^2}}\right] \\
+                              &= 0
+  \end{align*}
+  So indeed our choice of $\widetilde{\vec{y}}$ gives us the desired behaviour on $\partial \Omega$!
+
+  Thus we have found the \textit{Dirichlet Green's function for the Laplacian on $\Omega$}!
+  So using \cref{RnSolution} the solution to \cref{origProbRn} over this choice of $\Omega$ is:
+  \[
+    u(\vec{x}) = -\frac{1}{4\pi} \int_{\Omega} \left[\frac{1}{|\vec{x} - \vec{y}|} - \frac{1}{|\vec{x} - \widetilde{\vec{y}}|}\right] F(\vec{y}) \d^3{\vec{y}}
+  \]
+\end{example}
 \end{document}

@@ -191,9 +191,9 @@ Suppose that we can find a function $G(x, \xi)$ such that:
   \end{cases}
 \]
 Given such a $G$, suppose we define $y(x)$ as:
-\[
-  y(x) = \int_{a}^{b} G(x, \xi) f(\xi) \d{\xi}
-\]
+\begin{equation}
+  y(x) = \int_{a}^{b} G(x, \xi) f(\xi) \d{\xi} \label{eqnGSol}
+\end{equation}
 then $y(a) = y(b) = 0$ and upon applying $\mathcal{L}$:
 \begin{align*}
   \mathcal{L} y &= \int_{a}^{b} f(\xi) \mathcal{L}[G(x, \xi)] \d{\xi} \\
